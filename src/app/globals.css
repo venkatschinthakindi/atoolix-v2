@@ -139,7 +139,7 @@
     @apply font-mono;
   }
 }
-.aurora-bg {
+/* .aurora-bg {
   position: relative;
   min-height: 100vh;
   background:
@@ -159,7 +159,20 @@
       transparent 30%
     ),
     #030712;
+} */
+
+.aurora-bg {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at 15% 10%, rgba(168, 85, 247, 0.18), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.12), transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.10), transparent 50%),
+    #05060a;
 }
+
 /* .aurora-bg {
   position: relative;
   min-height: 100vh;

@@ -6,7 +6,7 @@ export function Footer() {
   const router = useRouter();
 
   return (
-    <footer className="relative mt-28 border-t border-white/10 bg-black overflow-hidden">
+    <footer className="relative mt-28 border-t border-white/10 overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_bottom,_rgba(124,58,237,0.25),transparent_60%)]" />
 

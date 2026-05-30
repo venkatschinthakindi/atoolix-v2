@@ -122,7 +122,7 @@ export function FeaturedTools() {
   return (
     <section className="w-full px-6 py-16 relative">
       {/* Background glow */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-950 to-black opacity-80" />
+      <div />
 
       <div className="relative max-w-6xl mx-auto space-y-10">
         {/* Header */}
@@ -139,7 +139,7 @@ export function FeaturedTools() {
         <motion.div
           whileHover={{ scale: 1.01 }}
           onClick={() => router.push(`/tools/${featured.id}`)}
-          className="cursor-pointer rounded-2xl p-8 relative overflow-hidden border border-white/10 bg-gradient-to-br from-zinc-900 to-black shadow-2xl"
+          className="cursor-pointer rounded-2xl p-8 relative overflow-hidden border border-white/10 bg-gradient-to-br from-zinc-900 to-indigo-950 shadow-2xl"
         >
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)]" />
 
@@ -167,7 +167,7 @@ export function FeaturedTools() {
               key={tool.id}
               whileHover={{ y: -4 }}
               onClick={() => router.push(`/tools/${featured.id}`)}
-              className="min-w-[220px] cursor-pointer rounded-xl p-5 border border-white/10 bg-white/5 hover:bg-white/10 transition"
+              className="min-w-[220px] cursor-pointer rounded-xl p-5 border border-white/10 bg-white/5 hover:bg-indigo-500/10 transition"
             >
               <h4 className="text-white font-medium">{tool.title}</h4>
               <p className="text-xs text-zinc-400 mt-2 line-clamp-2">

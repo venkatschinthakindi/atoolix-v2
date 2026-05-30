@@ -182,7 +182,7 @@ export default function ToolPage() {
   return (
     <div className="min-h-screen text-white relative overflow-hidden aurora-bg">
       {/* Optional subtle background glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 opacity-[0.04] pointer-events-none noise" />
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20  to-blue-900/20 opacity-[0.04] pointer-events-none noise" />
 
       <div className="relative app-container mt-10">
         {/* TOOL HEADER */}
