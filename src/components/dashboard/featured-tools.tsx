@@ -144,7 +144,15 @@ export function FeaturedTools() {
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)]" />
 
           <div className="relative z-10">
-            <p className="text-sm text-violet-400">Most Used</p>
+            <div className="flex items-center gap-2">
+            <span className="rounded-full bg-violet-500/15 px-3 py-1 text-xs text-violet-300">
+                Most Used
+            </span>
+
+            <span className="text-xs text-white/40">
+                12k monthly users
+            </span>
+            </div>
             <h3 className="text-2xl font-semibold text-white mt-1">
               {featured.title}
             </h3>
@@ -162,19 +170,30 @@ export function FeaturedTools() {
 
         {/* Horizontal scroll tools */}
         <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-          {others.map((tool) => (
+          {others.map((tool) => 
+          {
+            const Icon = tool.icon;
+            return (
             <motion.div
               key={tool.id}
               whileHover={{ y: -4 }}
-              onClick={() => router.push(`/tools/${featured.id}`)}
-              className="min-w-[220px] cursor-pointer rounded-xl p-5 border border-white/10 bg-white/5 hover:bg-indigo-500/10 transition"
-            >
+              onClick={() => router.push(`/tools/${tool.id}`)}
+            //   className="min-w-[260px] cursor-pointer rounded-2xl p-5 border border-white/10 bg-white/5 hover:-translate-y-1 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] transition-all duration-300">
+                className="tool-card rounded-2xl p-5">
+              {/* Icon */}
+                <div className="mb-4">
+                    <div
+                        className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+                        <Icon className="w-6 h-6 text-indigo-400" />
+                    </div>
+                </div>
               <h4 className="text-white font-medium">{tool.title}</h4>
               <p className="text-xs text-zinc-400 mt-2 line-clamp-2">
                 {tool.description}
               </p>
-            </motion.div>
-          ))}
+            </motion.div>)
+}
+          )}
         </div>
       </div>
     </section>

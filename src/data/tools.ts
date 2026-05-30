@@ -1,5 +1,4 @@
-import { Calculator, FileText, Sparkles, DollarSign, Image } from "lucide-react";
-
+import { Calculator, FileText, Sparkles, DollarSign, Image,  Bot, ImageIcon, TrendingUp} from "lucide-react";
 export const tools = [
   {
     id: "calculator",
@@ -37,7 +36,7 @@ export const tools = [
     id: "image",
     title: "Image Tools",
     description: "Resize, convert and optimize images",
-    icon: Image,
+    icon: ImageIcon,
     category: "Media",
     featured: false,
   },
