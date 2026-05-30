@@ -139,38 +139,10 @@
     @apply font-sans;
   }
 }
-/* .aurora-bg {
-  position: relative;
-  min-height: 100vh;
-  background:
-    radial-gradient(
-      circle at 10% 10%,
-      rgba(168, 85, 247, 0.18),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 90% 20%,
-      rgba(6, 182, 212, 0.15),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(168, 85, 247, 0.12),
-      transparent 30%
-    ),
-    #030712;
-} */
-
 .aurora-bg {
   position: relative;
   min-height: 100vh;
   overflow-x: hidden;
-/* 
-  background:
-    radial-gradient(circle at 15% 10%, rgba(168, 85, 247, 0.18), transparent 40%),
-    radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.12), transparent 45%),
-    radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.10), transparent 50%),
-    #05060a; */
 
     background:
   radial-gradient(circle at 15% 10%, rgba(168, 85, 247, 0.25), transparent 40%),
@@ -179,57 +151,6 @@
   #05060a;
 }
 
-/* .aurora-bg {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 15% 15%,
-      rgba(168, 85, 247, 0.25),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(6, 182, 212, 0.22),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(168, 85, 247, 0.18),
-      transparent 40%
-    ),
-    #020617;
-} */
-/* .glass {
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-
-  background: rgba(255,255,255,.04);
-
-  border: 1px solid rgba(255,255,255,.08);
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,.25);
-
-  border-radius: 32px;
-} */
-/* .glass {
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-
-  background: rgba(255,255,255,0.04);
-
-  border: 1px solid rgba(255,255,255,0.08);
-
-  box-shadow:
-    0 8px 32px rgba(0,0,0,.35),
-    inset 0 1px rgba(255,255,255,.05);
-
-  border-radius: 999px;
-  transition: all 0.3s ease;
-} */
  .glass {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -299,13 +220,6 @@
 .group:hover .spotlight {
   opacity: 1;
 }
-/* 
-.aurora-bg {
-  background: radial-gradient(circle at top, rgba(120, 80, 255, 0.25), transparent 40%),
-              radial-gradient(circle at bottom, rgba(0, 200, 255, 0.15), transparent 45%),
-              #050505;
-} */
-
 .noise {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }

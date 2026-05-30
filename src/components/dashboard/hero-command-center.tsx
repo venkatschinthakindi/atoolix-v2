@@ -130,7 +130,7 @@ export function HeroCommandCenter() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="mx-auto flex max-w-6xl flex-col items-center pt-40 text-center"
+      className="mx-auto flex max-w-6xl flex-col items-center pt-36 text-center"
     >
       <span className="glass mb-6 px-4 py-2 text-sm text-white/70 font-mono text-xs">
         100+ Productivity Tools
