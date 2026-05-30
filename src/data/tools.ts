@@ -17,7 +17,7 @@ export const tools = [
     featured: true,
   },
   {
-    id: "ai-writer",
+    id: "ai",
     title: "AI Writer",
     description: "Generate content with AI assistance",
     icon: Sparkles,

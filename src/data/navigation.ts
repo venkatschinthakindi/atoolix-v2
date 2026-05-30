@@ -18,7 +18,7 @@ export const navigationItems = [
   },
   {
     label: "AI",
-    href: "/ai",
+    href: "/tools/ai",
     icon: Sparkles,
   },
   {

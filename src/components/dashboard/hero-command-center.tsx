@@ -123,8 +123,11 @@
 
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function HeroCommandCenter() {
+  const router = useRouter();
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
@@ -171,6 +174,7 @@ export function HeroCommandCenter() {
             <div
               key={item}
               className="glass px-4 py-2 text-sm text-white/70"
+              onClick={() => router.push(`/tools/${item}`)}
             >
               {item}
             </div>

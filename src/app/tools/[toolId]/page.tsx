@@ -7,7 +7,7 @@ import { FloatingDock } from "@/components/layout/floating-dock";
 export default function ToolPage() {
   const router = useRouter();
   const params = useParams();
-  const toolId = params.toolId;
+  const toolId = params?.toolId?.toString()?.toLowerCase() || ""; // Get toolId from URL params
 
   // Find the tool from the data
   const tool = tools.find(t => t.id === toolId);
