@@ -277,3 +277,12 @@
   box-shadow:
     0 0 40px rgba(99,102,241,.15);
 }
+/* globals.css or any CSS file */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
