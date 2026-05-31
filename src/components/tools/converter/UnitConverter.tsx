@@ -6,7 +6,7 @@ import convert from "convert-units";
 import { unit, createUnit } from "mathjs";
 import { Combobox } from "@headlessui/react";
 import { ConverterToolProps } from "@/lib/toolRegistry";
-type UnitOption = { abbr: string; name: string };
+type UnitOption = { abbr: string; name: string; measure?: string };
 
 export default function UnitConverterTool({ initialExpression = "", theme = "dark" }: ConverterToolProps) {
   return <UnitConverter initialExpression={initialExpression} theme={theme} />;
@@ -16,8 +16,8 @@ type TabbedUnitConverterProps = ConverterToolProps;
 
 function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
   const [values, setValues] = useState("");
-  const [from, setFrom] = useState<string | null>("m");
-const [to, setTo] = useState<string | null>("cm");
+  const [from, setFrom] = useState<string | null>("l");
+  const [to, setTo] = useState<string | null>("");
 
   const [results, setResults] = useState<string[]>([]);
   const [customUnits, setCustomUnits] = useState<Record<string, string>>({});
@@ -30,29 +30,57 @@ const [to, setTo] = useState<string | null>("cm");
   const standardUnits: UnitOption[] = convert()
     .measures()
     .flatMap(measure =>
-      convert().list(measure).map(u => ({ abbr: u.abbr, name: u.plural }))
+      convert().list(measure).map(u => ({ abbr: u.abbr, name: u.plural, measure }))
     );
 
   const customUnitOptions: UnitOption[] = Object.keys(customUnits).map(name => ({
     abbr: name,
     name: `Custom (${customUnits[name]})`,
+    measure: "custom",
   }));
 
   const allUnits: UnitOption[] = [...standardUnits, ...customUnitOptions];
 
-  const filteredFrom = queryFrom === ""
-    ? allUnits
-    : allUnits.filter(u =>
-        u.abbr.toLowerCase().includes(queryFrom.toLowerCase()) ||
-        u.name.toLowerCase().includes(queryFrom.toLowerCase())
-      );
+  const unitMeasureMap = Object.fromEntries(
+    standardUnits.map(u => [u.abbr, u.measure ?? ""])
+  ) as Record<string, string>;
 
-  const filteredTo = queryTo === ""
-    ? allUnits
-    : allUnits.filter(u =>
-        u.abbr.toLowerCase().includes(queryTo.toLowerCase()) ||
-        u.name.toLowerCase().includes(queryTo.toLowerCase())
-      );
+  const getFilteredUnits = (query: string, relatedMeasure?: string) => {
+    return allUnits.filter(u => {
+      const matchesQuery =
+        query === "" ||
+        u.abbr.toLowerCase().includes(query.toLowerCase()) ||
+        u.name.toLowerCase().includes(query.toLowerCase());
+
+      if (!matchesQuery) {
+        return false;
+      }
+
+      if (!relatedMeasure) {
+        return true;
+      }
+
+      const measure = unitMeasureMap[u.abbr] ?? "custom";
+      return measure === relatedMeasure || measure === "custom";
+    });
+  };
+
+  const filteredFrom = getFilteredUnits(queryFrom, to ? unitMeasureMap[to] : undefined);
+  const filteredTo = getFilteredUnits(queryTo, from ? unitMeasureMap[from] : undefined);
+
+  const handleSetFrom = (value: string) => {
+    setFrom(value);
+    if (to && unitMeasureMap[value] && unitMeasureMap[to] && unitMeasureMap[value] !== unitMeasureMap[to]) {
+      setTo(null);
+    }
+  };
+
+  const handleSetTo = (value: string) => {
+    setTo(value);
+    if (from && unitMeasureMap[value] && unitMeasureMap[from] && unitMeasureMap[value] !== unitMeasureMap[from]) {
+      setFrom(null);
+    }
+  };
 
   const convertBatch = () => {
     const items = values.split(",").map(v => v.trim()).filter(Boolean);
@@ -119,7 +147,7 @@ const [to, setTo] = useState<string | null>("cm");
         />
 
         {/* From unit combobox */}
-        <Combobox value={from} onChange={setFrom}>
+        <Combobox value={from} onChange={(val) => handleSetFrom(val as string)}>
           <div className="relative flex-1">
             <Combobox.Input
               className="w-full px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-white"
@@ -140,7 +168,7 @@ const [to, setTo] = useState<string | null>("cm");
         <span className="flex items-center justify-center text-xl">→</span>
 
         {/* To unit combobox */}
-        <Combobox value={to} onChange={setTo}>
+        <Combobox value={to} onChange={(val) => handleSetTo(val as string)}>
           <div className="relative flex-1">
             <Combobox.Input
               className="w-full px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-white"
