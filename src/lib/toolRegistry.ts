@@ -18,6 +18,10 @@ export type ToolPropsMap = {
     initialExpression?: string;
     theme?: "light" | "dark";
   };
+  converter: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+  };
   pdf: {};
   ai: {};
   finance: {};
@@ -29,12 +33,13 @@ export type ToolPropsMap = {
 };
 
 export type CalculatorToolProps = ToolPropsMap["calculator"];
+export type ConverterToolProps = ToolPropsMap["converter"];
 
 export const toolRegistry: {
   [K in keyof ToolPropsMap]: ToolRegistryEntry<ToolPropsMap[K]>;
 } = {
   calculator: {
-    loader: () => import("@/components/tools/Calculator"),
+    loader: () => import("@/components/tools/calculator/Calculator"),
     title: "Smart Calculator",
     description: "Advanced math & financial calculations",
     category: "Math",
@@ -44,6 +49,15 @@ export const toolRegistry: {
       initialExpression: "",
       theme: "dark",
     },
+  },
+  converter: {
+    loader: () => import("@/components/tools/converter/UnitConverter"),
+    title: "Unit Converter",
+    description: "Convert units across various categories",
+    category: "Math",
+    featured: true,
+    preload: false,
+    defaultProps: {},
   },
   pdf: {
     loader: () => import("@/components/tools/ToolPlaceholder"),

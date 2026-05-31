@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import type { CalculatorToolProps } from "@/lib/toolRegistry";
+import { useEffect, useRef, useState } from "react";
 import {
   evaluate, simplify, derivative, det, inv, eigs, complex, unit,
   mean, median, mode, variance, std, combinations, permutations,
@@ -9,215 +8,8 @@ import {
 } from "mathjs";
 import { BookOpenCheck, HelpCircle, X } from "lucide-react";
 
-export default function CalculatorTool({ initialExpression = "", theme = "dark" }: CalculatorToolProps) {
-  return <TabbedCalculator initialExpression={initialExpression} theme={theme} />;
-}
 
-type TabbedCalculatorProps = CalculatorToolProps;
-
-function TabbedCalculator({ initialExpression, theme }: TabbedCalculatorProps) {
-  const [activeTab, setActiveTab] = useState<"calc" | "convert" | "solve">("calc");
-
-  const tabs = [
-    { id: "calc", label: "Calculator" },
-    { id: "convert", label: "Unit Conversion" },
-    { id: "solve", label: "Equation Solver" },
-  ];
-
-  return (
-    <div>
-      {/* Tab Bar */}
-      <div className="flex justify-center mb-6">
-        <div className="tab-group">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`tab-button ${activeTab === tab.id ? "tab-button-active" : ""}`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Panels */}
-      <div className="transition-opacity duration-500 ease-in-out">
-        {activeTab === "calc" && (
-          <SmartCalculator initialExpression={initialExpression} theme={theme} />
-        )}
-        {activeTab === "convert" && <UnitConverter />}
-        {activeTab === "solve" && <AdvancedEquationSolverPage />}
-      </div>
-    </div>
-  );
-}
-
-type SmartCalculatorProps = {
-  initialExpression: string | undefined;
-  theme: "light" | "dark" | undefined;
-};
-
-function SmartCalculator({ initialExpression, theme }: SmartCalculatorProps) {
-  const [expression, setExpression] = useState(initialExpression);
-  const [result, setResult] = useState("");
-  const [history, setHistory] = useState<string[]>([]);
-  const [memory, setMemory] = useState(0);
-
-  const calculate = () => {
-    try {
-      let expr = expression?.replace(/(\d+)!/g, (_, n) => `factorial(${n})`);
-      expr = expr?.replace(/\b0+(\d+)/g, "$1");
-      const res = evaluate(expr!);
-      setResult(res.toString());
-      setHistory([...history, `${expression} = ${res}`]);
-    } catch {
-      setResult("Error");
-    }
-  };
-
-  const handleClick = (val: string) => {
-    if (val === "=") calculate();
-    else if (val === "C") setExpression("");
-    else setExpression(expression + val);
-  };
-
-  const sciButtons = ["sin(","cos(","tan(","log(","ln(","sqrt(","pi","e","!","%","(",")"];
-
-  return (
-    <div className={`space-y-6 ${theme === "light" ? "text-slate-950" : "text-white"}`}>
-      {/* Display */}
-      <div className={`surface-panel p-4 text-right ${theme === "light" ? "bg-white/90 text-slate-950" : "bg-slate-950/80 text-white"}`}>
-        <div className="text-white/70 text-sm">{expression || "0"}</div>
-        <div className="text-white text-2xl font-semibold">{result || ""}</div>
-      </div>
-
-      {/* Input (optional manual typing) */}
-      <input
-        value={expression}
-        onChange={e => setExpression(e.target.value)}
-        placeholder="Enter expression"
-        className="w-full p-3 surface-input text-white focus:outline-none focus:ring-2 focus:ring-green-500"/>
-
-      {/* Number Pad */}
-      <div className="grid grid-cols-3 gap-2">
-        {["7","8","9","4","5","6","1","2","3"].map(btn => (
-          <button key={btn} onClick={() => handleClick(btn)} className="button-ghost-lg">
-            {btn}
-          </button>
-        ))}
-      </div>
-      <div className="grid grid-cols-3 gap-2">
-        <button onClick={() => handleClick("0")} className="button-ghost-lg">0</button>
-        <button onClick={() => handleClick(".")} className="button-ghost-lg">.</button>
-        <button onClick={() => handleClick("=")} className="surface-button button-primary text-lg">=</button>
-      </div>
-
-      {/* Operators */}
-      <div className="flex gap-2 flex-wrap">
-        {["/","*","-","+"].map(op => (
-          <button key={op} onClick={() => handleClick(op)} className="button-ghost-lg flex-1">
-            {op}
-          </button>
-        ))}
-        <button onClick={() => handleClick("C")} className="button-danger">
-          Clear
-        </button>
-      </div>
-
-      {/* Scientific */}
-      <div className="flex flex-wrap gap-2">
-        {sciButtons.map(btn => (
-          <button key={btn} onClick={() => handleClick(btn)} className="button-ghost-sm">
-            {btn}
-          </button>
-        ))}
-      </div>
-
-      {/* Memory */}
-      <div className="flex flex-wrap gap-2">
-        <button onClick={() => setMemory(memory + Number(result))} className="button-form">M+</button>
-        <button onClick={() => setMemory(memory - Number(result))} className="button-form">M-</button>
-        <button onClick={() => setExpression(expression! + memory)} className="button-form">MR</button>
-        <button onClick={() => setMemory(0)} className="button-form">MC</button>
-      </div>
-
-      {/* History */}
-      <div className="text-white/70">
-        <b>History:</b>
-        <div className="mt-2 space-y-1 max-h-32 overflow-y-auto">
-          {history.map((h, i) => (
-            <div key={i} className="surface-panel px-3 py-2">{h}</div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function UnitConverter() {
-  const [value, setValue] = useState("");
-  const [from, setFrom] = useState("m");
-  const [to, setTo] = useState("cm");
-  const [result, setResult] = useState("");
-
-  const conversions: Record<string, (v: number) => number> = {
-    "m-cm": v => v * 100,
-    "cm-m": v => v / 100,
-    "kg-g": v => v * 1000,
-    "g-kg": v => v / 1000,
-    "C-F": v => (v * 9) / 5 + 32,
-    "F-C": v => ((v - 32) * 5) / 9,
-  };
-
-  const convert = () => {
-    const key = `${from}-${to}`;
-    if (conversions[key]) {
-      setResult(conversions[key](parseFloat(value)).toString());
-    } else {
-      setResult("Conversion not available");
-    }
-  };
-
-  return (
-    <div className="space-y-4">
-       {/* Display */}
-      <div className="surface-panel p-4 text-right">
-        <div className="text-white text-2xl font-semibold">{result || "0"}</div>
-      </div>
-      <div className="flex flex-col md:flex-row gap-4">
-        <input
-          value={value}
-          onChange={e => setValue(e.target.value)}
-          placeholder="Enter value"
-          className="form-field"
-        />
-        <select value={from} onChange={e => setFrom(e.target.value)} className="form-select">
-          <option value="m">Meters</option>
-          <option value="cm">Centimeters</option>
-          <option value="kg">Kilograms</option>
-          <option value="g">Grams</option>
-          <option value="C">Celsius</option>
-          <option value="F">Fahrenheit</option>
-        </select>
-        <div className="flex items-center justify-center text-white">→</div>
-        <select value={to} onChange={e => setTo(e.target.value)} className="form-select">
-          <option value="cm">Centimeters</option>
-          <option value="m">Meters</option>
-          <option value="g">Grams</option>
-          <option value="kg">Kilograms</option>
-          <option value="F">Fahrenheit</option>
-          <option value="C">Celsius</option>
-        </select>
-      </div>
-      <button onClick={convert} className="surface-button button-primary float-right">
-        Convert
-      </button>
-    </div>
-  );
-}
-
-function AdvancedEquationSolverPage() {
+export function AdvancedEquationSolverPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
@@ -361,7 +153,7 @@ function EquationSolver() {
       />
       <button
         onClick={() => setSolution(solveEquationHandler(equation))}
-        className="bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2 transition w-full"
+        className="full-screen-button"
       >
         Solve
       </button>
