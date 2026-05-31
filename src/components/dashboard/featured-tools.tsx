@@ -1,103 +1,3 @@
-// "use client";
-
-// import { tools } from "@/data/tools";
-// import { motion } from "framer-motion";
-// import { useRouter } from "next/navigation";
-
-// export function FeaturedTools() {
-//   const router = useRouter();
-
-//   const featured = tools[0];
-//   const others = tools.slice(1, 10);
-
-//   return (
-//     <section className="w-full px-6 py-16 relative">
-//       {/* Background glow */}
-//       <div />
-
-//       <div className="relative max-w-6xl mx-auto space-y-10">
-//         {/* Header */}
-//         <div className="space-y-2">
-//           <h2 className="text-3xl font-semibold text-white">
-//             Featured Tools
-//           </h2>
-//           <p className="text-zinc-400 text-sm">
-//             Powerful utilities designed to speed up your workflow
-//           </p>
-//         </div>
-
-//         {/* Featured Card */}
-//         <motion.div
-//           whileHover={{ scale: 1.01 }}
-//           onClick={() => router.push(`/tools/${featured.id}`)}
-//           className="cursor-pointer rounded-2xl p-8 relative overflow-hidden border border-white/10 bg-gradient-to-br from-zinc-900 to-indigo-950 shadow-2xl"
-//         >
-//           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)]" />
-
-//           <div className="relative z-10">
-//             <div className="flex items-center gap-2">
-//             <span className="rounded-full bg-violet-500/15 px-3 py-1 text-xs text-violet-300">
-//                 Most Used
-//             </span>
-
-//             <span className="text-xs text-white/40">
-//                 12k monthly users
-//             </span>
-//             </div>
-//             <h3 className="text-2xl font-semibold text-white mt-1">
-//               {featured.title}
-//             </h3>
-//             <p className="text-zinc-400 mt-2 max-w-xl">
-//               {featured.description}
-//             </p>
-
-//             <div className="mt-6 inline-flex items-center gap-2 text-sm text-white/80">
-//               <span className="px-3 py-1 rounded-full bg-white/10">
-//                 Open Tool →
-//               </span>
-//             </div>
-//            <div className="absolute top-4 right-4">
-//             <a
-//               href="/tools"
-//               className="px-3 py-1 text-xs bg-white/10 rounded-full hover:bg-white/20 text-white/80"
-//             >
-//               View All
-//             </a>
-//           </div>
-//           </div>
-//         </motion.div>
-// {/* Horizontal scroll only for cards */}
-// <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-//   {others.map((tool) => {
-//     const Icon = tool.icon;
-
-//     return (
-//       <motion.div
-//         key={tool.id}
-//         whileHover={{ y: -4 }}
-//         onClick={() => router.push(`/tools/${tool.id}`)}
-//         className="min-w-[260px] flex-shrink-0 rounded-2xl p-5 bg-white/5 border border-white/10"
-//       >
-//         <div className="mb-4">
-//           <div className="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center">
-//             <Icon className="w-6 h-6 text-indigo-400" />
-//           </div>
-//         </div>
-
-//         <h4 className="text-white font-medium">{tool.title}</h4>
-//         <p className="text-xs text-zinc-400 mt-2 line-clamp-2">
-//           {tool.description}
-//         </p>
-//       </motion.div>
-//     );
-//   })}
-// </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-
 "use client";
 
 import Link from "next/link";
@@ -213,7 +113,7 @@ export function FeaturedTools() {
             <div>
             <Link
               href="/tools"
-              className="min-w-[150px] inline-flex items-center gap-2 text-indigo-400">
+              className="min-w-[150px] inline-flex items-center text-sm gap-2 text-indigo-400">
               View All →
             </Link>
         </div>

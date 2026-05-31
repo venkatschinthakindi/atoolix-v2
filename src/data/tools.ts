@@ -71,5 +71,5 @@ export const tools = [
     icon: ImageIcon,
     category: "Media",
     featured: false,
-  },
+  }
 ];
