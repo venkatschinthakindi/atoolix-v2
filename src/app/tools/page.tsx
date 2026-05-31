@@ -72,11 +72,18 @@ export default function ToolsHub() {
                       <Icon className="text-white" />
                     </div>
                     <span className="text-xs text-white/50">{tool.category}</span>
+                    {tool.comingSoon && (
+                      <span className="rounded-full bg-yellow-500/15 text-yellow-300 px-2 py-1 text-[10px] uppercase tracking-[0.2em]">
+                        Coming Soon
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-white font-semibold mt-4">{tool.title}</h3>
                   <p className="text-white/50 text-sm mt-2">{tool.description}</p>
                 </div>
-                <div className="card-footer">Open →</div>
+                <div className="card-footer">
+                  {tool.comingSoon ? "Preview →" : "Open →"}
+                </div>
               </div>
             );
           })}

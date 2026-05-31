@@ -1,6 +1,7 @@
 import { MathOperationsIcon } from "@phosphor-icons/react";
-import { Calculator,Search, Cpu, Code, FileText, Sparkles, DollarSign, Image,  Bot, ImageIcon, TrendingUp} from "lucide-react";
-import React, { useState, useEffect, JSX } from "react";
+import { Calculator, Cpu, Code, FileText, Sparkles, DollarSign, Image, ImageIcon } from "lucide-react";
+import React, { JSX } from "react";
+import { toolRegistry } from "@/lib/toolRegistry";
 type CategoryInfo = {
   id: string;
   title: string;
@@ -52,80 +53,33 @@ export const categoryIcons: Record<string, CategoryInfo> = {
   }
 };
 
-export const tools = [
-  {
-    id: "calculator",
-    title: "Smart Calculator",
-    description: "Advanced math & financial calculations",
-    icon: Calculator,
-    category: categoryIcons.Math.id,
-    featured: true,
-  },
-  {
-    id: "pdf",
-    title: "PDF Toolkit",
-    description: "Merge, split, compress PDFs instantly",
-    icon: FileText,
-    category: categoryIcons.PDF.id,
-    featured: true,
-  },
-  {
-    id: "ai",
-    title: "AI Writer",
-    description: "Generate content with AI assistance",
-    icon: Sparkles,
-    category: categoryIcons.AI.id,
-    featured: true,
-  },
-  {
-    id: "finance",
-    title: "Finance Tools",
-    description: "EMI, interest & investment calculators",
-    icon: DollarSign,
-    category: categoryIcons.Finance.id,
-    featured: false,
-  },
-  {
-    id: "image",
-    title: "Image Tools",
-    description: "Resize, convert and optimize images",
-    icon: ImageIcon,
-    category: categoryIcons.Media.id,
-    featured: false,
-  },
-  {
-    id: "image2",
-    title: "Image Tools2",
-    description: "Resize, convert and optimize images",
-    icon: ImageIcon,
-    category: categoryIcons.Media.id,
-    featured: false,
-  },
-  {
-    id: "image3",
-    title: "Image Tools3",
-    description: "Resize, convert and optimize images",
-    icon: ImageIcon,
-    category: categoryIcons.Media.id,
-    featured: false,
-  },
-  {
-    id: "image4",
-    title: "Image Tools4",
-    description: "Resize, convert and optimize images",
-    icon: ImageIcon,
-    category: categoryIcons.Media.id,
-    featured: false,
-  },
-  {
-    id: "image5",
-    title: "Image Tools5",
-    description: "Resize, convert and optimize images",
-    icon: ImageIcon,
-    category: categoryIcons.Media.id,
-    featured: false,
-  }
-];
+const toolIcons: Record<string, React.ComponentType<any>> = {
+  calculator: Calculator,
+  pdf: FileText,
+  ai: Sparkles,
+  finance: DollarSign,
+  image: ImageIcon,
+  image2: ImageIcon,
+  image3: ImageIcon,
+  image4: ImageIcon,
+  image5: ImageIcon,
+};
+
+export const tools = Object.entries(toolRegistry).map(([id, entry]) => {
+  const category = entry.category && categoryIcons[entry.category]
+    ? entry.category
+    : categoryIcons.Productivity.id;
+
+  return {
+    id,
+    title: entry.title,
+    description: entry.description ?? "",
+    icon: toolIcons[id] ?? FileText,
+    category,
+    featured: entry.featured ?? false,
+    comingSoon: entry.comingSoon ?? false,
+  };
+});
 
 // export const categories = [
 //   {

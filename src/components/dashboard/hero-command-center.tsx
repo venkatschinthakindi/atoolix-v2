@@ -195,7 +195,7 @@ export function HeroCommandCenter() {
           (item) => (
             <div
               key={item}
-              className="glass px-4 py-2 text-sm text-white/70"
+              className="cursor-pointer glass px-4 py-2 text-sm text-white/70"
               onClick={() => router.push(`/tools/${item}`)}
             >
               {item}
