@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { CommandPalette } from "../ui/CommandPalette";
 
 export function HeroCommandCenter() {
   const router = useRouter();
@@ -38,10 +39,11 @@ export function HeroCommandCenter() {
       </div>
       </div>
     <div className="mt-8 flex gap-4">
-  <button
+  {/* <button
     className="rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition">
     Explore Tools
-  </button>
+  </button> */}
+  <CommandPalette/>
 
   <button className="rounded-xl border border-white/10 px-6 py-3 text-white/80 hover:bg-white/5 transition">
     Browse Categories
