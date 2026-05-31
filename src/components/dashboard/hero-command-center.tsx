@@ -64,70 +64,66 @@ export function HeroCommandCenter() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="mx-auto flex max-w-6xl flex-col items-center pt-36 text-center"
+      className="hero-banner"
     >
-      <span className="glass mb-6 px-4 py-2 text-sm text-white/70 font-mono text-xs">
+      <span className="hero-pill">
         100+ Productivity Tools
       </span>
 
-      <h1 className=" gradient-text max-w-4xl text-5xl md:text-7xl font-bold tracking-tight leading-[0.95]">
+      <h1 className="hero-title">
         Find the perfect tool  <br />
         for every task
       </h1>
 
-      <p className="mt-6 max-w-xl text-lg text-white/60">
+      <p className="hero-copy">
         All your calculators, PDF tools, AI utilities and developer tools in one place.
       </p>
 
-      <div className="mt-10 w-full max-w-2xl">
-        <div className="glass flex items-center gap-3 px-6 py-5">
-        <Search className="w-5 h-5 text-white/40 search-box" />
+      <div className="relative mt-10 w-full max-w-2xl">
+        <div className="glass-input">
+          <Search className="w-5 h-5 text-white/40 search-box" />
 
-        <input
-          placeholder="Search calculators, PDF tools, AI utilities..."
-          className="w-full bg-transparent text-white outline-none"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setSelectedIndex(0);
-          }}
-        />
-      </div>
-      {query && query.length > 2 && (
-  <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 
-                  max-h-54 overflow-y-auto max-w-md w-full 
-                  bg-[#1e1e1e] rounded-lg shadow-lg z-50">
-    {results.length > 0 ? (
-      results.map((item, index) => (
-        <div
-          key={index}
-          className={`flex items-center justify-between px-4 py-3 cursor-pointer transition ${
-            index === selectedIndex
-              ? "bg-indigo-900 text-white"
-              : "hover:bg-gray-600 bg-gray-900 text-white"
-          }`}
-          onClick={() => {
-            router.push(`/tools/${item.id}`);
-            setOpen(false);
-          }}
-        >
-          <div>
-            <p className="text-sm">{item.title}</p>
-            <p className="text-white/60 text-xs">{item.description}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            {categoryIcons[item.category]}
-            <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/70">
-              {item.category}
-            </span>
-          </div>
+          <input
+            placeholder="Search calculators, PDF tools, AI utilities..."
+            className="search-field"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setSelectedIndex(0);
+            }}
+          />
         </div>
-      ))
-    ) : (
-      <p className="text-white/60 text-center py-6">No tools found</p>
-    )}
-  </div>
-)}
+      {query && query.length > 2 && (
+        <div className="search-overlay">
+          {results.length > 0 ? (
+            results.map((item, index) => (
+              <div
+                key={index}
+                className={`result-item ${
+                  index === selectedIndex ? "result-item-active" : "result-item-hover"
+                }`}
+                onClick={() => {
+                  router.push(`/tools/${item.id}`);
+                  setOpen(false);
+                }}
+              >
+                <div>
+                  <p className="text-sm">{item.title}</p>
+                  <p className="text-white/60 text-xs">{item.description}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {categoryIcons[item.category]}
+                  <span className="badge-pill">
+                    {item.category}
+                  </span>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-white/60 text-center py-6">No tools found</p>
+          )}
+        </div>
+      )}
 
       {/* {query && query.length > 2 && (
       <div className="mt-4 max-h-54 overflow-y-auto">

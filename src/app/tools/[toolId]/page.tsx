@@ -15,38 +15,42 @@ export default function ToolPage() {
 
   if (!tool) {
     return (
-      <div className="app-container py-16 text-white">
-        <h1 className="text-2xl font-semibold">Tool not found</h1>
-        <button
-          className="mt-4 px-4 py-2 rounded bg-white/10 hover:bg-white/20 cursor-pointer"
-          onClick={() => router.push("/tools")}
-        >
-          ← Back to Tools
-        </button>
+      <div className="app-shell">
+        <div className="app-container page-section text-white">
+          <h1 className="text-2xl font-semibold">Tool not found</h1>
+          <button
+            className="mt-4 surface-button button-ghost"
+            onClick={() => router.push("/tools")}
+          >
+            ← Back to Tools
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="app-container py-16 aurora-bg min-h-screen">
-      <div className="mb-12">
-        <FloatingDock />
-      </div>
+    <div className="app-shell">
+      <div className="app-container page-section">
+        <div className="mb-12">
+          <FloatingDock />
+        </div>
 
-      {/* Header */}
-      <div className="mb-8">
-        <button
-          className="text-sm text-white/50 hover:text-white mb-2 cursor-pointer"
-          onClick={() => router.push("/tools")}
-        >
-          ← Back to Tools
-        </button>
-        <h1 className="text-3xl font-semibold text-white">{tool.title}</h1>
-        <p className="text-zinc-400 mt-2">{tool.description}</p>
-      </div>
+        {/* Header */}
+        <div className="section-header">
+          <button
+            className="text-sm text-white/50 hover:text-white mb-2 button-ghost"
+            onClick={() => router.push("/tools")}
+          >
+            ← Back to Tools
+          </button>
+          <h1 className="section-title">{tool.title}</h1>
+          <p className="section-copy">{tool.description}</p>
+        </div>
 
       {/* Conditional Rendering */}
       {toolId === "calculator" ? <TabbedCalculator /> : <GenericTool />}
+      </div>
     </div>
   );
 }
@@ -85,31 +89,31 @@ function TabbedCalculator() {
   ];
 
   return (
-    <div className="app-container py-16 min-h-screen">
-      {/* Tab Bar */}
-      <div className="flex justify-center mb-6">
-        <div className="inline-flex rounded-full bg-black/30 p-1">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`px-6 py-2 rounded-full transition-all duration-300 ${
-                activeTab === tab.id
-                  ? "bg-green-600 text-white font-semibold shadow-md"
-                  : "text-white/70 hover:text-white"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+    <div className="app-shell">
+      <div className="app-container page-section">
+        {/* Tab Bar */}
+        <div className="flex justify-center mb-6">
+          <div className="tab-group">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`tab-button ${
+                  activeTab === tab.id ? "tab-button-active" : ""
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Panels */}
-      <div className="transition-opacity duration-500 ease-in-out">
-        {activeTab === "calc" && <SmartCalculator />}
-        {activeTab === "convert" && <UnitConverter />}
-        {activeTab === "solve" && <EquationSolver />}
+        {/* Panels */}
+        <div className="transition-opacity duration-500 ease-in-out">
+          {activeTab === "calc" && <SmartCalculator />}
+          {activeTab === "convert" && <UnitConverter />}
+          {activeTab === "solve" && <EquationSolver />}
+        </div>
       </div>
     </div>
   );
@@ -159,27 +163,25 @@ function SmartCalculator() {
       {/* Number Pad */}
       <div className="grid grid-cols-3 gap-2">
         {["7","8","9","4","5","6","1","2","3"].map(btn => (
-          <button key={btn} onClick={() => handleClick(btn)}
-            className="px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-lg transition">
+          <button key={btn} onClick={() => handleClick(btn)} className="button-ghost-lg">
             {btn}
           </button>
         ))}
       </div>
       <div className="grid grid-cols-3 gap-2">
-        <button onClick={() => handleClick("0")} className="px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-lg">0</button>
-        <button onClick={() => handleClick(".")} className="px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-lg">.</button>
-        <button onClick={() => handleClick("=")} className="px-4 py-3 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold text-lg">=</button>
+        <button onClick={() => handleClick("0")} className="button-ghost-lg">0</button>
+        <button onClick={() => handleClick(".")} className="button-ghost-lg">.</button>
+        <button onClick={() => handleClick("=")} className="surface-button button-primary text-lg">=</button>
       </div>
 
       {/* Operators */}
       <div className="flex gap-2 flex-wrap">
         {["/","*","-","+"].map(op => (
-          <button key={op} onClick={() => handleClick(op)}
-            className="flex-1 px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
+          <button key={op} onClick={() => handleClick(op)} className="button-ghost-lg flex-1">
             {op}
           </button>
         ))}
-        <button onClick={() => handleClick("C")} className="flex-1 px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold">
+        <button onClick={() => handleClick("C")} className="button-danger">
           Clear
         </button>
       </div>
@@ -187,8 +189,7 @@ function SmartCalculator() {
       {/* Scientific */}
       <div className="flex flex-wrap gap-2">
         {sciButtons.map(btn => (
-          <button key={btn} onClick={() => handleClick(btn)}
-            className="basis-1/5 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition">
+          <button key={btn} onClick={() => handleClick(btn)} className="button-ghost-sm">
             {btn}
           </button>
         ))}
@@ -196,10 +197,10 @@ function SmartCalculator() {
 
       {/* Memory */}
       <div className="flex flex-wrap gap-2">
-        <button onClick={() => setMemory(memory + Number(result))} className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white">M+</button>
-        <button onClick={() => setMemory(memory - Number(result))} className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white">M-</button>
-        <button onClick={() => setExpression(expression + memory)} className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white">MR</button>
-        <button onClick={() => setMemory(0)} className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white">MC</button>
+        <button onClick={() => setMemory(memory + Number(result))} className="button-form">M+</button>
+        <button onClick={() => setMemory(memory - Number(result))} className="button-form">M-</button>
+        <button onClick={() => setExpression(expression + memory)} className="button-form">MR</button>
+        <button onClick={() => setMemory(0)} className="button-form">MC</button>
       </div>
 
       {/* History */}
@@ -251,9 +252,9 @@ function UnitConverter() {
           value={value}
           onChange={e => setValue(e.target.value)}
           placeholder="Enter value"
-          className="flex-1 p-3 rounded-lg bg-black/30 text-white border border-white/10 focus:ring-2 focus:ring-green-500"
+          className="form-field"
         />
-        <select value={from} onChange={e => setFrom(e.target.value)} className="p-3 rounded-lg bg-black/30 text-white border border-white/10">
+        <select value={from} onChange={e => setFrom(e.target.value)} className="form-select">
           <option value="m">Meters</option>
           <option value="cm">Centimeters</option>
           <option value="kg">Kilograms</option>
@@ -262,7 +263,7 @@ function UnitConverter() {
           <option value="F">Fahrenheit</option>
         </select>
         <div className="flex items-center justify-center text-white">→</div>
-        <select value={to} onChange={e => setTo(e.target.value)} className="p-3 rounded-lg bg-black/30 text-white border border-white/10">
+        <select value={to} onChange={e => setTo(e.target.value)} className="form-select">
           <option value="cm">Centimeters</option>
           <option value="m">Meters</option>
           <option value="g">Grams</option>
@@ -271,7 +272,7 @@ function UnitConverter() {
           <option value="C">Celsius</option>
         </select>
       </div>
-      <button onClick={convert} className="float-right bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2 transition">
+      <button onClick={convert} className="surface-button button-primary float-right">
         Convert
       </button>
     </div>
@@ -316,9 +317,9 @@ function EquationSolver() {
         value={equation}
         onChange={e => setEquation(e.target.value)}
         placeholder="Enter linear equation e.g. 2x+3=7"
-        className="w-full p-3 rounded-lg bg-black/30 text-white border border-white/10 focus:ring-2 focus:ring-green-500"
+        className="form-field w-full"
       />
-      <button onClick={handleSolve} className="float-right bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2 transition">
+      <button onClick={handleSolve} className="surface-button button-primary float-right">
         Solve
       </button>
       {/* <div className="text-white text-lg font-medium">Solution: {solution}</div> */}

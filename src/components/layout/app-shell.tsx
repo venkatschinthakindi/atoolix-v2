@@ -10,14 +10,14 @@ export function AppShell({
   children,
 }: AppShellProps) {
   return (
-    <main className="aurora-bg min-h-screen">
-  <BackgroundOrbs />
+    <main className="app-shell">
+      <BackgroundOrbs />
 
-  <FloatingDock />
+      <FloatingDock />
 
-  <div className="app-container">
-    {children}
-  </div>
-</main>
+      <div className="app-container">
+        {children}
+      </div>
+    </main>
   );
 }

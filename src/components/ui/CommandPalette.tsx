@@ -73,7 +73,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
               className="bg-white/10 w-full max-w-2xl rounded-xl shadow-xl p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+              <div className="glass-input border-b border-white/10 pb-4">
                 <Search className="w-5 h-5 text-white/40" />
                 <input
                   autoFocus
@@ -83,7 +83,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                     setQuery(e.target.value);
                     setSelectedIndex(0);
                   }}
-                  className="w-full bg-transparent text-white outline-none"
+                  className="search-field"
                 />
               </div>
 
@@ -92,10 +92,8 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                   results.map((item: any, index: number) => (
                     <div
                       key={index}
-                      className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition ${
-                        index === selectedIndex
-                          ? "bg-indigo-600 text-white"
-                          : "hover:bg-white/10 text-white"
+                      className={`result-item ${
+                        index === selectedIndex ? "result-item-active" : "result-item-hover"
                       }`}
                       onClick={() => {
                         if (searchTools) {
@@ -122,7 +120,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                         (<div className="flex items-center gap-2">
                         
                         {categoryIcons[item.category] && categoryIcons[item.category].icon}
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/70">
+                        <span className="badge-pill">
                           {item.category}
                         </span>
                       </div>):("")

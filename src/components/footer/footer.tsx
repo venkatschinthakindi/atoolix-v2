@@ -6,11 +6,11 @@ export function Footer() {
   const router = useRouter();
 
   return (
-    <footer className="relative mt-28 border-t border-white/10 overflow-hidden">
+    <footer className="footer-panel">
       {/* Background glow */}
       <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_bottom,_rgba(124,58,237,0.25),transparent_60%)]" />
 
-      <div className="relative max-w-6xl mx-auto px-6 py-16">
+      <div className="footer-inner">
         
         {/* Top grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">

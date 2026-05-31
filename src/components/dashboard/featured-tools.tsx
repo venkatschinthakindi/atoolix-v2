@@ -12,15 +12,15 @@ export function FeaturedTools() {
   const others = tools.slice(1, 10);
 
   return (
-    <section className="w-full px-4 sm:px-6 py-16">
+    <section className="page-section px-4 sm:px-6">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-3xl font-semibold text-white">
+            <h2 className="section-title">
               Featured Tools
             </h2>
-            <p className="text-zinc-400 text-sm mt-1">
+            <p className="section-copy">
               Powerful utilities designed to speed up your workflow
             </p>
           </div>
@@ -38,7 +38,7 @@ export function FeaturedTools() {
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.2 }}
           onClick={() => router.push(`/tools/${featured.id}`)}
-          className="group relative cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-8 shadow-2xl"
+          className="surface-card-light group relative cursor-pointer overflow-hidden"
         >
           {/* Glow */}
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)]" />
@@ -73,7 +73,7 @@ export function FeaturedTools() {
               {featured.description}
             </p>
 
-            <div className="mt-6 inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-sm text-white/90 transition group-hover:bg-white/15">
+            <div className="badge-pill inline-flex items-center">
               Open Tool →
             </div>
           </div>
@@ -82,7 +82,7 @@ export function FeaturedTools() {
         {/* Carousel Section */}
         <div className="relative">
           {/* Cards */}
-          <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-2">
+          <div className="tool-scroll">
             {others.map((tool) => {
               const Icon = tool.icon;
 
@@ -92,7 +92,7 @@ export function FeaturedTools() {
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.15 }}
                   onClick={() => router.push(`/tools/${tool.id}`)}
-                  className="min-w-[260px] flex-shrink-0 cursor-pointer rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
+                  className="card-surface card-surface-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
                 >
                   <div className="mb-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
@@ -120,7 +120,7 @@ export function FeaturedTools() {
           </div>
 
           {/* Right Fade */}
-          <div className="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-[#09090b] to-transparent" />
+          <div className="tool-scroll-fade" />
         </div>
       </div>
     </section>
