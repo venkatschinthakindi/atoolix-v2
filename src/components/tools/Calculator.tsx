@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { CalculatorToolProps } from "@/lib/toolRegistry";
 import {
   evaluate, simplify, derivative, det, inv, eigs, complex, unit,
@@ -54,8 +54,8 @@ function TabbedCalculator({ initialExpression, theme }: TabbedCalculatorProps) {
 }
 
 type SmartCalculatorProps = {
-  initialExpression: string;
-  theme: "light" | "dark";
+  initialExpression: string | undefined;
+  theme: "light" | "dark" | undefined;
 };
 
 function SmartCalculator({ initialExpression, theme }: SmartCalculatorProps) {
@@ -66,9 +66,9 @@ function SmartCalculator({ initialExpression, theme }: SmartCalculatorProps) {
 
   const calculate = () => {
     try {
-      let expr = expression.replace(/(\d+)!/g, (_, n) => `factorial(${n})`);
-      expr = expr.replace(/\b0+(\d+)/g, "$1");
-      const res = evaluate(expr);
+      let expr = expression?.replace(/(\d+)!/g, (_, n) => `factorial(${n})`);
+      expr = expr?.replace(/\b0+(\d+)/g, "$1");
+      const res = evaluate(expr!);
       setResult(res.toString());
       setHistory([...history, `${expression} = ${res}`]);
     } catch {
@@ -138,7 +138,7 @@ function SmartCalculator({ initialExpression, theme }: SmartCalculatorProps) {
       <div className="flex flex-wrap gap-2">
         <button onClick={() => setMemory(memory + Number(result))} className="button-form">M+</button>
         <button onClick={() => setMemory(memory - Number(result))} className="button-form">M-</button>
-        <button onClick={() => setExpression(expression + memory)} className="button-form">MR</button>
+        <button onClick={() => setExpression(expression! + memory)} className="button-form">MR</button>
         <button onClick={() => setMemory(0)} className="button-form">MC</button>
       </div>
 
@@ -219,9 +219,23 @@ function UnitConverter() {
 
 function AdvancedEquationSolverPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!sidebarOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [sidebarOpen]);
 
   return (
-    <div className="">
+    <div className="relative">
       <h1 className="text-4xl font-bold text-white mb-4">Advanced Equation Solver</h1>
       <p className="text-zinc-400 mb-8">
         Solve equations, explore calculus, work with matrices, handle statistics, convert units, and more — all in one elegant tool.
@@ -244,20 +258,31 @@ function AdvancedEquationSolverPage() {
 
       {/* Sidebar Drawer */}
       {sidebarOpen && (
-        <div className="app-shell fixed top-0 right-0 w-96 h-full bg-black/90 border-l border-white/10 p-6 overflow-y-auto z-50 transition-transform">
-          <div className="flex justify-between items-center mb-4">
-            <BookOpenCheck size={24} className="text-green-400" />
-            <h2 className="text-2xl font-semibold text-white">Quick Reference</h2>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="bg-red-900 hover:bg-red-700 text-white rounded-full transition"
-              aria-label="Close Help"
-            >
-              <X size={28} />
-            </button>
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 z-40"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+
+          <div
+            ref={sidebarRef}
+            className="app-shell fixed top-0 right-0 w-96 h-full bg-black/90 border-l border-white/10 p-6 overflow-y-auto z-50 transition-transform"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <BookOpenCheck size={24} className="text-green-400" />
+              <h2 className="text-2xl font-semibold text-white">Quick Reference</h2>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="bg-red-900 hover:bg-red-700 text-white rounded-full transition"
+                aria-label="Close Help"
+              >
+                <X size={28} />
+              </button>
+            </div>
+            <DocumentationPanel />
           </div>
-          <DocumentationPanel />
-        </div>
+        </>
       )}
     </div>
   );
