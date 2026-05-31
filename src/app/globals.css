@@ -449,6 +449,12 @@ button {
     scrollbar-color: rgba(255,255,255,0.18) transparent;
   }
 
+  .toolsSeatchResultSection{
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
   .search-overlay::-webkit-scrollbar {
     width: 6px;
   }

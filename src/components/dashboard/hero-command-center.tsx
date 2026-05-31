@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { CommandPalette } from "../ui/CommandPalette";
-import { JSX, useEffect, useState } from "react";
+import { JSX, useEffect, useRef, useState } from "react";
 import { tools } from "@/data/tools";
 import {
   Search,
@@ -29,6 +29,7 @@ export function HeroCommandCenter() {
     const [query, setQuery] = useState("");
     const [open, setOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const searchRef = useRef<HTMLDivElement | null>(null);
   
     const results = tools.filter(
       (item) =>
@@ -57,7 +58,19 @@ export function HeroCommandCenter() {
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
     }, [open, results, selectedIndex, router]);
-  
+
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+          setOpen(false);
+          setQuery("");
+          setSelectedIndex(0);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
   return (
     <motion.section
@@ -79,7 +92,7 @@ export function HeroCommandCenter() {
         All your calculators, PDF tools, AI utilities and developer tools in one place.
       </p>
 
-      <div className="relative mt-10 w-full max-w-2xl">
+      <div ref={searchRef} className="relative mt-10 w-full max-w-2xl">
         <div className="glass-input">
           <Search className="w-5 h-5 text-white/40 search-box" />
 
@@ -88,12 +101,17 @@ export function HeroCommandCenter() {
             className="search-field"
             value={query}
             onChange={(e) => {
-              setQuery(e.target.value);
+              const next = e.target.value;
+              setQuery(next);
               setSelectedIndex(0);
+              setOpen(next.length > 2);
+            }}
+            onFocus={() => {
+              if (query.length > 2) setOpen(true);
             }}
           />
         </div>
-      {query && query.length > 2 && (
+      {open && query && query.length > 2 && (
         <div className="search-overlay">
           {results.length > 0 ? (
             results.map((item, index) => (

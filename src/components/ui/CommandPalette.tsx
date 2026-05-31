@@ -87,7 +87,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                 />
               </div>
 
-              <div className="mt-4 max-h-64 overflow-y-auto">
+              <div className="mt-4 max-h-64 overflow-y-auto toolsSeatchResultSection">
                 {results.length > 0 ? (
                   results.map((item: any, index: number) => (
                     <div
