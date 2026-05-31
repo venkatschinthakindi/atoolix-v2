@@ -1,25 +1,30 @@
 "use client";
 
-import { tools } from "@/data/tools";
-import { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { categoryIcons, tools } from "@/data/tools";
+import React, { useState, useMemo } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { FloatingDock } from "@/components/layout/floating-dock";
+import { FileText } from "lucide-react";
 
 export default function ToolsHub() {
-  const router = useRouter();
-  const [activeCategory, setActiveCategory] = useState("All");
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const toolId = searchParams?.get("categoryId")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
+    const categories = [{
+    id: "All",
+    title: "All",
+    description: "Browse all available tools",
+    icon: React.createElement(FileText, { className: "w-4 h-4 text-indigo-400" })
+  }, ...Object.values(categoryIcons)];
 
-  // Collect unique categories
-  const categories = useMemo(() => {
-    const set = new Set(tools.map(t => t.category));
-    return ["All", ...Array.from(set)];
-  }, []);
-
+    // Find the tool from the data
+    const category = Object.values(categoryIcons).find(t => t.id.toLowerCase() === toolId);
+    const [activeCategory, setActiveCategory] = useState(category?.id.toLowerCase() || "all");
   // Filter tools based on category
   const filteredTools = useMemo(() => {
-    return activeCategory === "All"
+    return activeCategory.toLowerCase() === "all"
       ? tools
-      : tools.filter(t => t.category === activeCategory);
+      : tools.filter(t => t.category.toLowerCase() === activeCategory);
   }, [activeCategory]);
 
   return (
@@ -39,16 +44,16 @@ export default function ToolsHub() {
       <div className="flex flex-wrap gap-3 mb-8">
         {categories.map(cat => (
           <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
+            key={cat.id}
+            onClick={() => setActiveCategory(cat.id.toLowerCase())}
             className={`px-4 py-2 rounded-full text-sm transition
               border border-white/10
-              ${activeCategory === cat
+              ${activeCategory === cat.id.toLowerCase()
                 ? "bg-white text-black"
                 : "text-white/70 hover:text-white hover:bg-white/5"
               }`}
           >
-            {cat}
+            {cat.title}
           </button>
         ))}
       </div>

@@ -1,35 +1,26 @@
 "use client";
 
-import { tools } from "@/data/tools";
+import { categoryIcons, tools } from "@/data/tools";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Search,
-  FileText,
-  Calculator,
-  Cpu,
-  Image,
-  DollarSign,
-  Code,
-} from "lucide-react";
 import React, { useState, useEffect, JSX } from "react";
 import { useRouter } from "next/navigation";
+import { Search } from "lucide-react";
 
-const categoryIcons: Record<string, JSX.Element> = {
-  PDF: <FileText className="w-4 h-4 text-indigo-400" />,
-  Calculator: <Calculator className="w-4 h-4 text-green-400" />,
-  AI: <Cpu className="w-4 h-4 text-pink-400" />,
-  Image: <Image className="w-4 h-4 text-blue-400" />,
-  Finance: <DollarSign className="w-4 h-4 text-yellow-400" />,
-  Developer: <Code className="w-4 h-4 text-purple-400" />,
+// const categoryIcons: Record<string, JSX.Element> = categoryIcons;
+type CommandPaletteProps = {
+  buttonName: string;
+  buttonClassName: string; // optional: Tailwind width class (e.g. "max-w-md")
+  searchTools: boolean ;
 };
-
-export function CommandPalette() {
+export function CommandPalette({ buttonName, buttonClassName, searchTools }: CommandPaletteProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const results = tools.filter(
+  let dataSource = searchTools ? tools : Object.values(categoryIcons); // You can replace [] with another dataset if needed
+
+  const results = dataSource.filter(
     (item) =>
       item.title.toLowerCase().includes(query.toLowerCase()) ||
       item.description.toLowerCase().includes(query.toLowerCase())
@@ -61,9 +52,9 @@ export function CommandPalette() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="cursor-pointer rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition"
+        className={buttonClassName}
       >
-        Explore Tools ⌘K
+        {buttonName}
       </button>
 
       <AnimatePresence>
@@ -98,7 +89,7 @@ export function CommandPalette() {
 
               <div className="mt-4 max-h-64 overflow-y-auto">
                 {results.length > 0 ? (
-                  results.map((item, index) => (
+                  results.map((item: any, index: number) => (
                     <div
                       key={index}
                       className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition ${
@@ -107,8 +98,17 @@ export function CommandPalette() {
                           : "hover:bg-white/10 text-white"
                       }`}
                       onClick={() => {
-                        router.push(`/tools/${item.title}`);
-                        setOpen(false);
+                        if (searchTools) {
+                          router.push(`/tools/${item.id}`);
+                          setOpen(false);
+                        }
+                        else {
+                          const params = new URLSearchParams({
+                            categoryId: item.id
+                          });
+
+                          router.push(`/tools?${params.toString()}`);
+                        }
                       }}
                     >
                       <div>
@@ -117,12 +117,17 @@ export function CommandPalette() {
                           {item.description}
                         </p>
                       </div>
-                      <div className="flex items-center gap-2">
-                        {categoryIcons[item.category]}
+                      {
+                        searchTools == true ?
+                        (<div className="flex items-center gap-2">
+                        
+                        {categoryIcons[item.category] && categoryIcons[item.category].icon}
                         <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/70">
                           {item.category}
                         </span>
-                      </div>
+                      </div>):("")
+                      }
+                      
                     </div>
                   ))
                 ) : (
