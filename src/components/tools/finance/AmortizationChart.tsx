@@ -1,10 +1,10 @@
 "use client";
 
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Legend } from "chart.js";
+import { Line, Bar } from "react-chartjs-2";
 import React from "react";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Tooltip, Legend);
 
 type Props = {
   labels: string[];
@@ -12,6 +12,8 @@ type Props = {
   interestSeries: number[];
   principalSeriesB?: number[];
   interestSeriesB?: number[];
+  prepaymentMarkers?: (number | null)[];
+  chartType?: "line" | "bar";
   showBasePrincipal?: boolean;
   showBaseInterest?: boolean;
   showPrepayPrincipal?: boolean;
@@ -24,6 +26,8 @@ export default function AmortizationChart({
   interestSeries,
   principalSeriesB,
   interestSeriesB,
+  prepaymentMarkers,
+  chartType = "line",
   showBasePrincipal = true,
   showBaseInterest = true,
   showPrepayPrincipal = true,
@@ -35,11 +39,7 @@ export default function AmortizationChart({
     datasets.push({
       label: "Principal Remaining (Base)",
       data: principalSeries,
-      borderColor: "#22c55e",
-      backgroundColor: "rgba(34,197,94,0.06)",
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.25,
+      ...(chartType === "bar" ? { type: "bar", backgroundColor: "rgba(34,197,94,0.3)" } : { borderColor: "#22c55e", backgroundColor: "rgba(34,197,94,0.06)", borderWidth: 2, pointRadius: 0, tension: 0.25 }),
     });
   }
 
@@ -47,11 +47,7 @@ export default function AmortizationChart({
     datasets.push({
       label: "Cumulative Interest (Base)",
       data: interestSeries,
-      borderColor: "#60a5fa",
-      backgroundColor: "rgba(96,165,250,0.04)",
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.25,
+      ...(chartType === "bar" ? { type: "bar", backgroundColor: "rgba(96,165,250,0.3)" } : { borderColor: "#60a5fa", backgroundColor: "rgba(96,165,250,0.04)", borderWidth: 2, pointRadius: 0, tension: 0.25 }),
     });
   }
 
@@ -59,12 +55,7 @@ export default function AmortizationChart({
     datasets.push({
       label: "Principal Remaining (With Prepay)",
       data: principalSeriesB,
-      borderColor: "#16a34a",
-      backgroundColor: "rgba(16,163,127,0.04)",
-      borderDash: [6, 4],
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.25,
+      ...(chartType === "bar" ? { type: "bar", backgroundColor: "rgba(16,163,127,0.3)" } : { borderColor: "#16a34a", backgroundColor: "rgba(16,163,127,0.04)", borderDash: [6, 4], borderWidth: 2, pointRadius: 0, tension: 0.25 }),
     });
   }
 
@@ -72,12 +63,25 @@ export default function AmortizationChart({
     datasets.push({
       label: "Cumulative Interest (With Prepay)",
       data: interestSeriesB,
-      borderColor: "#2563eb",
-      backgroundColor: "rgba(37,99,235,0.03)",
-      borderDash: [6, 4],
-      borderWidth: 2,
-      pointRadius: 0,
-      tension: 0.25,
+      ...(chartType === "bar" ? { type: "bar", backgroundColor: "rgba(37,99,235,0.25)" } : { borderColor: "#2563eb", backgroundColor: "rgba(37,99,235,0.03)", borderDash: [6, 4], borderWidth: 2, pointRadius: 0, tension: 0.25 }),
+    });
+  }
+
+  if (prepaymentMarkers) {
+    datasets.push({
+      type: "line",
+      label: "Prepayment Events",
+      data: prepaymentMarkers,
+      borderColor: "transparent",
+      backgroundColor: "#fb923c",
+      pointStyle: "triangle",
+      pointRadius: 8,
+      pointHoverRadius: 12,
+      pointBorderColor: "#f97316",
+      pointBackgroundColor: "#fed7aa",
+      pointBorderWidth: 2,
+      showLine: false,
+      spanGaps: true,
     });
   }
 
@@ -112,7 +116,7 @@ export default function AmortizationChart({
   return (
     <div className="rounded-md border border-gray-700 bg-gray-800 p-4">
       <div style={{ height: 360 }}>
-        <Line data={data} options={options} />
+        {chartType === "bar" ? <Bar data={data} options={options} /> : <Line data={data} options={options} />}
       </div>
     </div>
   );
