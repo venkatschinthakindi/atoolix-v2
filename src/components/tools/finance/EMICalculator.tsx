@@ -16,6 +16,24 @@ function computeEMI(principal: number, annualRatePct: number, months: number) {
   return emi;
 }
 
+type LoanPreset = {
+  principal: number;
+  annualRate: number;
+  tenureYears: number;
+  description: string;
+};
+
+function getLoanPreset(type: LoanType): LoanPreset {
+  switch (type) {
+    case "home":
+      return { principal: 3000000, annualRate: 7.5, tenureYears: 20, description: "Long-term home loan with lower interest" };
+    case "personal":
+      return { principal: 800000, annualRate: 12.5, tenureYears: 5, description: "Shorter personal loan with higher rate" };
+    case "car":
+      return { principal: 1200000, annualRate: 9.0, tenureYears: 7, description: "Vehicle loan with mid-term tenure" };
+  }
+}
+
 function amortizationSchedule(
   principal: number,
   annualRatePct: number,
@@ -114,7 +132,9 @@ function amortizationScheduleWithPrepayments(
   annualRatePct: number,
   months: number,
   prepayments: PrepaymentEntry[],
-  bankEmiLimitPercent: number
+  bankEmiLimitPercent: number,
+  extraMonthlyPayment: number,
+  balloonPayment: number
 ) {
   const monthlyRate = annualRatePct / 12 / 100;
   let balance = principal;
@@ -172,6 +192,18 @@ function amortizationScheduleWithPrepayments(
       prepaymentLabel += `${prefix} ${modeText} ₹${formatNumber(actualAmount)}${event.type === "one-time" ? ` on month ${event.month}` : ` from month ${event.month}`} ; `;
     });
 
+    if (extraMonthlyPayment > 0) {
+      payment += extraMonthlyPayment;
+      prepaymentAmount += extraMonthlyPayment;
+      prepaymentLabel += `Extra monthly payment ₹${formatNumber(extraMonthlyPayment)} ; `;
+    }
+
+    if (m === months && balloonPayment > 0) {
+      payment += balloonPayment;
+      prepaymentAmount += balloonPayment;
+      prepaymentLabel += `Balloon payment ₹${formatNumber(balloonPayment)} ; `;
+    }
+
     if (balance + interest <= payment) {
       payment = balance + interest;
     }
@@ -223,14 +255,18 @@ function amortizationScheduleWithPrepayments(
 }
 
 export default function EMICalculator({ defaultType = "home" }: { defaultType?: LoanType }) {
+  const defaultPreset = getLoanPreset(defaultType);
   const [loanType, setLoanType] = useState<LoanType>(defaultType);
-  const [principal, setPrincipal] = useState<number>(3000000);
-  const [annualRate, setAnnualRate] = useState<number>(7.5);
-  const [tenureYears, setTenureYears] = useState<number>(20);
+  const [principal, setPrincipal] = useState<number>(defaultPreset.principal);
+  const [annualRate, setAnnualRate] = useState<number>(defaultPreset.annualRate);
+  const [tenureYears, setTenureYears] = useState<number>(defaultPreset.tenureYears);
 
   const [compareEnabled, setCompareEnabled] = useState<boolean>(true);
   const [bankEmiLimit, setBankEmiLimit] = useState<number>(25);
   const [prepayOpen, setPrepayOpen] = useState<boolean>(false);
+  const [advancedOpen, setAdvancedOpen] = useState<boolean>(false);
+  const [extraMonthlyPayment, setExtraMonthlyPayment] = useState<number>(0);
+  const [balloonPayment, setBalloonPayment] = useState<number>(0);
   const [showFullSchedule, setShowFullSchedule] = useState<boolean>(false);
   const [showBasePrincipal, setShowBasePrincipal] = useState<boolean>(true);
   const [showBaseInterest, setShowBaseInterest] = useState<boolean>(true);
@@ -265,12 +301,12 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
     setPrepayments((current) => current.filter((entry) => entry.id !== id));
   };
 
-  const months = tenureYears * 12;
+  const months = Math.max(1, tenureYears) * 12;
 
   const base = useMemo(() => amortizationSchedule(principal, annualRate, months), [principal, annualRate, months]);
   const adjusted = useMemo(
-    () => amortizationScheduleWithPrepayments(principal, annualRate, months, prepayments, bankEmiLimit),
-    [principal, annualRate, months, prepayments, bankEmiLimit]
+    () => amortizationScheduleWithPrepayments(principal, annualRate, months, prepayments, bankEmiLimit, extraMonthlyPayment, balloonPayment),
+    [principal, annualRate, months, prepayments, bankEmiLimit, extraMonthlyPayment, balloonPayment]
   );
 
   const monthsSaved = Math.max(0, base.monthsUsed - adjusted.monthsUsed);
@@ -280,6 +316,13 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
   const finalEmi = adjusted.monthRows.at(-1)?.currentEmi ?? adjusted.emi;
   const clippedPrepayments = adjusted.monthRows.some((row) => row.clipped);
   const emiCapAdjustments = (adjusted.capAdjustments ?? []).filter((adj) => adj.mode === "emi");
+  const loanPreset = getLoanPreset(loanType);
+  const amountValid = principal > 0;
+  const rateValid = annualRate >= 0;
+  const tenureValid = tenureYears >= 1;
+  const emiLimitValid = bankEmiLimit >= 1 && bankEmiLimit <= 100;
+  const prepaymentsValid = prepayments.every((entry) => entry.month >= 1 && entry.month <= months && entry.amount > 0);
+  const advancedValid = extraMonthlyPayment >= 0 && balloonPayment >= 0;
 
   const pieChartData = useMemo(
     () => ({
@@ -290,18 +333,34 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
     [principal, adjusted.cumulativeInterest]
   );
 
+  const handleLoanTypeChange = (type: LoanType) => {
+    const preset = getLoanPreset(type);
+    setLoanType(type);
+    setPrincipal(preset.principal);
+    setAnnualRate(preset.annualRate);
+    setTenureYears(preset.tenureYears);
+  };
+
+  const resetToPreset = () => handleLoanTypeChange(loanType);
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      <div className="flex gap-2 flex-wrap justify-center">
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-2 flex-wrap justify-center">
         {(["home", "personal", "car"] as LoanType[]).map((t) => (
           <button
             key={t}
-            onClick={() => setLoanType(t)}
+            onClick={() => handleLoanTypeChange(t)}
             className={`tab-button ${loanType === t ? "tab-button-active" : ""}`}
           >
             {t.charAt(0).toUpperCase() + t.slice(1)} Loan
           </button>
         ))}
+      </div>
+      <div className="rounded-md border border-gray-700 bg-gray-900 p-4">
+        <div className="text-sm text-white/70">Loan preset</div>
+        <div className="mt-2 text-white/90 text-sm">{loanPreset.description}. Defaults applied when you switch loan types.</div>
+      </div>
       </div>
 
       <div className="min-h-[60px] p-1">
@@ -320,6 +379,19 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
       </div>
 
       <div className="space-y-4">
+        {( !amountValid || !rateValid || !tenureValid || !emiLimitValid || !prepaymentsValid || !advancedValid) && (
+          <div className="rounded-md border border-orange-600 bg-orange-950/10 p-4 text-sm text-orange-100">
+            <div className="font-semibold text-white mb-2">Validation notes</div>
+            <ul className="list-disc pl-5 space-y-1">
+              {!amountValid && <li>Please enter a valid loan amount greater than 0.</li>}
+              {!rateValid && <li>Interest rate cannot be negative.</li>}
+              {!tenureValid && <li>Tenure must be at least 1 year.</li>}
+              {!emiLimitValid && <li>EMI reduction limit must be between 1% and 100%.</li>}
+              {!prepaymentsValid && <li>One or more prepayment entries have invalid amount or month values.</li>}
+              {!advancedValid && <li>Advanced payments must be zero or greater.</li>}
+            </ul>
+          </div>
+        )}
         <div className="space-y-2">
           <label className="block text-sm text-white/80">Loan Amount</label>
           <input
@@ -377,8 +449,43 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                     className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
                   />
                 </div>
-                
+                <div className="space-y-2">
+                  <label className="block text-sm text-white/80">Advanced options</label>
+                  <button
+                    onClick={() => setAdvancedOpen(!advancedOpen)}
+                    className="w-full rounded-md border border-gray-600 bg-gray-900 px-3 py-2 text-white text-sm hover:border-sky-500 transition"
+                  >
+                    {advancedOpen ? "Hide advanced" : "Show advanced"}
+                  </button>
+                </div>
               </div>
+              {advancedOpen && (
+                <div className="space-y-3 rounded-md border border-gray-700 bg-gray-950/20 p-4">
+                  <div className="text-sm text-white/70">Add optional advanced payments to accelerate payoff.</div>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <label className="block text-sm text-white/80">Extra monthly contribution</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={extraMonthlyPayment}
+                        onChange={(e) => setExtraMonthlyPayment(Number(e.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm text-white/80">Balloon payment at maturity</label>
+                      <input
+                        type="number"
+                        min={0}
+                        value={balloonPayment}
+                        onChange={(e) => setBalloonPayment(Number(e.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
               <button onClick={addPrepayment}
                   className="max-h-10 rounded-md bg-blue-600 px-4 py-2 text-white font-semibold hover:bg-blue-500 transition"
                 >
@@ -461,32 +568,47 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
 
       <div className="flex flex-col gap-3">
         <button
-          onClick={() => setPrincipal(principal)}
-          className="w-full rounded-md bg-blue-600 px-4 py-3 text-white font-semibold hover:bg-blue-500 transition"
+          onClick={resetToPreset}
+          className="w-full rounded-md bg-sky-600 px-4 py-3 text-white font-semibold hover:bg-sky-500 transition"
         >
-          Recalculate
+          Reset to {loanType.charAt(0).toUpperCase() + loanType.slice(1)} Loan Preset
         </button>
-
         <div className="rounded-md bg-indigo-900/10 p-4">
           <div className="text-lg text-white/70 mb-2">With Prepayment Summary</div>
           {totalPrepaymentAmount > 0 ? (
-            <div className="space-y-2">
-              <div className="text-sm text-white/70">Total Prepayments Applied</div>
-              <div className="text-lg text-white">₹ {formatNumber(totalPrepaymentAmount)}</div>
-              <div className="text-sm text-white/70">Effective EMI after adjustments</div>
-              <div className="text-lg text-white">₹ {formatNumber(finalEmi)}</div>
-              <div className="text-sm text-white/70">Interest Saved</div>
-              <div className="text-lg text-white">₹ {formatNumber(interestSaved)}</div>
-              <div className="text-sm text-white/70">Months Saved</div>
-              <div className="text-lg text-white">{monthsSaved}</div>
-              <div className="text-sm text-white/70">Total Payment Reduced</div>
-              <div className="text-lg text-white">₹ {formatNumber(totalPaymentDiff)}</div>
+            <div className="space-y-4">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-md border border-gray-700 bg-gray-950/40 p-4">
+                  <div className="text-sm text-white/70">Total Prepayments Applied</div>
+                  <div className="mt-2 text-2xl font-semibold text-white">₹ {formatNumber(totalPrepaymentAmount)}</div>
+                </div>
+                <div className="rounded-md border border-gray-700 bg-gray-950/40 p-4">
+                  <div className="text-sm text-white/70">Effective EMI</div>
+                  <div className="mt-2 text-2xl font-semibold text-white">₹ {formatNumber(finalEmi)}</div>
+                </div>
+                <div className="rounded-md border border-gray-700 bg-gray-950/40 p-4">
+                  <div className="text-sm text-white/70">Interest Saved</div>
+                  <div className="mt-2 text-2xl font-semibold text-white">₹ {formatNumber(interestSaved)}</div>
+                </div>
+                <div className="rounded-md border border-gray-700 bg-gray-950/40 p-4">
+                  <div className="text-sm text-white/70">Months Saved</div>
+                  <div className="mt-2 text-2xl font-semibold text-white">{monthsSaved}</div>
+                </div>
+              </div>
+              <div className="mt-4 rounded-md border border-dashed border-white/10 bg-white/5 p-4 text-sm text-white/70">
+                <div className="font-medium text-white mb-2">Comparison</div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <div className="flex justify-between"><span>Base EMI</span><span>₹ {formatNumber(base.emi)}</span></div>
+                  <div className="flex justify-between"><span>Base total interest</span><span>₹ {formatNumber(base.cumulativeInterest.at(-1) ?? 0)}</span></div>
+                  <div className="flex justify-between"><span>Adjusted EMI</span><span>₹ {formatNumber(finalEmi)}</span></div>
+                  <div className="flex justify-between"><span>Adjusted total interest</span><span>₹ {formatNumber(adjusted.cumulativeInterest.at(-1) ?? 0)}</span></div>
+                </div>
+              </div>
               {clippedPrepayments && (
                 <div className="rounded-md border border-yellow-600 bg-yellow-950/10 p-3 text-sm text-yellow-100">
                   One or more EMI reduction entries exceeded the bank limit and were capped to {bankEmiLimit}% of the current EMI.
                 </div>
               )}
-
               {emiCapAdjustments.length > 0 && (
                 <div className="rounded-md border border-sky-600 bg-sky-950/10 p-4 mt-4 text-sm text-white/80">
                   <div className="mb-3 text-white font-semibold">EMI Cap Adjustment Details</div>
@@ -531,7 +653,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
               <span>Chart</span>
               <select
                 value={chartType}
-                onChange={(e) => setChartType(e.target.value as "line" | "area" | "smooth" | "stepped" | "bar")}
+                onChange={(e) => setChartType(e.target.value as "line" | "area" | "smooth" | "stepped" | "bar" | "pie" | "doughnut")}
                 className="rounded-md border border-gray-600 bg-gray-900 p-2 text-white"
               >
                 <option value="line">Line</option>
@@ -543,6 +665,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                 <option value="doughnut">Doughnut</option>
               </select>
             </div>
+            <label className="text-sm text-white/70 flex items-center gap-2"><input type="checkbox" checked={compareEnabled} onChange={(e) => setCompareEnabled(e.target.checked)} /> Compare with Prepay</label>
             <label className="text-sm text-white/70 flex items-center gap-2"><input type="checkbox" checked={showBasePrincipal} onChange={(e) => setShowBasePrincipal(e.target.checked)} /> Base Principal</label>
             <label className="text-sm text-white/70 flex items-center gap-2"><input type="checkbox" checked={showBaseInterest} onChange={(e) => setShowBaseInterest(e.target.checked)} /> Base Interest</label>
             {compareEnabled && (
