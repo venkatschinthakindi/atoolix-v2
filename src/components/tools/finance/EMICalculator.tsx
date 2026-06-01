@@ -236,7 +236,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
   const [showBaseInterest, setShowBaseInterest] = useState<boolean>(true);
   const [showPrepayPrincipal, setShowPrepayPrincipal] = useState<boolean>(true);
   const [showPrepayInterest, setShowPrepayInterest] = useState<boolean>(true);
-  const [chartType, setChartType] = useState<"line" | "bar">("line");
+  const [chartType, setChartType] = useState<"line" | "area" | "smooth" | "stepped" | "bar" | "pie" | "doughnut">("line");
 
   const [prepayments, setPrepayments] = useState<PrepaymentEntry[]>([
     { id: 1, type: "one-time", amount: 50000, month: 12, mode: "principal" },
@@ -280,6 +280,15 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
   const finalEmi = adjusted.monthRows.at(-1)?.currentEmi ?? adjusted.emi;
   const clippedPrepayments = adjusted.monthRows.some((row) => row.clipped);
   const emiCapAdjustments = (adjusted.capAdjustments ?? []).filter((adj) => adj.mode === "emi");
+
+  const pieChartData = useMemo(
+    () => ({
+      labels: ["Principal Paid", "Interest Paid"],
+      values: [principal, adjusted.cumulativeInterest.at(-1) ?? 0],
+      colors: ["#22c55e", "#60a5fa"],
+    }),
+    [principal, adjusted.cumulativeInterest]
+  );
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
@@ -351,7 +360,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
               <div className="text-sm text-white/80">Prepayment Options</div>
               <div className="text-xs text-white/60">Create multiple prepayments and choose principal or EMI reduction</div>
             </div>
-            <div className="text-white/60">{prepayOpen ? "−" : "+"}</div>
+            <div className="text-white/60 text-2xl rounded bg-gray-800 w-8 h-8 flex items-center justify-center">{prepayOpen ? "−" : "+"}</div>
           </button>
 
           {prepayOpen && (
@@ -368,19 +377,18 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                     className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
                   />
                 </div>
-                <button
-                  onClick={addPrepayment}
-                  className="h-full rounded-md bg-blue-600 px-4 py-3 text-white font-semibold hover:bg-blue-500 transition"
+                
+              </div>
+              <button onClick={addPrepayment}
+                  className="max-h-10 rounded-md bg-blue-600 px-4 py-2 text-white font-semibold hover:bg-blue-500 transition"
                 >
                   Add Prepayment
-                </button>
-              </div>
-
+              </button>
               <div className="space-y-3">
-                {prepayments.map((entry) => (
+                {prepayments.map((entry, index) => (
                   <div key={entry.id} className="rounded-md  bg-indigo-900/10 p-4">
                     <div className="flex flex-wrap gap-3 items-center justify-between">
-                      <div className="text-sm text-white/80">Prepayment #{entry.id}</div>
+                      <div className="text-sm text-white/80">Prepayment #{index + 1}</div>
                       <button
                         onClick={() => removePrepayment(entry.id)}
                         className="text-sm text-red-400 underline"
@@ -523,11 +531,16 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
               <span>Chart</span>
               <select
                 value={chartType}
-                onChange={(e) => setChartType(e.target.value as "line" | "bar")}
+                onChange={(e) => setChartType(e.target.value as "line" | "area" | "smooth" | "stepped" | "bar")}
                 className="rounded-md border border-gray-600 bg-gray-900 p-2 text-white"
               >
-                <option value="line">Line Chart</option>
-                <option value="bar">Bar Chart</option>
+                <option value="line">Line</option>
+                <option value="area">Area</option>
+                <option value="smooth">Smooth</option>
+                <option value="stepped">Stepped</option>
+                <option value="bar">Bar</option>
+                <option value="pie">Pie</option>
+                <option value="doughnut">Doughnut</option>
               </select>
             </div>
             <label className="text-sm text-white/70 flex items-center gap-2"><input type="checkbox" checked={showBasePrincipal} onChange={(e) => setShowBasePrincipal(e.target.checked)} /> Base Principal</label>
@@ -550,6 +563,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
               interestSeriesB={compareEnabled ? adjusted.cumulativeInterest : undefined}
               prepaymentMarkers={adjusted.prepaymentMarkers}
               chartType={chartType}
+              pieData={pieChartData}
               showBasePrincipal={showBasePrincipal}
               showBaseInterest={showBaseInterest}
               showPrepayPrincipal={showPrepayPrincipal}
