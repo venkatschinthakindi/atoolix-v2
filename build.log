@@ -1,0 +1,18 @@
+Γû▓ Next.js 16.2.6 (Turbopack)
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 7.6s
+  Running TypeScript ...
+Failed to type check.
+
+./src/components/tools/finance/EMICalculator.tsx:174:68
+Type error: Right operand of ?? is unreachable because the left operand is never nullish.
+
+  172 | ...space-y-3">
+  173 | ...="text-sm text-white/70">With Prepayment</div>
+> 174 | ...="text-3xl font-semibold">Γé╣ {formatNumber((adjusted.emi + extraMonthly) ?? 0)}</div>
+      |                                             ^
+  175 | ...="flex flex-col gap-2 sm:flex-row">
+  176 | ...me="rounded-xl border border-white/5 bg-slate-950/70 p-4 sm:flex-1">
+  177 | ...Name="text-sm text-white/70">Interest Saved</div>
+Next.js build worker exited with code: 1 and signal: null

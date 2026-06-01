@@ -78,13 +78,14 @@ export const toolRegistry: {
     preload: false,
   },
   finance: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
+    loader: () => import("@/components/tools/finance/FinanceTool"),
     title: "Finance Tools",
     description: "EMI, interest & investment calculators",
     category: "Finance",
-    featured: false,
-    comingSoon: true,
+    featured: true,
+    comingSoon: false,
     preload: false,
+    defaultProps: {},
   },
   image: {
     loader: () => import("@/components/tools/ToolPlaceholder"),
