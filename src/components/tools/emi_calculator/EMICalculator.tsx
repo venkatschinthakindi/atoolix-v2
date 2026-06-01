@@ -346,17 +346,20 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div className="flex flex-col gap-3">
-        <div className="flex gap-2 flex-wrap justify-center">
-        {(["home", "personal", "car"] as LoanType[]).map((t) => (
-          <button
-            key={t}
-            onClick={() => handleLoanTypeChange(t)}
-            className={`tab-button ${loanType === t ? "tab-button-active" : ""}`}
-          >
-            {t.charAt(0).toUpperCase() + t.slice(1)} Loan
-          </button>
-        ))}
-      </div>
+        <div className="justify-center tab-group mx-auto">
+          <div className="flex gap-2 flex-wrap justify-center">
+            {(["home", "personal", "car"] as LoanType[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => handleLoanTypeChange(t)}
+                className={`tab-button ${loanType === t ? "tab-button-active" : ""}`}
+              >
+                {t.charAt(0).toUpperCase() + t.slice(1)} Loan
+              </button>
+            ))}
+          </div>
+        </div>
+        
       <div className="rounded-md border border-gray-700 bg-gray-900 p-4">
         <div className="text-sm text-white/70">Loan preset</div>
         <div className="mt-2 text-white/90 text-sm">{loanPreset.description}. Defaults applied when you switch loan types.</div>

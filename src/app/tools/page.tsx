@@ -2,12 +2,15 @@
 
 import { categoryIcons, tools } from "@/data/tools";
 import React, { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import { FloatingDock } from "@/components/layout/floating-dock";
 import { FileText } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ToolsHub() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const toolId = searchParams?.get("categoryId")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
+
     const categories = [{
     id: "All",
     title: "All",
@@ -15,7 +18,10 @@ export default function ToolsHub() {
     icon: React.createElement(FileText, { className: "w-4 h-4 text-indigo-400" })
   }, ...Object.values(categoryIcons)];
 
-    const [activeCategory, setActiveCategory] = useState("all");
+  // Find the tool from the data
+  const category = Object.values(categoryIcons).find(t => t.id.toLowerCase() === toolId);
+  const [activeCategory, setActiveCategory] = useState(category?.id.toLowerCase() || "all");
+
   // Filter tools based on category
   const filteredTools = useMemo(() => {
     return activeCategory.toLowerCase() === "all"

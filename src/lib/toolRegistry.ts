@@ -24,7 +24,7 @@ export type ToolPropsMap = {
   };
   pdf: {};
   ai: {};
-  finance: {};
+  emai_calculator: {};
   image: {};
   image2: {};
   image3: {};
@@ -77,10 +77,10 @@ export const toolRegistry: {
     comingSoon: true,
     preload: false,
   },
-  finance: {
-    loader: () => import("@/components/tools/finance/FinanceTool"),
-    title: "Finance Tools",
-    description: "EMI, interest & investment calculators",
+  emai_calculator: {
+    loader: () => import("@/components/tools/emi_calculator/EMICalculator"),
+    title: "EMI Calculator",
+    description: "EMI loan payoff and prepayment calculator",
     category: "Finance",
     featured: true,
     comingSoon: false,
