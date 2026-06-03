@@ -37,7 +37,8 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
   return (
     <div className={`space-y-6 ${theme === "light" ? "text-slate-950" : "text-white"}`}>
       {/* Display */}
-      <div className={`surface-panel p-4 text-right ${theme === "light" ? "bg-white/90 text-slate-950" : "bg-slate-950/80 text-white"}`}>
+      <div className={`p-4 text-right ${theme === "light" ? "bg-white-900 text-black text-slate-950" : 
+        "rounded-md bg-black/40 text-white"}`}>
         <div className="text-white/70 text-sm">{expression || "0"}</div>
         <div className="text-white text-2xl font-semibold">{result || ""}</div>
       </div>
@@ -47,7 +48,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
         value={expression}
         onChange={e => setExpression(e.target.value)}
         placeholder="Enter expression"
-        className="w-full p-3 surface-input text-white focus:outline-none focus:ring-2 focus:ring-green-500"/>
+        className="w-full p-3 rounded-md bg-black/40 text-white"/>
 
       {/* Number Pad */}
       <div className="grid grid-cols-3 gap-2">

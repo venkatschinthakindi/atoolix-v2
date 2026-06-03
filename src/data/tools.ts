@@ -1,5 +1,5 @@
 import { MathOperationsIcon } from "@phosphor-icons/react";
-import { Calculator, Cpu, Code, FileText, Sparkles, DollarSign, Image, ImageIcon } from "lucide-react";
+import { Calculator, Cpu, Code, FileText, Sparkles, DollarSign, Image, ImageIcon, TrendingUp, Banknote, ShieldCheck } from "lucide-react";
 import React, { JSX } from "react";
 import { toolRegistry } from "@/lib/toolRegistry";
 type CategoryInfo = {
@@ -45,6 +45,24 @@ export const categoryIcons: Record<string, CategoryInfo> = {
     description: "Financial planning and analysis tools",
     icon: React.createElement(DollarSign, { className: "w-4 h-4 text-yellow-400" })
   },
+  "Investment Returns": {
+    id: "Investment Returns",
+    title: "Investment Returns",
+    description: "SIP, lump sum and CAGR/XIRR tools",
+    icon: React.createElement(TrendingUp, { className: "w-4 h-4 text-emerald-400" })
+  },
+  "Savings & Deposits": {
+    id: "Savings & Deposits",
+    title: "Savings & Deposits",
+    description: "Interest, FD and RD planning tools",
+    icon: React.createElement(Banknote, { className: "w-4 h-4 text-cyan-400" })
+  },
+  "Retirement & Wealth Planning": {
+    id: "Retirement & Wealth Planning",
+    title: "Retirement & Wealth Planning",
+    description: "Retirement, FIRE and SWP planning",
+    icon: React.createElement(ShieldCheck, { className: "w-4 h-4 text-violet-400" })
+  },
   Developer: {
     id: "Developer",
     title: "Developer",
@@ -58,6 +76,9 @@ const toolIcons: Record<string, React.ComponentType<any>> = {
   pdf: FileText,
   ai: Sparkles,
   finance: DollarSign,
+  investment_returns: TrendingUp,
+  savings_deposits: Banknote,
+  retirement_wealth_planning: ShieldCheck,
   image: ImageIcon,
   image2: ImageIcon,
   image3: ImageIcon,

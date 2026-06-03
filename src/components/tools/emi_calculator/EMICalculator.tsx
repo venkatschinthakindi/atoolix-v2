@@ -401,7 +401,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
             type="number"
             value={principal}
             onChange={(e) => setPrincipal(Number(e.target.value))}
-            className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
           />
         </div>
 
@@ -412,7 +412,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
             step="0.01"
             value={annualRate}
             onChange={(e) => setAnnualRate(Number(e.target.value))}
-            className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
           />
         </div>
 
@@ -422,7 +422,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
             type="number"
             value={tenureYears}
             onChange={(e) => setTenureYears(Number(e.target.value))}
-            className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
           />
         </div>
 
@@ -449,14 +449,14 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                     max={100}
                     value={bankEmiLimit}
                     onChange={(e) => setBankEmiLimit(Number(e.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="block text-sm text-white/80">Advanced options</label>
                   <button
                     onClick={() => setAdvancedOpen(!advancedOpen)}
-                    className="w-full rounded-md border border-gray-600 bg-gray-900 px-3 py-2 text-white text-sm hover:border-sky-500 transition"
+                    className="w-full rounded-md border border-gray-700 bg-gray-950/40 px-3 py-2 text-white text-sm hover:border-sky-500 transition"
                   >
                     {advancedOpen ? "Hide advanced" : "Show advanced"}
                   </button>
@@ -473,7 +473,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                         min={0}
                         value={extraMonthlyPayment}
                         onChange={(e) => setExtraMonthlyPayment(Number(e.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                       />
                     </div>
                     <div className="space-y-2">
@@ -483,7 +483,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                         min={0}
                         value={balloonPayment}
                         onChange={(e) => setBalloonPayment(Number(e.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                       />
                     </div>
                   </div>
@@ -512,7 +512,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                         <select
                           value={entry.type}
                           onChange={(e) => updatePrepayment(entry.id, "type", e.target.value as PrepaymentType)}
-                          className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                          className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         >
                           <option value="one-time">One-time</option>
                           <option value="monthly">Monthly</option>
@@ -523,7 +523,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                         <select
                           value={entry.mode}
                           onChange={(e) => updatePrepayment(entry.id, "mode", e.target.value as PrepaymentMode)}
-                          className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                          className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         >
                           <option value="principal">Principal reduction</option>
                           <option value="emi">EMI reduction</option>
@@ -536,7 +536,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                           min={0}
                           value={entry.amount}
                           onChange={(e) => updatePrepayment(entry.id, "amount", Number(e.target.value))}
-                          className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                          className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         />
                       </div>
                       <div className="space-y-2">
@@ -547,7 +547,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
                           max={months}
                           value={entry.month}
                           onChange={(e) => updatePrepayment(entry.id, "month", Number(e.target.value))}
-                          className="w-full p-3 rounded-md border border-gray-600 bg-gray-900 text-white"
+                          className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         />
                       </div>
                     </div>
@@ -657,7 +657,7 @@ export default function EMICalculator({ defaultType = "home" }: { defaultType?: 
               <select
                 value={chartType}
                 onChange={(e) => setChartType(e.target.value as "line" | "area" | "smooth" | "stepped" | "bar" | "pie" | "doughnut")}
-                className="rounded-md border border-gray-600 bg-gray-900 p-2 text-white"
+                className="rounded-md border border-gray-700 bg-gray-950/40 p-2 text-white"
               >
                 <option value="line">Line</option>
                 <option value="area">Area</option>

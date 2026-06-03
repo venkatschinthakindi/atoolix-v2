@@ -320,6 +320,9 @@ button {
 }
 
 @layer components {
+  button {
+    cursor: pointer;
+  }
   .app-shell {
     @apply min-h-screen;
     position: relative;
@@ -378,6 +381,9 @@ button {
 
   .button-primary {
     @apply bg-indigo-600 text-white hover:bg-indigo-500;
+  }
+  .button-primary-transparent {
+    @apply bg-transparent rounded-full px-2 text-white hover:bg-indigo-900/20;
   }
 
   .button-secondary {

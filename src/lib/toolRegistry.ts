@@ -25,6 +25,9 @@ export type ToolPropsMap = {
   pdf: {};
   ai: {};
   emai_calculator: {};
+  investment_returns: {};
+  savings_deposits: {};
+  retirement_wealth_planning: {};
   image: {};
   image2: {};
   image3: {};
@@ -130,6 +133,33 @@ export const toolRegistry: {
     category: "Media",
     featured: false,
     comingSoon: true,
+    preload: false,
+  },
+  investment_returns: {
+    loader: () => import("@/components/tools/finance_suite/InvestmentReturnsSuite"),
+    title: "Investment Returns",
+    description: "SIP, lump sum, CAGR and XIRR planning tools",
+    category: "Finance",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+  },
+  savings_deposits: {
+    loader: () => import("@/components/tools/finance_suite/SavingsDepositsSuite"),
+    title: "Savings & Deposits",
+    description: "Simple interest, compound interest, FD and RD planning",
+    category: "Finance",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+  },
+  retirement_wealth_planning: {
+    loader: () => import("@/components/tools/finance_suite/RetirementWealthSuite"),
+    title: "Retirement & Wealth Planning",
+    description: "Retirement goals, FIRE progress and SWP cashflow planning",
+    category: "Finance",
+    featured: false,
+    comingSoon: false,
     preload: false,
   },
 };

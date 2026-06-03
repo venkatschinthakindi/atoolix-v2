@@ -2,17 +2,17 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { tools } from "@/data/tools";
-import { FloatingDock } from "@/components/layout/floating-dock";
 import { ToolRenderer } from "@/components/tools/ToolRenderer";
 import { isToolId } from "@/lib/toolRegistry";
+import { FloatingDock } from "@/components/layout/floating-dock";
 
-export default function ToolPage() {
+export function ToolPageClient() {
   const router = useRouter();
   const params = useParams();
   const rawToolId = params?.toolId?.toString()?.toLowerCase() || "";
   const toolId = isToolId(rawToolId) ? rawToolId : undefined;
 
-  const tool = toolId ? tools.find(t => t.id === toolId) : undefined;
+  const tool = toolId ? tools.find((t) => t.id === toolId) : undefined;
 
   if (!tool || !toolId) {
     return (

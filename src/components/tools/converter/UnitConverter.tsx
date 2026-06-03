@@ -129,7 +129,7 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
   return (
     <div className={`space-y-6 ${theme === "light" ? "text-slate-950" : "text-white"}`}>
       {/* Results */}
-      <div className="min-h-[60px] p-4 rounded-md bg-gray-800">
+      <div className="min-h-[60px] p-4 rounded-md bg-black/40">
         {results.length > 0 ? (
           results.map((r, i) => <div key={i} className="text-lg font-semibold">{r}</div>)
         ) : (
@@ -143,14 +143,14 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
           value={values}
           onChange={e => setValues(e.target.value)}
           placeholder="Enter values (comma-separated)"
-          className="flex-1 text-xs px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 text-xs px-3 py-2 rounded-md bg-black/40 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         {/* From unit combobox */}
         <Combobox value={from} onChange={(val) => handleSetFrom(val as string)}>
           <div className="relative flex-1">
             <Combobox.Input
-              className="w-full px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-white"
+              className="w-full px-3 py-2 rounded-md bg-black/40 text-white"
               displayValue={(u: string) => u}
               onChange={e => setQueryFrom(e.target.value)}
               placeholder="From unit"
@@ -171,7 +171,7 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
         <Combobox value={to} onChange={(val) => handleSetTo(val as string)}>
           <div className="relative flex-1">
             <Combobox.Input
-              className="w-full px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-white"
+              className="w-full px-3 py-2 rounded-md bg-black/40 text-white"
               displayValue={(u: string) => u}
               onChange={e => setQueryTo(e.target.value)}
               placeholder="To unit"
@@ -206,13 +206,13 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
         value={newUnitName}
         onChange={e => setNewUnitName(e.target.value)}
         placeholder="Unit name (e.g. coffee)"
-        className="flex-1 px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-white"
+        className="flex-1 px-3 py-2 rounded-md bg-black/40 text-white"
         />
         <input
         value={newUnitDef}
         onChange={e => setNewUnitDef(e.target.value)}
         placeholder="Definition (e.g. 250 ml)"
-        className="flex-1 px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-white"
+        className="flex-1 px-3 py-2 rounded-md bg-black/40 text-white"
         />
         <button
         onClick={addCustomUnit}
@@ -229,7 +229,7 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
         {Object.entries(customUnits).map(([name, def]) => (
             <div
             key={name}
-            className="flex justify-between items-center bg-gray-800 px-3 py-2 rounded-md"
+            className="flex justify-between items-center bg-black/40 px-3 py-2 rounded-md"
             >
             <span className="font-medium">{name} = {def}</span>
             <button
