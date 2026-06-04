@@ -1,13 +1,21 @@
 "use client";
 
 import { categoryIcons, tools } from "@/data/tools";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, Suspense } from "react";
 import { FloatingDock } from "@/components/layout/floating-dock";
 import { FileText } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ToolsHub() {
-    const router = useRouter();
+    return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ToolsContent />
+    </Suspense>
+  )
+}
+
+export function ToolsContent() {
+  const router = useRouter();
     const searchParams = useSearchParams();
     const toolId = searchParams?.get("categoryId")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
 
