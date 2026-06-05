@@ -118,20 +118,6 @@ export default function RetirementWealthSuite() {
   const fireLabels = useMemo(() => Array.from({ length: fireYears }, (_, index) => `Year ${index + 1}`), [fireYears]);
   const swpLabels = useMemo(() => Array.from({ length: swpYears }, (_, index) => `Year ${index + 1}`), [swpYears]);
 
-  const inputRows = [
-  ["Current Age", currentAge],
-  ["Retirement Age", retirementAge],
-  ["Current Savings", formatCurrency(currentSavings)],
-  ["Monthly Contribution", formatCurrency(monthlyContribution)],
-  ["Expected Return", `${expectedReturn}%`],
-  ["Annual Need", formatCurrency(annualNeed)],
-];
-
-const resultRows = [
-  ["Retirement Horizon", `${retirementYears} years`],
-  ["Target Corpus", formatCurrency(retirementTarget)],
-  ["Required Monthly Savings", formatCurrency(retirementMonthly)],
-];
 const money = (value: number) =>
   `Rs. ${value.toLocaleString('en-IN', {
     maximumFractionDigits: 0

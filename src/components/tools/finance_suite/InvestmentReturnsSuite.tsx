@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { FinanceChart } from "./FinanceChart";
 import { FinancePdfExport } from "./FinancePdfExport";
+import { Field } from "@/components/ui/Field";
 
 const formatCurrency = (value: number) => {
   if (Number.isNaN(value) || !Number.isFinite(value)) return "-";
@@ -208,41 +209,47 @@ export default function InvestmentReturnsSuite() {
             ))}
           </div>
         </div>
-        {/* <FinancePdfExport report={exportRef}/> */}
+        <FinancePdfExport />
       </div>
 
     
 
       {activeTab === "sip" && (
         <div className="space-y-6">
+          <h1 data-export-title className="text-lg text-white/70">
+            SIP returns calculator
+          </h1>
           <div className="grid gap-4 md:grid-cols-2">
-            <label className="block text-sm text-white/80">Monthly SIP</label>
-            <input
-              type="number"
-              value={sipAmount}
-              onChange={(event) =>  setSipAmount(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={0}
-            />
-            <label className="block text-sm text-white/80">Expected annual return (%)</label>
-            <input
-              type="number"
-              value={sipRate}
-              onChange={(event) => setSipRate(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={0}
-              step={0.1}
-            />
-            <label className="block text-sm text-white/80">Investment horizon (years)</label>
-            <input
-              type="number"
-              value={sipYears}
-              onChange={(event) => setSipYears(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={0}
-            />
+            <Field label="Monthly SIP">
+              <input
+                type="number"
+                value={sipAmount}
+                onChange={(event) =>  setSipAmount(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={0}
+              />
+            </Field>
+            <Field label="Expected annual return (%)">
+              <input
+                type="number"
+                value={sipRate}
+                onChange={(event) => setSipRate(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={0}
+                step={0.1}
+              />
+            </Field>
+            <Field label="Investment horizon (years)">
+              <input
+                type="number"
+                value={sipYears}
+                onChange={(event) => setSipYears(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={0}
+              />
+            </Field>
 
-            <label className="block text-sm text-white/80">Annual step-up rate (%)</label>
+            <Field label="Annual step-up rate (%)">
             <input
               type="number"
               value={sipStepUp}
@@ -251,18 +258,19 @@ export default function InvestmentReturnsSuite() {
               min={0}
               step={0.1}
             />
+            </Field>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-md bg-gray-900 p-3">
+            <div className="rounded-md bg-gray-900 p-3" data-export-result>
               <div className="text-xs text-white/60">Total invested</div>
               <div className="mt-1 text-lg text-white">{formatCurrency(sipResult.invested)}</div>
             </div>
-            <div className="rounded-md bg-gray-900 p-3">
+            <div className="rounded-md bg-gray-900 p-3" data-export-result>
               <div className="text-xs text-white/60">Future value</div>
               <div className="mt-1 text-lg text-white">{formatCurrency(sipResult.futureValue)}</div>
             </div>
-            <div className="rounded-md bg-gray-900 p-3">
+            <div className="rounded-md bg-gray-900 p-3" data-export-result>
               <div className="text-xs text-white/60">Wealth gain</div>
               <div className="mt-1 text-lg text-white">{formatCurrency(sipResult.gain)}</div>
             </div>
@@ -275,7 +283,7 @@ export default function InvestmentReturnsSuite() {
                 <p className="text-xs text-muted">Basic SIP vs Step-up SIP over the investment horizon.</p>
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-6" ref={exportRef} data-export-chart>
               <FinanceChart
                 labels={sipLabels}
                 datasets={[
@@ -300,36 +308,41 @@ export default function InvestmentReturnsSuite() {
 
       {activeTab === "lump" && (
         <div className="space-y-6">
+          <h1 data-export-title className="text-lg text-white/70">
+            Lump sum returns calculator
+          </h1>
           <div className="grid gap-4 md:grid-cols-2">
+            <Field label="Investment amount">
+              <input
+                type="number"
+                value={lumpAmount}
+                onChange={(event) => setLumpAmount(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={0}
+              />
+            </Field>
 
-            <label className="block text-sm text-white/80">Investment amount</label>
-            <input
-              type="number"
-              value={lumpAmount}
-              onChange={(event) => setLumpAmount(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={0}
-            />
-
-            <label className="block text-sm text-white/80">Annual rate (%)</label>
-            <input
-              type="number"
-              value={lumpRate}
-              onChange={(event) => setLumpRate(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={0}
-              step={0.1}
-            />
-            <label className="block text-sm text-white/80">Investment horizon (years)</label>
-            <input
-              type="number"
-              value={lumpYears}
-              onChange={(event) => setLumpYears(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={1}
-            />
-          <label className="block text-sm text-white/80">Compounding frequency</label>
-          <select
+            <Field label="Annual rate (%)">
+              <input
+                type="number"
+                value={lumpRate}
+                onChange={(event) => setLumpRate(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={0}
+                step={0.1}
+              />
+            </Field>
+            <Field label="Investment horizon (years)">
+              <input
+                type="number"
+                value={lumpYears}
+                onChange={(event) => setLumpYears(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={1}
+              />
+            </Field>
+          <Field label="Compounding frequency">
+              <select
                 value={lumpFrequency}
                 onChange={(event) => setLumpFrequency(Number(event.target.value))}
                 className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
@@ -339,17 +352,18 @@ export default function InvestmentReturnsSuite() {
                 <option value={4}>Quarterly</option>
                 <option value={12}>Monthly</option>
               </select>
+          </Field>
         </div>
           <div className="grid gap-4 sm:grid-cols-3">
-              <div className="rounded-md bg-gray-900 p-3">
+              <div className="rounded-md bg-gray-900 p-3" data-export-result>
                 <div className="text-xs text-white/60">Invested amount</div>
                 <div className="mt-1 text-lg text-white">{formatCurrency(lumpAmount)}</div>
               </div>
-              <div className="rounded-md bg-gray-900 p-3">
+              <div className="rounded-md bg-gray-900 p-3" data-export-result>
                 <div className="text-xs text-white/60">Estimated value</div>
                 <div className="mt-1 text-lg text-white">{formatCurrency(lumpResult)}</div>
               </div>
-              <div className="rounded-md bg-gray-900 p-3">
+              <div className="rounded-md bg-gray-900 p-3" data-export-result>
                 <div className="text-xs text-white/60">Compound gain</div>
                 <div className="mt-1 text-lg text-white">{formatCurrency(lumpResult - lumpAmount)}</div>
               </div>
@@ -362,7 +376,7 @@ export default function InvestmentReturnsSuite() {
                 <p className="text-xs text-muted">Track how the investment grows across your time horizon.</p>
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-6" ref={exportRef} data-export-chart>
               <FinanceChart
                 labels={lumpLabels}
                 datasets={[
@@ -381,63 +395,67 @@ export default function InvestmentReturnsSuite() {
 
       {activeTab === "performance" && (
         <div className="space-y-6">
-          <h2 className="block text-lg text-white/80">CAGR calculator</h2>
+          <h1 className="block text-lg text-white/80" data-export-title>CAGR calculator</h1>
             <div className="grid gap-4 md:grid-cols-2">
-            <label className="block text-sm text-white/80">Opening value</label>
-            <input
-              type="number"
-              value={cagrStart}
-              onChange={(event) => setCagrStart(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={0}
-            />
-            <label className="block text-sm text-white/80">Ending value</label>
-            <input
-              type="number"
-              value={cagrEnd}
-              onChange={(event) => setCagrEnd(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={0}
-            />
+            <Field label="Opening value">
+              <input
+                type="number"
+                value={cagrStart}
+                onChange={(event) => setCagrStart(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={0}
+              />
+            </Field>
+            <Field label="Ending value">
+              <input
+                type="number"
+                value={cagrEnd}
+                onChange={(event) => setCagrEnd(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={0}
+              />
+            </Field>
 
-             <label className="block text-sm text-white/80">Period (years)</label>
-            <input
-              type="number"
-              value={cagrYears}
-              onChange={(event) => setCagrYears(Number(event.target.value))}
-              className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-              min={1}
-            />
-              
+             <Field label="Period (years)">
+              <input
+                type="number"
+                value={cagrYears}
+                onChange={(event) => setCagrYears(Number(event.target.value))}
+                className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                min={1}
+              />
+            </Field>
             </div>
-            <div className="mt-4 rounded-lg bg-gray-900 p-4">
+            <div className="mt-4 rounded-lg bg-gray-900 p-4" data-export-result>
                 <div className="block text-sm text-white/80">Compound annual growth rate (CAGR)</div>
                 <div className="mt-2 text-2xl text-white">{formatPercent(cagrResult * 100)}</div>
               </div>
             <div>
-              <h2 className="block text-lg text-white/80">XIRR calculator</h2>
+              <h1 className="block text-lg text-white/80" data-export-title>XIRR calculator</h1>
               <div className="grid gap-4">
                 {xirrFlows.map((flow, index) => (
                   <div key={index} className="grid gap-4 md:grid-cols-2">
 
-                    <label className="block text-sm text-white/80">Amount</label>
-                    <input
-                      type="number"
-                      value={flow.amount}
-                      onChange={(event) => updateFlow(index, "amount", event.target.value)}
-                      className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    />
-                    <label className="block text-sm text-white/80">Date</label>
-                    <input
-                      type="date"
-                      value={flow.date}
-                      onChange={(event) => updateFlow(index, "date", event.target.value)}
-                      className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white/80"
-                    />
+                    <Field label="Amount">
+                      <input
+                        type="number"
+                        value={flow.amount}
+                        onChange={(event) => updateFlow(index, "amount", event.target.value)}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                      />
+                    </Field>
+                    <Field label="Date">
+                      <input
+                        type="date"
+                        value={flow.date}
+                        onChange={(event) => updateFlow(index, "date", event.target.value)}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white/80"
+                      />
+                    </Field>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 rounded-lg bg-gray-900 p-4">
+              <div className="mt-4 rounded-lg bg-gray-900 p-4" data-export-result>
                 <div className="block text-sm text-white/80">Annualized XIRR</div>
                 <div className="mt-2 text-2xl text-white">{formatPercent(xirrResult * 100)}</div>
               </div>

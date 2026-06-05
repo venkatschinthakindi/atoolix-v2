@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { FinanceChart } from "./FinanceChart";
 import { FinancePdfExport } from "./FinancePdfExport";
+import { Field } from "@/components/ui/Field";
 
 const formatCurrency = (value: number) => {
   if (Number.isNaN(value) || !Number.isFinite(value)) return "-";
@@ -88,50 +89,56 @@ export default function SavingsDepositsSuite() {
                 ))}
                 </div>
             </div>
-            {/* <FinancePdfExport report={exportRef} /> */}
+            <FinancePdfExport />
         </div>
 
         <div ref={exportRef} className="space-y-6">
             {activeTab === "simple" && (
                 <div className="space-y-6">
+                <h1 data-export-title className="text-lg text-white/70">
+                    Simple interest calculator
+                </h1>
                 <div className="grid gap-4 md:grid-cols-2">
-                    <label className="block text-sm text-white/80">Principal</label>
-                    <input
-                    type="number"
-                    value={principal}
-                    onChange={(event: any) =>  setPrincipal(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    />
-                    <label className="block text-sm text-white/80">Rate (%)</label>
-                    <input
-                    type="number"
-                    value={simpleRate}
-                    onChange={(event: any) =>  setSimpleRate(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    step={0.1}
-                    />
-                    <label className="block text-sm text-white/80">Duration (years)</label>
-                    <input
-                    type="number"
-                    value={simpleYears}
-                    onChange={(event: any) =>  setSimpleYears(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={1}
-                    />
+                    <Field label="Principal">
+                        <input
+                        type="number"
+                        value={principal}
+                        onChange={(event: any) =>  setPrincipal(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        />
+                    </Field>
+                    <Field label="Rate (%)">
+                        <input
+                        type="number"
+                        value={simpleRate}
+                        onChange={(event: any) =>  setSimpleRate(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        step={0.1}
+                        />
+                    </Field>
+                    <Field label="Duration (years)">
+                        <input
+                        type="number"
+                        value={simpleYears}
+                        onChange={(event: any) =>  setSimpleYears(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={1}
+                        />
+                    </Field>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                     <div className="text-xs text-white/60">Total interest</div>
                     <div className="mt-1 text-lg text-white">{formatCurrency(simpleInterest)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                     <div className="text-sm text-white/60">Principal</div>
                     <div className="mt-1 text-lg text-white">{formatCurrency(principal)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                     <div className="text-sm text-white/60">Maturity value</div>
                     <div className="mt-1 text-lg text-white">{formatCurrency(principal + simpleInterest)}</div>
                     </div>
@@ -143,7 +150,7 @@ export default function SavingsDepositsSuite() {
                             <h3 className="text-lg text-white/60 font-semibold">Simple interest overview</h3>
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <div className="mt-6" ref={exportRef} data-export-chart>
                     <FinanceChart
                         labels={yearLabels.slice(0, simpleYears)}
                         datasets={[
@@ -168,56 +175,63 @@ export default function SavingsDepositsSuite() {
 
             {activeTab === "compound" && (
                 <div className="space-y-6">
+                <h1 data-export-title className="text-lg text-white/70">
+                    Compound interest calculator
+                </h1>
                 <div className="grid gap-4 md:grid-cols-2">
-                    <label className="block text-sm text-white/80">Principal</label>
-                    <input
-                    type="number"
-                    value={principal}
-                    onChange={(event) =>  setPrincipal(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    />
-                    <label className="block text-sm text-white/80">Rate (%)</label>
-                    <input
-                    type="number"
-                    value={compoundRate}
-                    onChange={(event) =>  setCompoundRate(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    step={0.1}
-                    />
-                    <label className="block text-sm text-white/80">Duration (years)</label>
-                    <input
-                    type="number"
-                    value={compoundYears}
-                    onChange={(event) =>  setCompoundYears(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    step={0.1}
-                    />
-                    <label className="block text-sm text-white/80">Frequency</label>
-                    <select
-                        value={compoundFrequency}
-                        onChange={(event) => setCompoundFrequency(Number(event.target.value))}
+                    <Field label="Principal">
+                        <input
+                        type="number"
+                        value={principal}
+                        onChange={(event) =>  setPrincipal(Number(event.target.value))}
                         className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    >
-                        <option value={1}>Annually</option>
-                        <option value={2}>Semi-annually</option>
-                        <option value={4}>Quarterly</option>
-                        <option value={12}>Monthly</option>
-                    </select>
+                        min={0}
+                        />
+                    </Field>
+                    <Field label="Rate (%)">
+                        <input
+                        type="number"
+                        value={compoundRate}
+                        onChange={(event) =>  setCompoundRate(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        step={0.1}
+                        />
+                    </Field>
+                    <Field label="Duration (years)">
+                        <input
+                        type="number"
+                        value={compoundYears}
+                        onChange={(event) =>  setCompoundYears(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        step={0.1}
+                        />
+                    </Field>
+                    <Field label="Frequency">
+                        <select
+                            value={compoundFrequency}
+                            onChange={(event) => setCompoundFrequency(Number(event.target.value))}
+                            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        >
+                            <option value={1}>Annually</option>
+                            <option value={2}>Semi-annually</option>
+                            <option value={4}>Quarterly</option>
+                            <option value={12}>Monthly</option>
+                        </select>
+                    </Field>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-xs text-white/60">Principal</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(principal)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-sm text-white/60">Maturity value</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(compoundValue)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-sm text-white/60">Compound gain</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(compoundValue - principal)}</div>
                     </div>
@@ -229,7 +243,7 @@ export default function SavingsDepositsSuite() {
                             <h3 className="text-lg text-white/60 font-semibold">Compound interest projection</h3>
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <div className="mt-6" ref={exportRef} data-export-chart>
                     <FinanceChart
                         labels={yearLabels.slice(0, compoundYears)}
                         datasets={[
@@ -265,8 +279,11 @@ export default function SavingsDepositsSuite() {
 
                 {depositMode === "fd" ? (
                     <div className="space-y-6">
+                    <h1 data-export-title className="text-lg text-white/70">
+                        Fixed deposit planner
+                    </h1>
                     <div className="grid gap-4 md:grid-cols-2">
-                        <label className="block text-sm text-white/80">Deposit amount</label>
+                        <Field label="Deposit amount">
                         <input
                         type="number"
                         value={fdAmount}
@@ -274,7 +291,8 @@ export default function SavingsDepositsSuite() {
                         className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         min={0}
                         />
-                        <label className="block text-sm text-white/80">Interest rate (%)</label>
+                        </Field>
+                        <Field label="Interest rate (%)">
                         <input
                         type="number"
                         value={fdRate}
@@ -283,7 +301,8 @@ export default function SavingsDepositsSuite() {
                         min={0}
                         step={0.1}
                         />
-                        <label className="block text-sm text-white/80">Duration (years)</label>
+                        </Field>
+                        <Field label="Duration (years)">
                         <input
                         type="number"
                         value={fdYears}
@@ -291,18 +310,19 @@ export default function SavingsDepositsSuite() {
                         className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         min={1}
                         />
+                        </Field>
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3">
-                        <div className="rounded-md bg-gray-900 p-3">
+                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
                             <div className="text-xs text-white/60">Deposit</div>
                             <div className="mt-1 text-lg text-white">{formatCurrency(fdAmount)}</div>
                         </div>
-                        <div className="rounded-md bg-gray-900 p-3">
+                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
                             <div className="text-xs text-white/60">Maturity value</div>
                             <div className="mt-1 text-lg text-white">{formatCurrency(fdValue)}</div>
                         </div>
-                        <div className="rounded-md bg-gray-900 p-3">
+                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
                             <div className="text-xs text-white/60">Interest earned</div>
                             <div className="mt-1 text-lg text-white">{formatCurrency(fdValue - fdAmount)}</div>
                         </div>
@@ -314,7 +334,7 @@ export default function SavingsDepositsSuite() {
                                 <h3 className="text-lg text-white/60 font-semibold">FD growth projection</h3>
                             </div>
                         </div>
-                        <div className="mt-6">
+                        <div className="mt-6" ref={exportRef} data-export-chart>
                         <FinanceChart
                             labels={yearLabels.slice(0, fdYears)}
                             datasets={[
@@ -331,8 +351,11 @@ export default function SavingsDepositsSuite() {
                     </div>
                 ) : (
                     <div className="space-y-6">
+                    <h1 className="block text-lg text-white/80" data-export-title>
+                        Recurring deposit 
+                    </h1>
                     <div className="grid gap-4 md:grid-cols-2">
-                        <label className="block text-sm text-white/80">Monthly deposit</label>
+                        <Field label="Monthly deposit">
                         <input
                         type="number"
                         value={rdAmount}
@@ -340,7 +363,8 @@ export default function SavingsDepositsSuite() {
                         className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         min={0}
                         />
-                        <label className="block text-sm text-white/80">Rate (%)</label>
+                        </Field>
+                        <Field label="Rate (%)">
                         <input
                         type="number"
                         value={rdRate}
@@ -349,7 +373,8 @@ export default function SavingsDepositsSuite() {
                         min={0}
                         step={0.1}
                         />
-                        <label className="block text-sm text-white/80">Term (months)</label>
+                        </Field>
+                        <Field label="Term (months)">
                         <input
                         type="number"
                         value={rdMonths}
@@ -358,18 +383,19 @@ export default function SavingsDepositsSuite() {
                         min={0}
                         step={0.1}
                         />
+                        </Field>
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3">
-                        <div className="rounded-md bg-gray-900 p-3">
+                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
                             <div className="text-xs text-white/60">Total invested</div>
                             <div className="mt-1 text-lg text-white">{formatCurrency(rdAmount * rdMonths)}</div>
                         </div>
-                        <div className="rounded-md bg-gray-900 p-3">
+                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
                             <div className="text-xs text-white/60">Maturity value</div>
                             <div className="mt-1 text-lg text-white">{formatCurrency(rdValue)}</div>
                         </div>
-                        <div className="rounded-md bg-gray-900 p-3">
+                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
                             <div className="text-xs text-white/60">Interest earned</div>
                             <div className="mt-1 text-lg text-white">{formatCurrency(rdValue - rdAmount * rdMonths)}</div>
                         </div>
@@ -381,7 +407,7 @@ export default function SavingsDepositsSuite() {
                                 <h3 className="text-lg text-white/60 font-semibold">RD maturity projection</h3>
                             </div>
                         </div>
-                        <div className="mt-6">
+                        <div className="mt-6" ref={exportRef} data-export-chart>
                         <FinanceChart
                             labels={rdLabels}
                             datasets={[
