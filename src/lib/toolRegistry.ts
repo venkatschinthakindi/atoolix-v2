@@ -30,6 +30,10 @@ export type ToolPropsMap = {
     initialExpression?: string;
     theme?: "light" | "dark";
   };
+  pdf_compress: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+  };
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -80,6 +84,15 @@ export const toolRegistry: {
     category: "PDF",
     featured: true,
     preload: false,
+  },
+  pdf_compress: {
+    loader: () => import("@/components/tools/pdf/compress-pdf/CompressClient"),
+    title: "Reduce PDF File Size",
+    description: "Reduce PDF File Size - Fast & Secure PDF Compression Tool",
+    category: "PDF",
+    featured: true,
+    preload: false,
+    comingSoon: true
   },
   ai: {
     loader: () => import("@/components/tools/ToolPlaceholder"),

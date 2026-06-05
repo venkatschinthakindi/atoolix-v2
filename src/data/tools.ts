@@ -60,6 +60,7 @@ const toolIcons: Record<string, React.ComponentType<any>> = {
   pdf: FileText,
   pdf_merge: FileBadge,
   split_pdf: FileBadge,
+  pdf_compress: FileBadge,
   ai: Sparkles,
   finance: DollarSign,
   image: ImageIcon
