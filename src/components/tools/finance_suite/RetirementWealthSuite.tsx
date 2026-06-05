@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { FinanceChart } from "./FinanceChart";
 import { FinancePdfExport } from "./FinancePdfExport";
+import { Field } from "@/components/ui/Field";
 
 const formatCurrency = (value: number) => {
   if (Number.isNaN(value) || !Number.isFinite(value)) return "-";
@@ -117,6 +118,24 @@ export default function RetirementWealthSuite() {
   const fireLabels = useMemo(() => Array.from({ length: fireYears }, (_, index) => `Year ${index + 1}`), [fireYears]);
   const swpLabels = useMemo(() => Array.from({ length: swpYears }, (_, index) => `Year ${index + 1}`), [swpYears]);
 
+  const inputRows = [
+  ["Current Age", currentAge],
+  ["Retirement Age", retirementAge],
+  ["Current Savings", formatCurrency(currentSavings)],
+  ["Monthly Contribution", formatCurrency(monthlyContribution)],
+  ["Expected Return", `${expectedReturn}%`],
+  ["Annual Need", formatCurrency(annualNeed)],
+];
+
+const resultRows = [
+  ["Retirement Horizon", `${retirementYears} years`],
+  ["Target Corpus", formatCurrency(retirementTarget)],
+  ["Required Monthly Savings", formatCurrency(retirementMonthly)],
+];
+const money = (value: number) =>
+  `Rs. ${value.toLocaleString('en-IN', {
+    maximumFractionDigits: 0
+  })}`;
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -137,74 +156,83 @@ export default function RetirementWealthSuite() {
                     ))}
                 </div>
             </div>
-            <FinancePdfExport targetRef={exportRef} />
+            <FinancePdfExport />
         </div>
-        <div ref={exportRef} className="space-y-6">
+        <div  className="space-y-6">
             {activeTab === "retirement" && (
                 <div className="space-y-6">
+                <h1 data-export-title className="text-lg text-white/70">
+                    Plan your retirement savings and see how your corpus grows over time.
+                </h1>
                 <div className="grid gap-4 md:grid-cols-2">
-                    <label className="block text-sm text-white/80">Current age</label>
-                    <input
-                    type="number"
-                    value={currentAge}
-                    onChange={(event: any) =>  setCurrentAge(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={18}
-                    />
-                    <label className="block text-sm text-white/80">Retirement age</label>
-                    <input
-                    type="number"
-                    value={retirementAge}
-                    onChange={(event: any) =>  setRetirementAge(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={currentAge + 1}
-                    />
-                    <label className="block text-sm text-white/80">Current savings</label>
-                    <input
-                    type="number"
-                    value={currentSavings}
-                    onChange={(event: any) =>  setCurrentSavings(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    />
-                    <label className="block text-sm text-white/80">Monthly contribution</label>
-                    <input
-                    type="number"
-                    value={monthlyContribution}
-                    onChange={(event: any) =>  setMonthlyContribution(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    />
-                    <label className="block text-sm text-white/80">Expected return (%)</label>
-                    <input
-                    type="number"
-                    value={expectedReturn}
-                    onChange={(event: any) =>  setExpectedReturn(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    step={0.1}
-                    />
-                    <label className="block text-sm text-white/80">Annual retirement need</label>
-                    <input
-                    type="number"
-                    value={annualNeed}
-                    onChange={(event: any) =>  setAnnualNeed(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    step={0.1}
-                    />
+                    <Field label="Current age">
+                        <input
+                            type="number"
+                            value={currentAge}
+                            onChange={(event: any) =>  setCurrentAge(Number(event.target.value))}
+                            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                            min={18}
+                            />
+                    </Field>
+                    <Field label="Retirement age">
+                        <input
+                        type="number"
+                        value={retirementAge}
+                        onChange={(event: any) =>  setRetirementAge(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={currentAge + 1}
+                        />
+                    </Field>
+                    <Field label="Current savings">
+                        <input
+                        type="number"
+                        value={currentSavings}
+                        onChange={(event: any) =>  setCurrentSavings(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        />
+                    </Field>
+                    <Field label="Monthly contribution">
+                        <input
+                        type="number"
+                        value={monthlyContribution}
+                        onChange={(event: any) =>  setMonthlyContribution(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        />
+                    </Field>
+                    <Field label="Expected return (%)">
+                        <input
+                        type="number"
+                        value={expectedReturn}
+                        onChange={(event: any) =>  setExpectedReturn(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        step={0.1}
+                        />
+                    </Field>
+                    <Field label="Annual retirement need">
+                        <input
+                        type="number"
+                        value={annualNeed}
+                        onChange={(event: any) =>  setAnnualNeed(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        step={0.1}
+                        />
+                    </Field>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-xs text-white/60">Retirement horizon</div>
                         <div className="mt-1 text-lg text-white">{retirementYears} years</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-xs text-white/60">Target corpus</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(retirementTarget)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-xs text-white/60">Required monthly savings</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(retirementMonthly)}</div>
                     </div>
@@ -216,7 +244,7 @@ export default function RetirementWealthSuite() {
                             <h3 className="text-lg text-white/60 font-semibold">Retirement savings projection</h3>
                         </div>
                     </div>
-                    <div className="mt-6">
+                    <div className="mt-6" ref={exportRef} data-export-chart>
                     <FinanceChart
                         labels={retirementLabels}
                         datasets={[
@@ -235,52 +263,59 @@ export default function RetirementWealthSuite() {
 
             {activeTab === "fire" && (
                 <div className="space-y-6">
+                <h1 data-export-title className="text-lg text-white/70">
+                    Calculate your FIRE (Financial Independence, Retire Early) target and see how soon you can achieve it.
+                </h1>
                 <div className="grid gap-4 md:grid-cols-2">
-                    <label className="block text-sm text-white/80">Current savings</label>
-                    <input
-                    type="number"
-                    value={fireSavings}
-                    onChange={(event) =>  setFireSavings(Number(event.target.value))}
-                    className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                    min={0}
-                    />
-                    <label className="block text-sm text-white/80">Monthly savings</label>
-                    <input
+                    <Field label="Current savings">
+                        <input
                         type="number"
-                        value={fireContribution}
+                        value={fireSavings}
+                        onChange={(event) =>  setFireSavings(Number(event.target.value))}
+                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                        min={0}
+                        />
+                    </Field>
+                    <Field label="Monthly savings">
+                        <input
+                            type="number"
+                            value={fireContribution}
                         onChange={(event) => setFireContribution(Number(event.target.value))}
                         className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         min={0}
                     />
-                    <label className="block text-sm text-white/80">Expected return (%)</label>
-                    <input
-                        type="number"
-                        value={fireReturn}
-                        onChange={(event) => setFireReturn(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                    />
-                    <label className="block text-sm text-white/80">Annual retirement expense</label>
-                    <input
-                        type="number"
-                        value={annualNeed}
-                        onChange={(event) => setAnnualNeed(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                    />
+                    </Field>
+                     <Field label="Expected return (%)">
+                        <input
+                            type="number"
+                            value={fireReturn}
+                            onChange={(event) => setFireReturn(Number(event.target.value))}
+                            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                            min={0}
+                            step={0.1}
+                        />
+                    </Field>
+                    <Field label="Annual retirement expense">
+                        <input
+                            type="number"
+                            value={annualNeed}
+                            onChange={(event) => setAnnualNeed(Number(event.target.value))}
+                            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                            min={0}
+                        />
+                    </Field>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-xs text-white/60">FIRE target</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(fireTarget)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-sm text-white/60">Years to reach goal</div>
                         <div className="mt-1 text-lg text-white">{fireYears === 0 ? "Already reached" : `${fireYears} years`}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-sm text-white/60">Annual withdrawal rate</div>
                         <div className="mt-1 text-lg text-white">4.00%</div>
                     </div>
@@ -292,8 +327,8 @@ export default function RetirementWealthSuite() {
                             <h3 className="text-lg text-white/60 font-semibold">FIRE goal projection</h3>
                         </div>
                     </div>
-                    <div className="mt-6">
-                    <FinanceChart
+                    <div className="mt-6" ref={exportRef} data-export-chart>
+                    <FinanceChart 
                         labels={fireLabels}
                         datasets={[
                         {
@@ -311,50 +346,50 @@ export default function RetirementWealthSuite() {
 
             {activeTab === "swp" && (
                 <div className="space-y-6">
+                    <h1 data-export-title className="text-lg text-white/70">
+                        Calculate your Social Welfare Pension (SWP) target and see how soon you can achieve it.
+                    </h1>
                     <div className="grid gap-4 md:grid-cols-2">
-                    <label className="block text-sm text-white/80">
-                        Corpus available
-                    </label>
-                    <input
-                        type="number"
-                        value={swpCorpus}
+                    <Field label="Corpus available">
+                        <input
+                            type="number"
+                            value={swpCorpus}
                         onChange={(event) => setSwpCorpus(Number(event.target.value))}
                         className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
                         min={0}
                     />
-                    <label className="block text-sm text-white/80">
-                        Expected return (%)
-                    </label>
-                    <input
-                        type="number"
-                        value={swpReturn}
-                        onChange={(event) => setSwpReturn(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                    />
-                    <label className="block text-sm text-white/80">
-                        Withdrawal period (years)
-                    </label>
-                    <input
-                        type="number"
-                        value={swpYears}
-                        onChange={(event) => setSwpYears(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={1}
-                    />
+                    </Field>
+                    <Field label="Expected return (%)">
+                        <input
+                            type="number"
+                            value={swpReturn}
+                            onChange={(event) => setSwpReturn(Number(event.target.value))}
+                            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                            min={0}
+                            step={0.1}
+                        />
+                    </Field>
+                    <Field label="Withdrawal period (years)">
+                        <input
+                            type="number"
+                            value={swpYears}
+                            onChange={(event) => setSwpYears(Number(event.target.value))}
+                            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
+                            min={1}
+                        />
+                    </Field>
                 </div>
 
-                <div className="rounded-xl border border-white/10 bg-surface p-6 grid gap-4 sm:grid-cols-3">
-                    <div className="rounded-md bg-gray-900 p-3">
+                <div className="grid gap-4 sm:grid-cols-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-sm text-white/60">Corpus</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(swpCorpus)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-sm text-white/60">Monthly SWP</div>
                         <div className="mt-1 text-lg text-white">{formatCurrency(swpMonthly)}</div>
                     </div>
-                    <div className="rounded-md bg-gray-900 p-3">
+                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
                         <div className="text-sm text-white/60">Planned horizon</div>
                         <div className="mt-1 text-lg text-white">{swpYears} years</div>
                     </div>
@@ -366,7 +401,7 @@ export default function RetirementWealthSuite() {
                                 <h3 className="text-lg text-white/60 font-semibold">SWP balance forecast</h3>
                             </div>
                         </div>
-                    <div className="mt-6">
+                    <div className="mt-6" ref={exportRef} data-export-chart>
                     <FinanceChart
                         labels={swpLabels}
                         datasets={[

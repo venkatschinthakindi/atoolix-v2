@@ -319,6 +319,29 @@ button {
   -webkit-backdrop-filter: blur(3px);
 }
 
+.pdf-export {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+.pdf-export * {
+  color: #111827 !important;
+  opacity: 1 !important;
+  filter: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* chart labels fix */
+.pdf-export svg text {
+  fill: #111827 !important;
+}
+
+/* ensure canvas charts are clean */
+.pdf-export canvas {
+  filter: none !important;
+}
+
 @layer components {
   button {
     cursor: pointer;

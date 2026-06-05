@@ -1,51 +1,343 @@
 "use client";
 
 import { useState } from "react";
-import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { toPng } from "html-to-image";
 
 type Props = {
-  targetRef: React.RefObject<HTMLElement | null>;
   filename?: string;
 };
 
-export function FinancePdfExport({ targetRef, filename = "finance-report.pdf" }: Props) {
-  const [exporting, setExporting] = useState(false);
+function isVisible(el: HTMLElement) {
+  const style = window.getComputedStyle(el);
+
+  return (
+    style.display !== "none" &&
+    style.visibility !== "hidden" &&
+    el.offsetParent !== null
+  );
+}
+
+export function FinancePdfExport({
+  filename = "finance-report.pdf",
+}: Props) {
+  const [loading, setLoading] = useState(false);
 
   const handleExport = async () => {
-    if (!targetRef.current) return;
-    setExporting(true);
-    try {
-      const canvas = await html2canvas(targetRef.current, {
-        scale: 2,
-        backgroundColor: "#0f172a",
-        useCORS: true,
-      });
+    setLoading(true);
 
-      const imageData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({ orientation: "portrait", unit: "px", format: "a4" });
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-      const imageWidth = canvas.width * ratio;
-      const imageHeight = canvas.height * ratio;
-      pdf.addImage(imageData, "PNG", 0, 0, imageWidth, imageHeight);
+    try {
+      // =====================================
+      // Extract title
+      // =====================================
+
+      const title =
+        document
+          .querySelector("[data-export-title]")
+          ?.textContent?.trim() || "Financial Report";
+
+      // =====================================
+      // Extract inputs
+      // =====================================
+
+      const inputRows: string[][] = [];
+
+      document
+        .querySelectorAll("[data-export-field]")
+        .forEach((field) => {
+          const element = field as HTMLElement;
+
+          if (!isVisible(element)) return;
+
+          const label =
+            element
+              .querySelector("label")
+              ?.textContent?.trim() || "";
+
+          let value = "";
+
+          const input = element.querySelector(
+            "input"
+          ) as HTMLInputElement | null;
+
+          const select = element.querySelector(
+            "select"
+          ) as HTMLSelectElement | null;
+
+          const textarea = element.querySelector(
+            "textarea"
+          ) as HTMLTextAreaElement | null;
+
+          if (input) {
+            value = input.value;
+          } else if (select) {
+            value = select.value;
+          } else if (textarea) {
+            value = textarea.value;
+          }
+
+          if (!label || !value) return;
+
+          inputRows.push([label, value]);
+        });
+
+      // =====================================
+      // Extract result cards
+      // =====================================
+
+      const resultRows: string[][] = [];
+
+      document
+        .querySelectorAll("[data-export-result]")
+        .forEach((result) => {
+          const element = result as HTMLElement;
+
+          if (!isVisible(element)) return;
+
+          const children = Array.from(element.children);
+
+          if (children.length < 2) return;
+
+          const label =
+            children[0].textContent?.trim() || "";
+
+          const value =
+            children[1].textContent?.trim() || "";
+
+          if (!label || !value) return;
+
+          resultRows.push([label, value.replace('₹', 'INR')]);
+        });
+
+      // =====================================
+      // Chart
+      // =====================================
+
+      const chart = document.querySelector(
+        "[data-export-chart]"
+      ) as HTMLElement | null;
+
+      // =====================================
+      // PDF
+      // =====================================
+
+      const pdf = new jsPDF("p", "mm", "a4");
+
+      let y = 18;
+
+      // =====================================
+      // Cover Page
+      // =====================================
+
+      pdf.setFillColor(15, 23, 42);
+      pdf.rect(0, 0, 210, 60, "F");
+
+      pdf.setTextColor(255, 255, 255);
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(20);
+
+      const maxWidth = 180; // A4 width (210) - margins
+
+      const wrappedTitle = pdf.splitTextToSize(
+        title,
+        maxWidth
+      );
+
+      pdf.text(wrappedTitle, 14, 25);
+
+      // Calculate next Y position dynamically
+      const titleHeight = wrappedTitle.length * 8;
+
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(10);
+
+      pdf.text(
+        "Generated automatically from calculator data",
+        14,
+        25 + titleHeight + 4
+      );
+
+      pdf.setTextColor(180);
+
+      pdf.text(
+        new Date().toLocaleString(),
+        14,
+        25 + titleHeight + 12
+      );
+
+      // =====================================
+      // Page 2
+      // =====================================
+
+      pdf.addPage();
+
+      pdf.setTextColor(20, 20, 20);
+
+      // =====================================
+      // Inputs Table
+      // =====================================
+
+      if (inputRows.length) {
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(14);
+
+        pdf.text("Input Parameters", 14, y);
+
+        y += 6;
+
+        autoTable(pdf, {
+          startY: y,
+          theme: "grid",
+
+          headStyles: {
+            fillColor: [17, 24, 39],
+            textColor: 255,
+            fontSize: 10,
+          },
+
+          bodyStyles: {
+            textColor: 30,
+            fontSize: 10,
+          },
+
+          columnStyles: {
+            0: {
+              cellWidth: 90,
+            },
+
+            1: {
+              halign: "right",
+            },
+          },
+
+          head: [["Parameter", "Value"]],
+          body: inputRows,
+        });
+
+        y = (pdf as any).lastAutoTable.finalY + 10;
+      }
+
+      // =====================================
+      // Results Table
+      // =====================================
+
+      if (resultRows.length) {
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(14);
+
+        pdf.text("Key Results", 14, y);
+
+        y += 6;
+
+        autoTable(pdf, {
+          startY: y,
+          theme: "grid",
+
+          headStyles: {
+            fillColor: [17, 24, 39],
+            textColor: 255,
+            fontSize: 10,
+          },
+
+          bodyStyles: {
+            textColor: 30,
+            fontSize: 10,
+          },
+
+          columnStyles: {
+            0: {
+              cellWidth: 90,
+            },
+
+            1: {
+              halign: "right",
+            },
+          },
+
+          head: [["Metric", "Value"]],
+          body: resultRows,
+        });
+
+        y = (pdf as any).lastAutoTable.finalY + 10;
+      }
+
+      // =====================================
+      // Chart
+      // =====================================
+
+      if (chart && isVisible(chart)) {
+        if (y > 180) {
+          pdf.addPage();
+          y = 20;
+        }
+
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(14);
+
+        pdf.text("Projection Chart", 14, y);
+
+        y += 6;
+
+        const chartImage = await toPng(chart, {
+          pixelRatio: 3,
+          cacheBust: true,
+          backgroundColor: "#ffffff",
+        });
+
+        pdf.addImage(
+          chartImage,
+          "PNG",
+          14,
+          y,
+          182,
+          85
+        );
+      }
+
+      // =====================================
+      // Footer
+      // =====================================
+
+      const pages = pdf.getNumberOfPages();
+
+      for (let i = 1; i <= pages; i++) {
+        pdf.setPage(i);
+
+        pdf.setFontSize(8);
+        pdf.setTextColor(120);
+
+        pdf.text(
+          "This report is for informational purposes only and does not constitute financial advice.",
+          14,
+          290
+        );
+
+        pdf.text(
+          `Page ${i} of ${pages}`,
+          180,
+          290
+        );
+      }
+
       pdf.save(filename);
     } catch (error) {
-      console.error("PDF export failed", error);
+      console.error("PDF export failed:", error);
     } finally {
-      setExporting(false);
+      setLoading(false);
     }
   };
 
   return (
     <button
-      type="button"
       onClick={handleExport}
+      disabled={loading}
       className="button-primary-transparent"
-      disabled={exporting}
     >
-      {exporting ? "Exporting PDF…" : "Download PDF"}
+      {loading
+        ? "Generating Report..."
+        : "Download Report"}
     </button>
   );
 }

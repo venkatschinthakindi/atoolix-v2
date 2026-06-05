@@ -88,7 +88,7 @@ export default function SavingsDepositsSuite() {
                 ))}
                 </div>
             </div>
-            <FinancePdfExport targetRef={exportRef} />
+            {/* <FinancePdfExport report={exportRef} /> */}
         </div>
 
         <div ref={exportRef} className="space-y-6">

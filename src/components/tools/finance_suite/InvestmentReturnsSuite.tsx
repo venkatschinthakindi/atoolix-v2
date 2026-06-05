@@ -208,7 +208,7 @@ export default function InvestmentReturnsSuite() {
             ))}
           </div>
         </div>
-        <FinancePdfExport targetRef={exportRef}/>
+        {/* <FinancePdfExport report={exportRef}/> */}
       </div>
 
     
