@@ -29,10 +29,6 @@ export type ToolPropsMap = {
   savings_deposits: {};
   retirement_wealth_planning: {};
   image: {};
-  image2: {};
-  image3: {};
-  image4: {};
-  image5: {};
 };
 
 export type CalculatorToolProps = ToolPropsMap["calculator"];
@@ -93,42 +89,6 @@ export const toolRegistry: {
   image: {
     loader: () => import("@/components/tools/ToolPlaceholder"),
     title: "Image Tools",
-    description: "Resize, convert and optimize images",
-    category: "Media",
-    featured: false,
-    comingSoon: true,
-    preload: false,
-  },
-  image2: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
-    title: "Image Tools 2",
-    description: "Resize, convert and optimize images",
-    category: "Media",
-    featured: false,
-    comingSoon: true,
-    preload: false,
-  },
-  image3: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
-    title: "Image Tools 3",
-    description: "Resize, convert and optimize images",
-    category: "Media",
-    featured: false,
-    comingSoon: true,
-    preload: false,
-  },
-  image4: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
-    title: "Image Tools 4",
-    description: "Resize, convert and optimize images",
-    category: "Media",
-    featured: false,
-    comingSoon: true,
-    preload: false,
-  },
-  image5: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
-    title: "Image Tools 5",
     description: "Resize, convert and optimize images",
     category: "Media",
     featured: false,
