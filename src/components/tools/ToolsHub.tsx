@@ -2,7 +2,6 @@
 
 import { categoryIcons, tools } from "@/data/tools";
 import React, { useState, useMemo } from "react";
-import { FloatingDock } from "@/components/layout/floating-dock";
 import { FileText } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 

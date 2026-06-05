@@ -1,5 +1,7 @@
 import { MathOperationsIcon } from "@phosphor-icons/react";
-import { Calculator, Cpu, Code, FileText, Sparkles, DollarSign, Image, ImageIcon, TrendingUp, Banknote, ShieldCheck } from "lucide-react";
+import { Calculator, Cpu, Code, FileText, Sparkles, DollarSign, 
+  Image, ImageIcon, TrendingUp, Banknote, ShieldCheck,
+  FileBadge } from "lucide-react";
 import React, { JSX } from "react";
 import { toolRegistry } from "@/lib/toolRegistry";
 type CategoryInfo = {
@@ -56,6 +58,8 @@ export const categoryIcons: Record<string, CategoryInfo> = {
 const toolIcons: Record<string, React.ComponentType<any>> = {
   calculator: Calculator,
   pdf: FileText,
+  pdf_merge: FileBadge,
+  split_pdf: FileBadge,
   ai: Sparkles,
   finance: DollarSign,
   image: ImageIcon

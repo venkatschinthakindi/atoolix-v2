@@ -22,7 +22,14 @@ export type ToolPropsMap = {
     initialExpression?: string;
     theme?: "light" | "dark";
   };
-  pdf: {};
+  pdf_merge: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+  };
+  split_pdf: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+  };
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -58,13 +65,20 @@ export const toolRegistry: {
     preload: false,
     defaultProps: {},
   },
-  pdf: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
-    title: "PDF Toolkit",
-    description: "Merge, split, compress PDFs instantly",
+  pdf_merge: {
+    loader: () => import("@/components/tools/pdf/MergePdf"),
+    title: "Merge PDF Files",
+    description: "Combine multiple PDF documents into a single file in seconds",
     category: "PDF",
     featured: true,
-    comingSoon: true,
+    preload: false,
+  },
+  split_pdf: {
+    loader: () => import("@/components/tools/pdf/SplitPdf"),
+    title: "Split PDF Files",
+    description: "Split PDF into multiple files by custom preferences easily",
+    category: "PDF",
+    featured: true,
     preload: false,
   },
   ai: {
