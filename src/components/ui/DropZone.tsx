@@ -5,20 +5,28 @@ import { useCallback, useRef, useState } from "react";
 
 export function DropZone({
   onFiles,
+  validFileTypes = ".pdf",
 }: {
   onFiles: (files: File[]) => void;
+  validFileTypes?: string;
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const validatePDF = (file: File) => {
-    return (
-      file.type === "application/pdf" ||
-      file.name.toLowerCase().endsWith(".pdf")
-    );
-  };
+ const validatePDF = (file: File) => {
+    const allowedMimeTypes = ["application/pdf"];
+    const allowedExtensions = validFileTypes.split(",").map((ext) => ext.trim().toLowerCase()); // e.g. [".pdf", ".docx"]
 
+    const fileName = file.name.toLowerCase();
+
+    const isValidMime = allowedMimeTypes.includes(file.type);
+    const isValidExtension = allowedExtensions.some((ext) =>
+      fileName.endsWith(ext)
+    );
+
+    return isValidMime || isValidExtension;
+  };
   const handleFiles = (files: File[]) => {
     const pdfFiles = files.filter(validatePDF);
 
@@ -72,7 +80,7 @@ export function DropZone({
         <input
           ref={fileInputRef}
           type="file"
-          accept="application/pdf"
+          accept={validFileTypes}
           multiple
           className="hidden"
           onChange={(e) => {

@@ -61,6 +61,7 @@ const toolIcons: Record<string, React.ComponentType<any>> = {
   pdf_merge: FileBadge,
   split_pdf: FileBadge,
   pdf_compress: FileBadge,
+  image_to_pdf: ImageIcon,
   ai: Sparkles,
   finance: DollarSign,
   image: ImageIcon

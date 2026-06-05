@@ -34,6 +34,10 @@ export type ToolPropsMap = {
     initialExpression?: string;
     theme?: "light" | "dark";
   };
+  image_to_pdf: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+  };
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -93,6 +97,15 @@ export const toolRegistry: {
     featured: true,
     preload: false,
     comingSoon: true
+  },
+  image_to_pdf:{
+    loader: () => import("@/components/tools/pdf/image-to-pdf/ImageToPDFClient"),
+    title: "Convert Images to PDF",
+    description: "Convert Images to PDF - Free Online Image to PDF Converter",
+    category: "PDF",
+    featured: true,
+    preload: false,
+    comingSoon: false
   },
   ai: {
     loader: () => import("@/components/tools/ToolPlaceholder"),
