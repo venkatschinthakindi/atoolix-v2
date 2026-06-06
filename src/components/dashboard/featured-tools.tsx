@@ -98,13 +98,20 @@ export function FeaturedTools() {
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
                       <Icon className="h-6 w-6 text-indigo-400" />
                     </div>
+                    
                     {tool.comingSoon && (
                       <span className="rounded-full bg-yellow-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-yellow-300">
                         Coming Soon
                       </span>
                     )}
+                    {!tool.comingSoon && (
+                      <span className="rounded-full bg-violet-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-violet-300">
+                        {tool.category}
+                      </span>
+                    )}
+                    
                   </div>
-
+                  
                   <h4 className="font-medium text-white">
                     {tool.title}
                   </h4>
