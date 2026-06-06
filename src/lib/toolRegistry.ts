@@ -38,16 +38,38 @@ export type ToolPropsMap = {
     initialExpression?: string;
     theme?: "light" | "dark";
   };
+  jpg_to_png:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  };
+  png_to_jpg:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  };
+  png_to_jpeg:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
   ai: {};
   emai_calculator: {};
   investment_returns: {};
   savings_deposits: {};
   retirement_wealth_planning: {};
-  image: {};
+  // image: {};
 };
 
 export type CalculatorToolProps = ToolPropsMap["calculator"];
 export type ConverterToolProps = ToolPropsMap["converter"];
+export type ImageConverterToolProps = ToolPropsMap["jpg_to_png"];
 
 export const toolRegistry: {
   [K in keyof ToolPropsMap]: ToolRegistryEntry<ToolPropsMap[K]>;
@@ -126,14 +148,62 @@ export const toolRegistry: {
     preload: false,
     defaultProps: {},
   },
-  image: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
-    title: "Image Tools",
-    description: "Resize, convert and optimize images",
-    category: "Media",
+  // image: {
+  //   loader: () => import("@/components/tools/ToolPlaceholder"),
+  //   title: "Image Tools",
+  //   description: "Resize, convert and optimize images",
+  //   category: "Media",
+  //   featured: false,
+  //   comingSoon: true,
+  //   preload: false,
+  // },
+  jpg_to_png: {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant JPG/JPEG to PNG Converter",
+    description: "A professional tool to convert JPG/JPEG files into PNG format",
+    category: "Image",
     featured: false,
-    comingSoon: true,
+    comingSoon: false,
     preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["jpg","jpeg"],
+      outputFormats: ["png"],
+      title: "Convert images from JPG/JPEG to PNG quickly with high-quality"
+    },
+  },
+  png_to_jpg: {
+      loader: () => import("@/components/tools/image/ImageConverter"),
+      title: "Instant PNG to JPG Converter",
+      description: "A professional tool to convert PNG into JPG format",
+      category: "Image",
+      featured: false,
+      comingSoon: false,
+      preload: false,
+      defaultProps: {
+        initialExpression: "",
+        theme: "dark",
+        inputFormats: ["png"],
+        outputFormats: ["jpg"],
+        title: "Convert images from PNG to JPG quickly with high-quality"
+      },
+  },
+  png_to_jpeg: {
+      loader: () => import("@/components/tools/image/ImageConverter"),
+      title: "Instant PNG to JPEG Converter",
+      description: "A professional tool to convert PNG into JPEG format",
+      category: "Image",
+      featured: false,
+      comingSoon: false,
+      preload: false,
+      defaultProps: {
+        initialExpression: "",
+        theme: "dark",
+        inputFormats: ["png"],
+        outputFormats: ["jpeg"],
+        title: "Convert images from PNG to JPEG quickly with high-quality"
+      },
   },
   investment_returns: {
     loader: () => import("@/components/tools/finance_suite/InvestmentReturnsSuite"),

@@ -63,7 +63,7 @@ export default function ImageToPDFClient() {
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
       <h1 className="text-3xl font-bold">Convert Images to PDF Online</h1>
 
-      <DropZone validFileTypes=".jpg,.jpeg,.png,.webp" onFiles={handleFiles} />
+      <DropZone allowMultiple={true} validFileTypes=".jpg,.jpeg,.png,.webp" onFiles={handleFiles} />
 
       {files.length > 0 && (
         <div>

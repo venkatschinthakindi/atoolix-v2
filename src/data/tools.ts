@@ -35,9 +35,9 @@ export const categoryIcons: Record<string, CategoryInfo> = {
     description: "Artificial Intelligence tools",
     icon: React.createElement(Cpu, { className: "w-4 h-4 text-pink-400" })
   },
-  Media: {
-    id: "Media",
-    title: "Media",
+  Image: {
+    id: "Image",
+    title: "Image",
     description: "Image and video editing and tools",
     icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
   },

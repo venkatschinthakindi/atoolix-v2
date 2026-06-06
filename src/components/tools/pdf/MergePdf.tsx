@@ -84,7 +84,7 @@ export default function MergePDFPage() {
 
       {/* DROPZONE WRAPPER */}
       <div className="space-y-3">
-        <DropZone onFiles={handleFiles} />
+        <DropZone allowMultiple={true} validFileTypes=".pdf" onFiles={handleFiles} />
 
         {/* FILE LIST */}
         {files.length > 0 && (

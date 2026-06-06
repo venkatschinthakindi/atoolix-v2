@@ -55,7 +55,7 @@ export default function CompressClient() {
       </h1>
 
       {/* Upload */}
-      <DropZone onFiles={handleFiles} />
+      <DropZone allowMultiple={false} validFileTypes=".pdf" onFiles={handleFiles} />
 
       {/* File Info */}
       {file && (

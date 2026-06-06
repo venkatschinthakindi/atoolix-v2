@@ -1,14 +1,17 @@
 
 "use client";
 
+import { ImageFormat } from "@/types/image-converter.types";
 import { useCallback, useRef, useState } from "react";
 
 export function DropZone({
   onFiles,
   validFileTypes = ".pdf",
+  allowMultiple = true
 }: {
   onFiles: (files: File[]) => void;
   validFileTypes?: string;
+  allowMultiple: boolean;
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +84,7 @@ export function DropZone({
           ref={fileInputRef}
           type="file"
           accept={validFileTypes}
-          multiple
+          multiple = {allowMultiple}
           className="hidden"
           onChange={(e) => {
             if (!e.target.files) return;
@@ -98,4 +101,12 @@ export function DropZone({
       )}
     </div>
   );
+}
+
+export function getAcceptString(
+  formats: ImageFormat[]
+) {
+  return formats
+    .map((format) => `.${format}`)
+    .join(",");
 }
