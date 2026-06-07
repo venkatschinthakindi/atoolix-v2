@@ -7,9 +7,9 @@ import { DropZone, getAcceptString } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
 import { ToolConfig } from "@/types/image-converter.types";
-import { convertImage } from "@/features/image-converter/convertImage";
+import { convertImage } from "@/features/image-converter/converters/convertImage";
 import { validateImage } from "@/features/image-converter/validateImage";
-import { getImageMetadata } from "@/features/image-converter/getImageMetadata";
+import { getImageMetadata } from "@/features/image-converter/image-metadata/getImageMetadata";
 import { ImageMetadata } from "@/types/imageTypes";
 import { generateFileName } from "@/features/image-converter/generateFileName";
 import { normalizeFile } from "@/features/image-converter/normalizeFile";

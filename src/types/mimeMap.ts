@@ -14,6 +14,9 @@ export function getMimeType(
     case "webp":
       return "image/webp";
 
+    case "svg":
+      return "image/svg+xml";
+
     default:
       return "image/png";
   }

@@ -94,6 +94,20 @@ export type ToolPropsMap = {
     inputFormats?: string[];
     outputFormats?: string[];
   },
+  svg_to_png: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
+  svg_to_jpg: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -321,6 +335,40 @@ export const toolRegistry: {
       inputFormats: ["webp"],
       outputFormats: ["png"],
       title: "Convert images from WEBP to PNG quickly with high-quality"
+    },
+  },
+
+  //SVG
+  svg_to_png : {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant SVG to PNG Converter",
+    description: "A professional tool to convert SVG files into PNG format",
+    category: "Image",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["svg"],
+      outputFormats: ["png"],
+      title: "Convert images from SVG to PNG quickly with high-quality"
+    },
+  },
+  svg_to_jpg : {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant SVG to JPG Converter",
+    description: "A professional tool to convert SVG files into JPG format",
+    category: "Image",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["svg"],
+      outputFormats: ["jpg"],
+      title: "Convert images from SVG to JPG quickly with high-quality"
     },
   },
   //Image Converters End

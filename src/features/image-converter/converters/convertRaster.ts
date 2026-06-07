@@ -1,7 +1,7 @@
 import { ConvertOptions } from "@/types/image-converter.types";
 import { getMimeType } from "@/types/mimeMap";
 
-export async function convertImage(
+export async function convertRaster(
   file: File,
   options: ConvertOptions
 ): Promise<Blob> {
@@ -19,7 +19,7 @@ export async function convertImage(
       throw new Error("Canvas not supported");
     }
 
-    // JPG/JPEG doesn't support transparency
+    // JPG/JPEG does not support transparency
     if (
       options.targetFormat === "jpg" ||
       options.targetFormat === "jpeg"
@@ -58,7 +58,7 @@ export async function convertImage(
 
     return blob;
   } finally {
-    // Important memory cleanup
+    // Important cleanup for large images
     bitmap.close();
   }
 }
