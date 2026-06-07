@@ -142,54 +142,15 @@ export function HeroCommandCenter() {
           )}
         </div>
       )}
-
-      {/* {query && query.length > 2 && (
-      <div className="mt-4 max-h-54 overflow-y-auto">
-                {results.length > 0 ? (
-                  results.map((item, index) => (
-                    <div
-                      key={index}
-                      className={`flex items-center max-w-md mx-auto justify-between px-4 py-3 rounded-lg cursor-pointer transition ${
-                        index === selectedIndex
-                          ? "bg-indigo-600 text-white"
-                          : "hover:bg-white/10 text-white"
-                      }`}
-                      onClick={() => {
-                        router.push(`/tools/${item.title}`);
-                        setOpen(false);
-                      }}
-                    >
-                      <div>
-                        <p className="text-sm">{item.title}</p>
-                        <p className="text-white/60 text-xs">
-                          {item.description}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {categoryIcons[item.category]}
-                        <span className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/70">
-                          {item.category}
-                        </span>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-white/60 text-center py-6">No tools found</p>
-                )}
-              </div>)} */}
       </div>
     <div className="mt-8 flex gap-4">
-  {/* <button
-    className="rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition">
-    Explore Tools
-  </button> */}
-  <CommandPalette buttonName="Explore Tools ⌘K"
-   buttonClassName="cursor-pointer rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition"
-   searchTools={true}/>
-  <CommandPalette buttonName="Browse Categories"
-   buttonClassName="cursor-pointer rounded-xl border border-white/10 px-6 py-3 text-white/80 hover:bg-white/5 transition"
-   searchTools={false}/>
-</div>
+    <CommandPalette buttonName="Explore Tools ⌘K"
+    buttonClassName="cursor-pointer rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition"
+    searchTools={true}/>
+    <CommandPalette buttonName="Browse Categories"
+    buttonClassName="cursor-pointer rounded-xl border border-white/10 px-6 py-3 text-white/80 hover:bg-white/5 transition"
+    searchTools={false}/>
+  </div>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         {["Calculator", "PDF", "Finance", "AI", "Image", "Developer"].map(
           (item) => (

@@ -11,7 +11,9 @@ function ImageConverter({ initialExpression, theme, title, inputFormats, outputF
 {
   console.log("ImageConverter props:", { initialExpression, theme, title, inputFormats, outputFormats });
   if (!inputFormats || !outputFormats) {
-    return <div className="p-10">Tool not found</div>;
+    return <div className="p-10">
+      This location doesn’t include the Image Converter. Don’t worry — you can access it from the main dashboard.
+    </div>;
   }
   const toolConfig = {
         title: title,

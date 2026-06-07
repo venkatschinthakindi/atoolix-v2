@@ -77,10 +77,6 @@ export default function MergePDFPage() {
         <h1 className="text-xl text-white/80 font-semibold">
             Merge PDF Files Online – Free, Fast & Secure PDF Merger Tool
         </h1>
-        {/* <p className="text-white/60">
-            Combine multiple PDF documents into a single file in seconds.
-        </p>
-       */}
 
       {/* DROPZONE WRAPPER */}
       <div className="space-y-3">
