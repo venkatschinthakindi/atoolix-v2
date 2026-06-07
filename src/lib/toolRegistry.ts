@@ -218,7 +218,7 @@ export const toolRegistry: {
   // },
   //Image Converters Start
   jpg_to_png : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant JPG/JPEG to PNG Converter",
     description: "A professional tool to convert JPG/JPEG files into PNG format",
     category: "Image_Converter",
@@ -234,7 +234,7 @@ export const toolRegistry: {
     },
   },
   png_to_jpg : {
-      loader: () => import("@/components/tools/image/ImageConverter"),
+      loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
       title: "Instant PNG to JPG Converter",
       description: "A professional tool to convert PNG into JPG format",
       category: "Image_Converter",
@@ -250,7 +250,7 @@ export const toolRegistry: {
       },
   },
   png_to_jpeg : {
-      loader: () => import("@/components/tools/image/ImageConverter"),
+      loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
       title: "Instant PNG to JPEG Converter",
       description: "A professional tool to convert PNG into JPEG format",
       category: "Image_Converter",
@@ -267,7 +267,7 @@ export const toolRegistry: {
   },
 
   jpg_to_webp : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant JPG/JPEG to WEBP Converter",
     description: "A professional tool to convert JPG/JPEG files into WEBP format",
     category: "Image_Converter",
@@ -283,7 +283,7 @@ export const toolRegistry: {
     },
   },
   png_to_webp : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant PNG to WEBP Converter",
     description: "A professional tool to convert PNG files into WEBP format",
     category: "Image_Converter",
@@ -300,7 +300,7 @@ export const toolRegistry: {
   },
 
   webp_to_jpg : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant WEBP to JPG Converter",
     description: "A professional tool to convert WEBP files into JPG format",
     category: "Image_Converter",
@@ -316,7 +316,7 @@ export const toolRegistry: {
     },
   },
   webp_to_jpeg : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant WEBP to JPEG Converter",
     description: "A professional tool to convert WEBP files into JPEG format",
     category: "Image_Converter",
@@ -332,7 +332,7 @@ export const toolRegistry: {
     },
   },
   webp_to_png : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant WEBP to PNG Converter",
     description: "A professional tool to convert WEBP files into PNG format",
     category: "Image_Converter",
@@ -350,7 +350,7 @@ export const toolRegistry: {
 
   //SVG
   svg_to_png : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant SVG to PNG Converter",
     description: "A professional tool to convert SVG files into PNG format",
     category: "Image_Converter",
@@ -366,7 +366,7 @@ export const toolRegistry: {
     },
   },
   svg_to_jpg : {
-    loader: () => import("@/components/tools/image/ImageConverter"),
+    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant SVG to JPG Converter",
     description: "A professional tool to convert SVG files into JPG format",
     category: "Image_Converter",

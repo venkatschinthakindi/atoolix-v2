@@ -1,4 +1,4 @@
-import ImageConverterClient from "@/components/tools/image/ImageConverterClient";
+import ImageConverterClient from "@/components/tools/image/image-converter/ImageConverterClient";
 import { ImageConverterToolProps } from "@/lib/toolRegistry";
 import { ToolConfig } from "@/types/image-converter.types";
 
