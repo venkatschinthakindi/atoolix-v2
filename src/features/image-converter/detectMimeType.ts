@@ -1,6 +1,6 @@
 import { ImageFormat } from "@/types/image-converter.types";
 
-export function detectMimeType(file: File): ImageFormat | "unknown" {
+export function detectMimeType(file: File): ImageFormat | null {
   const type = file.type.toLowerCase();
   const name = file.name.toLowerCase();
 
@@ -20,5 +20,5 @@ export function detectMimeType(file: File): ImageFormat | "unknown" {
     return "svg";
   }
 
-  return "unknown";
+  return null;
 }

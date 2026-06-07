@@ -42,11 +42,24 @@ export default function ImageConverterClient({
   // ----------------------------
   // PREVIEW URL
   // ----------------------------
-  const previewUrl = useMemo(() => {
-    if (!file) return null;
+  const [previewUrl, setPreviewUrl] =
+  useState<string | null>(null);
 
-    return URL.createObjectURL(file);
-  }, [file]);
+useEffect(() => {
+  if (!file) {
+    setPreviewUrl(null);
+    return;
+  }
+
+  const url =
+    URL.createObjectURL(file);
+
+  setPreviewUrl(url);
+
+  return () => {
+    URL.revokeObjectURL(url);
+  };
+}, [file]);
 
   useEffect(() => {
     return () => {
@@ -84,7 +97,7 @@ export default function ImageConverterClient({
         normalizeFile(selected);
 
       if (
-        normalized.format === "unknown"
+        !normalized.format
       ) {
         setError(
           "Unsupported file format"

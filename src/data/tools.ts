@@ -35,12 +35,48 @@ export const categoryIcons: Record<string, CategoryInfo> = {
     description: "Artificial Intelligence tools",
     icon: React.createElement(Cpu, { className: "w-4 h-4 text-pink-400" })
   },
-  Image: {
-    id: "Image",
-    title: "Image",
-    description: "Image and video editing and tools",
+  "Image_Converter": {
+    id: "Image_Converter",
+    title: "Image Converter",
+    description: "Convert JPG, PNG, WEBP, SVG and other image formats",
     icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
   },
+  Image_Compressor: {
+    id: "Image_Compressor",
+    title: "Image Compressor",
+    description: "Compress images and reduce file size without losing quality",
+    icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
+  },
+  Image_Resizer: {
+    id: "Image_Resizer",
+    title: "Image Resizer",
+    description: "Resize photos for social media, websites and documents",
+    icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
+  },
+  Image_Cropper: {
+    id: "Image_Cropper",
+    title: "Image Cropper",
+    description: "Crop images to custom sizes and aspect ratios",
+    icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
+  },
+  Background_Remover: {
+    id: "Background_Remover",
+    title: "Background Remover",
+    description: "Remove image backgrounds automatically with AI",
+    icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
+  },
+  // Watermark_Tools: {
+  //   id: "Watermark_Tools",
+  //   title: "Watermark Tools",
+  //   description: "Add, remove and manage image watermarks",
+  //   icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
+  // },
+  // Photo_Enhancer: {
+  //   id: "Photo_Enhancer",
+  //   title: "Photo Enhancer",
+  //   description: "Improve image quality, sharpness and clarity",
+  //   icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
+  // },
   Finance: {
     id: "Finance",
     title: "Finance",
@@ -64,7 +100,8 @@ const toolIcons: Record<string, React.ComponentType<any>> = {
   image_to_pdf: ImageIcon,
   ai: Sparkles,
   finance: DollarSign,
-  image: ImageIcon
+  image: ImageIcon,
+  "Image Converter": ImageIcon
 };
 
 export const tools = Object.entries(toolRegistry).map(([id, entry]) => {

@@ -1,3 +1,4 @@
+import { CompressionMode } from "@/types/compression.types";
 import type { ComponentType } from "react";
 
 export type ToolLoader<Props> = () => Promise<{ default: ComponentType<Props> }>;
@@ -108,6 +109,15 @@ export type ToolPropsMap = {
     inputFormats?: string[];
     outputFormats?: string[];
   },
+  compress_image:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string,
+    description?: string,
+    allowedFormats?: string[],
+    defaultQuality?: number,
+    mode?: CompressionMode
+  },
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -211,7 +221,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant JPG/JPEG to PNG Converter",
     description: "A professional tool to convert JPG/JPEG files into PNG format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -227,7 +237,7 @@ export const toolRegistry: {
       loader: () => import("@/components/tools/image/ImageConverter"),
       title: "Instant PNG to JPG Converter",
       description: "A professional tool to convert PNG into JPG format",
-      category: "Image",
+      category: "Image_Converter",
       featured: false,
       comingSoon: false,
       preload: false,
@@ -243,7 +253,7 @@ export const toolRegistry: {
       loader: () => import("@/components/tools/image/ImageConverter"),
       title: "Instant PNG to JPEG Converter",
       description: "A professional tool to convert PNG into JPEG format",
-      category: "Image",
+      category: "Image_Converter",
       featured: false,
       comingSoon: false,
       preload: false,
@@ -260,7 +270,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant JPG/JPEG to WEBP Converter",
     description: "A professional tool to convert JPG/JPEG files into WEBP format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -276,7 +286,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant PNG to WEBP Converter",
     description: "A professional tool to convert PNG files into WEBP format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -293,7 +303,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant WEBP to JPG Converter",
     description: "A professional tool to convert WEBP files into JPG format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -309,7 +319,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant WEBP to JPEG Converter",
     description: "A professional tool to convert WEBP files into JPEG format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -325,7 +335,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant WEBP to PNG Converter",
     description: "A professional tool to convert WEBP files into PNG format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -343,7 +353,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant SVG to PNG Converter",
     description: "A professional tool to convert SVG files into PNG format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -359,7 +369,7 @@ export const toolRegistry: {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant SVG to JPG Converter",
     description: "A professional tool to convert SVG files into JPG format",
-    category: "Image",
+    category: "Image_Converter",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -372,7 +382,28 @@ export const toolRegistry: {
     },
   },
   //Image Converters End
-
+  //Image compressors Start
+  compress_image: {
+    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    title: "Compress Image Online",
+    description: "Reduce image file size while maintaining quality",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      title: "Compress JPG, PNG and WEBP images instantly",
+      allowedFormats: [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp",
+      ],
+      defaultQuality: 80,
+      mode:"quality",
+    },
+  },
+  //Image compressors End
   investment_returns: {
     loader: () => import("@/components/tools/finance_suite/InvestmentReturnsSuite"),
     title: "Investment Returns",
