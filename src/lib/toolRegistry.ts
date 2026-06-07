@@ -59,6 +59,41 @@ export type ToolPropsMap = {
     inputFormats?: string[];
     outputFormats?: string[];
   },
+  jpg_to_webp: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
+  png_to_webp: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
+  webp_to_jpg: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
+  webp_to_jpeg: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
+  webp_to_png: {
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string;
+    inputFormats?: string[];
+    outputFormats?: string[];
+  },
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -157,7 +192,8 @@ export const toolRegistry: {
   //   comingSoon: true,
   //   preload: false,
   // },
-  jpg_to_png: {
+  //Image Converters Start
+  jpg_to_png : {
     loader: () => import("@/components/tools/image/ImageConverter"),
     title: "Instant JPG/JPEG to PNG Converter",
     description: "A professional tool to convert JPG/JPEG files into PNG format",
@@ -173,7 +209,7 @@ export const toolRegistry: {
       title: "Convert images from JPG/JPEG to PNG quickly with high-quality"
     },
   },
-  png_to_jpg: {
+  png_to_jpg : {
       loader: () => import("@/components/tools/image/ImageConverter"),
       title: "Instant PNG to JPG Converter",
       description: "A professional tool to convert PNG into JPG format",
@@ -189,7 +225,7 @@ export const toolRegistry: {
         title: "Convert images from PNG to JPG quickly with high-quality"
       },
   },
-  png_to_jpeg: {
+  png_to_jpeg : {
       loader: () => import("@/components/tools/image/ImageConverter"),
       title: "Instant PNG to JPEG Converter",
       description: "A professional tool to convert PNG into JPEG format",
@@ -203,8 +239,92 @@ export const toolRegistry: {
         inputFormats: ["png"],
         outputFormats: ["jpeg"],
         title: "Convert images from PNG to JPEG quickly with high-quality"
-      },
+      }
   },
+
+  jpg_to_webp : {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant JPG/JPEG to WEBP Converter",
+    description: "A professional tool to convert JPG/JPEG files into WEBP format",
+    category: "Image",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["jpg","jpeg"],
+      outputFormats: ["webp"],
+      title: "Convert images from JPG/JPEG to WEBP quickly with high-quality"
+    },
+  },
+  png_to_webp : {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant PNG to WEBP Converter",
+    description: "A professional tool to convert PNG files into WEBP format",
+    category: "Image",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["png"],
+      outputFormats: ["webp"],
+      title: "Convert images from PNG to WEBP quickly with high-quality"
+    },
+  },
+
+  webp_to_jpg : {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant WEBP to JPG Converter",
+    description: "A professional tool to convert WEBP files into JPG format",
+    category: "Image",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["webp"],
+      outputFormats: ["jpg"],
+      title: "Convert images from WEBP to JPG quickly with high-quality"
+    },
+  },
+  webp_to_jpeg : {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant WEBP to JPEG Converter",
+    description: "A professional tool to convert WEBP files into JPEG format",
+    category: "Image",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["webp"],
+      outputFormats: ["jpeg"],
+      title: "Convert images from WEBP to JPEG quickly with high-quality"
+    },
+  },
+  webp_to_png : {
+    loader: () => import("@/components/tools/image/ImageConverter"),
+    title: "Instant WEBP to PNG Converter",
+    description: "A professional tool to convert WEBP files into PNG format",
+    category: "Image",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      initialExpression: "",
+      theme: "dark",
+      inputFormats: ["webp"],
+      outputFormats: ["png"],
+      title: "Convert images from WEBP to PNG quickly with high-quality"
+    },
+  },
+  //Image Converters End
+
   investment_returns: {
     loader: () => import("@/components/tools/finance_suite/InvestmentReturnsSuite"),
     title: "Investment Returns",
@@ -239,3 +359,4 @@ export type ToolId = keyof typeof toolRegistry;
 export function isToolId(value: string): value is ToolId {
   return Object.prototype.hasOwnProperty.call(toolRegistry, value);
 }
+
