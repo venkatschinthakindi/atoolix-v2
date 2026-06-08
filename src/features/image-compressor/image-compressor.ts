@@ -13,4 +13,7 @@ export const compressImageConfig: CompressorConfig =
     ],
 
     defaultQuality: 80,
+
+    mode: "quality",
+    lockTarget: false
   };

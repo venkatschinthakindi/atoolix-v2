@@ -5,15 +5,18 @@ export type CompressionMode =
 export interface CompressImageOptions {
   mode: CompressionMode;
   quality?: number;
-  targetBytes?: number;
+  targetKB?: number;
+  lockTarget?: boolean;
 }
 
-export interface CompressionResult {
-  blob: Blob;
-
+export interface CompressionStats {
   originalSize: number;
 
   compressedSize: number;
 
   savingsPercent: number;
+}
+
+export interface CompressionResult extends CompressionStats {
+  blob: Blob;
 }

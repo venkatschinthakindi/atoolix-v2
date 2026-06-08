@@ -17,6 +17,11 @@ import { compressImage } from "@/features/image-compressor/compressImage";
 
 import { ImageMetadata } from "@/types/imageTypes";
 import { CompressionResult } from "@/types/compression.types";
+import { ToolLayout } from "../image-tool-ui/ToolLayout";
+import { PreviewCard } from "../image-tool-ui/PreviewCard";
+import { MetadataCard } from "../image-tool-ui/MetadataCard";
+import { DownloadCard } from "../image-tool-ui/DownloadCard";
+import { CompressionStatsCard } from "../image-tool-ui/CompressionStatsCard";
 
 interface Props {
   config: CompressorConfig;
@@ -102,7 +107,7 @@ export default function ImageCompressorClient({
         normalizeFile(selected);
 
       if ((!!normalized.format) && 
-        (!config.allowedFormats.includes(
+        (!config?.allowedFormats?.includes(
           normalized.format
         ))
       ) {
@@ -155,9 +160,10 @@ export default function ImageCompressorClient({
 
         const compressionResult =
           await compressImage(file, {
-            mode: "quality",
-            quality:
-              quality / 100,
+            mode: config.mode ?? "quality",
+            quality: quality / 100,
+            targetKB: config.targetKB,
+            lockTarget: config.lockTarget
           });
 
         setProgress(80);
@@ -227,12 +233,7 @@ export default function ImageCompressorClient({
     !!outputUrl;
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
-
-      <h1 className="text-3xl font-bold tracking-tight">
-        {config.title}
-      </h1>
-
+    <ToolLayout title={config.title}>
       <DropZone
         allowMultiple={false}
         onFiles={handleFiles}
@@ -265,38 +266,16 @@ export default function ImageCompressorClient({
             </span>
           </div>
 
-          {previewUrl && (
-            <img
-              src={previewUrl}
-              alt="preview"
-              className="rounded-lg max-h-96 mx-auto"
-            />
-          )}
+          <PreviewCard
+            src={previewUrl}
+            alt="preview"
+          />
 
           {metadata && (
-            <div className="text-sm text-white/60 space-y-1">
-              <div>
-                Dimensions:{" "}
-                {metadata.width} ×{" "}
-                {metadata.height}
-              </div>
-
-              <div>
-                Size:{" "}
-                {(
-                  metadata.size /
-                  1024 /
-                  1024
-                ).toFixed(2)}{" "}
-                MB
-              </div>
-
-              <div>
-                Type:{" "}
-                {file.type ||
-                  "unknown"}
-              </div>
-            </div>
+            <MetadataCard
+            metadata={metadata}
+            file={file}
+            />
           )}
 
           {/* Compression Control */}
@@ -360,70 +339,18 @@ export default function ImageCompressorClient({
       {isDone &&
         outputUrl &&
         result && (
-          <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-gray-950/60 to-gray-900/30 p-5 space-y-5">
-
-            <img
-              src={outputUrl}
-              alt="compressed"
-              className="rounded-lg max-h-96 mx-auto"
-            />
-
-            <div className="grid grid-cols-3 gap-4">
-
-              <div className="rounded-xl border border-white/10 p-4">
-                <div className="text-white/50 text-xs">
-                  Original
-                </div>
-
-                <div className="font-semibold">
-                  {(
-                    result.originalSize /
-                    1024 /
-                    1024
-                  ).toFixed(2)}{" "}
-                  MB
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-white/10 p-4">
-                <div className="text-white/50 text-xs">
-                  Compressed
-                </div>
-
-                <div className="font-semibold">
-                  {(
-                    result.compressedSize /
-                    1024 /
-                    1024
-                  ).toFixed(2)}{" "}
-                  MB
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-white/10 p-4">
-                <div className="text-white/50 text-xs">
-                  Savings
-                </div>
-
-                <div className="font-semibold text-green-400">
-                  {result.savingsPercent}%
-                </div>
-              </div>
-
-            </div>
-
-            <button
-              onClick={
-                handleDownload
-              }
-              className="w-full bg-green-600 hover:bg-green-500 p-3 rounded-xl"
-            >
-              Download Image
-            </button>
-
-          </div>
+          <DownloadCard
+            imageUrl={outputUrl}
+            alt="converted"
+            onDownload={handleDownload}>
+                <CompressionStatsCard
+                    originalSize={result.originalSize}
+                    compressedSize={result.compressedSize}
+                    savingsPercent={result.savingsPercent}
+                />
+            </DownloadCard>
         )}
 
-    </div>
+    </ToolLayout>
   );
 }

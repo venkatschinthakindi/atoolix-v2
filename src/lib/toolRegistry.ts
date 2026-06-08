@@ -118,6 +118,53 @@ export type ToolPropsMap = {
     defaultQuality?: number,
     mode?: CompressionMode
   },
+  compress_jpg:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string,
+    description?: string,
+    allowedFormats?: string[],
+    defaultQuality?: number,
+    mode?: CompressionMode
+  },
+  compress_jpeg:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string,
+    description?: string,
+    allowedFormats?: string[],
+    defaultQuality?: number,
+    mode?: CompressionMode
+  },
+  compress_png:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string,
+    description?: string,
+    allowedFormats?: string[],
+    defaultQuality?: number,
+    mode?: CompressionMode
+  },
+  compress_webp:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string,
+    description?: string,
+    allowedFormats?: string[],
+    defaultQuality?: number,
+    mode?: CompressionMode
+  },
+  compress_to_20kb:{
+    initialExpression?: string;
+    theme?: "light" | "dark";
+    title?: string,
+    description?: string,
+    allowedFormats?: string[],
+    defaultQuality?: number,
+    mode?: CompressionMode,
+    targetKB?: number,
+    lockTarget?: boolean
+  },
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -129,6 +176,7 @@ export type ToolPropsMap = {
 export type CalculatorToolProps = ToolPropsMap["calculator"];
 export type ConverterToolProps = ToolPropsMap["converter"];
 export type ImageConverterToolProps = ToolPropsMap["jpg_to_png"];
+export type ImageCompressorToolProps = ToolPropsMap["compress_to_20kb"];
 
 export const toolRegistry: {
   [K in keyof ToolPropsMap]: ToolRegistryEntry<ToolPropsMap[K]>;
@@ -397,10 +445,100 @@ export const toolRegistry: {
         "jpg",
         "jpeg",
         "png",
-        "webp",
+        "webp"
       ],
       defaultQuality: 80,
-      mode:"quality",
+      mode:"quality"
+    },
+  },
+  compress_jpg: {
+    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    title: "Compress Image Online",
+    description: "Reduce image file size while maintaining quality",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      title: "Compress JPG images instantly",
+      allowedFormats: [
+        "jpg"
+      ],
+      defaultQuality: 80,
+      mode:"quality"
+    },
+  },
+  compress_jpeg: {
+    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    title: "Compress Image Online",
+    description: "Reduce image file size while maintaining quality",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      title: "Compress JPEG images instantly",
+      allowedFormats: [
+        "jpeg"
+      ],
+      defaultQuality: 80,
+      mode:"quality"
+    },
+  },
+  compress_png: {
+    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    title: "Compress Image Online",
+    description: "Reduce image file size while maintaining quality",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      title: "Compress PNG images instantly",
+      allowedFormats: [
+        "png"
+      ],
+      defaultQuality: 80,
+      mode:"quality"
+    },
+  },
+  compress_webp: {
+    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    title: "Compress Image Online",
+    description: "Reduce image file size while maintaining quality",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      title: "Compress WEBP images instantly",
+      allowedFormats: [
+        "webp"
+      ],
+      defaultQuality: 80,
+      mode:"quality"
+    },
+  },
+  compress_to_20kb: {
+    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    title: "Compress Image Online to 20KB",
+    description: "Reduce image file size while maintaining quality",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      title: "Compress WEBP images instantly",
+      allowedFormats: [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp"
+      ],
+      defaultQuality: 100,
+      mode:"target-size",
+      targetKB: 100,
+      lockTarget: true
     },
   },
   //Image compressors End

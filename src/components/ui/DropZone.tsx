@@ -104,9 +104,8 @@ export function DropZone({
 }
 
 export function getAcceptString(
-  formats: ImageFormat[]
+  formats: ImageFormat[] | undefined
 ) {
-  return formats
-    .map((format) => `.${format}`)
+  return formats?.map((format) => `.${format}`)
     .join(",");
 }

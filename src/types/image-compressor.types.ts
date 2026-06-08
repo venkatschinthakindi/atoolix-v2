@@ -1,9 +1,13 @@
+import { CompressionMode } from "./compression.types";
 import { ImageFormat } from "./image-converter.types";
 
 export interface CompressorConfig {
-  title: string;
+  title: string | undefined;
 
-  allowedFormats: ImageFormat[];
+  allowedFormats: ImageFormat[] | undefined;
 
   defaultQuality?: number;
+  mode: CompressionMode | undefined;
+  targetKB?: number;
+  lockTarget?: boolean;
 }
