@@ -40,6 +40,10 @@ export default function ImageCompressorClient({
     useState(
       config.defaultQuality ?? 80
     );
+    const [targetKB, setTargetKB] =
+  useState(
+    config.targetKB ?? 100
+  );
 
   const [processing, setProcessing] =
     useState(false);
@@ -165,7 +169,7 @@ export default function ImageCompressorClient({
             targetKB: config.targetKB,
             lockTarget: config.lockTarget
           });
-
+          
         setProgress(80);
 
         if (outputUrl) {
@@ -280,7 +284,7 @@ export default function ImageCompressorClient({
 
           {/* Compression Control */}
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <div className="flex justify-between text-sm">
 
               <span>
@@ -308,7 +312,72 @@ export default function ImageCompressorClient({
               className="w-full"
             />
           </div>
+             */}
+             {config.mode ===
+            "quality" && (
+            <div className="space-y-2">
 
+              <div className="flex justify-between text-sm">
+
+                <span>
+                  Compression Quality
+                </span>
+
+                <span>
+                  {quality}%
+                </span>
+
+              </div>
+
+              <input
+                type="range"
+                min={10}
+                max={100}
+                value={quality}
+                onChange={(e) =>
+                  setQuality(
+                    Number(
+                      e.target.value
+                    )
+                  )
+                }
+                className="w-full"
+              />
+
+            </div>
+          )}
+
+          {config.mode ===
+            "target-size" && (
+
+            <div className="space-y-2">
+
+              <label className="text-sm text-white/70">
+                Target Size (KB)
+              </label>
+              <span>
+                  {targetKB} KB
+                </span>
+              <input
+                type="range"
+                min={1}
+                value={targetKB}
+                disabled={
+                  config.lockTarget
+                }
+                onChange={(e) =>
+                  setTargetKB(
+                    Number(
+                      e.target.value
+                    )
+                  )
+                }
+                className="w-full"
+              />
+
+            </div>
+          )}
+          
           <button
             onClick={
               handleCompress

@@ -538,7 +538,7 @@ export const toolRegistry: {
       defaultQuality: 100,
       mode:"target-size",
       targetKB: 100,
-      lockTarget: true
+      lockTarget: false
     },
   },
   //Image compressors End

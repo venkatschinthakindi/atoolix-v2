@@ -13,6 +13,7 @@ import { getImageMetadata } from "@/features/image-converter/image-metadata/getI
 import { ImageMetadata } from "@/types/imageTypes";
 import { generateFileName } from "@/features/image-converter/generateFileName";
 import { normalizeFile } from "@/features/image-converter/normalizeFile";
+import { CompressorConfig } from "@/types/image-compressor.types";
 
 interface Props {
   config: ToolConfig;
