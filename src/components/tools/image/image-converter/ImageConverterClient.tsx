@@ -206,19 +206,31 @@ useEffect(() => {
   const isDone =
     !!outputUrl;
 
+  const validFileTypes = getAcceptString(config.inputFormats);
+
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
 
-      <h1 className="text-3xl font-bold tracking-tight">
-        {config.title}
-      </h1>
+      <div className="text-center space-y-4 mb-10">
+        {/* Page Title */}
+        <h1 className="md:text-l font-extrabold text-white tracking-wide">
+          {config.title}
+        </h1>
+
+        {/* Description */}
+        <p className="text-white/70 text-xs  max-w-3xl mx-auto leading-relaxed">
+          {config.description}
+        </p>
+
+        {/* Horizontal Separator */}
+        {/* <div className="w-24 mx-auto border-t border-white/20 mt-4"></div> */}
+      </div>
+
 
       <DropZone
         allowMultiple={false}
         onFiles={handleFiles}
-        validFileTypes={getAcceptString(
-          config.inputFormats
-        )}
+        validFileTypes={validFileTypes}
       />
 
       {error && (

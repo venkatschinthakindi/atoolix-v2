@@ -363,6 +363,7 @@ button {
 
   .section-header {
     @apply mb-8;
+    margin-bottom:0px;
   }
 
   .section-title {

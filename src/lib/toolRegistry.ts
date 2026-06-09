@@ -44,6 +44,7 @@ export type ToolPropsMap = {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
+    description?: string;
     inputFormats?: string[];
     outputFormats?: string[];
   };
@@ -465,7 +466,8 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress JPG images instantly",
+      // title: "Compress JPG images instantly",
+      // description: "Reduce JPG files quickly with minimal quality loss, ideal for fast uploads, web optimization, and document sharing",
       allowedFormats: [
         "jpg"
       ],
@@ -534,7 +536,8 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress Image Online to 20KB",
+      // title: "Compress Image Online to 20KB",
+      // description:"Reduce images down to 20KB for ultra‑light uploads, perfect for fast websites and low‑bandwidth sharing",
       allowedFormats: [
         "jpg",
         "jpeg",

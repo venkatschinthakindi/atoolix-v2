@@ -18,12 +18,12 @@ export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolR
     ssr: false,
     loading: () => <div className="p-6">Loading tool…</div>,
   }) as React.ComponentType<ToolPropsMap[T]>;
-
+ console.log(toolProps);
   const mergedProps = {
     ...(entry.defaultProps ?? {}),
-    ...toolProps,
+    ...entry
   } as ToolPropsMap[T];
-
+console.log(mergedProps);
   const services = {
     api: {
       get: async (path: string) => {

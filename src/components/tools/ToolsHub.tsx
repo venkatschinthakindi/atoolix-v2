@@ -32,10 +32,10 @@ export function ToolsHub() {
 
   return (
     <div>
-      <div className="section-header">
+      {/* <div className="section-header">
         <h1 className="section-title">All Tools</h1>
         <p className="section-copy">Explore all AI-powered utilities available on this site.</p>
-      </div>
+      </div> */}
 
       <div className="flex flex-wrap gap-3 mb-8">
         {categories.map((cat) => (

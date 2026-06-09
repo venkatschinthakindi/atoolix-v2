@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { ImageFormat } from "@/types/image-converter.types";
@@ -6,8 +7,8 @@ import { useCallback, useRef, useState } from "react";
 
 export function DropZone({
   onFiles,
-  validFileTypes = ".pdf",
-  allowMultiple = true
+  validFileTypes = ".jpg,.jpeg,.png,.webp, .pdf",
+  allowMultiple = true,
 }: {
   onFiles: (files: File[]) => void;
   validFileTypes?: string;
@@ -17,7 +18,7 @@ export function DropZone({
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
- const validatePDF = (file: File) => {
+  const validatePDF = (file: File) => {
     const allowedMimeTypes = ["application/pdf"];
     const allowedExtensions = validFileTypes.split(",").map((ext) => ext.trim().toLowerCase()); // e.g. [".pdf", ".docx"]
 
@@ -55,7 +56,7 @@ export function DropZone({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {/* DROPZONE */}
       <div
         onClick={openPicker}
@@ -65,26 +66,43 @@ export function DropZone({
         }}
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
-        className={`p-10 rounded-xl border text-center transition cursor-pointer ${
+        className={`p-12 rounded-2xl border-2 text-center cursor-pointer transition-all duration-300 ease-out ${
           isDragging
-            ? "border-blue-400 bg-blue-500/10"
-            : "border-white/10 bg-gray-950/40"
+            ? "border-blue-400 bg-gradient-to-b from-indigo-900 to-indigo-900 shadow-lg shadow-blue-500/50"
+            : "border-white/10 bg-gradient-to-b from-indigo-900 to-indigo-950 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/30"
         }`}
       >
-        <p className="text-white/70 text-sm">
-          Drag & drop PDF files here
-        </p>
+        <div className="flex items-center justify-center space-x-4">
+          {/* Upload Illustration */}
+          <img
+            src="/icons/upload-illustration.png"
+            alt="Upload Illustration"
+            className="h-20 w-20 drop-shadow-[0_0_15px_rgba(59,130,246,0.7)]"
+          />
 
-        <p className="text-white/40 text-xs mt-2">
-          or click to browse files
-        </p>
+          {/* Headline + Subtext */}
+          <div className="flex flex-col items-start">
+            <p className="text-white text-lg font-bold">
+              Drag & Drop Files Here
+            </p>
+            
+            <p className="text-white/70 text-sm">
+              or browse files
+            </p>
+            <div className="w-full shadow shadow-blue-500/10 border-t border-white/15 my-2"></div>
+            <p className="text-white/40 text-xs mt-1">
+              Supported format(s): {validFileTypes}
+            </p>
+          </div>
+        </div>
+
 
         {/* HIDDEN INPUT */}
         <input
           ref={fileInputRef}
           type="file"
           accept={validFileTypes}
-          multiple = {allowMultiple}
+          multiple={allowMultiple}
           className="hidden"
           onChange={(e) => {
             if (!e.target.files) return;
@@ -95,7 +113,7 @@ export function DropZone({
 
       {/* ERROR */}
       {error && (
-        <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 p-2 rounded">
+        <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 p-2 rounded-xl text-center">
           {error}
         </div>
       )}
@@ -103,9 +121,7 @@ export function DropZone({
   );
 }
 
-export function getAcceptString(
-  formats: ImageFormat[] | undefined
-) {
-  return formats?.map((format) => `.${format}`)
-    .join(",");
+export function getAcceptString(formats: ImageFormat[] | undefined) {
+  return formats?.map((format) => `.${format}`).join(",") ?? ".jpg,.jpeg,.png,.webp";
 }
+

@@ -3,7 +3,7 @@ import { ImageFormat } from "./image-converter.types";
 
 export interface CompressorConfig {
   title: string | undefined;
-
+  description: string | undefined;
   allowedFormats: ImageFormat[] | undefined;
 
   defaultQuality?: number;

@@ -235,9 +235,10 @@ export default function ImageCompressorClient({
 
   const isDone =
     !!outputUrl;
+  const validFileTypes = getAcceptString(config.allowedFormats);
 
   return (
-    <ToolLayout title={config.title}>
+    <ToolLayout title={config.title} description={config.description}>
       <DropZone
         allowMultiple={false}
         onFiles={handleFiles}

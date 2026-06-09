@@ -44,8 +44,8 @@ export function ToolPageClient() {
           >
             ← Back to Tools
           </button>
-          <h1 className="section-title">{tool.title}</h1>
-          <p className="section-copy">{tool.description}</p>
+          {/* <h1 className="section-title">{tool.title}</h1>
+          <p className="section-copy">{tool.description}</p> */}
         </div>
 
         <ToolRenderer toolId={toolId} />
