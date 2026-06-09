@@ -1,4 +1,5 @@
 import { CompressionMode } from "@/types/compression.types";
+import { Signal } from "lucide-react";
 import type { ComponentType } from "react";
 
 export type ToolLoader<Props> = () => Promise<{ default: ComponentType<Props> }>;
@@ -59,56 +60,56 @@ export type ToolPropsMap = {
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   jpg_to_webp: {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   png_to_webp: {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   webp_to_jpg: {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   webp_to_jpeg: {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   webp_to_png: {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   svg_to_png: {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   svg_to_jpg: {
     initialExpression?: string;
     theme?: "light" | "dark";
     title?: string;
     inputFormats?: string[];
     outputFormats?: string[];
-  },
+  };
   compress_image:{
     initialExpression?: string;
     theme?: "light" | "dark";
@@ -117,7 +118,7 @@ export type ToolPropsMap = {
     allowedFormats?: string[],
     defaultQuality?: number,
     mode?: CompressionMode
-  },
+  };
   compress_jpg:{
     initialExpression?: string;
     theme?: "light" | "dark";
@@ -126,7 +127,7 @@ export type ToolPropsMap = {
     allowedFormats?: string[],
     defaultQuality?: number,
     mode?: CompressionMode
-  },
+  };
   compress_jpeg:{
     initialExpression?: string;
     theme?: "light" | "dark";
@@ -135,7 +136,7 @@ export type ToolPropsMap = {
     allowedFormats?: string[],
     defaultQuality?: number,
     mode?: CompressionMode
-  },
+  };
   compress_png:{
     initialExpression?: string;
     theme?: "light" | "dark";
@@ -144,7 +145,7 @@ export type ToolPropsMap = {
     allowedFormats?: string[],
     defaultQuality?: number,
     mode?: CompressionMode
-  },
+  };
   compress_webp:{
     initialExpression?: string;
     theme?: "light" | "dark";
@@ -153,7 +154,7 @@ export type ToolPropsMap = {
     allowedFormats?: string[],
     defaultQuality?: number,
     mode?: CompressionMode
-  },
+  };
   compress_to_20kb:{
     initialExpression?: string;
     theme?: "light" | "dark";
@@ -164,7 +165,11 @@ export type ToolPropsMap = {
     mode?: CompressionMode,
     targetKB?: number,
     lockTarget?: boolean
-  },
+  };
+  compress_to_50kb:getDefaultToolRegistrySchema;
+  compress_to_100kb:getDefaultToolRegistrySchema;
+  passport_photo_reducer:getDefaultToolRegistrySchema;
+  signature_size_reducer:getDefaultToolRegistrySchema;
   ai: {};
   emai_calculator: {};
   investment_returns: {};
@@ -433,14 +438,14 @@ export const toolRegistry: {
   //Image compressors Start
   compress_image: {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
-    title: "Compress Image Online",
-    description: "Reduce image file size while maintaining quality",
+    title: "Compress Image Online – JPG, JPEG, PNG, WebP",
+    description: "Reduce image size across formats (JPG, JPEG, PNG, WebP) while keeping clear quality for web use, emails, and social sharing",
     category: "Image_Compressor",
     featured: true,
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress JPG, PNG and WEBP images instantly",
+      title: "Compress Image Online – JPG, JPEG, PNG, WebP",
       allowedFormats: [
         "jpg",
         "jpeg",
@@ -453,8 +458,8 @@ export const toolRegistry: {
   },
   compress_jpg: {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
-    title: "Compress Image Online",
-    description: "Reduce image file size while maintaining quality",
+    title: "Compress JPG Images Online",
+    description: "Reduce JPG files quickly with minimal quality loss, ideal for fast uploads, web optimization, and document sharing",
     category: "Image_Compressor",
     featured: true,
     comingSoon: false,
@@ -470,14 +475,14 @@ export const toolRegistry: {
   },
   compress_jpeg: {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
-    title: "Compress Image Online",
-    description: "Reduce image file size while maintaining quality",
+    title: "Compress JPEG Images Online",
+    description: "Reduce JPEG files quickly with minimal quality loss, perfect for fast uploads, web optimization, and document sharing",
     category: "Image_Compressor",
     featured: true,
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress JPEG images instantly",
+      title: "Compress JPEG Images Online",
       allowedFormats: [
         "jpeg"
       ],
@@ -487,14 +492,14 @@ export const toolRegistry: {
   },
   compress_png: {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
-    title: "Compress Image Online",
-    description: "Reduce image file size while maintaining quality",
+    title: "Compress PNG Images Online",
+    description: "Reduce PNG file size quickly while preserving transparency and sharp detail, ideal for web graphics, logos, and presentations",
     category: "Image_Compressor",
     featured: true,
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress PNG images instantly",
+      title: "Compress PNG Images Online",
       allowedFormats: [
         "png"
       ],
@@ -504,14 +509,14 @@ export const toolRegistry: {
   },
   compress_webp: {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
-    title: "Compress Image Online",
-    description: "Reduce image file size while maintaining quality",
+    title: "Compress WebP Images Online",
+    description: "Optimize WebP files for faster loading with minimal quality loss, perfect for modern websites and responsive design",
     category: "Image_Compressor",
     featured: true,
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress WEBP images instantly",
+      title: "Compress WebP Images Online",
       allowedFormats: [
         "webp"
       ],
@@ -519,27 +524,68 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
+
   compress_to_20kb: {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title: "Compress Image Online to 20KB",
-    description: "Reduce image file size while maintaining quality",
+    description: "Reduce images down to 20KB for ultra‑light uploads, perfect for fast websites and low‑bandwidth sharing",
     category: "Image_Compressor",
     featured: true,
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress WEBP images instantly",
+      title: "Compress Image Online to 20KB",
       allowedFormats: [
         "jpg",
         "jpeg",
         "png",
         "webp"
       ],
-      defaultQuality: 100,
+      defaultQuality: 90,
       mode:"target-size",
+      targetKB: 20,
+      lockTarget: true
+    },
+  },
+  compress_to_50kb: {
+    ...getDefaultCompressorRegistry(),
+    defaultProps: {
+      ...getDefaultCompressorRegistry().defaultProps as any,
+      targetKB: 50,
+      lockTarget: true
+    },
+    title: "Compress Image Online to 50KB",
+    description: "Reduce photo size to 50KB instantly while keeping clear quality for web use, emails, and social sharing"
+  },
+  compress_to_100kb: {
+    ...getDefaultCompressorRegistry(),
+    defaultProps: {
+      ...getDefaultCompressorRegistry().defaultProps as any,
+      targetKB: 100,
+      lockTarget: true
+    },
+    title: "Compress Image Online to 100KB",
+    description: "Reduce image file size to to 100KB with sharp detail, ideal for blogs, presentations, and professional documents"
+  },
+  passport_photo_reducer: {
+    ...getDefaultCompressorRegistry(),
+    defaultProps: {
+      ...getDefaultCompressorRegistry().defaultProps as any,
       targetKB: 100,
       lockTarget: false
     },
+    title: "Passport Size Photo Reducer Online",
+    description: "Resize passport photos to required KB limits with sharp clarity, perfect for official forms and online applications"
+  },
+  signature_size_reducer: {
+    ...getDefaultCompressorRegistry(),
+    defaultProps: {
+      ...getDefaultCompressorRegistry().defaultProps as any,
+      targetKB: 20,
+      lockTarget: false
+    },
+    title:"Signature Image Size Reducer Online",
+    description:"Compress signature images to small KB sizes while keeping legibility, ideal for digital documents and online submissions"
   },
   //Image compressors End
   investment_returns: {
@@ -577,3 +623,40 @@ export function isToolId(value: string): value is ToolId {
   return Object.prototype.hasOwnProperty.call(toolRegistry, value);
 }
 
+
+export type getDefaultToolRegistrySchema = {
+  initialExpression?: string;
+  theme?: "light" | "dark";
+  title?: string,
+  description?: string,
+  allowedFormats?: string[],
+  defaultQuality?: number,
+  mode?: CompressionMode,
+  targetKB?: number,
+  lockTarget?: boolean
+};
+
+function getDefaultCompressorRegistry() {
+  return {
+    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    title: "Compress Image Online to 20KB",
+    description: "Reduce image file size while maintaining quality",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      title: "Compress WEBP images instantly",
+      allowedFormats: [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp"
+      ],
+      defaultQuality: 90,
+      mode:"target-size",
+      targetKB: 20,
+      lockTarget: true
+    }
+  }
+}
