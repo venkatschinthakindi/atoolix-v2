@@ -44,9 +44,9 @@ export function ToolsContent() {
           <FloatingDock />
         </div>
 
-        <div className="section-header">
+        <div className="section-header text-center">
           <h1 className="section-title">All Tools</h1>
-          <p className="section-copy">
+          <p className="section-copy mb-2">
             Explore all AI-powered utilities available on this site.
           </p>
         </div>
