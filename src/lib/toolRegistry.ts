@@ -49,7 +49,7 @@ export type ToolPropsMap = {
 
   "image/compress-image":CompressionQualityToolRegistrySchema;
   "image/compress-jpg":CompressionQualityToolRegistrySchema;
-  "image/compress-jpeg":CompressionQualityToolRegistrySchema;
+  // "image/compress-jpeg":CompressionQualityToolRegistrySchema;
   "image/compress-png":CompressionQualityToolRegistrySchema;
   "image/compress-webp":CompressionQualityToolRegistrySchema;
 
@@ -336,28 +336,28 @@ export const toolRegistry: {
     preload: false,
     defaultProps: {
       allowedFormats: [
-        "jpg"
+        "jpg","jpeg"
       ],
       defaultQuality: 80,
       mode:"quality"
     },
   },
-  "image/compress-jpeg": {
-    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
-    title: "Compress JPEG Images Online",
-    description: "Reduce JPEG files quickly with minimal quality loss, perfect for fast uploads, web optimization, and document sharing",
-    category: "Image_Compressor",
-    featured: true,
-    comingSoon: false,
-    preload: false,
-    defaultProps: {
-      allowedFormats: [
-        "jpeg"
-      ],
-      defaultQuality: 80,
-      mode:"quality"
-    },
-  },
+  // "image/compress-jpeg": {
+  //   loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+  //   title: "Compress JPEG Images Online",
+  //   description: "Reduce JPEG files quickly with minimal quality loss, perfect for fast uploads, web optimization, and document sharing",
+  //   category: "Image_Compressor",
+  //   featured: true,
+  //   comingSoon: false,
+  //   preload: false,
+  //   defaultProps: {
+  //     allowedFormats: [
+  //       "jpeg"
+  //     ],
+  //     defaultQuality: 80,
+  //     mode:"quality"
+  //   },
+  // },
   "image/compress-png": {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title: "Compress PNG Images Online",
