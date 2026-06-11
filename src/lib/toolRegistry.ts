@@ -20,7 +20,13 @@ export type ToolPropsMap = {
   converter: InitialThemeToolRegistrySchema;
   pdf_merge: PdfConvertToolRegistrySchema;
   split_pdf: PdfConvertToolRegistrySchema;
+  
   image_to_pdf: PdfConvertToolRegistrySchema;
+  jpg_to_pdf: PdfConvertToolRegistrySchema;
+  jpeg_to_pdf: PdfConvertToolRegistrySchema;
+  png_to_pdf: PdfConvertToolRegistrySchema;
+  webp_to_pdf: PdfConvertToolRegistrySchema;
+
   pdf_compress: PdfCompressToolRegistrySchema;
 
   jpg_to_png:ConverterToolRegistrySchema;
@@ -104,13 +110,31 @@ export const toolRegistry: {
     }
   },
   image_to_pdf:{
-    loader: () => import("@/components/tools/pdf/image-to-pdf/ImageToPDF"),
-    title: "Convert Images to PDF",
-    description: "Convert Images to PDF - Free Online Image to PDF Converter",
-    category: "PDF",
-    featured: true,
-    preload: false,
-    comingSoon: false
+    ...getDefaultIamgeToPdfConverterRegistry()
+  },
+  jpg_to_pdf:{
+    ...getDefaultIamgeToPdfConverterRegistry(
+      "Convert JPG to PDF Online",
+      "Convert one or multiple JPG images into a PDF document online. Fast, free, secure, and easy to use"
+    )
+  },
+  jpeg_to_pdf:{
+    ...getDefaultIamgeToPdfConverterRegistry(
+      "Convert JPEG to PDF Online",
+      "Quickly turn JPEG photos into PDF files. Free online converter with high-quality results and secure processing"
+    )
+  },
+  png_to_pdf:{
+    ...getDefaultIamgeToPdfConverterRegistry(
+      "Convert PNG to PDF Online",
+      "Create PDF files from PNG images in just a few clicks. Free, secure, and easy PNG to PDF conversion"
+    )
+  },
+  webp_to_pdf:{
+    ...getDefaultIamgeToPdfConverterRegistry(
+      "Convert WebP to PDF Online",
+      "Turn WebP images into PDF documents instantly. Fast, free, and secure online WebP to PDF converter"
+    )
   },
   pdf_compress: {
     loader: () => import("@/components/tools/pdf/compress-pdf/CompressPDF"),
@@ -524,6 +548,23 @@ function getDefaultCompressorRegistry() {
       mode:"target-size",
       targetKB: 20,
       lockTarget: true
+    }
+  }
+}
+
+function getDefaultIamgeToPdfConverterRegistry(
+  title: string = "Free Online Image to PDF Converter",
+  description: string = "Convert Images to PDF - Free Online Image to PDF Converter") {
+  return {
+    loader: () => import("@/components/tools/pdf/image-to-pdf/ImageToPDF"),
+    title: title,
+    description: description,
+    category: "PDF",
+    featured: true,
+    preload: false,
+    comingSoon: false,
+    defaultProps: {
+      allowedFormats:["jpg","jpeg","png","webp"]
     }
   }
 }
