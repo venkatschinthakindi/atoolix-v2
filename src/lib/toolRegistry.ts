@@ -16,62 +16,63 @@ export type ToolRegistryEntry<Props = {}> = {
 };
 
 export type ToolPropsMap = {
-  calculator: InitialThemeToolRegistrySchema;
-  converter: InitialThemeToolRegistrySchema;
-  pdf_merge: PdfConvertToolRegistrySchema;
-  split_pdf: PdfConvertToolRegistrySchema;
+  "calculator": InitialThemeToolRegistrySchema;
+  "calculator/emi-calculator": {};
+
+  "calculator/roi-calculator": {};
   
-  image_to_pdf: PdfConvertToolRegistrySchema;
-  jpg_to_pdf: PdfConvertToolRegistrySchema;
-  jpeg_to_pdf: PdfConvertToolRegistrySchema;
-  png_to_pdf: PdfConvertToolRegistrySchema;
-  webp_to_pdf: PdfConvertToolRegistrySchema;
+  "calculator/fd-calculator": {};
 
-  pdf_compress: PdfCompressToolRegistrySchema;
+  "calculator/retirement-calculator": {};
 
-  jpg_to_png:ConverterToolRegistrySchema;
-  png_to_jpg:ConverterToolRegistrySchema;
-  png_to_jpeg:ConverterToolRegistrySchema;
-  jpg_to_webp: ConverterToolRegistrySchema;
-  png_to_webp: ConverterToolRegistrySchema;
-  webp_to_jpg: ConverterToolRegistrySchema;
-  webp_to_jpeg:ConverterToolRegistrySchema;
-  webp_to_png: ConverterToolRegistrySchema;
-  svg_to_png: ConverterToolRegistrySchema;
-  svg_to_jpg:ConverterToolRegistrySchema;
+  "converter": InitialThemeToolRegistrySchema;
+  
+  "pdf/merge-pdf": PdfConvertToolRegistrySchema;
+  "pdf/split-pdf": PdfConvertToolRegistrySchema;
+  "pdf/compress-pdf": PdfCompressToolRegistrySchema;
 
-  compress_image:CompressionQualityToolRegistrySchema;
-  compress_jpg:CompressionQualityToolRegistrySchema;
-  compress_jpeg:CompressionQualityToolRegistrySchema;
-  compress_png:CompressionQualityToolRegistrySchema;
-  compress_webp:CompressionQualityToolRegistrySchema;
+  "image/image-to-pdf": PdfConvertToolRegistrySchema;
+  "image/jpg-to-pdf": PdfConvertToolRegistrySchema;
+  "image/png-to-pdf": PdfConvertToolRegistrySchema;
+  "image/webp-to-pdf": PdfConvertToolRegistrySchema;
 
-  compress_to_20kb:CompressionSizeToolRegistrySchema;
-  compress_to_50kb:CompressionSizeToolRegistrySchema;
-  compress_to_100kb:CompressionSizeToolRegistrySchema;
-  passport_photo_reducer:CompressionSizeToolRegistrySchema;
-  signature_size_reducer:CompressionSizeToolRegistrySchema;
-  ai: {};
-  emai_calculator: {};
-  investment_returns: {};
-  savings_deposits: {};
-  retirement_wealth_planning: {};
-  // image: {};
+  "image/jpg-to-png":ConverterToolRegistrySchema;
+  "image/png-to-jpg":ConverterToolRegistrySchema;
+  "image/png-to-jpeg":ConverterToolRegistrySchema;
+  "image/jpg-to-webp": ConverterToolRegistrySchema;
+  "image/png-to-webp": ConverterToolRegistrySchema;
+  "image/webp-to-jpg": ConverterToolRegistrySchema;
+  "image/webp-to-jpeg":ConverterToolRegistrySchema;
+  "image/webp-to-png": ConverterToolRegistrySchema;
+  "image/svg-to-png": ConverterToolRegistrySchema;
+  "image/svg-to-jpg":ConverterToolRegistrySchema;
+
+  "image/compress-image":CompressionQualityToolRegistrySchema;
+  "image/compress-jpg":CompressionQualityToolRegistrySchema;
+  "image/compress-jpeg":CompressionQualityToolRegistrySchema;
+  "image/compress-png":CompressionQualityToolRegistrySchema;
+  "image/compress-webp":CompressionQualityToolRegistrySchema;
+
+  "image/compress-image-to-20kb":CompressionSizeToolRegistrySchema;
+  "image/compress-image-to-50kb":CompressionSizeToolRegistrySchema;
+  "image/compress-image-to-100kb":CompressionSizeToolRegistrySchema;
+  "image/passport-photo-resizer":CompressionSizeToolRegistrySchema;
+  "image/resize-signature-for-upload":CompressionSizeToolRegistrySchema;
 };
 
 export type CalculatorToolProps = ToolPropsMap["calculator"];
 export type ConverterToolProps = ToolPropsMap["converter"];
 
-export type PdfConverterToolProps = ToolPropsMap["image_to_pdf"];
-export type PdfCompressorToolProps = ToolPropsMap["pdf_compress"];
+export type PdfConverterToolProps = ToolPropsMap["image/image-to-pdf"];
+export type PdfCompressorToolProps = ToolPropsMap["pdf/compress-pdf"];
 
-export type ImageConverterToolProps = ToolPropsMap["jpg_to_png"];
-export type ImageCompressorToolProps = ToolPropsMap["compress_to_20kb"];
+export type ImageConverterToolProps = ToolPropsMap["image/jpg-to-png"];
+export type ImageCompressorToolProps = ToolPropsMap["image/compress-image-to-20kb"];
 
 export const toolRegistry: {
   [K in keyof ToolPropsMap]: ToolRegistryEntry<ToolPropsMap[K]>;
 } = {
-  calculator: {
+  "calculator": {
     loader: () => import("@/components/tools/calculator/Calculator"),
     title: "Smart Calculator",
     description: "Advanced math & financial calculations",
@@ -79,7 +80,7 @@ export const toolRegistry: {
     featured: true,
     preload: false
   },
-  converter: {
+  "converter": {
     loader: () => import("@/components/tools/converter/UnitConverter"),
     title: "Unit Converter",
     description: "Convert units across various categories",
@@ -87,7 +88,7 @@ export const toolRegistry: {
     featured: true,
     preload: false
   },
-  pdf_merge: {
+  "pdf/merge-pdf": {
     loader: () => import("@/components/tools/pdf/MergePdf"),
     title: "Merge PDF Files",
     description: "Combine multiple PDF documents into a single file in seconds",
@@ -98,7 +99,7 @@ export const toolRegistry: {
       allowedFormats:["pdf"]
     }
   },
-  split_pdf: {
+  "pdf/split-pdf": {
     loader: () => import("@/components/tools/pdf/SplitPdf"),
     title: "Split PDF Files",
     description: "Split PDF into multiple files by custom preferences easily",
@@ -109,34 +110,28 @@ export const toolRegistry: {
       allowedFormats:["pdf"]
     }
   },
-  image_to_pdf:{
+  "image/image-to-pdf":{
     ...getDefaultIamgeToPdfConverterRegistry()
   },
-  jpg_to_pdf:{
+  "image/jpg-to-pdf":{
     ...getDefaultIamgeToPdfConverterRegistry(
       "Convert JPG to PDF Online",
       "Convert one or multiple JPG images into a PDF document online. Fast, free, secure, and easy to use"
     )
   },
-  jpeg_to_pdf:{
-    ...getDefaultIamgeToPdfConverterRegistry(
-      "Convert JPEG to PDF Online",
-      "Quickly turn JPEG photos into PDF files. Free online converter with high-quality results and secure processing"
-    )
-  },
-  png_to_pdf:{
+  "image/png-to-pdf":{
     ...getDefaultIamgeToPdfConverterRegistry(
       "Convert PNG to PDF Online",
       "Create PDF files from PNG images in just a few clicks. Free, secure, and easy PNG to PDF conversion"
     )
   },
-  webp_to_pdf:{
+  "image/webp-to-pdf":{
     ...getDefaultIamgeToPdfConverterRegistry(
       "Convert WebP to PDF Online",
       "Turn WebP images into PDF documents instantly. Fast, free, and secure online WebP to PDF converter"
     )
   },
-  pdf_compress: {
+  "pdf/compress-pdf": {
     loader: () => import("@/components/tools/pdf/compress-pdf/CompressPDF"),
     title: "Reduce PDF File Size",
     description: "Reduce PDF File Size - Fast & Secure PDF Compression Tool",
@@ -148,16 +143,16 @@ export const toolRegistry: {
       allowedFormats:["pdf"]
     }
   },
-  ai: {
-    loader: () => import("@/components/tools/ToolPlaceholder"),
-    title: "AI Writer",
-    description: "Generate content with AI assistance",
-    category: "AI",
-    featured: true,
-    comingSoon: true,
-    preload: false,
-  },
-  emai_calculator: {
+  // "ai": {
+  //   loader: () => import("@/components/tools/ToolPlaceholder"),
+  //   title: "AI Writer",
+  //   description: "Generate content with AI assistance",
+  //   category: "AI",
+  //   featured: true,
+  //   comingSoon: true,
+  //   preload: false,
+  // },
+  "calculator/emi-calculator": {
     loader: () => import("@/components/tools/emi_calculator/EMICalculator"),
     title: "EMI Calculator",
     description: "EMI loan payoff and prepayment calculator",
@@ -176,7 +171,7 @@ export const toolRegistry: {
   //   preload: false,
   // },
   //Image Converters Start
-  jpg_to_png : {
+  "image/jpg-to-png" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant JPG/JPEG to PNG Converter",
     description: "Convert images from JPG/JPEG to PNG quickly with high-quality",
@@ -189,9 +184,9 @@ export const toolRegistry: {
       outputFormats: ["png"]
     },
   },
-  png_to_jpg : {
+  "image/png-to-jpg" : {
       loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
-      title: "Instant PNG to JPG Converter",
+      title: "Fast PNG to JPG Converter for High-Quality Image Export",
       description: "Convert images from PNG to JPG quickly with high-quality",
       category: "Image_Converter",
       featured: false,
@@ -202,7 +197,7 @@ export const toolRegistry: {
         outputFormats: ["jpg"]
       },
   },
-  png_to_jpeg : {
+  "image/png-to-jpeg" : {
       loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
       title: "Instant PNG to JPEG Converter",
       description: "Convert images from PNG to JPEG quickly with high-quality",
@@ -216,7 +211,7 @@ export const toolRegistry: {
       }
   },
 
-  jpg_to_webp : {
+  "image/jpg-to-webp" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant JPG/JPEG to WEBP Converter",
     description: "Convert images from JPG/JPEG to WEBP quickly with high-quality",
@@ -229,7 +224,7 @@ export const toolRegistry: {
       outputFormats: ["webp"]
     },
   },
-  png_to_webp : {
+  "image/png-to-webp" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant PNG to WEBP Converter",
     description: "Convert images from PNG to WEBP quickly with high-quality",
@@ -243,7 +238,7 @@ export const toolRegistry: {
     },
   },
 
-  webp_to_jpg : {
+  "image/webp-to-jpg" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant WEBP to JPG Converter",
     description: "Convert images from WEBP to JPG quickly with high-quality",
@@ -256,7 +251,7 @@ export const toolRegistry: {
       outputFormats: ["jpg"]
     },
   },
-  webp_to_jpeg : {
+  "image/webp-to-jpeg" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant WEBP to JPEG Converter",
     description: "Convert images from WEBP to JPEG quickly with high-quality",
@@ -269,7 +264,7 @@ export const toolRegistry: {
       outputFormats: ["jpeg"]
     },
   },
-  webp_to_png : {
+  "image/webp-to-png" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant WEBP to PNG Converter",
     description: "Convert images from WEBP to PNG quickly with high-quality",
@@ -284,7 +279,7 @@ export const toolRegistry: {
   },
 
   //SVG
-  svg_to_png : {
+  "image/svg-to-png" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant SVG to PNG Converter",
     description: "Convert images from SVG to PNG quickly with high-quality",
@@ -297,7 +292,7 @@ export const toolRegistry: {
       outputFormats: ["png"]
     },
   },
-  svg_to_jpg : {
+  "image/svg-to-jpg" : {
     loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
     title: "Instant SVG to JPG Converter",
     description:  "Convert images from SVG to JPG quickly with high-quality",
@@ -312,7 +307,7 @@ export const toolRegistry: {
   },
   //Image Converters End
   //Image compressors Start
-  compress_image: {
+  "image/compress-image": {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title:  "Compress Image Online – JPG, JPEG, PNG, WebP",
     description: "Reduce image size across formats (JPG, JPEG, PNG, WebP) while keeping clear quality for web use, emails, and social sharing",
@@ -331,7 +326,7 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
-  compress_jpg: {
+  "image/compress-jpg": {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title: "Compress JPG Images Online",
     description: "Reduce JPG files quickly with minimal quality loss, ideal for fast uploads, web optimization, and document sharing",
@@ -347,7 +342,7 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
-  compress_jpeg: {
+  "image/compress-jpeg": {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title: "Compress JPEG Images Online",
     description: "Reduce JPEG files quickly with minimal quality loss, perfect for fast uploads, web optimization, and document sharing",
@@ -363,7 +358,7 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
-  compress_png: {
+  "image/compress-png": {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title: "Compress PNG Images Online",
     description: "Reduce PNG file size quickly while preserving transparency and sharp detail, ideal for web graphics, logos, and presentations",
@@ -379,7 +374,7 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
-  compress_webp: {
+  "image/compress-webp": {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title: "Compress WebP Images Online",
     description: "Optimize WebP files for faster loading with minimal quality loss, perfect for modern websites and responsive design",
@@ -396,7 +391,7 @@ export const toolRegistry: {
     },
   },
 
-  compress_to_20kb: {
+  "image/compress-image-to-20kb": {
     loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
     title: "Compress Image Online to 20KB",
     description: "Reduce images down to 20KB for ultra‑light uploads, perfect for fast websites and low‑bandwidth sharing",
@@ -417,7 +412,7 @@ export const toolRegistry: {
       lockTarget: true
     },
   },
-  compress_to_50kb: {
+  "image/compress-image-to-50kb": {
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -427,7 +422,7 @@ export const toolRegistry: {
     title: "Compress Image Online to 50KB",
     description: "Reduce photo size to 50KB instantly while keeping clear quality for web use, emails, and social sharing"
   },
-  compress_to_100kb: {
+  "image/compress-image-to-100kb": {
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -437,7 +432,7 @@ export const toolRegistry: {
     title: "Compress Image Online to 100KB",
     description: "Reduce image file size to to 100KB with sharp detail, ideal for blogs, presentations, and professional documents"
   },
-  passport_photo_reducer: {
+  "image/passport-photo-resizer": {
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -447,7 +442,7 @@ export const toolRegistry: {
     title: "Passport Size Photo Reducer Online",
     description: "Resize passport photos to required KB limits with sharp clarity, perfect for official forms and online applications"
   },
-  signature_size_reducer: {
+  "image/resize-signature-for-upload": {
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -458,7 +453,7 @@ export const toolRegistry: {
     description:"Compress signature images to small KB sizes while keeping legibility, ideal for digital documents and online submissions"
   },
   //Image compressors End
-  investment_returns: {
+  "calculator/roi-calculator": {
     loader: () => import("@/components/tools/finance_suite/InvestmentReturnsSuite"),
     title: "Investment Returns",
     description: "SIP, lump sum, CAGR and XIRR planning tools",
@@ -467,7 +462,7 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false,
   },
-  savings_deposits: {
+  "calculator/fd-calculator": {
     loader: () => import("@/components/tools/finance_suite/SavingsDepositsSuite"),
     title: "Savings & Deposits",
     description: "Simple interest, compound interest, FD and RD planning",
@@ -476,7 +471,7 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false,
   },
-  retirement_wealth_planning: {
+  "calculator/retirement-calculator": {
     loader: () => import("@/components/tools/finance_suite/RetirementWealthSuite"),
     title: "Retirement & Wealth Planning",
     description: "Retirement goals, FIRE progress and SWP cashflow planning",

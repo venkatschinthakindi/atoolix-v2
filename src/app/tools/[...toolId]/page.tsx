@@ -9,7 +9,10 @@ import { isToolId } from "@/lib/toolRegistry";
 export default function ToolPage() {
   const router = useRouter();
   const params = useParams();
-  const rawToolId = params?.toolId?.toString()?.toLowerCase() || "";
+  console.log(params);
+  const rawToolId = (Array.isArray(params?.toolId) ? 
+  params?.toolId?.join("/").toString()?.toLowerCase():
+params?.toolId?.toString()?.toLowerCase()) || "";
   const toolId = isToolId(rawToolId) ? rawToolId : undefined;
 
   const tool = toolId ? tools.find(t => t.id === toolId) : undefined;
