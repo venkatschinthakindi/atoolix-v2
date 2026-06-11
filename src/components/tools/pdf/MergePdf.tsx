@@ -6,14 +6,19 @@ import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { DropZone } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { PdfConverterToolProps } from "@/lib/toolRegistry";
+import { ToolTitleDescription } from "@/components/ui/ToolTitleDesc";
 
 type ToolState =
   | "idle"
   | "ready"
   | "processing"
   | "done";
+export default function PdfMergerTool({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
+  return <PdfMerger initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;
+}
 
-export default function MergePDFPage() {
+function PdfMerger({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [progress, setProgress] = useState(0);
   const [state, setState] = useState<ToolState>("idle");
@@ -74,9 +79,7 @@ export default function MergePDFPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 p-6">
-        <h1 className="text-xl text-white/80 font-semibold">
-            Merge PDF Files Online – Free, Fast & Secure PDF Merger Tool
-        </h1>
+      <ToolTitleDescription title={title} description={description} />
 
       {/* DROPZONE WRAPPER */}
       <div className="space-y-3">

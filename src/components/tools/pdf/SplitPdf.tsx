@@ -6,6 +6,8 @@ import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { DropZone } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { PdfConverterToolProps } from "@/lib/toolRegistry";
+import { ToolTitleDescription } from "@/components/ui/ToolTitleDesc";
 
 type PDFItem = {
   file: File;
@@ -16,8 +18,10 @@ type PDFItem = {
 };
 
 type Mode = "merge" | "split";
-
-export default function SmartPDFTool() {
+export default function PdfSpliterTool({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
+  return <PdfSpliter initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;
+}
+function PdfSpliter({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
   const [pdfs, setPDFs] = useState<PDFItem[]>([]);
   const [progress, setProgress] = useState(0);
   const [processing, setProcessing] = useState(false);
@@ -180,7 +184,7 @@ export default function SmartPDFTool() {
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
-      <h1 className="text-3xl font-bold tracking-tight">Split a PDF into separate files easily and quickly</h1>
+      <ToolTitleDescription title={title} description={description} />
       {/* DropZone */}
       <DropZone allowMultiple={true} validFileTypes=".pdf" onFiles={handleFiles} />
 

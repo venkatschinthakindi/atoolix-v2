@@ -3,10 +3,17 @@
 import { useState } from "react";
 import { saveAs } from "file-saver";
 import { compressPDF, CompressionLevel } from "@/utils/compressPDF";
-import { DropZone } from "@/components/ui/DropZone";
+import { DropZone, getAcceptString } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { PdfToolConfig, ToolConfig } from "@/types/image-converter.types";
+import { ToolTitleDescription } from "@/components/ui/ToolTitleDesc";
+interface Props {
+  config: PdfToolConfig;
+}
 
-export default function CompressClient() {
+export default function CompressClient({
+  config,
+}: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [level, setLevel] = useState<CompressionLevel>("medium");
   const [loading, setLoading] = useState(false);
@@ -47,15 +54,14 @@ export default function CompressClient() {
       setLoading(false);
     }
   };
+  const validFileTypes = getAcceptString(config.allowedFormats);
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
-      <h1 className="text-3xl font-bold">
-        Make files smaller in seconds. No installation needed.
-      </h1>
+      <ToolTitleDescription title={config.title} description={config.description} />
 
       {/* Upload */}
-      <DropZone allowMultiple={false} validFileTypes=".pdf" onFiles={handleFiles} />
+      <DropZone allowMultiple={false} validFileTypes={validFileTypes} onFiles={handleFiles} />
 
       {/* File Info */}
       {file && (

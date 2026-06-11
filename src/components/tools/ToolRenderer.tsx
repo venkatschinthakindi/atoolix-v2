@@ -12,18 +12,20 @@ type ToolRendererProps<T extends ToolId> = {
 
 export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolRendererProps<T>) {
   const entry = toolRegistry[toolId];
+  debugger;
+  console.log(entry);
   if (!entry) return null;
 
   const DynamicComp = dynamic(entry.loader as any, {
     ssr: false,
     loading: () => <div className="p-6">Loading tool…</div>,
   }) as React.ComponentType<ToolPropsMap[T]>;
- console.log(toolProps);
+ 
   const mergedProps = {
     ...(entry.defaultProps ?? {}),
     ...entry
   } as ToolPropsMap[T];
-console.log(mergedProps);
+  
   const services = {
     api: {
       get: async (path: string) => {

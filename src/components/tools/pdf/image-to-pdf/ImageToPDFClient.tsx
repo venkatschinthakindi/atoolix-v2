@@ -3,10 +3,16 @@
 import { useState } from "react";
 import { saveAs } from "file-saver";
 import { imagesToPDF, PageSize, Orientation } from "@/utils/imageFileToPdf";
-import { DropZone } from "@/components/ui/DropZone";
+import { DropZone, getAcceptString } from "@/components/ui/DropZone";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-
-export default function ImageToPDFClient() {
+import { PdfToolConfig } from "@/types/image-converter.types";
+import { ToolTitleDescription } from "@/components/ui/ToolTitleDesc";
+interface Props {
+  config: PdfToolConfig;
+}
+export default function ImageToPDFClient({
+  config,
+}: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
@@ -58,12 +64,13 @@ export default function ImageToPDFClient() {
     reordered.splice(result.destination.index, 0, removed);
     setFiles(reordered);
   };
+  const validFileTypes = getAcceptString(config.allowedFormats);
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
-      <h1 className="text-3xl font-bold">Convert Images to PDF Online</h1>
+      <ToolTitleDescription title={config.title} description={config.description} />
 
-      <DropZone allowMultiple={true} validFileTypes=".jpg,.jpeg,.png,.webp" onFiles={handleFiles} />
+      <DropZone allowMultiple={true} validFileTypes={validFileTypes} onFiles={handleFiles} />
 
       {files.length > 0 && (
         <div>

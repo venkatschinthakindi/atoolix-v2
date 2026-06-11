@@ -68,8 +68,8 @@ export function DropZone({
         onDrop={handleDrop}
         className={`p-12 rounded-2xl border-2 text-center cursor-pointer transition-all duration-300 ease-out ${
           isDragging
-            ? "border-blue-400 bg-gradient-to-b from-indigo-900 to-indigo-900 shadow-lg shadow-blue-500/50"
-            : "border-white/10 bg-gradient-to-b from-indigo-900 to-indigo-950 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/30"
+            ? "border-blue-400 bg-gradient-to-b from-indigo-900/60 to-indigo-950/60 shadow-lg shadow-blue-500/50"
+            : "border-white/10 bg-gradient-to-b from-indigo-950/40 to-indigo-950/10 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/30"
         }`}
       >
         <div className="flex items-center justify-center space-x-4">
