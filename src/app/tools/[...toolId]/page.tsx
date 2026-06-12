@@ -24,9 +24,9 @@ params?.toolId?.toString()?.toLowerCase()) || "";
           <h1 className="text-2xl font-semibold">Tool not found</h1>
           <button
             className="text-sm text-white/50 hover:text-white mb-2"
-            onClick={() => router.push("/tools")}
+            onClick={() => router.back()}
           >
-            ← Back to Tools
+            ← Back
           </button>
         </div>
       </div>
@@ -43,9 +43,9 @@ params?.toolId?.toString()?.toLowerCase()) || "";
         <div className="section-header">
           <button
             className="text-sm text-white/50 hover:text-white mb-2"
-            onClick={() => router.push("/tools")}
+            onClick={() => router.back()}
           >
-            ← Back to Tools
+            ← Back
           </button>
           {/* <h1 className="section-title">{tool.title}</h1>
           <p className="section-copy">{tool.description}</p> */}

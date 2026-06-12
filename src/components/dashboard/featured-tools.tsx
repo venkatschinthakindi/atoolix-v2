@@ -4,9 +4,51 @@ import Link from "next/link";
 import { tools } from "@/data/tools";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useRef, useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export function FeaturedTools() {
   const router = useRouter();
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+const [canScrollLeft, setCanScrollLeft] = useState(false);
+const [canScrollRight, setCanScrollRight] = useState(true);
+
+const scroll = (direction: "left" | "right") => {
+  const el = scrollRef.current;
+  if (!el) return;
+
+  el.scrollBy({
+    left: direction === "left" ? -350 : 350,
+    behavior: "smooth",
+  });
+};
+
+useEffect(() => {
+  const updateButtons = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(
+      el.scrollLeft < el.scrollWidth - el.clientWidth - 5
+    );
+  };
+
+  updateButtons();
+
+  const el = scrollRef.current;
+  if (!el) return;
+
+  el.addEventListener("scroll", updateButtons);
+  window.addEventListener("resize", updateButtons);
+
+  return () => {
+    el.removeEventListener("scroll", updateButtons);
+    window.removeEventListener("resize", updateButtons);
+  };
+}, []);
 
   const featured = tools[0];
   const others = tools.slice(1, 10);
@@ -82,7 +124,17 @@ export function FeaturedTools() {
         {/* Carousel Section */}
         <div className="relative">
           {/* Cards */}
-          <div className="tool-scroll">
+          <div
+              ref={scrollRef}
+              className="tool-scroll"
+            >{canScrollLeft && (
+              <button
+                onClick={() => scroll("left")}
+                className="absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+            )}
             {others.map((tool) => {
               const Icon = tool.icon;
 
@@ -130,10 +182,18 @@ export function FeaturedTools() {
             </Link>
         </div>
           </div>
-
+          {canScrollRight && (
+            <button
+              onClick={() => scroll("right")}
+              className="absolute right-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          )}
           {/* Right Fade */}
           <div className="tool-scroll-fade" />
         </div>
+        
       </div>
     </section>
   );

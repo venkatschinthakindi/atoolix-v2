@@ -30,7 +30,16 @@ export function ToolsContent() {
         <div className="mb-12">
           <FloatingDock />
         </div>
-
+        <div className="section-header">
+          <button
+            className="text-sm text-white/50 hover:text-white mb-2"
+            onClick={() => router.back()}
+          >
+            ← Back
+          </button>
+          {/* <h1 className="section-title">{tool.title}</h1>
+          <p className="section-copy">{tool.description}</p> */}
+        </div>
         <div className="section-header text-center">
           <h1 className="section-title">All Image Tools</h1>
           <p className="section-copy mb-2">

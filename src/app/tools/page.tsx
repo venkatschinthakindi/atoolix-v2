@@ -1,25 +1,26 @@
 "use client";
 
 import { categoryIcons, tools } from "@/data/tools";
-import React, { useState, useMemo, Suspense } from "react";
+import React, { useState, useMemo, Suspense, useEffect } from "react";
 import { FloatingDock } from "@/components/layout/floating-dock";
 import { FileText } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FilteredTools } from "@/components/ui/FilteredTools";
 
 export default function ToolsHub() {
+  const searchParams = useSearchParams();
+  console.log(searchParams);
+  const toolId = searchParams?.get("categoryid")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
+  
     return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ToolsContent />
+      <ToolsContent toolId={toolId}/>
     </Suspense>
   )
 }
 
-export function ToolsContent() {
+export function ToolsContent(tool: { toolId: string }) {
   const router = useRouter();
-    const searchParams = useSearchParams();
-    const toolId = searchParams?.get("categoryId")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
-
     const categories = [{
     id: "All",
     title: "All",
@@ -28,15 +29,36 @@ export function ToolsContent() {
   }, ...Object.values(categoryIcons)];
 
   // Find the tool from the data
-  const category = Object.values(categoryIcons).find(t => t.id.toLowerCase() === toolId);
+  const category = Object.values(categoryIcons).find(t => t.id.toLowerCase() === tool?.toolId?.toLowerCase());
   const [activeCategory, setActiveCategory] = useState(category?.id.toLowerCase() || "all");
+// const router = useRouter();
 
-  // Filter tools based on category
-  const filteredTools = useMemo(() => {
-    return activeCategory.toLowerCase() === "all"
-      ? tools
-      : tools.filter(t => t.category.toLowerCase() === activeCategory);
-  }, [activeCategory]);
+useEffect(() => {
+  const filteredURL = `/tools?categoryid=${activeCategory.toLowerCase()}`;
+
+  router.push(
+    `/tools?categoryid=${activeCategory.toLowerCase()}`,
+    { scroll: false }
+  );
+}, [activeCategory]);
+
+const filteredTools = useMemo(() => {
+  return activeCategory.toLowerCase() === "all"
+    ? tools
+    : tools.filter(
+        t => t.category.toLowerCase() === activeCategory.toLowerCase()
+      );
+}, [activeCategory, tools]);
+  // // Filter tools based on category
+  // const filteredTools = useMemo(() => {
+  //   const filteredURL = `/tools?categoryid=${activeCategory.toLowerCase()}`;
+  //   // Replace the current history entry with the filtered URL
+  //   //window.history.replaceState({}, "", filteredURL);
+
+  //   return activeCategory.toLowerCase() === "all"
+  //     ? tools
+  //     : tools.filter(t => t.category.toLowerCase() === activeCategory);
+  // }, [activeCategory]);
 
   return (
     <div className="app-shell">

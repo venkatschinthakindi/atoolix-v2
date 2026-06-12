@@ -341,7 +341,17 @@ button {
 .pdf-export canvas {
   filter: none !important;
 }
+.tool-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
 
+.tool-scroll::-webkit-scrollbar {
+  display: none;
+}
 @layer components {
   button {
     cursor: pointer;
