@@ -8,18 +8,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FilteredTools } from "@/components/ui/FilteredTools";
 
 export default function ToolsHub() {
-  const searchParams = useSearchParams();
-  console.log(searchParams);
-  const toolId = searchParams?.get("categoryid")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
   
     return (
     <Suspense fallback={<div>Loading...</div>}>
-      <ToolsContent toolId={toolId}/>
+      <ToolsContent />
     </Suspense>
   )
 }
 
-export function ToolsContent(tool: { toolId: string }) {
+export function ToolsContent() {
+  const searchParams = useSearchParams();
+  const toolId = searchParams?.get("categoryid")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
+  
   const router = useRouter();
     const categories = [{
     id: "All",
@@ -29,7 +29,7 @@ export function ToolsContent(tool: { toolId: string }) {
   }, ...Object.values(categoryIcons)];
 
   // Find the tool from the data
-  const category = Object.values(categoryIcons).find(t => t.id.toLowerCase() === tool?.toolId?.toLowerCase());
+  const category = Object.values(categoryIcons).find(t => t.id.toLowerCase() === toolId?.toLowerCase());
   const [activeCategory, setActiveCategory] = useState(category?.id.toLowerCase() || "all");
 // const router = useRouter();
 
