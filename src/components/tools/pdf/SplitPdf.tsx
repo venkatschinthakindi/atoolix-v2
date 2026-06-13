@@ -184,7 +184,7 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
-      <ToolTitleDescription title={title} description={description} />
+      {/* <ToolTitleDescription title={title} description={description} /> */}
       {/* DropZone */}
       <DropZone allowMultiple={true} validFileTypes=".pdf" onFiles={handleFiles} />
 

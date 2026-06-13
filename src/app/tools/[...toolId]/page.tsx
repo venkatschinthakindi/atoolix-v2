@@ -1,58 +1,78 @@
-"use client";
-
-import { useParams, useRouter } from "next/navigation";
-import { tools } from "@/data/tools";
-import { FloatingDock } from "@/components/layout/floating-dock";
+import { ToolId, toolRegistry } from "@/lib/toolRegistry";
 import { ToolRenderer } from "@/components/tools/ToolRenderer";
-import { isToolId } from "@/lib/toolRegistry";
+import { notFound } from "next/navigation";
+import { FloatingDock } from "@/components/layout/floating-dock";
+import BackButton from "@/components/ui/back-button";
+import { getTool } from "@/lib/getTool";
 
-export default function ToolPage() {
-  const router = useRouter();
-  const params = useParams();
-  console.log(params);
-  const rawToolId = (Array.isArray(params?.toolId) ? 
-  params?.toolId?.join("/").toString()?.toLowerCase():
-params?.toolId?.toString()?.toLowerCase()) || "";
-  const toolId = isToolId(rawToolId) ? rawToolId : undefined;
+export async function generateMetadata({ params }: any) {
+  const { rawToolId } = await params;
+  const { toolId , tool} = getTool(rawToolId) as { toolId: ToolId, tool: any };
 
-  const tool = toolId ? tools.find(t => t.id === toolId) : undefined;
-
-  if (!tool || !toolId) {
-    return (
-      <div className="app-shell">
-        <div className="app-container page-section text-white">
-          <h1 className="text-2xl font-semibold">Tool not found</h1>
-          <button
-            className="text-sm text-white/50 hover:text-white mb-2"
-            onClick={() => router.back()}
-          >
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
+  if (!tool) {
+    return {
+      title: "Tool Not Found",
+    };
   }
 
+  return {
+    title: tool.title,
+    description: tool.description,
+  };
+}
+
+export default async function ToolPage({ params }: any) {
+  const resolvedParams = await params;
+  const rawToolId = resolvedParams.toolId;
+  
+  const { toolId , tool} = getTool(rawToolId) as { toolId: ToolId, tool: any };
+
+  if (!tool) return notFound();
+
   return (
-    <div className="app-shell">
-      <div className="app-container page-section">
-        <div className="mb-12">
-          <FloatingDock />
-        </div>
+    <>
+      <div className="app-shell">
+        <div className="app-container page-section">
+            <div className="mb-12">
+              <FloatingDock />
+            </div>
 
-        <div className="section-header">
-          <button
-            className="text-sm text-white/50 hover:text-white mb-2"
-            onClick={() => router.back()}
-          >
-            ← Back
-          </button>
-          {/* <h1 className="section-title">{tool.title}</h1>
-          <p className="section-copy">{tool.description}</p> */}
-        </div>
+            <div className="section-header">
+              <BackButton />
+            </div>
+            {/* ✅ SEO CONTENT (SERVER RENDERED) */}
+            <div className="text-center space-y-4 mb-10">
+              {/* Page Title */}
+              <h1 className="md:text-l font-extrabold text-white tracking-wide">
+                {tool.title}
+              </h1>
 
-        <ToolRenderer toolId={toolId} />
-      </div>
-    </div>
+              {/* Description */}
+              <p className="text-white/70 text-xs  max-w-3xl mx-auto leading-relaxed">
+                {tool.description}
+              </p>
+
+              {/* Horizontal Separator */}
+              {/* <div className="w-24 mx-auto border-t border-white/20 mt-4"></div> */}
+            </div>
+
+            <section>
+              <h2>How to use this tool</h2>
+              <ol>
+                <li>Upload your file</li>
+                <li>Click process</li>
+                <li>Download result</li>
+              </ol>
+            </section>
+
+            <section>
+              <h2>Why use this tool?</h2>
+              <p>Fast, secure, browser-based processing.</p>
+            </section>
+            {/* CLIENT TOOL */}
+            <ToolRenderer toolId={toolId} />
+          </div>
+        </div>  
+    </>
   );
 }

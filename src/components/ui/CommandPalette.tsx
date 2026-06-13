@@ -102,9 +102,9 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                         }
                         else {
                           const params = new URLSearchParams({
-                            categoryId: item.id
+                            categoryid: item?.id
                           });
-
+                          
                           router.push(`/tools?${params.toString()}`);
                         }
                       }}

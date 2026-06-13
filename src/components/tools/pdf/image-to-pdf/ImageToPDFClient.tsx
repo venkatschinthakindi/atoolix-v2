@@ -68,7 +68,7 @@ export default function ImageToPDFClient({
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
-      <ToolTitleDescription title={config.title} description={config.description} />
+      {/* <ToolTitleDescription title={config.title} description={config.description} /> */}
 
       <DropZone allowMultiple={true} validFileTypes={validFileTypes} onFiles={handleFiles} />
 

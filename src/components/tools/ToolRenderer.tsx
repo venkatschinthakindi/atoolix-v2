@@ -12,8 +12,7 @@ type ToolRendererProps<T extends ToolId> = {
 
 export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolRendererProps<T>) {
   const entry = toolRegistry[toolId];
-  debugger;
-  console.log(entry);
+  
   if (!entry) return null;
 
   const DynamicComp = dynamic(entry.loader as any, {
@@ -35,15 +34,15 @@ export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolR
     },
     analytics: {
       track: (event: string, props?: any) => {
-        // no-op or wire to real analytics
-        // console.debug("analytics.track", event, props);
       },
     },
   };
 
   return (
-    <ToolContextProvider services={services}>
-      <DynamicComp {...mergedProps} />
-    </ToolContextProvider>
+    <>
+      <ToolContextProvider services={services}>
+        <DynamicComp {...mergedProps} />
+      </ToolContextProvider>
+    </>
   );
 }

@@ -79,7 +79,7 @@ function PdfMerger({ initialExpression, theme, title,description, allowedFormats
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 p-6">
-      <ToolTitleDescription title={title} description={description} />
+      {/* <ToolTitleDescription title={title} description={description} /> */}
 
       {/* DROPZONE WRAPPER */}
       <div className="space-y-3">

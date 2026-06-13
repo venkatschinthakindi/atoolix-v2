@@ -191,8 +191,6 @@ export default function ImageCompressorClient({
 
         setProgress(100);
       } catch (err) {
-        console.error(err);
-
         setError(
           "Failed to compress image."
         );

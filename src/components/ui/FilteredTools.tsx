@@ -1,10 +1,21 @@
 "use client";
 
+import { tools } from "@/data/tools";
+import { toolRegistry } from "@/lib/toolRegistry";
 import { useRouter } from "next/navigation";
 export function FilteredTools({
+  filterKey,
   filteredTools
 }: any) {
     const router = useRouter();
+    if(!!filteredTools){
+      filteredTools = filteredTools;
+    }
+    else {
+      const filteredKeys = Object.keys(toolRegistry).filter(toolId => toolId.toLowerCase().startsWith(filterKey));
+      filteredTools = tools.filter(t => filteredKeys.includes(t.id));
+    }
+    
 
     return (
     <div className="tool-grid">
