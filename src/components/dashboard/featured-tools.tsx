@@ -122,65 +122,102 @@ useEffect(() => {
         </motion.div>
 
         {/* Carousel Section */}
-        <div className="relative">
-          {/* Cards */}
-          <div
-              ref={scrollRef}
-              className="tool-scroll"
-            >{canScrollLeft && (
-              <button
-                onClick={() => scroll("left")}
-                className="absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-            )}
-            {others.map((tool) => {
-              const Icon = tool.icon;
+            <div className="relative">
+              {/* Cards */}
+              <div
+                  ref={scrollRef}
+                  className="tool-scroll"
+                >{canScrollLeft && (
+                  <button
+                    onClick={() => scroll("left")}
+                    className="absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                )}
+                {others.map((tool) => {
+                  const Icon = tool.icon;
 
-              return (
-                <motion.div
-                  key={tool.id}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.15 }}
-                  onClick={() => router.push(`/tools/${tool.id}`)}
-                  className="card-surface card-surface-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
-                >
-                  <div className="mb-4 flex items-start justify-between gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
-                      <Icon className="h-6 w-6 text-indigo-400" />
-                    </div>
-                    
-                    {tool.comingSoon && (
-                      <span className="rounded-full bg-yellow-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-yellow-300">
-                        Coming Soon
-                      </span>
-                    )}
-                    {!tool.comingSoon && (
-                      <span className="rounded-full bg-violet-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-violet-300">
-                        {tool.category}
-                      </span>
-                    )}
-                    
-                  </div>
-                  
-                  <h4 className="font-medium text-white">
-                    {tool.title}
-                  </h4>
+                  return (
+                    <motion.div
+                        key={tool.id}
+                        whileHover={{ y: -4 }}
+                        transition={{ duration: 0.15 }}
+                        onClick={() => router.push(`/tools/${tool.id}`)}
+                        className="card-surface card-surface-sm w-[350px] transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
+                      >
+                        <div className="mb-4 flex items-start justify-between gap-3">
+                          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
+                            <Icon className="h-6 w-6 text-indigo-400" />
+                          </div>
 
-                  <p className="mt-2 line-clamp-2 text-xs text-zinc-400">
-                    {tool.description}
-                  </p>
-                </motion.div>
-              );
-            })}
-            <div>
-            <Link
-              href="/tools"
-              className="min-w-[150px] inline-flex items-center text-sm gap-2 text-indigo-400">
-              View All →
-            </Link>
-        </div>
+                          {tool.comingSoon ? (
+                            <span className="rounded-full bg-yellow-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-yellow-300">
+                              Coming Soon
+                            </span>
+                          ) : (
+                            <span className="rounded-full bg-violet-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-violet-300">
+                              {tool.category}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Title with tooltip */}
+                        <h4 className="font-medium text-white truncate" title={tool.title}>
+                          {tool.title}
+                        </h4>
+
+                        {/* Description with tooltip */}
+                        <p
+                          className="mt-2 line-clamp-2 text-xs text-zinc-400"
+                          title={tool.description}
+                        >
+                          {tool.description}
+                        </p>
+                      </motion.div>
+
+                    // <motion.div
+                    //   key={tool.id}
+                    //   whileHover={{ y: -4 }}
+                    //   transition={{ duration: 0.15 }}
+                    //   onClick={() => router.push(`/tools/${tool.id}`)}
+                    //   className="card-surface card-surface-sm transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
+                    // >
+                    //   <div className="mb-4 flex items-start justify-between gap-3">
+                    //     <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
+                    //       <Icon className="h-6 w-6 text-indigo-400" />
+                    //     </div>
+                        
+                    //     {tool.comingSoon && (
+                    //       <span className="rounded-full bg-yellow-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-yellow-300">
+                    //         Coming Soon
+                    //       </span>
+                    //     )}
+                    //     {!tool.comingSoon && (
+                    //       <span className="rounded-full bg-violet-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-violet-300">
+                    //         {tool.category}
+                    //       </span>
+                    //     )}
+                        
+                    //   </div>
+                      
+                    //   <h4 className="font-medium text-white">
+                    //     {tool.title}
+                    //   </h4>
+
+                    //   <p className="mt-2 line-clamp-2 text-xs text-zinc-400">
+                    //     {tool.description}
+                    //   </p>
+                    // </motion.div>
+                  );
+                })}
+                <div>
+                <Link
+                  href="/tools"
+                  className="min-w-[150px] inline-flex items-center text-sm gap-2 text-indigo-400">
+                  View All →
+                </Link>
+            </div>
           </div>
           {canScrollRight && (
             <button

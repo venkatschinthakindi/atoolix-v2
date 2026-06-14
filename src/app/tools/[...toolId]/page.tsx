@@ -26,10 +26,10 @@ export default async function ToolPage({ params }: any) {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BusinessApplication",
+            "@type": tool?.applicationType || "WebApplication",
             operatingSystem: "Web",
-            applicationCategory: "UtilityApplication",
-            url: tool.alternates.canonical,
+            applicationCategory: tool?.applicationCategory || "Utilities",
+            url: tool.alternates?.canonical,
             name: tool.title,
             description: tool.description,
           }),
