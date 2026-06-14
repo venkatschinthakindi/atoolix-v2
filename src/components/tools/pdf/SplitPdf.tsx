@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { DropZone } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { PdfConverterToolProps } from "@/lib/toolRegistry";
-import { ToolTitleDescription } from "@/components/ui/ToolTitleDesc";
 
 type PDFItem = {
   file: File;
@@ -22,12 +21,18 @@ export default function PdfSpliterTool({ initialExpression, theme, title,descrip
   return <PdfSpliter initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;
 }
 function PdfSpliter({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
+  const [dropzoneKey, setDropzoneKey] = useState(0);
   const [pdfs, setPDFs] = useState<PDFItem[]>([]);
   const [progress, setProgress] = useState(0);
   const [processing, setProcessing] = useState(false);
+  const [canDownload, setDownload] = useState(false);
+  const [downloadableContent, setDownloadableContent] = useState<any>(null);
   const [mode, setMode] = useState<Mode>("split");
   const [splitOption, setSplitOption] = useState<"single" | "multiple">("multiple");
-
+  useEffect(() => {
+    setDownload(false);
+    setDownloadableContent(null);
+  }, [splitOption]);
   // Parse page selection input
   const parsePages = (input: string, total: number) => {
     const selected = Array(total).fill(false);
@@ -35,8 +40,8 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
 
     if (!clean) return selected;
     if (clean === "all") return selected.map(() => true);
-    if (clean === "odd") return selected.map((_, idx) => idx % 2 === 0);
-    if (clean === "even") return selected.map((_, idx) => idx % 2 === 1);
+    //if (clean === "odd") return selected.map((_, idx) => idx % 2 === 0);
+    //if (clean === "even") return selected.map((_, idx) => idx % 2 === 1);
 
     const parts = clean.split(",");
     parts.forEach((part) => {
@@ -50,6 +55,22 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
       if (part.startsWith("first-")) {
         const n = Number(part.replace("first-", ""));
         for (let i = 0; i < n; i++) selected[i] = true;
+        return;
+      }
+      if (part.toLocaleLowerCase() ==="even") {
+        for (let i = 0; i < total; i++) {
+          if ((i + 1) % 2 === 0) {
+            selected[i] = true;
+          }
+        }
+        return;
+      }
+      if (part.toLocaleLowerCase() === "odd") {
+        for (let i = 0; i < total; i++) {
+          if ((i + 1) % 2 !== 0) {
+            selected[i] = true;
+          }
+        }
         return;
       }
       if (part.includes("-")) {
@@ -117,6 +138,7 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
     }, 1500);
   };
 
+  // let processedBlobContents: any = null;
   const splitPDFs = async () => {
     setProcessing(true);
     setProgress(0);
@@ -134,10 +156,11 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
         setProgress(Math.round(((i + 1) / pdfs.length) * 90));
       }
       const bytes = await merged.save();
-      const blob = new Blob([new Uint8Array(bytes)], {
-      type: "application/pdf",
-    });
-      saveAs(blob, "selected_pages.pdf");
+      const processedBlobContents = new Blob([new Uint8Array(bytes)], {
+        type: "application/pdf",
+      });
+      setDownloadableContent(processedBlobContents);
+     //saveAs(blob, "selected_pages.pdf");
     } else {
       const zip = new JSZip();
       for (let i = 0; i < pdfs.length; i++) {
@@ -156,14 +179,16 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
         setProgress(Math.round(((i + 1) / pdfs.length) * 90));
       }
 
-      const content = await zip.generateAsync({ type: "blob" });
-      saveAs(content, "split_pages.zip");
+      const processedBlobContents = await zip.generateAsync({ type: "blob" });
+      setDownloadableContent(processedBlobContents);
+      //saveAs(content, "split_pages.zip");
     }
 
     setProgress(100);
     setTimeout(() => {
       setProcessing(false);
-      setPDFs([]);
+      setDownload(true);
+      // setPDFs([]);
       setProgress(0);
     }, 1500);
   };
@@ -175,6 +200,16 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
         splitPDFs();
     }
   };
+  const downloadProcess = () => {
+    if(canDownload){
+       const fileName = splitOption === "single" ? "selected_pages.pdf" : "split_pages.zip";
+      saveAs(downloadableContent, fileName);
+    }
+    setDownloadableContent(null);
+    setDownload(false);
+    setPDFs([]);
+    setDropzoneKey(prev => prev + 1);
+  };
 
   const getSelectedSummary = (pages: boolean[]) => {
     const selectedIndices = pages.map((v, idx) => (v ? idx + 1 : -1)).filter((v) => v !== -1);
@@ -184,9 +219,8 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
-      {/* <ToolTitleDescription title={title} description={description} /> */}
       {/* DropZone */}
-      <DropZone allowMultiple={true} validFileTypes=".pdf" onFiles={handleFiles} />
+      <DropZone key={dropzoneKey} allowMultiple={true} validFileTypes=".pdf" onFiles={handleFiles} />
 
       {/* PDF Cards */}
       <div className="space-y-5">
@@ -231,7 +265,7 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
       </div>
 
       {/* Process Button */}
-      {pdfs.length > 0 && (
+      {pdfs.length > 0 &&(canDownload == false) && (
         
         <button
           onClick={handleProcess}
@@ -245,8 +279,26 @@ function PdfSpliter({ initialExpression, theme, title,description, allowedFormat
           {processing
             ? "Processing..."
             : mode === "merge"
-            ? "Merge Selected Pages"
-            : "Split Selected Pages"}
+            ? "Merge PDFs"
+            : "Split PDF"}
+        </button>
+      )}
+      {canDownload && (
+        
+        <button
+          onClick={downloadProcess}
+          disabled={processing}
+          className={`w-full p-3 rounded-xl mt-4 transition ${
+            processing
+              ? "bg-gray-800 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-500 text-white"
+          }`}
+        >
+          {processing
+            ? "Processing..."
+            : mode === "merge"
+            ? "Merge PDFs"
+            : "Download"}
         </button>
       )}
 

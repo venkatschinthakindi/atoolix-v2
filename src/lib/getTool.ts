@@ -14,7 +14,7 @@ export function getTool(toolId: any) {
         toolId?.toString()?.toLowerCase()) || "";
   // const toolId = isToolId(rawToolId) ? rawToolId : undefined;
   if (!rawToolId || !(rawToolId in toolRegistry)) return {
-    toolId: 'nofound',
+    toolId: 'not-found',
     tool: null
   };
 

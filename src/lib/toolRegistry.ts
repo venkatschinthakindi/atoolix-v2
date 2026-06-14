@@ -7,8 +7,11 @@ export type ToolLoader<Props> = () => Promise<{ default: ComponentType<Props> }>
 export type ToolRegistryEntry<Props = {}> = {
   loader: ToolLoader<Props>;
   title: string;
+  onPageTitle?: string;
   description?: string;
   category?: string;
+  keywords?: string[];
+  alternates?: { canonical: string };
   featured?: boolean;
   comingSoon?: boolean;
   preload?: boolean;
@@ -101,8 +104,24 @@ export const toolRegistry: {
   },
   "pdf/split-pdf": {
     loader: () => import("@/components/tools/pdf/SplitPdf"),
-    title: "Split PDF Files",
-    description: "Split PDF into multiple files by custom preferences easily",
+    title: "Split PDF Files Online Free – Extract & Separate PDF Pages",
+    description: "Split PDF files online for free. Extract specific pages, separate PDF documents, and create smaller PDF files securely in your browser. No installation or registration required.",
+    onPageTitle:"Split PDF Files Online for Free",
+    keywords: [
+      "split pdf files",
+      "split pdf",
+      "pdf splitter",
+      "split pdf online",
+      "extract pages from pdf",
+      "pdf page splitter",
+      "separate pdf pages",
+      "free pdf splitter",
+      "split large pdf",
+      "split pdf document"
+    ],
+    alternates: {
+      canonical: "https://yourdomain.com/tools/pdf/split-pdf"
+    },
     category: "PDF",
     featured: true,
     preload: false,
