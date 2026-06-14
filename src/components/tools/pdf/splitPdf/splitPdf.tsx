@@ -1,16 +1,7 @@
 import { PdfConverterToolProps } from "@/components/tools/toolRegistry";
 import { PdfToolConfig } from "@/types/imageConverter.types";
-import PdfSpliterClient from "./SplitPdfClient";
+import PdfSpliterClient from "./splitPdfClient";
 
-type PDFItem = {
-  file: File;
-  name: string;
-  pages: boolean[];
-  input: string;
-  totalPages: number;
-};
-
-type Mode = "merge" | "split";
 export default function PdfSpliterTool({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
   return <PdfSpliter initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;
 }

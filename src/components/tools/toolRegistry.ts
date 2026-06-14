@@ -314,7 +314,7 @@ export const toolRegistry: {
     preload: false
   },
   "pdf/merge-pdf": {
-    loader: () => import("@/components/tools/pdf/MergePdf"),
+    loader: () => import("@/components/tools/pdf/mergePdf/mergePdf"),
     title: "Merge PDF Files Online for Free | PDF Merger Tool",
     description: "Merge multiple PDF files into one document online for free. Combine, arrange, and download PDFs instantly without installation.",
     onPageTitle: "Merge PDF Files Online for Free | PDF Merger Tool",
@@ -343,7 +343,7 @@ export const toolRegistry: {
     }
   },
   "pdf/split-pdf": {
-    loader: () => import("@/components/tools/pdf/split-pdf/SplitPdf"),
+    loader: () => import("@/components/tools/pdf/splitPdf/splitPdf"),
     title: "Split PDF Files Online Free – Extract & Separate PDF Pages",
     description: "Split PDF files online for free. Extract specific pages, separate PDF documents, and create smaller PDF files securely in your browser. No installation or registration required.",
     onPageTitle:"Split PDF Files Online for Free",

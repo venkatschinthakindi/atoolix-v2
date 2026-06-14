@@ -1,4 +1,4 @@
-import { SplitPdfSeoContent } from "@/components/tools/pdf/split-pdf/split-pdf-seo-content";
+import { SplitPdfSeoContent } from "@/components/tools/pdf/splitPdf/splitPdfSeoContent";
 
 export function ToolSeoContent({ toolId }: { toolId: string }) {
   let SeoContent;
