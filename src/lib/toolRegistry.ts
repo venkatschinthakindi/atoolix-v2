@@ -1326,10 +1326,6 @@ export const toolRegistry: {
 
 export type ToolId = keyof typeof toolRegistry;
 
-export function isToolId(value: string): value is ToolId {
-  return Object.prototype.hasOwnProperty.call(toolRegistry, value);
-}
-
 export type InitialThemeToolRegistrySchema = {
   title?: string,
   description?: string,
