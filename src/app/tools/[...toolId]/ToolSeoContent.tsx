@@ -1,11 +1,11 @@
-import { SplitPdfSeoContent } from "@/components/tools/pdf/splitPdf/splitPdfSeoContent";
+import { SplitPdfSeoContentV2 } from "@/components/tools/pdf/splitPdf/splitPdfSeoContentV2";
 
 export function ToolSeoContent({ toolId }: { toolId: string }) {
   let SeoContent;
 
   switch (toolId.toLocaleLowerCase()) {
     case "pdf/split-pdf":
-      SeoContent = <SplitPdfSeoContent />;
+      SeoContent = <SplitPdfSeoContentV2 />;
       break;
     // case "pdf/merge-pdf":
     //   SeoContent = <MergePdfSeoContent />;
