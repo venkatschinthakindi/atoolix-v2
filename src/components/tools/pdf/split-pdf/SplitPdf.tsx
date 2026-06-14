@@ -1,5 +1,5 @@
 import { PdfConverterToolProps } from "@/lib/toolRegistry";
-import { PdfToolConfig } from "@/types/image-converter.types";
+import { PdfToolConfig } from "@/types/imageConverter.types";
 import PdfSpliterClient from "./SplitPdfClient";
 
 type PDFItem = {

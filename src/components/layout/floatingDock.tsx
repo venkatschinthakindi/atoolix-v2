@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import { navigationItems } from "@/data/navigation";
-import FloatingDockClient from "@/components/layout/floating-dock-client";
+import FloatingDockClient from "@/components/layout/floatingDockClient";
 
 export function FloatingDock() {
   return (

@@ -3,25 +3,25 @@
 import { useEffect, useMemo, useState } from "react";
 import { saveAs } from "file-saver";
 
-import { DropZone, getAcceptString } from "@/components/ui/DropZone";
-import { ProgressBar } from "@/components/ui/ProgressBar";
+import { DropZone, getAcceptString } from "@/components/ui/dropZone";
+import { ProgressBar } from "@/components/ui/progressBar";
 
-import { CompressorConfig } from "@/types/image-compressor.types";
+import { CompressorConfig } from "@/types/imageCompressor.types";
 
-import { validateImage } from "@/features/image-converter/validateImage";
-import { normalizeFile } from "@/features/image-converter/normalizeFile";
-import { getImageMetadata } from "@/features/image-converter/image-metadata/getImageMetadata";
-import { generateFileName } from "@/features/image-converter/generateFileName";
+import { validateImage } from "@/features/imageConverter/validateImage";
+import { normalizeFile } from "@/features/imageConverter/normalizeFile";
+import { getImageMetadata } from "@/features/imageConverter/imageMetadata/getImageMetadata";
+import { generateFileName } from "@/features/imageConverter/generateFileName";
 
-import { compressImage } from "@/features/image-compressor/compressImage";
+import { compressImage } from "@/features/imageCompressor/compressImage";
 
 import { ImageMetadata } from "@/types/imageTypes";
 import { CompressionResult } from "@/types/compression.types";
-import { ToolLayout } from "../image-tool-ui/ToolLayout";
-import { PreviewCard } from "../image-tool-ui/PreviewCard";
-import { MetadataCard } from "../image-tool-ui/MetadataCard";
-import { DownloadCard } from "../image-tool-ui/DownloadCard";
-import { CompressionStatsCard } from "../image-tool-ui/CompressionStatsCard";
+import { ToolLayout } from "../imageToolUI/toolLayout";
+import { PreviewCard } from "../imageToolUI/previewCard";
+import { MetadataCard } from "../imageToolUI/metadataCard";
+import { DownloadCard } from "../imageToolUI/downloadCard";
+import { CompressionStatsCard } from "../imageToolUI/compressionStatsCard";
 
 interface Props {
   config: CompressorConfig;

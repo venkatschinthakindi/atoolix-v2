@@ -1,4 +1,4 @@
-import { ImageFormat } from "@/types/image-converter.types";
+import { ImageFormat } from "@/types/imageConverter.types";
 
 export function detectMimeType(file: File): ImageFormat | null {
   const type = file.type.toLowerCase();

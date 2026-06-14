@@ -1,5 +1,5 @@
 import { CompressorConfig }
-  from "@/types/image-compressor.types";
+  from "@/types/imageCompressor.types";
 
 export const compressImageConfig: CompressorConfig =
   {

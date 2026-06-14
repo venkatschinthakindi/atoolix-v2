@@ -1,6 +1,6 @@
 import { PdfConverterToolProps } from "@/lib/toolRegistry";
 import ImageToPDFClient from "./ImageToPDFClient";
-import { PdfToolConfig } from "@/types/image-converter.types";
+import { PdfToolConfig } from "@/types/imageConverter.types";
 
 export default function PdfConverterTool({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
   return <PdfConverter initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;

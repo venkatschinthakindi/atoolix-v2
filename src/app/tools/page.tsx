@@ -14,8 +14,7 @@ export default async function ToolsPage({ params }: any) {
   return (
     <>
     <div className="app-shell">
-          <div className="app-container page-section">
-      {/* ✅ THIS IS WHAT GOOGLE READS FIRST */}
+      <div className="app-container page-section">
 
       <div className="section-header text-center mt-8">
           <h1 className="section-title">All Tools</h1>
@@ -25,7 +24,6 @@ export default async function ToolsPage({ params }: any) {
         </div>
         
       <Suspense fallback={<div>Loading...</div>}>
-        {/* ❌ CLIENT INTERACTION BELOW */}
         <ToolsHubClient />
       </Suspense>
       </div>

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { FloatingDock } from "./floating-dock";
-import { BackgroundOrbs } from "@/components/dashboard/background-orbs";
+import { FloatingDock } from "./floatingDock";
+import { BackgroundOrbs } from "@/components/dashboard/backgroundOrbs";
 
 interface AppShellProps {
   children: ReactNode;

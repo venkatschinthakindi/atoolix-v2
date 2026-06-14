@@ -4,10 +4,10 @@
 import { useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import { DropZone } from "@/components/ui/DropZone";
-import { ProgressBar } from "@/components/ui/ProgressBar";
+import { DropZone } from "@/components/ui/dropZone";
+import { ProgressBar } from "@/components/ui/progressBar";
 import { PdfConverterToolProps } from "@/lib/toolRegistry";
-import { ToolTitleDescription } from "@/components/ui/ToolTitleDesc";
+import { ToolTitleDescription } from "@/components/ui/toolTitleDesc";
 
 type ToolState =
   | "idle"

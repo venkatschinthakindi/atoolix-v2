@@ -74,7 +74,7 @@ export const toolRegistry: {
   [K in keyof ToolPropsMap]: ToolRegistryEntry<ToolPropsMap[K]>;
 } = {
   "calculator/emi-calculator": {
-    loader: () => import("@/components/tools/emi_calculator/EMICalculator"),
+    loader: () => import("@/components/tools/emiCalculator/EMICalculator"),
     title: "EMI Calculator for Home, Car & Personal Loans | Loan Repayment & Prepayment Planner",
     onPageTitle: "EMI Calculator for Home, Car & Personal Loans | With Prepayment & Schedule",
     description: "Calculate EMI for home loan, car loan, and personal loan with advanced repayment planning. Includes extra monthly contribution, balloon payment options, prepayment impact analysis, full amortization schedule, and visual charts.",
@@ -106,7 +106,7 @@ export const toolRegistry: {
     preload: false
   },
   "calculator/roi-calculator": {
-    loader: () => import("@/components/tools/finance_suite/InvestmentReturnsSuite"),
+    loader: () => import("@/components/tools/financeSuite/investmentReturnsSuite"),
     "title": "SIP ROI Calculator with Step-Up | CAGR XIRR LumpSum Returns | Download PDF Report + Interactive Charts | Advanced Mutual Fund Growth Planner",
     "onPageTitle": "SIP ROI Calculator with Step-Up | CAGR XIRR LumpSum | Download PDF + Charts | Mutual Fund Growth Planner",
     "description": "Calculate SIP returns with step-up settings online featuring downloadable PDF reports and interactive charts. Get accurate CAGR, XIRR, lumpsum returns, and total growth for mutual fund investments with visual compound growth charts. Download professional PDF report with yearly returns breakdown, final value chart, and step-up investment timeline. Plan wealth with step-up SIP calculator showing annual/monthly step-up charts, compound growth graphs. Free advanced ROI calculator with download & chart options, no registration required.",
@@ -153,7 +153,7 @@ export const toolRegistry: {
     preload: false,
   },
   "calculator/fd-calculator": {
-    loader: () => import("@/components/tools/finance_suite/SavingsDepositsSuite"),
+    loader: () => import("@/components/tools/financeSuite/savingsDepositsSuite"),
     "title": "FD Calculator Fixed & Recurring Deposit | Simple & Compound Interest | Download PDF Report + Interactive Charts | Advanced FD RD Return Planner",
     "onPageTitle": "FD Calculator Fixed & RD Deposit | Simple + Compound Interest | Download PDF + Charts | FD RD Planner",
     "description": "Calculate FD & RD returns online with simple interest and compound interest options featuring downloadable PDF reports and interactive charts. Get accurate fixed deposit and recurring deposit maturity amounts, total interest earned, compound growth charts, and download professional PDF with year-by-year breakdown. Plan savings with FD calculator showing quarterly/annual compounding charts, RD calculator with monthly contribution tables. Free advanced deposit planner with download & chart options, no registration required.",
@@ -200,7 +200,7 @@ export const toolRegistry: {
     preload: false,
   },
   "calculator/retirement-calculator": {
-    loader: () => import("@/components/tools/finance_suite/RetirementWealthSuite"),
+    loader: () => import("@/components/tools/financeSuite/retirementWealthSuite"),
     "title": "Retirement Calculator + FIRE Calculator + SWP Planner | Download PDF Report + Interactive Charts | Complete Retirement & Financial Independence Planning Tool",
     "onPageTitle": "Retirement Calculator | FIRE + SWP Planner | Download PDF Report + Interactive Charts | Retirement Planning Tool",
     "description": "Plan your retirement with advanced Retirement Calculator, FIRE Calculator, and SWP Planner featuring downloadable PDF reports and interactive charts. Calculate retirement corpus, FIRE target, monthly SWP withdrawal, and view inflation-adjusted income with visual growth charts. Download professional PDF report with year-by-year breakdown, compound growth chart, and retirement timeline. Free all-in-one planner with download & chart options, no registration required.",
@@ -532,7 +532,7 @@ export const toolRegistry: {
   
   //Image Converters Start
   "image/jpg-to-png" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "JPG & JPEG to PNG Converter Online | High-Quality Image Format Converter",
     onPageTitle: "Convert JPG & JPEG to PNG Online | Lossless Image Converter",
     description: "Convert JPG and JPEG images to high-quality PNG format instantly. Preserve image clarity, transparency support, and export lossless PNG files for design, web, and development use.",
@@ -568,7 +568,7 @@ export const toolRegistry: {
     },
   },
   "image/png-to-jpg" : {
-      loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+      loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
       title: "PNG to JPG Converter Online | High-Speed Image Format Optimization Tool",
       onPageTitle: "Convert PNG to JPG Online | Compress & Optimize Images Instantly",
       description: "Convert PNG images to JPG format online with optimized compression and quality control. Reduce file size, improve loading speed, and export lightweight JPG images for web, email, and storage.",
@@ -604,7 +604,7 @@ export const toolRegistry: {
       },
   },
   "image/png-to-jpeg" : {
-      loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+      loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
       "title": "PNG to JPG Converter Online | Fast & High-Quality Image Compression Tool",  
       "onPageTitle": "Convert PNG to JPG Instantly | Optimize Images for Web & Storage",      
       "description": "Use our free PNG to JPG converter online to transform images with lightning-fast speed and superior compression. Reduce file size, enhance website performance, and export optimized JPGs for SEO, email, and cloud storage. Perfect for bulk conversions, transparent PNGs, and professional photo optimization.",
@@ -641,7 +641,7 @@ export const toolRegistry: {
   },
 
   "image/jpg-to-webp" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "JPG to WebP Converter Online | High-Speed Image Format Optimization Tool",  
     "onPageTitle": "Convert JPG to WebP Online | Compress & Optimize Images Instantly",    
     "description": "Convert JPG images to WebP format online with advanced compression and quality control. Reduce file size up to 80%, improve website loading speed, and export lightweight WebP images optimized for web, e-commerce, social media, email, and cloud storage. Free, fast, and no installation required.",
@@ -682,7 +682,7 @@ export const toolRegistry: {
     },
   },
   "image/png-to-webp" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "PNG to WebP Converter Online | Fast Image Compression & Next-Gen Format Tool",
     "onPageTitle": "Convert PNG to WebP Online | Compress & Optimize Images Instantly",
     "description": "Convert PNG images to WebP format online with advanced compression and quality control. Reduce file size up to 80%, boost website loading speed, and export lightweight WebP images optimized for web, e-commerce, social media, SEO, email, and cloud storage. Supports transparent PNG conversion, bulk processing, and no installation required—free and instant.",  
@@ -728,7 +728,7 @@ export const toolRegistry: {
   },
 
   "image/webp-to-jpg" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "WEBP to JPG Converter Online | Fast Image Format Conversion Tool",
     onPageTitle: "Convert WEBP to JPG Online | Optimize & Compress Images Instantly",
     description: "Convert WEBP images to JPG format instantly with smart compression and quality optimization. Reduce file size, improve compatibility, and export lightweight JPG images for web, email, and digital use.",
@@ -764,7 +764,7 @@ export const toolRegistry: {
     },
   },
   "image/webp-to-jpeg" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),   
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),   
     "title": "WEBP to JPEG Converter Online | High-Speed Image Format Optimization & Compression Tool",
     "onPageTitle": "Convert WEBP to JPEG Online | Compress & Optimize Images Instantly",
     "description": "Convert WEBP images to JPEG format online with optimized compression and precise quality control. Reduce file size dramatically, improve website loading speed, and export lightweight, high-quality JPEG images perfect for web publishing, email attachments, social media, and efficient storage. Free instant conversion with no installation required.",
@@ -805,7 +805,7 @@ export const toolRegistry: {
     },
   },
   "image/webp-to-png" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "WEBP to PNG Converter Online | High-Speed Image Format Optimization & Transparency Retention Tool",
     "onPageTitle": "Convert WEBP to PNG Online | Preserve Transparency & Optimize Images Instantly",
     "description": "Convert WEBP images to PNG format online with lossless quality and full transparency retention. Extract high-quality PNG files with transparent backgrounds perfect for web graphics, logos, icons, and design projects. Free instant conversion with no quality loss and no installation required.",
@@ -850,7 +850,7 @@ export const toolRegistry: {
 
   //SVG
   "image/svg-to-png" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "SVG to PNG Converter Online | Fast Vector to Raster Image Tool",  
     "onPageTitle": "Convert SVG to PNG Instantly | Optimize Graphics for Web & Design",    
     "description": "Convert SVG vector graphics to PNG format online with high-speed processing and superior quality retention. Export scalable designs into lightweight PNGs for websites, presentations, and digital projects. Perfect for bulk conversions, transparent backgrounds, and professional image optimization.",
@@ -886,7 +886,7 @@ export const toolRegistry: {
     },
   },
   "image/svg-to-jpg" : {
-    loader: () => import("@/components/tools/image/image-converter/ImageConverter"),
+    loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "SVG to JPG Converter Online | Fast Vector to Image Optimization Tool",  
     "onPageTitle": "Convert SVG to JPG Instantly | Compress & Optimize Graphics for Web",    
     "description": "Convert SVG vector graphics to JPG format online with high-speed conversion and advanced compression. Export scalable designs into lightweight JPG images for websites, presentations, and digital projects. Perfect for bulk conversions, transparent backgrounds, and professional photo optimization.",
@@ -924,7 +924,7 @@ export const toolRegistry: {
   //Image Converters End
   //Image compressors Start
   "image/compress-image": {
-    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Image Compressor Online | Compress JPG JPEG WEBP PNG with Custom Quality Control & File Size Reduction",
     "onPageTitle": "Compress JPG JPEG WEBP PNG Images Online | Reduce File Size with Custom Quality Settings",
     "description": "Compress JPG, JPEG, WEBP, and PNG images online with adjustable quality settings (1-100%) to reduce file size without visible quality loss. Optimize all popular image formats for faster website loading, improved SEO scores, email attachments, and efficient storage. Free instant compression for JPG JPEG WEBP PNG with no installation required.",
@@ -981,7 +981,7 @@ export const toolRegistry: {
     },
   },
   "image/compress-jpg": {
-    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Image Compressor Online | Optimize JPG & JPEG with Quality Control",
     onPageTitle: "Compress Images Online | JPG & JPEG Compressor with Quality Control",
     description: "Compress JPG and JPEG images online with full quality control. Adjust compression level, reduce file size, and optimize images for web, email, and storage while preserving visual clarity.",
@@ -1020,7 +1020,7 @@ export const toolRegistry: {
     },
   },
   "image/compress-png": {
-    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Compress Image Online | Adjustable Quality PNG Compression Tool",  
     "onPageTitle": "Compress PNG Images Instantly | Control Quality & Optimize for Web",    
     "description": "Compress PNG images online with adjustable quality settings for perfect balance between file size and visual clarity. Reduce image weight, accelerate website performance, and export optimized PNGs for SEO, email, and cloud storage. Ideal for bulk compression, transparent images, and professional photo optimization.",
@@ -1059,7 +1059,7 @@ export const toolRegistry: {
     },
   },
   "image/compress-webp": {
-    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Image Compressor Online | Compress WEBP JPG PNG JPEG with Custom Quality Control & Advanced File Size Reduction Tool",
     "onPageTitle": "Compress Images Online | Reduce WEBP JPG PNG Size with Custom Quality Settings Instantly",
     "description": "Compress WEBP, JPG, PNG, and JPEG images online with adjustable quality settings (1-100%) to dramatically reduce file size without visible quality loss. Optimize WEBP images specifically for modern websites, faster loading speeds, better SEO rankings,Email attachments, and cloud storage. Choose exact compression quality for perfect balance between size and image clarity. Free instant compression supporting WEBP format with no installation required.",
@@ -1114,7 +1114,7 @@ export const toolRegistry: {
   },
 
   "image/compress-image-to-20kb": {
-    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Compress Image to 20KB Online | Fixed 20KB Size Reducer for JPG JPEG PNG WEBP | Instant File Size Lock Tool",
     "onPageTitle": "Compress Image to 20KB Online | Lock File Size to Exactly 20KB | JPG JPEG PNG WEBP Support",
     "description": "Compress any image to exactly 20KB online - fixed size lock for JPG, JPEG, PNG, and WEBP formats. Perfect for RTA driving license uploads, government portals, document submissions, and forms requiring strict 20KB file size limits. Advanced compression algorithm reduces image to precise 20KB while maintaining maximum possible quality. Free instant 20KB compressor with no installation required.",
@@ -1367,7 +1367,7 @@ export type CompressionSizeToolRegistrySchema  = InitialThemeToolRegistrySchema 
 
 function getDefaultCompressorRegistry() {
   return {
-    loader: () => import( "@/components/tools/image/image-compressor/ImageCompressor"),
+    loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Compress Image Online to 20KB",
     description: "Reduce image file size while maintaining quality",
     category: "Image_Compressor",

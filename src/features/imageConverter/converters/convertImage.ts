@@ -1,6 +1,6 @@
-import { ConvertOptions } from "@/types/image-converter.types";
-import { convertRaster } from "@/features/image-converter/converters/convertRaster";
-import { convertSvg } from "@/features/image-converter/converters/convertSvg";
+import { ConvertOptions } from "@/types/imageConverter.types";
+import { convertRaster } from "@/features/imageConverter/converters/convertRaster";
+import { convertSvg } from "@/features/imageConverter/converters/convertSvg";
 
 export async function convertImage(
   file: File,

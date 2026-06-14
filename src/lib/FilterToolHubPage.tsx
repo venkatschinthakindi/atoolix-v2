@@ -1,6 +1,6 @@
-import { FloatingDock } from "@/components/layout/floating-dock";
-import { FilteredTools } from "@/components/ui/FilteredTools";
-import BackButton from "@/components/ui/back-button";
+import { FloatingDock } from "@/components/layout/floatingDock";
+import { FilteredTools } from "@/components/ui/filteredTools";
+import BackButton from "@/components/ui/backButton";
 
 export function FilterToolHubPage({ filterKey }: any) {
   return (

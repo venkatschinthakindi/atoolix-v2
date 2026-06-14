@@ -1,6 +1,6 @@
-import { AppShell } from "@/components/layout/app-shell";
-import { HeroCommandCenter } from "@/components/dashboard/hero-command-center";
-import { FeaturedTools } from "@/components/dashboard/featured-tools";
+import { AppShell } from "@/components/layout/appShell";
+import { HeroCommandCenter } from "@/components/dashboard/heroCommandCenter";
+import { FeaturedTools } from "@/components/dashboard/featuredTools";
 import { Footer } from "@/components/footer/footer";
 
 export default function HomePage() {

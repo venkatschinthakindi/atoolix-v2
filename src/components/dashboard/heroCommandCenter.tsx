@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { CommandPalette } from "../ui/CommandPalette";
+import { CommandPalette } from "../ui/commandPalette";
 import { JSX, useEffect, useRef, useState } from "react";
 import { tools } from "@/data/tools";
 import {

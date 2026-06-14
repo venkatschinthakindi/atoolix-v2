@@ -1,6 +1,6 @@
-import ImageConverterClient from "@/components/tools/image/image-converter/ImageConverterClient";
+import ImageConverterClient from "@/components/tools/image/imageConverter/ImageConverterClient";
 import { ImageConverterToolProps } from "@/lib/toolRegistry";
-import { ToolConfig } from "@/types/image-converter.types";
+import { ToolConfig } from "@/types/imageConverter.types";
 
 export default function ImageConverterTool({ initialExpression, theme, title, description, inputFormats, outputFormats }: ImageConverterToolProps) {
   return <ImageConverter initialExpression={initialExpression} theme={theme} title={title} description={description} inputFormats={inputFormats} outputFormats={outputFormats} />;

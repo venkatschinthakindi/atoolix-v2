@@ -2,7 +2,7 @@
 
 "use client";
 
-import { ImageFormat } from "@/types/image-converter.types";
+import { ImageFormat } from "@/types/imageConverter.types";
 import { useCallback, useRef, useState } from "react";
 
 export function DropZone({

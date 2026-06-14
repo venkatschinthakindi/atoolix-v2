@@ -1,4 +1,4 @@
-import { ConvertOptions } from "@/types/image-converter.types";
+import { ConvertOptions } from "@/types/imageConverter.types";
 import { getMimeType } from "@/types/mimeMap";
 
 export async function convertRaster(

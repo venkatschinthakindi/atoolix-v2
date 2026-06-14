@@ -1,4 +1,4 @@
-import { PDFDocument, Rotation } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 
 export type CompressionLevel = "low" | "medium" | "high";
 

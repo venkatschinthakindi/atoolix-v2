@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { FinanceChart } from "./FinanceChart";
-import { FinancePdfExport } from "./FinancePdfExport";
-import { Field } from "@/components/ui/Field";
+import { FinanceChart } from "./financeChart";
+import { FinancePdfExport } from "./financePdfExport";
+import { Field } from "@/components/ui/field";
 
 const formatCurrency = (value: number) => {
   if (Number.isNaN(value) || !Number.isFinite(value)) return "-";

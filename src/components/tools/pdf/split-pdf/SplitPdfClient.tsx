@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
-import { DropZone } from "@/components/ui/DropZone";
-import { ProgressBar } from "@/components/ui/ProgressBar";
-import { PdfConverterToolProps } from "@/lib/toolRegistry";
-import { SplitPdfSeoContent } from "./split-pdf-seo-content";
-import { PdfToolConfig } from "@/types/image-converter.types";
+import { DropZone } from "@/components/ui/dropZone";
+import { ProgressBar } from "@/components/ui/progressBar";
+import { PdfToolConfig } from "@/types/imageConverter.types";
 interface Props {
   config: PdfToolConfig;
 }

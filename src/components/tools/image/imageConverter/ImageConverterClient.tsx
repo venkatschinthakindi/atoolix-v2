@@ -3,17 +3,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { saveAs } from "file-saver";
 
-import { DropZone, getAcceptString } from "@/components/ui/DropZone";
-import { ProgressBar } from "@/components/ui/ProgressBar";
+import { DropZone, getAcceptString } from "@/components/ui/dropZone";
+import { ProgressBar } from "@/components/ui/progressBar";
 
-import { ToolConfig } from "@/types/image-converter.types";
-import { convertImage } from "@/features/image-converter/converters/convertImage";
-import { validateImage } from "@/features/image-converter/validateImage";
-import { getImageMetadata } from "@/features/image-converter/image-metadata/getImageMetadata";
+import { ToolConfig } from "@/types/imageConverter.types";
+import { convertImage } from "@/features/imageConverter/converters/convertImage";
+import { validateImage } from "@/features/imageConverter/validateImage";
+import { getImageMetadata } from "@/features/imageConverter/imageMetadata/getImageMetadata";
 import { ImageMetadata } from "@/types/imageTypes";
-import { generateFileName } from "@/features/image-converter/generateFileName";
-import { normalizeFile } from "@/features/image-converter/normalizeFile";
-import { CompressorConfig } from "@/types/image-compressor.types";
+import { generateFileName } from "@/features/imageConverter/generateFileName";
+import { normalizeFile } from "@/features/imageConverter/normalizeFile";
+import { CompressorConfig } from "@/types/imageCompressor.types";
 
 interface Props {
   config: ToolConfig;

@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { saveAs } from "file-saver";
 import { compressPDF, CompressionLevel } from "@/utils/compressPDF";
-import { DropZone, getAcceptString } from "@/components/ui/DropZone";
-import { ProgressBar } from "@/components/ui/ProgressBar";
-import { PdfToolConfig, ToolConfig } from "@/types/image-converter.types";
-import { ToolTitleDescription } from "@/components/ui/ToolTitleDesc";
+import { DropZone, getAcceptString } from "@/components/ui/dropZone";
+import { ProgressBar } from "@/components/ui/progressBar";
+import { PdfToolConfig } from "@/types/imageConverter.types";
 interface Props {
   config: PdfToolConfig;
 }

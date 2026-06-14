@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import React from "react";
 import { toolRegistry, ToolId, type ToolPropsMap } from "@/lib/toolRegistry";
-import { ToolContextProvider } from "@/context/ToolContext";
-import ToolLoader from "./ToolLoader";
+import { ToolContextProvider } from "@/context/toolContext";
+import ToolLoader from "./toolLoader";
 
 type ToolRendererProps<T extends ToolId> = {
   toolId: T;

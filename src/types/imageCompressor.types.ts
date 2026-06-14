@@ -1,5 +1,5 @@
 import { CompressionMode } from "./compression.types";
-import { ImageFormat } from "./image-converter.types";
+import { ImageFormat } from "./imageConverter.types";
 
 export interface CompressorConfig {
   title: string | undefined;

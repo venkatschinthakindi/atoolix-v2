@@ -2,10 +2,10 @@
 
 import { categoryIcons, tools } from "@/data/tools";
 import React, { useState, useMemo, useEffect } from "react";
-import { FloatingDock } from "@/components/layout/floating-dock";
+import { FloatingDock } from "@/components/layout/floatingDock";
 import { FileText } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FilteredTools } from "@/components/ui/FilteredTools";
+import { FilteredTools } from "@/components/ui/filteredTools";
 
 export default function ToolsHubClient() {
     const searchParams = useSearchParams();

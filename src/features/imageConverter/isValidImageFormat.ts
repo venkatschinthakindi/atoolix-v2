@@ -1,4 +1,4 @@
-import { ImageFormat } from "@/types/image-converter.types";
+import { ImageFormat } from "@/types/imageConverter.types";
 import { detectMimeType } from "./detectMimeType";
 
 export function isValidImageFormat(file: File): boolean {
