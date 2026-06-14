@@ -1,5 +1,4 @@
 import { CompressionMode } from "@/types/compression.types";
-import { Signal } from "lucide-react";
 import type { ComponentType } from "react";
 
 export type ToolLoader<Props> = () => Promise<{ default: ComponentType<Props> }>;
@@ -74,7 +73,7 @@ export const toolRegistry: {
   [K in keyof ToolPropsMap]: ToolRegistryEntry<ToolPropsMap[K]>;
 } = {
   "calculator/emi-calculator": {
-    loader: () => import("@/components/tools/emiCalculator/EMICalculator"),
+    loader: () => import("@/components/tools/emiCalculator/emiCalculator"),
     title: "EMI Calculator for Home, Car & Personal Loans | Loan Repayment & Prepayment Planner",
     onPageTitle: "EMI Calculator for Home, Car & Personal Loans | With Prepayment & Schedule",
     description: "Calculate EMI for home loan, car loan, and personal loan with advanced repayment planning. Includes extra monthly contribution, balloon payment options, prepayment impact analysis, full amortization schedule, and visual charts.",

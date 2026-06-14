@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import AmortizationChart from "./AmortizationChart";
+import { useMemo, useState } from "react";
+import AmortizationChart from "@/components/tools/emiCalculator/amortizationChart";
 
 type LoanType = "home" | "personal" | "car";
 
