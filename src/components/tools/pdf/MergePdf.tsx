@@ -6,7 +6,7 @@ import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
-import { PdfConverterToolProps } from "@/lib/toolRegistry";
+import { PdfConverterToolProps } from "@/components/tools/toolRegistry";
 import { ToolTitleDescription } from "@/components/ui/toolTitleDesc";
 
 type ToolState =

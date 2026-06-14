@@ -15,7 +15,7 @@ import { generateFileName } from "@/features/imageConverter/generateFileName";
 
 import { compressImage } from "@/features/imageCompressor/compressImage";
 
-import { ImageMetadata } from "@/types/imageTypes";
+import { ImageMetadata } from "@/types/imageMetadata";
 import { CompressionResult } from "@/types/compression.types";
 import { PreviewCard } from "../imageToolUI/previewCard";
 import { MetadataCard } from "../imageToolUI/metadataCard";

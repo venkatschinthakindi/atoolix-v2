@@ -1,5 +1,5 @@
 import ImageConverterClient from "@/components/tools/image/imageConverter/ImageConverterClient";
-import { ImageConverterToolProps } from "@/lib/toolRegistry";
+import { ImageConverterToolProps } from "@/components/tools/toolRegistry";
 import { ToolConfig } from "@/types/imageConverter.types";
 
 export default function ImageConverterTool({ initialExpression, theme, title, description, inputFormats, outputFormats }: ImageConverterToolProps) {

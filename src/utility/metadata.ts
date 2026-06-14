@@ -1,5 +1,5 @@
-import { getTool } from "@/lib/getTool";
-import { ToolId } from "./toolRegistry";
+import { getTool } from "@/utility/getTool";
+import { ToolId } from "../components/tools/toolRegistry";
 
 export async function generateMetadata(params : any) {
     const resolvedParams = await params;

@@ -1,5 +1,5 @@
-import { loadImage } from "@/utils/loadImage";
-import { canvasToBlob } from "@/utils/loadImage";//todo: for now canvastoblob file not recognizing
+import { loadImage } from "@/utility/loadImage";
+import { canvasToBlob } from "@/utility/loadImage";//todo: for now canvastoblob file not recognizing
 
 export async function compressToTargetSize(
   file: File,

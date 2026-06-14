@@ -1,4 +1,4 @@
-import { ToolId, toolRegistry } from "@/lib/toolRegistry";
+import { ToolId, toolRegistry } from "@/components/tools/toolRegistry";
 
 export function getTool(toolId: any) {
     const rawToolId = (Array.isArray(toolId) ? 

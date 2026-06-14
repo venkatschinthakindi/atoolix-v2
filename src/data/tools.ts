@@ -3,7 +3,7 @@ import { Calculator, Cpu, Code, FileText, Sparkles, DollarSign,
   Image, ImageIcon, TrendingUp, Banknote, ShieldCheck,
   FileBadge } from "lucide-react";
 import React, { JSX } from "react";
-import { toolRegistry } from "@/lib/toolRegistry";
+import { toolRegistry } from "@/components/tools/toolRegistry";
 type CategoryInfo = {
   id: string;
   title: string;

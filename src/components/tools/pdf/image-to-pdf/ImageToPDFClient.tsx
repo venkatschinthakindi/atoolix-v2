@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { saveAs } from "file-saver";
-import { imagesToPDF, PageSize, Orientation } from "@/utils/imageFileToPdf";
+import { imagesToPDF, PageSize, Orientation } from "@/utility/imageFileToPdf";
 import { DropZone, getAcceptString } from "@/components/ui/dropZone";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { PdfToolConfig } from "@/types/imageConverter.types";

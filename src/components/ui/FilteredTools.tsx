@@ -1,7 +1,7 @@
 "use client";
 
 import { tools } from "@/data/tools";
-import { toolRegistry } from "@/lib/toolRegistry";
+import { toolRegistry } from "@/components/tools/toolRegistry";
 import { useRouter } from "next/navigation";
 export function FilteredTools({
   filterKey,

@@ -1,11 +1,11 @@
-import { ToolId, toolRegistry } from "@/lib/toolRegistry";
+import { ToolId, toolRegistry } from "@/components/tools/toolRegistry";
 import { ToolRenderer } from "@/components/tools/toolRenderer";
 import { notFound } from "next/navigation";
 import { FloatingDock } from "@/components/layout/floatingDock";
 import BackButton from "@/components/ui/backButton";
-import { getTool } from "@/lib/getTool";
+import { getTool } from "@/utility/getTool";
 
-import { generateMetadata as createMetadata } from "@/lib/metadata";
+import { generateMetadata as createMetadata } from "@/utility/metadata";
 import { ToolSeoContent } from "@/app/tools/[...toolId]/toolSeoContent";
 
 export async function generateMetadata({ params }: any) {

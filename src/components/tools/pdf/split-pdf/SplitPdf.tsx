@@ -1,4 +1,4 @@
-import { PdfConverterToolProps } from "@/lib/toolRegistry";
+import { PdfConverterToolProps } from "@/components/tools/toolRegistry";
 import { PdfToolConfig } from "@/types/imageConverter.types";
 import PdfSpliterClient from "./SplitPdfClient";
 

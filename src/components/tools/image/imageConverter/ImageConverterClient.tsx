@@ -10,7 +10,7 @@ import { ToolConfig } from "@/types/imageConverter.types";
 import { convertImage } from "@/features/imageConverter/converters/convertImage";
 import { validateImage } from "@/features/imageConverter/validateImage";
 import { getImageMetadata } from "@/features/imageConverter/imageMetadata/getImageMetadata";
-import { ImageMetadata } from "@/types/imageTypes";
+import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
 

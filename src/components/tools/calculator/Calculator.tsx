@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { CalculatorToolProps } from "@/lib/toolRegistry";
+import type { CalculatorToolProps } from "@/components/tools/toolRegistry";
 import { SmartCalculator } from "./SmartCalculator";
 import { AdvancedEquationSolverPage } from "./EquationSolver";
 

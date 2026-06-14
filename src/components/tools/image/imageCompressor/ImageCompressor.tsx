@@ -1,6 +1,6 @@
 import ImageCompressorClient from "@/components/tools/image/imageCompressor/ImageCompressorClient";
 // import { compressImageConfig } from "@/features/image-compressor/image-compressor";
-import { ImageCompressorToolProps } from "@/lib/toolRegistry";
+import { ImageCompressorToolProps } from "@/components/tools/toolRegistry";
 import { CompressorConfig } from "@/types/imageCompressor.types";
 
 export default function ImageCompressorTool({ initialExpression, theme, title,description,allowedFormats, defaultQuality, mode, targetKB, lockTarget }: ImageCompressorToolProps) {

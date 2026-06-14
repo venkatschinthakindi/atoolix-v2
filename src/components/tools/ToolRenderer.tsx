@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import React from "react";
-import { toolRegistry, ToolId, type ToolPropsMap } from "@/lib/toolRegistry";
+import { toolRegistry, ToolId, type ToolPropsMap } from "@/components/tools/toolRegistry";
 import { ToolContextProvider } from "@/context/toolContext";
 import ToolLoader from "./toolLoader";
 

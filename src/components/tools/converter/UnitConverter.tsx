@@ -5,7 +5,7 @@ import { useState } from "react";
 import convert from "convert-units";
 import { unit, createUnit } from "mathjs";
 import { Combobox } from "@headlessui/react";
-import { ConverterToolProps } from "@/lib/toolRegistry";
+import { ConverterToolProps } from "@/components/tools/toolRegistry";
 type UnitOption = { abbr: string; name: string; measure?: string };
 
 export default function UnitConverterTool({ initialExpression = "", theme = "dark" }: ConverterToolProps) {

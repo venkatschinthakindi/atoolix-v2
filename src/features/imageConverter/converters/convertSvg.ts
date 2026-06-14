@@ -1,5 +1,5 @@
 import { ConvertOptions } from "@/types/imageConverter.types";
-import { getMimeType } from "@/types/mimeMap";
+import { getMimeType } from "@/types/mimeTypes";
 
 export async function convertSvg(
   file: File,

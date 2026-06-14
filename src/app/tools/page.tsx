@@ -1,5 +1,5 @@
-import ToolsHubClient  from "@/app/tools/ToolsHubClient";
-import { tools } from "@/data/tools";
+import ToolsHubClient  from "@/app/tools/toolsHubClient";
+import ToolLoader from "@/components/tools/toolLoader";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -9,8 +9,6 @@ export const metadata = {
 };
 
 export default async function ToolsPage({ params }: any) {
-  const resolvedParams = await params;
-  
   return (
     <>
     <div className="app-shell">
@@ -23,7 +21,7 @@ export default async function ToolsPage({ params }: any) {
           </p>
         </div>
         
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<ToolLoader />}>
         <ToolsHubClient />
       </Suspense>
       </div>

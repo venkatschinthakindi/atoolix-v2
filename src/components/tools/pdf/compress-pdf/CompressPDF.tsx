@@ -1,4 +1,4 @@
-import { PdfCompressorToolProps } from "@/lib/toolRegistry";
+import { PdfCompressorToolProps } from "@/components/tools/toolRegistry";
 import CompressClient from "./CompressClient";
 import { PdfToolConfig, ToolConfig } from "@/types/imageConverter.types";
 

@@ -1,4 +1,4 @@
-import { ImageMetadata } from "@/types/imageTypes";
+import { ImageMetadata } from "@/types/imageMetadata";
 
 interface Props {
   metadata: ImageMetadata;

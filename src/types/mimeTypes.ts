@@ -1,4 +1,4 @@
-import { ImageFormat } from "../types/imageConverter.types";
+import { ImageFormat } from "./imageConverter.types";
 
 export function getMimeType(
   format: ImageFormat
