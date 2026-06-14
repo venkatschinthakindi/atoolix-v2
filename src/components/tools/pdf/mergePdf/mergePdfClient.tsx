@@ -9,6 +9,7 @@ import { Reorder } from "framer-motion";
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
 import { Props } from "@/types/props";
+import PdfViewerModal from "@/components/ui/pdf/pdfViewerModal";
 
 type FileItem = {
   file: File;
@@ -38,7 +39,7 @@ export default function PdfMergerClient({ config }: Props) {
 
   const [headerFile, setHeaderFile] = useState<File | null>(null);
   const [footerFile, setFooterFile] = useState<File | null>(null);
-
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   // -------------------------
   // MOBILE DRAG SUPPORT (Framer handles it internally)
   // -------------------------
@@ -183,19 +184,29 @@ export default function PdfMergerClient({ config }: Props) {
     }
 
     const finalBytes = await merged.save();
-
-    setMergedBlob(
-      new Blob( [ new Uint8Array(
+    const mergedBlobObj = new Blob( [ new Uint8Array(
                  finalBytes
                )], {
         type: "application/pdf",
-      })
+      });
+    setMergedBlob(
+      mergedBlobObj
     );
 
     setProgress(100);
     setState("done");
+    // openPreview(mergedBlobObj);
   };
 
+  const openPreview = (blob: Blob) => {
+    if (!(blob instanceof Blob)) {
+      console.error('Invalid blob:', blob);
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    setPreviewUrl(url);
+  };
   const download = () => {
     if (!mergedBlob) return;
 
@@ -241,6 +252,9 @@ export default function PdfMergerClient({ config }: Props) {
               onChange={(e) => setHeaderText(e.target.value)}
             />
           )}
+          {headerMode === "file" && (
+            <span className="text-xs text-white/60">The first file in the uploaded files will be used as the header.</span>
+          )}
         </div>
 
         <div className="p-4 border border-white/10 rounded-xl bg-white/5">
@@ -264,7 +278,7 @@ export default function PdfMergerClient({ config }: Props) {
             />
           )}
           {footerMode === "file" && (
-            <span>The last file in the uploaded files will be used as the footer.</span>
+            <span className="text-xs text-white/60">The last file in the uploaded files will be used as the footer.</span>
           )}
         </div>
 
@@ -283,6 +297,7 @@ export default function PdfMergerClient({ config }: Props) {
             <input
               className="w-full mt-2 p-2 bg-black/40 rounded"
               value={f.input}
+              placeholder="e.g. first-3, 9-13, 19, last-2, all, odd, even, except 21-23"
               onChange={(e) => {
                 const copy = [...files];
                 const idx = copy.findIndex(
@@ -314,17 +329,29 @@ export default function PdfMergerClient({ config }: Props) {
           Build PDF
         </button>
       ) : (
-        <button
-          onClick={download}
-          className="w-full p-3 bg-green-600 rounded"
-        >
-          Download PDF
-        </button>
+        <div className="flex gap-3">
+          <button
+              onClick={() => mergedBlob && openPreview(mergedBlob)}
+              className="w-1/2 p-3 padding bg-purple-600 rounded"
+            >
+            Preview Merged PDF
+          </button>
+          <button
+            onClick={download}
+            className="w-1/2 p-3 bg-green-600 rounded"
+          >
+            Download PDF
+          </button>
+        </div>
       )}
 
       {state === "processing" && (
         <ProgressBar value={progress} />
       )}
+      <PdfViewerModal
+        url={previewUrl}
+        onClose={() => setPreviewUrl(null)}
+      />
     </div>
   );
 }

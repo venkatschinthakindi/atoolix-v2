@@ -602,7 +602,7 @@ export default function PdfSpliterClient({
                     e.target.value
                   )
                 }
-                placeholder="e.g. first-3, 9-13, 19, last-2, all, odd, even"
+                placeholder="e.g. first-3, 9-13, 19, last-2, all, odd, even, except 21-23"
                 className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/40 outline-none focus:border-blue-500 transition"
               />
 

@@ -1,3 +1,4 @@
+import { MergePdfSeoContent } from "@/components/tools/pdf/mergePdf/mergePdfSeoContent";
 import { SplitPdfSeoContentV2 } from "@/components/tools/pdf/splitPdf/splitPdfSeoContentV2";
 
 export function ToolSeoContent({ toolId }: { toolId: string }) {
@@ -7,9 +8,9 @@ export function ToolSeoContent({ toolId }: { toolId: string }) {
     case "pdf/split-pdf":
       SeoContent = <SplitPdfSeoContentV2 />;
       break;
-    // case "pdf/merge-pdf":
-    //   SeoContent = <MergePdfSeoContent />;
-    //   break;
+    case "pdf/merge-pdf":
+      SeoContent = <MergePdfSeoContent />;
+      break;
     // case "pdf/compress-pdf":
     //   SeoContent = <CompressPdfSeoContent />;
     //   break;
