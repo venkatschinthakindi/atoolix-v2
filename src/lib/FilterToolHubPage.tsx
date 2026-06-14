@@ -14,9 +14,9 @@ export function FilterToolHubPage({ filterKey }: any) {
           <BackButton />
         </div>
         <div className="section-header text-center">
-          <h1 className="section-title">All Pdf Tools</h1>
+          <h1 className="section-title">All {filterKey.toPascalCase()} Tools</h1>
           <p className="section-copy mb-2">
-            Explore all pdf utilities available on this site.
+            Explore all {filterKey.toLowerCase()} utilities available on this site.
           </p>
         </div>
         <FilteredTools filterKey={filterKey}/>

@@ -12,7 +12,11 @@ export function FilteredTools({
       filteredTools = filteredTools;
     }
     else {
-      const filteredKeys = Object.keys(toolRegistry).filter(toolId => toolId.toLowerCase().startsWith(filterKey));
+      const toolsList = Object.entries(toolRegistry).map(([key, value]) => ({ key, value }));
+      const filteredKeys = toolsList.filter(toolId => 
+        toolId.key.toLowerCase().startsWith(filterKey) ||
+        toolId.value.category?.toLowerCase().startsWith(filterKey)
+      ).map(toolId => toolId.key);
       filteredTools = tools.filter(t => filteredKeys.includes(t.id));
     }
     

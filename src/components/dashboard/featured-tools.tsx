@@ -111,7 +111,7 @@ useEffect(() => {
               {featured.title}
             </h3>
 
-            <p className="mt-2 max-w-xl text-zinc-400">
+            <p className="mt-2 max-full text-sm text-zinc-400">
               {featured.description}
             </p>
 
