@@ -6,19 +6,10 @@ import { saveAs } from "file-saver";
 import JSZip from "jszip";
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
-import { PdfToolConfig } from "@/types/imageConverter.types";
-interface Props {
-  config: PdfToolConfig;
-}
-type PDFItem = {
-  file: File;
-  name: string;
-  pages: boolean[];
-  input: string;
-  totalPages: number;
-};
+import { Props } from "@/types/props";
+import { PDFItem } from "@/types/pdfItem";
+import { Mode } from "@/types/pdfMode";
 
-type Mode = "merge" | "split";
 export default function PdfSpliterClient({
   config,
 }: Props) {

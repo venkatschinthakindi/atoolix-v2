@@ -6,8 +6,7 @@ export default function ImageConverterTool({ initialExpression, theme, title, de
   return <ImageConverter initialExpression={initialExpression} theme={theme} title={title} description={description} inputFormats={inputFormats} outputFormats={outputFormats} />;
 }
 
-type ImageConverterProps = ImageConverterToolProps;
-function ImageConverter({ initialExpression, theme, title, description, inputFormats, outputFormats }: ImageConverterProps) 
+function ImageConverter({ initialExpression, theme, title, description, inputFormats, outputFormats }: ImageConverterToolProps) 
 {
   if (!inputFormats || !outputFormats) {
     return <div className="p-10">

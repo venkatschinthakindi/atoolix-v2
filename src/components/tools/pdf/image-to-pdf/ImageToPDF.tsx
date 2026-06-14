@@ -6,8 +6,6 @@ export default function PdfConverterTool({ initialExpression, theme, title,descr
   return <PdfConverter initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;
 }
 
-type PdfConverterProps = PdfConverterToolProps;
-
 function PdfConverter({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
   const toolConfig = {
             title: title,

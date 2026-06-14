@@ -6,8 +6,6 @@ export default function PdfCompressorTool({ initialExpression, theme, title,desc
   return <PdfCompressor initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;
 }
 
-type PdfCompressorProps = PdfCompressorToolProps;
-
 function PdfCompressor({ initialExpression, theme, title,description, allowedFormats}: PdfCompressorToolProps) {
   const toolConfig = {
           title: title,

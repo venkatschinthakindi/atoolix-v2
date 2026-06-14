@@ -6,17 +6,9 @@ import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
-import { PdfConverterToolProps } from "@/components/tools/toolRegistry";
-import { ToolTitleDescription } from "@/components/ui/toolTitleDesc";
-import { PdfToolConfig } from "@/types/imageConverter.types";
-interface Props {
-  config: PdfToolConfig;
-}
-type ToolState =
-  | "idle"
-  | "ready"
-  | "processing"
-  | "done";
+import { Props } from "@/types/props";
+import { ToolState } from "@/types/toolState";
+
 export default function PdfMergerClient({
   config,
 }: Props) {

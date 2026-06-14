@@ -5,10 +5,7 @@ import { saveAs } from "file-saver";
 import { compressPDF, CompressionLevel } from "@/utility/compressPDF";
 import { DropZone, getAcceptString } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
-import { PdfToolConfig } from "@/types/imageConverter.types";
-interface Props {
-  config: PdfToolConfig;
-}
+import { Props } from "@/types/props";
 
 export default function CompressClient({
   config,
