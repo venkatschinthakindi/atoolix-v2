@@ -7,7 +7,11 @@ import JSZip from "jszip";
 import { DropZone } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { PdfConverterToolProps } from "@/lib/toolRegistry";
-
+import { SplitPdfSeoContent } from "./split-pdf-seo-content";
+import { PdfToolConfig } from "@/types/image-converter.types";
+interface Props {
+  config: PdfToolConfig;
+}
 type PDFItem = {
   file: File;
   name: string;
@@ -17,10 +21,9 @@ type PDFItem = {
 };
 
 type Mode = "merge" | "split";
-export default function PdfSpliterTool({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
-  return <PdfSpliter initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;
-}
-function PdfSpliter({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {
+export default function PdfSpliterClient({
+  config,
+}: Props) {
   const [dropzoneKey, setDropzoneKey] = useState(0);
   const [pdfs, setPDFs] = useState<PDFItem[]>([]);
   const [progress, setProgress] = useState(0);

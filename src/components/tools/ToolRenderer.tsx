@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 import { toolRegistry, ToolId, type ToolPropsMap } from "@/lib/toolRegistry";
 import { ToolContextProvider } from "@/context/ToolContext";
+import ToolLoader from "./ToolLoader";
 
 type ToolRendererProps<T extends ToolId> = {
   toolId: T;
@@ -17,7 +18,7 @@ export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolR
 
   const DynamicComp = dynamic(entry.loader as any, {
     ssr: false,
-    loading: () => <div className="p-6">Loading tool…</div>,
+    loading: () => <ToolLoader />,
   }) as React.ComponentType<ToolPropsMap[T]>;
  
   const mergedProps = {

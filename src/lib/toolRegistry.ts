@@ -344,7 +344,7 @@ export const toolRegistry: {
     }
   },
   "pdf/split-pdf": {
-    loader: () => import("@/components/tools/pdf/SplitPdf"),
+    loader: () => import("@/components/tools/pdf/split-pdf/SplitPdf"),
     title: "Split PDF Files Online Free – Extract & Separate PDF Pages",
     description: "Split PDF files online for free. Extract specific pages, separate PDF documents, and create smaller PDF files securely in your browser. No installation or registration required.",
     onPageTitle:"Split PDF Files Online for Free",
