@@ -17,7 +17,6 @@ import { compressImage } from "@/features/imageCompressor/compressImage";
 
 import { ImageMetadata } from "@/types/imageTypes";
 import { CompressionResult } from "@/types/compression.types";
-import { ToolLayout } from "../imageToolUI/toolLayout";
 import { PreviewCard } from "../imageToolUI/previewCard";
 import { MetadataCard } from "../imageToolUI/metadataCard";
 import { DownloadCard } from "../imageToolUI/downloadCard";
@@ -236,7 +235,7 @@ export default function ImageCompressorClient({
   const validFileTypes = getAcceptString(config.allowedFormats);
 
   return (
-    <ToolLayout title={config.title} description={config.description}>
+    <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
       <DropZone
         allowMultiple={false}
         onFiles={handleFiles}
@@ -419,6 +418,6 @@ export default function ImageCompressorClient({
             </DownloadCard>
         )}
 
-    </ToolLayout>
+    </div>
   );
 }
