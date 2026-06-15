@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ToolCard } from "../ui/toolCard";
 
 export function FeaturedTools() {
   const router = useRouter();
@@ -146,7 +147,7 @@ useEffect(() => {
                         onClick={() => router.push(`/tools/${tool.id}`)}
                         className="card-surface card-surface-sm w-[350px] transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
                       >
-                        <div className="mb-4 flex items-start justify-between gap-3">
+                        {/* <div className="mb-4 flex items-start justify-between gap-3">
                           <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
                             <Icon className="h-6 w-6 text-indigo-400" />
                           </div>
@@ -160,19 +161,20 @@ useEffect(() => {
                               {tool.category}
                             </span>
                           )}
-                        </div>
+                        </div> */}
+                        <ToolCard label={tool.toolShortName} icon={Icon} description={tool.description}></ToolCard>
 
                         {/* Title with tooltip */}
-                        <h4 className="font-medium text-white truncate" title={tool.title}>
+                        {/* <h4 className="font-medium text-white truncate" title={tool.title}>
                           {tool.title}
-                        </h4>
+                        </h4> */}
 
                         {/* Description with tooltip */}
                         <p
                           className="mt-2 line-clamp-2 text-xs text-zinc-400"
-                          title={tool.description}
+                          title={tool.title}
                         >
-                          {tool.description}
+                          {tool.title}
                         </p>
                       </motion.div>
                   );

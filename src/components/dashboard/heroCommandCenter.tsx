@@ -125,16 +125,18 @@ export function HeroCommandCenter() {
                   setOpen(false);
                 }}
               >
-                <div>
-                  <p className="text-sm">{item.title}</p>
-                  <p className="text-white/60 text-xs">{item.description}</p>
-                </div>
                 <div className="flex items-center gap-2">
+                  <span className="inline-flex h-12 w-12 items-center justify-center">
+                    <item.icon size={20} color="#40916f" />
+                  </span>
+                  <p className="text-sm line-clamp-2" title={String(item.description)}>{item.title}</p>
+                </div>
+                {/* <div className="flex items-center gap-2">
                   {categoryIcons[item.category]}
                   <span className="badge-pill">
                     {item.category}
                   </span>
-                </div>
+                </div> */}
               </div>
             ))
           ) : (

@@ -1,7 +1,10 @@
 import { MathOperationsIcon } from "@phosphor-icons/react";
-import { Calculator, Cpu, Code, FileText, Sparkles, DollarSign, 
+import { Calculator, Cpu, Code, Sparkles, DollarSign, 
   Image, ImageIcon, TrendingUp, Banknote, ShieldCheck,
-  FileBadge } from "lucide-react";
+  FileImage,  FileText,  FileSpreadsheet,  Presentation,
+  Scissors,  Combine,  Minimize2,  RotateCw,  Lock,  Unlock,
+  PiggyBank,  Palmtree,  Repeat,  ArrowLeftRight,  ImageDown,
+  IdCard,  PenTool,  type LucideIcon,  Stamp,  FileSignature,  FileBadge } from "lucide-react";
 import React, { JSX } from "react";
 import { toolRegistry } from "@/components/tools/toolRegistry";
 type CategoryInfo = {
@@ -92,16 +95,65 @@ export const categoryIcons: Record<string, CategoryInfo> = {
 };
 
 const toolIcons: Record<string, React.ComponentType<any>> = {
+  // ---------------------------------------------------------------------
+  // Calculators
+  // ---------------------------------------------------------------------
+  "calculator/emi-calculator": Calculator,
+  "calculator/roi-calculator": TrendingUp,
+  "calculator/fd-calculator": PiggyBank,
+  "calculator/retirement-calculator":Palmtree,
   calculator: Calculator,
-  pdf: FileText,
-  pdf_merge: FileBadge,
-  split_pdf: FileBadge,
-  pdf_compress: FileBadge,
-  image_to_pdf: ImageIcon,
-  ai: Sparkles,
-  finance: DollarSign,
-  image: ImageIcon,
-  "Image Converter": ImageIcon
+ 
+  // ---------------------------------------------------------------------
+  // Converters (category)
+  // ---------------------------------------------------------------------
+  converter: Repeat,
+ 
+  // ---------------------------------------------------------------------
+  // PDF tools
+  // ---------------------------------------------------------------------
+  "pdf/merge-pdf": Combine,
+  "pdf/split-pdf":Scissors,
+  "pdf/compress-pdf": Minimize2,
+ 
+  // ---------------------------------------------------------------------
+  // Image to PDF
+  // ---------------------------------------------------------------------
+  "image/image-to-pdf": FileImage,
+  "image/jpg-to-pdf":FileImage,
+  "image/png-to-pdf": FileImage,
+  "image/webp-to-pdf": FileImage,
+ 
+  // ---------------------------------------------------------------------
+  // Image format converters
+  // ---------------------------------------------------------------------
+  "image/jpg-to-png": ArrowLeftRight,
+  "image/png-to-jpg": ArrowLeftRight,
+  "image/png-to-jpeg": ArrowLeftRight,
+  "image/jpg-to-webp": ArrowLeftRight,
+  "image/png-to-webp": ArrowLeftRight,
+  "image/webp-to-jpg": ArrowLeftRight,
+  "image/webp-to-jpeg": ArrowLeftRight,
+  "image/webp-to-png": ArrowLeftRight,
+  "image/svg-to-png": ArrowLeftRight,
+  "image/svg-to-jpg": ArrowLeftRight,
+ 
+  // ---------------------------------------------------------------------
+  // Image compression (quality-based)
+  // ---------------------------------------------------------------------
+  "image/compress-image": ImageDown,
+  "image/compress-jpg": ImageDown,
+  "image/compress-png": ImageDown,
+  "image/compress-webp": ImageDown,
+ 
+  // ---------------------------------------------------------------------
+  // Image compression (target size / specialised resizers)
+  // ---------------------------------------------------------------------
+  "image/compress-image-to-20kb": ImageDown,
+  "image/compress-image-to-50kb": ImageDown,
+  "image/compress-image-to-100kb": ImageDown,
+  "image/passport-photo-resizer": IdCard,
+  "image/resize-signature-for-upload": PenTool
 };
 
 export const tools = Object.entries(toolRegistry).map(([id, entry]) => {
@@ -112,6 +164,7 @@ export const tools = Object.entries(toolRegistry).map(([id, entry]) => {
   return {
     id,
     title: entry.title,
+    toolShortName: entry.toolShortName,
     description: entry.description ?? "",
     icon: toolIcons[id] ?? FileText,
     category,

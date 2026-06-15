@@ -4,7 +4,7 @@ import { categoryIcons, tools } from "@/data/tools";
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState, useEffect, JSX } from "react";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { Icon, Search } from "lucide-react";
 
 // const categoryIcons: Record<string, JSX.Element> = categoryIcons;
 type CommandPaletteProps = {
@@ -77,7 +77,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                 <Search className="w-5 h-5 text-white/40" />
                 <input
                   autoFocus
-                  placeholder="Explore tools..."
+                  placeholder={searchTools == true ? "Search tools..." : "Explore categories..."}
                   value={query}
                   onChange={(e) => {
                     setQuery(e.target.value);
@@ -109,22 +109,22 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                         }
                       }}
                     >
-                      <div>
-                        <p className="font-medium">{item.title}</p>
-                        <p className="text-white/60 text-sm">
-                          {item.description}
-                        </p>
-                      </div>
                       {
                         searchTools == true ?
                         (<div className="flex items-center gap-2">
-                        
-                        {categoryIcons[item.category] && categoryIcons[item.category].icon}
-                        <span className="badge-pill">
+                        <item.icon size={18} color="#40916f"/>
+                        {/* <span>
                           {item.category}
-                        </span>
+                        </span> */}
                       </div>):("")
                       }
+                      <div>
+                        <p className="font-medium" title={String(item.description)}>{item.title}</p>
+                        {/* <p className="text-white/60 text-sm">
+                          {item.description}
+                        </p> */}
+                      </div>
+                      
                       
                     </div>
                   ))

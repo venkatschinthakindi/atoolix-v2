@@ -3,6 +3,7 @@
 import { tools } from "@/data/tools";
 import { toolRegistry } from "@/components/tools/toolRegistry";
 import { useRouter } from "next/navigation";
+import ToolCard from "./toolCard";
 export function FilteredTools({
   filterKey,
   filteredTools
@@ -32,7 +33,7 @@ export function FilteredTools({
                 className="card-surface p-4"
               >
                 <div>
-                  <div className="flex items-center gap-3">
+                  {/* <div className="flex items-center gap-3">
                     <div className="card-icon">
                       <Icon className="text-white w-4 h-4" />
                     </div>
@@ -42,7 +43,8 @@ export function FilteredTools({
                         Coming Soon
                       </span>
                     )}
-                  </div>
+                  </div> */}
+                  <ToolCard label={tool.toolShortName} icon={Icon} description={tool.description} ></ToolCard>
                   <h4 className="text-white text-sm font-semibold mt-4 overflow-hidden"
                   style={{
                     display: "-webkit-box",
@@ -50,7 +52,7 @@ export function FilteredTools({
                     WebkitBoxOrient: "vertical",
                   }} title={tool.title} >{tool.title}</h4>
 
-                  <p className="text-white/50 text-xs mt-2 overflow-hidden"
+                  {/* <p className="text-white/50 text-xs mt-2 overflow-hidden"
                   style={{
                     display: "-webkit-box",
                     WebkitLineClamp: 1,
@@ -58,7 +60,7 @@ export function FilteredTools({
                   }}
                   title={tool.description}>
                     {tool.description}
-                  </p>
+                  </p> */}
                 </div>
                 <div className="card-footer">
                   {tool.comingSoon ? "Preview →" : "Open →"}

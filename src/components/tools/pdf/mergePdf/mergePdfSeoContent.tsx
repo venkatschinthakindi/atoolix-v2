@@ -195,47 +195,6 @@ export function MergePdfSeoContent() {
         </div>
       </section>
 
-    {/* ===================== USE CASES ===================== */}
-      <section className="tool-usage-faq">
-        <h2 className="text-xl font-bold text-white mb-6 tracking-tight">
-          Who Uses PDF Merger Tools
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-4">
-
-          {[
-            {
-              title: "Students",
-              desc: "Combine notes, assignments, and study materials into structured PDFs."
-            },
-            {
-              title: "Businesses",
-              desc: "Merge reports, invoices, and contracts into unified documents."
-            },
-            {
-              title: "Professionals",
-              desc: "Create polished documents, proposals, and presentations."
-            },
-            {
-              title: "General Users",
-              desc: "Combine multiple PDFs for sharing or storage."
-            }
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5"
-            >
-              <h3 className="text-white font-semibold text-sm mb-1">
-                {item.title}
-              </h3>
-              <p className="text-white/60 text-xs">
-                {item.desc}
-              </p>
-            </div>
-          ))}
-
-        </div>
-      </section>
       {/* ===================== RELATED TOOLS ===================== */}
       <section className="tool-usage-faq">
         <h2 className="text-xl font-bold text-white mb-6 tracking-tight">
