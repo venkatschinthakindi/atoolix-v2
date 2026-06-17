@@ -1,6 +1,7 @@
-import type { NextConfig } from "next";
-
 const nextConfig = {
+  images: {
+    qualities: [50, 60, 75, 100],
+  },
   /* config options here */
   reactCompiler: true,
   devIndicators: false,

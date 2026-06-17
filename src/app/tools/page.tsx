@@ -3,9 +3,9 @@ import ToolLoader from "@/components/tools/toolLoader";
 import { Suspense } from "react";
 
 export const metadata = {
-  title: "All Free Online Tools - PDF, Image, Calculator Tools",
+  title: "All Free Online Tools - PDF, Image, Calculator, EMI and Finance Tools",
   description:
-    "Explore free online tools including PDF tools, image converters, compressors, and calculators.",
+    "Explore free online tools including PDF tools, image converters, compressors, Finance tools and calculators.",
 };
 
 export default async function ToolsPage({ params }: any) {

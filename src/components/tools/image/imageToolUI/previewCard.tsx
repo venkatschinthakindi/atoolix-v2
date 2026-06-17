@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface Props {
   src: string | null;
   alt?: string;
@@ -10,11 +12,9 @@ export function PreviewCard({
   return (
     <div>
       {src && (
-        <img
-          src={src}
-          alt={alt}
-          className="rounded-lg max-h-96 mx-auto"
-        />
+        <Image src={src}
+          alt={alt} fill sizes="100vw"
+                           className="rounded-lg max-h-96 mx-auto" style={{objectFit:'cover'}}/>
       )}
     </div>
   );

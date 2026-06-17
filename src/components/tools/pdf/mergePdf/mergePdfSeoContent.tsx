@@ -382,9 +382,10 @@ export function MergePdfSeoContent() {
             <a
               key={i}
               href={tool.href}
+              aria-label={tool.name}
               className="px-4 py-2 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/70 hover:text-white hover:bg-blue-400/20 hover:border-blue-400/30 transition-all duration-200 flex items-center gap-2 relative group"
             >
-              <span>{tool.icon}</span>
+              <span aria-hidden="true">{tool.icon}</span>
               {tool.name}
               <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-black text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
                 {tool.name} tool

@@ -1,10 +1,9 @@
-import { ToolId, toolRegistry } from "@/components/tools/toolRegistry";
+import { ToolId } from "@/components/tools/toolRegistry";
 import { ToolRenderer } from "@/components/tools/toolRenderer";
 import { notFound } from "next/navigation";
-import { FloatingDock } from "@/components/layout/floatingDock";
+import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 import BackButton from "@/components/ui/backButton";
 import { getTool } from "@/utility/getTool";
-
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import { ToolSeoContent } from "@/app/tools/[...toolId]/toolSeoContent";
 
@@ -39,7 +38,9 @@ export default async function ToolPage({ params }: any) {
       <div className="app-shell">
         <div className="app-container page-section">
             <div className="mb-12">
-              <FloatingDock />
+              <>
+                <FloatingDockLoader />
+              </>
             </div>
 
             <div className="section-header">

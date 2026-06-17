@@ -1,10 +1,12 @@
 import { MathOperationsIcon } from "@phosphor-icons/react";
-import { Calculator, Cpu, Code, Sparkles, DollarSign, 
-  Image, ImageIcon, TrendingUp, Banknote, ShieldCheck,
-  FileImage,  FileText,  FileSpreadsheet,  Presentation,
-  Scissors,  Combine,  Minimize2,  RotateCw,  Lock,  Unlock,
+import { Calculator, Cpu,
+  Image,  
+  TrendingUp,DollarSign,
+  FileImage,  FileText,  
+  Scissors,  Combine,  Minimize2, 
   PiggyBank,  Palmtree,  Repeat,  ArrowLeftRight,  ImageDown,
-  IdCard,  PenTool,  type LucideIcon,  Stamp,  FileSignature,  FileBadge } from "lucide-react";
+  IdCard,  PenTool
+} from "lucide-react";
 import React, { JSX } from "react";
 import { toolRegistry } from "@/components/tools/toolRegistry";
 type CategoryInfo = {
@@ -20,12 +22,6 @@ export const categoryIcons: Record<string, CategoryInfo> = {
     description: "PDF tools and utilities",
     icon: React.createElement(FileText, { className: "w-4 h-4 text-indigo-400" })
   },
-  // Productivity: {
-  //   id: "Productivity",
-  //   title: "Productivity",
-  //   description: "Productivity tools and utilities",
-  //   icon: React.createElement(Sparkles, { className: "w-4 h-4 text-blue-400" })
-  // },
   Math: {
     id: "Math",
     title: "Math",
@@ -68,30 +64,12 @@ export const categoryIcons: Record<string, CategoryInfo> = {
     description: "Remove image backgrounds automatically with AI",
     icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
   },
-  // Watermark_Tools: {
-  //   id: "Watermark_Tools",
-  //   title: "Watermark Tools",
-  //   description: "Add, remove and manage image watermarks",
-  //   icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
-  // },
-  // Photo_Enhancer: {
-  //   id: "Photo_Enhancer",
-  //   title: "Photo Enhancer",
-  //   description: "Improve image quality, sharpness and clarity",
-  //   icon: React.createElement(Image, { className: "w-4 h-4 text-blue-400" })
-  // },
   Finance: {
     id: "Finance",
     title: "Finance",
     description: "Financial planning and analysis tools",
     icon: React.createElement(DollarSign, { className: "w-4 h-4 text-yellow-400" })
   },
-  // Developer: {
-  //   id: "Developer",
-  //   title: "Developer",
-  //   description: "Development tools and utilities",
-  //   icon: React.createElement(Code, { className: "w-4 h-4 text-purple-400" })
-  // }
 };
 
 const toolIcons: Record<string, React.ComponentType<any>> = {

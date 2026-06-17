@@ -13,6 +13,7 @@ import { getImageMetadata } from "@/features/imageConverter/imageMetadata/getIma
 import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
+import Image from "next/image";
 
 interface Props {
   config: ToolConfig;
@@ -239,11 +240,8 @@ useEffect(() => {
           </div>
 
           {previewUrl && (
-            <img
-              src={previewUrl}
-              alt="preview"
-              className="rounded-lg max-h-96 mx-auto"
-            />
+            <Image src={previewUrl} alt="preview" fill sizes="100vw"
+             className="rounded-lg max-h-96 mx-auto" style={{objectFit:'cover'}}/>
           )}
 
           {metadata && (
@@ -295,11 +293,8 @@ useEffect(() => {
       {isDone && outputUrl && (
         <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-gray-950/60 to-gray-900/30 p-5 space-y-4">
 
-          <img
-            src={outputUrl}
-            alt="converted"
-            className="rounded-lg max-h-96 mx-auto"
-          />
+          <Image src={outputUrl} alt="converted" fill sizes="100vw"
+             className="rounded-lg max-h-96 mx-auto" style={{objectFit:'cover'}}/>
 
           <button
             onClick={handleDownload}

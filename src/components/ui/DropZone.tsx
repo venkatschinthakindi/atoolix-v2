@@ -3,6 +3,7 @@
 "use client";
 
 import { ImageFormat } from "@/types/imageConverter.types";
+import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 
 export function DropZone({
@@ -73,10 +74,15 @@ export function DropZone({
         }`}
       >
         <div className="flex items-center justify-center space-x-4">
-          {/* Upload Illustration */}
-          <img
-            src="/icons/upload-illustration.png"
-            alt="Upload Illustration"
+          <Image
+            src="/icons/upload-illustration.webp"
+            alt="Upload illustration"
+            width={80}
+            height={80}
+            quality={50}
+            priority
+            fetchPriority="high"
+            sizes="80px"
             className="h-20 w-20 drop-shadow-[0_0_15px_rgba(59,130,246,0.7)]"
           />
 

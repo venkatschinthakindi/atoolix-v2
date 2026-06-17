@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import { toPng } from "html-to-image";
 
 type Props = {
@@ -28,6 +26,9 @@ export function FinancePdfExport({
     setLoading(true);
 
     try {
+      const { jsPDF } = await import("jspdf");
+      const { autoTable } = await import("jspdf-autotable");
+      
       // =====================================
       // Extract title
       // =====================================

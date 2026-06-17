@@ -1,6 +1,6 @@
-import { FloatingDock } from "@/components/layout/floatingDock";
 import { FilteredTools } from "@/components/ui/filteredTools";
 import BackButton from "@/components/ui/backButton";
+import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 
 export function FilterToolHubPage({ filterKey }: any) {
   return (
@@ -8,7 +8,9 @@ export function FilterToolHubPage({ filterKey }: any) {
     <div className="app-shell">
       <div className="app-container page-section">
         <div className="mb-12">
-          <FloatingDock />
+          <>
+          <FloatingDockLoader />
+          </>
         </div>
         <div className="section-header">
           <BackButton />

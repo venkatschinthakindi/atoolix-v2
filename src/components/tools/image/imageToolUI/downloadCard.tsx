@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ReactNode } from "react";
 
 interface Props {
@@ -17,12 +18,8 @@ export function DownloadCard({
 }: Props) {
   return (
     <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-gray-950/60 to-gray-900/30 p-5 space-y-4">
-
-      <img
-        src={imageUrl}
-        alt={alt}
-        className="rounded-lg max-h-96 mx-auto"
-      />
+      <Image src={imageUrl} alt={alt} fill sizes="100vw"
+                   className="rounded-lg max-h-96 mx-auto" style={{objectFit:'cover'}}/>
 
       {children}
 

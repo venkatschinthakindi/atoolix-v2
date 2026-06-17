@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { FloatingDock } from "./floatingDock";
 import { BackgroundOrbs } from "@/components/dashboard/backgroundOrbs";
+import FloatingDockLoader from "./floatingDockLoader";
 
 interface AppShellProps {
   children: ReactNode;
@@ -13,7 +13,9 @@ export function AppShell({
     <main className="app-shell">
       <BackgroundOrbs />
 
-      <FloatingDock />
+      <>
+        <FloatingDockLoader />
+      </>
 
       <div className="app-container">
         {children}

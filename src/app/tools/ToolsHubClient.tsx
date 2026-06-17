@@ -2,10 +2,10 @@
 
 import { categoryIcons, tools } from "@/data/tools";
 import React, { useState, useMemo, useEffect } from "react";
-import { FloatingDock } from "@/components/layout/floatingDock";
 import { FileText } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FilteredTools } from "@/components/ui/filteredTools";
+import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 
 export default function ToolsHubClient() {
     const searchParams = useSearchParams();
@@ -44,7 +44,7 @@ export default function ToolsHubClient() {
   return (
     <div>
         <div className="mb-12">
-          <FloatingDock />
+          <FloatingDockLoader />
         </div>
 
         <div className="flex flex-wrap gap-3 mb-8">

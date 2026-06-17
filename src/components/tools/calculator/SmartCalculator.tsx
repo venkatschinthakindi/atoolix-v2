@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { evaluate } from "mathjs";
 
 type SmartCalculatorProps = {
   initialExpression: string | undefined;
@@ -14,8 +13,9 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
   const [history, setHistory] = useState<string[]>([]);
   const [memory, setMemory] = useState(0);
 
-  const calculate = () => {
+  const calculate = async () => {
     try {
+      const { evaluate } = await import("mathjs");
       let expr = expression?.replace(/(\d+)!/g, (_, n) => `factorial(${n})`);
       expr = expr?.replace(/\b0+(\d+)/g, "$1");
       const res = evaluate(expr!);
@@ -26,8 +26,8 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
     }
   };
 
-  const handleClick = (val: string) => {
-    if (val === "=") calculate();
+  const handleClick = async (val: string) => {
+    if (val === "=") await calculate();
     else if (val === "C") setExpression("");
     else setExpression(expression + val);
   };
@@ -53,25 +53,25 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
       {/* Number Pad */}
       <div className="grid grid-cols-3 gap-2">
         {["7","8","9","4","5","6","1","2","3"].map(btn => (
-          <button key={btn} onClick={() => handleClick(btn)} className="button-ghost-lg">
+          <button key={btn} onClick={async () => await handleClick(btn)} className="button-ghost-lg">
             {btn}
           </button>
         ))}
       </div>
       <div className="grid grid-cols-3 gap-2">
-        <button onClick={() => handleClick("0")} className="button-ghost-lg">0</button>
-        <button onClick={() => handleClick(".")} className="button-ghost-lg">.</button>
-        <button onClick={() => handleClick("=")} className="surface-button button-primary text-lg">=</button>
+        <button onClick={async () => await handleClick("0")} className="button-ghost-lg">0</button>
+        <button onClick={async () => await handleClick(".")} className="button-ghost-lg">.</button>
+        <button onClick={async () => await handleClick("=")} className="surface-button button-primary text-lg">=</button>
       </div>
 
       {/* Operators */}
       <div className="flex gap-2 flex-wrap">
         {["/","*","-","+"].map(op => (
-          <button key={op} onClick={() => handleClick(op)} className="button-ghost-lg flex-1">
+          <button key={op} onClick={async () => await handleClick(op)} className="button-ghost-lg flex-1">
             {op}
           </button>
         ))}
-        <button onClick={() => handleClick("C")} className="button-danger">
+        <button onClick={async () => await handleClick("C")} className="button-danger">
           Clear
         </button>
       </div>
@@ -79,7 +79,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
       {/* Scientific */}
       <div className="flex flex-wrap gap-2">
         {sciButtons.map(btn => (
-          <button key={btn} onClick={() => handleClick(btn)} className="button-ghost-sm">
+          <button key={btn} onClick={async () => await handleClick(btn)} className="button-ghost-sm">
             {btn}
           </button>
         ))}

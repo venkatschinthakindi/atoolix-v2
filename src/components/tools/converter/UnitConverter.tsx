@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import convert from "convert-units";
-import { unit, createUnit } from "mathjs";
+// import { unit, createUnit } from "mathjs";
 import { Combobox } from "@headlessui/react";
 import { ConverterToolProps } from "@/components/tools/toolRegistry";
 type UnitOption = { abbr: string; name: string; measure?: string };
@@ -82,7 +82,8 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
     }
   };
 
-  const convertBatch = () => {
+  const convertBatch = async () => {
+    const { createUnit, unit} = await import("mathjs");
     const items = values.split(",").map(v => v.trim()).filter(Boolean);
     const output: string[] = [];
     const numericResults: number[] = [];
@@ -189,9 +190,9 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
 
       {/* Action */}
       <button
-        onClick={convertBatch}
-        className="full-screen-button"
-      >
+          onClick={async () => await convertBatch()}
+          className="full-screen-button"
+        >
         {
             (values?.split(",")?.map(v => v.trim())?.filter(Boolean)?.length??0) > 1 ? "Convert Batch" : "Convert"
         }

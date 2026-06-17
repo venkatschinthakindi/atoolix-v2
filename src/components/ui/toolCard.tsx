@@ -1,27 +1,4 @@
-// export function ToolCard({ label, icon: Icon }: any) {
-//   return (
-//     <button
-//       type="button"
-//       className="group relative flex w-full flex-col items-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 px-6 py-2 text-center shadow-md transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
-//     >
-//       {/* decorative circle accents, matching the reference image */}
-//       <span className="pointer-events-none absolute -top-6 -right-6  rounded-full bg-white/10" />
-//       <span className="pointer-events-none absolute -bottom-8 -left-8 rounded-full bg-white/5" />
- 
-//       {/* icon tile */}
-//       <span className="relative z-10 flex items-center justify-center rounded-xl bg-white shadow-sm">
-//         <Icon className="h-7 w-7 text-blue-600" strokeWidth={2} />
-//       </span>
- 
-//       {/* label */}
-//       <span className="relative z-10 text-sm font-semibold text-white sm:text-base">
-//         {label}
-//       </span>
-//     </button>
-//   );
-// }
 "use client";
-import { useMemo } from "react";
 
 // A bank of ~100 gradient + icon-color pairings. Each card picks one at
 // random on render, with the icon color always matching its gradient family
@@ -144,7 +121,7 @@ function getRandomColor() {
 }
 
 export function ToolCard({ label, icon: Icon, description }: any) {
-  const color = useMemo(() => getRandomColor(), []);
+  const color = getColorFromLabel(label);
 
   return (
     <button  title={String(description)}
@@ -169,3 +146,12 @@ export function ToolCard({ label, icon: Icon, description }: any) {
 }
 
 export default ToolCard;
+function getColorFromLabel(label: string) {
+  let hash = 0;
+
+  for (let i = 0; i < label.length; i++) {
+    hash = ((hash << 5) - hash + label.charCodeAt(i)) | 0;
+  }
+
+  return CARD_COLORS[Math.abs(hash) % CARD_COLORS.length];
+}

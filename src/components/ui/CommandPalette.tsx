@@ -2,9 +2,9 @@
 
 import { categoryIcons, tools } from "@/data/tools";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useEffect, JSX } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Icon, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 // const categoryIcons: Record<string, JSX.Element> = categoryIcons;
 type CommandPaletteProps = {

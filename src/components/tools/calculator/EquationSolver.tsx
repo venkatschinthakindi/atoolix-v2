@@ -1,11 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  evaluate, simplify, derivative, det, inv, eigs, complex, unit,
-  mean, median, mode, variance, std, combinations, permutations,
-  log, exp, pow, abs, round, sqrt, gcd, lcm, fraction
-} from "mathjs";
 import { BookOpenCheck, HelpCircle, X } from "lucide-react";
 
 
@@ -84,8 +79,12 @@ function EquationSolver() {
   const [equation, setEquation] = useState("");
   const [solution, setSolution] = useState("");
 
-  const solveEquationHandler = (eq: string) => {
+  const solveEquationHandler = async (eq: string) => {
     try {
+    const {
+        evaluate,simplify,derivative,det, inv,eigs,complex,unit,mean, median,mode,variance,std,combinations,permutations,
+        log,exp,pow,abs,round,sqrt,gcd,lcm,fraction } = await import("mathjs");
+
       let expr = eq.replace(/(\d+)!/g, (_, n) => `factorial(${n})`);
       expr = expr.replace(/\b0+(\d+)/g, "$1");
 
@@ -152,7 +151,7 @@ function EquationSolver() {
         className="w-full p-3 rounded-lg bg-black/30 text-white border border-white/10 focus:ring-2 focus:ring-green-500"
       />
       <button
-        onClick={() => setSolution(solveEquationHandler(equation))}
+        onClick={async () => setSolution(await solveEquationHandler(equation))}
         className="full-screen-button"
       >
         Solve
