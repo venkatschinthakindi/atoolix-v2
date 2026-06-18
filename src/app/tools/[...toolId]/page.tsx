@@ -5,7 +5,7 @@ import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 import BackButton from "@/components/ui/backButton";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
-import { ToolSeoContent } from "@/app/tools/[...toolId]/toolSeoContent";
+import ToolSeoContent from "@/app/tools/[...toolId]/toolSeoContent";
 
 export async function generateMetadata({ params }: any) {
   return createMetadata(params);

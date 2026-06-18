@@ -1,6 +1,4 @@
-import { Fragment } from 'react';
-
-export function SplitPdfSeoContentV2() {
+export default function SplitPdfSeoContentV2() {
   // ---------------------------------------------------------------------
   // Structured data (JSON-LD) - Always available for SEO
   // ---------------------------------------------------------------------

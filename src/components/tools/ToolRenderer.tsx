@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useMemo } from "react";
 import { toolRegistry, ToolId, type ToolPropsMap } from "@/components/tools/toolRegistry";
 import { ToolContextProvider } from "@/context/toolContext";
 import ToolLoader from "./toolLoader";
@@ -11,6 +11,7 @@ type ToolRendererProps<T extends ToolId> = {
   toolProps?: ToolPropsMap[T];
 };
 
+
 export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolRendererProps<T>) {
   const entry = toolRegistry[toolId];
   
@@ -18,6 +19,7 @@ export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolR
 
   const DynamicComp = dynamic(entry.loader as any, {
     loading: () => <ToolLoader />,
+    ssr: true
   }) as React.ComponentType<ToolPropsMap[T]>;
  
   const mergedProps = {
@@ -25,18 +27,22 @@ export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolR
     ...entry
   } as ToolPropsMap[T];
   
-  const services = {
+  const services = useMemo(
+  () => ({
     api: {
       get: async (path: string) => {
-        const res = await fetch(path).then(r => r.json()).catch(() => null);
+        const res = await fetch(path)
+          .then(r => r.json())
+          .catch(() => null);
         return res;
       },
     },
     analytics: {
-      track: (event: string, props?: any) => {
-      },
+      track: () => {},
     },
-  };
+  }),
+  []
+);
 
   return (
     <>

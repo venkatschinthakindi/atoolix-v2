@@ -1,4 +1,4 @@
-export function MergePdfSeoContent() {
+export default function MergePdfSeoContent() {
   // ---------------------------------------------------------------------
   // Structured data (JSON-LD) - Always available for SEO
   // ---------------------------------------------------------------------
@@ -242,7 +242,7 @@ export function MergePdfSeoContent() {
           {coreFeatures.map((item, i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-[1.02] hover:border-blue-400/30 transition-all duration-200"
+              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10  hover:border-blue-400/30  "
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl flex-shrink-0">{item.icon}</span>
@@ -277,7 +277,7 @@ export function MergePdfSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-blue-400/30 transition-all duration-200"
+              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-blue-400/30  "
             >
               <div className="flex gap-3 items-start">
                 <span
@@ -320,7 +320,7 @@ export function MergePdfSeoContent() {
           {features.map((feature, i) => (
             <span
               key={i}
-              className="px-4 py-2.5 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/80 hover:bg-white/15 hover:border-blue-400/30 transition-all duration-200 flex items-center gap-2"
+              className="px-4 py-2.5 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/80 hover:bg-white/15 hover:border-blue-400/30   flex items-center gap-2"
             >
               <span>{feature.icon}</span>
               {feature.label}
@@ -346,7 +346,7 @@ export function MergePdfSeoContent() {
           {audiences.map((item, i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30 transition-all duration-200"
+              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30  "
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl flex-shrink-0">{item.icon}</span>
@@ -383,11 +383,11 @@ export function MergePdfSeoContent() {
               key={i}
               href={tool.href}
               aria-label={tool.name}
-              className="px-4 py-2 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/70 hover:text-white hover:bg-blue-400/20 hover:border-blue-400/30 transition-all duration-200 flex items-center gap-2 relative group"
+              className="px-4 py-2 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/70 hover:text-white hover:bg-blue-400/20 hover:border-blue-400/30   flex items-center gap-2 relative group"
             >
               <span aria-hidden="true">{tool.icon}</span>
               {tool.name}
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-black text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
+              <span className=" bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-black text-white text-xs rounded-lg opacity-0   whitespace-nowrap pointer-events-none">
                 {tool.name} tool
               </span>
             </a>
@@ -423,11 +423,11 @@ export function MergePdfSeoContent() {
           {faqItems.map((item, i) => (
             <div
               key={i}
-              className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden transition-all duration-300"
+              className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden  duration-300"
             >
               {/* Native details/summary for SSR-friendly collapsible */}
               <details className="w-full">
-                <summary className="list-none p-5 flex items-center justify-between gap-4 hover:bg-white/10 transition-all duration-200 cursor-pointer">
+                <summary className="list-none p-5 flex items-center justify-between gap-4 hover:bg-white/10   cursor-pointer">
                   <div className="flex items-center gap-3 flex-1">
                     <span className="text-2xl flex-shrink-0">❓</span>
                     <span className="text-white font-semibold text-sm">
@@ -436,9 +436,9 @@ export function MergePdfSeoContent() {
                   </div>
 
                   {/* Animated SVG Chevron - SSR friendly */}
-                  <span className="text-blue-400 text-lg flex-shrink-0 transition-transform duration-300">
+                  <span className="text-blue-400 text-lg flex-shrink-0 -transform duration-300">
                     <svg
-                      className="w-5 h-5 transform transition-transform duration-300 open:rotate-180"
+                      className="w-5 h-5 transform -transform duration-300 open:rotate-180"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
