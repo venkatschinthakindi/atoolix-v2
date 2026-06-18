@@ -56,7 +56,7 @@ export default async function ToolPage({ params }: any) {
                 {tool.description}
               </p>
             </div>
-            
+              
               <ToolRenderer toolId={toolId} />
               <ToolSeoContent toolId={toolId} />
             </>

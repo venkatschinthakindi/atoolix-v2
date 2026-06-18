@@ -20,7 +20,6 @@ type MergeMode = "none" | "text" | "file";
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
   {
-    ssr: false,
     loading: () => null,
   }
 );
@@ -326,7 +325,12 @@ export default function PdfMergerClient({ config }: Props) {
         )}
       </section>
 
-      <PdfViewerModal url={previewUrl} onClose={() => setPreviewUrl(null)} />
+      {previewUrl && (
+        <PdfViewerModal
+          url={previewUrl}
+          onClose={() => setPreviewUrl(null)}
+        />
+      )}
     </main>
   );
 }

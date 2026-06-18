@@ -1,7 +1,7 @@
 // components/ToolLoader.tsx
 export default function ToolLoader() {
   return (
-    <div className="flex flex-col items-center justify-center p-10 text-center space-y-6">
+    <div className="flex flex-col min-h-[700px] items-center justify-center p-10 text-center space-y-6">
       {/* Animated brand spinner */}
       <div className="h-12 w-12 animate-spin rounded-full border-4 border-green-500 border-t-transparent"></div>
 
