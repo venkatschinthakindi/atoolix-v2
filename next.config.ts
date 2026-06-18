@@ -1,9 +1,22 @@
 const nextConfig = {
+  // Fix render-blocking CSS (Next.js 14+ experimental)
+  experimental: {
+    inlineCss: true, // Inlines critical CSS automatically [web:18]
+  },
+  
+  // Remove console in production
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' 
+      ? { exclude: ['error', 'warn'] } 
+      : false,
+  },
+  
   images: {
     qualities: [50, 60, 75, 100],
   },
   /* config options here */
   reactCompiler: true,
+  reactStrictMode: true,
   devIndicators: false,
   async redirects() {
     return [

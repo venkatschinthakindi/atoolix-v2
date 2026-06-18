@@ -34,6 +34,7 @@ function createFileItem(file: File): FileItem {
 }
 
 export default function PdfMergerClient({ config }: Props) {
+  
   const [dropzoneKey, setDropzoneKey] = useState(0);
   const [files, setFiles] = useState<FileItem[]>([]);
   const [state, setState] = useState<"idle" | "ready" | "processing" | "done">(

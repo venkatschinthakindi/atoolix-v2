@@ -9,6 +9,7 @@ export default function PdfMergerTool({
   description,
   allowedFormats,
 }: PdfConverterToolProps) {
+  console.log('rendered pdfMergerClient');
   return (
     <PdfMerger
       initialExpression={initialExpression}
