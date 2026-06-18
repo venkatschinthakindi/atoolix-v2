@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { toPng } from "html-to-image";
+import { asyncGetJsPDFLib } from "@/lib/jsPdfLibUtility";
+import { asyncGetJsPDFAutotableLib } from "@/lib/jsPdfAutotableUtility";
+import { initChartJS } from "@/lib/chartJsUtility";
 
 type Props = {
   filename?: string;
@@ -17,17 +20,18 @@ function isVisible(el: HTMLElement) {
   );
 }
 
-export function FinancePdfExport({
+export async function FinancePdfExport({
   filename = "finance-report.pdf",
 }: Props) {
+  await initChartJS();
   const [loading, setLoading] = useState(false);
 
   const handleExport = async () => {
     setLoading(true);
 
     try {
-      const { jsPDF } = await import("jspdf");
-      const { autoTable } = await import("jspdf-autotable");
+      const { jsPDF } = await asyncGetJsPDFLib();
+      const { autoTable } = await asyncGetJsPDFAutotableLib();
       
       // =====================================
       // Extract title

@@ -2,10 +2,9 @@
 "use client";
 
 import { useState } from "react";
-import convert from "convert-units";
-// import { unit, createUnit } from "mathjs";
 import { Combobox } from "@headlessui/react";
 import { ConverterToolProps } from "@/components/tools/toolRegistry";
+import { getConvertUnits } from "@/lib/convertUnitsUtility";
 type UnitOption = { abbr: string; name: string; measure?: string };
 
 export default function UnitConverterTool({ initialExpression = "", theme = "dark" }: ConverterToolProps) {
@@ -14,7 +13,7 @@ export default function UnitConverterTool({ initialExpression = "", theme = "dar
 
 type TabbedUnitConverterProps = ConverterToolProps;
 
-function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
+async function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
   const [values, setValues] = useState("");
   const [from, setFrom] = useState<string | null>("l");
   const [to, setTo] = useState<string | null>("");
@@ -25,12 +24,13 @@ function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
   const [newUnitDef, setNewUnitDef] = useState("");
   const [queryFrom, setQueryFrom] = useState("");
   const [queryTo, setQueryTo] = useState("");
-
+  
+  const convert = await getConvertUnits();
   // Build full unit list (standard + custom)
   const standardUnits: UnitOption[] = convert()
     .measures()
-    .flatMap(measure =>
-      convert().list(measure).map(u => ({ abbr: u.abbr, name: u.plural, measure }))
+    .flatMap((measure:any) =>
+      convert().list(measure).map((u:any) => ({ abbr: u.abbr, name: u.plural, measure }))
     );
 
   const customUnitOptions: UnitOption[] = Object.keys(customUnits).map(name => ({

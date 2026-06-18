@@ -1,9 +1,6 @@
 "use client";
-
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Filler, Tooltip, Legend } from "chart.js";
+import { initChartJS } from "@/lib/chartJsUtility";
 import { Line, Bar } from "react-chartjs-2";
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Filler, Tooltip, Legend);
 
 type Dataset = {
   label: string;
@@ -21,7 +18,8 @@ type Props = {
   chartType?: "line" | "bar";
 };
 
-export function FinanceChart({ title, labels, datasets, chartType = "line" }: Props) {
+export async function FinanceChart({ title, labels, datasets, chartType = "line" }: Props) {
+  await initChartJS();
   const data = {
     labels,
     datasets: datasets.map((dataset) => ({

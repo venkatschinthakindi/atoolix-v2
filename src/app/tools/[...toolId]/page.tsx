@@ -46,7 +46,8 @@ export default async function ToolPage({ params }: any) {
             <div className="section-header">
               <BackButton />
             </div>
-
+            
+            <>
             <div className="text-center space-y-4 mb-2">
               <h1 className="md:text-l font-extrabold text-white tracking-wide">
                 {tool.onPageTitle || tool.title}
@@ -56,8 +57,9 @@ export default async function ToolPage({ params }: any) {
               </p>
             </div>
             
-            <ToolRenderer toolId={toolId} />
-            <ToolSeoContent toolId={toolId} />
+              <ToolRenderer toolId={toolId} />
+              <ToolSeoContent toolId={toolId} />
+            </>
           </div>
         </div>  
     </>

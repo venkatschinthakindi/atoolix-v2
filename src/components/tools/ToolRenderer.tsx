@@ -17,7 +17,6 @@ export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolR
   if (!entry) return null;
 
   const DynamicComp = dynamic(entry.loader as any, {
-    ssr: false,
     loading: () => <ToolLoader />,
   }) as React.ComponentType<ToolPropsMap[T]>;
  

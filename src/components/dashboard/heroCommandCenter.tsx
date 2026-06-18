@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { CommandPalette } from "../ui/commandPalette";
 import { JSX, useEffect, useRef, useState } from "react";
@@ -73,12 +73,13 @@ export function HeroCommandCenter() {
     }, []);
 
   return (
-    <motion.section
+    <section
       // initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      // animate={{ opacity: 1, y: 0 }}
+      // transition={{ duration: 0.6 }}
+      //initial={false}
       className="hero-banner"
-      initial={false}
+      
     >
       <span className="hero-pill">
         100+ Productivity Tools
@@ -167,6 +168,6 @@ export function HeroCommandCenter() {
           )
         )}
       </div>
-    </motion.section>
+    </section>
   );
 }

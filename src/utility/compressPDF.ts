@@ -1,4 +1,4 @@
-import { PDFDocument } from "pdf-lib";
+import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 
 export type CompressionLevel = "low" | "medium" | "high";
 
@@ -15,7 +15,7 @@ export async function compressPDF(
   }
 
   const existingPdfBytes = await file.arrayBuffer();
-
+  const PDFDocument  = await asyncGetPdfLib();
   const pdfDoc = await PDFDocument.load(existingPdfBytes, {
     ignoreEncryption: true,
   });

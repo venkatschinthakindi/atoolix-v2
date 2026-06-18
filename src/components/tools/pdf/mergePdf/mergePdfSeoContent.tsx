@@ -409,14 +409,14 @@ export function MergePdfSeoContent() {
         </h2>
 
         {/* SEO: Plain text content always available for crawlers (rendered server-side) */}
-        <div className="hidden" aria-hidden="true">
+        {/* <div className="hidden" aria-hidden="true">
           {faqItems.map((item, i) => (
             <div key={i}>
               <h3>{item.q}</h3>
               <p>{item.a}</p>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* Interactive UI: SSR-friendly collapsible FAQ panels using native details/summary */}
         <div className="space-y-4">

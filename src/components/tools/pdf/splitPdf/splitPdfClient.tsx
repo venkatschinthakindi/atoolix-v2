@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PDFDocument } from "pdf-lib";
+import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 import { saveAs } from "file-saver";
 import JSZip from "jszip";
 
@@ -40,127 +40,6 @@ export default function PdfSpliterClient({
     setDropzoneKey((prev) => prev + 1);
   };
 
-  // const parsePages = (
-  //   input: string,
-  //   total: number
-  // ) => {
-  //   const selected = Array(total).fill(false);
-
-  //   const clean = input
-  //     .toLowerCase()
-  //     .replace(/\s/g, "");
-
-  //   if (!clean) return selected;
-
-  //   if (clean === "all")
-  //     return selected.map(() => true);
-
-  //   const parts = clean.split(",");
-
-  //   parts.forEach((part) => {
-  //     if (!part) return;
-
-  //     if (part.startsWith("last-")) {
-  //       const n = Number(
-  //         part.replace("last-", "")
-  //       );
-
-  //       for (
-  //         let i = total - n;
-  //         i < total;
-  //         i++
-  //       ) {
-  //         if (i >= 0) selected[i] = true;
-  //       }
-
-  //       return;
-  //     }
-
-  //     if (part.startsWith("first-")) {
-  //       const n = Number(
-  //         part.replace("first-", "")
-  //       );
-
-  //       for (let i = 0; i < n; i++) {
-  //         selected[i] = true;
-  //       }
-
-  //       return;
-  //     }
-
-  //     if (part === "even") {
-  //       for (let i = 0; i < total; i++) {
-  //         if ((i + 1) % 2 === 0) {
-  //           selected[i] = true;
-  //         }
-  //       }
-
-  //       return;
-  //     }
-
-  //     if (part === "odd") {
-  //       for (let i = 0; i < total; i++) {
-  //         if ((i + 1) % 2 !== 0) {
-  //           selected[i] = true;
-  //         }
-  //       }
-
-  //       return;
-  //     }
-
-  //     if (part.includes("-")) {
-  //       const [a, b] = part
-  //         .split("-")
-  //         .map(Number);
-
-  //       for (
-  //         let i = a - 1;
-  //         i < b;
-  //         i++
-  //       ) {
-  //         if (
-  //           i >= 0 &&
-  //           i < total
-  //         ) {
-  //           selected[i] = true;
-  //         }
-  //       }
-
-  //       return;
-  //     }
-  //     if (part.includes("except:")) {
-  //       const [a, b] = part
-  //         .split("-")
-  //         .map(Number);
-
-  //       for (
-  //         let i = a - 1;
-  //         i < b;
-  //         i++
-  //       ) {
-  //         if (
-  //           i >= 0 &&
-  //           i < total
-  //         ) {
-  //           selected[i] = true;
-  //         }
-  //       }
-
-  //       return;
-  //     }
-  //     const idx = Number(part) - 1;
-
-  //     if (
-  //       !isNaN(idx) &&
-  //       idx >= 0 &&
-  //       idx < total
-  //     ) {
-  //       selected[idx] = true;
-  //     }
-  //   });
-
-  //   return selected;
-  // };
   const parsePages = (input: string, total: number) => {
     const selected = Array(total).fill(false);
 
@@ -308,7 +187,7 @@ export default function PdfSpliterClient({
     files: File[]
   ) => {
     const pdfItems: PDFItem[] = [];
-
+    const PDFDocument  = await asyncGetPdfLib();
     for (const file of files) {
       const buffer =
         await file.arrayBuffer();
@@ -358,6 +237,7 @@ export default function PdfSpliterClient({
   const splitPDFs = async () => {
     try {
       setState("processing");
+      const PDFDocument  = await asyncGetPdfLib();
       setProgress(10);
 
       if (

@@ -6,6 +6,7 @@ import { saveAs } from "file-saver";
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
 import { Props } from "@/types/props";
+import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 
 type FileItem = {
   id: string;
@@ -49,7 +50,7 @@ export default function PdfMergerClient({ config }: Props) {
   const [headerFile, setHeaderFile] = useState<File | null>(null);
   const [footerFile, setFooterFile] = useState<File | null>(null);
   const [processingLabel, setProcessingLabel] = useState("Preparing files...");
-  const [PDFDocument, setPDFDocument] = useState<any>();
+
 
   useEffect(() => {
     return () => {
@@ -59,8 +60,7 @@ export default function PdfMergerClient({ config }: Props) {
 
   const handleFiles = async (newFiles: File[]) => {
     const parsed: FileItem[] = [];
-    const { PDFDocument } = await import("pdf-lib");
-    setPDFDocument(PDFDocument);
+    const PDFDocument  = await asyncGetPdfLib();
     
     for (const file of newFiles) {
       const buffer = await file.arrayBuffer();
@@ -146,7 +146,7 @@ export default function PdfMergerClient({ config }: Props) {
     setProgress(5);
     setProcessingLabel("Creating merged document...");
     
-    if(!PDFDocument) return;
+    const PDFDocument  = await asyncGetPdfLib();
     const merged = await PDFDocument.create();
 
     for (let i = 0; i < files.length; i++) {

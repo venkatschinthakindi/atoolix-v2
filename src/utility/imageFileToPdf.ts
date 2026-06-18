@@ -1,4 +1,4 @@
-import { PDFDocument } from "pdf-lib";
+import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 
 export type PageSize = "A4" | "Letter";
 export type Orientation = "portrait" | "landscape";
@@ -32,6 +32,7 @@ export async function imagesToPDF(
   files: File[],
   options: Options
 ): Promise<Uint8Array> {
+  const PDFDocument  = await asyncGetPdfLib();
   const pdfDoc = await PDFDocument.create();
 
   for (const file of files) {

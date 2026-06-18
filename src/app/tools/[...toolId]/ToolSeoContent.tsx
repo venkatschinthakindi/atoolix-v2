@@ -1,22 +1,16 @@
+import React from "react";
 import { MergePdfSeoContent } from "@/components/tools/pdf/mergePdf/mergePdfSeoContent";
 import { SplitPdfSeoContentV2 } from "@/components/tools/pdf/splitPdf/splitPdfSeoContentV2";
 
+const seoRegistry: Record<string, React.ComponentType> = {
+  "pdf/split-pdf": SplitPdfSeoContentV2,
+  "pdf/merge-pdf": MergePdfSeoContent,
+};
+
 export function ToolSeoContent({ toolId }: { toolId: string }) {
-  let SeoContent;
+  const SeoContent = seoRegistry[toolId.toLowerCase()];
 
-  switch (toolId.toLocaleLowerCase()) {
-    case "pdf/split-pdf":
-      SeoContent = <SplitPdfSeoContentV2 />;
-      break;
-    case "pdf/merge-pdf":
-      SeoContent = <MergePdfSeoContent />;
-      break;
-    // case "pdf/compress-pdf":
-    //   SeoContent = <CompressPdfSeoContent />;
-    //   break;
-    default:
-      SeoContent = null;
-  }
+  if (!SeoContent) return null;
 
-  return <div>{SeoContent}</div>;
+  return <SeoContent />;
 }

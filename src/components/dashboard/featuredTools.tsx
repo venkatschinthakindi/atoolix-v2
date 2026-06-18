@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { tools } from "@/data/tools";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -77,9 +76,9 @@ useEffect(() => {
         </div>
 
         {/* Featured Tool */}
-        <motion.div
-          whileHover={{ scale: 1.01 }}
-          transition={{ duration: 0.2 }}
+        <div
+          // whileHover={{ scale: 1.01 }}
+          // transition={{ duration: 0.2 }}
           onClick={() => router.push(`/tools/${featured.id}`)}
           className="surface-card-light group relative cursor-pointer overflow-hidden"
         >
@@ -120,7 +119,7 @@ useEffect(() => {
               Open Tool →
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Carousel Section */}
             <div className="relative">
@@ -140,10 +139,10 @@ useEffect(() => {
                   const Icon = tool.icon;
 
                   return (
-                    <motion.div
+                    <div
                         key={tool.id}
-                        whileHover={{ y: -4 }}
-                        transition={{ duration: 0.15 }}
+                        // whileHover={{ y: -4 }}
+                        // transition={{ duration: 0.15 }}
                         onClick={() => router.push(`/tools/${tool.id}`)}
                         className="card-surface card-surface-sm w-[350px] transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
                       >
@@ -176,7 +175,7 @@ useEffect(() => {
                         >
                           {tool.title}
                         </p>
-                      </motion.div>
+                      </div>
                   );
                 })}
                 <div>
