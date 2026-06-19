@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
-import { saveAs } from "file-saver";
-import JSZip from "jszip";
 
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
@@ -11,6 +9,8 @@ import { ProgressBar } from "@/components/ui/progressBar";
 import { Props } from "@/types/props";
 import { PDFItem } from "@/types/pdfItem";
 import { ToolState } from "@/types/toolState";
+import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
+import { asyncGetJsZipLib } from "@/lib/jsZipUtility";
 
 export default function PdfSpliterClient({
   config,
@@ -308,8 +308,8 @@ export default function PdfSpliterClient({
           blob
         );
       } else {
-        const zip =
-          new JSZip();
+        const JSZip = await asyncGetJsZipLib();
+        const zip = new JSZip();
 
         for (
           let i = 0;
@@ -396,7 +396,7 @@ export default function PdfSpliterClient({
   };
 
   const downloadProcessedFile =
-    () => {
+    async () => {
       if (
         !downloadableContent
       )
@@ -407,7 +407,7 @@ export default function PdfSpliterClient({
         "single"
           ? "selected_pages.pdf"
           : "split_pages.zip";
-
+      const saveAs = await asyncGetFileSaverLib();
       saveAs(
         downloadableContent,
         fileName
@@ -565,9 +565,7 @@ export default function PdfSpliterClient({
       {state ===
         "done" && (
         <button
-          onClick={
-            downloadProcessedFile
-          }
+          onClick={async () => await downloadProcessedFile()}
           className="w-full p-3 rounded-xl bg-green-600 hover:bg-green-500 text-white transition"
         >
           Download

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { saveAs } from "file-saver";
 import { imagesToPDF, PageSize, Orientation } from "@/utility/imageFileToPdf";
 import { DropZone, getAcceptString } from "@/components/ui/dropZone";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Props } from "@/types/props";
+import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
 export default function ImageToPDFClient({
   config,
@@ -37,6 +37,7 @@ export default function ImageToPDFClient({
       const blob = new Blob([Uint8Array.from(pdfBytes)], {
         type: "application/pdf",
       });
+      const saveAs = await asyncGetFileSaverLib();
       saveAs(blob, "images2.pdf");
 
       setProgress(100);
@@ -133,7 +134,7 @@ export default function ImageToPDFClient({
           </div>
 
           <button
-            onClick={handleDownload}
+            onClick={async () => await handleDownload()}
             disabled={loading}
             className="mt-4 w-full bg-blue-600 hover:bg-blue-500 rounded-xl p-3 disabled:opacity-50"
           >

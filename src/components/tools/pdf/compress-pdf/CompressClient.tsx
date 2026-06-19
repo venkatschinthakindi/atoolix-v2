@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { saveAs } from "file-saver";
 import { compressPDF, CompressionLevel } from "@/utility/compressPDF";
 import { DropZone, getAcceptString } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
 import { Props } from "@/types/props";
+import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
 export default function CompressClient({
   config,
@@ -36,6 +36,7 @@ export default function CompressClient({
         type: "application/pdf",
       });
 
+      const saveAs = await asyncGetFileSaverLib();
       saveAs(blob, "compressed.pdf");
 
       setProgress(100);
@@ -84,7 +85,7 @@ export default function CompressClient({
       {/* Action */}
       <button
         disabled={!file || loading}
-        onClick={handleCompress}
+        onClick={async () => await handleCompress()}
         className="w-full bg-blue-600 hover:bg-blue-500 rounded-xl p-3 disabled:opacity-50"
       >
         {loading ? "Compressing..." : "Compress PDF"}

@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { saveAs } from "file-saver";
-
 import { DropZone, getAcceptString } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
 
@@ -14,6 +12,7 @@ import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
 import Image from "next/image";
+import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
 interface Props {
   config: ToolConfig;
@@ -181,7 +180,7 @@ useEffect(() => {
   // ----------------------------
   // DOWNLOAD
   // ----------------------------
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!outputUrl || !file) {
       return;
     }
@@ -193,6 +192,7 @@ useEffect(() => {
         config.outputFormats[0]
       );
 
+    const saveAs = await asyncGetFileSaverLib();
     saveAs(outputUrl, fileName);
   };
 
@@ -297,7 +297,7 @@ useEffect(() => {
              className="rounded-lg max-h-96 mx-auto" style={{objectFit:'cover'}}/>
 
           <button
-            onClick={handleDownload}
+            onClick={async () => await handleDownload()}
             className="w-full bg-green-600 hover:bg-green-500 p-3 rounded-xl"
           >
             Download Image

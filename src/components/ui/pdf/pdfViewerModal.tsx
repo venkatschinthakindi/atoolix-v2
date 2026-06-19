@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import PdfViewer from "@/components/ui/pdf/pdfViewer";
+import PdfViewer from "./pdfViewer";
 
 type Props = {
   url: string | null;
@@ -10,7 +10,7 @@ type Props = {
 
 export default function PdfViewerModal({ url, onClose }: Props) {
   const [scale, setScale] = useState(1.2);
-
+  console.log(url)
   if (!url) return null;
 
   return (
@@ -60,9 +60,11 @@ export default function PdfViewerModal({ url, onClose }: Props) {
         </div>
 
         {/* PDF VIEWER */}
+        {url && (
         <div className="flex-1 overflow-hidden">
           <PdfViewer url={url} scale={scale} />
         </div>
+        )}
 
       </div>
     </div>

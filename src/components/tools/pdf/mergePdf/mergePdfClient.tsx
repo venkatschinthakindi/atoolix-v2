@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { saveAs } from "file-saver";
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
 import { Props } from "@/types/props";
@@ -183,9 +182,10 @@ export default function PdfMergerClient({ config }: Props) {
     setPreviewUrl(url);
   };
 
-  const download = () => {
+  const download = async () => {
     if (!mergedBlob) return;
-
+    
+    const saveAs = await import("@/lib/fileSaverUtility").then(m => m.asyncGetFileSaverLib());
     saveAs(mergedBlob, "document.pdf");
 
     setTimeout(() => {
@@ -317,7 +317,7 @@ export default function PdfMergerClient({ config }: Props) {
             </button>
             <button
               type="button"
-              onClick={download}
+              onClick={async () => await download()} // eslint-disable-line react/jsx-no-bind{download}
               className="p-3 rounded-xl bg-green-600 hover:bg-green-500 transition font-medium"
             >
               Download PDF

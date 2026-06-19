@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { saveAs } from "file-saver";
 
 import { DropZone, getAcceptString } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
@@ -21,6 +20,7 @@ import { PreviewCard } from "../imageToolUI/previewCard";
 import { MetadataCard } from "../imageToolUI/metadataCard";
 import { DownloadCard } from "../imageToolUI/downloadCard";
 import { CompressionStatsCard } from "../imageToolUI/compressionStatsCard";
+import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
 interface Props {
   config: CompressorConfig;
@@ -201,7 +201,7 @@ export default function ImageCompressorClient({
   // -----------------------------
   // Download
   // -----------------------------
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (
       !outputUrl ||
       !file
@@ -220,7 +220,7 @@ export default function ImageCompressorClient({
         "compressed",
         extension
       );
-
+    const saveAs = await asyncGetFileSaverLib();
     saveAs(
       outputUrl,
       fileName
@@ -409,7 +409,7 @@ export default function ImageCompressorClient({
           <DownloadCard
             imageUrl={outputUrl}
             alt="converted"
-            onDownload={handleDownload}>
+            onDownload={async () => await handleDownload()}>
                 <CompressionStatsCard
                     originalSize={result.originalSize}
                     compressedSize={result.compressedSize}

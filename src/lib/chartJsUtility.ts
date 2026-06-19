@@ -2,6 +2,7 @@ let initialized = false;
 let chartLibPromise: Promise<typeof import("chart.js")> | null = null;
 
 export async function initChartJS() {
+  console.log('loading chart js')
   if (initialized) return;
 
   if (!chartLibPromise) {

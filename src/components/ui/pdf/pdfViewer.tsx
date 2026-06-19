@@ -1,13 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import * as pdfjsLib from 'pdfjs-dist';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-).toString();
-
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   url: string;
@@ -16,51 +9,73 @@ type Props = {
 
 export default function PdfViewer({ url, scale }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [pdfjsLib, setPdfjsLib] = useState<any>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
+    const loadPdfjs = async () => {
+      const pdfModule = await import("pdfjs-dist");
+      pdfModule.GlobalWorkerOptions.workerSrc = new URL(
+        "pdfjs-dist/build/pdf.worker.min.mjs",
+        import.meta.url
+      ).toString();
+
+      if (!cancelled) setPdfjsLib(pdfModule);
+    };
+
+    loadPdfjs();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pdfjsLib || !url) return;
+
+    let cancelled = false;
+
     const renderPdf = async () => {
       const loadingTask = pdfjsLib.getDocument(url);
       const pdf = await loadingTask.promise;
 
       const container = containerRef.current;
-      if (!container) return;
+      if (!container || cancelled) return;
 
       container.innerHTML = "";
 
-      // Render ALL pages (SaaS style)
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-        const page = await pdf.getPage(pageNum);
+        if (cancelled) break;
 
+        const page = await pdf.getPage(pageNum);
         const viewport = page.getViewport({ scale });
 
         const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d")?? undefined;
+        const context = canvas.getContext("2d");
+        if (!context) continue;
 
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
-        const renderContext = {
-        canvas,
-        canvasContext: context,
-        viewport,
-        };
-
         await page.render({
-        canvas,
-        canvasContext: context,
-        viewport,
+          canvasContext: context,
+          viewport,
         }).promise;
 
         const pageWrapper = document.createElement("div");
         pageWrapper.className = "mb-4 flex justify-center";
-
         pageWrapper.appendChild(canvas);
         container.appendChild(pageWrapper);
       }
     };
 
     renderPdf();
-  }, [url, scale]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pdfjsLib, url, scale]);
 
   return (
     <div
