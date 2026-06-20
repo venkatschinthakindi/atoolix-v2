@@ -1,10 +1,16 @@
 import React from "react";
-import MergePdfSeoContent from "@/components/tools/pdf/mergePdf/mergePdfSeoContent";
-import SplitPdfSeoContentV2 from "@/components/tools/pdf/splitPdf/splitPdfSeoContentV2";
+import dynamic from "next/dynamic";
 
-const seoRegistry: Record<string, React.ComponentType> = {
-  "pdf/split-pdf": SplitPdfSeoContentV2,
-  "pdf/merge-pdf": MergePdfSeoContent,
+const seoRegistry: Record<string, any> = {
+  "pdf/split-pdf": dynamic(
+    () => import("@/components/tools/pdf/splitPdf/splitPdfSeoContentV2"),
+    { ssr: true }
+  ),
+
+  "pdf/merge-pdf": dynamic(
+    () => import("@/components/tools/pdf/mergePdf/mergePdfSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {

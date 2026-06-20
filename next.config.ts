@@ -10,7 +10,7 @@ const nextConfig = {
       ? { exclude: ['error', 'warn'] } 
       : false,
   },
-  
+  output: "standalone",
   images: {
     qualities: [50, 60, 75, 100],
   },

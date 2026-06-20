@@ -1,6 +1,6 @@
 "use client";
 import { initChartJS } from "@/lib/chartJsUtility";
-import { Line, Bar } from "react-chartjs-2";
+import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
 
 type Dataset = {
   label: string;
@@ -20,6 +20,7 @@ type Props = {
 
 export async function FinanceChart({ title, labels, datasets, chartType = "line" }: Props) {
   await initChartJS();
+  const { Line, Bar, Pie, Doughnut } = await asyncGetReactChartJsLib();
   const data = {
     labels,
     datasets: datasets.map((dataset) => ({
@@ -48,7 +49,7 @@ export async function FinanceChart({ title, labels, datasets, chartType = "line"
       y: { beginAtZero: true },
     },
   };
-
+  
   return (
     <div className="rounded-xl border border-white/10 bg-surface p-4">
       {title ? <div className="text-sm text-white/70 mb-4">{title}</div> : null}

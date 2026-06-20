@@ -2,9 +2,9 @@
 "use client";
 
 import { useState } from "react";
-import { Combobox } from "@headlessui/react";
 import { ConverterToolProps } from "@/components/tools/toolRegistry";
 import { getConvertUnits } from "@/lib/convertUnitsUtility";
+import dynamic from "next/dynamic";
 type UnitOption = { abbr: string; name: string; measure?: string };
 
 export default function UnitConverterTool({ initialExpression = "", theme = "dark" }: ConverterToolProps) {
@@ -126,6 +126,10 @@ async function UnitConverter({ initialExpression, theme }: TabbedUnitConverterPr
       return updated;
     });
   };
+  const UnitCombobox = dynamic(
+    () => import("@/components/ui/fromToUnitConverterCombobox").then(mod => mod.UnitCombobox),
+    { ssr: false }
+  );
 
   return (
     <div className={`space-y-6 ${theme === "light" ? "text-slate-950" : "text-white"}`}>
@@ -148,44 +152,26 @@ async function UnitConverter({ initialExpression, theme }: TabbedUnitConverterPr
         />
 
         {/* From unit combobox */}
-        <Combobox value={from} onChange={(val) => handleSetFrom(val as string)}>
-          <div className="relative flex-1">
-            <Combobox.Input
-              className="w-full px-3 py-2 rounded-md bg-black/40 text-white"
-              displayValue={(u: string) => u}
-              onChange={e => setQueryFrom(e.target.value)}
-              placeholder="From unit"
-            />
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-700 text-white shadow-lg z-10">
-              {filteredFrom.map(u => (
-                <Combobox.Option key={u.abbr} value={u.abbr} className="cursor-pointer px-3 py-2 hover:bg-blue-600">
-                  {u.abbr} — {u.name}
-                </Combobox.Option>
-              ))}
-            </Combobox.Options>
-          </div>
-        </Combobox>
+        <UnitCombobox
+          value={from}
+          onChange={handleSetFrom}
+          query={queryFrom}
+          setQuery={setQueryFrom}
+          options={filteredFrom}
+          placeholder="From unit"
+        />
 
         <span className="flex items-center justify-center text-xl">→</span>
 
         {/* To unit combobox */}
-        <Combobox value={to} onChange={(val) => handleSetTo(val as string)}>
-          <div className="relative flex-1">
-            <Combobox.Input
-              className="w-full px-3 py-2 rounded-md bg-black/40 text-white"
-              displayValue={(u: string) => u}
-              onChange={e => setQueryTo(e.target.value)}
-              placeholder="To unit"
-            />
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-700 text-white shadow-lg z-10">
-              {filteredTo.map(u => (
-                <Combobox.Option key={u.abbr} value={u.abbr} className="cursor-pointer px-3 py-2 hover:bg-blue-600">
-                  {u.abbr} — {u.name}
-                </Combobox.Option>
-              ))}
-            </Combobox.Options>
-          </div>
-        </Combobox>
+        <UnitCombobox
+          value={to}
+          onChange={handleSetTo}
+          query={queryTo}
+          setQuery={setQueryTo}
+          options={filteredTo}
+          placeholder="To unit"
+        />
       </div>
 
       {/* Action */}

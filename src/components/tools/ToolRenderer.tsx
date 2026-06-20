@@ -31,7 +31,11 @@ export function ToolRenderer<T extends ToolId>({ toolId, toolProps = {} }: ToolR
   () => ({
     api: {
       get: async (path: string) => {
-        const res = await fetch(path)
+        const res = await fetch(path
+          // , {
+          //   next: { revalidate: 3600 }
+          // }
+        )
           .then(r => r.json())
           .catch(() => null);
         return res;

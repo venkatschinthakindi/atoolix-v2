@@ -1,5 +1,6 @@
 "use client";
-import { Line, Bar, Pie, Doughnut } from "react-chartjs-2";
+
+import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
 
 type PieChartData = {
   labels: string[];
@@ -22,7 +23,7 @@ type Props = {
   showPrepayInterest?: boolean;
 };
 
-export default function AmortizationChart({
+export default async function AmortizationChart({
   labels,
   principalSeries,
   interestSeries,
@@ -37,7 +38,7 @@ export default function AmortizationChart({
   showPrepayInterest = true,
 }: Props) {
   const datasets: any[] = [];
-
+  const { Line, Bar, Pie, Doughnut } = await asyncGetReactChartJsLib();
   const getStyle = (color: string, fillColor: string, dashed = false) => {
     if (chartType === "bar") {
       return {
