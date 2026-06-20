@@ -1,6 +1,5 @@
-import { MathOperationsIcon } from "@phosphor-icons/react";
 import { Calculator, Cpu,
-  Image,  
+  Image,Sigma,
   TrendingUp,DollarSign,
   FileImage,  FileText,  
   Scissors,  Combine,  Minimize2, 
@@ -26,7 +25,7 @@ export const categoryIcons: Record<string, CategoryInfo> = {
     id: "Math",
     title: "Math",
     description: "Mathamatical tools and utilities",
-    icon: React.createElement(MathOperationsIcon, { className: "w-4 h-4 text-purple-400" })
+    icon: React.createElement(Sigma , { className: "w-4 h-4 text-purple-400" })
   },
   AI: {
     id: "AI",
