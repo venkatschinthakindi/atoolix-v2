@@ -1,6 +1,6 @@
 import { PdfCompressorToolProps } from "@/components/tools/toolRegistry";
-import CompressClient from "./CompressClient";
-import { PdfToolConfig, ToolConfig } from "@/types/imageConverter.types";
+import CompressClient from "@/components/tools/pdf/compress-pdf/CompressClient";
+import { PdfToolConfig } from "@/types/imageConverter.types";
 
 export default function PdfCompressorTool({ initialExpression, theme, title,description, allowedFormats}: PdfCompressorToolProps) {
   return <PdfCompressor initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} />;

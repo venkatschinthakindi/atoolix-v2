@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import type { CalculatorToolProps } from "@/components/tools/toolRegistry";
-import { SmartCalculator } from "./SmartCalculator";
-import { AdvancedEquationSolverPage } from "./EquationSolver";
+import { SmartCalculator } from "@/components/tools/calculator/SmartCalculator";
+import { AdvancedEquationSolverPage } from "@/components/tools/calculator/EquationSolver";
 
 export default function CalculatorTool({ initialExpression = "", theme = "dark" }: CalculatorToolProps) {
   return <TabbedCalculator initialExpression={initialExpression} theme={theme} />;

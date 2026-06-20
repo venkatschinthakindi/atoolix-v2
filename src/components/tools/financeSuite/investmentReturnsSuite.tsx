@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { FinanceChart } from "./financeChart";
-import { FinancePdfExport } from "./financePdfExport";
+import { FinanceChart } from "@/components/tools/financeSuite/financeChart";
+import { FinancePdfExport } from "@/components/tools/financeSuite/financePdfExport";
 import { Field } from "@/components/ui/field";
 
 const formatCurrency = (value: number) => {

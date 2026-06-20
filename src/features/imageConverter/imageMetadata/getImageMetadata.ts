@@ -1,5 +1,5 @@
-import { getSvgMetadata } from "./getSvgMetadata";
-import { getRasterMetadata } from "./getRasterMetadata";
+import { getSvgMetadata } from "@/features/imageConverter/imageMetadata/getSvgMetadata";
+import { getRasterMetadata } from "@/features/imageConverter/imageMetadata/getRasterMetadata";
 
 export async function getImageMetadata(file: File) {
   const isSvg =

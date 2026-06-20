@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { toPng } from "html-to-image";
 import { asyncGetJsPDFLib } from "@/lib/jsPdfLibUtility";
 import { asyncGetJsPDFAutotableLib } from "@/lib/jsPdfAutotableUtility";
 import { initChartJS } from "@/lib/chartJsUtility";
+import { asyncGetHtmlToPdfLib } from "@/lib/htmlToPdfUtility";
 
 type Props = {
   filename?: string;
@@ -284,7 +284,7 @@ export async function FinancePdfExport({
         pdf.text("Projection Chart", 14, y);
 
         y += 6;
-
+        const { toPng } = await asyncGetHtmlToPdfLib();
         const chartImage = await toPng(chart, {
           pixelRatio: 3,
           cacheBust: true,

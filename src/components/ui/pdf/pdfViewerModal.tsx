@@ -1,18 +1,19 @@
 "use client";
 
+import { asyncGetNextImageLib } from "@/lib/nextImageUtility";
 import { useState } from "react";
-import PdfViewer from "./pdfViewer";
+import PdfViewer from "@/components/ui/pdf/pdfViewer";
 
 type Props = {
   url: string | null;
   onClose: () => void;
 };
 
-export default function PdfViewerModal({ url, onClose }: Props) {
+export default async function PdfViewerModal({ url, onClose }: Props) {
   const [scale, setScale] = useState(1.2);
-  console.log(url)
   if (!url) return null;
 
+  const Image = await asyncGetNextImageLib();
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center">
 

@@ -1,6 +1,6 @@
 import { PdfConverterToolProps } from "@/components/tools/toolRegistry";
 import { PdfToolConfig } from "@/types/imageConverter.types";
-import PdfMergerClient from "./mergePdfClient";
+import PdfMergerClient from "@/components/tools/pdf/mergePdf/mergePdfClient";
 
 export default function PdfMergerTool({
   initialExpression,

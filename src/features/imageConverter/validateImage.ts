@@ -1,7 +1,7 @@
 import {
   MAX_IMAGE_SIZE
 } from "@/types/imageConstants";
-import { isValidImageFormat } from "./isValidImageFormat";
+import { isValidImageFormat } from "@/features/imageConverter/isValidImageFormat";
 
 export function validateImage(file: File) {
   if (!file) {

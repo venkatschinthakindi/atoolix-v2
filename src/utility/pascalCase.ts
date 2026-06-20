@@ -1,4 +1,3 @@
-// lib/stringExtensions.ts
 declare global {
   interface String {
     toPascalCase(): string;

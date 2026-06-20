@@ -1,12 +1,12 @@
-import { compressByQuality } from "./compressByQuality";
-import { compressToTargetSize } from "./compressToTargetSize";
+import { compressByQuality } from "@/features/imageCompressor/compressByQuality";
+import { compressToTargetSize } from "@/features/imageCompressor/compressToTargetSize";
 
 import {
   CompressImageOptions,
   CompressionResult,
 } from "@/types/compression.types";
 
-import { getCompressionStats } from "./getCompressionStats";
+import { getCompressionStats } from "@/features/imageCompressor/getCompressionStats";
 
 export async function compressImage(
   file: File,

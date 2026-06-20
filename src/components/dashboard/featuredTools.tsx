@@ -5,7 +5,7 @@ import { tools } from "@/data/tools";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ToolCard } from "../ui/toolCard";
+import { ToolCard } from "@/components/ui/toolCard";
 
 export function FeaturedTools() {
   const router = useRouter();

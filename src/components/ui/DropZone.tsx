@@ -2,11 +2,11 @@
 
 "use client";
 
+import { asyncGetNextImageLib } from "@/lib/nextImageUtility";
 import { ImageFormat } from "@/types/imageConverter.types";
-import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 
-export function DropZone({
+export async function DropZone({
   onFiles,
   validFileTypes = ".jpg,.jpeg,.png,.webp, .pdf",
   allowMultiple = true,
@@ -55,7 +55,7 @@ export function DropZone({
   const openPicker = () => {
     fileInputRef.current?.click();
   };
-
+  const Image = await asyncGetNextImageLib();
   return (
     <div className="space-y-4">
       {/* DROPZONE */}

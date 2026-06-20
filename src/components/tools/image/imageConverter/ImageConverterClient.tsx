@@ -11,14 +11,14 @@ import { getImageMetadata } from "@/features/imageConverter/imageMetadata/getIma
 import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
-import Image from "next/image";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
+import { asyncGetNextImageLib } from "@/lib/nextImageUtility";
 
 interface Props {
   config: ToolConfig;
 }
 
-export default function ImageConverterClient({
+export default async function ImageConverterClient({
   config,
 }: Props) {
   const [metadata, setMetadata] =
@@ -206,7 +206,7 @@ useEffect(() => {
     !!outputUrl;
 
   const validFileTypes = getAcceptString(config.inputFormats);
-
+  const Image = await asyncGetNextImageLib();
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 text-white">
       <DropZone

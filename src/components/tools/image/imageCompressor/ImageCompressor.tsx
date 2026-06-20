@@ -1,5 +1,4 @@
 import ImageCompressorClient from "@/components/tools/image/imageCompressor/ImageCompressorClient";
-// import { compressImageConfig } from "@/features/image-compressor/image-compressor";
 import { ImageCompressorToolProps } from "@/components/tools/toolRegistry";
 import { CompressorConfig } from "@/types/imageCompressor.types";
 

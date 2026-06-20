@@ -1,14 +1,15 @@
-import Image from "next/image";
+import { asyncGetNextImageLib } from "@/lib/nextImageUtility";
 
 interface Props {
   src: string | null;
   alt?: string;
 }
 
-export function PreviewCard({
+export async function PreviewCard({
   src,
   alt = "preview",
 }: Props) {
+  const Image = await asyncGetNextImageLib();
   return (
     <div>
       {src && (

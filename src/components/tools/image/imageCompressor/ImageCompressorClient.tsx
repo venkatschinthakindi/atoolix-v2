@@ -16,10 +16,10 @@ import { compressImage } from "@/features/imageCompressor/compressImage";
 
 import { ImageMetadata } from "@/types/imageMetadata";
 import { CompressionResult } from "@/types/compression.types";
-import { PreviewCard } from "../imageToolUI/previewCard";
-import { MetadataCard } from "../imageToolUI/metadataCard";
-import { DownloadCard } from "../imageToolUI/downloadCard";
-import { CompressionStatsCard } from "../imageToolUI/compressionStatsCard";
+import { PreviewCard } from "@/components/tools/image/imageToolUI/previewCard";
+import { MetadataCard } from "@/components/tools/image/imageToolUI/metadataCard";
+import { DownloadCard } from "@/components/tools/image/imageToolUI/downloadCard";
+import { CompressionStatsCard } from "@/components/tools/image/imageToolUI/compressionStatsCard";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
 interface Props {

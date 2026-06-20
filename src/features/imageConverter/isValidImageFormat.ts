@@ -1,5 +1,5 @@
 import { ImageFormat } from "@/types/imageConverter.types";
-import { detectMimeType } from "./detectMimeType";
+import { detectMimeType } from "@/features/imageConverter/detectMimeType";
 
 export function isValidImageFormat(file: File): boolean {
   const format = detectMimeType(file);

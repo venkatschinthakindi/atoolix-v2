@@ -1,4 +1,4 @@
-import { detectMimeType } from "./detectMimeType";
+import { detectMimeType } from "@/features/imageConverter/detectMimeType";
 
 export function normalizeFile(file: File) {
   const format = detectMimeType(file);

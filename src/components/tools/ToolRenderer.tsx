@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import React, { useMemo } from "react";
 import { toolRegistry, ToolId, type ToolPropsMap } from "@/components/tools/toolRegistry";
 import { ToolContextProvider } from "@/context/toolContext";
-import ToolLoader from "./toolLoader";
+import ToolLoader from "@/components/tools/toolLoader";
 
 type ToolRendererProps<T extends ToolId> = {
   toolId: T;

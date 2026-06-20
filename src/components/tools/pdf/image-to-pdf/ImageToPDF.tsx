@@ -1,5 +1,5 @@
 import { PdfConverterToolProps } from "@/components/tools/toolRegistry";
-import ImageToPDFClient from "./ImageToPDFClient";
+import ImageToPDFClient from "@/components/tools/pdf/image-to-pdf/ImageToPDFClient";
 import { PdfToolConfig } from "@/types/imageConverter.types";
 
 export default function PdfConverterTool({ initialExpression, theme, title,description, allowedFormats}: PdfConverterToolProps) {

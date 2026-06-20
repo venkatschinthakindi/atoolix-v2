@@ -3,7 +3,7 @@
 import { tools } from "@/data/tools";
 import { toolRegistry } from "@/components/tools/toolRegistry";
 import { useRouter } from "next/navigation";
-import ToolCard from "./toolCard";
+import ToolCard from "@/components/ui/toolCard";
 export function FilteredTools({
   filterKey,
   filteredTools
