@@ -2,18 +2,15 @@
 "use client";
 
 import { useState } from "react";
-import { ConverterToolProps } from "@/components/tools/toolRegistry";
 import { getConvertUnits } from "@/lib/convertUnitsUtility";
 import dynamic from "next/dynamic";
 type UnitOption = { abbr: string; name: string; measure?: string };
 
-export default function UnitConverterTool({ initialExpression = "", theme = "dark" }: ConverterToolProps) {
+export default function UnitConverterTool({ initialExpression = "", theme = "dark" }: any) {
   return <UnitConverter initialExpression={initialExpression} theme={theme} />;
 }
 
-type TabbedUnitConverterProps = ConverterToolProps;
-
-async function UnitConverter({ initialExpression, theme }: TabbedUnitConverterProps) {
+async function UnitConverter({ initialExpression, theme }: any) {
   const [values, setValues] = useState("");
   const [from, setFrom] = useState<string | null>("l");
   const [to, setTo] = useState<string | null>("");

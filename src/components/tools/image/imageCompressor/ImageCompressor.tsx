@@ -1,14 +1,11 @@
 import ImageCompressorClient from "@/components/tools/image/imageCompressor/ImageCompressorClient";
-import { ImageCompressorToolProps } from "@/components/tools/toolRegistry";
 import { CompressorConfig } from "@/types/imageCompressor.types";
 
-export default function ImageCompressorTool({ initialExpression, theme, title,description,allowedFormats, defaultQuality, mode, targetKB, lockTarget }: ImageCompressorToolProps) {
+export default function ImageCompressorTool({ initialExpression, theme, title,description,allowedFormats, defaultQuality, mode, targetKB, lockTarget }: any) {
   return <ImageCompressor initialExpression={initialExpression} theme={theme} title={title} description={description} allowedFormats={allowedFormats} defaultQuality={defaultQuality} mode={mode} targetKB={targetKB} lockTarget={lockTarget} />;
 }
 
-type ImageCompressorProps = ImageCompressorToolProps;
-
-export function ImageCompressor({ initialExpression, theme, title, description, allowedFormats, defaultQuality, mode, targetKB, lockTarget }: ImageCompressorProps) {
+export function ImageCompressor({ initialExpression, theme, title, description, allowedFormats, defaultQuality, mode, targetKB, lockTarget }: any) {
   const imageConfig: CompressorConfig = {
     title,
     description,

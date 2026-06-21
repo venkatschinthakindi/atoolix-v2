@@ -1,11 +1,11 @@
+import { ToolRegistryEntry } from "@/components/tools/toolRegistry";
 import { getTool } from "@/utility/getTool";
-import { ToolId } from "@/components/tools/toolRegistry";
 
 export async function generateMetadata(params : any) {
     const resolvedParams = await params;
     const rawToolId = resolvedParams.toolId;
 
-    const { toolId , tool} = getTool(rawToolId) as { toolId: ToolId, tool: any };
+    const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry };
     
   return {
     title: tool?.title,

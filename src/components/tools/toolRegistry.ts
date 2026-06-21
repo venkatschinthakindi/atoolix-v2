@@ -1,9 +1,9 @@
-import { CompressionMode } from "@/types/compression.types";
 import type { ComponentType } from "react";
 
 export type ToolLoader<Props> = () => Promise<{ default: ComponentType<Props> }>;
 
 export type ToolRegistryEntry<Props = {}> = {
+  id: string;
   loader: ToolLoader<Props>;
   title: string;
   toolShortName?: string;
@@ -20,60 +20,59 @@ export type ToolRegistryEntry<Props = {}> = {
   defaultProps?: Props;
 };
 
-export type ToolPropsMap = {
-  "calculator/emi-calculator": {};
-  "calculator/roi-calculator": {};  
-  "calculator/fd-calculator": {};
-  "calculator/retirement-calculator": {};
-  "calculator": InitialThemeToolRegistrySchema;
-  "converter": InitialThemeToolRegistrySchema;
+// export type ToolPropsMap = {
+//   "calculator/emi-calculator": {};
+//   "calculator/roi-calculator": {};  
+//   "calculator/fd-calculator": {};
+//   "calculator/retirement-calculator": {};
+//   "calculator": InitialThemeToolRegistrySchema;
+//   "converter": InitialThemeToolRegistrySchema;
   
-  "pdf/merge-pdf": PdfConvertToolRegistrySchema;
-  "pdf/split-pdf": PdfConvertToolRegistrySchema;
-  "pdf/compress-pdf": PdfCompressToolRegistrySchema;
+//   "pdf/merge-pdf": PdfConvertToolRegistrySchema;
+//   "pdf/split-pdf": PdfConvertToolRegistrySchema;
+//   "pdf/compress-pdf": PdfCompressToolRegistrySchema;
 
-  "image/image-to-pdf": PdfConvertToolRegistrySchema;
-  "image/jpg-to-pdf": PdfConvertToolRegistrySchema;
-  "image/png-to-pdf": PdfConvertToolRegistrySchema;
-  "image/webp-to-pdf": PdfConvertToolRegistrySchema;
+//   "image/image-to-pdf": PdfConvertToolRegistrySchema;
+//   "image/jpg-to-pdf": PdfConvertToolRegistrySchema;
+//   "image/png-to-pdf": PdfConvertToolRegistrySchema;
+//   "image/webp-to-pdf": PdfConvertToolRegistrySchema;
 
-  "image/jpg-to-png":ConverterToolRegistrySchema;
-  "image/png-to-jpg":ConverterToolRegistrySchema;
-  "image/png-to-jpeg":ConverterToolRegistrySchema;
-  "image/jpg-to-webp": ConverterToolRegistrySchema;
-  "image/png-to-webp": ConverterToolRegistrySchema;
-  "image/webp-to-jpg": ConverterToolRegistrySchema;
-  "image/webp-to-jpeg":ConverterToolRegistrySchema;
-  "image/webp-to-png": ConverterToolRegistrySchema;
-  "image/svg-to-png": ConverterToolRegistrySchema;
-  "image/svg-to-jpg":ConverterToolRegistrySchema;
+//   "image/jpg-to-png":ConverterToolRegistrySchema;
+//   "image/png-to-jpg":ConverterToolRegistrySchema;
+//   "image/png-to-jpeg":ConverterToolRegistrySchema;
+//   "image/jpg-to-webp": ConverterToolRegistrySchema;
+//   "image/png-to-webp": ConverterToolRegistrySchema;
+//   "image/webp-to-jpg": ConverterToolRegistrySchema;
+//   "image/webp-to-jpeg":ConverterToolRegistrySchema;
+//   "image/webp-to-png": ConverterToolRegistrySchema;
+//   "image/svg-to-png": ConverterToolRegistrySchema;
+//   "image/svg-to-jpg":ConverterToolRegistrySchema;
 
-  "image/compress-image":CompressionQualityToolRegistrySchema;
-  "image/compress-jpg":CompressionQualityToolRegistrySchema;
-  // "image/compress-jpeg":CompressionQualityToolRegistrySchema;
-  "image/compress-png":CompressionQualityToolRegistrySchema;
-  "image/compress-webp":CompressionQualityToolRegistrySchema;
+//   "image/compress-image":CompressionQualityToolRegistrySchema;
+//   "image/compress-jpg":CompressionQualityToolRegistrySchema;
+//   // "image/compress-jpeg":CompressionQualityToolRegistrySchema;
+//   "image/compress-png":CompressionQualityToolRegistrySchema;
+//   "image/compress-webp":CompressionQualityToolRegistrySchema;
 
-  "image/compress-image-to-20kb":CompressionSizeToolRegistrySchema;
-  "image/compress-image-to-50kb":CompressionSizeToolRegistrySchema;
-  "image/compress-image-to-100kb":CompressionSizeToolRegistrySchema;
-  "image/passport-photo-resizer":CompressionSizeToolRegistrySchema;
-  "image/resize-signature-for-upload":CompressionSizeToolRegistrySchema;
-};
+//   "image/compress-image-to-20kb":CompressionSizeToolRegistrySchema;
+//   "image/compress-image-to-50kb":CompressionSizeToolRegistrySchema;
+//   "image/compress-image-to-100kb":CompressionSizeToolRegistrySchema;
+//   "image/passport-photo-resizer":CompressionSizeToolRegistrySchema;
+//   "image/resize-signature-for-upload":CompressionSizeToolRegistrySchema;
+// };
 
-export type CalculatorToolProps = ToolPropsMap["calculator"];
-export type ConverterToolProps = ToolPropsMap["converter"];
+// export type CalculatorToolProps = ToolPropsMap["calculator"];
+// export type ConverterToolProps = ToolPropsMap["converter"];
 
-export type PdfConverterToolProps = ToolPropsMap["image/image-to-pdf"];
-export type PdfCompressorToolProps = ToolPropsMap["pdf/compress-pdf"];
+// export type PdfConverterToolProps = ToolPropsMap["image/image-to-pdf"];
+// export type PdfCompressorToolProps = ToolPropsMap["pdf/compress-pdf"];
 
-export type ImageConverterToolProps = ToolPropsMap["image/jpg-to-png"];
-export type ImageCompressorToolProps = ToolPropsMap["image/compress-image-to-20kb"];
+// export type ImageConverterToolProps = ToolPropsMap["image/jpg-to-png"];
+// export type ImageCompressorToolProps = ToolPropsMap["image/compress-image-to-20kb"];
 
-export const toolRegistry: {
-  [K in keyof ToolPropsMap]: ToolRegistryEntry<ToolPropsMap[K]>;
-} = {
-  "calculator/emi-calculator": {
+export const toolRegistry: ToolRegistryEntry[] = [
+  {
+    id:"calculator/emi-calculator",
     loader: () => import("@/components/tools/emiCalculator/emiCalculator"),
     title: "EMI Calculator for Home, Car & Personal Loans | Loan Repayment & Prepayment Planner",
     toolShortName: "EMI Calculator",
@@ -106,7 +105,8 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false
   },
-  "calculator/roi-calculator": {
+  {
+    id:"calculator/roi-calculator",
     loader: () => import("@/components/tools/financeSuite/investmentReturnsSuite"),
     toolShortName: "ROI Calculator",
     "title": "SIP ROI Calculator with Step-Up | CAGR XIRR LumpSum Returns | Download PDF Report + Interactive Charts | Advanced Mutual Fund Growth Planner",
@@ -154,7 +154,8 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false,
   },
-  "calculator/fd-calculator": {
+  {
+    id:"calculator/fd-calculator",
     loader: () => import("@/components/tools/financeSuite/savingsDepositsSuite"),
     toolShortName: "FD Calculator",
     "title": "FD Calculator Fixed & Recurring Deposit | Simple & Compound Interest | Download PDF Report + Interactive Charts | Advanced FD RD Return Planner",
@@ -202,7 +203,8 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false,
   },
-  "calculator/retirement-calculator": {
+  {
+    id:"calculator/retirement-calculator",
     loader: () => import("@/components/tools/financeSuite/retirementWealthSuite"),
     toolShortName: "Retirement Calculator",
     "title": "Retirement Calculator + FIRE Calculator + SWP Planner | Download PDF Report + Interactive Charts | Complete Retirement & Financial Independence Planning Tool",
@@ -250,7 +252,8 @@ export const toolRegistry: {
     comingSoon: false,
     preload: false,
   },
-  "calculator": {
+  {
+    id:"calculator",
     loader: () => import("@/components/tools/calculator/Calculator"),
     title: "Advanced Calculator & Equation Solver Online",
     toolShortName: "Advanced Calculator",
@@ -285,7 +288,8 @@ export const toolRegistry: {
     featured: true,
     preload: false
   },
-  "converter": {
+  {
+    id:"converter",
     loader: () => import("@/components/tools/converter/UnitConverter"),
     toolShortName: "Unit Converter",
     title: "Unit Converter Online | Convert Length, Weight, Temperature & More",
@@ -320,7 +324,8 @@ export const toolRegistry: {
     featured: true,
     preload: false
   },
-  "pdf/merge-pdf": {
+  {
+    id:"pdf/merge-pdf",
     loader: () => import("@/components/tools/pdf/mergePdf/mergePdf"),
     toolShortName: "Merge PDF",
     title: "Merge PDF Files Online for Free | PDF Merger Tool",
@@ -350,7 +355,8 @@ export const toolRegistry: {
       allowedFormats:["pdf"]
     }
   },
-  "pdf/split-pdf": {
+  {
+    id:"pdf/split-pdf",
     loader: () => import("@/components/tools/pdf/splitPdf/splitPdf"),
     title: "Split PDF Files Online Free – Extract & Separate PDF Pages",
     toolShortName: "Split PDF",
@@ -382,7 +388,8 @@ export const toolRegistry: {
       allowedFormats:["pdf"]
     }
   },
-  "image/image-to-pdf":{
+  {
+    id:"image/image-to-pdf",
     ...getDefaultIamgeToPdfConverterRegistry(
         "Image To PDF",
         "Image to PDF Converter | JPG, PNG, JPEG, WEBP to PDF Online",
@@ -413,7 +420,8 @@ export const toolRegistry: {
     "Utilities"
     )
   },
-  "image/jpg-to-pdf":{
+  {
+    id:"image/jpg-to-pdf",
     ...getDefaultIamgeToPdfConverterRegistry(
       "JPG to PDF",
       "JPG to PDF Converter | Convert JPG, JPEG Images to PDF Online",
@@ -444,7 +452,8 @@ export const toolRegistry: {
     "Utilities"
     )
   },
-  "image/png-to-pdf":{
+  {
+    id:"image/png-to-pdf",
     ...getDefaultIamgeToPdfConverterRegistry(
       "PNG to PDF",
       "PNG to PDF Converter Online | High-Quality Image to PDF Tool",
@@ -475,7 +484,8 @@ export const toolRegistry: {
       "Utilities"
     )
   },
-  "image/webp-to-pdf":{
+  {
+    id:"image/webp-to-pdf",
     ...getDefaultIamgeToPdfConverterRegistry(
       "WEBP to PDF",
       "WEBP to PDF Converter Online | Modern Image Format to PDF Tool",
@@ -506,7 +516,8 @@ export const toolRegistry: {
       "Utilities"
     )
   },
-  "pdf/compress-pdf": {
+  {
+    id:"pdf/compress-pdf",
     loader: () => import("@/components/tools/pdf/compress-pdf/CompressPDF"),
     toolShortName: "Compress PDF",
     title: "Compress PDF Online | Reduce PDF File Size Without Losing Quality",
@@ -542,9 +553,8 @@ export const toolRegistry: {
       allowedFormats:["pdf"]
     }
   },
-  
-  //Image Converters Start
-  "image/jpg-to-png" : {
+  {
+    id:"image/jpg-to-png",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "JPG & JPEG to PNG Converter Online | High-Quality Image Format Converter",
     toolShortName: "JPG to PNG",
@@ -581,7 +591,8 @@ export const toolRegistry: {
       outputFormats: ["png"]
     },
   },
-  "image/png-to-jpg" : {
+  {
+    id:"image/png-to-jpg",
       loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
       title: "PNG to JPG Converter Online | High-Speed Image Format Optimization Tool",
       toolShortName: "PNG to JPG",
@@ -618,7 +629,8 @@ export const toolRegistry: {
         outputFormats: ["jpg"]
       },
   },
-  "image/png-to-jpeg" : {
+  {
+    id:"image/png-to-jpeg",
       loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
       "title": "PNG to JPG Converter Online | Fast & High-Quality Image Compression Tool",
       "toolShortName": "PNG to JPEG", 
@@ -656,7 +668,8 @@ export const toolRegistry: {
       }
   },
 
-  "image/jpg-to-webp" : {
+  {
+    id:"image/jpg-to-webp",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "JPG to WebP Converter Online | High-Speed Image Format Optimization Tool",  
     "toolShortName": "JPG to WebP",
@@ -698,7 +711,8 @@ export const toolRegistry: {
       outputFormats: ["webp"]
     },
   },
-  "image/png-to-webp" : {
+  {
+    id:"image/png-to-webp",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "PNG to WebP Converter Online | Fast Image Compression & Next-Gen Format Tool",
     "toolShortName": "PNG to WebP",
@@ -745,7 +759,8 @@ export const toolRegistry: {
     },
   },
 
-  "image/webp-to-jpg" : {
+  {
+    id:"image/webp-to-jpg",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "WEBP to JPG Converter Online | Fast Image Format Conversion Tool",
     toolShortName: "WEBP to JPG",
@@ -782,7 +797,8 @@ export const toolRegistry: {
       outputFormats: ["jpg"]
     },
   },
-  "image/webp-to-jpeg" : {
+  {
+    id:"image/webp-to-jpeg",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),   
     "title": "WEBP to JPEG Converter Online | High-Speed Image Format Optimization & Compression Tool",
     "toolShortName": "WEBP to JPEG",
@@ -824,7 +840,8 @@ export const toolRegistry: {
       outputFormats: ["jpeg"]
     },
   },
-  "image/webp-to-png" : {
+  {
+    id:"image/webp-to-png",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "WEBP to PNG Converter Online | High-Speed Image Format Optimization & Transparency Retention Tool",
     "toolShortName": "WEBP to PNG",
@@ -870,7 +887,8 @@ export const toolRegistry: {
   },
 
   //SVG
-  "image/svg-to-png" : {
+  {
+    id:"image/svg-to-png",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "SVG to PNG Converter Online | Fast Vector to Raster Image Tool",  
     "toolShortName": "SVG to PNG",
@@ -907,7 +925,8 @@ export const toolRegistry: {
       outputFormats: ["png"]
     },
   },
-  "image/svg-to-jpg" : {
+  {
+    id:"image/svg-to-jpg",
     loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     "title": "SVG to JPG Converter Online | Fast Vector to Image Optimization Tool",  
     "toolShortName": "SVG to JPG",
@@ -946,7 +965,8 @@ export const toolRegistry: {
   },
   //Image Converters End
   //Image compressors Start
-  "image/compress-image": {
+  {
+    id:"image/compress-image",
     loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Image Compressor Online | Compress JPG JPEG WEBP PNG with Custom Quality Control & File Size Reduction",
     "toolShortName": "Compress Image",
@@ -1004,7 +1024,8 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
-  "image/compress-jpg": {
+  {
+    id:"image/compress-jpg",
     loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Image Compressor Online | Optimize JPG & JPEG with Quality Control",
     toolShortName: "Compress JPG",
@@ -1044,7 +1065,8 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
-  "image/compress-png": {
+  {
+    id:"image/compress-png",
     loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Compress Image Online | Adjustable Quality PNG Compression Tool",  
     "toolShortName": "Compress PNG",
@@ -1084,7 +1106,8 @@ export const toolRegistry: {
       mode:"quality"
     },
   },
-  "image/compress-webp": {
+  {
+    id:"image/compress-webp",
     loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Image Compressor Online | Compress WEBP JPG PNG JPEG with Custom Quality Control & Advanced File Size Reduction Tool",
     "toolShortName": "Compress WEBP",
@@ -1140,7 +1163,8 @@ export const toolRegistry: {
     },
   },
 
-  "image/compress-image-to-20kb": {
+  {
+    id:"image/compress-image-to-20kb",
     loader: () => import( "@/components/tools/image/imageCompressor/ImageCompressor"),
     "title": "Compress Image to 20KB Online | Fixed 20KB Size Reducer for JPG JPEG PNG WEBP | Instant File Size Lock Tool",
     "toolShortName": "Compress Image to 20KB",
@@ -1200,7 +1224,8 @@ export const toolRegistry: {
       lockTarget: true
     },
   },
-  "image/compress-image-to-50kb": {
+  {
+    id:"image/compress-image-to-50kb",
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -1234,7 +1259,8 @@ export const toolRegistry: {
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities"
   },
-  "image/compress-image-to-100kb": {
+  {
+    id:"image/compress-image-to-100kb",
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -1268,7 +1294,8 @@ export const toolRegistry: {
     applicationType: "WebApplication",
     applicationCategory: "Utilities"
   },
-  "image/passport-photo-resizer": {
+  {
+    id:"image/passport-photo-resizer",
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -1319,7 +1346,8 @@ export const toolRegistry: {
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities"
   },
-  "image/resize-signature-for-upload": {
+  {
+    id:"image/resize-signature-for-upload",
     ...getDefaultCompressorRegistry(),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
@@ -1353,45 +1381,42 @@ export const toolRegistry: {
     "applicationType": "WebApplication",    
     "applicationCategory": "Utilities"
   },
-  //Image compressors End
-  
-};
+  //Image compressors End  
+];
 
-export type ToolId = keyof typeof toolRegistry;
-
-export type InitialThemeToolRegistrySchema = {
-  title?: string,
-  description?: string,
-  category?: string,
-  initialExpression?: string;
-  theme?: "light" | "dark";
-  featured?: boolean;
-  comingSoon?: boolean;
-  preload?: boolean;
-  defaultProps?: {};
-};
-export type PdfCompressToolRegistrySchema = InitialThemeToolRegistrySchema & {
-  allowedFormats?: string[]
-}
-export type PdfConvertToolRegistrySchema = InitialThemeToolRegistrySchema & {
-  allowedFormats?: string[]
-}
-export type ConverterToolRegistrySchema = InitialThemeToolRegistrySchema & {
-  inputFormats?: string[];
-  outputFormats?: string[];
-}
-export type CompressionQualityToolRegistrySchema = InitialThemeToolRegistrySchema & {
-  allowedFormats?: string[],
-  defaultQuality?: number,
-  mode?: CompressionMode
-}
-export type CompressionSizeToolRegistrySchema  = InitialThemeToolRegistrySchema & {
-  allowedFormats?: string[],
-  defaultQuality?: number,
-  mode?: CompressionMode,
-  targetKB?: number,
-  lockTarget?: boolean,
-};
+// export type InitialThemeToolRegistrySchema = {
+//   title?: string,
+//   description?: string,
+//   category?: string,
+//   initialExpression?: string;
+//   theme?: "light" | "dark";
+//   featured?: boolean;
+//   comingSoon?: boolean;
+//   preload?: boolean;
+//   defaultProps?: {};
+// };
+// export type PdfCompressToolRegistrySchema = InitialThemeToolRegistrySchema & {
+//   allowedFormats?: string[]
+// }
+// export type PdfConvertToolRegistrySchema = InitialThemeToolRegistrySchema & {
+//   allowedFormats?: string[]
+// }
+// export type ConverterToolRegistrySchema = InitialThemeToolRegistrySchema & {
+//   inputFormats?: string[];
+//   outputFormats?: string[];
+// }
+// export type CompressionQualityToolRegistrySchema = InitialThemeToolRegistrySchema & {
+//   allowedFormats?: string[],
+//   defaultQuality?: number,
+//   mode?: CompressionMode
+// }
+// export type CompressionSizeToolRegistrySchema  = InitialThemeToolRegistrySchema & {
+//   allowedFormats?: string[],
+//   defaultQuality?: number,
+//   mode?: CompressionMode,
+//   targetKB?: number,
+//   lockTarget?: boolean,
+// };
 
 function getDefaultCompressorRegistry() {
   return {

@@ -1,4 +1,4 @@
-import { ToolId } from "@/components/tools/toolRegistry";
+
 import { ToolRenderer } from "@/components/tools/toolRenderer";
 import { notFound } from "next/navigation";
 import FloatingDockLoader from "@/components/layout/floatingDockLoader";
@@ -6,6 +6,7 @@ import BackButton from "@/components/ui/backButton";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import ToolSeoContent from "@/app/tools/[...toolId]/toolSeoContent";
+import { ToolRegistryEntry } from "@/components/tools/toolRegistry";
 
 export async function generateMetadata({ params }: any) {
   return createMetadata(params);
@@ -15,7 +16,7 @@ export default async function ToolPage({ params }: any) {
   const resolvedParams = await params;
   const rawToolId = resolvedParams.toolId;
   
-  const { toolId , tool} = getTool(rawToolId) as { toolId: ToolId, tool: any };
+  const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry };
 
   if (!tool) return notFound();
 
@@ -48,14 +49,14 @@ export default async function ToolPage({ params }: any) {
             </div>
             
             <>
-            <div className="text-center space-y-4 mb-2">
-              <h1 className="md:text-l font-extrabold text-white tracking-wide">
-                {tool.onPageTitle || tool.title}
-              </h1>
-              <p className="text-white/70 text-xs  max-w-3xl mx-auto leading-relaxed">
-                {tool.description}
-              </p>
-            </div>
+              <div className="text-center space-y-4 mb-2">
+                <h1 className="md:text-l font-extrabold text-white tracking-wide">
+                  {tool.onPageTitle || tool.title}
+                </h1>
+                <p className="text-white/70 text-xs  max-w-3xl mx-auto leading-relaxed">
+                  {tool.description}
+                </p>
+              </div>
               
               <ToolRenderer toolId={toolId} />
               <ToolSeoContent toolId={toolId} />

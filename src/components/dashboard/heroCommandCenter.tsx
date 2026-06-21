@@ -2,26 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { CommandPalette } from "@/components/ui/commandPalette";
-import { JSX, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { tools } from "@/data/tools";
-import {
-  Search,
-  FileText,
-  Calculator,
-  Cpu,
-  Image,
-  DollarSign,
-  Code,
-} from "lucide-react";
-
-const categoryIcons: Record<string, JSX.Element> = {
-  PDF: <FileText className="w-4 h-4 text-indigo-400" />,
-  Calculator: <Calculator className="w-4 h-4 text-green-400" />,
-  AI: <Cpu className="w-4 h-4 text-pink-400" />,
-  Image: <Image className="w-4 h-4 text-blue-400" />,
-  Finance: <DollarSign className="w-4 h-4 text-yellow-400" />,
-  Developer: <Code className="w-4 h-4 text-purple-400" />,
-};
+import { Search } from "lucide-react";
 
 export function HeroCommandCenter() {
   const router = useRouter();

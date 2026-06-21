@@ -1,12 +1,11 @@
 import ImageConverterClient from "@/components/tools/image/imageConverter/ImageConverterClient";
-import { ImageConverterToolProps } from "@/components/tools/toolRegistry";
 import { ToolConfig } from "@/types/imageConverter.types";
 
-export default function ImageConverterTool({ initialExpression, theme, title, description, inputFormats, outputFormats }: ImageConverterToolProps) {
+export default function ImageConverterTool({ initialExpression, theme, title, description, inputFormats, outputFormats }: any) {
   return <ImageConverter initialExpression={initialExpression} theme={theme} title={title} description={description} inputFormats={inputFormats} outputFormats={outputFormats} />;
 }
 
-function ImageConverter({ initialExpression, theme, title, description, inputFormats, outputFormats }: ImageConverterToolProps) 
+function ImageConverter({ initialExpression, theme, title, description, inputFormats, outputFormats }: any) 
 {
   if (!inputFormats || !outputFormats) {
     return <div className="p-10">

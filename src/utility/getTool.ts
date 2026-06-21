@@ -1,16 +1,19 @@
-import { ToolId, toolRegistry } from "@/components/tools/toolRegistry";
+import { toolRegistry } from "@/components/tools/toolRegistry";
 
-export function getTool(toolId: any) {
-    const rawToolId = (Array.isArray(toolId) ? 
-        toolId?.join("/").toString()?.toLowerCase():
-        toolId?.toString()?.toLowerCase()) || "";
-        
-  if (!rawToolId || !(rawToolId in toolRegistry)) return {
-    toolId: 'not-found',
-    tool: null
+export function getTool(toolId: string) {
+  const rawToolId = (Array.isArray(toolId) ? 
+      toolId?.join("/"):
+      toolId)?.toString()?.toLowerCase() || "";
+      console.warn(rawToolId);
+  
+  const tool = !rawToolId ? null: toolRegistry.find(tool => tool.id.toLowerCase() === rawToolId);
+
+  if (!tool) {
+   return  {
+      toolId: 'not-found',
+      tool: null
+    }
   };
-
-  const tool = toolRegistry[rawToolId as ToolId];
   
   return {
     toolId: rawToolId,

@@ -1,17 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import type { CalculatorToolProps } from "@/components/tools/toolRegistry";
 import { SmartCalculator } from "@/components/tools/calculator/SmartCalculator";
 import { AdvancedEquationSolverPage } from "@/components/tools/calculator/EquationSolver";
 
-export default function CalculatorTool({ initialExpression = "", theme = "dark" }: CalculatorToolProps) {
+export default function CalculatorTool({ initialExpression = "", theme = "dark" }: any) {
   return <TabbedCalculator initialExpression={initialExpression} theme={theme} />;
 }
 
-type TabbedCalculatorProps = CalculatorToolProps;
-
-function TabbedCalculator({ initialExpression, theme }: TabbedCalculatorProps) {
+function TabbedCalculator({ initialExpression, theme }: any) {
   const [activeTab, setActiveTab] = useState<"calc" | "convert" | "solve">("calc");
 
   const tabs = [

@@ -17,18 +17,17 @@ export default function ToolsHubClient() {
         title: "All",
         description: "Browse all available tools",
         icon: React.createElement(FileText, { className: "w-4 h-4 text-indigo-400" })
-    }, ...Object.values(categoryIcons)];
+    }, ...categoryIcons];
 
     // Find the tool from the data
-    const category = Object.values(categoryIcons).find(t => t.id.toLowerCase() === toolId?.toLowerCase());
-    const [activeCategory, setActiveCategory] = useState(category?.id.toLowerCase() || "all");
+    const category = categoryIcons.find(t => t.id.toLowerCase() === toolId?.toLowerCase());
+    const [activeCategory, setActiveCategory] = useState(category?.id?.toLowerCase() || "all");
     // const router = useRouter();
 
     useEffect(() => {
     const filteredURL = `/tools?categoryid=${activeCategory.toLowerCase()}`;
 
-    router.push(
-        `/tools?categoryid=${activeCategory.toLowerCase()}`,
+    router.push(filteredURL,
         { scroll: false }
     );
     }, [activeCategory]);
@@ -37,7 +36,7 @@ export default function ToolsHubClient() {
     return activeCategory.toLowerCase() === "all"
         ? tools
         : tools.filter(
-            t => t.category.toLowerCase() === activeCategory.toLowerCase()
+            t => t.id.toLowerCase() === activeCategory.toLowerCase()
         );
     }, [activeCategory, tools]);
 

@@ -18,7 +18,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  let dataSource = searchTools ? tools : Object.values(categoryIcons); // You can replace [] with another dataset if needed
+  let dataSource = searchTools ? tools : categoryIcons; // You can replace [] with another dataset if needed
 
   const results = dataSource.filter(
     (item) =>
