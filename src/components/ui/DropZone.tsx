@@ -10,7 +10,7 @@ export function DropZone({
   validFileTypes = ".jpg,.jpeg,.png,.webp, .pdf",
   allowMultiple = true,
 }: {
-  onFiles: (files: File[]) => void;
+  onFiles: (files: File[]) => any;
   validFileTypes?: string;
   allowMultiple: boolean;
 }) {

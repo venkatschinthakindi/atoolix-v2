@@ -6,7 +6,7 @@ import { ToolContextProvider } from "@/context/toolContext";
 import ToolLoader from "@/components/tools/toolLoader";
 import { getCachedTools } from "@/data/tools";
 
-export async function ToolRenderer({ toolId }: { toolId?: string}) {
+export function ToolRenderer({ toolId }: { toolId?: string}) {
   const tools = getCachedTools();
   const entry = tools.find((entry) => entry.id === toolId);
   

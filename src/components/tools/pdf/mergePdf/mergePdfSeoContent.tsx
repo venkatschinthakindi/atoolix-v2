@@ -187,7 +187,7 @@ export default function MergePdfSeoContent() {
   ];
 
   return (
-    <div>
+    <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
       {/* ===================== STRUCTURED DATA (SEO ONLY) ===================== */}
       <script
         type="application/ld+json"
@@ -200,7 +200,6 @@ export default function MergePdfSeoContent() {
 
       {/* ===================== INTRO SEO ===================== */}
       <section
-        className="tool-usage-faq py-8 md:py-12"
         aria-labelledby="intro-heading"
       >
         <h2
@@ -227,7 +226,6 @@ export default function MergePdfSeoContent() {
 
       {/* ===================== CORE FEATURES ===================== */}
       <section
-        className="tool-usage-faq py-8 md:py-12"
         aria-labelledby="core-features-heading"
       >
         <h2
@@ -262,7 +260,6 @@ export default function MergePdfSeoContent() {
 
       {/* ===================== WORKFLOW ===================== */}
       <section
-        className="tool-usage-faq py-8 md:py-12"
         aria-labelledby="workflow-heading"
       >
         <h2
@@ -305,7 +302,6 @@ export default function MergePdfSeoContent() {
 
       {/* ===================== FEATURES ===================== */}
       <section
-        className="tool-usage-faq py-8 md:py-12"
         aria-labelledby="features-heading"
       >
         <h2
@@ -331,7 +327,6 @@ export default function MergePdfSeoContent() {
 
       {/* ===================== USE CASES / AUDIENCE ===================== */}
       <section
-        className="tool-usage-faq py-8 md:py-12"
         aria-labelledby="audience-heading"
       >
         <h2
@@ -366,7 +361,6 @@ export default function MergePdfSeoContent() {
 
       {/* ===================== RELATED TOOLS ===================== */}
       <section
-        className="tool-usage-faq py-8 md:py-12"
         aria-labelledby="related-tools-heading"
       >
         <h2
@@ -397,7 +391,6 @@ export default function MergePdfSeoContent() {
 
       {/* ===================== FAQ (SSR - INTERACTIVE PANELS) ===================== */}
       <section
-        className="tool-usage-faq py-8 md:py-12"
         aria-labelledby="faq-heading"
       >
         <h2
