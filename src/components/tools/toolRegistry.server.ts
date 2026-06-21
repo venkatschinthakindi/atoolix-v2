@@ -1,77 +1,16 @@
-import { ComponentType } from "react";
+import type { ComponentType } from "react";
 
-type CategoryInfo = {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-};
-export const categoryIcons: CategoryInfo[] = [
-  {
-    id: "PDF",
-    title: "PDF",
-    description: "PDF tools and utilities",
-    icon: 'FileText'
-  },
-  {
-    id: "Math",
-    title: "Math",
-    description: "Mathamatical tools and utilities",
-    icon: 'Sigma'
-  },
-  {
-    id: "AI",
-    title: "AI",
-    description: "Artificial Intelligence tools",
-    icon: 'Cpu'
-  },
-  {
-    id: "Image_Converter",
-    title: "Image Converter",
-    description: "Convert JPG, PNG, WEBP, SVG and other image formats",
-    icon: 'Image'
-  },
-  {
-    id: "Image_Compressor",
-    title: "Image Compressor",
-    description: "Compress images and reduce file size without losing quality",
-    icon: 'Image'
-  },
-  {
-    id: "Image_Resizer",
-    title: "Image Resizer",
-    description: "Resize photos for social media, websites and documents",
-    icon: 'Image'
-  },
-  {
-    id: "Image_Cropper",
-    title: "Image Cropper",
-    description: "Crop images to custom sizes and aspect ratios",
-    icon: 'Image'
-  },
-  {
-    id: "Background_Remover",
-    title: "Background Remover",
-    description: "Remove image backgrounds automatically with AI",
-    icon: 'Image'
-  },
-  {
-    id: "Finance",
-    title: "Finance",
-    description: "Financial planning and analysis tools",
-    icon: 'DollarSign'
-  },
-];
+export type ServerToolLoader<Props> = () => Promise<{ default: ComponentType<Props> }>;
 
-export type ToolRegistryEntry<Props = {}> = {
+export type ServerToolRegistryEntry<Props = {}> = {
   id: string;
-  loader: ToolLoader<Props>;
+  loader: ServerToolLoader<Props>;
   title: string;
   toolShortName?: string;
   onPageTitle?: string;
   description?: string;
-  category?: string;
   icon?: any;
+  category?: string;
   keywords?: string[];
   alternates?: { canonical: string };
   applicationType?: string;
@@ -81,13 +20,8 @@ export type ToolRegistryEntry<Props = {}> = {
   preload?: boolean;
   defaultProps?: Props;
 };
-export type ToolLoader<Props> = () => Promise<{ default: ComponentType<Props> }>;
 
-export function getCachedTools(): ToolRegistryEntry[] {
-  return tools;
-}
-
-export const tools: ToolRegistryEntry[] = [
+export const toolRegistry: ServerToolRegistryEntry[] = [
   {
     id:"calculator/emi-calculator",
     loader: () => import("@/components/tools/emiCalculator/emiCalculator"),

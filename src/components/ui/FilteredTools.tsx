@@ -1,19 +1,18 @@
 "use client";
-
-import { tools } from "@/data/tools";
-import { toolRegistry } from "@/components/tools/toolRegistry";
 import { useRouter } from "next/navigation";
 import ToolCard from "@/components/ui/toolCard";
+import { getCachedTools } from "@/data/tools";
 export function FilteredTools({
   filterKey,
   filteredTools
 }: any) {
     const router = useRouter();
+    const tools = getCachedTools();
     if(!!filteredTools){
       filteredTools = filteredTools;
     }
     else {
-      const toolsList = toolRegistry;
+      const toolsList = tools;
       const filteredKeys = toolsList.filter(toolId => 
         toolId.id.toLowerCase().startsWith(filterKey) ||
         toolId.category?.toLowerCase().startsWith(filterKey)
@@ -25,7 +24,6 @@ export function FilteredTools({
     return (
     <div className="tool-grid">
           {filteredTools.map((tool:any) => {
-            const Icon = tool.icon;
             return (
               <div
                 key={tool.id}
@@ -44,7 +42,7 @@ export function FilteredTools({
                       </span>
                     )}
                   </div> */}
-                  <ToolCard label={tool.toolShortName} icon={Icon} description={tool.description} ></ToolCard>
+                  <ToolCard label={tool.toolShortName} icon={tool.icon} description={tool.description} ></ToolCard>
                   <h4 className="text-white text-sm font-semibold mt-4 overflow-hidden"
                   style={{
                     display: "-webkit-box",

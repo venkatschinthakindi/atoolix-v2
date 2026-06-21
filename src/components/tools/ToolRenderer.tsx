@@ -2,13 +2,13 @@
 
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import { toolRegistry } from "@/components/tools/toolRegistry";
 import { ToolContextProvider } from "@/context/toolContext";
 import ToolLoader from "@/components/tools/toolLoader";
+import { getCachedTools } from "@/data/tools";
 
-export async function ToolRenderer({ toolId }: 
-  { toolId?: string}) {
-  const entry = toolRegistry.find((entry) => entry.id === toolId);
+export async function ToolRenderer({ toolId }: { toolId?: string}) {
+  const tools = getCachedTools();
+  const entry = tools.find((entry) => entry.id === toolId);
   
   if (!entry) return null;
 

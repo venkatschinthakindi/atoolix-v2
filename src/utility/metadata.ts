@@ -1,4 +1,4 @@
-import { ToolRegistryEntry } from "@/components/tools/toolRegistry";
+import { ToolRegistryEntry } from "@/data/tools";
 import { getTool } from "@/utility/getTool";
 
 export async function generateMetadata(params : any) {

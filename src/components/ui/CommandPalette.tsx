@@ -1,10 +1,11 @@
 "use client";
 
-import { categoryIcons, tools } from "@/data/tools";
+import { categoryIcons, getCachedTools } from "@/data/tools";
 // import { AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
+import { IconResolver } from "@/sharedUI/iconResolver";
 
 // const categoryIcons: Record<string, JSX.Element> = categoryIcons;
 type CommandPaletteProps = {
@@ -13,6 +14,7 @@ type CommandPaletteProps = {
   searchTools: boolean ;
 };
 export function CommandPalette({ buttonName, buttonClassName, searchTools }: CommandPaletteProps) {
+  const tools = getCachedTools();
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -22,8 +24,8 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
 
   const results = dataSource.filter(
     (item) =>
-      item.title.toLowerCase().includes(query.toLowerCase()) ||
-      item.description.toLowerCase().includes(query.toLowerCase())
+      item.title?.toLowerCase().includes(query.toLowerCase()) ||
+      item.description?.toLowerCase().includes(query.toLowerCase())
   );
 
   useEffect(() => {
@@ -112,7 +114,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                       {
                         searchTools == true ?
                         (<div className="flex items-center gap-2">
-                        <item.icon size={18} color="#40916f"/>
+                        <IconResolver name={item.icon} size={18} color="#40916f"/>
                         {/* <span>
                           {item.category}
                         </span> */}

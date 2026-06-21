@@ -1,13 +1,13 @@
 "use client";
 
-import { categoryIcons, tools } from "@/data/tools";
+import { categoryIcons, getCachedTools } from "@/data/tools";
 import React, { useState, useMemo, useEffect } from "react";
-import { FileText } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FilteredTools } from "@/components/ui/filteredTools";
 import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 
 export default function ToolsHubClient() {
+    const tools = getCachedTools();
     const searchParams = useSearchParams();
     const toolId = searchParams?.get("categoryid")?.toString()?.toLowerCase() || ""; // Get toolId from URL params
     
@@ -16,7 +16,7 @@ export default function ToolsHubClient() {
         id: "All",
         title: "All",
         description: "Browse all available tools",
-        icon: React.createElement(FileText, { className: "w-4 h-4 text-indigo-400" })
+        icon: 'FileText'
     }, ...categoryIcons];
 
     // Find the tool from the data

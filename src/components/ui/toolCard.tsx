@@ -1,5 +1,7 @@
 "use client";
 
+import { IconResolver } from "@/sharedUI/iconResolver";
+
 // A bank of ~100 gradient + icon-color pairings. Each card picks one at
 // random on render, with the icon color always matching its gradient family
 // so it stays legible on the white icon tile.
@@ -134,7 +136,7 @@ export function ToolCard({ label, icon: Icon, description }: any) {
 
       {/* icon tile */}
       <span className="relative z-10 flex h-9 w-9 items-center justify-center rounded-lg bg-white shadow-sm">
-        <Icon className={`h-4 w-4 ${color.icon}`} strokeWidth={2} />
+        <IconResolver name={Icon} className={`h-4 w-4 ${color.icon}`} strokeWidth={2} />
       </span>
 
       {/* label */}

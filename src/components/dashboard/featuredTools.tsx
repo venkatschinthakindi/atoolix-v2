@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { tools } from "@/data/tools";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ToolCard } from "@/components/ui/toolCard";
+import { getCachedTools } from "@/data/tools";
 
 export function FeaturedTools() {
   const router = useRouter();
@@ -46,10 +46,11 @@ useEffect(() => {
 
   return () => {
     el.removeEventListener("scroll", updateButtons);
-    window.removeEventListener("resize", updateButtons);
-  };
-}, []);
+      window.removeEventListener("resize", updateButtons);
+    };
+  }, []);
 
+  const tools = getCachedTools();
   const featured = tools[0];
   const others = tools.slice(1, 10);
 
@@ -136,8 +137,6 @@ useEffect(() => {
                   </button>
                 )}
                 {others.map((tool) => {
-                  const Icon = tool.icon;
-
                   return (
                     <div
                         key={tool.id}
@@ -161,7 +160,7 @@ useEffect(() => {
                             </span>
                           )}
                         </div> */}
-                        <ToolCard label={tool.toolShortName} icon={Icon} description={tool.description}></ToolCard>
+                        <ToolCard label={tool.toolShortName} icon={tool.icon} description={tool.description}></ToolCard>
 
                         {/* Title with tooltip */}
                         {/* <h4 className="font-medium text-white truncate" title={tool.title}>

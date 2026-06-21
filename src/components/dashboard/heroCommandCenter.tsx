@@ -3,20 +3,22 @@
 import { useRouter } from "next/navigation";
 import { CommandPalette } from "@/components/ui/commandPalette";
 import { useEffect, useRef, useState } from "react";
-import { tools } from "@/data/tools";
 import { Search } from "lucide-react";
+import { getCachedTools } from "@/data/tools";
+import { IconResolver } from "@/sharedUI/iconResolver";
 
 export function HeroCommandCenter() {
-  const router = useRouter();
+    const router = useRouter();
     const [query, setQuery] = useState("");
     const [open, setOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const searchRef = useRef<HTMLDivElement | null>(null);
-  
+
+    const tools = getCachedTools();
     const results = tools.filter(
       (item) =>
-        item.title.toLowerCase().includes(query.toLowerCase()) ||
-        item.description.toLowerCase().includes(query.toLowerCase())
+        item?.title?.toLowerCase().includes(query.toLowerCase()) ||
+        item.description?.toLowerCase().includes(query.toLowerCase())
     );
   
     useEffect(() => {
@@ -111,7 +113,7 @@ export function HeroCommandCenter() {
               >
                 <div className="flex items-center gap-2">
                   <span className="inline-flex h-12 w-12 items-center justify-center">
-                    <item.icon size={20} color="#40916f" />
+                    <IconResolver name={item.icon} size={20} color="#40916f" />
                   </span>
                   <p className="text-sm line-clamp-2" title={String(item.description)}>{item.title}</p>
                 </div>

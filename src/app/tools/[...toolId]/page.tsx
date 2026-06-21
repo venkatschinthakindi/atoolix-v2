@@ -6,7 +6,7 @@ import BackButton from "@/components/ui/backButton";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import ToolSeoContent from "@/app/tools/[...toolId]/toolSeoContent";
-import { ToolRegistryEntry } from "@/components/tools/toolRegistry";
+import { ToolRegistryEntry } from "@/data/tools";
 
 export async function generateMetadata({ params }: any) {
   return createMetadata(params);
@@ -16,7 +16,7 @@ export default async function ToolPage({ params }: any) {
   const resolvedParams = await params;
   const rawToolId = resolvedParams.toolId;
   
-  const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry };
+  const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry};
 
   if (!tool) return notFound();
 
