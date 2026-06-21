@@ -130,6 +130,9 @@ useEffect(() => {
                   className="tool-scroll"
                 >{canScrollLeft && (
                   <button
+                      type="button"
+                      title="View Less"
+                      aria-label="View Less"
                     onClick={() => scroll("left")}
                     className="absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
                   >
@@ -187,6 +190,9 @@ useEffect(() => {
           </div>
           {canScrollRight && (
             <button
+              type="button"
+              title="View More"
+              aria-label="View More"
               onClick={() => scroll("right")}
               className="absolute right-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
             >

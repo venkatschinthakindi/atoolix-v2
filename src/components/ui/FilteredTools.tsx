@@ -7,11 +7,12 @@ export function FilteredTools({
   filteredTools
 }: any) {
     const router = useRouter();
-    const tools = getCachedTools();
+    
     if(!!filteredTools){
       filteredTools = filteredTools;
     }
     else {
+      const tools = getCachedTools();
       const toolsList = tools;
       const filteredKeys = toolsList.filter(toolId => 
         toolId.id.toLowerCase().startsWith(filterKey) ||

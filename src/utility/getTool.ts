@@ -5,7 +5,6 @@ export function getTool(toolId: string) {
   const rawToolId = (Array.isArray(toolId) ? 
       toolId?.join("/"):
       toolId)?.toString()?.toLowerCase() || "";
-      console.warn(rawToolId);
   
   const tool = !rawToolId ? null: tools.find(tool => tool.id.toLowerCase() === rawToolId);
 

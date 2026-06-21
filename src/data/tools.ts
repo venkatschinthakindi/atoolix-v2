@@ -67,9 +67,9 @@ export type ToolRegistryEntry<Props = {}> = {
   id: string;
   loader: ToolLoader<Props>;
   title: string;
-  toolShortName?: string;
+  toolShortName: string;
   onPageTitle?: string;
-  description?: string;
+  description: string;
   category?: string;
   icon?: any;
   keywords?: string[];
