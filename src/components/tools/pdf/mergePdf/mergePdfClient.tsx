@@ -201,28 +201,13 @@ export default function PdfMergerClient({ config }: Props) {
 
   return (
     <main className="max-w-5xl mx-auto p-4 sm:p-6 space-y-6 text-white">
-      <section className="space-y-3">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-          Merge PDF Tool
-        </h1>
-        <p className="text-white/60 text-sm leading-relaxed">
-          Upload PDFs, reorder them, choose page ranges, and merge them instantly
-          in your browser.
-        </p>
-      </section>
 
       <section className="space-y-4" aria-labelledby="upload-heading">
-        <h2
-          id="upload-heading"
-          className="text-lg font-semibold text-white flex items-center gap-2"
-        >
-          📤 Upload files
-        </h2>
         <DropZone
           key={dropzoneKey}
           allowMultiple
           validFileTypes=".pdf"
-          onFiles={handleFiles}
+          onFiles={async () => await handleFiles}
         />
       </section>
 
