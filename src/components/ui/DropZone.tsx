@@ -9,10 +9,12 @@ export function DropZone({
   onFiles,
   validFileTypes = ".jpg,.jpeg,.png,.webp, .pdf",
   allowMultiple = true,
+  addMoreFiles = false
 }: {
   onFiles: (files: File[]) => any;
   validFileTypes?: string;
   allowMultiple: boolean;
+  addMoreFiles?: boolean
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -139,7 +141,7 @@ export function DropZone({
             <div className="flex items-center gap-2">
               <span className="h-1 w-4 sm:w-6 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full" aria-hidden="true" />
               <p className="text-white text-lg sm:text-xl lg:text-2xl font-bold tracking-tight drop-shadow-sm leading-tight">
-                Drag & Drop Files Here
+                Drag & Drop Files Here {addMoreFiles === true ? "To Add More" : ""}
               </p>
             </div>
             

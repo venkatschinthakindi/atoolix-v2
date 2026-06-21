@@ -5,25 +5,53 @@ export default function MergePdfSeoContent() {
 
   const faqItems = [
     {
+      q: "How do I merge PDF files online?",
+      a: "Upload your PDF files, arrange them in the desired order, customize optional settings, and click Merge PDF to create a single document."
+    },
+    {
       q: "Can I merge PDFs and reorder files?",
-      a: "Yes, you can drag and drop files to control the exact order before merging.",
+      a: "Yes, you can drag and drop files to control the exact order before combining them into one PDF."
     },
     {
       q: "Can I select specific pages from each PDF?",
-      a: "Yes, you can extract only selected pages or ranges from each document.",
+      a: "Yes, you can choose individual pages or page ranges from each document before merging."
     },
     {
-      q: "Can I add header or footer to merged PDF?",
-      a: "Yes, you can add custom text or upload a PDF file as header or footer.",
+      q: "Can I add a custom header, footer, or cover page?",
+      a: "Yes, you can add custom text headers and footers or include additional PDF pages as covers or appendices."
     },
     {
-      q: "Is preview available before download?",
-      a: "Yes, you can preview the final merged PDF before saving it.",
+      q: "Can I preview the merged PDF before downloading?",
+      a: "Yes, you can review the final document before saving it to your device."
     },
     {
-      q: "Is this PDF merger free?",
-      a: "Yes, it is completely free and works directly in your browser.",
+      q: "Can I merge PDF files without uploading them?",
+      a: "Yes, all processing happens directly in your browser, so your PDF files stay on your device."
     },
+    {
+      q: "Is it safe to merge PDF documents online?",
+      a: "Yes, your documents are processed locally in your browser and are not stored on external servers."
+    },
+    {
+      q: "Will the merged PDF maintain the original quality?",
+      a: "Yes, the merged document preserves the original content, layout, and quality of your PDF files."
+    },
+    {
+      q: "Can I merge large PDF files?",
+      a: "Yes, you can combine multiple large PDF documents, subject to your device's available memory and browser capabilities."
+    },
+    {
+      q: "Can I merge PDFs on mobile devices?",
+      a: "Yes, the PDF merger works on smartphones, tablets, laptops, and desktop computers."
+    },
+    {
+      q: "Do I need to install software to merge PDFs?",
+      a: "No, the tool runs entirely in your web browser without requiring downloads or installations."
+    },
+    {
+      q: "Is this PDF merger free to use?",
+      a: "Yes, you can merge PDF files for free without creating an account or installing software."
+    }
   ];
 
   const howToSteps = [
@@ -113,6 +141,11 @@ export default function MergePdfSeoContent() {
       icon: "📝",
     },
     {
+      title: "Smart PDF Optimization",
+      desc: "Automatically reduce file size while preserving document quality.",
+      icon: "⚡",
+    },
+    {
       title: "Live Preview Before Download",
       desc: "Preview the final merged PDF before downloading to ensure accuracy.",
       icon: "👁",
@@ -165,25 +198,20 @@ export default function MergePdfSeoContent() {
       icon: "📉",
     },
     {
-      name: "Delete PDF Pages",
-      href: "/tools/delete-pdf-pages",
-      icon: "❌",
+      name: "Convert Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      icon: "🖼️➡️📄",
     },
     {
-      name: "Rotate PDF",
-      href: "/tools/rotate-pdf",
-      icon: "🔄",
+      name: "Compress Image",
+      href: "/tools/image/compress-image",
+      icon: "📸",
     },
     {
-      name: "PDF to Word",
-      href: "/tools/pdf-to-word",
-      icon: "📝",
-    },
-    {
-      name: "Word to PDF",
-      href: "/tools/word-to-pdf",
-      icon: "📄",
-    },
+      name: "Convert WEBP Image to PDF",
+      href: "/tools/image/webp-to-pdf",
+      icon: "🧩➡️📄",
+    }
   ];
 
   return (
@@ -400,16 +428,6 @@ export default function MergePdfSeoContent() {
           <span className="text-2xl">❓</span>
           Frequently Asked Questions
         </h2>
-
-        {/* SEO: Plain text content always available for crawlers (rendered server-side) */}
-        {/* <div className="hidden" aria-hidden="true">
-          {faqItems.map((item, i) => (
-            <div key={i}>
-              <h3>{item.q}</h3>
-              <p>{item.a}</p>
-            </div>
-          ))}
-        </div> */}
 
         {/* Interactive UI: SSR-friendly collapsible FAQ panels using native details/summary */}
         <div className="space-y-4">

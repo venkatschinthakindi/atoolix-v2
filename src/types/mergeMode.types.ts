@@ -1,0 +1,1 @@
+type MergeMode = "none" | "text" | "file";
