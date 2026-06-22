@@ -31,6 +31,7 @@ import { StatCard } from "@/components/ui/statCard";
 import { PremiumButton } from "@/components/ui/premiumButton";
 import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
+import CustomSelect from "@/components/ui/customSelect";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
@@ -67,7 +68,7 @@ export default function PdfSpliterClient({ config }: Props) {
   const [autoOptimize, setAutoOptimize] = useState(true);
 
   useEffect(() => {
-    resetTool();
+    // console.warn("splitOption", splitOption);
   }, [splitOption]);
 
   useEffect(() => {
@@ -293,15 +294,17 @@ export default function PdfSpliterClient({ config }: Props) {
           await new Promise((r) => setTimeout(r, 200));
         }
 
-        const bytes = await merged.save();
+        const bytes = await merged.save({
+          useObjectStreams: autoOptimize,
+        });
         const blob = new Blob([new Uint8Array(bytes)], {
           type: "application/pdf",
         });
 
         setDownloadableContent(blob);
-        setPreviewUrl(URL.createObjectURL(blob));
-        setModalVariant("preview");
-        setShowModal(true);
+        // setPreviewUrl(URL.createObjectURL(blob));
+        // setModalVariant("preview");
+        // setShowModal(true);
       } else {
         setProcessingLabel("Splitting into separate PDFs...");
         const JSZip = await asyncGetJsZipLib();
@@ -325,7 +328,9 @@ export default function PdfSpliterClient({ config }: Props) {
           const copied = await newDoc.copyPages(doc, selectedIndices);
           copied.forEach((page) => newDoc.addPage(page));
 
-          const bytes = await newDoc.save();
+          const bytes = await newDoc.save({
+            useObjectStreams: autoOptimize,
+          });
           const safeName = current.name.replace(/\.pdf$/i, "");
           zip.file(`${safeName}-selected.pdf`, bytes);
 
@@ -343,6 +348,19 @@ export default function PdfSpliterClient({ config }: Props) {
       console.error("Split failed:", error);
       resetTool();
     }
+  };
+
+  const openPreview = (blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    setPreviewUrl(url);
+    setModalVariant("preview");
+    setShowModal(true);
+  };
+  const openDownloadModel = (blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    setPreviewUrl(url);
+    setModalVariant("download");
+    setShowModal(true);
   };
 
   const downloadProcessedFile = async () => {
@@ -502,16 +520,16 @@ export default function PdfSpliterClient({ config }: Props) {
             </div>
 
             <div className="grid gap-4 p-5 sm:p-6">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <div className="rounded-2xl border border-white/10 p-4">
                 <div className="mb-2 text-sm font-medium text-white/85">Output format</div>
-                <select
+                <CustomSelect
                   value={splitOption}
-                  onChange={(e) => setSplitOption(e.target.value as SplitMode)}
-                  className="w-full cursor-pointer rounded-xl border border-white/10 bg-indigo-600/30 px-3 py-3 text-white outline-none"
-                >
-                  <option value="single">Combine selected pages into 1 PDF</option>
-                  <option value="multiple">Create separate PDFs in ZIP</option>
-                </select>
+                  callBackTrigger={setSplitOption}
+                  options={[
+                    { value: "single", label: "Combine selected pages into 1 PDF" },
+                    { value: "multiple", label: "Create separate PDFs in ZIP" },
+                  ]}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -553,34 +571,30 @@ export default function PdfSpliterClient({ config }: Props) {
               ) : (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {splitOption === "single" ? (
+                  <div>
                     <PremiumButton
-                      icon={Eye}
-                      label="Preview PDF"
-                      onClick={() => downloadableContent && setShowModal(true)}
-                      accent="violet"
+                        icon={Eye}
+                        label="Preview PDF"
+                        onClick={() => downloadableContent && openPreview(downloadableContent)}
+                        accent="violet"
+                      />
+                      <PremiumButton
+                      icon={Download}
+                      label="Download"
+                      onClick={() => downloadableContent && openDownloadModel(downloadableContent)}
+                      accent="blue"
                     />
+                  </div>
                   ) : (
                     <PremiumButton
                       icon={Download}
                       label="Download ZIP"
-                      onClick={downloadProcessedFile}
+                      onClick={() => downloadableContent && openDownloadModel(downloadableContent)}
                       accent="emerald"
                     />
                   )}
-
-                  <PremiumButton
-                    icon={Download}
-                    label="Download"
-                    onClick={downloadProcessedFile}
-                    accent="blue"
-                  />
                 </div>
               )}
-
-              <div className="grid grid-cols-2 gap-3">
-                <MiniPill label="Files loaded" active={pdfs.length > 0} />
-                <MiniPill label="Single mode" active={splitOption === "single"} />
-              </div>
             </div>
           </section>
         </div>

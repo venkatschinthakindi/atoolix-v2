@@ -174,7 +174,9 @@ export default function PdfMergerClient({ config }: Props) {
       await new Promise((r) => setTimeout(r, 250));
     }
 
-    const finalBytes = await merged.save();
+    const finalBytes = await merged.save({
+      useObjectStreams: autoOptimize,
+    });
     const blob = new Blob([new Uint8Array(finalBytes)], {
       type: "application/pdf",
     });

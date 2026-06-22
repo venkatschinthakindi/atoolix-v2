@@ -225,7 +225,7 @@ export default function SplitPdfSeoContentV2() {
   ];
 
   return (
-    <div>
+    <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
       {/* ===================== STRUCTURED DATA (SEO ONLY) ===================== */}
       <script
         type="application/ld+json"
@@ -243,7 +243,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== INTRO SEO SECTION ===================== */}
       <section
         id="overview"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="overview-heading"
       >
         <h2
@@ -276,7 +276,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== OUTPUT SETTINGS ===================== */}
       <section
         id="output-options"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="output-options-heading"
       >
         <h2
@@ -312,7 +312,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== PAGE SELECTION SEO ===================== */}
       <section
         id="page-selection"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="page-selection-heading"
       >
         <h2
@@ -355,7 +355,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== HOW IT WORKS (SEO FLOW) ===================== */}
       <section
         id="how-it-works"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="how-it-works-heading"
       >
         <h2
@@ -398,7 +398,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== FEATURES ===================== */}
       <section
         id="features"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="features-heading"
       >
         <h2
@@ -425,7 +425,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== USE CASES ===================== */}
       <section
         id="use-cases"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="use-cases-heading"
       >
         <h2
@@ -459,7 +459,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== AUDIENCE ===================== */}
       <section
         id="audience"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="audience-heading"
       >
         <h2
@@ -496,7 +496,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== RELATED TOOLS ===================== */}
       <nav
         id="related-tools"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="related-tools-heading"
       >
         <h2
@@ -529,7 +529,7 @@ export default function SplitPdfSeoContentV2() {
       {/* ===================== FAQ (SSR - INTERACTIVE PANELS) ===================== */}
       <section
         id="faq"
-        className="tool-usage-faq py-8 md:py-12"
+        
         aria-labelledby="faq-heading"
       >
         <h2
