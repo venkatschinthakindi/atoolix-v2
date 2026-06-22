@@ -167,8 +167,8 @@ export default function CustomSelect<T extends string>({
                       className={[
                         "flex w-full items-center justify-between rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-left text-xs sm:text-sm transition",
                         active
-                          ? "bg-blue-500/20 text-blue-300 hover:bg-blue-500/30"
-                          : "bg-white/5 text-white/85 hover:bg-white/10",
+                          ? "bg-gray-500/20 text-blue-300 hover:bg-gray-500/30"
+                          : "bg-white/5 text-white hover:bg-white/10",
                         active ? "cursor-not-allowed pointer-events-none opacity-50" : "cursor-pointer",
                       ].join(" ")}
                     >

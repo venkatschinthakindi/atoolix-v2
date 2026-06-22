@@ -3,28 +3,58 @@ export default function SplitPdfSeoContentV2() {
   // Structured data (JSON-LD) - Always available for SEO
   // ---------------------------------------------------------------------
 
+
   const faqItems = [
     {
       q: "How do I split a PDF into multiple files?",
-      a: "Upload your PDF, select the pages you want to extract, choose an output format, and download the split files instantly.",
+      a: "Upload your PDF, select the pages you want to extract using ranges or patterns, choose an output format, and download the split files instantly."
     },
     {
       q: "Can I extract specific pages from a PDF?",
-      a: "Yes, you can select individual pages, ranges, odd/even pages, or entire sections of a document.",
+      a: "Yes, you can select individual pages (e.g. 19), ranges (e.g. 9-13), first/last pages (e.g. first-3, last-2), or patterns like odd/even pages."
+    },
+    {
+      q: "Can I combine selected pages from multiple PDFs into one file?",
+      a: "Yes, you can upload multiple PDFs, select specific pages from each, and combine them into a single optimized PDF document."
+    },
+    {
+      q: "Can I split a PDF into separate files for each page selection?",
+      a: "Yes, you can export each selection as an individual PDF file packaged in a ZIP archive for easy organization."
+    },
+    {
+      q: "What page selection patterns are supported?",
+      a: "Supports single pages (19), ranges (9-13), first/last (first-3, last-2), all pages, odd/even, and combinations with exclusions (e.g. 1-4,except 21-23)."
+    },
+    {
+      q: "Can I split PDF files without uploading them?",
+      a: "Yes, all processing happens directly in your browser, so your PDF files stay on your device and never reach a server."
+    },
+    {
+      q: "Is it safe to split PDF documents online?",
+      a: "Yes, your documents are processed locally in your browser and are not stored on external servers."
+    },
+    {
+      q: "Will the split PDF maintain the original quality?",
+      a: "Yes, the split documents preserve the original content, layout, and quality of your PDF files with optional optimization."
+    },
+    {
+      q: "Can I split large PDF files?",
+      a: "Yes, you can split multiple large PDF documents, subject to your device's available memory and browser capabilities."
+    },
+    {
+      q: "Can I split PDFs on mobile devices?",
+      a: "Yes, the PDF splitter works on smartphones, tablets, laptops, and desktop computers with a fully responsive interface."
+    },
+    {
+      q: "Do I need to install software to split PDFs?",
+      a: "No, the tool runs entirely in your web browser without requiring downloads or installations."
     },
     {
       q: "Is this PDF splitter free to use?",
-      a: "Yes, this tool is completely free with no sign-up required.",
-    },
-    {
-      q: "Is it safe to split PDFs online?",
-      a: "Yes, all processing happens in your browser, so your files are never uploaded to a server.",
-    },
-    {
-      q: "Can I use this tool on mobile devices?",
-      a: "Yes, it works smoothly on mobile, tablet, and desktop devices.",
-    },
+      a: "Yes, you can split PDF files for free without creating an account or installing software."
+    }
   ];
+
 
   const howToSteps = [
     {
@@ -34,20 +64,26 @@ export default function SplitPdfSeoContentV2() {
     },
     {
       title: "Select Pages to Extract",
-      desc: "Choose specific pages, ranges, or patterns like odd/even pages.",
+      desc: "Choose pages using ranges (9-13), single pages (19), or patterns (first-3, last-2, odd, even).",
       icon: "🎯",
     },
     {
       title: "Choose Output Format",
-      desc: "Combine into one PDF or export as separate files in ZIP format.",
+      desc: "Combine selected pages into one PDF or export as separate files in ZIP format.",
       icon: "📦",
     },
     {
+      title: "Preview Final Document",
+      desc: "Review the split PDF in live preview before downloading.",
+      icon: "👁",
+    },
+    {
       title: "Download Processed File",
-      desc: "Instantly download your optimized PDF output.",
+      desc: "Get your optimized PDF output instantly with one click.",
       icon: "⬇️",
     },
   ];
+
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -62,19 +98,6 @@ export default function SplitPdfSeoContentV2() {
     })),
   };
 
-  const howToSchema = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "How to Split PDF Files Online",
-    description:
-      "Split a PDF into multiple files or extract specific pages directly in your browser, with no software install required.",
-    step: howToSteps.map((step, i) => ({
-      "@type": "HowToStep",
-      position: i + 1,
-      name: step.title,
-      text: step.desc,
-    })),
-  };
 
   const softwareAppSchema = {
     "@context": "https://schema.org",
@@ -88,25 +111,14 @@ export default function SplitPdfSeoContentV2() {
       priceCurrency: "USD",
     },
     description:
-      "Free online tool to split PDF files, extract specific pages, and export results as a single PDF or a ZIP of separate files. All processing happens locally in the browser.",
+      "Free online tool to split PDF files, extract specific pages using flexible patterns, and export results as a single PDF or ZIP of separate files. All processing happens locally in the browser.",
   };
+
 
   // ---------------------------------------------------------------------
   // Reusable content
   // ---------------------------------------------------------------------
 
-  const outputOptions = [
-    {
-      title: "Combine Selected Pages into One PDF",
-      desc: "Merge selected pages from multiple PDFs into a single optimized document. Ideal for creating custom reports or cleaned-up documents.",
-      icon: "🔗",
-    },
-    {
-      title: "Export as Separate PDF Files (ZIP)",
-      desc: "Each processed PDF page set is exported as an individual file and downloaded as a ZIP archive for easy organization and sharing.",
-      icon: "📁",
-    },
-  ];
 
   const pageSelectionPatterns = [
     { key: "first-3", desc: "Extract the first 3 pages", icon: "🥇" },
@@ -128,6 +140,41 @@ export default function SplitPdfSeoContentV2() {
     },
   ];
 
+
+  const coreFeatures = [
+    {
+      title: "Extract Specific PDF Pages",
+      desc: "Select individual pages, ranges, or patterns like odd/even from any PDF.",
+      icon: "📄",
+    },
+    {
+      title: "Combine Pages into One PDF",
+      desc: "Merge selected pages from multiple PDFs into a single optimized document.",
+      icon: "🔗",
+    },
+    {
+      title: "Export as Separate Files (ZIP)",
+      desc: "Export each selection as an individual PDF file packaged in a ZIP archive.",
+      icon: "📁",
+    },
+    {
+      title: "Flexible Page Selection Patterns",
+      desc: "Use first-3, last-2, ranges (9-13), single pages (19), odd/even, or combinations with exclusions.",
+      icon: "✂️",
+    },
+    {
+      title: "Smart PDF Optimization",
+      desc: "Automatically reduce file size while preserving document quality.",
+      icon: "⚡",
+    },
+    {
+      title: "Live Preview Before Download",
+      desc: "Preview the split PDF before downloading to ensure accuracy.",
+      icon: "👁",
+    },
+  ];
+
+
   const features = [
     { icon: "⚡", label: "Instant browser-based PDF splitting" },
     { icon: "🔒", label: "100% private processing — files never leave your device" },
@@ -139,28 +186,6 @@ export default function SplitPdfSeoContentV2() {
     { icon: "🎯", label: "Precise page selection control" },
   ];
 
-  const useCases = [
-    {
-      title: "Extract Invoices & Receipts",
-      desc: "Separate billing pages from large financial PDFs for easier bookkeeping and record-keeping.",
-      icon: "💳",
-    },
-    {
-      title: "Organize Study Materials",
-      desc: "Split textbooks, lecture notes, and slide exports into chapter-by-chapter PDF files.",
-      icon: "📖",
-    },
-    {
-      title: "Business Document Management",
-      desc: "Pull individual reports, contracts, or forms out of long, multi-document PDF files.",
-      icon: "📋",
-    },
-    {
-      title: "Share Only the Pages You Need",
-      desc: "Send a recipient just the relevant pages instead of an entire PDF, saving time and bandwidth.",
-      icon: "📤",
-    },
-  ];
 
   const audiences = [
     {
@@ -185,44 +210,40 @@ export default function SplitPdfSeoContentV2() {
     },
   ];
 
+
   const relatedTools = [
     {
       name: "Merge PDF",
       href: "/tools/pdf/merge-pdf",
-      title: "Merge multiple PDF files into one document",
       icon: "🔗",
     },
     {
       name: "Compress PDF",
       href: "/tools/pdf/compress-pdf",
-      title: "Reduce PDF file size online",
       icon: "📉",
     },
     {
       name: "Delete PDF Pages",
       href: "/tools/delete-pdf-pages",
-      title: "Remove specific pages from a PDF",
       icon: "❌",
     },
     {
       name: "Rotate PDF",
       href: "/tools/rotate-pdf",
-      title: "Rotate PDF pages online",
       icon: "🔄",
     },
     {
       name: "PDF to Word",
       href: "/tools/pdf-to-word",
-      title: "Convert a PDF file to an editable Word document",
       icon: "📝",
     },
     {
       name: "Word to PDF",
       href: "/tools/word-to-pdf",
-      title: "Convert a Word document to PDF",
       icon: "📄",
     },
   ];
+
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
@@ -233,74 +254,66 @@ export default function SplitPdfSeoContentV2() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
-      />
-      <script
-        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* ===================== INTRO SEO SECTION ===================== */}
+
+      {/* ===================== INTRO SEO ===================== */}
       <section
-        id="overview"
-        
-        aria-labelledby="overview-heading"
+        aria-labelledby="intro-heading"
       >
         <h2
-          id="overview-heading"
+          id="intro-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">🔪</span>
+          <span className="text-2xl">✂️</span>
           Split PDF Online – Extract, Separate & Organize Pages Instantly
         </h2>
 
+
         <p className="text-white/60 text-sm leading-relaxed">
-          Split a PDF file online for free, with no software install and no
-          account required. Extract specific pages, remove unwanted
-          sections, or divide a large document into multiple smaller PDFs in
-          seconds. This browser-based{" "}
-          <b className="text-white">PDF splitter</b> keeps your files
-          completely private — everything runs locally on your device, and
-          nothing is uploaded to a server.
+          Split a PDF file online for free and create customized documents
+          in seconds. This advanced <b className="text-white">PDF splitter tool</b>
+          lets you extract specific pages, combine selections into one PDF, or export
+          separate files in ZIP format — all directly in your browser.
         </p>
 
+
         <p className="text-white/60 text-sm mt-4 leading-relaxed">
-          Whether you need to{" "}
-          <b className="text-white">extract pages from a PDF</b>, pull out a
-          single chapter, or reorganize reports, invoices, and study
-          materials, this tool gives you a fast and accurate way to split
-          PDF files online.
+          Whether you need to <b className="text-white">extract pages from a PDF</b>,
+          pull out a single chapter, or reorganize reports, invoices, and study
+          materials, this tool provides a fast, secure, and fully client-side solution.
         </p>
       </section>
 
-      {/* ===================== OUTPUT SETTINGS ===================== */}
+
+      {/* ===================== CORE FEATURES ===================== */}
       <section
-        id="output-options"
-        
-        aria-labelledby="output-options-heading"
+        aria-labelledby="core-features-heading"
       >
         <h2
-          id="output-options-heading"
+          id="core-features-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">📦</span>
-          Output Options for Split PDF
+          <span className="text-2xl">✨</span>
+          What You Can Do With This PDF Splitter
         </h2>
 
+
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
-          {outputOptions.map((option, i) => (
+          {coreFeatures.map((item, i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-[1.02] hover:border-blue-400/30 transition-all duration-200"
+              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl flex-shrink-0">{option.icon}</span>
+                <span className="text-2xl flex-shrink-0">{item.icon}</span>
                 <div>
                   <h3 className="text-white font-semibold text-sm mb-2">
-                    {option.title}
+                    {item.title}
                   </h3>
-                  <p className="text-white/60 text-xs leading-relaxed">
-                    {option.desc}
+                  <p className="text-white/60 text-xs">
+                    {item.desc}
                   </p>
                 </div>
               </div>
@@ -309,10 +322,9 @@ export default function SplitPdfSeoContentV2() {
         </div>
       </section>
 
-      {/* ===================== PAGE SELECTION SEO ===================== */}
+
+      {/* ===================== PAGE SELECTION PATTERNS ===================== */}
       <section
-        id="page-selection"
-        
         aria-labelledby="page-selection-heading"
       >
         <h2
@@ -320,14 +332,15 @@ export default function SplitPdfSeoContentV2() {
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
           <span className="text-2xl">🎯</span>
-          Advanced Page Selection Options
+          Advanced Page Selection Patterns
         </h2>
+
 
         <p className="text-white/60 text-sm mb-6">
           Use flexible page selection rules to precisely extract or split PDF
-          content. Supports ranges, single pages, and shortcuts for fast
-          selection.
+          content. Supports ranges, single pages, and shortcuts for fast selection.
         </p>
+
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5">
           {pageSelectionPatterns.map((item, i) => (
@@ -344,6 +357,7 @@ export default function SplitPdfSeoContentV2() {
                 </code>
               </div>
 
+
               <p className="text-white/60 text-xs mt-2 leading-relaxed group-hover:text-white/80 transition">
                 {item.desc}
               </p>
@@ -352,25 +366,25 @@ export default function SplitPdfSeoContentV2() {
         </div>
       </section>
 
-      {/* ===================== HOW IT WORKS (SEO FLOW) ===================== */}
+
+      {/* ===================== WORKFLOW ===================== */}
       <section
-        id="how-it-works"
-        
-        aria-labelledby="how-it-works-heading"
+        aria-labelledby="workflow-heading"
       >
         <h2
-          id="how-it-works-heading"
+          id="workflow-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
           <span className="text-2xl">⚙️</span>
           How to Split PDF Files Online
         </h2>
 
-        <ol className="grid gap-4 md:gap-5 md:grid-cols-2 list-none">
+
+        <div className="grid gap-4 md:gap-5 md:grid-cols-2">
           {howToSteps.map((step, i) => (
-            <li
+            <div
               key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-blue-400/30 transition-all duration-200"
+              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-blue-400/30"
             >
               <div className="flex gap-3 items-start">
                 <span
@@ -384,71 +398,11 @@ export default function SplitPdfSeoContentV2() {
                 </span>
                 <div className="flex-1">
                   <p className="text-sm text-white font-semibold mb-1">
-                    <span className="sr-only">Step {i + 1}: </span>
                     {step.title}
                   </p>
-                  <p className="text-xs text-white/60">{step.desc}</p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* ===================== FEATURES ===================== */}
-      <section
-        id="features"
-        
-        aria-labelledby="features-heading"
-      >
-        <h2
-          id="features-heading"
-          className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
-        >
-          <span className="text-2xl">✨</span>
-          Key Features of This PDF Splitter
-        </h2>
-
-        <ul className="flex flex-wrap gap-3 list-none">
-          {features.map((feature, i) => (
-            <li
-              key={i}
-              className="px-4 py-2.5 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/80 hover:bg-white/15 hover:border-blue-400/30 transition-all duration-200 flex items-center gap-2"
-            >
-              <span aria-hidden="true">{feature.icon}</span>
-              {feature.label}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* ===================== USE CASES ===================== */}
-      <section
-        id="use-cases"
-        
-        aria-labelledby="use-cases-heading"
-      >
-        <h2
-          id="use-cases-heading"
-          className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
-        >
-          <span className="text-2xl">🎬</span>
-          Real-World Use Cases for Splitting PDFs
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
-          {useCases.map((item, i) => (
-            <div
-              key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30 transition-all duration-200"
-            >
-              <div className="flex items-start gap-3">
-                <span className="text-2xl flex-shrink-0">{item.icon}</span>
-                <div>
-                  <h3 className="text-white font-semibold text-sm mb-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-white/60 text-xs">{item.desc}</p>
+                  <p className="text-xs text-white/60">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -456,10 +410,36 @@ export default function SplitPdfSeoContentV2() {
         </div>
       </section>
 
+
+      {/* ===================== FEATURES ===================== */}
+      <section
+        aria-labelledby="features-heading"
+      >
+        <h2
+          id="features-heading"
+          className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+        >
+          <span className="text-2xl">🎯</span>
+          Key Features of PDF Splitter Tool
+        </h2>
+
+
+        <div className="flex flex-wrap gap-3">
+          {features.map((feature, i) => (
+            <span
+              key={i}
+              className="px-4 py-2.5 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/80 hover:bg-white/15 hover:border-blue-400/30 flex items-center gap-2"
+            >
+              <span>{feature.icon}</span>
+              {feature.label}
+            </span>
+          ))}
+        </div>
+      </section>
+
+
       {/* ===================== AUDIENCE ===================== */}
       <section
-        id="audience"
-        
         aria-labelledby="audience-heading"
       >
         <h2
@@ -469,15 +449,13 @@ export default function SplitPdfSeoContentV2() {
           <span className="text-2xl">👥</span>
           Who Uses PDF Split Tools
         </h2>
-        <p className="text-white/60 text-sm mb-6">
-          Trusted by students, professionals, and businesses for everyday
-          document tasks.
-        </p>
+
+
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {audiences.map((item, i) => (
             <div
               key={i}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30 transition-all duration-200"
+              className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl flex-shrink-0">{item.icon}</span>
@@ -485,7 +463,9 @@ export default function SplitPdfSeoContentV2() {
                   <h3 className="text-white font-semibold text-sm mb-1">
                     {item.title}
                   </h3>
-                  <p className="text-white/60 text-xs">{item.desc}</p>
+                  <p className="text-white/60 text-xs">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -493,10 +473,9 @@ export default function SplitPdfSeoContentV2() {
         </div>
       </section>
 
+
       {/* ===================== RELATED TOOLS ===================== */}
-      <nav
-        id="related-tools"
-        
+      <section
         aria-labelledby="related-tools-heading"
       >
         <h2
@@ -507,29 +486,28 @@ export default function SplitPdfSeoContentV2() {
           Related PDF Tools
         </h2>
 
-        <ul className="flex flex-wrap gap-3 list-none">
+
+        <div className="flex flex-wrap gap-3">
           {relatedTools.map((tool, i) => (
-            <li key={i}>
-              <a
-                href={tool.href}
-                title={tool.title}
-                className="px-4 py-2 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/70 hover:text-white hover:bg-blue-400/20 hover:border-blue-400/30 transition-all duration-200 flex items-center gap-2 relative group"
-              >
-                <span>{tool.icon}</span>
-                {tool.name}
-                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-black text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
-                  {tool.title}
-                </span>
-              </a>
-            </li>
+            <a
+              key={i}
+              href={tool.href}
+              aria-label={tool.name}
+              className="px-4 py-2 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/70 hover:text-white hover:bg-blue-400/20 hover:border-blue-400/30 flex items-center gap-2 relative group"
+            >
+              <span aria-hidden="true">{tool.icon}</span>
+              {tool.name}
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-black text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">
+                {tool.name} tool
+              </span>
+            </a>
           ))}
-        </ul>
-      </nav>
+        </div>
+      </section>
+
 
       {/* ===================== FAQ (SSR - INTERACTIVE PANELS) ===================== */}
       <section
-        id="faq"
-        
         aria-labelledby="faq-heading"
       >
         <h2
@@ -540,35 +518,27 @@ export default function SplitPdfSeoContentV2() {
           Frequently Asked Questions
         </h2>
 
-        {/* SEO: Plain text content always available for crawlers (rendered server-side) */}
-        <div className="hidden" aria-hidden="true">
-          {faqItems.map((item, i) => (
-            <div key={i}>
-              <h3>{item.q}</h3>
-              <p>{item.a}</p>
-            </div>
-          ))}
-        </div>
 
         {/* Interactive UI: SSR-friendly collapsible FAQ panels using native details/summary */}
         <div className="space-y-4">
           {faqItems.map((item, i) => (
             <div
               key={i}
-              className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden transition-all duration-300"
+              className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden duration-300"
             >
               {/* Native details/summary for SSR-friendly collapsible */}
               <details className="w-full">
-                <summary className="list-none p-5 flex items-center justify-between gap-4 hover:bg-white/10 transition-all duration-200 cursor-pointer">
+                <summary className="list-none p-5 flex items-center justify-between gap-4 hover:bg-white/10 cursor-pointer">
                   <div className="flex items-center gap-3 flex-1">
                     <span className="text-2xl flex-shrink-0">❓</span>
                     <span className="text-white font-semibold text-sm">
                       {item.q}
                     </span>
                   </div>
-                  
-                  {/* Animated Chevron - SSR friendly */}
-                  <span className="text-blue-400 text-lg flex-shrink-0 transition-transform duration-300">
+
+
+                  {/* Animated SVG Chevron - SSR friendly */}
+                  <span className="text-blue-400 text-lg flex-shrink-0 transform transition-transform duration-300 open:rotate-180">
                     <svg
                       className="w-5 h-5 transform transition-transform duration-300 open:rotate-180"
                       fill="none"
@@ -584,6 +554,7 @@ export default function SplitPdfSeoContentV2() {
                     </svg>
                   </span>
                 </summary>
+
 
                 <div className="p-5 pt-0 border-t border-white/5 border-dashed">
                   <div className="flex items-start gap-3 mt-4">
