@@ -18,6 +18,7 @@ import {
   Clock3
 } from "lucide-react";
 
+
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
 import { Props } from "@/types/props";
@@ -30,10 +31,12 @@ import { PremiumButton } from "@/components/ui/premiumButton";
 import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
 
+
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
   { loading: () => null }
 );
+
 
 function createFileItem(file: File): FileItem {
   return {
@@ -44,9 +47,11 @@ function createFileItem(file: File): FileItem {
   };
 }
 
+
 function premiumShellClass() {
-  return "relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-blue-400/30 hover:bg-white/[0.07]";
+  return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
 }
+
 
 export default function PdfMergerClient({ config }: Props) {
   const [dropzoneKey, setDropzoneKey] = useState(0);
@@ -67,16 +72,19 @@ export default function PdfMergerClient({ config }: Props) {
   const [autoOptimize, setAutoOptimize] = useState(true);
   const [autoDownloadFailed, setAutoDownloadFailed] = useState(false);
 
+
   useEffect(() => {
     return () => {
       if (previewUrl) URL.revokeObjectURL(previewUrl);
     };
   }, [previewUrl]);
 
+
   const totalPages = useMemo(
     () => files.reduce((sum, f) => sum + (f.totalPages ?? 0), 0),
     [files]
   );
+
 
   const selectedPagesCount = useMemo(() => {
     return files.reduce((sum, f) => {
@@ -88,9 +96,11 @@ export default function PdfMergerClient({ config }: Props) {
     }, 0);
   }, [files]);
 
+
   const handleFiles = async (newFiles: File[]) => {
     const parsed: FileItem[] = [...files];
     const PDFDocument = await asyncGetPdfLib();
+
 
     for (const file of newFiles) {
       const buffer = await file.arrayBuffer();
@@ -103,12 +113,14 @@ export default function PdfMergerClient({ config }: Props) {
       }
     }
 
+
     setFiles(parsed);
     setState(parsed.length ? "ready" : "idle");
     setProgress(0);
     setMergedBlob(null);
     setAutoDownloadFailed(false);
   };
+
 
   const clearAllFiles = () => {
     setFiles([]);
@@ -121,6 +133,7 @@ export default function PdfMergerClient({ config }: Props) {
     setAutoDownloadFailed(false);
   };
 
+
   const moveFile = (id: string, direction: -1 | 1) => {
     setFiles((prev) => {
       const next = [...prev];
@@ -132,23 +145,29 @@ export default function PdfMergerClient({ config }: Props) {
     });
   };
 
+
   const updateFileInput = (id: string, input: string) => {
     setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, input } : f)));
   };
+
 
   const removeFile = (id: string) => {
     setFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
+
   const merge = async () => {
     if (!files.length) return;
+
 
     setState("processing");
     setProgress(5);
     setProcessingLabel("Creating merged document...");
 
+
     const PDFDocument = await asyncGetPdfLib();
     const merged = await PDFDocument.create();
+
 
     for (let i = 0; i < files.length; i++) {
       const current = files[i];
@@ -160,19 +179,23 @@ export default function PdfMergerClient({ config }: Props) {
         .map((v, idx) => (v ? idx : -1))
         .filter((v) => v !== -1);
 
+
       if (indices.length) {
         const copied = await merged.copyPages(pdf, indices);
         copied.forEach((page: any) => merged.addPage(page));
       }
 
+
       setProgress(10 + ((i + 1) / files.length) * 80);
     }
+
 
     if (autoOptimize) {
       setProcessingLabel("Optimizing layout...");
       setProgress(92);
       await new Promise((r) => setTimeout(r, 250));
     }
+
 
     const finalBytes = await merged.save({
       useObjectStreams: autoOptimize,
@@ -181,12 +204,14 @@ export default function PdfMergerClient({ config }: Props) {
       type: "application/pdf",
     });
 
+
     setMergedBlob(blob);
     setProgress(100);
     setProcessingLabel("Done");
     setState("done");
     setAutoDownloadFailed(false);
   };
+
 
   const openPreview = (blob: Blob) => {
     const url = URL.createObjectURL(blob);
@@ -201,12 +226,15 @@ export default function PdfMergerClient({ config }: Props) {
     setShowModal(true);
   };
 
+
   const download = async () => {
     if (!mergedBlob) return;
+
 
     try {
       const saveAs = await import("@/lib/fileSaverUtility").then((m) => m.asyncGetFileSaverLib());
       saveAs(mergedBlob, "document.pdf");
+
 
       // Success - reset after download
       setTimeout(() => {
@@ -227,9 +255,11 @@ export default function PdfMergerClient({ config }: Props) {
     }
   };
 
+
   const handleDownloadClick = () => {
     download();
   };
+
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -240,10 +270,12 @@ export default function PdfMergerClient({ config }: Props) {
     }
   };
 
+
   const canBuild = files.length > 0 && state !== "processing";
 
+
   return (
-    <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
+    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white">
       <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
@@ -252,7 +284,7 @@ export default function PdfMergerClient({ config }: Props) {
               Private document workspace
             </div>
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              Merge PDFs with a{" "}
+              Merge PDFs with{" "}
               <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
                 Advanced Control
               </span>
@@ -261,6 +293,7 @@ export default function PdfMergerClient({ config }: Props) {
               Take full control of your documents. Reorder files, fine-tune page selections, optimize output quality, and generate professional PDFs effortlessly.
             </p>
           </div>
+
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
             <StatCard icon={Files} label="Files" value={files.length} />
@@ -271,45 +304,33 @@ export default function PdfMergerClient({ config }: Props) {
         </div>
       </section>
 
+
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-5">
           <section className={premiumShellClass()} aria-labelledby="upload-heading">
-            <div className="relative p-5 sm:p-6">
-              <div className="mb-4 flex items-center justify-between gap-4">
-                <div>
-                  <h2 id="upload-heading" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+            <div className="relative p-3 sm:p-4 md:p-5">
+              <div className="mb-3 sm:mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="w-full sm:w-auto">
+                  <h2 id="upload-heading" className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
                     <GlassIcon icon={FileUp} />
                     Upload documents
                   </h2>
-                  <p className="mt-1 text-sm text-white/60">
+                  <p className="mt-1 text-xs sm:text-sm text-white/60">
                     Drag PDFs here or browse your private archive.
                   </p>
                 </div>
-                {
-                  files &&files.length > 0 && (
-                    <button
-                        type="button"
-                        onClick={() => clearAllFiles()}
-                        aria-pressed={autoOptimize}
-                        className={["hidden cursor-pointer items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:inline-flex"
-                        ].join(" ")}
-                        >
-                        <Wand2 className="h-4 w-4 text-blue-300" />
-                        <span>{files.length > 0 ? "Clear All" : "Add More Files"}</span>
-                    </button>
-                  )
-                }
-                
-                <button
-                type="button"
-                onClick={() => setAutoOptimize((v) => !v)}
-                aria-pressed={autoOptimize}
-                className="hidden cursor-pointer items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:inline-flex"
-              >
-                <Wand2 className="h-4 w-4 text-blue-300" />
-                <span>{autoOptimize ? "Optimize: On" : "Optimize: Off"}</span>
-              </button>
+                {files.length > 0 && (
+                 <button
+                  type="button"
+                  onClick={() => clearAllFiles()}
+                  className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
+                >
+                  <Wand2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
+                  <span>Clear All</span>
+                </button>
+                )}
               </div>
+
 
               <DropZone
                 key={dropzoneKey}
@@ -320,27 +341,30 @@ export default function PdfMergerClient({ config }: Props) {
               />
             </div>
           </section>
-          {files && files.length > 0 && (
+
+
+          {files.length > 0 && (
             <section className={premiumShellClass()} aria-labelledby="files-heading">
-              <div className="relative border-b border-white/10 px-5 py-4 sm:px-6">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <h2 id="files-heading" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+              <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="w-full sm:w-auto">
+                    <h2 id="files-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
                       <GlassIcon icon={Files} />
                       File order and pages
                     </h2>
-                    <p className="mt-1 text-sm text-white/60">
+                    <p className="mt-1 text-xs sm:text-sm text-white/60">
                       Reorder files, refine page ranges, and preview what will be merged.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/60">
-                    <ArrowDownUp className="h-3.5 w-3.5 text-blue-300" />
+                  <div className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap">
+                    <ArrowDownUp className="h-5 w-5 sm:h-3.5 sm:w-3.5 text-blue-300" />
                     Order matters
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-3 p-5 sm:p-6">
+
+              <div className="space-y-2 sm:space-y-3 p-3 sm:p-4 md:p-5">
                 {files.length ? (
                   files.map((item, index) => (
                     <FileRow
@@ -365,61 +389,73 @@ export default function PdfMergerClient({ config }: Props) {
           )}
         </div>
 
-        <div className="space-y-6">
+
+        <div className="space-y-3 sm:space-y-4 md:space-y-5">
           <section className={premiumShellClass()} aria-labelledby="options-heading">
-            <div className="relative border-b border-white/10 px-5 py-4 sm:px-6">
-              <h2 id="options-heading" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+            <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+              <h2 id="options-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
                 <GlassIcon icon={Sparkles} />
                 Merge options
               </h2>
-              <p className="mt-1 text-sm text-white/60">
+              <p className="mt-1 text-xs sm:text-sm text-white/60">
                 Add elegant headers and footers without leaving the workspace.
               </p>
             </div>
 
-            <div className="grid gap-4 p-5 sm:p-6">
-              <OptionCard
-                title="Header"
-                icon={PanelTopOpen}
-                mode={headerMode}
-                onModeChange={setHeaderMode}
-                text={headerText}
-                onTextChange={setHeaderText}
-                file={headerFile}
-                onFileChange={setHeaderFile}
-                helper="Add a text header or a PDF file as the first section."
-                fileHint="Header file stays local and is merged first."
-              />
 
-              <OptionCard
-                title="Footer"
-                icon={PanelBottomOpen}
-                mode={footerMode}
-                onModeChange={setFooterMode}
-                text={footerText}
-                onTextChange={setFooterText}
-                file={footerFile}
-                onFileChange={setFooterFile}
-                helper="Add a text footer or a PDF file as the last section."
-                fileHint="Footer file stays local and is merged last."
-              />
+            <div className="grid gap-3 sm:gap-2 p-3 sm:p-2 md:p-2">
+              <div className="rounded-2xl border border-white/10 p-2 sm:p-2">
+                <OptionCard
+                  title="Header"
+                  icon={PanelTopOpen}
+                  mode={headerMode}
+                  onModeChange={setHeaderMode}
+                  text={headerText}
+                  onTextChange={setHeaderText}
+                  file={headerFile}
+                  onFileChange={setHeaderFile}
+                  helper="Add a text header or a PDF file as the first section."
+                  fileHint="Header file stays local and is merged first."
+                />
+              </div>
+
+
+              <div className="rounded-2xl border border-white/10 p-2 sm:p-2">
+                <OptionCard
+                  title="Footer"
+                  icon={PanelBottomOpen}
+                  mode={footerMode}
+                  onModeChange={setFooterMode}
+                  text={footerText}
+                  onTextChange={setFooterText}
+                  file={footerFile}
+                  onFileChange={setFooterFile}
+                  helper="Add a text footer or a PDF file as the last section."
+                  fileHint="Footer file stays local and is merged last."
+                />
+              </div>
             </div>
           </section>
 
+
           <section className={premiumShellClass()} aria-labelledby="actions-heading">
-            <div className="relative border-b border-white/10 px-5 py-4 sm:px-6">
-              <h2 id="actions-heading" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+            <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+              <h3 id="actions-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
                 <GlassIcon icon={ArrowDownUp} />
                 Action suite
-              </h2>
-              <p className="mt-1 text-sm text-white/60">
+              </h3>
+              <p className="mt-1 text-xs sm:text-sm text-white/60">
                 Build, preview, and download with one polished flow.
               </p>
             </div>
 
-            <div className="space-y-4 p-5 sm:p-6">
+
+            <div className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-5">
               {state === "processing" && <ProgressBar value={progress} />}
-              {state === "processing" && <p className="text-xs text-white/60">{processingLabel}</p>}
+              {state === "processing" && (
+                <p className="text-[10px] sm:text-xs text-white/60">{processingLabel}</p>
+              )}
+
 
               {state !== "done" ? (
                 <PremiumButton
@@ -430,7 +466,7 @@ export default function PdfMergerClient({ config }: Props) {
                   accent={autoOptimize ? "emerald" : "blue"}
                 />
               ) : (
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:justify-start">
                   <PremiumButton
                     icon={Eye}
                     label="Preview PDF"
@@ -446,7 +482,8 @@ export default function PdfMergerClient({ config }: Props) {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-3">
+
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <MiniPill
                   label="Auto optimize"
                   active={autoOptimize}
@@ -458,6 +495,7 @@ export default function PdfMergerClient({ config }: Props) {
           </section>
         </div>
       </div>
+
 
       {/* Modal for both Preview and Download */}
       {showModal && previewUrl && (

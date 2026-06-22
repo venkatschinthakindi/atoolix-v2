@@ -12,14 +12,13 @@ export function MiniPill({
       type="button"
       onClick={onClick}
       className={[
-        "rounded-2xl border px-3 py-3 text-left transition backdrop-blur-md",
+        "rounded-full border border-white/10 bg-white/5 px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm transition hover:border-blue-400/30 hover:bg-white/10",
         active
-          ? "border-blue-400/25 bg-blue-400/10 text-blue-100"
-          : "border-white/10 bg-white/5 text-white/55",
+          ? "border-blue-400/20 bg-blue-400/10 text-blue-200"
+          : "text-white/60",
       ].join(" ")}
     >
-      <div className="text-[11px] uppercase tracking-[0.18em]">{label}</div>
-      <div className="mt-1 text-sm font-medium">{active ? "Enabled" : "Inactive"}</div>
+      {label}
     </button>
   );
 }

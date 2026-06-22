@@ -67,7 +67,7 @@ export function DropZone({
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div className="space-y-2">
       {/* PREMIUM DROPZONE - Smooth hover (no odd blowing) */}
       <div
         onClick={openPicker}
@@ -75,8 +75,8 @@ export function DropZone({
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
         className={`group relative 
-          flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8 
-          p-4 sm:p-8 lg:p-12 
+          flex flex-col items-center gap-2 sm:flex-row sm:gap-2 lg:gap-2
+          p-2 sm:p-4
           rounded-2xl sm:rounded-3xl 
           border border-white/15 
           overflow-hidden 
@@ -85,7 +85,7 @@ export function DropZone({
           hover:shadow-2xl hover:shadow-blue-500/40 hover:scale-[1.01] hover:border-blue-400/60
           ${
             isDragging
-              ? "border-blue-400/80 bg-gradient-to-br from-indigo-950/98 via-indigo-950/92 to-indigo-950/85 shadow-2xl shadow-blue-500/70 scale-[1.02]"
+              ? "border-blue-400/80 bg-gradient-to-br from-indigo-950/98 via-indigo-950/92 to-indigo-950/85 shadow-2xl shadow-blue-500/70 "
               : "bg-gradient-to-br from-indigo-950/90 via-indigo-950/65 to-indigo-950/40"
           }`}
       >
@@ -98,10 +98,10 @@ export function DropZone({
         {/* UPLOAD PROGRESS */}
         {isUploading && (
           <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-indigo-950/95 backdrop-blur-md flex items-center justify-center z-50">
-            <div className="flex flex-col items-center gap-4 sm:gap-6 p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-white/5 backdrop-blur-sm border border-blue-400/20">
+            <div className="flex flex-col items-center gap-2 sm:gap-6 p-3 sm:p-4 rounded-2xl sm:rounded-3xl bg-white/5 backdrop-blur-sm border border-blue-400/20">
               <div className="relative">
-                <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-full border-4 border-blue-400/20 animate-spin" />
-                <div className="absolute inset-0 h-14 w-14 sm:h-16 sm:w-16 rounded-full border-4 border-blue-400 border-t-transparent animate-spin" />
+                <div className="h-10 w-10 sm:h-10 sm:w-10 rounded-full border-4 border-blue-400/20 animate-spin" />
+                <div className="absolute inset-0 h-10 w-10 sm:h-10 sm:w-10 rounded-full border-4 border-blue-400 border-t-transparent animate-spin" />
               </div>
               
               <div className="w-full max-w-48 sm:max-w-64">
@@ -137,10 +137,10 @@ export function DropZone({
         </div>
 
           {/* Text content */}
-          <div className="flex flex-col items-start gap-2 sm:gap-3 flex-1">
+          <div className="flex flex-col items-center items-start gap-2 sm:gap-3 flex-1">
             <div className="flex items-center gap-2">
               <span className="h-1 w-4 sm:w-6 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full" aria-hidden="true" />
-              <p className="text-white text-lg sm:text-xl lg:text-2xl font-bold tracking-tight drop-shadow-sm leading-tight">
+              <p className="text-white text-md sm:text-md font-bold tracking-tight drop-shadow-sm leading-tight">
                 Drag & Drop Files Here {addMoreFiles === true ? "To Add More" : ""}
               </p>
             </div>
