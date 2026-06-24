@@ -1,7 +1,7 @@
 "use client";
 
 import { ImageFormat } from "@/types/imageConverter.types";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useImperativeHandle, useRef, useState } from "react";
 import Image from 'next/image';
 import { UploadCloud } from "lucide-react";
 
@@ -9,19 +9,25 @@ export function DropZone({
   onFiles,
   validFileTypes = ".jpg,.jpeg,.png,.webp, .pdf",
   allowMultiple = true,
-  addMoreFiles = false
+  addMoreFiles = false,
+  ref = null
 }: {
   onFiles: (files: File[]) => any;
   validFileTypes?: string;
   allowMultiple: boolean;
-  addMoreFiles?: boolean
+  addMoreFiles?: boolean;
+  ref?: any
 }) {
+
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  useImperativeHandle(ref, () => ({
+      openFilePicker: () => openPicker(),
+    }));
   const validatePDF = (file: File) => {
     const allowedMimeTypes = ["application/pdf"];
     const allowedExtensions = validFileTypes.split(",").map((ext) => ext.trim().toLowerCase());

@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowDownUp,
   CheckCircle2,
@@ -12,10 +12,12 @@ import {
   Files,
   PanelBottomOpen,
   PanelTopOpen,
+  RotateCcw,
   Sparkles,
   Wand2,
   ShieldCheck,
   Clock3,
+  Plus,
 } from "lucide-react";
 import { rgb } from "pdf-lib";
 
@@ -530,6 +532,22 @@ export default function PdfMergerClient({ config }: Props) {
       setPreviewUrl(null);
     }
   };
+  const dropZoneRef = useRef<any>(null);
+
+  // Reset only the generated PDF so the user can tweak options and rebuild
+  // without losing their uploaded files or header/footer settings.
+  const resetPdf = () => {
+    setMergedBlob(null);
+    setState(files.length > 0 ? "ready" : "idle");
+    setProgress(0);
+    setProcessingLabel("Preparing files...");
+    setAutoDownloadFailed(false);
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+      setPreviewUrl(null);
+    }
+    setShowModal(false);
+  };
 
   const canBuild = files.length > 0 && state !== "processing";
 
@@ -586,9 +604,20 @@ export default function PdfMergerClient({ config }: Props) {
                     <span>Clear All</span>
                   </button>
                 )}
+                {files.length > 0 && (
+                  <button
+                      type="button"
+                      onClick={() => dropZoneRef.current?.openFilePicker()}
+                      className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
+                    >
+                      <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
+                      <span>Add More Files</span>
+                    </button>
+                )}
               </div>
 
               <DropZone
+                ref={dropZoneRef}
                 key={dropzoneKey}
                 allowMultiple
                 validFileTypes=".pdf"
@@ -706,38 +735,50 @@ export default function PdfMergerClient({ config }: Props) {
               )}
 
               {state !== "done" ? (
-                <PremiumButton
-                  icon={Wand2}
-                  label={autoOptimize ? "Build PDF + Optimize" : "Build PDF"}
-                  onClick={merge}
-                  disabled={!canBuild}
-                  accent={autoOptimize ? "emerald" : "blue"}
-                />
+                <>
+                  <PremiumButton
+                    icon={Wand2}
+                    label={autoOptimize ? "Build PDF + Optimize" : "Build PDF"}
+                    onClick={merge}
+                    disabled={!canBuild}
+                    accent={autoOptimize ? "emerald" : "blue"}
+                  />
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                    <MiniPill
+                      label="Auto optimize"
+                      active={autoOptimize}
+                      onClick={() => setAutoOptimize((v) => !v)}
+                    />
+                    <MiniPill label="Ready" active={files.length > 0} />
+                  </div>
+                </>
               ) : (
-                <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:justify-start">
-                  <PremiumButton
-                    icon={Eye}
-                    label="Preview PDF"
-                    onClick={() => mergedBlob && openPreview(mergedBlob)}
-                    accent="violet"
-                  />
-                  <PremiumButton
-                    icon={Download}
-                    label={autoOptimize ? "Download Optimized PDF" : "Download PDF"}
-                    onClick={() => mergedBlob && openDownloadModel(mergedBlob)}
-                    accent="emerald"
-                  />
-                </div>
+                <>
+                  <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:justify-start">
+                    <PremiumButton
+                      icon={Eye}
+                      label="Preview PDF"
+                      onClick={() => mergedBlob && openPreview(mergedBlob)}
+                      accent="violet"
+                    />
+                    <PremiumButton
+                      icon={Download}
+                      label={autoOptimize ? "Download Optimized PDF" : "Download PDF"}
+                      onClick={() => mergedBlob && openDownloadModel(mergedBlob)}
+                      accent="emerald"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                    <PremiumButton
+                      icon={RotateCcw}
+                      label={"Reset PDF"}
+                      onClick={resetPdf}
+                      accent="emerald"
+                    />
+                    <MiniPill label="Ready" active={files.length > 0} />
+                  </div>
+                </>
               )}
-
-              <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                <MiniPill
-                  label="Auto optimize"
-                  active={autoOptimize}
-                  onClick={() => setAutoOptimize((v) => !v)}
-                />
-                <MiniPill label="Ready" active={files.length > 0} />
-              </div>
             </div>
           </section>
         </div>
