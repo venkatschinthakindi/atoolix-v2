@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { asyncGetJsPDFLib } from "@/lib/jsPdfLibUtility";
 import { asyncGetJsPDFAutotableLib } from "@/lib/jsPdfAutotableUtility";
 import { initChartJS } from "@/lib/chartJsUtility";
@@ -20,10 +20,18 @@ function isVisible(el: HTMLElement) {
   );
 }
 
-export async function FinancePdfExport({
+export function FinancePdfExport({
   filename = "finance-report.pdf",
 }: Props) {
-  await initChartJS();
+  const [initialized, setInitialized] = useState(false);
+  // Initialize chart.js on mount
+  useEffect(() => {
+    const initialize = async () => {
+      await initChartJS();
+      setInitialized(true);
+    };
+    initialize();
+  }, []);
   const [loading, setLoading] = useState(false);
 
   const handleExport = async () => {
@@ -340,9 +348,11 @@ export async function FinancePdfExport({
       disabled={loading}
       className="button-primary-transparent"
     >
+      <span className="px-2">💾</span>
       {loading
         ? "Generating Report..."
         : "Download Report"}
+        
     </button>
   );
 }

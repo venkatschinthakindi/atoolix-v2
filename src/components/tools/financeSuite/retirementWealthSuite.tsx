@@ -4,16 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { FinanceChart } from "@/components/tools/financeSuite/financeChart";
 import { FinancePdfExport } from "@/components/tools/financeSuite/financePdfExport";
 import { Field } from "@/components/ui/field";
-
-const formatCurrency = (value: number) => {
-  if (Number.isNaN(value) || !Number.isFinite(value)) return "-";
-  return `₹ ${value.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
-};
-
-const formatPercent = (value: number) => {
-  if (Number.isNaN(value) || !Number.isFinite(value)) return "-";
-  return `${value.toFixed(2)}%`;
-};
+import { formatCurrency } from "@/utility/formatCurrencyUtility";
 
 function calculateMonthlySavings(goal: number, current: number, annualRate: number, years: number) {
   const r = annualRate / 100 / 12;

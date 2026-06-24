@@ -1,4 +1,6 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import { initChartJS } from "@/lib/chartJsUtility";
 import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
 
@@ -18,9 +20,32 @@ type Props = {
   chartType?: "line" | "bar";
 };
 
-export async function FinanceChart({ title, labels, datasets, chartType = "line" }: Props) {
-  await initChartJS();
-  const { Line, Bar, Pie, Doughnut } = await asyncGetReactChartJsLib();
+export function FinanceChart({ title, labels, datasets, chartType = "line" }: Props) {
+  const [ChartLib, setChartLib] = useState<null | Awaited<ReturnType<typeof asyncGetReactChartJsLib>>>(null);
+
+  useEffect(() => {
+    // Initialize Chart.js once
+    initChartJS();
+
+    // Load React Chart.js components asynchronously
+    async function loadLibs() {
+      const lib = await asyncGetReactChartJsLib();
+      setChartLib(lib);
+    }
+
+    loadLibs();
+  }, []);
+
+  if (!ChartLib) {
+    return (
+      <div className="rounded-xl border border-white/10 bg-surface p-4 text-center text-white/70">
+        Loading charts...
+      </div>
+    );
+  }
+
+  const { Line, Bar } = ChartLib;
+
   const data = {
     labels,
     datasets: datasets.map((dataset) => ({
@@ -49,7 +74,7 @@ export async function FinanceChart({ title, labels, datasets, chartType = "line"
       y: { beginAtZero: true },
     },
   };
-  
+
   return (
     <div className="rounded-xl border border-white/10 bg-surface p-4">
       {title ? <div className="text-sm text-white/70 mb-4">{title}</div> : null}

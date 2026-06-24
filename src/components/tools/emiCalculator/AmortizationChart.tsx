@@ -1,7 +1,6 @@
 "use client";
 
 import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
-// import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type PieChartData = {

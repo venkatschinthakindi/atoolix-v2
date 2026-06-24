@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import AmortizationChart from "@/components/tools/emiCalculator/amortizationChart";
+import { formatCurrency } from "@/utility/formatCurrencyUtility";
 
 /* ─────────────────────────────────────────────
    Types
@@ -52,12 +53,6 @@ type PrepaymentAdjustment = {
 /* ─────────────────────────────────────────────
    Helpers
 ───────────────────────────────────────────── */
-function formatNumber(n: number) {
-  return n.toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-}
 
 function computeEMI(principal: number, annualRatePct: number, months: number) {
   const r = annualRatePct / 12 / 100;
@@ -223,7 +218,7 @@ function amortizationScheduleWithPrepayments(
       const prefix = event.type === "monthly" ? "Monthly" : "One-time";
       const modeText =
         event.mode === "emi" ? "EMI reduction" : "Principal reduction";
-      prepaymentLabel += `${prefix} ${modeText} ₹${formatNumber(actualAmount)}${
+      prepaymentLabel += `${prefix} ${modeText} ₹${formatCurrency(actualAmount)}${
         event.type === "one-time"
           ? ` on month ${event.month}`
           : ` from month ${event.month}`
@@ -233,13 +228,13 @@ function amortizationScheduleWithPrepayments(
     if (extraMonthlyPayment > 0) {
       payment += extraMonthlyPayment;
       prepaymentAmount += extraMonthlyPayment;
-      prepaymentLabel += `Extra monthly ₹${formatNumber(extraMonthlyPayment)} ; `;
+      prepaymentLabel += `Extra monthly ₹${formatCurrency(extraMonthlyPayment)} ; `;
     }
 
     if (m === months && balloonPayment > 0) {
       payment += balloonPayment;
       prepaymentAmount += balloonPayment;
-      prepaymentLabel += `Balloon ₹${formatNumber(balloonPayment)} ; `;
+      prepaymentLabel += `Balloon ₹${formatCurrency(balloonPayment)} ; `;
     }
 
     if (balance + interest <= payment) payment = balance + interest;
@@ -529,16 +524,16 @@ export default function EMICalculator({
           Estimated Monthly EMI
         </div>
         <div className="text-4xl font-bold text-white">
-          ₹ {formatNumber(base.emi)}
+          ₹ {formatCurrency(base.emi)}
         </div>
         <div className="grid grid-cols-2 gap-3 mt-5 pt-2">
           <StatCard
             label="Total Interest"
-            value={`₹ ${formatNumber(base.cumulativeInterest.at(-1) ?? 0)}`}
+            value={`₹ ${formatCurrency(base.cumulativeInterest.at(-1) ?? 0)}`}
           />
           <StatCard
             label="Total Payment"
-            value={`₹ ${formatNumber(base.totalPayment ?? base.emi * base.monthsUsed)}`}
+            value={`₹ ${formatCurrency(base.totalPayment ?? base.emi * base.monthsUsed)}`}
           />
         </div>
       </div>
@@ -804,16 +799,16 @@ export default function EMICalculator({
             <div className="grid gap-3 sm:grid-cols-2">
               <StatCard
                 label="Total Prepayments Applied"
-                value={`₹ ${formatNumber(totalPrepaymentAmount)}`}
+                value={`₹ ${formatCurrency(totalPrepaymentAmount)}`}
               />
               <StatCard
                 label="Effective EMI"
-                value={`₹ ${formatNumber(finalEmi)}`}
+                value={`₹ ${formatCurrency(finalEmi)}`}
                 accent
               />
               <StatCard
                 label="Interest Saved"
-                value={`₹ ${formatNumber(interestSaved)}`}
+                value={`₹ ${formatCurrency(interestSaved)}`}
                 accent
               />
               <StatCard
@@ -831,22 +826,22 @@ export default function EMICalculator({
               <div className="grid gap-y-2 gap-x-4 text-xs text-white/60 sm:grid-cols-2">
                 <div className="flex justify-between">
                   <span>Base EMI</span>
-                  <span className="text-white">₹ {formatNumber(base.emi)}</span>
+                  <span className="text-white">₹ {formatCurrency(base.emi)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Base total interest</span>
                   <span className="text-white">
-                    ₹ {formatNumber(base.cumulativeInterest.at(-1) ?? 0)}
+                    ₹ {formatCurrency(base.cumulativeInterest.at(-1) ?? 0)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Adjusted EMI</span>
-                  <span className="text-white">₹ {formatNumber(finalEmi)}</span>
+                  <span className="text-white">₹ {formatCurrency(finalEmi)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Adjusted total interest</span>
                   <span className="text-white">
-                    ₹ {formatNumber(adjusted.cumulativeInterest.at(-1) ?? 0)}
+                    ₹ {formatCurrency(adjusted.cumulativeInterest.at(-1) ?? 0)}
                   </span>
                 </div>
               </div>
@@ -885,14 +880,14 @@ export default function EMICalculator({
                         >
                           <td className="py-2 pr-4">{adj.month}</td>
                           <td className="py-2 pr-4">
-                            ₹ {formatNumber(adj.requestedAmount)}
+                            ₹ {formatCurrency(adj.requestedAmount)}
                           </td>
                           <td className="py-2 pr-4">
-                            ₹ {formatNumber(adj.appliedAmount)}
+                            ₹ {formatCurrency(adj.appliedAmount)}
                           </td>
                           <td className="py-2 pr-4">
                             {adj.capAmount
-                              ? `₹ ${formatNumber(adj.capAmount)}`
+                              ? `₹ ${formatCurrency(adj.capAmount)}`
                               : "—"}
                           </td>
                           <td className="py-2">{adj.note}</td>
@@ -1052,16 +1047,16 @@ export default function EMICalculator({
                 <div className="flex justify-between">
                   <span>Base Remaining</span>
                   <span className="text-white">
-                    ₹ {formatNumber(base.principalRemaining[row.month - 1] ?? 0)}
+                    ₹ {formatCurrency(base.principalRemaining[row.month - 1] ?? 0)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>With Prepay</span>
-                  <span className="text-white">₹ {formatNumber(row.balance)}</span>
+                  <span className="text-white">₹ {formatCurrency(row.balance)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Payment</span>
-                  <span className="text-white">₹ {formatNumber(row.payment)}</span>
+                  <span className="text-white">₹ {formatCurrency(row.payment)}</span>
                 </div>
                 {row.prepaymentLabel && (
                   <div className="mt-2 pt-2 border-t border-white/10 text-yellow-300">
@@ -1105,11 +1100,11 @@ export default function EMICalculator({
                   <td className="py-2 pr-4">{row.month}</td>
                   <td className="py-2 pr-4">
                     {base.principalRemaining[row.month - 1] !== undefined
-                      ? `₹ ${formatNumber(base.principalRemaining[row.month - 1])}`
+                      ? `₹ ${formatCurrency(base.principalRemaining[row.month - 1])}`
                       : "—"}
                   </td>
-                  <td className="py-2 pr-4">₹ {formatNumber(row.balance)}</td>
-                  <td className="py-2 pr-4">₹ {formatNumber(row.payment)}</td>
+                  <td className="py-2 pr-4">₹ {formatCurrency(row.balance)}</td>
+                  <td className="py-2 pr-4">₹ {formatCurrency(row.payment)}</td>
                   <td className="py-2 text-yellow-300/80">
                     {row.prepaymentLabel || "—"}
                   </td>

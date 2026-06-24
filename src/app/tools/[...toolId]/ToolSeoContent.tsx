@@ -15,6 +15,11 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
     { ssr: true }
   ),
+  "calculator/roi-calculator": dynamic(
+    () => import("@/components/tools/financeSuite/investmentReturnsSuiteSeoContent"),
+    { ssr: true }
+  ),
+  
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
