@@ -17,7 +17,7 @@ import {
   ShieldCheck,
   Clock3,
 } from "lucide-react";
-import { rgb, StandardFonts } from "pdf-lib";
+import { rgb } from "pdf-lib";
 
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
@@ -30,7 +30,6 @@ import { PremiumButton } from "@/components/ui/premiumButton";
 import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
 import { MergeOptionCard } from "./ui/mergeOptionCard";
-import html2canvas from "html2canvas";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
@@ -64,33 +63,115 @@ function premiumShellClass() {
   return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
 }
 
-async function htmlToImageBytes(html: string): Promise<Uint8Array> {
+// ─── oklch sanitiser ────────────────────────────────────────────────────────
+// html2canvas cannot parse oklch() (used by Tailwind v4 / modern browsers).
+// We walk every element in the cloned document that html2canvas gives us via
+// `onclone` and replace any oklch computed value with a safe rgb() fallback
+// by letting the browser itself convert it through a temporary canvas trick.
+function oklchToRgb(value: string): string {
+  // Ask the browser to resolve the color by painting it onto a 1×1 canvas
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 1;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = value;          // browser resolves oklch → internal sRGB
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+    return `rgb(${r},${g},${b})`;
+  } catch {
+    return "rgb(0,0,0)";
+  }
+}
+
+const COLOR_PROPS = [
+  "color",
+  "backgroundColor",
+  "borderTopColor",
+  "borderRightColor",
+  "borderBottomColor",
+  "borderLeftColor",
+  "outlineColor",
+  "textDecorationColor",
+  "caretColor",
+  "columnRuleColor",
+] as const;
+
+function sanitizeClonedDocument(clonedDoc: Document) {
+  const elements = clonedDoc.querySelectorAll<HTMLElement>("*");
+  elements.forEach((el) => {
+    const computed = window.getComputedStyle(el);
+    COLOR_PROPS.forEach((prop) => {
+      const val = computed[prop as keyof CSSStyleDeclaration] as string;
+      if (val && val.includes("oklch")) {
+        (el.style as any)[prop] = oklchToRgb(val);
+      }
+    });
+    // Also patch inline style attribute in case it carries oklch literals
+    const inlineStyle = el.getAttribute("style") || "";
+    if (inlineStyle.includes("oklch")) {
+      el.setAttribute(
+        "style",
+        inlineStyle.replace(/oklch\([^)]+\)/g, (match) => oklchToRgb(match))
+      );
+    }
+  });
+}
+// ────────────────────────────────────────────────────────────────────────────
+
+// Render an HTML string to a PNG Uint8Array using html2canvas.
+// `maxWidth` is the pixel width of the off-screen container.
+async function htmlToPngBytes(
+  html: string,
+  maxWidth = 794   // ≈ A4 at 96 dpi
+): Promise<Uint8Array> {
+  const html2canvas = (await import("html2canvas")).default;
+
   const container = document.createElement("div");
-  container.style.cssText = `
-    position: fixed; top: -9999px; left: -9999px;
-    width: 547px; padding: 8px; background: white;
-    font-family: sans-serif;
-  `;
+  container.style.cssText = [
+    "position:fixed",
+    "top:-99999px",
+    "left:-99999px",
+    `width:${maxWidth}px`,
+    "padding:12px 16px",
+    "background:#ffffff",
+    "font-family:sans-serif",
+    "font-size:13px",
+    "line-height:1.5",
+    "color:#000000",
+    "box-sizing:border-box",
+  ].join(";");
   container.innerHTML = html;
   document.body.appendChild(container);
 
-  const canvas = await html2canvas(container, { scale: 2, useCORS: true });
-  document.body.removeChild(container);
+  try {
+    const canvas = await html2canvas(container, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,
+      backgroundColor: "#ffffff",
+      // ← this is the key: html2canvas gives us the cloned doc before it
+      //   reads any computed styles, so we can patch oklch out first.
+      onclone: (_clonedDoc: Document, clonedEl: HTMLElement) => {
+        // Patch the container itself
+        clonedEl.style.background = "#ffffff";
+        clonedEl.style.color = "#000000";
+        // Patch every descendant
+        sanitizeClonedDocument(clonedEl.ownerDocument);
+      },
+    });
 
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      blob!.arrayBuffer().then((buf) => resolve(new Uint8Array(buf)));
-    }, "image/png");
-  });
+    return new Promise<Uint8Array>((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (!blob) return reject(new Error("canvas.toBlob returned null"));
+        blob.arrayBuffer().then((buf) => resolve(new Uint8Array(buf)));
+      }, "image/png");
+    });
+  } finally {
+    document.body.removeChild(container);
+  }
 }
 
-async function htmlToText(html: string) {
-  if (typeof window === "undefined") return html;
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  return (div.textContent || div.innerText || "").trim();
-}
-
+// ─── Main header/footer logic ────────────────────────────────────────────────
 async function addHeaderFooterToPdf(
   PDFDocument: any,
   mergedPdf: any,
@@ -103,10 +184,27 @@ async function addHeaderFooterToPdf(
     footerFile: File | null;
   }
 ) {
-  const headerFont = await mergedPdf.embedFont(StandardFonts.HelveticaBold);
-  const footerFont = await mergedPdf.embedFont(StandardFonts.Helvetica);
+  // Pre-render HTML → PNG bytes once (not inside the page loop)
+  const headerPngBytes =
+    opts.headerMode === "text-overlay" || opts.headerMode === "text-separate-page"
+      ? await htmlToPngBytes(opts.headerHtml)
+      : null;
 
-  // Pre-load file PDFs once so we don't re-read them inside the loop
+  const footerPngBytes =
+    opts.footerMode === "text-overlay" || opts.footerMode === "text-separate-page"
+      ? await htmlToPngBytes(opts.footerHtml)
+      : null;
+
+  // Embed PNG images into the PDF document once
+  const headerPngImage = headerPngBytes
+    ? await mergedPdf.embedPng(headerPngBytes)
+    : null;
+
+  const footerPngImage = footerPngBytes
+    ? await mergedPdf.embedPng(footerPngBytes)
+    : null;
+
+  // Pre-load file PDFs once
   const headerFilePdf =
     opts.headerFile &&
     (opts.headerMode === "file-overlay" || opts.headerMode === "file-separate-page")
@@ -119,61 +217,55 @@ async function addHeaderFooterToPdf(
       ? await PDFDocument.load(await opts.footerFile.arrayBuffer())
       : null;
 
-  // Snapshot original page count before we start inserting/appending
+  // Snapshot original page count before inserting/appending anything
   const originalCount = mergedPdf.getPageCount();
 
-  // ── OVERLAY PASS — iterate every original page ──────────────────────────────
+  // ── OVERLAY PASS — iterate every original page ────────────────────────────
   for (let i = 0; i < originalCount; i++) {
     const page = mergedPdf.getPage(i);
     const { width, height } = page.getSize();
 
-    // TEXT overlay – header: stamp text at the top of every page
-    if (opts.headerMode === "text-overlay") {
-      const headerText = await htmlToText(opts.headerHtml);
-      page.drawText(headerText || " ", {
+    // TEXT overlay – header: stamp rendered HTML image at the top of every page
+    if (opts.headerMode === "text-overlay" && headerPngImage) {
+      // Scale image to fit page width with 24pt side margins, max 80pt tall
+      const maxH = Math.min(80, height * 0.12);
+      const dims = headerPngImage.scaleToFit(width - 48, maxH);
+      page.drawImage(headerPngImage, {
         x: 24,
-        y: height - 20,       // 20pt from the top edge
-        size: 10,
-        font: headerFont,
-        color: rgb(0, 0, 0),
-        maxWidth: width - 48,
-        lineHeight: 14,
+        y: height - dims.height - 8,   // 8pt gap from top edge
+        width: dims.width,
+        height: dims.height,
       });
     }
 
-    // TEXT overlay – footer: stamp text at the bottom of every page
-    if (opts.footerMode === "text-overlay") {
-      const footerText = await htmlToText(opts.footerHtml);
-      page.drawText(footerText || " ", {
+    // TEXT overlay – footer: stamp rendered HTML image at the bottom of every page
+    if (opts.footerMode === "text-overlay" && footerPngImage) {
+      const maxH = Math.min(80, height * 0.12);
+      const dims = footerPngImage.scaleToFit(width - 48, maxH);
+      page.drawImage(footerPngImage, {
         x: 24,
-        y: 10,                // 10pt from the bottom edge
-        size: 10,
-        font: footerFont,
-        color: rgb(0, 0, 0),
-        maxWidth: width - 48,
-        lineHeight: 14,
+        y: 8,                           // 8pt gap from bottom edge
+        width: dims.width,
+        height: dims.height,
       });
     }
 
-    // FILE overlay – header: embed the first page of the header file as a
-    // proportionally-scaled banner at the top of every page
+    // FILE overlay – header: embed first page of header PDF as a banner at top
     if (opts.headerMode === "file-overlay" && headerFilePdf) {
       const srcPage = headerFilePdf.getPage(0);
       const embedded = await mergedPdf.embedPage(srcPage);
       const srcSize = srcPage.getSize();
-      // Cap banner at 15 % of the destination page height
       const bannerHeight = Math.min(srcSize.height, height * 0.15);
       const scale = bannerHeight / srcSize.height;
       page.drawPage(embedded, {
         x: 0,
-        y: height - bannerHeight,   // anchor to the top of the page
+        y: height - bannerHeight,
         width: srcSize.width * scale,
         height: bannerHeight,
       });
     }
 
-    // FILE overlay – footer: embed the first page of the footer file as a
-    // proportionally-scaled banner at the bottom of every page
+    // FILE overlay – footer: embed first page of footer PDF as a banner at bottom
     if (opts.footerMode === "file-overlay" && footerFilePdf) {
       const srcPage = footerFilePdf.getPage(0);
       const embedded = await mergedPdf.embedPage(srcPage);
@@ -182,54 +274,49 @@ async function addHeaderFooterToPdf(
       const scale = bannerHeight / srcSize.height;
       page.drawPage(embedded, {
         x: 0,
-        y: 0,                        // anchor to the bottom of the page
+        y: 0,
         width: srcSize.width * scale,
         height: bannerHeight,
       });
     }
   }
 
-  // ── SEPARATE PAGE – HEADER (insert at the very beginning) ──────────────────
+  // ── SEPARATE PAGE – HEADER (insert at the very beginning) ────────────────
 
-  if (opts.headerMode === "text-separate-page") {
-    // insertPage(0) puts this page before all existing pages
+  if (opts.headerMode === "text-separate-page" && headerPngImage) {
     const newPage = mergedPdf.insertPage(0, [595.28, 841.89]);
-    const font = await mergedPdf.embedFont(StandardFonts.Helvetica);
-    const body = await htmlToText(opts.headerHtml);
-    newPage.drawText(body.trim() || "HEADER", {
+    const pw = newPage.getWidth();
+    const ph = newPage.getHeight();
+    const dims = headerPngImage.scaleToFit(pw - 64, ph - 120);
+    newPage.drawImage(headerPngImage, {
       x: 32,
-      y: newPage.getHeight() - 60,
-      size: 14,
-      font,
-      color: rgb(0, 0, 0),
-      maxWidth: newPage.getWidth() - 64,
-      lineHeight: 18,
+      y: ph - dims.height - 60,   // start 60pt from the top
+      width: dims.width,
+      height: dims.height,
     });
   }
 
   if (opts.headerMode === "file-separate-page" && headerFilePdf) {
-    // Copy all pages from the header file and insert them at position 0, in order
     const copied = await mergedPdf.copyPages(
       headerFilePdf,
       headerFilePdf.getPageIndices()
     );
-    copied.forEach((page: any, idx: number) => mergedPdf.insertPage(idx, page));
+    // Insert header pages at position 0, in order
+    copied.forEach((p: any, idx: number) => mergedPdf.insertPage(idx, p));
   }
 
-  // ── SEPARATE PAGE – FOOTER (append at the very end) ────────────────────────
+  // ── SEPARATE PAGE – FOOTER (append at the very end) ──────────────────────
 
-  if (opts.footerMode === "text-separate-page") {
+  if (opts.footerMode === "text-separate-page" && footerPngImage) {
     const newPage = mergedPdf.addPage([595.28, 841.89]);
-    const font = await mergedPdf.embedFont(StandardFonts.Helvetica);
-    const body = await htmlToText(opts.footerHtml);
-    newPage.drawText(body.trim() || "FOOTER", {
+    const pw = newPage.getWidth();
+    const ph = newPage.getHeight();
+    const dims = footerPngImage.scaleToFit(pw - 64, ph - 120);
+    newPage.drawImage(footerPngImage, {
       x: 32,
-      y: newPage.getHeight() - 60,
-      size: 14,
-      font,
-      color: rgb(0, 0, 0),
-      maxWidth: newPage.getWidth() - 64,
-      lineHeight: 18,
+      y: ph - dims.height - 60,
+      width: dims.width,
+      height: dims.height,
     });
   }
 
@@ -238,9 +325,11 @@ async function addHeaderFooterToPdf(
       footerFilePdf,
       footerFilePdf.getPageIndices()
     );
-    copied.forEach((page: any) => mergedPdf.addPage(page));
+    copied.forEach((p: any) => mergedPdf.addPage(p));
   }
 }
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 export default function PdfMergerClient({ config }: Props) {
   const [dropzoneKey, setDropzoneKey] = useState(0);
@@ -355,11 +444,11 @@ export default function PdfMergerClient({ config }: Props) {
         copied.forEach((page: any) => merged.addPage(page));
       }
 
-      setProgress(10 + ((i + 1) / files.length) * 70);
+      setProgress(10 + ((i + 1) / files.length) * 65);
     }
 
-    setProcessingLabel("Applying headers and footers...");
-    setProgress(85);
+    setProcessingLabel("Rendering headers and footers...");
+    setProgress(80);
 
     await addHeaderFooterToPdf(PDFDocument, merged, {
       headerMode,
