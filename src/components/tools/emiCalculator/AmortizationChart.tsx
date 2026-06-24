@@ -1,6 +1,8 @@
 "use client";
 
 import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
+// import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type PieChartData = {
   labels: string[];
@@ -23,7 +25,7 @@ type Props = {
   showPrepayInterest?: boolean;
 };
 
-export default async function AmortizationChart({
+export default function AmortizationChart({
   labels,
   principalSeries,
   interestSeries,
@@ -37,9 +39,42 @@ export default async function AmortizationChart({
   showPrepayPrincipal = true,
   showPrepayInterest = true,
 }: Props) {
-  const datasets: any[] = [];
-  const { Line, Bar, Pie, Doughnut } = await asyncGetReactChartJsLib();
-  const getStyle = (color: string, fillColor: string, dashed = false) => {
+  const chartJsLibRef = useRef<any>(null);
+
+  const [charts, setCharts] = useState<{
+    Line: any;
+    Bar: any;
+    Pie: any;
+    Doughnut: any;
+  } | null>(null);
+
+  const getChartLib = useCallback(async () => {
+    if (!chartJsLibRef.current) {
+      chartJsLibRef.current = await asyncGetReactChartJsLib();
+    }
+
+    return chartJsLibRef.current;
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+
+    getChartLib().then((lib) => {
+      if (mounted) {
+        setCharts(lib);
+      }
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, [getChartLib]);
+
+  const getStyle = (
+    color: string,
+    fillColor: string,
+    dashed = false
+  ) => {
     if (chartType === "bar") {
       return {
         type: "bar",
@@ -97,6 +132,8 @@ export default async function AmortizationChart({
     };
   };
 
+  const datasets: any[] = [];
+
   if (showBasePrincipal) {
     datasets.push({
       label: "Principal Remaining (Base)",
@@ -147,7 +184,11 @@ export default async function AmortizationChart({
     });
   }
 
-  const data = { labels, datasets };
+  const data = {
+    labels,
+    datasets,
+  };
+
   const pieChart = {
     labels: pieData?.labels ?? ["Principal", "Interest"],
     datasets: [
@@ -164,35 +205,70 @@ export default async function AmortizationChart({
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    interaction: { mode: "index" as const, intersect: false },
+    interaction: {
+      mode: "index" as const,
+      intersect: false,
+    },
     plugins: {
-      legend: { position: "top" as const, labels: { boxWidth: 12 } },
+      legend: {
+        position: "top" as const,
+        labels: {
+          boxWidth: 12,
+        },
+      },
       tooltip: {
         callbacks: {
           title: (items: any[]) => {
             if (chartType === "pie" || chartType === "doughnut") {
               return "";
             }
+
             const idx = items[0]?.dataIndex ?? 0;
             return `Month ${labels[idx] ?? idx + 1}`;
           },
           label: (ctx: any) => {
             const value = ctx.formattedValue;
+
             if (chartType === "pie" || chartType === "doughnut") {
               const section = ctx.label ?? ctx.dataset.label ?? "";
               return `${section}: ${value}`;
             }
-            const label = ctx.dataset.label || "";
-            return `${label}: ${value}`;
+
+            return `${ctx.dataset.label}: ${value}`;
           },
         },
       },
     },
-    scales: {
-      x: { ticks: { maxRotation: 0, minRotation: 0 } },
-      y: { beginAtZero: true },
-    },
+    scales:
+      chartType === "pie" || chartType === "doughnut"
+        ? undefined
+        : {
+            x: {
+              ticks: {
+                maxRotation: 0,
+                minRotation: 0,
+              },
+            },
+            y: {
+              beginAtZero: true,
+            },
+          },
   };
+
+  if (!charts) {
+    return (
+      <div className="rounded-md border border-gray-700 bg-gray-800 p-4">
+        <div
+          style={{ height: 360 }}
+          className="flex items-center justify-center"
+        >
+          Loading chart...
+        </div>
+      </div>
+    );
+  }
+
+  const { Line, Bar, Pie, Doughnut } = charts;
 
   return (
     <div className="rounded-md border border-gray-700 bg-gray-800 p-4">

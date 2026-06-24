@@ -109,7 +109,7 @@ export default function MergePdfSeoContent() {
     offers: {
       "@type": "Offer",
       price: "0",
-      priceCurrency: "USD",
+      priceCurrency: "INR",
     },
     description:
       "Free online tool to merge PDF files, reorder documents, select specific pages, and add custom headers/footers. All processing happens locally in the browser.",

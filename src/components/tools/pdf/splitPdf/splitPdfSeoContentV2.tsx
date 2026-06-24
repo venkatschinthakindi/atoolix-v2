@@ -108,7 +108,7 @@ export default function SplitPdfSeoContentV2() {
     offers: {
       "@type": "Offer",
       price: "0",
-      priceCurrency: "USD",
+      priceCurrency: "INR",
     },
     description:
       "Free online tool to split PDF files, extract specific pages using flexible patterns, and export results as a single PDF or ZIP of separate files. All processing happens locally in the browser.",

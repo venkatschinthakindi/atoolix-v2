@@ -10,6 +10,11 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/pdf/mergePdf/mergePdfSeoContent"),
     { ssr: true }
   ),
+
+  "calculator/emi-calculator": dynamic(
+    () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {

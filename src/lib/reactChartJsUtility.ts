@@ -1,8 +1,15 @@
 let reactChartJsLibPromise: Promise<typeof import("react-chartjs-2")> | null = null;
 
 export async function asyncGetReactChartJsLib() {
-  const { Line, Bar, Pie, Doughnut } =
-    await (reactChartJsLibPromise ??= import("react-chartjs-2"));
+  const chartJs = await import("chart.js");
+  const reactChartJs2 = await import("react-chartjs-2");
 
-  return reactChartJsLibPromise;
+  chartJs.Chart.register(...chartJs.registerables);
+
+  return {
+    Line: reactChartJs2.Line,
+    Bar: reactChartJs2.Bar,
+    Pie: reactChartJs2.Pie,
+    Doughnut: reactChartJs2.Doughnut,
+  };
 }
