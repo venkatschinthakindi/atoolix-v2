@@ -226,7 +226,7 @@ const FlowRow = memo(function FlowRow({
           type="date"
           value={flow.date}
           onChange={(e) => onChange(index, "date", e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
+          className="w-full cusrsor-pointer rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
         />
       </Field>
     </div>
