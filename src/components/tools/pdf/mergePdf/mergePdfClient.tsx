@@ -1,7 +1,14 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+  memo,
+} from "react";
 import {
   ArrowDownUp,
   CheckCircle2,
@@ -19,7 +26,6 @@ import {
   Clock3,
   Plus,
 } from "lucide-react";
-import { rgb } from "pdf-lib";
 
 import { DropZone } from "@/components/ui/dropZone";
 import { ProgressBar } from "@/components/ui/progressBar";
@@ -33,11 +39,13 @@ import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
 import { MergeOptionCard } from "./ui/mergeOptionCard";
 
+// ─── Lazy-loaded heavy modules ───────────────────────────────────────────────
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
   { loading: () => null, ssr: false }
 );
 
+// ─── Types ───────────────────────────────────────────────────────────────────
 type MergeMode =
   | "none"
   | "text-overlay"
@@ -52,6 +60,9 @@ type FileItem = {
   totalPages?: number;
 };
 
+type AppState = "idle" | "ready" | "processing" | "done";
+
+// ─── Helpers (pure, outside component) ──────────────────────────────────────
 function createFileItem(file: File): FileItem {
   return {
     id: `${file.name}-${file.size}-${file.lastModified}-${crypto.randomUUID()}`,
@@ -65,115 +76,111 @@ function premiumShellClass() {
   return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
 }
 
-// ─── oklch sanitiser ────────────────────────────────────────────────────────
-// html2canvas cannot parse oklch() (used by Tailwind v4 / modern browsers).
-// We walk every element in the cloned document that html2canvas gives us via
-// `onclone` and replace any oklch computed value with a safe rgb() fallback
-// by letting the browser itself convert it through a temporary canvas trick.
-function oklchToRgb(value: string): string {
-  // Ask the browser to resolve the color by painting it onto a 1×1 canvas
-  try {
-    const canvas = document.createElement("canvas");
-    canvas.width = canvas.height = 1;
-    const ctx = canvas.getContext("2d")!;
-    ctx.fillStyle = value;          // browser resolves oklch → internal sRGB
-    ctx.fillRect(0, 0, 1, 1);
-    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-    return `rgb(${r},${g},${b})`;
-  } catch {
-    return "rgb(0,0,0)";
-  }
-}
-
-const COLOR_PROPS = [
-  "color",
-  "backgroundColor",
-  "borderTopColor",
-  "borderRightColor",
-  "borderBottomColor",
-  "borderLeftColor",
-  "outlineColor",
-  "textDecorationColor",
-  "caretColor",
-  "columnRuleColor",
-] as const;
-
-function sanitizeClonedDocument(clonedDoc: Document) {
-  const elements = clonedDoc.querySelectorAll<HTMLElement>("*");
-  elements.forEach((el) => {
-    const computed = window.getComputedStyle(el);
-    COLOR_PROPS.forEach((prop) => {
-      const val = computed[prop as keyof CSSStyleDeclaration] as string;
-      if (val && val.includes("oklch")) {
-        (el.style as any)[prop] = oklchToRgb(val);
-      }
-    });
-    // Also patch inline style attribute in case it carries oklch literals
-    const inlineStyle = el.getAttribute("style") || "";
-    if (inlineStyle.includes("oklch")) {
-      el.setAttribute(
-        "style",
-        inlineStyle.replace(/oklch\([^)]+\)/g, (match) => oklchToRgb(match))
-      );
-    }
-  });
-}
-// ────────────────────────────────────────────────────────────────────────────
-
-// Render an HTML string to a PNG Uint8Array using html2canvas.
-// `maxWidth` is the pixel width of the off-screen container.
-async function htmlToPngBytes(
-  html: string,
-  maxWidth = 794   // ≈ A4 at 96 dpi
-): Promise<Uint8Array> {
+// ─── oklch sanitiser (lazy — only imported when actually needed) ─────────────
+// Moved into its own async factory so html2canvas is never loaded at parse time.
+async function getHtmlToPngBytes(): Promise<
+  (html: string, maxWidth?: number) => Promise<Uint8Array>
+> {
   const html2canvas = (await import("html2canvas")).default;
 
-  const container = document.createElement("div");
-  container.style.cssText = [
-    "position:fixed",
-    "top:-99999px",
-    "left:-99999px",
-    `width:${maxWidth}px`,
-    "padding:12px 16px",
-    "background:#ffffff",
-    "font-family:sans-serif",
-    "font-size:13px",
-    "line-height:1.5",
-    "color:#000000",
-    "box-sizing:border-box",
-  ].join(";");
-  container.innerHTML = html;
-  document.body.appendChild(container);
-
-  try {
-    const canvas = await html2canvas(container, {
-      scale: 2,
-      useCORS: true,
-      allowTaint: false,
-      backgroundColor: "#ffffff",
-      // ← this is the key: html2canvas gives us the cloned doc before it
-      //   reads any computed styles, so we can patch oklch out first.
-      onclone: (_clonedDoc: Document, clonedEl: HTMLElement) => {
-        // Patch the container itself
-        clonedEl.style.background = "#ffffff";
-        clonedEl.style.color = "#000000";
-        // Patch every descendant
-        sanitizeClonedDocument(clonedEl.ownerDocument);
-      },
-    });
-
-    return new Promise<Uint8Array>((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (!blob) return reject(new Error("canvas.toBlob returned null"));
-        blob.arrayBuffer().then((buf) => resolve(new Uint8Array(buf)));
-      }, "image/png");
-    });
-  } finally {
-    document.body.removeChild(container);
+  function oklchToRgb(value: string): string {
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 1;
+      const ctx = canvas.getContext("2d")!;
+      ctx.fillStyle = value;
+      ctx.fillRect(0, 0, 1, 1);
+      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+      return `rgb(${r},${g},${b})`;
+    } catch {
+      return "rgb(0,0,0)";
+    }
   }
+
+  const COLOR_PROPS = [
+    "color",
+    "backgroundColor",
+    "borderTopColor",
+    "borderRightColor",
+    "borderBottomColor",
+    "borderLeftColor",
+    "outlineColor",
+    "textDecorationColor",
+    "caretColor",
+    "columnRuleColor",
+  ] as const;
+
+  function sanitizeClonedDocument(clonedDoc: Document) {
+    const elements = clonedDoc.querySelectorAll<HTMLElement>("*");
+    elements.forEach((el) => {
+      const computed = window.getComputedStyle(el);
+      let hasOklch = false;
+      COLOR_PROPS.forEach((prop) => {
+        const val = computed[prop as keyof CSSStyleDeclaration] as string;
+        if (val?.includes("oklch")) {
+          hasOklch = true;
+          (el.style as any)[prop] = oklchToRgb(val);
+        }
+      });
+      if (!hasOklch) {
+        const inlineStyle = el.getAttribute("style") || "";
+        if (inlineStyle.includes("oklch")) {
+          el.setAttribute(
+            "style",
+            inlineStyle.replace(/oklch\([^)]+\)/g, (match) => oklchToRgb(match))
+          );
+        }
+      }
+    });
+  }
+
+  return async function htmlToPngBytes(
+    html: string,
+    maxWidth = 794
+  ): Promise<Uint8Array> {
+    const container = document.createElement("div");
+    container.style.cssText = [
+      "position:fixed",
+      "top:-99999px",
+      "left:-99999px",
+      `width:${maxWidth}px`,
+      "padding:12px 16px",
+      "background:#ffffff",
+      "font-family:sans-serif",
+      "font-size:13px",
+      "line-height:1.5",
+      "color:#000000",
+      "box-sizing:border-box",
+    ].join(";");
+    container.innerHTML = html;
+    document.body.appendChild(container);
+
+    try {
+      const canvas = await html2canvas(container, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: "#ffffff",
+        onclone: (_clonedDoc: Document, clonedEl: HTMLElement) => {
+          clonedEl.style.background = "#ffffff";
+          clonedEl.style.color = "#000000";
+          sanitizeClonedDocument(clonedEl.ownerDocument);
+        },
+      });
+
+      return new Promise<Uint8Array>((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (!blob) return reject(new Error("canvas.toBlob returned null"));
+          blob.arrayBuffer().then((buf) => resolve(new Uint8Array(buf)));
+        }, "image/png");
+      });
+    } finally {
+      document.body.removeChild(container);
+    }
+  };
 }
 
-// ─── Main header/footer logic ────────────────────────────────────────────────
+// ─── Header/footer logic ─────────────────────────────────────────────────────
 async function addHeaderFooterToPdf(
   PDFDocument: any,
   mergedPdf: any,
@@ -186,18 +193,27 @@ async function addHeaderFooterToPdf(
     footerFile: File | null;
   }
 ) {
-  // Pre-render HTML → PNG bytes once (not inside the page loop)
+  const needsHtmlRendering =
+    opts.headerMode === "text-overlay" ||
+    opts.headerMode === "text-separate-page" ||
+    opts.footerMode === "text-overlay" ||
+    opts.footerMode === "text-separate-page";
+
+  // Only import html2canvas if we actually need it
+  const htmlToPngBytes = needsHtmlRendering ? await getHtmlToPngBytes() : null;
+
   const headerPngBytes =
-    opts.headerMode === "text-overlay" || opts.headerMode === "text-separate-page"
+    htmlToPngBytes &&
+    (opts.headerMode === "text-overlay" || opts.headerMode === "text-separate-page")
       ? await htmlToPngBytes(opts.headerHtml)
       : null;
 
   const footerPngBytes =
-    opts.footerMode === "text-overlay" || opts.footerMode === "text-separate-page"
+    htmlToPngBytes &&
+    (opts.footerMode === "text-overlay" || opts.footerMode === "text-separate-page")
       ? await htmlToPngBytes(opts.footerHtml)
       : null;
 
-  // Embed PNG images into the PDF document once
   const headerPngImage = headerPngBytes
     ? await mergedPdf.embedPng(headerPngBytes)
     : null;
@@ -206,7 +222,6 @@ async function addHeaderFooterToPdf(
     ? await mergedPdf.embedPng(footerPngBytes)
     : null;
 
-  // Pre-load file PDFs once
   const headerFilePdf =
     opts.headerFile &&
     (opts.headerMode === "file-overlay" || opts.headerMode === "file-separate-page")
@@ -219,40 +234,34 @@ async function addHeaderFooterToPdf(
       ? await PDFDocument.load(await opts.footerFile.arrayBuffer())
       : null;
 
-  // Snapshot original page count before inserting/appending anything
   const originalCount = mergedPdf.getPageCount();
 
-  // ── OVERLAY PASS — iterate every original page ────────────────────────────
   for (let i = 0; i < originalCount; i++) {
     const page = mergedPdf.getPage(i);
     const { width, height } = page.getSize();
 
-    // TEXT overlay – header: stamp rendered HTML image at the top of every page
     if (opts.headerMode === "text-overlay" && headerPngImage) {
-      // Scale image to fit page width with 24pt side margins, max 80pt tall
       const maxH = Math.min(80, height * 0.12);
       const dims = headerPngImage.scaleToFit(width - 48, maxH);
       page.drawImage(headerPngImage, {
         x: 24,
-        y: height - dims.height - 8,   // 8pt gap from top edge
+        y: height - dims.height - 8,
         width: dims.width,
         height: dims.height,
       });
     }
 
-    // TEXT overlay – footer: stamp rendered HTML image at the bottom of every page
     if (opts.footerMode === "text-overlay" && footerPngImage) {
       const maxH = Math.min(80, height * 0.12);
       const dims = footerPngImage.scaleToFit(width - 48, maxH);
       page.drawImage(footerPngImage, {
         x: 24,
-        y: 8,                           // 8pt gap from bottom edge
+        y: 8,
         width: dims.width,
         height: dims.height,
       });
     }
 
-    // FILE overlay – header: embed first page of header PDF as a banner at top
     if (opts.headerMode === "file-overlay" && headerFilePdf) {
       const srcPage = headerFilePdf.getPage(0);
       const embedded = await mergedPdf.embedPage(srcPage);
@@ -267,7 +276,6 @@ async function addHeaderFooterToPdf(
       });
     }
 
-    // FILE overlay – footer: embed first page of footer PDF as a banner at bottom
     if (opts.footerMode === "file-overlay" && footerFilePdf) {
       const srcPage = footerFilePdf.getPage(0);
       const embedded = await mergedPdf.embedPage(srcPage);
@@ -283,8 +291,6 @@ async function addHeaderFooterToPdf(
     }
   }
 
-  // ── SEPARATE PAGE – HEADER (insert at the very beginning) ────────────────
-
   if (opts.headerMode === "text-separate-page" && headerPngImage) {
     const newPage = mergedPdf.insertPage(0, [595.28, 841.89]);
     const pw = newPage.getWidth();
@@ -292,7 +298,7 @@ async function addHeaderFooterToPdf(
     const dims = headerPngImage.scaleToFit(pw - 64, ph - 120);
     newPage.drawImage(headerPngImage, {
       x: 32,
-      y: ph - dims.height - 60,   // start 60pt from the top
+      y: ph - dims.height - 60,
       width: dims.width,
       height: dims.height,
     });
@@ -303,11 +309,8 @@ async function addHeaderFooterToPdf(
       headerFilePdf,
       headerFilePdf.getPageIndices()
     );
-    // Insert header pages at position 0, in order
     copied.forEach((p: any, idx: number) => mergedPdf.insertPage(idx, p));
   }
-
-  // ── SEPARATE PAGE – FOOTER (append at the very end) ──────────────────────
 
   if (opts.footerMode === "text-separate-page" && footerPngImage) {
     const newPage = mergedPdf.addPage([595.28, 841.89]);
@@ -331,12 +334,48 @@ async function addHeaderFooterToPdf(
   }
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// ─── Memoized sub-sections to prevent unnecessary re-renders ─────────────────
+const FileListSection = memo(function FileListSection({
+  files,
+  onMove,
+  onRemove,
+  onChange,
+}: {
+  files: FileItem[];
+  onMove: (id: string, dir: -1 | 1) => void;
+  onRemove: (id: string) => void;
+  onChange: (id: string, input: string) => void;
+}) {
+  return (
+    <div className="space-y-2 sm:space-y-3 p-3 sm:p-4 md:p-5">
+      {files.length ? (
+        files.map((item, index) => (
+          <FileRow
+            key={item.id}
+            item={item}
+            index={index}
+            total={files.length}
+            onMove={onMove}
+            onChange={onChange}
+            onRemove={onRemove}
+          />
+        ))
+      ) : (
+        <EmptyState
+          icon={FileText}
+          title="No files added yet"
+          subtitle="Upload one or more PDFs to begin building the final document."
+        />
+      )}
+    </div>
+  );
+});
 
+// ─── Main Component ───────────────────────────────────────────────────────────
 export default function PdfMergerClient({ config }: Props) {
   const [dropzoneKey, setDropzoneKey] = useState(0);
   const [files, setFiles] = useState<FileItem[]>([]);
-  const [state, setState] = useState<"idle" | "ready" | "processing" | "done">("idle");
+  const [state, setState] = useState<AppState>("idle");
   const [progress, setProgress] = useState(0);
   const [mergedBlob, setMergedBlob] = useState<Blob | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -345,15 +384,23 @@ export default function PdfMergerClient({ config }: Props) {
 
   const [headerMode, setHeaderMode] = useState<MergeMode>("none");
   const [footerMode, setFooterMode] = useState<MergeMode>("none");
-
   const [headerHtml, setHeaderHtml] = useState("<p>Click to edit header content</p>");
   const [footerHtml, setFooterHtml] = useState("<p>Click to edit footer content</p>");
-
   const [headerFile, setHeaderFile] = useState<File | null>(null);
   const [footerFile, setFooterFile] = useState<File | null>(null);
   const [processingLabel, setProcessingLabel] = useState("Preparing files...");
   const [autoOptimize, setAutoOptimize] = useState(true);
   const [autoDownloadFailed, setAutoDownloadFailed] = useState(false);
+
+  // Cache the pdfLib instance so we don't re-load it on every file add
+  const pdfLibRef = useRef<any>(null);
+
+  const getPdfLib = useCallback(async () => {
+    if (!pdfLibRef.current) {
+      pdfLibRef.current = await asyncGetPdfLib();
+    }
+    return pdfLibRef.current;
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -373,27 +420,37 @@ export default function PdfMergerClient({ config }: Props) {
     }, 0);
   }, [files]);
 
-  const handleFiles = async (newFiles: File[]) => {
-    const parsed: FileItem[] = [...files];
-    const PDFDocument = await asyncGetPdfLib();
+  // ── File handlers (stable references via useCallback) ─────────────────────
+  const handleFiles = useCallback(
+    async (newFiles: File[]) => {
+      const PDFDocument = await getPdfLib();
+      const additions: FileItem[] = [];
 
-    for (const file of newFiles) {
-      const buffer = await file.arrayBuffer();
-      const pdf = await PDFDocument.load(buffer);
-      parsed.push({
-        ...createFileItem(file),
-        totalPages: pdf.getPageCount(),
+      // Process files in parallel for speed
+      await Promise.all(
+        newFiles.map(async (file) => {
+          const buffer = await file.arrayBuffer();
+          const pdf = await PDFDocument.load(buffer);
+          additions.push({
+            ...createFileItem(file),
+            totalPages: pdf.getPageCount(),
+          });
+        })
+      );
+
+      setFiles((prev) => {
+        const next = [...prev, ...additions];
+        return next;
       });
-    }
+      setState(additions.length ? "ready" : "idle");
+      setProgress(0);
+      setMergedBlob(null);
+      setAutoDownloadFailed(false);
+    },
+    [getPdfLib]
+  );
 
-    setFiles(parsed);
-    setState(parsed.length ? "ready" : "idle");
-    setProgress(0);
-    setMergedBlob(null);
-    setAutoDownloadFailed(false);
-  };
-
-  const clearAllFiles = () => {
+  const clearAllFiles = useCallback(() => {
     setFiles([]);
     setState("idle");
     setProgress(0);
@@ -402,9 +459,9 @@ export default function PdfMergerClient({ config }: Props) {
     setHeaderMode("none");
     setFooterMode("none");
     setAutoDownloadFailed(false);
-  };
+  }, []);
 
-  const moveFile = (id: string, direction: -1 | 1) => {
+  const moveFile = useCallback((id: string, direction: -1 | 1) => {
     setFiles((prev) => {
       const next = [...prev];
       const from = next.findIndex((f) => f.id === id);
@@ -413,28 +470,35 @@ export default function PdfMergerClient({ config }: Props) {
       [next[from], next[to]] = [next[to], next[from]];
       return next;
     });
-  };
+  }, []);
 
-  const updateFileInput = (id: string, input: string) => {
+  const updateFileInput = useCallback((id: string, input: string) => {
     setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, input } : f)));
-  };
+  }, []);
 
-  const removeFile = (id: string) => {
-    setFiles((prev) => prev.filter((f) => f.id !== id));
-  };
+  const removeFile = useCallback((id: string) => {
+    setFiles((prev) => {
+      const next = prev.filter((f) => f.id !== id);
+      if (next.length === 0) setState("idle");
+      return next;
+    });
+  }, []);
 
-  const merge = async () => {
+  const merge = useCallback(async () => {
     if (!files.length) return;
 
     setState("processing");
     setProgress(5);
     setProcessingLabel("Creating merged document...");
 
-    const PDFDocument = await asyncGetPdfLib();
+    const PDFDocument = await getPdfLib();
     const merged = await PDFDocument.create();
 
-    for (let i = 0; i < files.length; i++) {
-      const current = files[i];
+    // Snapshot files to avoid stale closure issues
+    const currentFiles = files;
+
+    for (let i = 0; i < currentFiles.length; i++) {
+      const current = currentFiles[i];
       setProcessingLabel(`Reading ${current.file.name}`);
       const buffer = await current.file.arrayBuffer();
       const pdf = await PDFDocument.load(buffer);
@@ -446,7 +510,7 @@ export default function PdfMergerClient({ config }: Props) {
         copied.forEach((page: any) => merged.addPage(page));
       }
 
-      setProgress(10 + ((i + 1) / files.length) * 65);
+      setProgress(10 + ((i + 1) / currentFiles.length) * 65);
     }
 
     setProcessingLabel("Rendering headers and footers...");
@@ -467,40 +531,36 @@ export default function PdfMergerClient({ config }: Props) {
       await new Promise((r) => setTimeout(r, 180));
     }
 
-    const finalBytes = await merged.save({
-      useObjectStreams: autoOptimize,
-    });
-
-    const blob = new Blob([new Uint8Array(finalBytes)], {
-      type: "application/pdf",
-    });
+    const finalBytes = await merged.save({ useObjectStreams: autoOptimize });
+    const blob = new Blob([new Uint8Array(finalBytes)], { type: "application/pdf" });
 
     setMergedBlob(blob);
     setProgress(100);
     setProcessingLabel("Done");
     setState("done");
     setAutoDownloadFailed(false);
-  };
+  }, [files, getPdfLib, headerMode, footerMode, headerHtml, footerHtml, headerFile, footerFile, autoOptimize]);
 
-  const openPreview = (blob: Blob) => {
+  const openPreview = useCallback((blob: Blob) => {
     const url = URL.createObjectURL(blob);
     setPreviewUrl(url);
     setModalVariant("preview");
     setShowModal(true);
-  };
+  }, []);
 
-  const openDownloadModel = (blob: Blob) => {
+  const openDownloadModel = useCallback((blob: Blob) => {
     const url = URL.createObjectURL(blob);
     setPreviewUrl(url);
     setModalVariant("download");
     setShowModal(true);
-  };
+  }, []);
 
-  const download = async () => {
+  const download = useCallback(async () => {
     if (!mergedBlob) return;
-
     try {
-      const saveAs = await import("@/lib/fileSaverUtility").then((m) => m.asyncGetFileSaverLib());
+      const saveAs = await import("@/lib/fileSaverUtility").then(
+        (m) => m.asyncGetFileSaverLib()
+      );
       saveAs(mergedBlob, "document.pdf");
 
       setTimeout(() => {
@@ -518,25 +578,18 @@ export default function PdfMergerClient({ config }: Props) {
       console.error("Download failed:", error);
       setAutoDownloadFailed(true);
     }
-  };
+  }, [mergedBlob]);
 
-  const handleDownloadClick = () => {
-    download();
-  };
-
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setShowModal(false);
     setAutoDownloadFailed(false);
     if (previewUrl) {
       URL.revokeObjectURL(previewUrl);
       setPreviewUrl(null);
     }
-  };
-  const dropZoneRef = useRef<any>(null);
+  }, [previewUrl]);
 
-  // Reset only the generated PDF so the user can tweak options and rebuild
-  // without losing their uploaded files or header/footer settings.
-  const resetPdf = () => {
+  const resetPdf = useCallback(() => {
     setMergedBlob(null);
     setState(files.length > 0 ? "ready" : "idle");
     setProgress(0);
@@ -547,12 +600,19 @@ export default function PdfMergerClient({ config }: Props) {
       setPreviewUrl(null);
     }
     setShowModal(false);
-  };
+  }, [files.length, previewUrl]);
+
+  const toggleAutoOptimize = useCallback(() => setAutoOptimize((v) => !v), []);
+
+  const dropZoneRef = useRef<any>(null);
+  const openFilePicker = useCallback(() => dropZoneRef.current?.openFilePicker(), []);
 
   const canBuild = files.length > 0 && state !== "processing";
+  const hasFiles = files.length > 0;
 
   return (
     <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white">
+      {/* ── Hero ── */}
       <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
@@ -581,7 +641,9 @@ export default function PdfMergerClient({ config }: Props) {
       </section>
 
       <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+        {/* ── Left column ── */}
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
+          {/* Upload */}
           <section className={premiumShellClass()} aria-labelledby="upload-heading">
             <div className="relative p-3 sm:p-4 md:p-5">
               <div className="mb-3 sm:mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -594,25 +656,25 @@ export default function PdfMergerClient({ config }: Props) {
                     Drag PDFs here or browse your private archive.
                   </p>
                 </div>
-                {files.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => clearAllFiles()}
-                    className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
-                  >
-                    <Wand2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
-                    <span>Clear All</span>
-                  </button>
-                )}
-                {files.length > 0 && (
-                  <button
+                {hasFiles && (
+                  <>
+                    <button
                       type="button"
-                      onClick={() => dropZoneRef.current?.openFilePicker()}
+                      onClick={clearAllFiles}
+                      className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
+                    >
+                      <Wand2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
+                      <span>Clear All</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={openFilePicker}
                       className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
                     >
                       <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
                       <span>Add More Files</span>
                     </button>
+                  </>
                 )}
               </div>
 
@@ -621,13 +683,14 @@ export default function PdfMergerClient({ config }: Props) {
                 key={dropzoneKey}
                 allowMultiple
                 validFileTypes=".pdf"
-                addMoreFiles={files.length > 0}
-                onFiles={async (files) => await handleFiles(files)}
+                addMoreFiles={hasFiles}
+                onFiles={handleFiles}
               />
             </div>
           </section>
 
-          {files.length > 0 && (
+          {/* File list — only mounted when files exist */}
+          {hasFiles && (
             <section className={premiumShellClass()} aria-labelledby="files-heading">
               <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -647,32 +710,19 @@ export default function PdfMergerClient({ config }: Props) {
                 </div>
               </div>
 
-              <div className="space-y-2 sm:space-y-3 p-3 sm:p-4 md:p-5">
-                {files.length ? (
-                  files.map((item, index) => (
-                    <FileRow
-                      key={item.id}
-                      item={item}
-                      index={index}
-                      total={files.length}
-                      onMove={moveFile}
-                      onChange={updateFileInput}
-                      onRemove={removeFile}
-                    />
-                  ))
-                ) : (
-                  <EmptyState
-                    icon={FileText}
-                    title="No files added yet"
-                    subtitle="Upload one or more PDFs to begin building the final document."
-                  />
-                )}
-              </div>
+              <FileListSection
+                files={files}
+                onMove={moveFile}
+                onRemove={removeFile}
+                onChange={updateFileInput}
+              />
             </section>
           )}
         </div>
 
+        {/* ── Right column ── */}
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
+          {/* Merge options */}
           <section className={premiumShellClass()} aria-labelledby="options-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <h2 id="options-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
@@ -717,6 +767,7 @@ export default function PdfMergerClient({ config }: Props) {
             </div>
           </section>
 
+          {/* Action suite */}
           <section className={premiumShellClass()} aria-labelledby="actions-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <h3 id="actions-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
@@ -747,9 +798,9 @@ export default function PdfMergerClient({ config }: Props) {
                     <MiniPill
                       label="Auto optimize"
                       active={autoOptimize}
-                      onClick={() => setAutoOptimize((v) => !v)}
+                      onClick={toggleAutoOptimize}
                     />
-                    <MiniPill label="Ready" active={files.length > 0} />
+                    <MiniPill label="Ready" active={hasFiles} />
                   </div>
                 </>
               ) : (
@@ -771,11 +822,11 @@ export default function PdfMergerClient({ config }: Props) {
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     <PremiumButton
                       icon={RotateCcw}
-                      label={"Reset PDF"}
+                      label="Reset PDF"
                       onClick={resetPdf}
                       accent="emerald"
                     />
-                    <MiniPill label="Ready" active={files.length > 0} />
+                    <MiniPill label="Ready" active={hasFiles} />
                   </div>
                 </>
               )}
@@ -790,7 +841,7 @@ export default function PdfMergerClient({ config }: Props) {
           onClose={handleCloseModal}
           documentName="Merged Document"
           variant={modalVariant}
-          onDownload={handleDownloadClick}
+          onDownload={download}
         />
       )}
     </div>
