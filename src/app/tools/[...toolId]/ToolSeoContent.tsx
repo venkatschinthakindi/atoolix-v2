@@ -23,8 +23,10 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/financeSuite/savings/savingsDepositsSuiteSeoContent"),
     { ssr: true }
   ),
-  
-  
+  "calculator/retirement-calculator": dynamic(
+    () => import("@/components/tools/financeSuite/retirement/retirementWealthSuiteSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
