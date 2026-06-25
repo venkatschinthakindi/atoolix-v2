@@ -177,9 +177,9 @@ export const tools: ToolRegistryEntry[] = [
     id:"calculator/fd-calculator",
     loader: () => import("@/components/tools/financeSuite/savingsDepositsSuite"),
     toolShortName: "FD Calculator",
-    "title": "FD Calculator Fixed & Recurring Deposit | Simple & Compound Interest | Download PDF Report + Interactive Charts | Advanced FD RD Return Planner",
-    "onPageTitle": "FD Calculator Fixed & RD Deposit | Simple + Compound Interest | Download PDF + Charts | FD RD Planner",
-    "description": "Calculate FD & RD returns online with simple interest and compound interest options featuring downloadable PDF reports and interactive charts. Get accurate fixed deposit and recurring deposit maturity amounts, total interest earned, compound growth charts, and download professional PDF with year-by-year breakdown. Plan savings with FD calculator showing quarterly/annual compounding charts, RD calculator with monthly contribution tables. Free advanced deposit planner with download & chart options, no registration required.",
+    "title": "Savings & Deposits Calculator | FD, RD, Interest & Maturity Value",
+    "onPageTitle": "Savings and Deposits Calculator for FD, RD, Simple Interest, Compound Interest, Maturity Value, and Interest Earned",
+    "description": "Free Savings & Deposits Calculator to calculate FD maturity value, RD returns, simple interest, compound interest, total interest earned, savings growth, and future value projections online.",
     "icon":"PiggyBank",
     "keywords": [
       "fd calculator fixed and recurring deposit download pdf",
