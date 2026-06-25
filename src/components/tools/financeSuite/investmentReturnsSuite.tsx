@@ -4,18 +4,18 @@ import dynamic from "next/dynamic";
 import { useCallback, useMemo, useState, memo } from "react";
 import {
   Calculator,
-  ChevronRight,
   Percent,
   PiggyBank,
   TrendingUp,
   BarChart3,
-  Download,
+  Plus,
+  Trash2,
+  AlertTriangle,
 } from "lucide-react";
 
 import { Field } from "@/components/ui/field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 
-// Lazy loaded to reduce initial bundle and improve LCP.
 const FinanceChart = dynamic(
   () => import("@/components/tools/financeSuite/financeChart").then((m) => m.FinanceChart),
   {
@@ -35,34 +35,54 @@ const FinancePdfExport = dynamic(
 type TabKey = "sip" | "lump" | "performance";
 
 type CashFlow = {
+  id: string;
   amount: number;
   date: string;
 };
 
-const tabs: { id: TabKey; label: string; icon: any }[] = [
-  { id: "sip", label: "SIP Growth", icon: '🚀' },
-  { id: "lump", label: "Lump Sum Returns", icon: '💎' },
-  { id: "performance", label: "CAGR & XIRR", icon: '🎯' },
+type XirrStatus = "idle" | "invalid" | "no-solution" | "ok";
+
+const tabs: { id: TabKey; label: string; icon: string }[] = [
+  { id: "sip", label: "SIP Growth", icon: "🚀" },
+  { id: "lump", label: "Lump Sum Returns", icon: "💎" },
+  { id: "performance", label: "CAGR & XIRR", icon: "🎯" },
 ];
 
+function uid() {
+  return `cf_${Math.random().toString(36).slice(2)}_${Date.now().toString(36)}`;
+}
+
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function safeNumber(value: string) {
+  if (value.trim() === "") return NaN;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : NaN;
+}
+
 function formatPercent(value: number) {
-  if (Number.isNaN(value) || !Number.isFinite(value)) return "-";
+  if (!Number.isFinite(value)) return "-";
   return `${value.toFixed(2)}%`;
 }
 
 function calculateSIPValue(monthly: number, annualRate: number, years: number, stepUpPercent: number) {
-  const r = annualRate / 100 / 12;
+  const months = Math.max(0, Math.floor(years * 12));
+  const monthlyRate = annualRate / 100 / 12;
+
   let balance = 0;
   let currentMonthly = monthly;
+  let invested = 0;
 
-  for (let year = 0; year < years; year += 1) {
-    for (let month = 0; month < 12; month += 1) {
-      balance = balance * (1 + r) + currentMonthly;
+  for (let month = 1; month <= months; month += 1) {
+    balance = balance * (1 + monthlyRate) + currentMonthly;
+    invested += currentMonthly;
+    if (month % 12 === 0) {
+      currentMonthly *= 1 + stepUpPercent / 100;
     }
-    currentMonthly *= 1 + stepUpPercent / 100;
   }
 
-  const invested = monthly * 12 * years;
   return {
     futureValue: balance,
     invested,
@@ -71,22 +91,25 @@ function calculateSIPValue(monthly: number, annualRate: number, years: number, s
 }
 
 function calculateCompoundValue(amount: number, rate: number, years: number, frequency: number) {
+  if (years <= 0) return amount;
   const periodic = rate / 100 / frequency;
   return amount * Math.pow(1 + periodic, frequency * years);
 }
 
 function buildSipSeries(monthly: number, annualRate: number, years: number, stepUpPercent: number) {
-  const r = annualRate / 100 / 12;
+  const months = Math.max(0, Math.floor(years * 12));
+  const monthlyRate = annualRate / 100 / 12;
+
   const series: number[] = [];
   let balance = 0;
   let currentMonthly = monthly;
 
-  for (let year = 0; year < years; year += 1) {
-    for (let month = 0; month < 12; month += 1) {
-      balance = balance * (1 + r) + currentMonthly;
+  for (let month = 1; month <= months; month += 1) {
+    balance = balance * (1 + monthlyRate) + currentMonthly;
+    if (month % 12 === 0) {
+      series.push(balance);
+      currentMonthly *= 1 + stepUpPercent / 100;
     }
-    series.push(balance);
-    currentMonthly *= 1 + stepUpPercent / 100;
   }
 
   return series;
@@ -101,63 +124,118 @@ function buildLumpSeries(amount: number, rate: number, years: number, frequency:
   return series;
 }
 
-function xnpv(rate: number, cashflows: CashFlow[]) {
-  const firstDate = new Date(cashflows[0].date).getTime();
-  return cashflows.reduce((sum, flow) => {
-    const dt = (new Date(flow.date).getTime() - firstDate) / (1000 * 60 * 60 * 24);
-    return sum + flow.amount / Math.pow(1 + rate, dt / 365);
-  }, 0);
+function utcDay(dateStr: string) {
+  const d = new Date(dateStr);
+  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
 }
 
-function xirr(cashflows: CashFlow[]) {
-  let guess = 0.1;
+function xnpv(rate: number, cashflows: CashFlow[]) {
+  if (!Number.isFinite(rate) || rate <= -1) return NaN;
+  if (!cashflows.length) return NaN;
 
-  for (let i = 0; i < 60; i += 1) {
-    const value = xnpv(guess, cashflows);
-    const derivative = (xnpv(guess + 1e-6, cashflows) - value) / 1e-6;
+  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
+  const first = utcDay(sorted[0].date);
 
-    if (Math.abs(derivative) < 1e-12) break;
+  let total = 0;
+  for (const flow of sorted) {
+    if (!Number.isFinite(flow.amount) || !flow.date) return NaN;
+    const days = (utcDay(flow.date) - first) / 86400000;
+    total += flow.amount / Math.pow(1 + rate, days / 365);
+  }
+  return total;
+}
 
-    const next = guess - value / derivative;
-    if (!Number.isFinite(next)) break;
+function xirrNewton(cashflows: CashFlow[], guess = 0.1) {
+  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
+  let rate = guess;
 
-    if (Math.abs(next - guess) < 1e-9) {
-      guess = next;
-      break;
-    }
+  for (let i = 0; i < 100; i += 1) {
+    const f = xnpv(rate, sorted);
+    if (!Number.isFinite(f)) return NaN;
 
-    guess = next;
+    const h = 1e-7;
+    const fp = xnpv(rate + h, sorted);
+    const derivative = (fp - f) / h;
+
+    if (!Number.isFinite(derivative) || Math.abs(derivative) < 1e-12) return NaN;
+
+    const next = rate - f / derivative;
+    if (!Number.isFinite(next) || next <= -0.9999999999) return NaN;
+    if (Math.abs(next - rate) < 1e-10) return next;
+    rate = next;
   }
 
-  return guess;
+  return NaN;
+}
+
+function xirrBisection(cashflows: CashFlow[]) {
+  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
+  let low = -0.9999999999;
+  let high = 10;
+
+  let fLow = xnpv(low, sorted);
+  let fHigh = xnpv(high, sorted);
+
+  if (!Number.isFinite(fLow) || !Number.isFinite(fHigh)) return NaN;
+
+  for (let i = 0; i < 50 && fLow * fHigh > 0; i += 1) {
+    high *= 2;
+    fHigh = xnpv(high, sorted);
+    if (!Number.isFinite(fHigh)) return NaN;
+  }
+
+  if (fLow * fHigh > 0) return NaN;
+
+  for (let i = 0; i < 120; i += 1) {
+    const mid = (low + high) / 2;
+    const fMid = xnpv(mid, sorted);
+
+    if (!Number.isFinite(fMid)) return NaN;
+    if (Math.abs(fMid) < 1e-12) return mid;
+
+    if (fLow * fMid <= 0) {
+      high = mid;
+      fHigh = fMid;
+    } else {
+      low = mid;
+      fLow = fMid;
+    }
+
+    if (Math.abs(high - low) < 1e-12) return (low + high) / 2;
+  }
+
+  return (low + high) / 2;
+}
+
+function xirr(cashflows: CashFlow[], guess = 0.1) {
+  const valid = cashflows.filter((f) => Number.isFinite(f.amount) && !!f.date);
+  if (valid.length < 2) return NaN;
+
+  const hasPos = valid.some((f) => f.amount > 0);
+  const hasNeg = valid.some((f) => f.amount < 0);
+  if (!hasPos || !hasNeg) return NaN;
+
+  const sorted = [...valid].sort((a, b) => utcDay(a.date) - utcDay(b.date));
+
+  const newton = xirrNewton(sorted, guess);
+  if (Number.isFinite(newton)) return newton;
+
+  return xirrBisection(sorted);
 }
 
 const shellClass =
   "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
 
-const cardClass =
-  "rounded-2xl border border-white/10 bg-black/20 p-2 sm:p-2";
+const cardClass = "rounded-2xl border border-white/10 bg-black/20 p-2 sm:p-2";
 
-function StatCard({
-  label,
-  value,
-  icon,
-}: {
-  label: string;
-  value: string;
-  icon: any;
-}) {
+function StatCard({ label, value, icon }: { label: string; value: string; icon: string }) {
   return (
     <div className={cardClass}>
-      <div className="">
-        <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-white/45">
-          {icon}
-          <span>{label}</span>
-        </div>
-        <div>
-          <div className="mx-2 text-xs font-semibold text-white sm:text-sm">{value}</div>
-        </div>
+      <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-white/45">
+        <span>{icon}</span>
+        <span>{label}</span>
       </div>
+      <div className="mx-2 text-xs font-semibold text-white sm:text-sm">{value}</div>
     </div>
   );
 }
@@ -206,29 +284,46 @@ const FlowRow = memo(function FlowRow({
   flow,
   index,
   onChange,
+  onRemove,
+  canRemove,
 }: {
   flow: CashFlow;
   index: number;
-  onChange: (index: number, field: keyof CashFlow, value: string) => void;
+  onChange: (index: number, field: keyof Omit<CashFlow, "id">, value: string) => void;
+  onRemove: (index: number) => void;
+  canRemove: boolean;
 }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-3 rounded-2xl border border-white/10 bg-black/10 p-3 md:grid-cols-[1fr_1fr_auto] md:items-end">
       <Field label="Amount">
         <input
           type="number"
-          value={flow.amount}
+          value={Number.isFinite(flow.amount) ? flow.amount : ""}
           onChange={(e) => onChange(index, "amount", e.target.value)}
           className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
+          placeholder="e.g. -100000"
         />
       </Field>
+
       <Field label="Date">
         <input
           type="date"
           value={flow.date}
           onChange={(e) => onChange(index, "date", e.target.value)}
-          className="w-full cusrsor-pointer rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
+          className="w-full cursor-pointer rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
         />
       </Field>
+
+      <button
+        type="button"
+        onClick={() => onRemove(index)}
+        disabled={!canRemove}
+        className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-400/20 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-200 transition hover:bg-red-500/15 disabled:cursor-not-allowed disabled:opacity-40"
+        aria-label="Remove cash flow row"
+      >
+        <Trash2 className="h-4 w-4" />
+        Remove
+      </button>
     </div>
   );
 });
@@ -251,9 +346,9 @@ export default function InvestmentReturnsSuite() {
   const [cagrYears, setCagrYears] = useState(5);
 
   const [xirrFlows, setXirrFlows] = useState<CashFlow[]>([
-    { amount: -100000, date: "2024-06-01" },
-    { amount: 20000, date: "2025-06-01" },
-    { amount: 90000, date: "2028-06-01" },
+    { id: uid(), amount: -100000, date: "2024-06-01" },
+    { id: uid(), amount: 20000, date: "2025-06-01" },
+    { id: uid(), amount: 90000, date: "2028-06-01" },
   ]);
 
   const sipResult = useMemo(
@@ -272,22 +367,27 @@ export default function InvestmentReturnsSuite() {
   );
 
   const cagrResult = useMemo(() => {
-    if (cagrStart <= 0 || cagrYears <= 0) return 0;
+    if (cagrStart <= 0 || cagrYears <= 0 || cagrEnd < 0) return NaN;
     return Math.pow(cagrEnd / cagrStart, 1 / cagrYears) - 1;
   }, [cagrStart, cagrEnd, cagrYears]);
 
-  const xirrResult = useMemo(() => {
-    try {
-      const rate = xirr(xirrFlows);
-      return Number.isFinite(rate) ? rate : 0;
-    } catch {
-      return 0;
-    }
+  const xirrMeta = useMemo(() => {
+    const validFlows = xirrFlows.filter((f) => Number.isFinite(f.amount) && !!f.date);
+    const hasPos = validFlows.some((f) => f.amount > 0);
+    const hasNeg = validFlows.some((f) => f.amount < 0);
+
+    if (validFlows.length < 2) return { status: "invalid" as XirrStatus, value: NaN };
+    if (!hasPos || !hasNeg) return { status: "invalid" as XirrStatus, value: NaN };
+
+    const rate = xirr(validFlows);
+    if (Number.isFinite(rate)) return { status: "ok" as XirrStatus, value: rate };
+
+    return { status: "no-solution" as XirrStatus, value: NaN };
   }, [xirrFlows]);
 
   const sipLabels = useMemo(
-    () => Array.from({ length: sipYears }, (_, i) => `Year ${i + 1}`),
-    [sipYears]
+    () => Array.from({ length: sipResult.futureValue ? sipYears : 0 }, (_, i) => `Year ${i + 1}`),
+    [sipYears, sipResult.futureValue]
   );
 
   const lumpLabels = useMemo(
@@ -310,19 +410,66 @@ export default function InvestmentReturnsSuite() {
     [lumpAmount, lumpRate, lumpYears, lumpFrequency]
   );
 
-  const updateFlow = useCallback((index: number, field: keyof CashFlow, value: string) => {
+  const updateFlow = useCallback((index: number, field: keyof Omit<CashFlow, "id">, value: string) => {
     setXirrFlows((current) => {
       const next = [...current];
+      const target = next[index];
+      if (!target) return current;
+
       next[index] = {
-        ...next[index],
-        [field]: field === "amount" ? Number(value) : value,
+        ...target,
+        [field]: field === "amount" ? safeNumber(value) : value,
       };
       return next;
     });
   }, []);
 
+  const addFlow = useCallback(() => {
+    setXirrFlows((cur) => [...cur, { id: uid(), amount: 0, date: todayISO() }]);
+  }, []);
+
+  const removeFlow = useCallback((indexToRemove: number) => {
+    setXirrFlows((cur) => {
+      if (cur.length <= 2) return cur;
+      return cur.filter((_, i) => i !== indexToRemove);
+    });
+  }, []);
+
+  const resetXirrExample = useCallback(() => {
+    setXirrFlows([
+      { id: uid(), amount: -100000, date: "2024-06-01" },
+      { id: uid(), amount: 20000, date: "2025-06-01" },
+      { id: uid(), amount: 90000, date: "2028-06-01" },
+    ]);
+  }, []);
+
+  const addInvestment = useCallback(() => {
+    setXirrFlows((cur) => [
+      ...cur,
+      {
+        id: uid(),
+        amount: -10000,
+        date: todayISO(),
+      },
+    ]);
+  }, []);
+
+  const addPayout = useCallback(() => {
+    setXirrFlows((cur) => [
+      ...cur,
+      {
+        id: uid(),
+        amount: 10000,
+        date: todayISO(),
+      },
+    ]);
+  }, []);
+
+  const xirrValueText =
+    xirrMeta.status === "ok" ? formatPercent(xirrMeta.value * 100) : "-";
+
   return (
-    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6 max-w-4xl mx-auto">
+    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
       <section className={`${shellClass} mb-5 px-5 py-6 sm:px-6 lg:px-8`}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
@@ -342,42 +489,42 @@ export default function InvestmentReturnsSuite() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <StatCard label="Mode" value={tabs.find((t) => t.id === activeTab)?.label ?? "SIP"} icon='⚙️' />
-            <StatCard label="SIP FV" value={formatCurrency(sipResult.futureValue)} icon='💰' />
-            <StatCard label="Lump FV" value={formatCurrency(lumpResult)} icon='🔺' />
-            <StatCard label="XIRR" value={formatPercent(xirrResult * 100)} icon='%' />
+            <StatCard label="Mode" value={tabs.find((t) => t.id === activeTab)?.label ?? "SIP"} icon="⚙️" />
+            <StatCard label="SIP FV" value={formatCurrency(sipResult.futureValue)} icon="💰" />
+            <StatCard label="Lump FV" value={formatCurrency(lumpResult)} icon="🔺" />
+            <StatCard label="XIRR" value={xirrValueText} icon="%" />
           </div>
         </div>
       </section>
 
-      <div className="flex items-center">
-        <div className="flex-1 gap-2 flex justify-center">
+      <div className="flex items-center gap-3">
+        <div className="flex flex-1 justify-center gap-2 flex-wrap">
           {tabs.map((tab) => {
-          const active = activeTab === tab.id;
-
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={[
-                "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
-                active
-                  ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
-                  : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
-              ].join(" ")}
-                >
-                  <span className="px-1">{tab.icon}</span>
-                  {tab.label}
-                </button>
-              );
-            })}
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={[
+                  "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
+                  active
+                    ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
+                    : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
+                ].join(" ")}
+              >
+                <span>{tab.icon}</span>
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
-        
+
         <div className="ml-auto">
-         <FinancePdfExport />
+          <FinancePdfExport />
         </div>
       </div>
+
       {activeTab === "sip" && (
         <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
           <section className={shellClass}>
@@ -613,16 +760,71 @@ export default function InvestmentReturnsSuite() {
             </div>
 
             <div className="border-t border-white/10 p-4 sm:p-5">
-              <SectionHeader title="XIRR calculator" subtitle="Use dated cash flows for annualized return." icon={Calculator} />
+              <SectionHeader
+                title="XIRR calculator"
+                subtitle="Use dated cash flows for annualized return."
+                icon={Calculator}
+              />
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={addFlow}
+                  className="inline-flex items-center gap-2 rounded-full bg-blue-600/80 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-600"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add row
+                </button>
+                <button
+                  type="button"
+                  onClick={addInvestment}
+                  className="inline-flex items-center gap-2 rounded-full border border-red-400/20 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-200 transition hover:bg-red-500/15"
+                >
+                  Add investment
+                </button>
+                <button
+                  type="button"
+                  onClick={addPayout}
+                  className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/15"
+                >
+                  Add payout
+                </button>
+                <button
+                  type="button"
+                  onClick={resetXirrExample}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/[0.08]"
+                >
+                  Reset example
+                </button>
+              </div>
 
               <div className="mt-4 space-y-4">
                 {xirrFlows.map((flow, index) => (
-                  <FlowRow key={index} flow={flow} index={index} onChange={updateFlow} />
+                  <FlowRow
+                    key={flow.id}
+                    flow={flow}
+                    index={index}
+                    onChange={updateFlow}
+                    onRemove={removeFlow}
+                    canRemove={xirrFlows.length > 2}
+                  />
                 ))}
               </div>
 
               <div className="mt-4">
-                <ResultBox label="Annualized XIRR" value={formatPercent(xirrResult * 100)} />
+                <ResultBox label="Annualized XIRR" value={xirrValueText} />
+                {xirrMeta.status === "invalid" && (
+                  <div className="mt-3 flex items-start gap-2 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-sm text-amber-100">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                    Add at least one negative cash flow and one positive cash flow, with valid dates.
+                  </div>
+                )}
+                {xirrMeta.status === "no-solution" && (
+                  <div className="mt-3 flex items-start gap-2 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-sm text-amber-100">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                    The cash flow set does not produce a stable XIRR solution. Try changing dates or amounts.
+                  </div>
+                )}
               </div>
             </div>
           </section>
