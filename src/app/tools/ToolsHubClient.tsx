@@ -30,10 +30,11 @@ export default function ToolsHubClient() {
 
   // Prevent infinite loop: only update URL when activeCategory changes from user click
   useEffect(() => {
+    let filteredURL = `/tools?categoryid=all`;
     if (!!toolId) {
-      const filteredURL = `/tools?categoryid=${activeCategory}`;
-      router.push(filteredURL, { scroll: false });
+      filteredURL = `/tools?categoryid=${activeCategory}`;
     }
+    router.push(filteredURL, { scroll: false });
   }, [activeCategory, searchParams]);
 
   const filteredTools = useMemo(() => {
