@@ -425,7 +425,6 @@ export default function MergePdfSeoContent() {
           id="faq-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">❓</span>
           Frequently Asked Questions
         </h2>
 
@@ -440,7 +439,6 @@ export default function MergePdfSeoContent() {
               <details className="w-full">
                 <summary className="list-none p-5 flex items-center justify-between gap-4 hover:bg-white/10   cursor-pointer">
                   <div className="flex items-center gap-3 flex-1">
-                    <span className="text-2xl flex-shrink-0">❓</span>
                     <span className="text-white font-semibold text-sm">
                       {item.q}
                     </span>

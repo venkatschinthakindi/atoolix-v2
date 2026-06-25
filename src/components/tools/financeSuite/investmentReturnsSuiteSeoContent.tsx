@@ -1,34 +1,46 @@
 export default function InvestmentReturnsSeoContent() {
   const faqItems = [
-    {
-      q: "How do I calculate SIP returns online?",
-      a: "Enter your monthly SIP amount, expected annual return, investment years, and step-up rate to calculate future value, invested amount, and wealth gain instantly.",
-    },
-    {
-      q: "Can I compare SIP with step-up SIP?",
-      a: "Yes, the calculator shows a side-by-side comparison of basic SIP and step-up SIP so you can evaluate long-term growth more clearly.",
-    },
-    {
-      q: "How do lump sum returns work in this calculator?",
-      a: "Enter your investment amount, annual return, tenure, and compounding frequency to estimate the future value of your lump sum investment.",
-    },
-    {
-      q: "What is CAGR and how is it calculated?",
-      a: "CAGR shows the annualized growth rate between an opening and ending value over a fixed number of years.",
-    },
-    {
-      q: "What is XIRR used for?",
-      a: "XIRR is useful when your cash flows happen on different dates. It calculates the annualized return based on actual investment and redemption dates.",
-    },
-    {
-      q: "Is this investment calculator responsive on mobile?",
-      a: "Yes, the layout is designed to stay responsive across mobile phones, tablets, laptops, and desktops with compact spacing and stacked cards.",
-    },
-    {
-      q: "Does the calculator support charts and export?",
-      a: "Yes, it includes chart visualization and PDF export so you can review or share your investment projections easily.",
-    },
-  ];
+  {
+    q: "How do I calculate SIP returns online?",
+    a: "Enter your monthly SIP amount, the expected annual return rate, the number of years you plan to stay invested, and an optional annual step-up percentage. The calculator compounds your contributions month by month and shows your total invested amount, future portfolio value, and net wealth gain — instantly, with no sign-up needed.",
+  },
+  {
+    q: "What is the difference between basic SIP and step-up SIP?",
+    a: "A basic SIP invests the same fixed amount every month throughout the tenure. A step-up SIP increases that monthly contribution by a fixed percentage each year — typically 5–10% to match salary growth. Over a 15–20 year horizon, even a 5% annual step-up can add 40–60% more to your final corpus compared to a flat SIP at the same return rate.",
+  },
+  {
+    q: "How do lump sum returns work in this calculator?",
+    a: "Enter your one-time investment amount, the expected annual return rate, your investment horizon in years, and the compounding frequency (annually, semi-annually, quarterly, or monthly). The calculator applies the standard compound interest formula A = P(1 + r/n)^(nt) and shows the projected future value alongside your compound gain.",
+  },
+  {
+    q: "What is CAGR and when should I use it?",
+    a: "CAGR (Compound Annual Growth Rate) is the steady annualised rate at which an investment would have grown from its opening value to its ending value over a fixed period, assuming growth compounds each year. Use it to compare different funds, stocks, or asset classes over the same period — for example, to benchmark a mutual fund against a fixed deposit or an index. It does not account for the timing of cash flows.",
+  },
+  {
+    q: "What is XIRR and how is it different from CAGR?",
+    a: "XIRR (Extended Internal Rate of Return) calculates your annualised return across multiple cash flows that happen on different dates — making it the correct metric for SIP portfolios where you invest each month, possibly redeem partly, and hold the rest. CAGR assumes one start and one end value; XIRR handles every transaction with its exact date. Most AMC portals and brokers like Zerodha and Groww use XIRR as the headline return figure.",
+  },
+  {
+    q: "How do I enter cash flows to calculate XIRR?",
+    a: "Enter each SIP instalment or top-up as a negative amount (money leaving your account) with its investment date. Enter each partial or full redemption as a positive amount with its redemption date. If you want to check current performance, add your present portfolio value as a positive amount with today's date. The calculator finds the annual rate that makes the net present value of all those dated flows equal to zero.",
+  },
+  {
+    q: "What compounding frequency should I choose for lump sum?",
+    a: "For Indian bank fixed deposits, choose quarterly — that is the standard RBI-mandated compounding frequency for most FDs. For mutual funds, choose monthly or daily since NAV-based growth is effectively continuous. For government bonds or NSC, use annually. More frequent compounding produces marginally higher returns for the same nominal rate.",
+  },
+  {
+    q: "Is this investment calculator free and private?",
+    a: "Yes on both counts. The tool is completely free with no sign-up required. All calculations — SIP projections, lump sum compounding, CAGR, and XIRR — run entirely inside your browser using JavaScript. No investment amounts, dates, or personal data are sent to any server. Close the tab and the data is gone.",
+  },
+  {
+    q: "Does the calculator work on mobile?",
+    a: "Yes. The layout is fully responsive and designed for mobile-first use — inputs stack cleanly on small screens, charts resize to fit, and the tab navigation is thumb-friendly. The PDF export also works on mobile browsers.",
+  },
+  {
+    q: "What is a realistic expected return rate for SIP in India?",
+    a: "Historical data suggests large-cap equity mutual funds in India have delivered roughly 10–12% CAGR over 10+ year periods. Mid-cap and small-cap funds have returned 12–16% with higher short-term volatility. Debt funds typically return 6–8%, and hybrid funds fall in the 8–11% range. These are historical averages — actual future returns are not guaranteed and depend on market conditions.",
+  },
+];
 
   const howToSteps = [
     {
@@ -143,15 +155,66 @@ export default function InvestmentReturnsSeoContent() {
   ];
 
   const softwareAppSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "Investment Returns Calculator",
-    applicationCategory: "FinanceApplication",
-    operatingSystem: "Any",
-    offers: { "@type": "Offer", price: 0, priceCurrency: "INR" },
-    description:
-      "Free investment returns calculator for SIP growth, step-up SIP, lump sum returns, CAGR, and XIRR with responsive charts and PDF export.",
-  };
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Investment Returns Calculator",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Any",
+  browserRequirements: "Requires JavaScript",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "INR",
+  },
+  description:
+    "Free investment calculator for SIP growth, step-up SIP, lump sum returns, CAGR, and XIRR with charts and PDF export.",
+  featureList: [
+    "SIP Calculator",
+    "Step-Up SIP Calculator",
+    "Lump Sum Calculator",
+    "CAGR Calculator",
+    "XIRR Calculator",
+    "Comparison Charts",
+    "PDF Export",
+    "Mobile Responsive",
+  ],
+};
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Use the Investment Returns Calculator",
+  step: howToSteps.map((step, index) => ({
+    "@type": "HowToStep",
+    position: index + 1,
+    name: step.title,
+    text: step.desc,
+  })),
+};
+
+  const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://toolkit.com",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Tools",
+      item: "https://toolkit.com/tools",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Investment Returns Calculator",
+      item: "https://toolkit.com/tools/investment-returns-calculator",
+    },
+  ],
+};
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -173,6 +236,19 @@ export default function InvestmentReturnsSeoContent() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+            __html: JSON.stringify(howToSchema),
+        }}
+        />
+
+        <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbSchema),
+        }}
+        />
 
       <section aria-labelledby="intro-heading">
         <h2
@@ -277,6 +353,41 @@ export default function InvestmentReturnsSeoContent() {
         </div>
       </section>
 
+<section>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    <span className="text-2xl">⚖️</span>
+    SIP vs Lump Sum Investment
+  </h2>
+
+  <div className="grid gap-4 md:grid-cols-2">
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+      <h3 className="mb-3 text-sm font-semibold text-blue-300">
+        Choose SIP When
+      </h3>
+
+      <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+        <li>• Investing from monthly income</li>
+        <li>• Prefer rupee cost averaging</li>
+        <li>• Building long-term investing habits</li>
+        <li>• Want lower timing risk</li>
+      </ul>
+    </div>
+
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+      <h3 className="mb-3 text-sm font-semibold text-violet-300">
+        Choose Lump Sum When
+      </h3>
+
+      <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+        <li>• Investing bonus or inheritance</li>
+        <li>• Have a long investment horizon</li>
+        <li>• Want maximum compounding time</li>
+        <li>• Prefer one-time investing</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
       <section aria-labelledby="related-tools-heading">
         <h2
           id="related-tools-heading"
@@ -304,7 +415,6 @@ export default function InvestmentReturnsSeoContent() {
           id="faq-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">❓</span>
           Frequently Asked Questions
         </h2>
         {/* Interactive UI: SSR-friendly collapsible FAQ panels using native details/summary */}
@@ -318,7 +428,6 @@ export default function InvestmentReturnsSeoContent() {
               <details className="w-full">
                 <summary className="list-none p-5 flex items-center justify-between gap-4 hover:bg-white/10   cursor-pointer">
                   <div className="flex items-center gap-3 flex-1">
-                    <span className="text-2xl flex-shrink-0">❓</span>
                     <span className="text-white font-semibold text-sm">
                       {item.q}
                     </span>

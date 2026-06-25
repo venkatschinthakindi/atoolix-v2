@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 const seoRegistry: Record<string, any> = {
   "pdf/split-pdf": dynamic(
-    () => import("@/components/tools/pdf/splitPdf/splitPdfSeoContentV2"),
+    () => import("@/components/tools/pdf/splitPdf/splitPdfSeoContent"),
     { ssr: true }
   ),
 
@@ -16,7 +16,7 @@ const seoRegistry: Record<string, any> = {
     { ssr: true }
   ),
   "calculator/roi-calculator": dynamic(
-    () => import("@/components/tools/financeSuite/investmentReturnsSuiteSeoContentV3"),
+    () => import("@/components/tools/financeSuite/investmentReturnsSuiteSeoContent"),
     { ssr: true }
   ),
   
