@@ -15,6 +15,8 @@ import {
 
 import { Field } from "@/components/ui/field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
+import { StatCard } from "@/sharedUI/statCard";
 
 
 type TabKey = "retirement" | "fire" | "swp";
@@ -231,37 +233,37 @@ function ChartSkeleton() {
   );
 }
 
-function StatCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-      <div className="text-xs uppercase tracking-wide text-white/45">{label}</div>
-      <div className="mt-2 text-lg font-semibold text-white">{value}</div>
-      {hint ? <div className="mt-1 text-xs text-white/45">{hint}</div> : null}
-    </div>
-  );
-}
+// function StatCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
+//   return (
+//     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+//       <div className="text-xs uppercase tracking-wide text-white/45">{label}</div>
+//       <div className="mt-2 text-lg font-semibold text-white">{value}</div>
+//       {hint ? <div className="mt-1 text-xs text-white/45">{hint}</div> : null}
+//     </div>
+//   );
+// }
 
-function SectionHeader({
-  title,
-  subtitle,
-  icon: Icon,
-}: {
-  title: string;
-  subtitle: string;
-  icon: ElementType;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="rounded-xl border border-white/10 bg-white/5 p-2 text-blue-300">
-        <Icon className="h-4 w-4" />
-      </div>
-      <div>
-        <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">{title}</h2>
-        <p className="mt-1 text-sm text-white/60">{subtitle}</p>
-      </div>
-    </div>
-  );
-}
+// function SectionHeader({
+//   title,
+//   subtitle,
+//   icon: Icon,
+// }: {
+//   title: string;
+//   subtitle: string;
+//   icon: ElementType;
+// }) {
+//   return (
+//     <div className="flex items-start gap-3">
+//       <div className="rounded-xl border border-white/10 bg-white/5 p-2 text-blue-300">
+//         <Icon className="h-4 w-4" />
+//       </div>
+//       <div>
+//         <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">{title}</h2>
+//         <p className="mt-1 text-sm text-white/60">{subtitle}</p>
+//       </div>
+//     </div>
+//   );
+// }
 
 function ResultBox({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
@@ -516,35 +518,42 @@ const retirementTarget = useMemo(
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[560px]">
-            <StatCard label="Mode" value={tabs.find((t) => t.id === activeTab)?.label ?? "Retirement"} hint="Current tool" />
-            <StatCard label="Scenario" value={scenario.label} hint="Preset view" />
-            <StatCard label="FIRE Target" value={money(fireTarget)} hint="Inflation-adjusted" />
-            <StatCard label="SWP/Month" value={money(swpInitialWithdrawal)} hint="Initial withdrawal" />
+            <StatCard label="Mode" value={tabs.find((t) => t.id === activeTab)?.label ?? "Retirement"} icon="⚙️" hint="Current tool" />
+            <StatCard label="Scenario" value={scenario.label} hint="Preset view" icon="🧩" />
+            <StatCard label="FIRE Target" value={money(fireTarget)} hint="Inflation-adjusted" icon="🚀"/>
+            <StatCard label="SWP/Month" value={money(swpInitialWithdrawal)} hint="Initial withdrawal" icon="💰"/>
           </div>
         </div>
       </section>
 
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setActiveTab(tab.id)}
-            className={[
-              "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
-              activeTab === tab.id
-                ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
-                : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
-            ].join(" ")}
-          >
-            <span>{tab.icon}</span>
-            {tab.label}
-          </button>
-        ))}
-        <div className="ml-auto">
-          <FinancePdfExport />
-        </div>
-      </div>
+      
+            <div className="flex items-center gap-3">
+              <div className="flex flex-1 justify-center gap-2 flex-wrap">
+                {tabs.map((tab) => {
+                  const active = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setActiveTab(tab.id)}
+                      className={[
+                        "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
+                        active
+                          ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
+                          : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
+                      ].join(" ")}
+                    >
+                      <span>{tab.icon}</span>
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+      
+              <div className="ml-auto">
+                <FinancePdfExport />
+              </div>
+            </div>
 
       <section className={`${shellClass} p-4 sm:p-5`}>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
