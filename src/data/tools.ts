@@ -126,7 +126,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id:"calculator/roi-calculator",
     loader: () => import("@/components/tools/financeSuite/investmentReturnsSuite"),
-    toolShortName: "ROI Calculator",
+    toolShortName: "Investment Returns",
     "title": "SIP ROI Calculator with Step-Up | CAGR XIRR LumpSum Returns | Download PDF Report + Interactive Charts | Advanced Mutual Fund Growth Planner",
     "onPageTitle": "SIP ROI Calculator with Step-Up | CAGR XIRR LumpSum | Download PDF + Charts | Mutual Fund Growth Planner",
     "description": "Calculate SIP returns with step-up settings online featuring downloadable PDF reports and interactive charts. Get accurate CAGR, XIRR, lumpsum returns, and total growth for mutual fund investments with visual compound growth charts. Download professional PDF report with yearly returns breakdown, final value chart, and step-up investment timeline. Plan wealth with step-up SIP calculator showing annual/monthly step-up charts, compound growth graphs. Free advanced ROI calculator with download & chart options, no registration required.",
@@ -176,7 +176,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id:"calculator/fd-calculator",
     loader: () => import("@/components/tools/financeSuite/savingsDepositsSuite"),
-    toolShortName: "FD Calculator",
+    toolShortName: "Savings Calculator",
     "title": "Savings & Deposits Calculator | FD, RD, Interest & Maturity Value",
     "onPageTitle": "Savings and Deposits Calculator for FD, RD, Simple Interest, Compound Interest, Maturity Value, and Interest Earned",
     "description": "Free Savings & Deposits Calculator to calculate FD maturity value, RD returns, simple interest, compound interest, total interest earned, savings growth, and future value projections online.",
@@ -226,7 +226,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id:"calculator/retirement-calculator",
     loader: () => import("@/components/tools/financeSuite/retirementWealthSuite"),
-    toolShortName: "Retirement Calculator",
+    toolShortName: "Retirement Planner",
     "title": "Retirement Calculator + FIRE Calculator + SWP Planner | Download PDF Report + Interactive Charts | Complete Retirement & Financial Independence Planning Tool",
     "onPageTitle": "Retirement Calculator | FIRE + SWP Planner | Download PDF Report + Interactive Charts | Retirement Planning Tool",
     "description": "Plan your retirement with advanced Retirement Calculator, FIRE Calculator, and SWP Planner featuring downloadable PDF reports and interactive charts. Calculate retirement corpus, FIRE target, monthly SWP withdrawal, and view inflation-adjusted income with visual growth charts. Download professional PDF report with year-by-year breakdown, compound growth chart, and retirement timeline. Free all-in-one planner with download & chart options, no registration required.",
