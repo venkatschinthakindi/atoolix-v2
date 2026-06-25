@@ -19,6 +19,11 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/financeSuite/investmentReturnsSuiteSeoContent"),
     { ssr: true }
   ),
+  "calculator/fd-calculator": dynamic(
+    () => import("@/components/tools/financeSuite/savingsDepositsSuiteSeoContent"),
+    { ssr: true }
+  ),
+  
   
 };
 
