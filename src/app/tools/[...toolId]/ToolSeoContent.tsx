@@ -16,11 +16,11 @@ const seoRegistry: Record<string, any> = {
     { ssr: true }
   ),
   "calculator/roi-calculator": dynamic(
-    () => import("@/components/tools/financeSuite/investmentReturnsSuiteSeoContent"),
+    () => import("@/components/tools/financeSuite/investment/investmentReturnsSuiteSeoContent"),
     { ssr: true }
   ),
   "calculator/fd-calculator": dynamic(
-    () => import("@/components/tools/financeSuite/savingsDepositsSuiteSeoContent"),
+    () => import("@/components/tools/financeSuite/savings/savingsDepositsSuiteSeoContent"),
     { ssr: true }
   ),
   

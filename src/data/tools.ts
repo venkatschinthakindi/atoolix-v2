@@ -125,7 +125,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id:"calculator/roi-calculator",
-    loader: () => import("@/components/tools/financeSuite/investmentReturnsSuite"),
+    loader: () => import("@/components/tools/financeSuite/investment/investmentReturnsSuite"),
     toolShortName: "Investment Returns",
     "title": "SIP ROI Calculator with Step-Up | CAGR XIRR LumpSum Returns | Download PDF Report + Interactive Charts | Advanced Mutual Fund Growth Planner",
     "onPageTitle": "SIP ROI Calculator with Step-Up | CAGR XIRR LumpSum | Download PDF + Charts | Mutual Fund Growth Planner",
@@ -175,7 +175,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id:"calculator/fd-calculator",
-    loader: () => import("@/components/tools/financeSuite/savingsDepositsSuite"),
+    loader: () => import("@/components/tools/financeSuite/savings/savingsDepositsSuite"),
     toolShortName: "Savings Calculator",
     "title": "Savings & Deposits Calculator | FD, RD, Interest & Maturity Value",
     "onPageTitle": "Savings and Deposits Calculator for FD, RD, Simple Interest, Compound Interest, Maturity Value, and Interest Earned",
@@ -225,7 +225,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id:"calculator/retirement-calculator",
-    loader: () => import("@/components/tools/financeSuite/retirementWealthSuite"),
+    loader: () => import("@/components/tools/financeSuite/retirement/retirementWealthSuite"),
     toolShortName: "Retirement Planner",
     "title": "Retirement Calculator + FIRE Calculator + SWP Planner | Download PDF Report + Interactive Charts | Complete Retirement & Financial Independence Planning Tool",
     "onPageTitle": "Retirement Calculator | FIRE + SWP Planner | Download PDF Report + Interactive Charts | Retirement Planning Tool",
