@@ -1,427 +1,738 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import {
+  BarChart3,
+  Calculator,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  PiggyBank,
+  ShieldCheck,
+  TrendingUp,
+} from "lucide-react";
 import { FinanceChart } from "@/components/tools/financeSuite/financeChart";
 import { FinancePdfExport } from "@/components/tools/financeSuite/financePdfExport";
 import { Field } from "@/components/ui/field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
+import { StatCard } from "@/sharedUI/statCard";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
+import { ExplainerPanel } from "@/sharedUI/explainerPanel";
 
-function calculateCompound(amount: number, rate: number, years: number, frequency: number) {
+type MainTab = "simple" | "compound" | "deposits";
+type DepositMode = "fd" | "rd";
+type RdConvention = "end" | "beginning";
+type TabKey = MainTab;
+type NumInput = string;
+
+type CalcResult = {
+  value: number;
+  interest: number;
+};
+
+const shellClass =
+  "rounded-2xl border border-white/10 bg-white/5 shadow-[0_20px_80px_-30px_rgba(0,0,0,0.55)] backdrop-blur";
+
+const inputClass =
+  "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-white/30 focus:border-blue-400/40 focus:bg-white/[0.07]";
+
+const tabs: { id: MainTab; label: string; icon: string }[] = [
+  { id: "simple", label: "Simple Interest", icon: "🧮" },
+  { id: "compound", label: "Compound Interest", icon: "📈" },
+  { id: "deposits", label: "FD & RD Planner", icon: "🏦" },
+];
+
+const EXPLAINERS: Record<TabKey, { title: string; lines: string[] }> = {
+  simple: {
+    title: "What is simple interest?",
+    lines: [
+      "Simple interest is calculated only on the original principal amount.",
+      "It is best for quick estimates when interest does not get added back into the principal.",
+      "Use this when you want the easiest possible growth calculation.",
+      "Example: ₹1,00,000 at 6% for 3 years.",
+    ],
+  },
+  compound: {
+    title: "What is compound interest?",
+    lines: [
+      "Compound interest means interest is added back to the principal and then earns more interest.",
+      "More frequent compounding usually gives a slightly higher final value.",
+      "This is common for savings, deposits, and long-term growth planning.",
+      "Example: ₹1,00,000 at 7% for 5 years, compounded quarterly.",
+    ],
+  },
+  deposits: {
+    title: "What are FD and RD?",
+    lines: [
+      "FD means Fixed Deposit: a one-time amount is invested for a chosen duration.",
+      "RD means Recurring Deposit: the same amount is deposited every month.",
+      "FD usually grows with compounding, while RD depends on monthly contributions plus interest.",
+      "Use the dropdowns if you want to change the calculation assumption.",
+    ],
+  },
+};
+
+function toNumber(value: string): number | null {
+  const trimmed = value.trim();
+  if (trimmed === "") return null;
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function clampMin(value: number, min: number) {
+  return Math.max(min, value);
+}
+
+function calculateSimpleInterest(principal: number, rate: number, years: number): CalcResult {
+  const interest = principal * (rate / 100) * years;
+  return { value: principal + interest, interest };
+}
+
+function calculateCompound(amount: number, rate: number, years: number, frequency: number): CalcResult {
   const periodic = rate / 100 / frequency;
-  return amount * Math.pow(1 + periodic, frequency * years);
+  const value = amount * Math.pow(1 + periodic, frequency * years);
+  return { value, interest: value - amount };
 }
 
-function calculateRd(monthly: number, annualRate: number, months: number) {
+function calculateRd(monthly: number, annualRate: number, months: number, convention: RdConvention): CalcResult {
   const r = annualRate / 100 / 12;
-  if (r === 0) return monthly * months;
-  return monthly * ((Math.pow(1 + r, months) - 1) / r) * (1 + r);
+  const value =
+    r === 0
+      ? monthly * months
+      : convention === "beginning"
+        ? monthly * (((Math.pow(1 + r, months) - 1) / r) * (1 + r))
+        : monthly * (((Math.pow(1 + r, months) - 1) / r));
+  return { value, interest: value - monthly * months };
 }
 
-function buildCompoundSeries(amount: number, rate: number, years: number, frequency: number) {
-  const series: number[] = [];
-  for (let year = 1; year <= years; year += 1) {
-    series.push(calculateCompound(amount, rate, year, frequency));
-  }
-  return series;
+function buildSeries(
+  count: number,
+  labelFactory: (index: number) => string,
+  valueFactory: (index: number) => number
+) {
+  const safeCount = Math.max(0, Math.floor(count));
+  return {
+    labels: Array.from({ length: safeCount }, (_, index) => labelFactory(index + 1)),
+    data: Array.from({ length: safeCount }, (_, index) => valueFactory(index + 1)),
+  };
 }
 
-function buildFdSeries(amount: number, rate: number, years: number) {
-  return buildCompoundSeries(amount, rate, years, 12);
-}
-
-function buildRdSeries(monthly: number, annualRate: number, months: number) {
-  const series: number[] = [];
-  for (let month = 1; month <= months; month += 1) {
-    series.push(calculateRd(monthly, annualRate, month));
-  }
-  return series;
+function FieldHint({ text }: { text: string }) {
+  return <p className="mt-2 text-xs leading-5 text-white/45">{text}</p>;
 }
 
 export default function SavingsDepositsSuite() {
-  const [activeTab, setActiveTab] = useState<"simple" | "compound" | "deposits">("simple");
-  const [principal, setPrincipal] = useState(100000);
-  const [simpleRate, setSimpleRate] = useState(6);
-  const [simpleYears, setSimpleYears] = useState(3);
-  const [compoundRate, setCompoundRate] = useState(7);
-  const [compoundYears, setCompoundYears] = useState(5);
-  const [compoundFrequency, setCompoundFrequency] = useState(4);
-  const [depositMode, setDepositMode] = useState<"fd" | "rd">("fd");
-  const [fdAmount, setFdAmount] = useState(200000);
-  const [fdRate, setFdRate] = useState(6.5);
-  const [fdYears, setFdYears] = useState(4);
-  const [rdAmount, setRdAmount] = useState(5000);
-  const [rdRate, setRdRate] = useState(6);
-  const [rdMonths, setRdMonths] = useState(60);
+  const [activeTab, setActiveTab] = useState<MainTab>("simple");
+  const [depositMode, setDepositMode] = useState<DepositMode>("fd");
 
-  const simpleInterest = useMemo(() => principal * (simpleRate / 100) * simpleYears, [principal, simpleRate, simpleYears]);
-  const compoundValue = useMemo(() => calculateCompound(principal, compoundRate, compoundYears, compoundFrequency), [principal, compoundRate, compoundYears, compoundFrequency]);
-  const fdValue = useMemo(() => calculateCompound(fdAmount, fdRate, fdYears, 12), [fdAmount, fdRate, fdYears]);
-  const rdValue = useMemo(() => calculateRd(rdAmount, rdRate, rdMonths), [rdAmount, rdRate, rdMonths]);
+  const [principal, setPrincipal] = useState<NumInput>("100000");
+  const [simpleRate, setSimpleRate] = useState<NumInput>("6");
+  const [simpleYears, setSimpleYears] = useState<NumInput>("3");
+
+  const [compoundPrincipal, setCompoundPrincipal] = useState<NumInput>("100000");
+  const [compoundRate, setCompoundRate] = useState<NumInput>("7");
+  const [compoundYears, setCompoundYears] = useState<NumInput>("5");
+  const [compoundFrequency, setCompoundFrequency] = useState<NumInput>("4");
+
+  const [fdAmount, setFdAmount] = useState<NumInput>("200000");
+  const [fdRate, setFdRate] = useState<NumInput>("6.5");
+  const [fdYears, setFdYears] = useState<NumInput>("4");
+  const [fdFrequency, setFdFrequency] = useState<NumInput>("4");
+
+  const [rdAmount, setRdAmount] = useState<NumInput>("5000");
+  const [rdRate, setRdRate] = useState<NumInput>("6");
+  const [rdMonths, setRdMonths] = useState<NumInput>("60");
+  const [rdConvention, setRdConvention] = useState<RdConvention>("end");
 
   const exportRef = useRef<HTMLDivElement | null>(null);
-  const yearLabels = useMemo(() => Array.from({ length: Math.max(simpleYears, compoundYears, fdYears) }, (_, index) => `Year ${index + 1}`), [simpleYears, compoundYears, fdYears]);
-  const rdLabels = useMemo(() => Array.from({ length: rdMonths }, (_, index) => `Month ${index + 1}`), [rdMonths]);
-  const compoundSeries = useMemo(() => buildCompoundSeries(principal, compoundRate, compoundYears, compoundFrequency), [principal, compoundRate, compoundYears, compoundFrequency]);
-  const fdSeries = useMemo(() => buildFdSeries(fdAmount, fdRate, fdYears), [fdAmount, fdRate, fdYears]);
-  const rdSeries = useMemo(() => buildRdSeries(rdAmount, rdRate, rdMonths), [rdAmount, rdRate, rdMonths]);
+
+  const simpleInputs = {
+    principal: toNumber(principal),
+    rate: toNumber(simpleRate),
+    years: toNumber(simpleYears),
+  };
+
+  const compoundInputs = {
+    principal: toNumber(compoundPrincipal),
+    rate: toNumber(compoundRate),
+    years: toNumber(compoundYears),
+    frequency: toNumber(compoundFrequency),
+  };
+
+  const fdInputs = {
+    amount: toNumber(fdAmount),
+    rate: toNumber(fdRate),
+    years: toNumber(fdYears),
+    frequency: toNumber(fdFrequency),
+  };
+
+  const rdInputs = {
+    amount: toNumber(rdAmount),
+    rate: toNumber(rdRate),
+    months: toNumber(rdMonths),
+  };
+
+  const simpleError =
+    simpleInputs.principal === null || simpleInputs.rate === null || simpleInputs.years === null
+      ? "Please enter all simple interest values."
+      : simpleInputs.principal < 0 || simpleInputs.rate < 0 || simpleInputs.years < 0
+        ? "Simple interest values cannot be negative."
+        : null;
+
+  const compoundError =
+    compoundInputs.principal === null || compoundInputs.rate === null || compoundInputs.years === null || compoundInputs.frequency === null
+      ? "Please enter all compound interest values."
+      : compoundInputs.principal < 0 || compoundInputs.rate < 0 || compoundInputs.years < 0 || compoundInputs.frequency <= 0
+        ? "Compound interest values must be valid and frequency must be at least 1."
+        : null;
+
+  const fdError =
+    fdInputs.amount === null || fdInputs.rate === null || fdInputs.years === null || fdInputs.frequency === null
+      ? "Please enter all FD values."
+      : fdInputs.amount < 0 || fdInputs.rate < 0 || fdInputs.years < 0 || fdInputs.frequency <= 0
+        ? "FD values must be valid and frequency must be at least 1."
+        : null;
+
+  const rdError =
+    rdInputs.amount === null || rdInputs.rate === null || rdInputs.months === null
+      ? "Please enter all RD values."
+      : rdInputs.amount < 0 || rdInputs.rate < 0 || rdInputs.months < 0
+        ? "RD values cannot be negative."
+        : null;
+
+  const simpleCalc = useMemo(() => {
+    if (simpleError) return { value: 0, interest: 0 };
+    return calculateSimpleInterest(simpleInputs.principal!, simpleInputs.rate!, simpleInputs.years!);
+  }, [simpleError, simpleInputs.principal, simpleInputs.rate, simpleInputs.years]);
+
+  const compoundCalc = useMemo(() => {
+    if (compoundError) return { value: 0, interest: 0 };
+    return calculateCompound(
+      compoundInputs.principal!,
+      compoundInputs.rate!,
+      compoundInputs.years!,
+      clampMin(compoundInputs.frequency!, 1)
+    );
+  }, [compoundError, compoundInputs.principal, compoundInputs.rate, compoundInputs.years, compoundInputs.frequency]);
+
+  const fdCalc = useMemo(() => {
+    if (fdError) return { value: 0, interest: 0 };
+    return calculateCompound(fdInputs.amount!, fdInputs.rate!, fdInputs.years!, clampMin(fdInputs.frequency!, 1));
+  }, [fdError, fdInputs.amount, fdInputs.rate, fdInputs.years, fdInputs.frequency]);
+
+  const rdCalc = useMemo(() => {
+    if (rdError) return { value: 0, interest: 0 };
+    return calculateRd(rdInputs.amount!, rdInputs.rate!, clampMin(rdInputs.months!, 0), rdConvention);
+  }, [rdError, rdInputs.amount, rdInputs.rate, rdInputs.months, rdConvention]);
+
+  const simpleSeries = useMemo(() => {
+    if (simpleError) return { labels: [] as string[], data: [] as number[] };
+    const years = Math.max(1, Math.floor(simpleInputs.years!));
+    return buildSeries(years, (i) => `Year ${i}`, (i) => calculateSimpleInterest(simpleInputs.principal!, simpleInputs.rate!, i).value);
+  }, [simpleError, simpleInputs.principal, simpleInputs.rate, simpleInputs.years]);
+
+  const compoundSeries = useMemo(() => {
+    if (compoundError) return { labels: [] as string[], data: [] as number[] };
+    const years = Math.max(1, Math.floor(compoundInputs.years!));
+    return buildSeries(
+      years,
+      (i) => `Year ${i}`,
+      (i) => calculateCompound(compoundInputs.principal!, compoundInputs.rate!, i, clampMin(compoundInputs.frequency!, 1)).value
+    );
+  }, [compoundError, compoundInputs.principal, compoundInputs.rate, compoundInputs.years, compoundInputs.frequency]);
+
+  const fdSeries = useMemo(() => {
+    if (fdError) return { labels: [] as string[], data: [] as number[] };
+    const years = Math.max(1, Math.floor(fdInputs.years!));
+    return buildSeries(
+      years,
+      (i) => `Year ${i}`,
+      (i) => calculateCompound(fdInputs.amount!, fdInputs.rate!, i, clampMin(fdInputs.frequency!, 1)).value
+    );
+  }, [fdError, fdInputs.amount, fdInputs.rate, fdInputs.years, fdInputs.frequency]);
+
+  const rdSeries = useMemo(() => {
+    if (rdError) return { labels: [] as string[], data: [] as number[] };
+    const months = Math.max(1, Math.floor(rdInputs.months!));
+    return buildSeries(
+      months,
+      (i) => `Month ${i}`,
+      (i) => calculateRd(rdInputs.amount!, rdInputs.rate!, i, rdConvention).value
+    );
+  }, [rdError, rdInputs.amount, rdInputs.rate, rdInputs.months, rdConvention]);
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="justify-center tab-group mx-auto">
-                <div className="flex gap-2 flex-wrap justify-center">
-                    {[
-                    { id: "simple", label: "Simple Interest" },
-                    { id: "compound", label: "Compound Interest" },
-                    { id: "deposits", label: "FD & RD Planner" },
-                ].map((tab) => (
-                    <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
-                    className={`tab-button ${activeTab === tab.id ? "tab-button-active" : ""}`}
-                    >
-                    {tab.label}
-                    </button>
-                ))}
-                </div>
+    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
+      <section className={`${shellClass} mb-5 px-5 py-6 sm:px-6 lg:px-8`}>
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-3xl">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
+              <BarChart3 className="h-3.5 w-3.5" />
+              Private finance workspace
             </div>
-            <FinancePdfExport />
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+              Savings and deposits with{" "}
+              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
+                clear projections
+              </span>
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
+              Compare simple interest, compound growth, FD, and RD — all calculations run locally in your browser.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
+            <StatCard label="Mode" value={tabs.find((t) => t.id === activeTab)?.label ?? "Simple Interest"} icon="⚙️" />
+            <StatCard label="Simple interest" value={formatCurrency(simpleCalc.value)} icon="🧮" />
+            <StatCard label="Compound value" value={formatCurrency(compoundCalc.value)} icon="📈" />
+            <StatCard label="FD / RD" value={formatCurrency(depositMode === "fd" ? fdCalc.value : rdCalc.value)} icon="🏦"  />
+          </div>
+        </div>
+      </section>
+
+      <div className="flex items-center gap-3">
+        <div className="flex flex-1 justify-center gap-2 flex-wrap">
+          {tabs.map((tab) => {
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={[
+                  "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
+                  active
+                    ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
+                    : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
+                ].join(" ")}
+              >
+                <span>{tab.icon}</span>
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
-        <div ref={exportRef} className="space-y-6">
-            {activeTab === "simple" && (
-                <div className="space-y-6">
-                <h1 data-export-title className="text-lg text-white/70">
-                    Simple interest calculator
-                </h1>
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field label="Principal">
-                        <input
-                        type="number"
+        <div className="ml-auto">
+          <FinancePdfExport />
+        </div>
+      </div>
+
+      <ExplainerPanel tabKey={activeTab} explainers={EXPLAINERS} />
+
+      <div ref={exportRef} className="space-y-6">
+        {activeTab === "simple" && (
+          <div className="space-y-4">
+            <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+              <section className={shellClass}>
+                <div className="border-b border-white/10 p-4 sm:p-5">
+                  <SectionHeader
+                    title="Simple interest calculator"
+                    subtitle="Enter principal, rate, and time to see total interest and maturity value."
+                    icon={PiggyBank}
+                  />
+                </div>
+
+                <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+                  <div>
+                    <Field label="Principal (₹)">
+                      <input
+                        type="text"
+                        inputMode="decimal"
                         value={principal}
-                        onChange={(event: any) =>  setPrincipal(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        />
+                        onChange={(e) => setPrincipal(e.target.value)}
+                        className={inputClass}
+                      />
                     </Field>
-                    <Field label="Rate (%)">
-                        <input
-                        type="number"
+                    <FieldHint text="The starting amount you invest or deposit." />
+                  </div>
+
+                  <div>
+                    <Field label="Interest rate (%)">
+                      <input
+                        type="text"
+                        inputMode="decimal"
                         value={simpleRate}
-                        onChange={(event: any) =>  setSimpleRate(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                        />
+                        onChange={(e) => setSimpleRate(e.target.value)}
+                        className={inputClass}
+                      />
                     </Field>
+                    <FieldHint text="Annual simple interest rate." />
+                  </div>
+
+                  <div>
                     <Field label="Duration (years)">
-                        <input
-                        type="number"
+                      <input
+                        type="text"
+                        inputMode="decimal"
                         value={simpleYears}
-                        onChange={(event: any) =>  setSimpleYears(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={1}
-                        />
+                        onChange={(e) => setSimpleYears(e.target.value)}
+                        className={inputClass}
+                      />
                     </Field>
+                    <FieldHint text="How long the money stays invested." />
+                  </div>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-3">
-                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                    <div className="text-xs text-white/60">Total interest</div>
-                    <div className="mt-1 text-lg text-white">{formatCurrency(simpleInterest)}</div>
-                    </div>
-                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                    <div className="text-sm text-white/60">Principal</div>
-                    <div className="mt-1 text-lg text-white">{formatCurrency(principal)}</div>
-                    </div>
-                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                    <div className="text-sm text-white/60">Maturity value</div>
-                    <div className="mt-1 text-lg text-white">{formatCurrency(principal + simpleInterest)}</div>
-                    </div>
+                {simpleError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{simpleError}</div> : null}
+
+                <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
+                    <StatCard label="Total interest" value={simpleError ? "Fix inputs" : formatCurrency(simpleCalc.interest)}  icon="💹" />
+                    <StatCard label="Principal" value={formatCurrency(simpleInputs.principal ?? 0)} icon="💵" />
+                    <StatCard label="Maturity value" value={simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value)} icon="🏆" />
+                </div>
+              </section>
+
+              <section className={shellClass}>
+                <div className="border-b border-white/10 p-4 sm:p-5">
+                  <SectionHeader
+                    title="Projection"
+                    subtitle="Shows the maturity value growing year by year."
+                    icon={BarChart3}
+                  />
                 </div>
 
-                <div className="rounded-xl border border-white/10 bg-surface p-4">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h3 className="text-lg text-white/60 font-semibold">Simple interest overview</h3>
-                        </div>
-                    </div>
-                    <div className="mt-6" ref={exportRef} data-export-chart>
-                    <FinanceChart
-                        labels={yearLabels.slice(0, simpleYears)}
-                        datasets={[
-                        {
-                            label: "Principal",
-                            data: Array.from({ length: simpleYears }, () => principal),
-                            color: "rgba(34,197,94,0.8)",
-                            // backgroundColor: "rgba(34,197,94,0.2)",
-                        },
-                        {
-                            label: "Maturity value",
-                            data: Array.from({ length: simpleYears }, (_, index) => principal + simpleInterest * ((index + 1) / simpleYears)),
-                            color: "rgba(59,130,246,0.8)",
-                            // backgroundColor: "rgba(59,130,246,0.2)",
-                        },
-                        ]}
-                    />
-                    </div>
+                <div className="p-4 sm:p-5">
+                  <FinanceChart
+                    labels={simpleSeries.labels}
+                    datasets={[
+                      {
+                        label: "Projected value",
+                        data: simpleSeries.data,
+                        color: "rgba(59,130,246,0.9)",
+                      },
+                    ]}
+                  />
                 </div>
-                </div>
-            )}
+              </section>
+            </div>
+          </div>
+        )}
 
-            {activeTab === "compound" && (
-                <div className="space-y-6">
-                <h1 data-export-title className="text-lg text-white/70">
-                    Compound interest calculator
-                </h1>
-                <div className="grid gap-4 md:grid-cols-2">
-                    <Field label="Principal">
-                        <input
-                        type="number"
-                        value={principal}
-                        onChange={(event) =>  setPrincipal(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        />
+        {activeTab === "compound" && (
+          <div className="space-y-4">
+            <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+              <section className={shellClass}>
+                <div className="border-b border-white/10 p-4 sm:p-5">
+                  <SectionHeader
+                    title="Compound interest calculator"
+                    subtitle="Default compounding is quarterly, but you can change it."
+                    icon={TrendingUp}
+                  />
+                </div>
+
+                <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+                  <div>
+                    <Field label="Principal (₹)">
+                      <input
+                        type="text"
+                        inputMode="decimal"
+                        value={compoundPrincipal}
+                        onChange={(e) => setCompoundPrincipal(e.target.value)}
+                        className={inputClass}
+                      />
                     </Field>
-                    <Field label="Rate (%)">
-                        <input
-                        type="number"
+                    <FieldHint text="The amount on which compound interest will be calculated." />
+                  </div>
+
+                  <div>
+                    <Field label="Interest rate (%)">
+                      <input
+                        type="text"
+                        inputMode="decimal"
                         value={compoundRate}
-                        onChange={(event) =>  setCompoundRate(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                        />
+                        onChange={(e) => setCompoundRate(e.target.value)}
+                        className={inputClass}
+                      />
                     </Field>
+                    <FieldHint text="Annual nominal interest rate." />
+                  </div>
+
+                  <div>
                     <Field label="Duration (years)">
-                        <input
-                        type="number"
+                      <input
+                        type="text"
+                        inputMode="decimal"
                         value={compoundYears}
-                        onChange={(event) =>  setCompoundYears(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                        />
+                        onChange={(e) => setCompoundYears(e.target.value)}
+                        className={inputClass}
+                      />
                     </Field>
-                    <Field label="Frequency">
-                        <select
-                            value={compoundFrequency}
-                            onChange={(event) => setCompoundFrequency(Number(event.target.value))}
-                            className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        >
-                            <option value={1}>Annually</option>
-                            <option value={2}>Semi-annually</option>
-                            <option value={4}>Quarterly</option>
-                            <option value={12}>Monthly</option>
-                        </select>
+                    <FieldHint text="How long the investment stays active." />
+                  </div>
+
+                  <div>
+                    <Field label="Compounding frequency">
+                      <select
+                        value={compoundFrequency}
+                        onChange={(e) => setCompoundFrequency(e.target.value)}
+                        className={inputClass}
+                      >
+                        <option value={1}>Annually</option>
+                        <option value={2}>Semi-annually</option>
+                        <option value={4}>Quarterly</option>
+                        <option value={12}>Monthly</option>
+                      </select>
                     </Field>
+                    <FieldHint text="How often interest is added to the principal." />
+                  </div>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-3">
-                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                        <div className="text-xs text-white/60">Principal</div>
-                        <div className="mt-1 text-lg text-white">{formatCurrency(principal)}</div>
-                    </div>
-                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                        <div className="text-sm text-white/60">Maturity value</div>
-                        <div className="mt-1 text-lg text-white">{formatCurrency(compoundValue)}</div>
-                    </div>
-                    <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                        <div className="text-sm text-white/60">Compound gain</div>
-                        <div className="mt-1 text-lg text-white">{formatCurrency(compoundValue - principal)}</div>
-                    </div>
+                {compoundError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{compoundError}</div> : null}
+
+                <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
+                  <StatCard label="Principal" value={formatCurrency(compoundInputs.principal ?? 0)} icon="💵" />
+                  <StatCard label="Maturity value" value={compoundError ? "Fix inputs" : formatCurrency(compoundCalc.value)} icon="🏆" />
+                  <StatCard label="Compound gain" value={compoundError ? "Fix inputs" : formatCurrency(compoundCalc.interest)}  icon="✨" />
+                </div>
+              </section>
+
+              <section className={shellClass}>
+                <div className="border-b border-white/10 p-4 sm:p-5">
+                  <SectionHeader
+                    title="Projection"
+                    subtitle="Shows the compounded value at each year."
+                    icon={BarChart3}
+                  />
                 </div>
 
-                <div className="rounded-xl border border-white/10 bg-surface p-4">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h3 className="text-lg text-white/60 font-semibold">Compound interest projection</h3>
-                        </div>
-                    </div>
-                    <div className="mt-6" ref={exportRef} data-export-chart>
-                    <FinanceChart
-                        labels={yearLabels.slice(0, compoundYears)}
-                        datasets={[
-                        {
-                            label: "Projected value",
-                            data: compoundSeries,
-                            color: "rgba(59,130,246,0.8)",
-                            // backgroundColor: "rgba(59,130,246,0.2)",
-                        },
-                        ]}
+                <div className="p-4 sm:p-5">
+                  <FinanceChart
+                    labels={compoundSeries.labels}
+                    datasets={[
+                      {
+                        label: "Projected value",
+                        data: compoundSeries.data,
+                        color: "rgba(34,197,94,0.85)",
+                      },
+                    ]}
+                  />
+                </div>
+              </section>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "deposits" && (
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-3 justify-center">
+              {[
+                { id: "fd", label: "Fixed Deposit" },
+                { id: "rd", label: "Recurring Deposit" },
+              ].map((mode) => (
+                <button
+                  key={mode.id}
+                  type="button"
+                  onClick={() => setDepositMode(mode.id as DepositMode)}
+                  className={`tab-button ${depositMode === mode.id ? "tab-button-active" : ""}`}
+                >
+                  {mode.label}
+                </button>
+              ))}
+            </div>
+
+            {depositMode === "fd" ? (
+              <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+                <section className={shellClass}>
+                  <div className="border-b border-white/10 p-4 sm:p-5">
+                    <SectionHeader
+                      title="Fixed deposit planner"
+                      subtitle="Default compounding is quarterly. Change it if your product uses a different rule."
+                      icon={ShieldCheck}
                     />
+                  </div>
+
+                  <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+                    <div>
+                      <Field label="Deposit amount (₹)">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={fdAmount}
+                          onChange={(e) => setFdAmount(e.target.value)}
+                          className={inputClass}
+                        />
+                      </Field>
+                      <FieldHint text="The one-time amount you deposit today." />
                     </div>
-                </div>
-                </div>
+
+                    <div>
+                      <Field label="Interest rate (%)">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={fdRate}
+                          onChange={(e) => setFdRate(e.target.value)}
+                          className={inputClass}
+                        />
+                      </Field>
+                      <FieldHint text="Annual FD rate." />
+                    </div>
+
+                    <div>
+                      <Field label="Duration (years)">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={fdYears}
+                          onChange={(e) => setFdYears(e.target.value)}
+                          className={inputClass}
+                        />
+                      </Field>
+                      <FieldHint text="How long the deposit stays invested." />
+                    </div>
+
+                    <div>
+                      <Field label="Compounding frequency">
+                        <select
+                          value={fdFrequency}
+                          onChange={(e) => setFdFrequency(e.target.value)}
+                          className={inputClass}
+                        >
+                          <option value={1}>Annually</option>
+                          <option value={2}>Semi-annually</option>
+                          <option value={4}>Quarterly</option>
+                          <option value={12}>Monthly</option>
+                        </select>
+                      </Field>
+                      <FieldHint text="Quarterly is the common default for bank-style FD calculations." />
+                    </div>
+                  </div>
+
+                  {fdError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{fdError}</div> : null}
+
+                  <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
+                    <StatCard label="Deposit" value={formatCurrency(fdInputs.amount ?? 0)} icon="💰" />
+                    <StatCard label="Maturity value" value={fdError ? "Fix inputs" : formatCurrency(fdCalc.value)} icon="💎" />
+                    <StatCard label="Interest earned" value={fdError ? "Fix inputs" : formatCurrency(fdCalc.interest)} icon="💹" />
+                  </div>
+                </section>
+
+                <section className={shellClass}>
+                  <div className="border-b border-white/10 p-4 sm:p-5">
+                    <SectionHeader
+                      title="FD projection"
+                      subtitle="Shows the future value year by year."
+                      icon={BarChart3}
+                    />
+                  </div>
+
+                  <div className="p-4 sm:p-5">
+                    <FinanceChart
+                      labels={fdSeries.labels}
+                      datasets={[
+                        {
+                          label: "Maturity value",
+                          data: fdSeries.data,
+                          color: "rgba(14,165,233,0.85)",
+                        },
+                      ]}
+                    />
+                  </div>
+                </section>
+              </div>
+            ) : (
+              <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+                <section className={shellClass}>
+                  <div className="border-b border-white/10 p-4 sm:p-5">
+                    <SectionHeader
+                      title="Recurring deposit planner"
+                      subtitle="Choose the deposit timing assumption before reviewing the result."
+                      icon={Calculator}
+                    />
+                  </div>
+
+                  <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+                    <div>
+                      <Field label="Monthly deposit (₹)">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={rdAmount}
+                          onChange={(e) => setRdAmount(e.target.value)}
+                          className={inputClass}
+                        />
+                      </Field>
+                      <FieldHint text="The amount you deposit every month." />
+                    </div>
+
+                    <div>
+                      <Field label="Interest rate (%)">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={rdRate}
+                          onChange={(e) => setRdRate(e.target.value)}
+                          className={inputClass}
+                        />
+                      </Field>
+                      <FieldHint text="Annual RD rate." />
+                    </div>
+
+                    <div>
+                      <Field label="Term (months)">
+                        <input
+                          type="text"
+                          inputMode="decimal"
+                          value={rdMonths}
+                          onChange={(e) => setRdMonths(e.target.value)}
+                          className={inputClass}
+                        />
+                      </Field>
+                      <FieldHint text="How many months you keep depositing." />
+                    </div>
+
+                    <div>
+                      <Field label="Deposit timing">
+                        <select
+                          value={rdConvention}
+                          onChange={(e) => setRdConvention(e.target.value as RdConvention)}
+                          className={inputClass}
+                        >
+                          <option value="end">End of month</option>
+                          <option value="beginning">Beginning of month</option>
+                        </select>
+                      </Field>
+                      <FieldHint text="Use the default if you just want a quick estimate." />
+                    </div>
+                  </div>
+
+                  {rdError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{rdError}</div> : null}
+
+                  <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
+                    <StatCard label="Total invested" value={formatCurrency((rdInputs.amount ?? 0) * (rdInputs.months ?? 0))} icon="🏦" />
+                    <StatCard label="Maturity value" value={rdError ? "Fix inputs" : formatCurrency(rdCalc.value)}  icon="💎" />
+                    <StatCard label="Interest earned" value={rdError ? "Fix inputs" : formatCurrency(rdCalc.interest)} icon="💹" />
+                  </div>
+                </section>
+
+                <section className={shellClass}>
+                  <div className="border-b border-white/10 p-4 sm:p-5">
+                    <SectionHeader
+                      title="RD projection"
+                      subtitle="Shows the maturity value month by month."
+                      icon={BarChart3}
+                    />
+                  </div>
+
+                  <div className="p-4 sm:p-5">
+                    <FinanceChart
+                      labels={rdSeries.labels}
+                      datasets={[
+                        {
+                          label: "Maturity value",
+                          data: rdSeries.data,
+                          color: "rgba(16,185,129,0.85)",
+                        },
+                      ]}
+                    />
+                  </div>
+                </section>
+              </div>
             )}
-
-            {activeTab === "deposits" && (
-                <div className="space-y-6">
-                <div className="flex flex-wrap gap-3 justify-center">
-                    {[
-                    { id: "fd", label: "Fixed Deposit" },
-                    { id: "rd", label: "Recurring Deposit" },
-                    ].map((mode) => (
-                    <button
-                        key={mode.id}
-                        onClick={() => setDepositMode(mode.id as any)}
-                        className={`tab-button ${depositMode === mode.id ? "tab-button-active" : ""}`}
-                    >
-                        {mode.label}
-                    </button>
-                    ))}
-                </div>
-
-                {depositMode === "fd" ? (
-                    <div className="space-y-6">
-                    <h1 data-export-title className="text-lg text-white/70">
-                        Fixed deposit planner
-                    </h1>
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <Field label="Deposit amount">
-                        <input
-                        type="number"
-                        value={fdAmount}
-                        onChange={(event) =>  setFdAmount(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        />
-                        </Field>
-                        <Field label="Interest rate (%)">
-                        <input
-                        type="number"
-                        value={fdRate}
-                        onChange={(event) =>  setFdRate(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                        />
-                        </Field>
-                        <Field label="Duration (years)">
-                        <input
-                        type="number"
-                        value={fdYears}
-                        onChange={(event) =>  setFdYears(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={1}
-                        />
-                        </Field>
-                    </div>
-
-                    <div className="grid gap-4 sm:grid-cols-3">
-                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                            <div className="text-xs text-white/60">Deposit</div>
-                            <div className="mt-1 text-lg text-white">{formatCurrency(fdAmount)}</div>
-                        </div>
-                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                            <div className="text-xs text-white/60">Maturity value</div>
-                            <div className="mt-1 text-lg text-white">{formatCurrency(fdValue)}</div>
-                        </div>
-                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                            <div className="text-xs text-white/60">Interest earned</div>
-                            <div className="mt-1 text-lg text-white">{formatCurrency(fdValue - fdAmount)}</div>
-                        </div>
-                    </div>
-
-                    <div className="rounded-xl border border-white/10 bg-surface p-4">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h3 className="text-lg text-white/60 font-semibold">FD growth projection</h3>
-                            </div>
-                        </div>
-                        <div className="mt-6" ref={exportRef} data-export-chart>
-                        <FinanceChart
-                            labels={yearLabels.slice(0, fdYears)}
-                            datasets={[
-                            {
-                                label: "Maturity value",
-                                data: fdSeries,
-                                color: "rgba(14,165,233,0.8)",
-                                // backgroundColor: "rgba(14,165,233,0.2)",
-                            },
-                            ]}
-                        />
-                        </div>
-                    </div>
-                    </div>
-                ) : (
-                    <div className="space-y-6">
-                    <h1 className="block text-lg text-white/80" data-export-title>
-                        Recurring deposit 
-                    </h1>
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <Field label="Monthly deposit">
-                        <input
-                        type="number"
-                        value={rdAmount}
-                        onChange={(event) =>  setRdAmount(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        />
-                        </Field>
-                        <Field label="Rate (%)">
-                        <input
-                        type="number"
-                        value={rdRate}
-                        onChange={(event) =>  setRdRate(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                        />
-                        </Field>
-                        <Field label="Term (months)">
-                        <input
-                        type="number"
-                        value={rdMonths}
-                        onChange={(event) =>  setRdMonths(Number(event.target.value))}
-                        className="w-full p-3 rounded-md border border-gray-700 bg-gray-950/40 text-white"
-                        min={0}
-                        step={0.1}
-                        />
-                        </Field>
-                    </div>
-
-                    <div className="grid gap-4 sm:grid-cols-3">
-                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                            <div className="text-xs text-white/60">Total invested</div>
-                            <div className="mt-1 text-lg text-white">{formatCurrency(rdAmount * rdMonths)}</div>
-                        </div>
-                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                            <div className="text-xs text-white/60">Maturity value</div>
-                            <div className="mt-1 text-lg text-white">{formatCurrency(rdValue)}</div>
-                        </div>
-                        <div className="rounded-md bg-gray-900 p-3" data-export-result>
-                            <div className="text-xs text-white/60">Interest earned</div>
-                            <div className="mt-1 text-lg text-white">{formatCurrency(rdValue - rdAmount * rdMonths)}</div>
-                        </div>
-                    </div>
-
-                    <div className="rounded-xl border border-white/10 bg-surface p-4">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h3 className="text-lg text-white/60 font-semibold">RD maturity projection</h3>
-                            </div>
-                        </div>
-                        <div className="mt-6" ref={exportRef} data-export-chart>
-                        <FinanceChart
-                            labels={rdLabels}
-                            datasets={[
-                            {
-                                label: "Maturity value",
-                                data: rdSeries,
-                                color: "rgba(16,185,129,0.8)",
-                                // backgroundColor: "rgba(16,185,129,0.2)",
-                            },
-                            ]}
-                        />
-                        </div>
-                    </div>
-                    </div>
-                )}
-                </div>
-            )}
-        </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

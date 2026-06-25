@@ -20,6 +20,8 @@ import {
 
 import { Field } from "@/components/ui/field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
+import { ExplainerPanel, TabKey } from "@/sharedUI/explainerPanel";
 
 const FinanceChart = dynamic(
   () => import("@/components/tools/financeSuite/financeChart").then((m) => m.FinanceChart),
@@ -39,7 +41,7 @@ const FinancePdfExport = dynamic(
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type TabKey = "sip" | "lump" | "performance";
+
 
 type CashFlow = {
   id: string;
@@ -59,7 +61,7 @@ const tabs: { id: TabKey; label: string; icon: string }[] = [
 
 // ─── Explainer content ────────────────────────────────────────────────────────
 
-const EXPLAINERS: Record<TabKey, { title: string; lines: string[] }> = {
+const EXPLAINERS: any = {
   sip: {
     title: "What is SIP (Systematic Investment Plan)?",
     lines: [
@@ -87,7 +89,7 @@ const EXPLAINERS: Record<TabKey, { title: string; lines: string[] }> = {
       "Use XIRR when you've made multiple investments at different times (e.g. SIP purchases + redemptions).",
       "Investments are entered as negative numbers (money out of your pocket), payouts as positive (money back to you).",
     ],
-  },
+  }
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -324,28 +326,6 @@ function StatCard({ label, value, icon }: { label: string; value: string; icon: 
   );
 }
 
-function SectionHeader({
-  title,
-  subtitle,
-  icon: Icon,
-}: {
-  title: string;
-  subtitle: string;
-  icon: React.ElementType;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="rounded-xl border border-white/10 bg-white/5 p-2 text-blue-300">
-        <Icon className="h-4 w-4" />
-      </div>
-      <div>
-        <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">{title}</h2>
-        <p className="mt-1 text-sm text-white/60">{subtitle}</p>
-      </div>
-    </div>
-  );
-}
-
 function ResultBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -375,44 +355,6 @@ function FieldHint({ text }: { text: string }) {
   );
 }
 
-// ─── Explainer panel ──────────────────────────────────────────────────────────
-
-function ExplainerPanel({ tabKey }: { tabKey: TabKey }) {
-  const [open, setOpen] = useState(false);
-  const content = EXPLAINERS[tabKey];
-
-  return (
-    <div className="rounded-2xl border border-blue-400/20 bg-blue-400/[0.06]">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm font-medium text-blue-200"
-        aria-expanded={open}
-      >
-        <span className="flex items-center gap-2">
-          <Info className="h-4 w-4 shrink-0 text-blue-300" aria-hidden="true" />
-          {content.title}
-        </span>
-        {open ? (
-          <ChevronUp className="h-4 w-4 shrink-0 text-blue-300" aria-hidden="true" />
-        ) : (
-          <ChevronDown className="h-4 w-4 shrink-0 text-blue-300" aria-hidden="true" />
-        )}
-      </button>
-
-      {open && (
-        <ul className="space-y-1.5 border-t border-blue-400/20 px-4 py-3">
-          {content.lines.map((line) => (
-            <li key={line} className="flex items-start gap-2 text-sm text-blue-100/80">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400/60" aria-hidden="true" />
-              {line}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
 
 // ─── XIRR row ─────────────────────────────────────────────────────────────────
 
@@ -768,7 +710,7 @@ export default function InvestmentReturnsSuite() {
       {/* ── SIP tab ── */}
       {activeTab === "sip" && (
         <div className="space-y-4">
-          <ExplainerPanel tabKey="sip" />
+          <ExplainerPanel tabKey="sip" explainers={EXPLAINERS}/>
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
             <section className={shellClass}>
@@ -891,7 +833,7 @@ export default function InvestmentReturnsSuite() {
       {/* ── Lump Sum tab ── */}
       {activeTab === "lump" && (
         <div className="space-y-4">
-          <ExplainerPanel tabKey="lump" />
+          <ExplainerPanel tabKey="lump" explainers={EXPLAINERS}/>
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
             <section className={shellClass}>
@@ -1001,7 +943,7 @@ export default function InvestmentReturnsSuite() {
       {/* ── CAGR & XIRR tab ── */}
       {activeTab === "performance" && (
         <div className="space-y-5">
-          <ExplainerPanel tabKey="performance" />
+          <ExplainerPanel tabKey="performance" explainers={EXPLAINERS}/>
 
           <div className="grid gap-5 xl:grid-cols-2">
 
