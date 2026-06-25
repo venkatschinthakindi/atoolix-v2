@@ -4,7 +4,7 @@ export type PageSize = "A4" | "Letter";
 export type Orientation = "portrait" | "landscape";
 
 interface Options {
-  pageSize: PageSize;
+  pageSize: PageSize | any;
   orientation: Orientation;
   margin: number;
 }

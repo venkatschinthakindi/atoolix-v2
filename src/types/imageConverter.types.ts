@@ -11,6 +11,8 @@ export interface PdfToolConfig {
   title: string;
   description?: string;
   allowedFormats?:ImageFormat[];
+  toolShortName?: string;
+  onPageTitle?: string;
 }
 
 export interface ConvertOptions {
