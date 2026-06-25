@@ -16,7 +16,7 @@ const seoRegistry: Record<string, any> = {
     { ssr: true }
   ),
   "calculator/roi-calculator": dynamic(
-    () => import("@/components/tools/financeSuite/investmentReturnsSuiteSeoContent"),
+    () => import("@/components/tools/financeSuite/investmentReturnsSuiteSeoContentV3"),
     { ssr: true }
   ),
   
