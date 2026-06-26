@@ -1,5 +1,16 @@
 import JSZip, { JSZipObject } from "jszip";
-import * as pdfjsLib from "pdfjs-dist";
+let pdfjsLib: typeof import("pdfjs-dist") | null = null;
+
+async function getPdfJs() {
+  const pdfjsLib = await import("pdfjs-dist");
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+    "pdfjs-dist/build/pdf.worker.min.mjs",
+    import.meta.url
+  ).toString();
+
+  return pdfjsLib;
+}
 
 export type ZipEntry = {
   /** Full path inside the archive */
@@ -26,19 +37,15 @@ async function readPdfInfo(
 ): Promise<Omit<ZipEntry, "name" | "isFolder">> {
   try {
     const data = await entry.async("arraybuffer");
-
-    const pdf = await pdfjsLib
-      .getDocument({
-        data,
-      })
-      .promise;
-
+    const pdfjs = await getPdfJs();
+    const pdf = await pdfjs.getDocument({ data }).promise;
     return {
       type: "pdf",
       size: data.byteLength,
       pages: pdf.numPages,
     };
   } catch {
+    console.error("Failed to read PDF info");
     // Corrupted/encrypted PDF
     try {
       const data = await entry.async("arraybuffer");
@@ -66,7 +73,7 @@ async function readGenericFile(
 
     return {
       type: extension,
-      size: data.byteLength,
+      size: data.byteLength
     };
   } catch {
     return {
