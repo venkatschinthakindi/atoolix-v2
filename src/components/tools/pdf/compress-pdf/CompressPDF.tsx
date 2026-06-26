@@ -12,5 +12,5 @@ function PdfCompressor({ initialExpression, theme, title,description, allowedFor
           allowedFormats: allowedFormats
         } as PdfToolConfig;
 
-  return <CompressClient config={toolConfig}/>;
+  return <CompressClient config={toolConfig} />;
 }
