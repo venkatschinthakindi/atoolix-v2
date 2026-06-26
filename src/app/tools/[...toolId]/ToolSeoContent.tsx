@@ -44,6 +44,11 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/pdf/image-to-pdf/WebpToPdfSeoContent"),
     { ssr: true }
   ),
+  "pdf/compress-pdf": dynamic(
+    () => import("@/components/tools/pdf/compress-pdf/pdfCompressorSeoContent"),
+    { ssr: true }
+  ),
+  
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
