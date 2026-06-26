@@ -34,6 +34,8 @@ import { PremiumButton } from "@/components/ui/premiumButton";
 import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
 import CustomSelect from "@/components/ui/customSelect";
+import ZipViewerModal from "@/components/ui/zip/zipViewerModal";
+import { readZipEntries, ZipEntry } from "@/lib/readZipEntries";
 
 
 const PdfViewerModal = dynamic(
@@ -73,6 +75,9 @@ export default function PdfSpliterClient({ config }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [modalVariant, setModalVariant] = useState<"preview" | "download">("preview");
   const [autoOptimize, setAutoOptimize] = useState(true);
+  const [zipEntries, setZipEntries] = useState<ZipEntry[]>([]);
+  const [zipUrl, setZipUrl] = useState("");
+
 
 
   useEffect(() => {
@@ -419,12 +424,21 @@ export default function PdfSpliterClient({ config }: Props) {
     }
   }, [pdfs, splitOption, autoOptimize, resetTool]);
 
+  const handleZipBlob = async (zipBlob: Blob) => {
+    const parsedEntries = await readZipEntries(zipBlob as File);
+    setZipEntries(parsedEntries);
+    setZipUrl(URL.createObjectURL(zipBlob));
+    setShowModal(true);
+  };
 
   const openPreview = useCallback((blob: Blob) => {
     const url = URL.createObjectURL(blob);
     setPreviewUrl(url);
     setModalVariant("preview");
     setShowModal(true);
+    if(splitOption === "multiple") {
+      handleZipBlob(blob);
+    }
   }, []);
 
 
@@ -433,6 +447,9 @@ export default function PdfSpliterClient({ config }: Props) {
     setPreviewUrl(url);
     setModalVariant("download");
     setShowModal(true);
+    if(splitOption === "multiple") {
+      handleZipBlob(blob);
+    }
   }, []);
 
 
@@ -666,13 +683,7 @@ export default function PdfSpliterClient({ config }: Props) {
                 accent="emerald"
               />
             ) : (
-              <div className=
-            {
-               splitOption === "single"?
-               "grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 sm:gap-3"
-                : "grid grid-cols-1 gap-2 p-3 "
-            }
-            >
+              <div className='grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 sm:gap-3'>
                 {splitOption === "single" ? (
                   <>
                     <PremiumButton
@@ -689,12 +700,20 @@ export default function PdfSpliterClient({ config }: Props) {
                     />
                   </>
                 ) : (
+                  <>
                   <PremiumButton
+                      icon={Eye}
+                      label="Preview ZIP"
+                      onClick={() => downloadableContent && openPreview(downloadableContent)}
+                      accent="violet"
+                    />
+                    <PremiumButton
                     icon={Download}
                     label="Download ZIP"
                     onClick={() => downloadableContent && openDownloadModel(downloadableContent)}
                     accent="emerald"
                   />
+                  </>
                 )}
               </div>
             )}
@@ -703,11 +722,28 @@ export default function PdfSpliterClient({ config }: Props) {
       </div>
 
 
-      {showModal && previewUrl && (
+      {showModal && previewUrl && splitOption === "single" && (
         <PdfViewerModal
           url={previewUrl}
           onClose={handleCloseModal}
           documentName="Selected Pages"
+          variant={modalVariant}
+          onDownload={downloadProcessedFile}
+        />
+      )}
+      {showModal && zipUrl && splitOption === "multiple" && (
+        // <ZipViewerModal
+        //   url={previewUrl}
+        //   onClose={handleCloseModal}
+        //   documentName="Selected Pages"
+        //   variant={modalVariant}
+        //   onDownload={downloadProcessedFile}
+        // />
+        <ZipViewerModal
+          url={zipUrl}
+          entries={zipEntries}
+          onClose={handleCloseModal}
+          documentName="Archive"
           variant={modalVariant}
           onDownload={downloadProcessedFile}
         />
