@@ -334,6 +334,7 @@ export default function CompressClient({ config }: Props) {
   const handleDownload = useCallback(async () => {
     if (!compressedBlob || !file) return;
     saveBlobAs(compressedBlob, file.name.replace(/\.pdf$/i, "_compressed.pdf"));
+    reset();
   }, [compressedBlob, file]);
 
   const handleCloseModal = useCallback(() => {
@@ -590,7 +591,7 @@ export default function CompressClient({ config }: Props) {
 
                     <button
                       className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
-                      onClick={handleDownload}
+                      onClick={() => compressedBlob && openDownloadModal(compressedBlob)}
                       type="button"
                       disabled={!compressedBlob}
                     >

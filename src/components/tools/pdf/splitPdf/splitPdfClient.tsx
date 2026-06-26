@@ -365,6 +365,7 @@ export default function PdfSpliterClient({ config }: Props) {
 
 
         setDownloadableContent(blob);
+        openPreview(blob);
       } else {
         setProcessingLabel("Splitting into separate PDFs...");
         const JSZip = await asyncGetJsZipLib();
@@ -643,7 +644,13 @@ export default function PdfSpliterClient({ config }: Props) {
           </div>
 
 
-          <div className="space-y-3 sm:space-y-4 p-3 sm:p-4 md:p-5">
+          <div className=
+            {
+               state !== "done" && previewUrl?
+               "grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 sm:gap-3"
+                : "grid grid-cols-1 gap-2 p-3 "
+            }
+            >
             {state === "processing" && <ProgressBar value={progress} />}
             {state === "processing" && (
               <p className="text-[10px] sm:text-xs text-white/60">{processingLabel}</p>
@@ -659,7 +666,13 @@ export default function PdfSpliterClient({ config }: Props) {
                 accent="emerald"
               />
             ) : (
-              <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:justify-start">
+              <div className=
+            {
+               splitOption === "single"?
+               "grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 sm:gap-3"
+                : "grid grid-cols-1 gap-2 p-3 "
+            }
+            >
                 {splitOption === "single" ? (
                   <>
                     <PremiumButton

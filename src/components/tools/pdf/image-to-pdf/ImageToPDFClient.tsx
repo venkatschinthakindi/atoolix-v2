@@ -253,25 +253,12 @@ export default function ImageToPDFClient({ config }: Props) {
   const handleDownload = useCallback(async () => {
     if (!files.length) return;
 
+    setModalVariant("download");
     setLoading(true);
     setProgress(10);
-
-    try {
-      const pdfBytes = await imagesToPDF(files, {
-        pageSize,
-        orientation,
-        margin,
-        // fitMode,
-      });
-
-      const blob = new Blob([Uint8Array.from(pdfBytes)], { type: "application/pdf" });
-      const saveAs = await asyncGetFileSaverLib();
-      saveAs(blob, outputName);
-
+    try {      
+      setShowModal(true);
       setProgress(100);
-      setTimeout(() => {
-        resetAll();
-      }, 800);
     } catch (err) {
       console.error(err);
       alert("Failed to generate PDF");
@@ -279,6 +266,25 @@ export default function ImageToPDFClient({ config }: Props) {
       setProgress(0);
     }
   }, [files, pageSize, orientation, margin, fitMode, outputName, resetAll]);
+
+  const downloadProcessedFile = useCallback(async () => {
+    if (files?.length??0 === 0) return;
+
+    const pdfBytes = await imagesToPDF(files, {
+      pageSize,
+      orientation,
+      margin,
+      // fitMode,
+    });
+
+    const blob = new Blob([Uint8Array.from(pdfBytes)], { type: "application/pdf" });
+    const saveAs = await asyncGetFileSaverLib();
+    saveAs(blob, outputName);
+
+    setTimeout(() => {
+      resetAll();
+    }, 500);
+  },[]);
 
   const openPreview = useCallback(() => {
     if (!previewUrl) return;
@@ -313,8 +319,9 @@ export default function ImageToPDFClient({ config }: Props) {
       const blob = new Blob([Uint8Array.from(pdfBytes)], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       setPreviewUrl(url);
-      // setModalVariant("preview");
-      // setShowModal(true);
+      
+      setModalVariant("preview");
+      setShowModal(true);
     } catch (err) {
       console.error(err);
       alert("Failed to generate preview");
@@ -582,14 +589,7 @@ export default function ImageToPDFClient({ config }: Props) {
           }}
           documentName="Images to PDF"
           variant={modalVariant}
-          onDownload={async () => {
-            const saveAs = await asyncGetFileSaverLib();
-            if (previewUrl) {
-              const res = await fetch(previewUrl);
-              const blob = await res.blob();
-              saveAs(blob, outputName);
-            }
-          }}
+          onDownload={downloadProcessedFile}
         />
       )}
     </div>
