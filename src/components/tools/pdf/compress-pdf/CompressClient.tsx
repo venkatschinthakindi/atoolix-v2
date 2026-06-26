@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { PDFDocument } from "pdf-lib";
 import { Props } from "@/types/props";
 import { DropZone } from "@/components/ui/dropZone";
@@ -20,7 +21,13 @@ import {
   AlertCircle,
   CircleCheck,
   Loader2,
+  Eye,
 } from "lucide-react";
+
+const PdfViewerModal = dynamic(
+  () => import("@/components/ui/pdf/pdfViewerModal"),
+  { loading: () => null, ssr: false }
+);
 
 type CompressionLevel = "low" | "medium" | "high";
 
@@ -196,9 +203,13 @@ function LevelCard({
       aria-pressed={active}
       type="button"
     >
-      <span className="text-sm font-semibold text-white">{cfg.label} {cfg.icon}</span>
+      <span className="text-sm font-semibold text-white">
+        {cfg.label} {cfg.icon}
+      </span>
       <span className="text-xs leading-5 text-white/60">{cfg.desc}</span>
-      <span className="mt-auto text-xs font-medium text-blue-200">~{cfg.expectedRange} reduction</span>
+      <span className="mt-auto text-xs font-medium text-blue-200">
+        ~{cfg.expectedRange} reduction
+      </span>
     </button>
   );
 }
@@ -207,7 +218,7 @@ function SizeComparison({ before, after }: { before: number; after: number }) {
   const ratio = Math.min(after / before, 1);
   const savedPct = Math.round((1 - ratio) * 100);
   const fillPct = Math.round(ratio * 100);
-  
+
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
       <div className="mb-3 flex items-start justify-between gap-3">
@@ -237,7 +248,10 @@ function SizeComparison({ before, after }: { before: number; after: number }) {
           <span>{fillPct}% of original</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-white/10">
-          <div className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-blue-400 transition-all" style={{ width: `${fillPct}%` }} />
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-blue-400 transition-all"
+            style={{ width: `${fillPct}%` }}
+          />
         </div>
       </div>
 
@@ -258,6 +272,10 @@ export default function CompressClient({ config }: Props) {
   const [sizes, setSizes] = useState<{ before: number; after: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [fileReducedPercent, setFileReducedPercent] = useState<string | null>(null);
+  const [compressedBlob, setCompressedBlob] = useState<Blob | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalVariant, setModalVariant] = useState<"preview" | "download">("preview");
 
   const cancelledRef = useRef(false);
   const dropZoneRef = useRef<any>(null);
@@ -267,8 +285,9 @@ export default function CompressClient({ config }: Props) {
   useEffect(() => {
     return () => {
       cancelledRef.current = true;
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
     };
-  }, []);
+  }, [previewUrl]);
 
   const acceptFile = useCallback((f: File) => {
     if (!f.name.toLowerCase().endsWith(".pdf") && f.type !== "application/pdf") {
@@ -280,6 +299,8 @@ export default function CompressClient({ config }: Props) {
     setError(null);
     setStatus("idle");
     setProgress({ page: 0, total: 0 });
+    setCompressedBlob(null);
+    setFileReducedPercent(null);
   }, []);
 
   const handleFiles = useCallback(
@@ -294,6 +315,35 @@ export default function CompressClient({ config }: Props) {
     inputRef.current?.click();
   }, []);
 
+  const openPreview = useCallback((blob: Blob) => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    const url = URL.createObjectURL(blob);
+    setPreviewUrl(url);
+    setModalVariant("preview");
+    setShowModal(true);
+  }, [previewUrl]);
+
+  const openDownloadModal = useCallback((blob: Blob) => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    const url = URL.createObjectURL(blob);
+    setPreviewUrl(url);
+    setModalVariant("download");
+    setShowModal(true);
+  }, [previewUrl]);
+
+  const handleDownload = useCallback(async () => {
+    if (!compressedBlob || !file) return;
+    saveBlobAs(compressedBlob, file.name.replace(/\.pdf$/i, "_compressed.pdf"));
+  }, [compressedBlob, file]);
+
+  const handleCloseModal = useCallback(() => {
+    setShowModal(false);
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+      setPreviewUrl(null);
+    }
+  }, [previewUrl]);
+
   const handleCompress = async () => {
     if (!file || status === "working") return;
 
@@ -302,6 +352,8 @@ export default function CompressClient({ config }: Props) {
     setError(null);
     setSizes(null);
     setProgress({ page: 0, total: 0 });
+    setCompressedBlob(null);
+    setFileReducedPercent(null);
 
     try {
       const buffer = await file.arrayBuffer();
@@ -316,14 +368,15 @@ export default function CompressClient({ config }: Props) {
       if (cancelledRef.current) return;
 
       const blob = new Blob([Uint8Array.from(result)], { type: "application/pdf" });
+      setCompressedBlob(blob);
       setSizes({ before: file.size, after: blob.size });
-      
+
       const ratio = Math.min(blob.size / file.size, 1);
       const savedPct = Math.round((1 - ratio) * 100);
       setFileReducedPercent(`${savedPct}`);
-  
-      //saveBlobAs(blob, file.name.replace(/\.pdf$/i, "_compressed.pdf"));
+
       setStatus("done");
+      openPreview(blob);
     } catch (err) {
       if (cancelledRef.current) return;
       setError(err instanceof Error ? err.message : "Compression failed. Try again.");
@@ -338,8 +391,11 @@ export default function CompressClient({ config }: Props) {
     setError(null);
     setStatus("idle");
     setProgress({ page: 0, total: 0 });
+    setCompressedBlob(null);
+    setFileReducedPercent(null);
     setDropzoneKey((k) => `${k.split("-")[0]}-${Date.now()}`);
     if (inputRef.current) inputRef.current.value = "";
+    handleCloseModal();
   };
 
   const isWorking = status === "working";
@@ -349,7 +405,7 @@ export default function CompressClient({ config }: Props) {
   const canBuild = !!file && !isWorking;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
@@ -370,8 +426,16 @@ export default function CompressClient({ config }: Props) {
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
             <StatCard icon={FileText} label="File" value={hasFiles ? "Selected" : "None"} />
-            <StatCard icon={Clock3} label="Progress" value={isWorking ? `${pct}%` : `${(fileReducedPercent??0 > 0) ? `Saved ${fileReducedPercent}%` : "No change"}` } />
-            <StatCard icon={CheckCircle2} label="Status" value={status === "done" ? "Done" : status === "error" ? "Error" : "Ready"} />
+            <StatCard
+              icon={Clock3}
+              label="Progress"
+              value={isWorking ? `${pct}%` : fileReducedPercent ? `Saved ${fileReducedPercent}%` : "—"}
+            />
+            <StatCard
+              icon={CheckCircle2}
+              label="Status"
+              value={status === "done" ? "Done" : status === "error" ? "Error" : "Ready"}
+            />
             <StatCard icon={ShieldCheck} label="Secure" value="Local" />
           </div>
         </div>
@@ -381,7 +445,10 @@ export default function CompressClient({ config }: Props) {
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           <section className={premiumShellClass()} aria-labelledby="upload-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <h2 id="upload-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+              <h2
+                id="upload-heading"
+                className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
+              >
                 <GlassIcon icon={FileUp} />
                 Upload PDF
               </h2>
@@ -435,7 +502,10 @@ export default function CompressClient({ config }: Props) {
 
           <section className={premiumShellClass()} aria-labelledby="levels-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <h2 id="levels-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+              <h2
+                id="levels-heading"
+                className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
+              >
                 <GlassIcon icon={Gauge} />
                 Compression level
               </h2>
@@ -455,12 +525,15 @@ export default function CompressClient({ config }: Props) {
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           <section className={premiumShellClass()} aria-labelledby="actions-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <h2 id="actions-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+              <h2
+                id="actions-heading"
+                className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
+              >
                 <GlassIcon icon={Wand2} />
                 Action suite
               </h2>
               <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                Compress, download, and reset in a polished flow.
+                Compress, preview, download, and reset in a polished flow.
               </p>
             </div>
 
@@ -474,7 +547,10 @@ export default function CompressClient({ config }: Props) {
                     <span className="text-sm font-medium text-white">{pct}%</span>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full rounded-full bg-gradient-to-r from-blue-400 to-violet-400 transition-all" style={{ width: `${pct}%` }} />
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-blue-400 to-violet-400 transition-all"
+                      style={{ width: `${pct}%` }}
+                    />
                   </div>
                 </div>
               )}
@@ -500,43 +576,63 @@ export default function CompressClient({ config }: Props) {
                   )}
                 </button>
               ) : (
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <button
-                    className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300"
-                    onClick={handleCompress}
-                    type="button"
-                  >
-                    <Download className="h-4.5 w-4.5" />
-                    Compress again
-                  </button>
-                  <button
-                    className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
-                    onClick={reset}
-                    type="button"
-                  >
-                    <RotateCcw className="h-4.5 w-4.5" />
-                    Compress another file / Reset all
-                  </button>
-                </div>
-              )}
-            </div>
-          </section>
-          <section>
-            <div>
-              {isDone && sizes && <div className="mt-4"><SizeComparison before={sizes.before} after={sizes.after} /></div>}
+                <>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <button
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                      onClick={() => compressedBlob && openPreview(compressedBlob)}
+                      type="button"
+                      disabled={!compressedBlob}
+                    >
+                      <Eye className="h-4.5 w-4.5" />
+                      Preview PDF
+                    </button>
 
-              {isDone && (
-                <div className="mt-4 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
-                  <div className="flex items-start gap-2">
-                    <CircleCheck className="mt-0.5 h-4.5 w-4.5 shrink-0" />
-                    <span>
-                      Saved as <strong>{file?.name.replace(/\.pdf$/i, "_compressed.pdf")}</strong>
-                    </span>
+                    <button
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                      onClick={handleDownload}
+                      type="button"
+                      disabled={!compressedBlob}
+                    >
+                      <Download className="h-4.5 w-4.5" />
+                      Download PDF
+                    </button>
                   </div>
-                </div>
+
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <button
+                      className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
+                      onClick={reset}
+                      type="button"
+                    >
+                      <RotateCcw className="h-4.5 w-4.5" />
+                      Compress another file / Reset all
+                    </button>
+
+                    <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-black/10 px-5 py-4 text-sm text-white/70">
+                      <CircleCheck className="mr-2 h-4.5 w-4.5 text-emerald-300" />
+                      Ready
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </section>
+
+          {isDone && sizes && <SizeComparison before={sizes.before} after={sizes.after} />}
+
+          {isDone && (
+            <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
+              <div className="flex items-start gap-2">
+                <CircleCheck className="mt-0.5 h-4.5 w-4.5 shrink-0" />
+                <span>
+                  Saved as{" "}
+                  <strong>{file?.name.replace(/\.pdf$/i, "_compressed.pdf")}</strong>
+                </span>
+              </div>
+            </div>
+          )}
+
           <section aria-labelledby="workflow-heading">
             <h2
               id="workflow-heading"
@@ -551,8 +647,18 @@ export default function CompressClient({ config }: Props) {
               </p>
             </div>
           </section>
+        </div>
       </div>
-      </div>
+
+      {showModal && previewUrl && (
+        <PdfViewerModal
+          url={previewUrl}
+          onClose={handleCloseModal}
+          documentName={file?.name.replace(/\.pdf$/i, "_compressed.pdf") || "Compressed PDF"}
+          variant={modalVariant}
+          onDownload={handleDownload}
+        />
+      )}
     </div>
   );
 }
