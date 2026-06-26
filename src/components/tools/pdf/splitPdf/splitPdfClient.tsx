@@ -382,33 +382,32 @@ export default function PdfSpliterClient({ config }: Props) {
           const buffer = await current.file.arrayBuffer();
           const doc = await PDFDocument.load(buffer);
 
-
           const selectedIndices = current.pages
             .map((v, idx) => (v ? idx : -1))
             .filter((idx) => idx !== -1);
-
 
           if (!selectedIndices.length) {
             setProgress(10 + ((i + 1) / pdfs.length) * 75);
             continue;
           }
 
-
-          const newDoc = await PDFDocument.create();
-          const copied = await newDoc.copyPages(doc, selectedIndices);
-          copied.forEach((page) => newDoc.addPage(page));
-
-
-          const bytes = await newDoc.save({
-            useObjectStreams: autoOptimize,
-          });
           const safeName = current.name.replace(/\.pdf$/i, "");
-          zip.file(`${safeName}-selected.pdf`, bytes);
 
+          for (const pageIndex of selectedIndices) {
+            const singlePageDoc = await PDFDocument.create();
+
+            const [page] = await singlePageDoc.copyPages(doc, [pageIndex]);
+            singlePageDoc.addPage(page);
+
+            const bytes = await singlePageDoc.save({
+              useObjectStreams: autoOptimize,
+            });
+
+            zip.file(`${safeName}-page-${pageIndex + 1}.pdf`, bytes);
+          }
 
           setProgress(10 + ((i + 1) / pdfs.length) * 75);
         }
-
 
         const zipBlob = await zip.generateAsync({ type: "blob" });
         setDownloadableContent(zipBlob);
