@@ -9,7 +9,7 @@ import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 export default function ToolsHubClient() {
   const tools = getCachedTools();
   const searchParams = useSearchParams();
-  const toolId = searchParams?.get("categoryid")?.toString()?.toLowerCase() || "";
+  const toolId = searchParams?.get("categoryid")?.toString()?.toLowerCase() || "all";
 
   const router = useRouter();
 
@@ -26,15 +26,15 @@ export default function ToolsHubClient() {
   // Find the category from URL params (search in categories, not just categoryIcons)
   const matchedCategory = categories.find(c => c.id === toolId);
   
-  const [activeCategory, setActiveCategory] = useState(matchedCategory?.id || "all");
+  const [activeCategory, setActiveCategory] = useState(matchedCategory?.id?.toLowerCase() || "all");
 
   // Prevent infinite loop: only update URL when activeCategory changes from user click
   useEffect(() => {
     let filteredURL = `/tools?categoryid=all`;
-    if (!!toolId) {
+    if (!!toolId && toolId !== activeCategory) {
       filteredURL = `/tools?categoryid=${activeCategory}`;
+      router.push(filteredURL, { scroll: false });
     }
-    router.push(filteredURL, { scroll: false });
   }, [activeCategory, searchParams]);
 
   const filteredTools = useMemo(() => {

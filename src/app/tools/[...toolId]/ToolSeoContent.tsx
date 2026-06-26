@@ -27,6 +27,23 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/financeSuite/retirement/retirementWealthSuiteSeoContent"),
     { ssr: true }
   ),
+
+  "image/image-to-pdf": dynamic(
+    () => import("@/components/tools/pdf/image-to-pdf/ImageToPDFSeoContent"),
+    { ssr: true }
+  ),
+  "image/jpg-to-pdf": dynamic(
+    () => import("@/components/tools/pdf/image-to-pdf/JpgJpegSeoContent"),
+    { ssr: true }
+  ),
+  "image/png-to-pdf": dynamic(
+    () => import("@/components/tools/pdf/image-to-pdf/PngToPdfSeoContent"),
+    { ssr: true }
+  ),
+  "image/webp-to-pdf": dynamic(
+    () => import("@/components/tools/pdf/image-to-pdf/WebpToPdfSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
