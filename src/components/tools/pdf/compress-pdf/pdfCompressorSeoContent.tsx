@@ -49,29 +49,25 @@ export default function PdfCompressorSeoContent() {
       a: "No. The compressed PDF is generated without added watermarks.",
     },
     {
-      q:"What is the best PDF compression level?",
-      a:"A medium compression level usually provides a good balance between smaller file size and document quality."
-      },
-
-      {
-      q:"Can I compress password-protected PDFs?",
-      a:"Password-protected PDFs must typically be unlocked before compression unless your application specifically supports encrypted PDFs."
-      },
-
-      {
-      q:"Can I compress PDFs without Adobe Acrobat?",
-      a:"Yes. Browser-based PDF compressors let you reduce PDF file size without installing Adobe Acrobat."
-      },
-
-      {
-      q:"Does PDF compression affect text quality?",
-      a:"Most compression focuses on images and document structure, so text generally remains readable."
-      },
-
-      {
-      q:"Which browsers are supported?",
-      a:"The tool works in modern browsers such as Chrome, Edge, Firefox, and Safari."
-      }
+      q: "What is the best PDF compression level?",
+      a: "A medium compression level usually provides a good balance between smaller file size and document quality.",
+    },
+    {
+      q: "Can I compress password-protected PDFs?",
+      a: "Password-protected PDFs must typically be unlocked before compression unless your application specifically supports encrypted PDFs.",
+    },
+    {
+      q: "Can I compress PDFs without Adobe Acrobat?",
+      a: "Yes. Browser-based PDF compressors let you reduce PDF file size without installing Adobe Acrobat.",
+    },
+    {
+      q: "Does PDF compression affect text quality?",
+      a: "Most compression focuses on images and document structure, so text generally remains readable.",
+    },
+    {
+      q: "Which browsers are supported?",
+      a: "The tool works in modern browsers such as Chrome, Edge, Firefox, and Safari.",
+    },
   ];
 
   const howToSteps = [
@@ -187,18 +183,28 @@ export default function PdfCompressorSeoContent() {
     { name: "PDF Editor", href: "/tools/pdf-editor" },
   ];
 
+  const cardClass =
+    "rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6";
+  const softBox = "rounded-xl border border-white/10 bg-white/5 p-4";
+
   return (
     <article className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:space-y-8 sm:p-5 lg:space-y-10 lg:p-6">
-      <header className="space-y-4">
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-        Compress PDF Online – Reduce PDF File Size Quickly, Securely, and Free
-      </h1>
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
-          Compress PDF files online in seconds without installing software or uploading your documents to external servers. Reduce PDF file size, shrink large PDF documents, and optimize PDFs for sharing while preserving readability whenever possible.
-        </p>
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
-          This PDF compressor is designed for users who need smaller files for email, sharing, storage, and faster document delivery. It works smoothly across mobile, tablet, laptop, and desktop devices while keeping the workflow simple and The simple browser-based workflow makes it quick and easy to compress PDFs from virtually any modern device.
-        </p>
+      <header className={cardClass}>
+        <div className="space-y-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
+            <span aria-hidden="true">🗜️</span>
+            Secure browser PDF compression
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+            Compress PDF Online – Reduce PDF File Size Quickly, Securely, and Free
+          </h1>
+          <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+            Compress PDF files online in seconds without installing software or uploading your documents to external servers. Reduce PDF file size, shrink large PDF documents, and optimize PDFs for sharing while preserving readability whenever possible.
+          </p>
+          <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+            This PDF compressor is designed for users who need smaller files for email, sharing, storage, and faster document delivery. It works smoothly across mobile, tablet, laptop, and desktop devices while keeping the workflow simple and quick from upload to download.
+          </p>
+        </div>
       </header>
 
       <section aria-labelledby="what-is-heading">
@@ -215,7 +221,7 @@ export default function PdfCompressorSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="why-compress-heading" className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6">
+      <section aria-labelledby="why-compress-heading" className={cardClass}>
         <h2 id="why-compress-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Why Compress a PDF?
         </h2>
@@ -229,75 +235,65 @@ export default function PdfCompressorSeoContent() {
         </div>
       </section>
 
-<section aria-labelledby="supported-heading">
-<h2 id="supported-heading">
-Supported PDF Document Types
-</h2>
+      <section aria-labelledby="supported-heading">
+        <h2 id="supported-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+          Supported PDF Document Types
+        </h2>
+        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+          This compressor works with many common PDF documents, including business files, personal documents, academic materials, and image-heavy PDFs that often benefit the most from optimization.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            "Scanned PDFs",
+            "Business reports",
+            "Invoices",
+            "Contracts",
+            "Resumes",
+            "Research papers",
+            "Presentations",
+            "Books",
+            "Certificates",
+            "Forms",
+            "Portfolios",
+            "Image-heavy PDFs",
+          ].map((item) => (
+            <div key={item} className={softBox}>
+              <p className="text-sm text-white/80">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-<p>
-This compressor works with many common PDF documents including:
-</p>
+      <section aria-labelledby="when-heading">
+        <h2 id="when-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+          When Should You Compress a PDF?
+        </h2>
+        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+          Use PDF compression whenever file size becomes a problem for email, uploads, storage, or sharing. It is one of the fastest ways to make a document easier to move between devices and platforms.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {[
+            "Before emailing documents with attachment limits.",
+            "Before uploading files to government or university portals.",
+            "When storing thousands of PDFs locally.",
+            "Before sharing files over slow internet connections.",
+            "When archiving scanned paperwork.",
+            "Before sending portfolios to clients.",
+          ].map((item) => (
+            <div key={item} className={softBox}>
+              <p className="text-sm leading-relaxed text-white/75">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-<ul>
-
-<li>Scanned PDFs</li>
-
-<li>Business reports</li>
-
-<li>Invoices</li>
-
-<li>Contracts</li>
-
-<li>Resumes</li>
-
-<li>Research papers</li>
-
-<li>Presentations</li>
-
-<li>Books</li>
-
-<li>Certificates</li>
-
-<li>Forms</li>
-
-<li>Portfolios</li>
-
-<li>Image-heavy PDFs</li>
-
-</ul>
-
-</section>
-    <section>
-<h2>When Should You Compress a PDF?</h2>
-
-<ul>
-
-<li>Before emailing documents with attachment limits.</li>
-
-<li>Before uploading files to government or university portals.</li>
-
-<li>When storing thousands of PDFs locally.</li>
-
-<li>Before sharing files over slow internet connections.</li>
-
-<li>When archiving scanned paperwork.</li>
-
-<li>Before sending portfolios to clients.</li>
-
-</ul>
-
-</section>
-
-      <section aria-labelledby="features-heading">
+      <section aria-labelledby="features-heading" className={cardClass}>
         <h2 id="features-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Key Features of the PDF Compressor
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
-            >
+            <div key={item.title} className={softBox}>
               <div className="flex items-start gap-3">
                 <span className="flex-shrink-0 text-2xl" aria-hidden="true">
                   {item.icon}
@@ -312,16 +308,13 @@ This compressor works with many common PDF documents including:
         </div>
       </section>
 
-      <section aria-labelledby="workflow-heading">
+      <section aria-labelledby="workflow-heading" className={cardClass}>
         <h2 id="workflow-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           How to Use the PDF Compressor
         </h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
-            <div
-              key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
-            >
+            <div key={step.title} className={softBox}>
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black shadow-lg">
                   {i + 1}
@@ -339,16 +332,13 @@ This compressor works with many common PDF documents including:
         </div>
       </section>
 
-      <section aria-labelledby="audience-heading">
+      <section aria-labelledby="audience-heading" className={cardClass}>
         <h2 id="audience-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Who Should Use This Tool?
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
-            >
+            <div key={item.title} className={softBox}>
               <div className="flex items-start gap-3">
                 <span className="flex-shrink-0 text-2xl" aria-hidden="true">
                   {item.icon}
@@ -368,13 +358,13 @@ This compressor works with many common PDF documents including:
           Common Ways People Use PDF Compression
         </h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <ul className="space-y-3 text-sm text-white/70">
+          <ul className={softBox + " space-y-3 text-sm text-white/75"}>
             <li>• Reduce the size of scanned documents before sharing.</li>
             <li>• Make reports and presentations easier to email.</li>
             <li>• Compress portfolios and client deliverables.</li>
             <li>• Store documents more efficiently on your device.</li>
           </ul>
-          <ul className="space-y-3 text-sm text-white/70">
+          <ul className={softBox + " space-y-3 text-sm text-white/75"}>
             <li>• Shrink PDFs for online uploads with file limits.</li>
             <li>• Optimize image-heavy PDFs for faster transfer.</li>
             <li>• Prepare documents for school, office, or personal use.</li>
@@ -400,115 +390,89 @@ This compressor works with many common PDF documents including:
         </div>
       </section>
 
-          <section aria-labelledby="comparison-heading">
+      <section aria-labelledby="comparison-heading" className={cardClass}>
+        <h2 id="comparison-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+          Browser PDF Compression vs Desktop Software
+        </h2>
+        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+          Browser-based compression is simpler for quick tasks, while desktop software is often better for advanced workflows. This table highlights the main differences.
+        </p>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-white/10 text-white/80">
+                <th className="py-3 pr-4">Browser Tool</th>
+                <th className="py-3 pr-4">Desktop Software</th>
+              </tr>
+            </thead>
+            <tbody className="text-white/70">
+              <tr className="border-b border-white/10">
+                <td className="py-3 pr-4">No installation</td>
+                <td className="py-3 pr-4">Requires installation</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-3 pr-4">Works instantly</td>
+                <td className="py-3 pr-4">Needs setup</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-3 pr-4">Mobile friendly</td>
+                <td className="py-3 pr-4">Mainly desktop</td>
+              </tr>
+              <tr className="border-b border-white/10">
+                <td className="py-3 pr-4">Local browser processing</td>
+                <td className="py-3 pr-4">May require cloud sync</td>
+              </tr>
+              <tr>
+                <td className="py-3 pr-4">Free to use</td>
+                <td className="py-3 pr-4">Often paid</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-<h2 id="comparison-heading">
-Browser PDF Compression vs Desktop Software
-</h2>
-<div className="overflow-x-auto">
-<table className="w-full border-collapse">
-
-<thead>
-
-<tr>
-
-<th>Browser Tool</th>
-
-<th>Desktop Software</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td>No installation</td>
-
-<td>Requires installation</td>
-
-</tr>
-
-<tr>
-
-<td>Works instantly</td>
-
-<td>Needs setup</td>
-
-</tr>
-
-<tr>
-
-<td>Mobile friendly</td>
-
-<td>Mainly desktop</td>
-
-</tr>
-
-<tr>
-
-<td>Local browser processing</td>
-
-<td>May require cloud sync</td>
-
-</tr>
-
-<tr>
-
-<td>Free to use</td>
-
-<td>Often paid</td>
-
-</tr>
-
-</tbody>
-
-</table>
-</div>
-</section>
       <section aria-labelledby="compression-tips-heading">
         <h2 id="compression-tips-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Tips for Better Compression Results
         </h2>
-        <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/70">
-          <li>• Start with the smallest file that still meets your quality needs.</li>
-          <li>• Use scanned PDFs only when necessary, since image-heavy files often compress more.</li>
-          <li>• Preview the output before downloading to confirm readability.</li>
-          <li>• Keep source files clean and organized before compression.</li>
-          <li>• Use responsive mode on mobile if you are compressing documents on the go.</li>
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+          {[
+            "Start with the smallest file that still meets your quality needs.",
+            "Use scanned PDFs only when necessary, since image-heavy files often compress more.",
+            "Preview the output before downloading to confirm readability.",
+            "Keep source files clean and organized before compression.",
+            "Use responsive mode on mobile if you are compressing documents on the go.",
+          ].map((item) => (
+            <li key={item} className={softBox}>
+              <p className="text-sm leading-relaxed text-white/75">{item}</p>
+            </li>
+          ))}
         </ul>
       </section>
 
-<section aria-labelledby="choose-heading">
+      <section aria-labelledby="choose-heading" className={cardClass}>
+        <h2 id="choose-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+          Why Choose This PDF Compressor?
+        </h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            "Fast browser-based compression",
+            "No software installation",
+            "Private local processing",
+            "No account required",
+            "Responsive on all devices",
+            "Simple drag-and-drop workflow",
+            "Preview before downloading",
+            "Free to use",
+          ].map((item) => (
+            <div key={item} className={softBox}>
+              <p className="text-sm leading-relaxed text-white/75">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-<h2 id="choose-heading">
-Why Choose This PDF Compressor?
-</h2>
-
-<ul>
-
-<li>Fast browser-based compression</li>
-
-<li>No software installation</li>
-
-<li>Private local processing</li>
-
-<li>No account required</li>
-
-<li>Responsive on all devices</li>
-
-<li>Simple drag-and-drop workflow</li>
-
-<li>Preview before downloading</li>
-
-<li>Free to use</li>
-
-</ul>
-
-</section>
-
-      <section aria-labelledby="privacy-heading">
+      <section aria-labelledby="privacy-heading" className={cardClass}>
         <h2 id="privacy-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Privacy and Security
         </h2>
@@ -519,7 +483,9 @@ Why Choose This PDF Compressor?
           <p>
             Since there is no server upload step, you also avoid waiting for remote processing or creating an account before using the tool.
           </p>
-          <p>Many online PDF tools upload documents to remote servers for processing. By performing compression locally inside your browser, your files remain on your device throughout the process, providing greater privacy and reducing upload time.</p>
+          <p>
+            Many online PDF tools upload documents to remote servers for processing. By performing compression locally inside your browser, your files remain on your device throughout the process, providing greater privacy and reducing upload time.
+          </p>
         </div>
       </section>
 
@@ -527,71 +493,66 @@ Why Choose This PDF Compressor?
         <h2 id="benefits-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Benefits of Compressing PDFs
         </h2>
-        <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/70">
-          <li>Smaller email attachments</li>
-          <li>Faster uploads to websites</li>
-          <li>Reduced storage usage</li>
-          <li>Quicker downloads</li>
-          <li>Better mobile sharing</li>
-          <li>Improved cloud storage efficiency</li>
-          <li>Lower bandwidth usage</li>
-          <li>Easier document management</li>
-        </ul>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            "Smaller email attachments",
+            "Faster uploads to websites",
+            "Reduced storage usage",
+            "Quicker downloads",
+            "Better mobile sharing",
+            "Improved cloud storage efficiency",
+            "Lower bandwidth usage",
+            "Easier document management",
+          ].map((item) => (
+            <div key={item} className={softBox}>
+              <p className="text-sm leading-relaxed text-white/75">{item}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
-          <section aria-labelledby="facts-heading">
+      <section aria-labelledby="facts-heading">
+        <h2 id="facts-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+          Quick Facts About PDF Compression
+        </h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {[
+            "Many email providers limit attachment sizes.",
+            "Scanned PDFs usually compress better than text-only PDFs.",
+            "Smaller PDFs upload and download faster.",
+            "Compression can significantly reduce storage requirements depending on document content.",
+          ].map((item) => (
+            <div key={item} className={softBox}>
+              <p className="text-sm leading-relaxed text-white/75">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-<h2 id="facts-heading">
-Quick Facts About PDF Compression
-</h2>
+      <section aria-labelledby="ideal-heading">
+        <h2 id="ideal-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+          Ideal For
+        </h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            "Students",
+            "Teachers",
+            "Businesses",
+            "Freelancers",
+            "HR Teams",
+            "Legal Professionals",
+            "Researchers",
+            "Government Applications",
+            "Healthcare Professionals",
+            "Remote Workers",
+          ].map((item) => (
+            <div key={item} className={softBox}>
+              <p className="text-sm text-white/80">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-<ul>
-
-<li>Many email providers limit attachment sizes.</li>
-
-<li>Scanned PDFs usually compress better than text-only PDFs.</li>
-
-<li>Smaller PDFs upload and download faster.</li>
-
-<li>Compression can significantly reduce storage requirements depending on document content.</li>
-
-</ul>
-
-</section>
-<section aria-labelledby="ideal-heading">
-
-<h2 id="ideal-heading">
-Ideal For
-</h2>
-
-<div>
-<ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-
-<li>Students</li>
-
-<li>Teachers</li>
-
-<li>Businesses</li>
-
-<li>Freelancers</li>
-
-<li>HR Teams</li>
-
-<li>Legal Professionals</li>
-
-<li>Researchers</li>
-
-<li>Government Applications</li>
-
-<li>Healthcare Professionals</li>
-
-<li>Remote Workers</li>
-
-</ul>
-
-</div>
-
-</section>
       <section aria-labelledby="faq-heading">
         <h2 id="faq-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Frequently Asked Questions
@@ -631,10 +592,7 @@ Ideal For
         </div>
       </section>
 
-      <section
-        aria-labelledby="conclusion-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
-      >
+      <section aria-labelledby="conclusion-heading" className={cardClass}>
         <h2 id="conclusion-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
           Conclusion
         </h2>
