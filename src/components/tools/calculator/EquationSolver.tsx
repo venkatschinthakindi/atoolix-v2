@@ -1,7 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { BookOpenCheck, HelpCircle, X, Calculator, Sparkles, FileText, History, Layers3 } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  BookOpenCheck,
+  HelpCircle,
+  X,
+  Calculator,
+  Sparkles,
+  FileText,
+} from "lucide-react";
 import { getMath } from "@/lib/mathJsUtility";
 
 export function AdvancedEquationSolverPage() {
@@ -22,7 +29,7 @@ export function AdvancedEquationSolverPage() {
     <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <div className="grid gap-6 xl:grid-cols-[1fr_auto]">
         <div className="space-y-4">
-          <EquationSolver />
+          <EquationSolver sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
           <ShellCard>
             <SectionHeader
@@ -30,23 +37,10 @@ export function AdvancedEquationSolverPage() {
               title="Capabilities"
               subtitle="Use the helper drawer for examples across algebra, calculus, matrices, and units."
             />
-            <div className="px-6 py-3 text-sm leading-6 text-white/70">
-                Type expressions directly or use the examples from the help panel.
+            <div className="px-4 py-3 text-sm text-white/70 sm:px-5 sm:py-4">
+              Type expressions directly or use the examples from the help panel.
             </div>
           </ShellCard>
-        </div>
-
-        <div className="flex justify-end xl:pt-2">
-          <button
-            type="button"
-            onClick={() => setSidebarOpen(true)}
-            className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:border-white/20 hover:bg-white/10"
-            aria-label="Open Help"
-            aria-expanded={sidebarOpen}
-            aria-controls="calculator-help"
-          >
-            <HelpCircle size={22} />
-          </button>
         </div>
       </div>
 
@@ -68,7 +62,10 @@ export function AdvancedEquationSolverPage() {
             <div className="mb-4 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <BookOpenCheck size={22} className="text-emerald-400" />
-                <h2 id="calculator-help-title" className="text-xl font-semibold text-white sm:text-2xl">
+                <h2
+                  id="calculator-help-title"
+                  className="text-xl font-semibold text-white sm:text-2xl"
+                >
                   Quick Reference
                 </h2>
               </div>
@@ -155,7 +152,13 @@ function StatCard({
   );
 }
 
-function EquationSolver() {
+function EquationSolver({
+  sidebarOpen,
+  setSidebarOpen,
+}: {
+  sidebarOpen: boolean;
+  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [equation, setEquation] = useState("");
   const [solution, setSolution] = useState("");
   const [isSolving, setIsSolving] = useState(false);
@@ -188,7 +191,9 @@ function EquationSolver() {
         return String(value - (value * percent) / 100);
       }
 
-      const percentOfValue = expression.match(/^(\d+(?:\.\d+)?)\s+is\s+what\s+%\s+of\s+(\d+(?:\.\d+)?)$/i);
+      const percentOfValue = expression.match(
+        /^(\d+(?:\.\d+)?)\s+is\s+what\s+%\s+of\s+(\d+(?:\.\d+)?)$/i
+      );
       if (percentOfValue) {
         const part = Number(percentOfValue[1]);
         const whole = Number(percentOfValue[2]);
@@ -236,7 +241,9 @@ function EquationSolver() {
       <div className="space-y-4 p-3 sm:p-4 md:p-5">
         <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3 text-right">
           <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">Solution</p>
-          <p className="mt-2 break-all text-2xl font-semibold text-white sm:text-3xl">{solution || "0"}</p>
+          <p className="mt-2 break-all text-2xl font-semibold text-white sm:text-3xl">
+            {solution || "0"}
+          </p>
         </div>
 
         <input
@@ -249,14 +256,27 @@ function EquationSolver() {
           className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-green-400/35 focus:bg-black/15"
         />
 
-        <button
-          type="button"
-          disabled={isSolving}
-          onClick={() => void handleSolve()}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {isSolving ? "Solving..." : "Solve"}
-        </button>
+        <div className="grid grid-cols-[9fr_1fr] gap-2">
+          <button
+            type="button"
+            disabled={isSolving}
+            onClick={() => void handleSolve()}
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isSolving ? "Solving..." : "Solve"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(true)}
+            className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:border-white/20 hover:bg-white/10"
+            aria-label="Open Help"
+            aria-expanded={sidebarOpen}
+            aria-controls="calculator-help"
+          >
+            <HelpCircle size={20} />
+          </button>
+        </div>
       </div>
     </ShellCard>
   );
