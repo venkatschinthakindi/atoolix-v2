@@ -56,6 +56,47 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/converter/unitConverterSeoContent"),
     { ssr: true }
   ),
+
+  "image/jpg-to-png": dynamic(
+    () => import("@/components/tools/image/imageConverter/jpgToPngSeoContent"),
+    { ssr: true }
+  ),
+  "image/png-to-jpg": dynamic(
+    () => import("@/components/tools/image/imageConverter/pngToJpegSeoContent"),
+    { ssr: true }
+  ),
+  "image/png-to-jpeg": dynamic(
+    () => import("@/components/tools/image/imageConverter/pngToJpegSeoContent"),
+    { ssr: true }
+  ),
+  "image/jpg-to-webp": dynamic(
+    () => import("@/components/tools/image/imageConverter/jpgToWebpSeoContent"),
+    { ssr: true }
+  ),
+  "image/png-to-webp": dynamic(
+    () => import("@/components/tools/image/imageConverter/pngToWebpSeoContent"),
+    { ssr: true }
+  ),
+  "image/webp-to-jpg": dynamic(
+    () => import("@/components/tools/image/imageConverter/webpToJpgSeoContent"),
+    { ssr: true }
+  ),
+  "image/webp-to-jpeg": dynamic(
+    () => import("@/components/tools/image/imageConverter/webpToJpegSeoContent"),
+    { ssr: true }
+  ),
+  "image/webp-to-png": dynamic(
+    () => import("@/components/tools/image/imageConverter/webpToPngSeoContent"),
+    { ssr: true }
+  ),
+  "image/svg-to-png": dynamic(
+    () => import("@/components/tools/image/imageConverter/svgToPngSeoContent"),
+    { ssr: true }
+  ),
+  "image/svg-to-jpg": dynamic(
+    () => import("@/components/tools/image/imageConverter/svgToJpgSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
