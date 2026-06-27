@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { SmartCalculator } from "@/components/tools/calculator/SmartCalculator";
 import { AdvancedEquationSolverPage } from "@/components/tools/calculator/EquationSolver";
+import { PercentageCalculator } from "@/components/tools/calculator/percentage/percentageCalculator";
 
 type CalculatorToolProps = {
   initialExpression?: string;
   theme?: "light" | "dark";
 };
 
-type Tab = "calc" | "solve";
+type Tab = "calc" | "solve" | "percentage";
 
 export default function CalculatorTool({
   initialExpression = "",
@@ -32,8 +33,9 @@ function TabbedCalculator({
   const tabs: { id: Tab; label: string }[] = [
     { id: "calc", label: "Calculator" },
     { id: "solve", label: "Equation Solver" },
+    { id: "percentage", label: "Percentage Calculator" }
   ];
-
+  
   return (
     <div>
       <div className="flex justify-center mb-6">
@@ -53,20 +55,29 @@ function TabbedCalculator({
       </div>
 
       <div className="transition-opacity duration-500 ease-in-out">
-        {activeTab === "calc" ? (
-          <SmartCalculator
-            initialExpression={initialExpression}
-            theme={theme}
-          />
-        ) : (
-          <AdvancedEquationSolverPage />
-        )}
+        {renderTab({ initialExpression, theme }, activeTab)}
       </div>
     </div>
   );
 }
 
-
+function renderTab(calculatorToolProps: CalculatorToolProps, activeTab: Tab) {
+  switch (activeTab) {
+    case "calc":
+      return (
+        <SmartCalculator
+            initialExpression={calculatorToolProps.initialExpression}
+            theme={calculatorToolProps.theme}
+          />
+      );
+    case "solve":
+      return <AdvancedEquationSolverPage />;
+    case "percentage":
+      return <PercentageCalculator/>;
+    default:
+      return null;
+  }
+}
 
 
 

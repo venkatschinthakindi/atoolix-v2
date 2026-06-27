@@ -48,7 +48,10 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/pdf/compress-pdf/pdfCompressorSeoContent"),
     { ssr: true }
   ),
-  
+  "calculator": dynamic(
+    () => import("@/components/tools/calculator/calculatorSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
