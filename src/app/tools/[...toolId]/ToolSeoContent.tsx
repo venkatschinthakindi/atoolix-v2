@@ -52,6 +52,10 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/calculator/calculatorSeoContent"),
     { ssr: true }
   ),
+  "converter": dynamic(
+    () => import("@/components/tools/converter/unitConverterSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
