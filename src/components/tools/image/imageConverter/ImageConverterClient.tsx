@@ -220,7 +220,7 @@ export default function ImageConverterClient({ config }: Props) {
               </span>
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Seamless conversion made simple: upload, preview, and transform JPGs into crisp PNGs with just a few clicks.
+              Seamless conversion made simple: upload, preview, and transform {config.inputFormats?.join(", ")?.toUpperCase()} into crisp {config.outputFormats?.[0]?.toUpperCase()} with just a few clicks.
             </p>
           </div>
 
@@ -267,7 +267,7 @@ export default function ImageConverterClient({ config }: Props) {
                   Drag & Drop Image Upload
                 </h2>
                 <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                  Drag or browse to upload. Preview formats instantly, convert to crisp PNGs with transparency, and view polished results in seconds.
+                  Drag or browse to upload. Preview formats instantly, convert to crisp {config.outputFormats?.[0]?.toLowerCase()} with transparency, and view polished results in seconds.
                 </p>
               </div>
               {file && (
