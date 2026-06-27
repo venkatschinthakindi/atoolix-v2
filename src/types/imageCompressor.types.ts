@@ -10,4 +10,7 @@ export interface CompressorConfig {
   mode: CompressionMode | undefined;
   targetKB?: number;
   lockTarget?: boolean;
+
+  topSectionHeader?: string;
+  topSectionDescription?: string;
 }

@@ -1345,6 +1345,7 @@ export const tools: ToolRegistryEntry[] = [
     id:"image/passport-photo-resizer",
     icon:"IdCard",
     ...getDefaultCompressorRegistry(),
+    loader: () => import("@/components/tools/image/passpoerPhotoResizer/passpoerPhotoCompressor"),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
       targetKB: 100,
@@ -1398,6 +1399,7 @@ export const tools: ToolRegistryEntry[] = [
     id:"image/resize-signature-for-upload",
     icon:"PenTool",
     ...getDefaultCompressorRegistry(),
+    loader: () => import("@/components/tools/image/signatureResizer/signatureCompressor"),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
       targetKB: 20,
