@@ -98,6 +98,61 @@ function EquationSolver() {
         .trim()
         .replace(/(\d+)!/g, (_, n) => `factorial(${n})`);
 
+      // Percentage calculations
+
+      // 20% of 150
+      const percentOf = expression.match(
+        /^(\d+(?:\.\d+)?)%\s+of\s+(\d+(?:\.\d+)?)$/i
+      );
+
+      if (percentOf) {
+        const percent = Number(percentOf[1]);
+        const value = Number(percentOf[2]);
+
+        return String((percent / 100) * value);
+      }
+
+      // 150 + 20%
+      const addPercent = expression.match(
+        /^(\d+(?:\.\d+)?)\s*\+\s*(\d+(?:\.\d+)?)%$/i
+      );
+
+      if (addPercent) {
+        const value = Number(addPercent[1]);
+        const percent = Number(addPercent[2]);
+
+        return String(value + value * percent / 100);
+      }
+
+      // 150 - 20%
+      const subtractPercent = expression.match(
+        /^(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)%$/i
+      );
+
+      if (subtractPercent) {
+        const value = Number(subtractPercent[1]);
+        const percent = Number(subtractPercent[2]);
+
+        return String(value - value * percent / 100);
+      }
+
+      // 25 is what % of 80
+      const percentOfValue = expression.match(
+        /^(\d+(?:\.\d+)?)\s+is\s+what\s+%\s+of\s+(\d+(?:\.\d+)?)$/i
+      );
+
+      if (percentOfValue) {
+        const part = Number(percentOfValue[1]);
+        const whole = Number(percentOfValue[2]);
+
+        if (whole === 0) {
+          return "Cannot divide by zero";
+        }
+
+        return `${((part / whole) * 100).toFixed(2)}%`;
+      }
+      //Percentage calculations end here
+
       const result = evaluate(expression);
 
       if (result === undefined || result === null) {
@@ -165,6 +220,10 @@ function DocumentationPanel() {
   return (
     <div className="space-y-3 text-sm text-white">
       <p><b>Basics:</b> <code>12+8/2</code> → 16</p>
+      <p><b>Percentage:</b> <code>20% of 150</code> → 30</p>
+      <p><b>Increase:</b> <code>150 + 20%</code> → 180</p>
+      <p><b>Decrease:</b> <code>150 - 20%</code> → 120</p>
+      <p><b>Find Percentage:</b> <code>25 is what % of 80</code> → 31.25%</p>
       <p><b>Algebra:</b> <code>simplify(2x+3x)</code> → 5x</p>
       <p><b>Trigonometry:</b> <code>sin(pi/4)</code> → 0.707</p>
       <p><b>Logarithms:</b> <code>log(1000)</code> → 6.907755</p>
