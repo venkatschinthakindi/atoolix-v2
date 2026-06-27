@@ -38,7 +38,7 @@ function TabbedCalculator({
   
   return (
     <div>
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center">
         <div className="tab-group">
           {tabs.map((tab) => (
             <button

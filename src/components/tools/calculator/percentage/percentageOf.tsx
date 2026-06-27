@@ -2,6 +2,15 @@
 
 import { useMemo, useState } from "react";
 import {
+  Copy,
+  RotateCcw,
+  Calculator,
+  Sparkles,
+  FileText,
+  Percent,
+  ArrowUpRight,
+} from "lucide-react";
+import {
   percentageOf,
   increaseByPercent,
   decreaseByPercent,
@@ -22,12 +31,6 @@ import {
   basePriceFromGst,
 } from "@/lib/percentage/percentage";
 
-/**
- * -----------------------------
- * MODE ENGINE (IMPORTANT PART)
- * -----------------------------
- */
-
 type Mode =
   | "of"
   | "add"
@@ -46,9 +49,7 @@ type Mode =
   | "reverse_cost"
   | "reverse_sell"
   | "reverse_discount"
-  | "gst_reverse"
-  ;
-
+  | "gst_reverse";
 
 type InputConfig = {
   key: string;
@@ -61,14 +62,11 @@ type ModeConfig = {
   label: string;
   inputs: InputConfig[];
   calculate: (values: number[]) => number;
-  
   formula?: string;
   description?: string;
 };
 
-
 const MODES: ModeConfig[] = [
-
   {
     id: "of",
     label: "X% of Y",
@@ -80,7 +78,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => percentageOf(a, b),
   },
-
   {
     id: "add",
     label: "Increase %",
@@ -92,7 +89,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => increaseByPercent(a, b),
   },
-
   {
     id: "subtract",
     label: "Decrease %",
@@ -104,7 +100,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => decreaseByPercent(a, b),
   },
-
   {
     id: "reverse",
     label: "Reverse %",
@@ -116,7 +111,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => reversePercentage(a, b),
   },
-
   {
     id: "change",
     label: "% Change",
@@ -128,9 +122,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => percentageChange(a, b),
   },
-
-  // ================= BUSINESS =================
-
   {
     id: "discount",
     label: "Discount",
@@ -142,7 +133,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => discountedPrice(a, b),
   },
-
   {
     id: "markup",
     label: "Markup",
@@ -154,7 +144,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => markupPrice(a, b),
   },
-
   {
     id: "gst",
     label: "GST",
@@ -166,7 +155,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => amountWithGst(a, b),
   },
-
   {
     id: "commission",
     label: "Commission",
@@ -178,7 +166,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => payoutAfterCommission(a, b),
   },
-
   {
     id: "tip",
     label: "Tip",
@@ -190,9 +177,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => totalWithTip(a, b),
   },
-
-  // ================= PROFIT / LOSS =================
-
   {
     id: "profit",
     label: "Profit",
@@ -204,7 +188,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => profit(a, b),
   },
-
   {
     id: "loss",
     label: "Loss %",
@@ -216,7 +199,6 @@ const MODES: ModeConfig[] = [
     ],
     calculate: ([a, b]) => lossPercent(a, b),
   },
-
   {
     id: "margin",
     label: "Margin %",
@@ -224,11 +206,10 @@ const MODES: ModeConfig[] = [
     formula: "Margin % = ((Selling - Cost) / Selling) × 100",
     inputs: [
       { key: "a", label: "Cost", placeholder: "100" },
-      { key: "b", label: "Selling", placeholder: "150" }
+      { key: "b", label: "Selling", placeholder: "150" },
     ],
     calculate: ([a, b]) => marginPercent(a, b),
   },
-
   {
     id: "roi",
     label: "ROI %",
@@ -236,13 +217,10 @@ const MODES: ModeConfig[] = [
     formula: "ROI % = ((Return - Cost) / Cost) × 100",
     inputs: [
       { key: "a", label: "Cost", placeholder: "100" },
-      { key: "b", label: "Return Value", placeholder: "150" }
+      { key: "b", label: "Return Value", placeholder: "150" },
     ],
     calculate: ([a, b]) => roiPercent(a, b),
   },
-
-  // ================= REVERSE ENGINE =================
-
   {
     id: "reverse_cost",
     label: "Cost from Profit %",
@@ -250,11 +228,10 @@ const MODES: ModeConfig[] = [
     formula: "Cost = Selling ÷ (1 + Profit% / 100)",
     inputs: [
       { key: "a", label: "Selling Price", placeholder: "200" },
-      { key: "b", label: "Profit %", placeholder: "20" }
+      { key: "b", label: "Profit %", placeholder: "20" },
     ],
     calculate: ([a, b]) => reverseCostFromProfit(a, b),
   },
-
   {
     id: "reverse_sell",
     label: "Selling from Cost %",
@@ -262,36 +239,97 @@ const MODES: ModeConfig[] = [
     formula: "Selling = Cost × (1 + Profit% / 100)",
     inputs: [
       { key: "a", label: "Cost", placeholder: "100" },
-      { key: "b", label: "Profit %", placeholder: "20" }
+      { key: "b", label: "Profit %", placeholder: "20" },
     ],
     calculate: ([a, b]) => sellingPriceFromProfit(a, b),
   },
-
-  {
-    id: "reverse_discount",
-    label: "Original Price",
-    description: "Find original price before discount",
-    formula: "Original = Final ÷ (1 - Discount% / 100)",
-    inputs: [
-      { key: "a", label: "Final Price", placeholder: "80" },
-      { key: "b", label: "Discount %", placeholder: "20" }
-    ],
-    calculate: ([a, b]) => originalPriceFromDiscount(a, b),
-  },
-
-  {
-    id: "gst_reverse",
-    label: "Base Price (No GST)",
-    description: "Remove GST from total price",
-    formula: "Base = Total ÷ (1 + GST% / 100)",
-    inputs: [
-      { key: "a", label: "Total Price", placeholder: "118" },
-      { key: "b", label: "GST %", placeholder: "18" }
-    ],
-    calculate: ([a, b]) => basePriceFromGst(a, b),
-  },
 ];
 
+function ShellCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06] ${className}`}
+    >
+      {children}
+    </section>
+  );
+}
+
+function SectionHeader({
+  icon: Icon,
+  title,
+  subtitle,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  subtitle: string;
+}) {
+  return (
+    <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
+      <div className="flex items-center gap-2">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
+          <Icon className="h-4 w-4" />
+        </span>
+        <div>
+          <h2 className="text-base font-semibold tracking-tight text-white sm:text-md">{title}</h2>
+          <p className="mt-1 text-xs text-white/60 sm:text-sm">{subtitle}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InputField({
+  id,
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+}) {
+  return (
+    <div className="space-y-2">
+      <label htmlFor={id} className="block text-xs uppercase tracking-[0.16em] text-white/45">
+        {label}
+      </label>
+      <input
+        id={id}
+        type="number"
+        inputMode="decimal"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-blue-400/35 focus:bg-black/15"
+      />
+    </div>
+  );
+}
+
+function ActionButton({
+  children,
+  className,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { className: string }) {
+  return (
+    <button
+      {...props}
+      className={`inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-sm font-semibold transition ${className}`}
+    >
+      {children}
+    </button>
+  );
+}
 
 export default function PercentageOf() {
   const [mode, setMode] = useState<Mode>("of");
@@ -301,106 +339,133 @@ export default function PercentageOf() {
 
   const result = useMemo(() => {
     const nums = activeMode.inputs.map((i) => {
-        const v = values[i.key];
-
-        if (v === "" || v === undefined) return NaN;
-
-        return Number(v);
-        });
-
+      const v = values[i.key];
+      if (v === "" || v === undefined) return NaN;
+      return Number(v);
+    });
     if (nums.some((n) => !Number.isFinite(n))) return null;
-
     return activeMode.calculate(nums);
-  }, [mode, values]);
-const displayResult =
-  result === null || !Number.isFinite(result)
-    ? "--"
-    : result.toLocaleString();
-    
+  }, [mode, values, activeMode]);
+
+  const displayResult =
+    result === null || !Number.isFinite(result) ? "--" : result.toLocaleString();
+
+  const clear = () => setValues({});
+
+  const copyResult = async () => {
+    if (result === null) return;
+    try {
+      await navigator.clipboard.writeText(String(result));
+    } catch {}
+  };
+
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 space-y-4">
-    <div className="mb-2">
-        <h2 className="text-xl font-bold">
-            {activeMode.label}
-        </h2>
+    <div className="space-y-4">
+      <ShellCard>
+        <SectionHeader
+          icon={Calculator}
+          title={activeMode.label}
+          subtitle={activeMode.description ?? "Choose a mode and calculate instantly."}
+        />
 
-        <p className="text-sm text-gray-500">
-            {activeMode.description}
-        </p>
-        </div>
-      {/* MODE BUTTONS */}
-      <div className="flex flex-wrap gap-2">
-        {MODES.map((m) => (
-          <button
-            key={m.id}
-            onClick={() => setMode(m.id)}
-            className={`px-3 py-2 border rounded ${
-              mode === m.id ? "bg-black text-white" : ""
-            }`}
-          >
-            {m.label}
-          </button>
-        ))}
-        <button
-        onClick={() => setValues({})}
-        className="px-3 py-2 border rounded text-sm"
-        >
-        Reset
-        </button>
-      </div>
-      {activeMode.formula && (
-        <div className="p-3 border rounded bg-blue-50 text-sm">
-            <div className="font-semibold mb-1">Formula</div>
-            <code>{activeMode.formula}</code>
-        </div>
-        )}
-        {activeMode.description && (
-        <div className="text-sm text-gray-500">
-            {activeMode.description}
-        </div>
-        )}
-      {/* DYNAMIC INPUTS */}
-      <div className="grid gap-3">
-        {activeMode.inputs.map((input) => (
-            <div key={input.key} className="space-y-1">
+        <div className="space-y-4 p-3 sm:p-4 md:p-5">
+          <div className="flex flex-wrap gap-2">
+            {MODES.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => setMode(m.id)}
+                className={`rounded-2xl border px-4 py-2.5 text-sm font-medium transition ${
+                  mode === m.id
+                    ? "border-blue-400/35 bg-blue-400/10 text-white"
+                    : "border-white/10 bg-white/5 text-white/75 hover:border-white/20 hover:bg-white/10"
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
 
-            <label className="text-sm text-gray-600">
-                {input.label}
-            </label>
+          {activeMode.formula && (
+            <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-white/45">Formula</p>
+              <code className="mt-2 block text-sm text-white/80">{activeMode.formula}</code>
+            </div>
+          )}
 
-            <input
+          <div className="grid gap-4 sm:grid-cols-2">
+            {activeMode.inputs.map((input) => (
+              <InputField
+                key={input.key}
+                id={`${mode}-${input.key}`}
+                label={input.label}
                 value={values[input.key] || ""}
-                onChange={(e) =>
-                setValues((prev) => ({
+                onChange={(v) =>
+                  setValues((prev) => ({
                     ...prev,
-                    [input.key]: e.target.value,
-                }))
+                    [input.key]: v,
+                  }))
                 }
                 placeholder={input.placeholder}
-                className="border p-2 rounded w-full"
-            />
+              />
+            ))}
+          </div>
+
+          <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4">
+            <p className="text-xs uppercase tracking-[0.16em] text-emerald-200/70">Result</p>
+            <p className="mt-2 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              {displayResult}
+            </p>
+          </div>
+
+          {result !== null && (
+            <div className="grid gap-3">
+              <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-white/45">Steps</p>
+                <p className="mt-2 text-sm leading-6 text-white/70">
+                  {activeMode.inputs.map((i) => values[i.key] ?? "").join(" , ")} = {displayResult}
+                </p>
+                <p className="mt-2 text-xs leading-5 text-white/45">{activeMode.description}</p>
+              </div>
             </div>
-        ))}
+          )}
+
+          <div className="flex flex-wrap gap-3">
+            <ActionButton
+              type="button"
+              onClick={copyResult}
+              disabled={result === null}
+              className="bg-gradient-to-r from-blue-500 to-violet-500 text-white hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Copy className="h-4.5 w-4.5" />
+              Copy Result
+            </ActionButton>
+
+            <ActionButton
+              type="button"
+              onClick={clear}
+              className="border border-white/10 bg-white/5 text-white hover:bg-white/10"
+            >
+              <RotateCcw className="h-4.5 w-4.5" />
+              Reset
+            </ActionButton>
+          </div>
         </div>
+      </ShellCard>
 
-      {/* RESULT */}
-      {result !== null && (
-        <div className="p-3 bg-gray-50 border rounded text-sm space-y-1">
+      <ShellCard>
+        <SectionHeader
+          icon={FileText}
+          title="Calculation modes"
+          subtitle="Discount, GST, markup, profit, loss, ROI, and reverse calculations are available here."
+        />
 
-            <div className="font-semibold">Result</div>
-
-            <div className="text-xl font-bold">
-                {result === null || !Number.isFinite(result)
-                    ? "--"
-                    : displayResult}
-            </div>
-
-            <div className="text-xs text-gray-500 mt-2">
-            {activeMode.description}
-            </div>
-
+        <div className="p-3 sm:p-4 md:p-5">
+          <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3 text-sm leading-6 text-white/70">
+            Switch modes using the pill buttons above. The layout stays responsive and keeps the same visual system across desktop and mobile.
+          </div>
         </div>
-        )}
+      </ShellCard>
     </div>
   );
 }
