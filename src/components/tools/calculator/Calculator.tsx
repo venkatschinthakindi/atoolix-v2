@@ -28,12 +28,12 @@ function TabbedCalculator({
   initialExpression,
   theme,
 }: CalculatorToolProps) {
-  const [activeTab, setActiveTab] = useState<Tab>("calc");
+  const [activeTab, setActiveTab] = useState<Tab>("percentage");
   
   const tabs: { id: Tab; label: string }[] = [
+    { id: "percentage", label: "Percentage Calculator" },
     { id: "calc", label: "Calculator" },
-    { id: "solve", label: "Equation Solver" },
-    { id: "percentage", label: "Percentage Calculator" }
+    { id: "solve", label: "Equation Solver" }
   ];
   
   return (
@@ -63,6 +63,8 @@ function TabbedCalculator({
 
 function renderTab(calculatorToolProps: CalculatorToolProps, activeTab: Tab) {
   switch (activeTab) {
+    case "percentage":
+      return <PercentageCalculator/>;
     case "calc":
       return (
         <SmartCalculator
@@ -72,8 +74,7 @@ function renderTab(calculatorToolProps: CalculatorToolProps, activeTab: Tab) {
       );
     case "solve":
       return <AdvancedEquationSolverPage />;
-    case "percentage":
-      return <PercentageCalculator/>;
+    
     default:
       return null;
   }
