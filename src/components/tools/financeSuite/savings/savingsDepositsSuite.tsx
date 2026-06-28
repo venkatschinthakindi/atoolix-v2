@@ -4,9 +4,6 @@ import { useMemo, useRef, useState } from "react";
 import {
   BarChart3,
   Calculator,
-  ChevronDown,
-  ChevronUp,
-  Info,
   PiggyBank,
   ShieldCheck,
   TrendingUp,
@@ -28,6 +25,21 @@ type NumInput = string;
 type CalcResult = {
   value: number;
   interest: number;
+};
+
+type ExportCard = {
+  label: string;
+  value: string;
+  icon?: string;
+};
+
+type ExportData = {
+  title: string;
+  subtitle: string;
+  summaryCards: ExportCard[];
+  inputRows: string[][];
+  resultRows: string[][];
+  notes: string[];
 };
 
 const shellClass =
@@ -145,6 +157,7 @@ export default function SavingsDepositsSuite() {
   const [rdConvention, setRdConvention] = useState<RdConvention>("end");
 
   const exportRef = useRef<HTMLDivElement | null>(null);
+  const chartRef = useRef<HTMLDivElement | null>(null);
 
   const simpleInputs = {
     principal: toNumber(principal),
@@ -261,6 +274,133 @@ export default function SavingsDepositsSuite() {
     );
   }, [rdError, rdInputs.amount, rdInputs.rate, rdInputs.months, rdConvention]);
 
+  const reportLabel = tabs.find((t) => t.id === activeTab)?.label ?? "Simple Interest";
+
+  const exportData: ExportData = useMemo(() => {
+    if (activeTab === "simple") {
+      return {
+        title: "Simple Interest Report",
+        subtitle: "Principal, rate, time, and projection summary.",
+        summaryCards: [
+          { label: "Principal", value: formatCurrency(simpleInputs.principal ?? 0), icon: "💵" },
+          { label: "Interest", value: simpleError ? "Fix inputs" : formatCurrency(simpleCalc.interest), icon: "💹" },
+          { label: "Maturity", value: simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value), icon: "🏆" },
+        ],
+        inputRows: [
+          ["Principal", formatCurrency(simpleInputs.principal ?? 0)],
+          ["Rate", `${simpleInputs.rate ?? 0}%`],
+          ["Years", `${simpleInputs.years ?? 0}`],
+        ],
+        resultRows: [
+          ["Total interest", simpleError ? "Fix inputs" : formatCurrency(simpleCalc.interest)],
+          ["Maturity value", simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value)],
+        ],
+        notes: ["Simple interest is calculated only on the original principal."],
+      };
+    }
+
+    if (activeTab === "compound") {
+      return {
+        title: "Compound Interest Report",
+        subtitle: "Compound growth with selected frequency.",
+        summaryCards: [
+          { label: "Principal", value: formatCurrency(compoundInputs.principal ?? 0), icon: "💵" },
+          { label: "Maturity", value: compoundError ? "Fix inputs" : formatCurrency(compoundCalc.value), icon: "🏆" },
+          { label: "Gain", value: compoundError ? "Fix inputs" : formatCurrency(compoundCalc.interest), icon: "✨" },
+        ],
+        inputRows: [
+          ["Principal", formatCurrency(compoundInputs.principal ?? 0)],
+          ["Rate", `${compoundInputs.rate ?? 0}%`],
+          ["Years", `${compoundInputs.years ?? 0}`],
+          ["Frequency", `${compoundInputs.frequency ?? 0} times/year`],
+        ],
+        resultRows: [
+          ["Total gain", compoundError ? "Fix inputs" : formatCurrency(compoundCalc.interest)],
+          ["Maturity value", compoundError ? "Fix inputs" : formatCurrency(compoundCalc.value)],
+        ],
+        notes: ["Compound interest adds earned interest back into principal before each new period."],
+      };
+    }
+
+    return {
+      title: depositMode === "fd" ? "Fixed Deposit Report" : "Recurring Deposit Report",
+      subtitle:
+        depositMode === "fd"
+          ? "Lump-sum deposit growth with compounding."
+          : "Monthly contribution growth with deposit timing choice.",
+      summaryCards:
+        depositMode === "fd"
+          ? [
+              { label: "Deposit", value: formatCurrency(fdInputs.amount ?? 0), icon: "💰" },
+              { label: "Maturity", value: fdError ? "Fix inputs" : formatCurrency(fdCalc.value), icon: "💎" },
+              { label: "Interest", value: fdError ? "Fix inputs" : formatCurrency(fdCalc.interest), icon: "💹" },
+            ]
+          : [
+              { label: "Monthly deposit", value: formatCurrency(rdInputs.amount ?? 0), icon: "🏦" },
+              { label: "Maturity", value: rdError ? "Fix inputs" : formatCurrency(rdCalc.value), icon: "💎" },
+              { label: "Interest", value: rdError ? "Fix inputs" : formatCurrency(rdCalc.interest), icon: "💹" },
+            ],
+      inputRows:
+        depositMode === "fd"
+          ? [
+              ["Deposit amount", formatCurrency(fdInputs.amount ?? 0)],
+              ["Rate", `${fdInputs.rate ?? 0}%`],
+              ["Years", `${fdInputs.years ?? 0}`],
+              ["Compounding frequency", `${fdInputs.frequency ?? 0} times/year`],
+            ]
+          : [
+              ["Monthly deposit", formatCurrency(rdInputs.amount ?? 0)],
+              ["Rate", `${rdInputs.rate ?? 0}%`],
+              ["Term", `${rdInputs.months ?? 0} months`],
+              ["Timing", rdConvention === "beginning" ? "Beginning of month" : "End of month"],
+            ],
+      resultRows:
+        depositMode === "fd"
+          ? [
+              ["Maturity value", fdError ? "Fix inputs" : formatCurrency(fdCalc.value)],
+              ["Interest earned", fdError ? "Fix inputs" : formatCurrency(fdCalc.interest)],
+            ]
+          : [
+              ["Maturity value", rdError ? "Fix inputs" : formatCurrency(rdCalc.value)],
+              ["Interest earned", rdError ? "Fix inputs" : formatCurrency(rdCalc.interest)],
+            ],
+      notes:
+        depositMode === "fd"
+          ? ["FD calculations assume the selected compounding frequency."]
+          : ["RD calculation uses the selected monthly deposit timing assumption."],
+    };
+  }, [
+    activeTab,
+    depositMode,
+    simpleInputs.principal,
+    simpleInputs.rate,
+    simpleInputs.years,
+    simpleError,
+    simpleCalc.interest,
+    simpleCalc.value,
+    compoundInputs.principal,
+    compoundInputs.rate,
+    compoundInputs.years,
+    compoundInputs.frequency,
+    compoundError,
+    compoundCalc.value,
+    compoundCalc.interest,
+    fdInputs.amount,
+    fdInputs.rate,
+    fdInputs.years,
+    fdInputs.frequency,
+    fdError,
+    fdCalc.value,
+    fdCalc.interest,
+    rdInputs.amount,
+    rdInputs.rate,
+    rdInputs.months,
+    rdError,
+    rdCalc.value,
+    rdCalc.interest,
+    rdConvention,
+  ]);
+
   return (
     <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
       <section className={`${shellClass} mb-5 px-5 py-6 sm:px-6 lg:px-8`}>
@@ -312,10 +452,6 @@ export default function SavingsDepositsSuite() {
             );
           })}
         </div>
-
-        <div className="ml-auto">
-          <FinancePdfExport />
-        </div>
       </div>
 
       <ExplainerPanel tabKey={activeTab} explainers={EXPLAINERS} />
@@ -326,13 +462,24 @@ export default function SavingsDepositsSuite() {
             <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
               <section className={shellClass}>
                 <div className="border-b border-white/10 p-4 sm:p-5">
-                  <SectionHeader
-                    title="Simple interest calculator"
-                    subtitle="Enter principal, rate, and time to see total interest and maturity value."
-                    icon={PiggyBank}
-                  />
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                    <SectionHeader
+                      title="Simple interest calculator"
+                      subtitle="Enter principal, rate, and time to see total interest and maturity value."
+                      icon={PiggyBank}
+                    />
+                    <FinancePdfExport
+                      filename="simle-interest-report"
+                      title={exportData.title}
+                      subtitle={exportData.subtitle}
+                      summaryCards={exportData.summaryCards}
+                      inputRows={exportData.inputRows}
+                      resultRows={exportData.resultRows}
+                      notes={exportData.notes}
+                      chartRef={chartRef}
+                    />
+                  </div>
                 </div>
-
                 <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
                   <div>
                     <Field label="Principal (₹)">
@@ -378,12 +525,12 @@ export default function SavingsDepositsSuite() {
 
                 <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
                     <StatCard label="Total interest" value={simpleError ? "Fix inputs" : formatCurrency(simpleCalc.interest)}  icon="💹" />
-                    <StatCard label="Principal" value={formatCurrency(simpleInputs.principal ?? 0)} icon="💵" />
-                    <StatCard label="Maturity value" value={simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value)} icon="🏆" />
+                  <StatCard label="Principal" value={formatCurrency(simpleInputs.principal ?? 0)} icon="💵" />
+                  <StatCard label="Maturity value" value={simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value)} icon="🏆" />
                 </div>
               </section>
 
-              <section className={shellClass}>
+              <section ref={chartRef} className={shellClass}>
                 <div className="border-b border-white/10 p-4 sm:p-5">
                   <SectionHeader
                     title="Projection"
@@ -414,11 +561,23 @@ export default function SavingsDepositsSuite() {
             <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
               <section className={shellClass}>
                 <div className="border-b border-white/10 p-4 sm:p-5">
-                  <SectionHeader
-                    title="Compound interest calculator"
-                    subtitle="Default compounding is quarterly, but you can change it."
-                    icon={TrendingUp}
-                  />
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                    <SectionHeader
+                      title="Compound interest calculator"
+                      subtitle="Default compounding is quarterly, but you can change it."
+                      icon={TrendingUp}
+                    />
+                    <FinancePdfExport
+                      filename="compound-interest-report"
+                      title={exportData.title}
+                      subtitle={exportData.subtitle}
+                      summaryCards={exportData.summaryCards}
+                      inputRows={exportData.inputRows}
+                      resultRows={exportData.resultRows}
+                      notes={exportData.notes}
+                      chartRef={chartRef}
+                    />
+                  </div>
                 </div>
 
                 <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
@@ -487,7 +646,7 @@ export default function SavingsDepositsSuite() {
                 </div>
               </section>
 
-              <section className={shellClass}>
+              <section ref={chartRef} className={shellClass}>
                 <div className="border-b border-white/10 p-4 sm:p-5">
                   <SectionHeader
                     title="Projection"
@@ -535,11 +694,23 @@ export default function SavingsDepositsSuite() {
               <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
                 <section className={shellClass}>
                   <div className="border-b border-white/10 p-4 sm:p-5">
-                    <SectionHeader
-                      title="Fixed deposit planner"
-                      subtitle="Default compounding is quarterly. Change it if your product uses a different rule."
-                      icon={ShieldCheck}
-                    />
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                      <SectionHeader
+                        title="Fixed deposit planner"
+                        subtitle="Default compounding is quarterly. Change it if your product uses a different rule."
+                        icon={ShieldCheck}
+                      />
+                      <FinancePdfExport
+                        filename="fixed-deposit-report"
+                        title={exportData.title}
+                        subtitle={exportData.subtitle}
+                        summaryCards={exportData.summaryCards}
+                        inputRows={exportData.inputRows}
+                        resultRows={exportData.resultRows}
+                        notes={exportData.notes}
+                        chartRef={chartRef}
+                      />                  
+                    </div>
                   </div>
 
                   <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
@@ -608,7 +779,7 @@ export default function SavingsDepositsSuite() {
                   </div>
                 </section>
 
-                <section className={shellClass}>
+                <section ref={chartRef} className={shellClass}>
                   <div className="border-b border-white/10 p-4 sm:p-5">
                     <SectionHeader
                       title="FD projection"
@@ -635,13 +806,24 @@ export default function SavingsDepositsSuite() {
               <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
                 <section className={shellClass}>
                   <div className="border-b border-white/10 p-4 sm:p-5">
-                    <SectionHeader
-                      title="Recurring deposit planner"
-                      subtitle="Choose the deposit timing assumption before reviewing the result."
-                      icon={Calculator}
-                    />
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                      <SectionHeader
+                        title="Recurring deposit planner"
+                        subtitle="Choose the deposit timing assumption before reviewing the result."
+                        icon={Calculator}
+                      />
+                      <FinancePdfExport
+                        filename="recurring-deposit-report"
+                        title={exportData.title}
+                        subtitle={exportData.subtitle}
+                        summaryCards={exportData.summaryCards}
+                        inputRows={exportData.inputRows}
+                        resultRows={exportData.resultRows}
+                        notes={exportData.notes}
+                        chartRef={chartRef}
+                      />                  
+                    </div>
                   </div>
-
                   <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
                     <div>
                       <Field label="Monthly deposit (₹)">
@@ -706,7 +888,7 @@ export default function SavingsDepositsSuite() {
                   </div>
                 </section>
 
-                <section className={shellClass}>
+                <section ref={chartRef} className={shellClass}>
                   <div className="border-b border-white/10 p-4 sm:p-5">
                     <SectionHeader
                       title="RD projection"
