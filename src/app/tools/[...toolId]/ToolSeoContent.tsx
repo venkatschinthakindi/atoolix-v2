@@ -125,6 +125,14 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/image/imageCompressor/compress100SeoContent"),
     { ssr: true }
   ),
+  "image/passport-photo-resizer": dynamic(
+    () => import("@/components/tools/image/passpoerPhotoResizer/passpoerPhotoSeoContent"),
+    { ssr: true }
+  ),
+  "image/resize-signature-for-upload": dynamic(
+    () => import("@/components/tools/image/signatureResizer/signatureResizerSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {
