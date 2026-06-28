@@ -625,7 +625,7 @@ export default function InvestmentReturnsSuite() {
           ["Monthly SIP amount", formatCurrency(sipAmount)],
           ["Expected annual return", formatPercent(sipRate)],
           ["Investment horizon", `${sipYears} years`],
-          ["Step-up rate", formatPercent(sipStepUp)],
+          ["Annual Step-up rate", formatPercent(sipStepUp)],
         ],
         resultRows: [
           ["Future value", formatCurrency(sipResult.futureValue)],
