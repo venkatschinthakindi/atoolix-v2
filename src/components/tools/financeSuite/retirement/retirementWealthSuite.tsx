@@ -627,19 +627,6 @@ export default function RetirementWealthSuite() {
             );
           })}
         </div>
-
-        <div className="shrink-0">
-          <FinancePdfExport
-            filename="investment-report"
-            title={exportData.title}
-            subtitle={exportData.subtitle}
-            summaryCards={exportData.summaryCards}
-            inputRows={exportData.inputRows}
-            resultRows={exportData.resultRows}
-            notes={exportData.notes}
-            chartRef={chartRef}
-          />
-        </div>
       </div>
 
       <section className={`${shellClass} p-4 sm:p-5`}>
@@ -679,11 +666,23 @@ export default function RetirementWealthSuite() {
         <div className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
           <section className={shellClass}>
             <div className="border-b border-white/10 p-4 sm:p-5">
-              <SectionHeader
-                title="Retirement planner"
-                subtitle="Chart shows corpus growth only, with the target shown separately."
-                icon={PiggyBank}
-              />
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                <SectionHeader
+                  title="Retirement planner"
+                  subtitle="Chart shows corpus growth only, with the target shown separately."
+                  icon={PiggyBank}
+                />
+                <FinancePdfExport
+                    filename="retirement-planner-report"
+                    title={exportData.title}
+                    subtitle={exportData.subtitle}
+                    summaryCards={exportData.summaryCards}
+                    inputRows={exportData.inputRows}
+                    resultRows={exportData.resultRows}
+                    notes={exportData.notes}
+                    chartRef={chartRef}
+                />
+              </div>
             </div>
 
             <div className="grid gap-4 p-4 sm:grid-cols-2 sm:p-5">
@@ -797,11 +796,11 @@ export default function RetirementWealthSuite() {
 
           <section className={shellClass}>
             <div className="border-b border-white/10 p-4 sm:p-5">
-              <SectionHeader
-                title="Retirement projection"
-                subtitle="Projected corpus growth compared against the target corpus."
-                icon={BarChart3}
-              />
+                <SectionHeader
+                  title="Retirement projection"
+                  subtitle="Projected corpus growth compared against the target corpus."
+                  icon={BarChart3}
+                />
             </div>
 
             <div ref={chartRef} className="p-4 sm:p-5">
@@ -835,11 +834,24 @@ export default function RetirementWealthSuite() {
         <div className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
           <section className={shellClass}>
             <div className="border-b border-white/10 p-4 sm:p-5">
-              <SectionHeader
-                title="FIRE calculator"
-                subtitle="Target uses inflation-adjusted spending at the selected FIRE date."
-                icon={Calculator}
-              />
+              
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                <SectionHeader
+                  title="FIRE calculator"
+                  subtitle="Target uses inflation-adjusted spending at the selected FIRE date."
+                  icon={Calculator}
+                />
+                <FinancePdfExport
+                  filename="fire-report"
+                  title={exportData.title}
+                  subtitle={exportData.subtitle}
+                  summaryCards={exportData.summaryCards}
+                  inputRows={exportData.inputRows}
+                  resultRows={exportData.resultRows}
+                  notes={exportData.notes}
+                  chartRef={chartRef}
+                />
+              </div>
             </div>
 
             <div className="grid gap-4 p-4 sm:grid-cols-2 sm:p-5">
@@ -1019,11 +1031,23 @@ export default function RetirementWealthSuite() {
         <div className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
           <section className={shellClass}>
             <div className="border-b border-white/10 p-4 sm:p-5">
-              <SectionHeader
-                title="SWP planner"
-                subtitle="Initial withdrawal is shown here; inflation applies yearly in the projection."
-                icon={Percent}
-              />
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                  <SectionHeader
+                    title="SWP planner"
+                    subtitle="Initial withdrawal is shown here; inflation applies yearly in the projection."
+                    icon={Percent}
+                  />
+                  <FinancePdfExport
+                    filename="swp-planner-report"
+                    title={exportData.title}
+                    subtitle={exportData.subtitle}
+                    summaryCards={exportData.summaryCards}
+                    inputRows={exportData.inputRows}
+                    resultRows={exportData.resultRows}
+                    notes={exportData.notes}
+                    chartRef={chartRef}
+                  />
+                </div>
             </div>
 
             <div className="grid gap-4 p-4 sm:grid-cols-2 sm:p-5">
