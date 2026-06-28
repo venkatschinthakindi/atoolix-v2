@@ -1,7 +1,7 @@
 "use client";
 
 import { categoryIcons, getCachedTools } from "@/data/tools";
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FilteredTools } from "@/components/ui/filteredTools";
 import FloatingDockLoader from "@/components/layout/floatingDockLoader";

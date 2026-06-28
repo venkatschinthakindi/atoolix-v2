@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/app/settings"  ],
+, "src/app/documentation"  ],
   "exclude": ["node_modules"]
 }

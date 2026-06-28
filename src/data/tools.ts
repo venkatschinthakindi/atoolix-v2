@@ -19,12 +19,12 @@ export const categoryIcons: CategoryInfo[] = [
     description: "Mathamatical tools and utilities",
     icon: 'Sigma'
   },
-  {
-    id: "AI",
-    title: "AI",
-    description: "Artificial Intelligence tools",
-    icon: 'Cpu'
-  },
+  // {
+  //   id: "AI",
+  //   title: "AI",
+  //   description: "Artificial Intelligence tools",
+  //   icon: 'Cpu'
+  // },
   {
     id: "Image_Converter",
     title: "Image Converter",
@@ -37,24 +37,24 @@ export const categoryIcons: CategoryInfo[] = [
     description: "Compress images and reduce file size without losing quality",
     icon: 'Image'
   },
-  {
-    id: "Image_Resizer",
-    title: "Image Resizer",
-    description: "Resize photos for social media, websites and documents",
-    icon: 'Image'
-  },
-  {
-    id: "Image_Cropper",
-    title: "Image Cropper",
-    description: "Crop images to custom sizes and aspect ratios",
-    icon: 'Image'
-  },
-  {
-    id: "Background_Remover",
-    title: "Background Remover",
-    description: "Remove image backgrounds automatically with AI",
-    icon: 'Image'
-  },
+  // {
+  //   id: "Image_Resizer",
+  //   title: "Image Resizer",
+  //   description: "Resize photos for social media, websites and documents",
+  //   icon: 'Image'
+  // },
+  // {
+  //   id: "Image_Cropper",
+  //   title: "Image Cropper",
+  //   description: "Crop images to custom sizes and aspect ratios",
+  //   icon: 'Image'
+  // },
+  // {
+  //   id: "Background_Remover",
+  //   title: "Background Remover",
+  //   description: "Remove image backgrounds automatically with AI",
+  //   icon: 'Image'
+  // },
   {
     id: "Finance",
     title: "Finance",

@@ -2,7 +2,7 @@ import {
   Home,
   Wrench,
   Sparkles,
-  Settings,
+  BookOpen
 } from "lucide-react";
 
 export const navigationItems = [
@@ -17,13 +17,13 @@ export const navigationItems = [
     icon: Wrench,
   },
   {
-    label: "AI",
-    href: "/tools/ai",
+    label: "Finance",
+    href: "/finance",
     icon: Sparkles,
   },
   {
-    label: "Settings",
-    href: "/settings",
-    icon: Settings,
+    label: "Documentation",
+    href: "/documentation",
+    icon: BookOpen,
   },
 ];
