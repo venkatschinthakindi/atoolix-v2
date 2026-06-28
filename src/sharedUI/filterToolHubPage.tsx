@@ -5,7 +5,7 @@ import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 export function FilterToolHubPage({ filterKey }: any) {
   return (
     <>
-    <div className="app-shell">
+    <div>
       <div className="app-container page-section">
         <div className="mb-12">
           <>

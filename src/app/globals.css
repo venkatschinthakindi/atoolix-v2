@@ -593,7 +593,7 @@ button {
   }
 
   .footer-panel {
-    @apply relative mt-28 border-t border-white/10 overflow-hidden;
+    @apply relative mt-10  border-t border-white/10 overflow-hidden;
   }
 
   .footer-inner {

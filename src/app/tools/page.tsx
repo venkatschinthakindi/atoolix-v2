@@ -1,4 +1,5 @@
 import ToolsHubClient  from "@/app/tools/toolsHubClient";
+import { Footer } from "@/app/footer/footer";
 import ToolLoader from "@/components/tools/toolLoader";
 import { Suspense } from "react";
 
@@ -24,6 +25,7 @@ export default async function ToolsPage({ params }: any) {
       <Suspense fallback={<ToolLoader />}>
         <ToolsHubClient />
       </Suspense>
+      <Footer />
       </div>
     </div>
     </>

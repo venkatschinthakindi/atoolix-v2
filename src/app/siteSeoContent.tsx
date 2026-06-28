@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 const siteName = "Your Tools Site";
 const siteUrl = "https://yourdomain.com";
@@ -165,7 +164,9 @@ const jsonLd = {
   ],
 };
 
-export default function HomePageSeo() {
+import Link from "next/link";
+
+export async function HomePageSeo() {
   return (
     <>
       <script
@@ -353,5 +354,5 @@ export default function HomePageSeo() {
         </div>
       </section>
     </>
-  );
+  )
 }
