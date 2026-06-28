@@ -1348,8 +1348,10 @@ export const tools: ToolRegistryEntry[] = [
     loader: () => import("@/components/tools/image/passpoerPhotoResizer/passpoerPhotoCompressor"),
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
-      targetKB: 100,
-      lockTarget: false
+      targetKB: 20,
+      lockTarget: false,
+      targetWidth: 51,
+      targetHeight: 51
     },
     "toolShortName": "Passport Photo Resizer",
     "title": "Passport Photo Resizer Online | Customize Size 0-100KB + Auto-Resize to Official Dimensions | JPG JPEG PNG WEBP",
@@ -1403,7 +1405,9 @@ export const tools: ToolRegistryEntry[] = [
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
       targetKB: 20,
-      lockTarget: false
+      lockTarget: false,
+      targetWidth: 51,
+      targetHeight: 51
     },
     "toolShortName": "Signature Resizer",
     "title": "Resize Signature for Upload | Adjustable 0–100KB JPG, PNG, WebP Optimizer",

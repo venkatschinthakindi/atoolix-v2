@@ -13,4 +13,6 @@ export interface CompressorConfig {
 
   topSectionHeader?: string;
   topSectionDescription?: string;
+  targetWidth?: number;
+  targetHeight?: number;
 }
