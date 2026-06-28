@@ -787,7 +787,7 @@ export default function InvestmentReturnsSuite() {
                 />
 
                 <FinancePdfExport
-                  filename="investment-report"
+                  filename="SIP-growth-report"
                   title={exportData.title}
                   subtitle={exportData.subtitle}
                   summaryCards={exportData.summaryCards}
@@ -913,13 +913,25 @@ export default function InvestmentReturnsSuite() {
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
             <section className={shellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
-                <SectionHeader
-                  title="Lump sum calculator"
-                  subtitle="Project the future value of a single one-time investment."
-                  icon={TrendingUp}
-                />
-              </div>
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                  <SectionHeader
+                    title="Lump sum calculator"
+                    subtitle="Project the future value of a single one-time investment."
+                    icon={TrendingUp}
+                  />
 
+                  <FinancePdfExport
+                    filename="lump-sum-report"
+                    title={exportData.title}
+                    subtitle={exportData.subtitle}
+                    summaryCards={exportData.summaryCards}
+                    inputRows={exportData.inputRows}
+                    resultRows={exportData.resultRows}
+                    notes={exportData.notes}
+                    chartRef={chartRef}
+                  />
+                </div>
+              </div>
               <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
                 <div>
                   <Field label="Investment amount (₹)">
@@ -1022,11 +1034,25 @@ export default function InvestmentReturnsSuite() {
           <div className="grid gap-5 xl:grid-cols-2">
             <section className={shellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
-                <SectionHeader
-                  title="CAGR calculator"
-                  subtitle="Find the annualised growth rate between two values."
-                  icon={Percent}
-                />
+                
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                  <SectionHeader
+                    title="CAGR calculator"
+                    subtitle="Find the annualised growth rate between two values."
+                    icon={Percent}
+                  />
+
+                  <FinancePdfExport
+                    filename="CAGR-report"
+                    title={exportData.title}
+                    subtitle={exportData.subtitle}
+                    summaryCards={exportData.summaryCards}
+                    inputRows={exportData.inputRows}
+                    resultRows={exportData.resultRows}
+                    notes={exportData.notes}
+                    chartRef={chartRef}
+                  />
+                </div>
               </div>
 
               <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
