@@ -1,21 +1,18 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useState, memo } from "react";
+import { useCallback, useMemo, useRef, useState, memo } from "react";
 import {
   Calculator,
   Percent,
   PiggyBank,
   TrendingUp,
   BarChart3,
-  Plus,
-  Trash2,
   AlertTriangle,
   Info,
-  ChevronDown,
-  ChevronUp,
   ArrowDownCircle,
   ArrowUpCircle,
+  Trash2,
 } from "lucide-react";
 
 import { Field } from "@/components/ui/field";
@@ -39,10 +36,6 @@ const FinancePdfExport = dynamic(
   }
 );
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-
-
 type CashFlow = {
   id: string;
   amount: number | "";
@@ -51,15 +44,11 @@ type CashFlow = {
 
 type XirrStatus = "idle" | "invalid" | "no-solution" | "ok";
 
-// ─── Tab config ───────────────────────────────────────────────────────────────
-
 const tabs: { id: TabKey; label: string; icon: string }[] = [
   { id: "sip", label: "SIP Growth", icon: "🚀" },
   { id: "lump", label: "Lump Sum", icon: "💎" },
   { id: "performance", label: "CAGR & XIRR", icon: "🎯" },
 ];
-
-// ─── Explainer content ────────────────────────────────────────────────────────
 
 const EXPLAINERS: any = {
   sip: {
@@ -89,10 +78,8 @@ const EXPLAINERS: any = {
       "Use XIRR when you've made multiple investments at different times (e.g. SIP purchases + redemptions).",
       "Investments are entered as negative numbers (money out of your pocket), payouts as positive (money back to you).",
     ],
-  }
+  },
 };
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function uid() {
   return `cf_${Math.random().toString(36).slice(2)}_${Date.now().toString(36)}`;
@@ -113,13 +100,6 @@ function formatPercent(value: number) {
   return `${value.toFixed(2)}%`;
 }
 
-// ─── Finance math ─────────────────────────────────────────────────────────────
-
-/**
- * SIP future value with optional annual step-up.
- * Contributions are made at end-of-month (ordinary annuity).
- * Step-up is applied once per year (after 12 contributions).
- */
 function calculateSIPValue(
   monthly: number,
   annualRate: number,
@@ -148,9 +128,6 @@ function calculateSIPValue(
   };
 }
 
-/**
- * Compound interest future value: A = P × (1 + r/n)^(n×t)
- */
 function calculateCompoundValue(
   amount: number,
   rate: number,
@@ -199,8 +176,6 @@ function buildLumpSeries(
   }
   return series;
 }
-
-// ─── XIRR implementation ──────────────────────────────────────────────────────
 
 function utcDay(dateStr: string) {
   const d = new Date(dateStr);
@@ -304,8 +279,6 @@ function xirr(cashflows: CashFlow[], guess = 0.1) {
   return xirrBisection(sorted);
 }
 
-// ─── Shared UI primitives ─────────────────────────────────────────────────────
-
 const shellClass =
   "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
 
@@ -344,8 +317,6 @@ function ChartSkeleton() {
   );
 }
 
-// ─── Tooltip / hint ───────────────────────────────────────────────────────────
-
 function FieldHint({ text }: { text: string }) {
   return (
     <p className="mt-1.5 flex items-center gap-2 text-xs leading-snug text-white/45">
@@ -355,10 +326,6 @@ function FieldHint({ text }: { text: string }) {
   );
 }
 
-
-// ─── XIRR row ─────────────────────────────────────────────────────────────────
-
-/** Returns true when this row has a complete, valid entry */
 function isFlowValid(flow: CashFlow) {
   return (
     typeof flow.amount === "number" &&
@@ -406,7 +373,6 @@ const FlowRow = memo(function FlowRow({
                 : "border-white/10 focus-within:border-blue-400/40",
             ].join(" ")}
           >
-            {/* Icon Side */}
             <div
               className={[
                 "flex w-12 shrink-0 items-center justify-center border-r border-white/10",
@@ -426,7 +392,6 @@ const FlowRow = memo(function FlowRow({
               )}
             </div>
 
-            {/* Input */}
             <input
               type="number"
               value={flow.amount === "" ? "" : flow.amount}
@@ -480,8 +445,6 @@ const FlowRow = memo(function FlowRow({
   );
 });
 
-// ─── XIRR sign legend ─────────────────────────────────────────────────────────
-
 function XirrSignLegend() {
   return (
     <div className="flex flex-wrap gap-4 rounded-2xl border border-white/10 bg-black/10 px-4 py-3 text-sm">
@@ -501,36 +464,30 @@ function XirrSignLegend() {
   );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
-
 export default function InvestmentReturnsSuite() {
   const [activeTab, setActiveTab] = useState<TabKey>("sip");
+  const chartRef = useRef<HTMLDivElement | null>(null);
 
-  // ── SIP state ──
   const [sipAmount, setSipAmount] = useState(5000);
   const [sipRate, setSipRate] = useState(12);
   const [sipYears, setSipYears] = useState(10);
   const [sipStepUp, setSipStepUp] = useState(5);
 
-  // ── Lump sum state ──
   const [lumpAmount, setLumpAmount] = useState(100000);
   const [lumpRate, setLumpRate] = useState(8);
   const [lumpYears, setLumpYears] = useState(5);
   const [lumpFrequency, setLumpFrequency] = useState(4);
 
-  // ── CAGR state ──
   const [cagrStart, setCagrStart] = useState(100000);
   const [cagrEnd, setCagrEnd] = useState(180000);
   const [cagrYears, setCagrYears] = useState(5);
 
-  // ── XIRR state ──
   const [xirrFlows, setXirrFlows] = useState<CashFlow[]>([
     { id: uid(), amount: -100000, date: "2024-06-01" },
     { id: uid(), amount: 125851, date: "2025-06-01" },
     { id: uid(), amount: 780000, date: "2028-06-01" },
   ]);
 
-  // ── SIP results ──
   const sipResult = useMemo(
     () => calculateSIPValue(sipAmount, sipRate, sipYears, sipStepUp),
     [sipAmount, sipRate, sipYears, sipStepUp]
@@ -541,19 +498,16 @@ export default function InvestmentReturnsSuite() {
     [sipAmount, sipRate, sipYears]
   );
 
-  // ── Lump sum result ──
   const lumpResult = useMemo(
     () => calculateCompoundValue(lumpAmount, lumpRate, lumpYears, lumpFrequency),
     [lumpAmount, lumpRate, lumpYears, lumpFrequency]
   );
 
-  // ── CAGR result ──
   const cagrResult = useMemo(() => {
     if (cagrStart <= 0 || cagrYears <= 0 || cagrEnd < 0) return NaN;
     return Math.pow(cagrEnd / cagrStart, 1 / cagrYears) - 1;
   }, [cagrStart, cagrEnd, cagrYears]);
 
-  // ── XIRR result ──
   const xirrMeta = useMemo(() => {
     const validFlows = xirrFlows.filter(
       (f) => typeof f.amount === "number" && Number.isFinite(f.amount) && f.amount !== 0 && !!f.date
@@ -570,7 +524,6 @@ export default function InvestmentReturnsSuite() {
     return { status: "no-solution" as XirrStatus, value: NaN };
   }, [xirrFlows]);
 
-  // ── Chart series ──
   const sipLabels = useMemo(
     () => Array.from({ length: sipYears }, (_, i) => `Year ${i + 1}`),
     [sipYears]
@@ -596,7 +549,6 @@ export default function InvestmentReturnsSuite() {
     [lumpAmount, lumpRate, lumpYears, lumpFrequency]
   );
 
-  // ── XIRR callbacks ──
   const updateFlow = useCallback(
     (index: number, field: keyof Omit<CashFlow, "id">, value: string) => {
       setXirrFlows((current) => {
@@ -647,10 +599,129 @@ export default function InvestmentReturnsSuite() {
 
   const hasInvalidRows = xirrFlows.some((f) => !isFlowValid(f));
 
-  return (
-    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
+  const exportData = useMemo(() => {
+    if (activeTab === "sip") {
+      return {
+        title: "SIP Growth Report",
+        subtitle: "SIP projection and step-up comparison",
+        summaryCards: [
+          {
+            label: "Future Value",
+            value: formatCurrency(sipResult.futureValue),
+            tone: "positive" as const,
+          },
+          {
+            label: "Total Invested",
+            value: formatCurrency(sipResult.invested),
+            tone: "neutral" as const,
+          },
+          {
+            label: "Wealth Gain",
+            value: formatCurrency(sipResult.gain),
+            tone: "accent" as const,
+          },
+        ],
+        inputRows: [
+          ["Monthly SIP amount", formatCurrency(sipAmount)],
+          ["Expected annual return", formatPercent(sipRate)],
+          ["Investment horizon", `${sipYears} years`],
+          ["Step-up rate", formatPercent(sipStepUp)],
+        ],
+        resultRows: [
+          ["Future value", formatCurrency(sipResult.futureValue)],
+          ["Total invested", formatCurrency(sipResult.invested)],
+          ["Gain", formatCurrency(sipResult.gain)],
+        ],
+        notes: [
+          "Contributions are assumed at the end of each month.",
+          "Step-up is applied once per year.",
+        ],
+      };
+    }
 
-      {/* ── Header ── */}
+    if (activeTab === "lump") {
+      return {
+        title: "Lump Sum Report",
+        subtitle: "One-time investment projection",
+        summaryCards: [
+          {
+            label: "Future Value",
+            value: formatCurrency(lumpResult),
+            tone: "positive" as const,
+          },
+          {
+            label: "Invested Amount",
+            value: formatCurrency(lumpAmount),
+            tone: "neutral" as const,
+          },
+          {
+            label: "Gain",
+            value: formatCurrency(lumpResult - lumpAmount),
+            tone: "accent" as const,
+          },
+        ],
+        inputRows: [
+          ["Investment amount", formatCurrency(lumpAmount)],
+          ["Annual rate", formatPercent(lumpRate)],
+          ["Horizon", `${lumpYears} years`],
+          ["Compounding", `${lumpFrequency}x per year`],
+        ],
+        resultRows: [
+          ["Future value", formatCurrency(lumpResult)],
+          ["Gain", formatCurrency(lumpResult - lumpAmount)],
+        ],
+        notes: ["Compounding frequency affects returns slightly."],
+      };
+    }
+
+    return {
+      title: "Performance Report",
+      subtitle: "CAGR and XIRR analysis",
+      summaryCards: [
+        {
+          label: "CAGR",
+          value: formatPercent(cagrResult * 100),
+          tone: "positive" as const,
+        },
+        { label: "XIRR", value: xirrValueText, tone: "accent" as const },
+      ],
+      inputRows: [
+        ["CAGR start", formatCurrency(cagrStart)],
+        ["CAGR end", formatCurrency(cagrEnd)],
+        ["CAGR years", `${cagrYears}`],
+        ["XIRR rows", `${xirrFlows.length}`],
+      ],
+      resultRows: [
+        ["CAGR", formatPercent(cagrResult * 100)],
+        ["XIRR", xirrValueText],
+      ],
+      notes: [
+        "CAGR ignores the timing of cash flows.",
+        "XIRR uses the exact dates of each cash flow.",
+      ],
+    };
+  }, [
+    activeTab,
+    sipResult,
+    sipAmount,
+    sipRate,
+    sipYears,
+    sipStepUp,
+    lumpResult,
+    lumpAmount,
+    lumpRate,
+    lumpYears,
+    lumpFrequency,
+    cagrResult,
+    cagrStart,
+    cagrEnd,
+    cagrYears,
+    xirrValueText,
+    xirrFlows.length,
+  ]);
+
+  return (
+    <div className="mx-auto w-full max-w-6xl space-y-6 px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <section className={`${shellClass} mb-5 px-5 py-6 sm:px-6 lg:px-8`}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
@@ -678,9 +749,8 @@ export default function InvestmentReturnsSuite() {
         </div>
       </section>
 
-      {/* ── Tab bar ── */}
       <div className="flex items-center gap-3">
-        <div className="flex flex-1 justify-center gap-2 flex-wrap">
+        <div className="flex flex-1 flex-wrap justify-center gap-2">
           {tabs.map((tab) => {
             const active = activeTab === tab.id;
             return (
@@ -701,24 +771,30 @@ export default function InvestmentReturnsSuite() {
             );
           })}
         </div>
-
-        <div className="ml-auto">
-          <FinancePdfExport />
-        </div>
       </div>
 
-      {/* ── SIP tab ── */}
       {activeTab === "sip" && (
         <div className="space-y-4">
-          <ExplainerPanel tabKey="sip" explainers={EXPLAINERS}/>
+          <ExplainerPanel tabKey="sip" explainers={EXPLAINERS} />
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
             <section className={shellClass}>
-              <div className="border-b border-white/10 p-4 sm:p-5">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
                 <SectionHeader
                   title="SIP growth calculator"
                   subtitle="Compare basic SIP vs. step-up SIP over your chosen horizon."
                   icon={PiggyBank}
+                />
+
+                <FinancePdfExport
+                  filename="investment-report"
+                  title={exportData.title}
+                  subtitle={exportData.subtitle}
+                  summaryCards={exportData.summaryCards}
+                  inputRows={exportData.inputRows}
+                  resultRows={exportData.resultRows}
+                  notes={exportData.notes}
+                  chartRef={chartRef}
                 />
               </div>
 
@@ -798,7 +874,7 @@ export default function InvestmentReturnsSuite() {
                 />
               </div>
 
-              <div className="p-4 sm:p-5">
+              <div ref={chartRef} className="p-4 sm:p-5">
                 <FinanceChart
                   labels={sipLabels}
                   datasets={[
@@ -830,10 +906,9 @@ export default function InvestmentReturnsSuite() {
         </div>
       )}
 
-      {/* ── Lump Sum tab ── */}
       {activeTab === "lump" && (
         <div className="space-y-4">
-          <ExplainerPanel tabKey="lump" explainers={EXPLAINERS}/>
+          <ExplainerPanel tabKey="lump" explainers={EXPLAINERS} />
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
             <section className={shellClass}>
@@ -923,7 +998,7 @@ export default function InvestmentReturnsSuite() {
                 />
               </div>
 
-              <div className="p-4 sm:p-5">
+              <div ref={chartRef} className="p-4 sm:p-5">
                 <FinanceChart
                   labels={lumpLabels}
                   datasets={[
@@ -940,14 +1015,11 @@ export default function InvestmentReturnsSuite() {
         </div>
       )}
 
-      {/* ── CAGR & XIRR tab ── */}
       {activeTab === "performance" && (
         <div className="space-y-5">
-          <ExplainerPanel tabKey="performance" explainers={EXPLAINERS}/>
+          <ExplainerPanel tabKey="performance" explainers={EXPLAINERS} />
 
           <div className="grid gap-5 xl:grid-cols-2">
-
-            {/* CAGR */}
             <section className={shellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
                 <SectionHeader
@@ -1018,7 +1090,6 @@ export default function InvestmentReturnsSuite() {
               </div>
             </section>
 
-            {/* XIRR */}
             <section className={shellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
                 <SectionHeader
@@ -1029,11 +1100,8 @@ export default function InvestmentReturnsSuite() {
               </div>
 
               <div className="space-y-4 p-4 sm:p-5">
-
-                {/* Sign legend */}
                 <XirrSignLegend />
 
-                {/* Action buttons */}
                 <div className="flex flex-wrap gap-2">
                   <button
                     type="button"
@@ -1060,12 +1128,10 @@ export default function InvestmentReturnsSuite() {
                   </button>
                 </div>
 
-                {/* Row count hint */}
                 <p className="text-xs text-white/40">
                   {xirrFlows.length} cash flow{xirrFlows.length !== 1 ? "s" : ""} — need at least 1 investment and 1 payout to calculate XIRR.
                 </p>
 
-                {/* Cash flow rows */}
                 <div className="space-y-3">
                   {xirrFlows.map((flow, index) => (
                     <FlowRow
@@ -1079,7 +1145,6 @@ export default function InvestmentReturnsSuite() {
                   ))}
                 </div>
 
-                {/* Invalid row warning */}
                 {hasInvalidRows && (
                   <div className="flex items-start gap-2 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-sm text-amber-100">
                     <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
@@ -1087,7 +1152,6 @@ export default function InvestmentReturnsSuite() {
                   </div>
                 )}
 
-                {/* Result */}
                 <ResultBox label="Annualised XIRR" value={xirrValueText} />
 
                 {xirrMeta.status === "invalid" && (
