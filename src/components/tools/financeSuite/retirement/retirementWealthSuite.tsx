@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { ElementType } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Calculator,
   Percent,
@@ -17,7 +17,6 @@ import { Field } from "@/components/ui/field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { StatCard } from "@/sharedUI/statCard";
-
 
 type TabKey = "retirement" | "fire" | "swp";
 type ScenarioKey = "conservative" | "base" | "aggressive";
@@ -216,8 +215,8 @@ function buildSwpSeries(
     balance = Math.max(0, balance * (1 + r) - withdrawal);
 
     if (month % 12 === 0 || month === months) {
-    withdrawal *= Math.pow(1 + inflationRate / 100, 1);
-    series.push(balance);
+      withdrawal *= Math.pow(1 + inflationRate / 100, 1);
+      series.push(balance);
     }
   }
 
@@ -265,6 +264,7 @@ function WarningCallout({ text }: { text: string }) {
 }
 
 export default function RetirementWealthSuite() {
+  const chartRef = useRef<HTMLDivElement | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("retirement");
   const [selectedScenario, setSelectedScenario] = useState<ScenarioKey>("base");
 
@@ -276,6 +276,7 @@ export default function RetirementWealthSuite() {
   const [inflationRate, setInflationRate] = useState(6);
   const [taxDrag, setTaxDrag] = useState(1.5);
   const [annualNeed, setAnnualNeed] = useState(120000);
+  const [retirementWithdrawalRate, setRetirementWithdrawalRate] = useState(4);
 
   const [fireSavings, setFireSavings] = useState(500000);
   const [fireContribution, setFireContribution] = useState(15000);
@@ -284,38 +285,31 @@ export default function RetirementWealthSuite() {
   const [fireAnnualExpense, setFireAnnualExpense] = useState(120000);
   const [fireWithdrawalRate, setFireWithdrawalRate] = useState(4);
   const [fireHorizonYears, setFireHorizonYears] = useState(20);
+  const [fireInflation, setFireInflation] = useState(6);
 
   const [swpCorpus, setSwpCorpus] = useState(1500000);
   const [swpReturn, setSwpReturn] = useState(7);
   const [swpYears, setSwpYears] = useState(20);
   const [swpInflationRate, setSwpInflationRate] = useState(6);
+  const [swpTaxDrag, setSwpTaxDrag] = useState(1.5);
 
   const scenario = SCENARIOS[selectedScenario];
   const retirementYears = useMemo(() => clampInt(retirementAge - currentAge, 0, 60), [currentAge, retirementAge]);
 
-  
-    const [fireInflation, setFireInflation] = useState(6);
-    const [swpTaxDrag, setSwpTaxDrag] = useState(1.5);
-
   const applyScenario = useCallback((key: ScenarioKey) => {
-  const s = SCENARIOS[key];
-  setSelectedScenario(key);
-
-  setExpectedReturn(s.returnRate);
-  setInflationRate(s.inflationRate);
-  setTaxDrag(s.taxDrag);
-
-  setFireReturn(s.returnRate);
-  setFireTaxDrag(s.taxDrag);
-  setFireWithdrawalRate(s.withdrawalRate);
-
-  setSwpReturn(s.returnRate);
-  setSwpInflationRate(s.inflationRate);
-
-  // ✅ FIX MISSING SYNC
-  setFireInflation(s.inflationRate);
-  setSwpTaxDrag(s.taxDrag);
-}, []);
+    const s = SCENARIOS[key];
+    setSelectedScenario(key);
+    setExpectedReturn(s.returnRate);
+    setInflationRate(s.inflationRate);
+    setTaxDrag(s.taxDrag);
+    setFireReturn(s.returnRate);
+    setFireTaxDrag(s.taxDrag);
+    setFireWithdrawalRate(s.withdrawalRate);
+    setSwpReturn(s.returnRate);
+    setSwpInflationRate(s.inflationRate);
+    setFireInflation(s.inflationRate);
+    setSwpTaxDrag(s.taxDrag);
+  }, []);
 
   const retirementEffectiveReturn = useMemo(
     () => annualNetReturn(expectedReturn, taxDrag),
@@ -327,22 +321,20 @@ export default function RetirementWealthSuite() {
     [fireReturn, fireTaxDrag]
   );
 
-//   swpEffectiveReturn
   const swpNetReturn = useMemo(
-  () => annualNetReturn(swpReturn, swpTaxDrag),
-  [swpReturn, swpTaxDrag]
-);
+    () => annualNetReturn(swpReturn, swpTaxDrag),
+    [swpReturn, swpTaxDrag]
+  );
 
   const retirementNeedAtGoal = useMemo(
     () => inflateValue(annualNeed, inflationRate, retirementYears),
     [annualNeed, inflationRate, retirementYears]
   );
-const [retirementWithdrawalRate, setRetirementWithdrawalRate] = useState(4);
 
-const retirementTarget = useMemo(
-  () => calculateFireTarget(retirementNeedAtGoal, retirementWithdrawalRate),
-  [retirementNeedAtGoal, retirementWithdrawalRate]
-);
+  const retirementTarget = useMemo(
+    () => calculateFireTarget(retirementNeedAtGoal, retirementWithdrawalRate),
+    [retirementNeedAtGoal, retirementWithdrawalRate]
+  );
 
   const retirementMonthly = useMemo(
     () =>
@@ -400,9 +392,9 @@ const retirementTarget = useMemo(
   Number.isFinite(fireMonthsToGoal) ? fireMonthsToGoal : Infinity;
 
   const fireProjectionYears = useMemo(() => {
-  if (!safeFireMonthsToGoal || safeFireMonthsToGoal <= 0) return 0;
-  return Math.min(Math.ceil(safeFireMonthsToGoal / 12), 50);
-}, [safeFireMonthsToGoal]);
+    if (!safeFireMonthsToGoal || safeFireMonthsToGoal <= 0) return 0;
+    return Math.min(Math.ceil(safeFireMonthsToGoal / 12), 50);
+  }, [safeFireMonthsToGoal]);
 
   const fireSeries = useMemo(
     () =>
@@ -465,6 +457,125 @@ const retirementTarget = useMemo(
     [currentAge]
   );
 
+  const exportData = useMemo(() => {
+    if (activeTab === "retirement") {
+      return {
+        title: "Retirement Planner Report",
+        subtitle: "Retirement projection and savings summary",
+        summaryCards: [
+          { label: "Target corpus", value: money(retirementTarget), tone: "positive" as const },
+          { label: "Required monthly savings", value: money(retirementMonthly), tone: "accent" as const },
+          { label: "Progress", value: `${retirementGoalAchievement.toFixed(0)}%`, tone: "neutral" as const },
+        ],
+        inputRows: [
+          ["Current age", `${currentAge}`],
+          ["Retirement age", `${retirementAge}`],
+          ["Current savings", money(currentSavings)],
+          ["Monthly contribution", money(monthlyContribution)],
+          ["Expected return", formatPercent(expectedReturn)],
+          ["Tax drag", formatPercent(taxDrag)],
+          ["Inflation rate", formatPercent(inflationRate)],
+          ["Annual expense today", money(annualNeed)],
+        ],
+        resultRows: [
+          ["Retirement horizon", yearsLabel(retirementYears)],
+          ["Target corpus", money(retirementTarget)],
+          ["Required monthly savings", money(retirementMonthly)],
+          ["Current progress", `${retirementGoalAchievement.toFixed(0)}%`],
+        ],
+        notes: [
+          "Projected corpus growth compared against the target corpus."
+        ],
+      };
+    }
+
+    if (activeTab === "fire") {
+      return {
+        title: "FIRE Calculator Report",
+        subtitle: "FIRE(Financial Independence, Retire Early) projection and savings summary",
+        summaryCards: [
+          { label: "FIRE target", value: money(fireTarget), tone: "positive" as const },
+          { label: "Years to goal", value: !Number.isFinite(safeFireMonthsToGoal) ? "Not Reachable" : `${Math.ceil(safeFireMonthsToGoal / 12)} years`, tone: "accent" as const },
+          { label: "Current progress", value: `${fireGoalAchievement.toFixed(0)}%`, tone: "neutral" as const },
+        ],
+        inputRows: [
+          ["Current savings", money(fireSavings)],
+          ["Monthly savings", money(fireContribution)],
+          ["Expected return", formatPercent(fireReturn)],
+          ["Tax drag", formatPercent(fireTaxDrag)],
+          ["Annual expense today", money(fireAnnualExpense)],
+          ["Withdrawal rate", formatPercent(fireWithdrawalRate)],
+          ["Inflation rate", formatPercent(fireInflation)],
+          ["FIRE horizon", yearsLabel(fireHorizonYears)],
+        ],
+        resultRows: [
+          ["FIRE target", money(fireTarget)],
+          ["Years to goal", !Number.isFinite(safeFireMonthsToGoal) ? "Not Reachable" : `${Math.ceil(safeFireMonthsToGoal / 12)} years`],
+          ["Current progress", `${fireGoalAchievement.toFixed(0)}%`],
+        ],
+        notes: ["Portfolio growth compared against the FIRE target.", 
+        "The FIRE target is based on the selected horizon and an estimated tax drag rather than a full tax engine.",],
+      };
+    }
+
+    return {
+      title: "SWP Planner Report",
+      subtitle: "Systematic withdrawal projection",
+      summaryCards: [
+        { label: "Corpus", value: money(swpCorpus), tone: "neutral" as const },
+        { label: "Initial monthly SWP", value: money(swpInitialWithdrawal), tone: "accent" as const },
+        { label: "Planned horizon", value: yearsLabel(swpYears), tone: "positive" as const },
+      ],
+      inputRows: [
+        ["Corpus available", money(swpCorpus)],
+        ["Expected return", formatPercent(swpReturn)],
+        ["Withdrawal period", yearsLabel(swpYears)],
+        ["Inflation rate", formatPercent(swpInflationRate)],
+        ["Tax drag", formatPercent(swpTaxDrag)],
+      ],
+      resultRows: [
+        ["Corpus", money(swpCorpus)],
+        ["Initial monthly SWP", money(swpInitialWithdrawal)],
+        ["Planned horizon", yearsLabel(swpYears)],
+      ],
+      notes: [
+        "This SWP model applies a simplified tax drag to return and increases withdrawals once per year for readability.",
+        "This is a simplified planning model.",
+      ],
+    };
+  }, [
+    activeTab,
+    retirementTarget,
+    retirementMonthly,
+    retirementGoalAchievement,
+    currentAge,
+    retirementAge,
+    currentSavings,
+    monthlyContribution,
+    expectedReturn,
+    taxDrag,
+    inflationRate,
+    annualNeed,
+    retirementYears,
+    fireTarget,
+    safeFireMonthsToGoal,
+    fireGoalAchievement,
+    fireSavings,
+    fireContribution,
+    fireReturn,
+    fireTaxDrag,
+    fireAnnualExpense,
+    fireWithdrawalRate,
+    fireInflation,
+    fireHorizonYears,
+    swpCorpus,
+    swpInitialWithdrawal,
+    swpYears,
+    swpReturn,
+    swpInflationRate,
+    swpTaxDrag,
+  ]);
+
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-3 py-4 text-white sm:px-4 md:px-5 lg:px-6">
       <section className={`${shellClass} px-5 py-6 sm:px-6 lg:px-8`}>
@@ -494,34 +605,42 @@ const retirementTarget = useMemo(
         </div>
       </section>
 
-      
-            <div className="flex items-center gap-3">
-              <div className="flex flex-1 justify-center gap-2 flex-wrap">
-                {tabs.map((tab) => {
-                  const active = activeTab === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      onClick={() => setActiveTab(tab.id)}
-                      className={[
-                        "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
-                        active
-                          ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
-                          : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
-                      ].join(" ")}
-                    >
-                      <span>{tab.icon}</span>
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </div>
-      
-              <div className="ml-auto">
-                <FinancePdfExport />
-              </div>
-            </div>
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-1 flex-wrap justify-center gap-2">
+          {tabs.map((tab) => {
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={[
+                  "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
+                  active
+                    ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
+                    : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
+                ].join(" ")}
+              >
+                <span>{tab.icon}</span>
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="shrink-0">
+          <FinancePdfExport
+            filename="investment-report"
+            title={exportData.title}
+            subtitle={exportData.subtitle}
+            summaryCards={exportData.summaryCards}
+            inputRows={exportData.inputRows}
+            resultRows={exportData.resultRows}
+            notes={exportData.notes}
+            chartRef={chartRef}
+          />
+        </div>
+      </div>
 
       <section className={`${shellClass} p-4 sm:p-5`}>
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -685,7 +804,7 @@ const retirementTarget = useMemo(
               />
             </div>
 
-            <div className="p-4 sm:p-5">
+            <div ref={chartRef} className="p-4 sm:p-5">
               {retirementSeries.length > 0 ? (
                 <FinanceChart
                   labels={retirementLabels}
@@ -822,14 +941,14 @@ const retirementTarget = useMemo(
 
             <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
               <ResultBox label="FIRE target" value={
-  !Number.isFinite(fireTarget) || fireTarget <= 0
-    ? "Invalid"
-    : money(fireTarget)
+                  !Number.isFinite(fireTarget) || fireTarget <= 0
+                    ? "Invalid"
+                    : money(fireTarget)
 } note="Inflation-adjusted expense" />
               <ResultBox
                 label="Years to goal"
-               value={
-                !Number.isFinite(safeFireMonthsToGoal)
+                value={
+                  !Number.isFinite(safeFireMonthsToGoal)
                     ? "Not Reachable"
                     : safeFireMonthsToGoal <= 0
                     ? "Already Reached"
@@ -867,7 +986,7 @@ const retirementTarget = useMemo(
               />
             </div>
 
-            <div className="p-4 sm:p-5">
+            <div ref={chartRef} className="p-4 sm:p-5">
               {fireSeries.length > 0 ? (
                 <FinanceChart
                   labels={fireLabels}
@@ -972,9 +1091,9 @@ const retirementTarget = useMemo(
             <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
               <ResultBox label="Corpus" value={money(swpCorpus)} />
               <ResultBox label="Initial monthly SWP" value={
-  !Number.isFinite(swpInitialWithdrawal) || swpInitialWithdrawal <= 0
-    ? "Invalid"
-    : money(swpInitialWithdrawal)
+                  !Number.isFinite(swpInitialWithdrawal) || swpInitialWithdrawal <= 0
+                    ? "Invalid"
+                    : money(swpInitialWithdrawal)
 } note="Before annual inflation step" />
               <ResultBox label="Planned horizon" value={yearsLabel(swpYears)} />
             </div>
@@ -1002,7 +1121,7 @@ const retirementTarget = useMemo(
               />
             </div>
 
-            <div className="p-4 sm:p-5">
+            <div ref={chartRef} className="p-4 sm:p-5">
               {swpSeries.length > 0 ? (
                 <FinanceChart
                   labels={swpLabels}
