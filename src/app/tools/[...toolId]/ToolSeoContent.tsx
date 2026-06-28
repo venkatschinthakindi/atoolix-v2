@@ -97,6 +97,34 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/image/imageConverter/svgToJpgSeoContent"),
     { ssr: true }
   ),
+  "image/compress-image": dynamic(
+    () => import("@/components/tools/image/imageCompressor/imageCompressorSeoContent"),
+    { ssr: true }
+  ),
+  "image/compress-jpg": dynamic(
+    () => import("@/components/tools/image/imageCompressor/compressJpgSeoContent"),
+    { ssr: true }
+  ),
+  "image/compress-png": dynamic(
+    () => import("@/components/tools/image/imageCompressor/compressPngSeoContent"),
+    { ssr: true }
+  ),
+  "image/compress-webp": dynamic(
+    () => import("@/components/tools/image/imageCompressor/compressWebpSeoContent"),
+    { ssr: true }
+  ),
+  "image/compress-image-to-50kb": dynamic(
+    () => import("@/components/tools/image/imageCompressor/compress50SeoContent"),
+    { ssr: true }
+  ),
+  "image/compress-image-to-20kb": dynamic(
+    () => import("@/components/tools/image/imageCompressor/compress20SeoContent"),
+    { ssr: true }
+  ),
+  "image/compress-image-to-100kb": dynamic(
+    () => import("@/components/tools/image/imageCompressor/compress100SeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {

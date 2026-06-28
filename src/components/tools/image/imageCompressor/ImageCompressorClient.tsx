@@ -11,7 +11,6 @@ import {
   Sparkles,
   ShieldCheck,
   Trash2,
-  Wand2,
   Maximize2,
   Gauge,
 } from "lucide-react";
@@ -46,6 +45,24 @@ function toMb(size: number) {
 function toKB(bytes: number) {
   return `${(bytes / 1024).toFixed(2)} KB`;
 }
+function getImageDimensionsFromBlob(blob: Blob): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+
+    img.onload = () => {
+      resolve({ width: img.width, height: img.height });
+      URL.revokeObjectURL(url);
+    };
+
+    img.onerror = () => {
+      reject(new Error("Invalid image blob"));
+      URL.revokeObjectURL(url);
+    };
+
+    img.src = url;
+  });
+}
 
 function getPrettyFormat(format?: string) {
   return (format || "").toUpperCase() || "—";
@@ -70,6 +87,7 @@ export default function ImageCompressorClient({ config }: Props) {
   const [error, setError] = useState("");
   const [outputUrl, setOutputUrl] = useState<string | null>(null);
   const [outputBlob, setOutputBlob] = useState<Blob | null>(null);
+  const [outputDimensions, setOutputDimensions] = useState<{width: number, height: number}>({ width: 0, height: 0 });
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [modalVariant, setModalVariant] = useState<ModalVariant>("preview");
@@ -120,6 +138,27 @@ export default function ImageCompressorClient({ config }: Props) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [showModal]);
+
+  useEffect(() => {
+  let cancelled = false;
+
+  const run = async () => {
+    if (!outputBlob) return;
+
+    const dimensions = await getImageDimensionsFromBlob(outputBlob);
+
+    if (!cancelled) {
+      // set state here
+      setOutputDimensions(dimensions);
+    }
+  };
+
+    run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [outputBlob]);
 
   const resetTool = useCallback(() => {
     if (outputUrl) URL.revokeObjectURL(outputUrl);
@@ -519,7 +558,7 @@ export default function ImageCompressorClient({ config }: Props) {
                   </span>
                 </div>
 
-                <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-4">
                   <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/75">
                     <div className="text-[11px] text-white/40">Original</div>
                     <div className="mt-1 font-medium">
@@ -530,6 +569,12 @@ export default function ImageCompressorClient({ config }: Props) {
                     <div className="text-[11px] text-white/40">Compressed</div>
                     <div className="mt-1 font-medium">{toKB(outputBlob.size)}</div>
                   </div>
+                  {outputDimensions && (
+                    <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/75">
+                      <div className="text-[11px] text-white/40">Dimensions</div>
+                      <div className="mt-1 font-medium">{outputDimensions.width} x {outputDimensions.height}</div>
+                    </div>
+                  )}
                   <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/75">
                     <div className="text-[11px] text-white/40">Savings</div>
                     <div className="mt-1 font-medium">

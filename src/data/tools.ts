@@ -1312,7 +1312,7 @@ export const tools: ToolRegistryEntry[] = [
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
       targetKB: 100,
-      lockTarget: true
+      lockTarget: false
     },
     title: "Compress Image to 100KB Online | JPG, PNG, WEBP Optimizer Tool",
     toolShortName: "Compress Image to 100KB",
