@@ -233,38 +233,6 @@ function ChartSkeleton() {
   );
 }
 
-// function StatCard({ label, value, hint }: { label: string; value: string; hint?: string }) {
-//   return (
-//     <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-//       <div className="text-xs uppercase tracking-wide text-white/45">{label}</div>
-//       <div className="mt-2 text-lg font-semibold text-white">{value}</div>
-//       {hint ? <div className="mt-1 text-xs text-white/45">{hint}</div> : null}
-//     </div>
-//   );
-// }
-
-// function SectionHeader({
-//   title,
-//   subtitle,
-//   icon: Icon,
-// }: {
-//   title: string;
-//   subtitle: string;
-//   icon: ElementType;
-// }) {
-//   return (
-//     <div className="flex items-start gap-3">
-//       <div className="rounded-xl border border-white/10 bg-white/5 p-2 text-blue-300">
-//         <Icon className="h-4 w-4" />
-//       </div>
-//       <div>
-//         <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">{title}</h2>
-//         <p className="mt-1 text-sm text-white/60">{subtitle}</p>
-//       </div>
-//     </div>
-//   );
-// }
-
 function ResultBox({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
