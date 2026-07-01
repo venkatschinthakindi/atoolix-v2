@@ -303,31 +303,6 @@ const relatedTools = [
   { name: "Compound Interest Calculator", href: "/tools/compound-interest-calculator" },
 ];
 
-const softwareAppSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Retirement Calculator for FIRE Planning",
-  applicationCategory: "FinanceApplication",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "INR",
-  },
-  description:
-    "Free retirement calculator and FIRE planning page covering retirement corpus, SWP income, safe withdrawal rate, inflation adjustment, and financial independence.",
-  featureList: [
-    "Retirement Corpus Education",
-    "FIRE Planning Education",
-    "SWP Education",
-    "Safe Withdrawal Rate",
-    "Inflation Adjustment",
-    "Retirement Mistakes",
-    "Asset Allocation Guidance",
-    "Mobile Responsive Layout",
-  ],
-};
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -423,10 +398,6 @@ const itemListSchema = {
 export default function RetirementCalculatorSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}

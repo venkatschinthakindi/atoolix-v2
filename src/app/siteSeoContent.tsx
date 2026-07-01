@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { serverConfig } from "@/config/server";
 
-const siteName = "Your Tools Site";
-const siteUrl = "https://yourdomain.com";
-const logoUrl = "https://yourdomain.com/logo.png";
+const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -118,64 +118,11 @@ const recentlyUpdated = [
   { href: "/tools/image-compressor", label: "JPG Compressor" },
   { href: "/tools/pdf-merge", label: "PDF Merge" },
 ];
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "ImageObject",
-      "@id": `${siteUrl}/#logo`,
-      url: logoUrl,
-    },
-    {
-      "@type": "Organization",
-      "@id": `${siteUrl}/#organization`,
-      name: siteName,
-      url: siteUrl,
-      logo: {
-        "@id": `${siteUrl}/#logo`,
-      },
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${siteUrl}/#website`,
-      url: siteUrl,
-      name: siteName,
-      description:
-        "Free browser-based tools for PDF, finance, math, image conversion, compression, and passport photo creation.",
-      publisher: {
-        "@id": `${siteUrl}/#organization`,
-      },
-    },
-    {
-      "@type": "WebPage",
-      "@id": `${siteUrl}/#webpage`,
-      name: "Free Online Tools for PDF, Images, Finance & Math",
-      url: siteUrl,
-      description:
-        "Free browser-based tools for PDF editing, image conversion and compression, passport size photo creation, signature resizing, finance calculators, and math tools.",
-      isPartOf: {
-        "@id": `${siteUrl}/#website`,
-      },
-      about: {
-        "@id": `${siteUrl}/#organization`,
-      },
-    },
-  ],
-};
-
 import Link from "next/link";
 
 export async function HomePageSeo() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
-
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="text-white">

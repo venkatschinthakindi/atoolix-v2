@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { serverConfig } from "@/config/server";
 
-const siteName = "YourSiteName";
-const siteUrl = "https://yourdomain.com";
+const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/png-compressor";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
@@ -253,64 +254,6 @@ const howToJsonLd = {
   })),
 };
 
-const webApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "PNG Compressor with Preview",
-  applicationCategory: "UtilitiesApplication",
-  applicationSubCategory: "PNG Compression Tool",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and a modern web browser.",
-  isAccessibleForFree: true,
-  description: "Free browser-based PNG compressor with preview and transparency-preserving compression.",
-  featureList: [
-    "PNG compression",
-    "Transparency preservation",
-    "Preview before download",
-    "Browser processing",
-    "Instant download",
-    "Graphics optimization",
-  ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteName,
-  url: siteUrl,
-};
-
-const webSiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": siteUrl,
-  url: siteUrl,
-  name: siteName,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
-};
-
-const webPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": canonicalUrl,
-  url: canonicalUrl,
-  name: "Free PNG Compressor Online – Compress PNG Images with Transparency",
-  description:
-    "Compress PNG images online for free while preserving transparency and crisp detail. Reduce PNG file size for logos, screenshots, icons, and graphics with preview and instant download.",
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": siteUrl,
-    url: siteUrl,
-    name: siteName,
-  },
-  mainEntityOfPage: canonicalUrl,
-};
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -350,12 +293,8 @@ function SectionHeading({ id, title, description }: { id: string; title: string;
 export default function PngCompressorSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
-      <JsonLd data={organizationJsonLd} />
-      <JsonLd data={webSiteJsonLd} />
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
-      <JsonLd data={webApplicationJsonLd} />
-      <JsonLd data={webPageJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
 

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { serverConfig } from "@/config/server";
 
-const siteName = "YourSiteName";
-const siteUrl = "https://yourdomain.com";
+const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/passport-photo-resizer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
@@ -250,62 +251,6 @@ const howToJsonLd = {
   })),
 };
 
-const webApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Passport Photo Resizer",
-  applicationCategory: "UtilitiesApplication",
-  applicationSubCategory: "Passport Photo Tool",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and a modern web browser.",
-  isAccessibleForFree: true,
-  description: "Free browser-based passport photo resizer with exact dimensions, target KB control, preview, and instant download.",
-  featureList: [
-    "Passport photo resizing",
-    "Exact dimensions",
-    "Target KB control",
-    "Live preview",
-    "Browser processing",
-    "Instant download",
-    "Supports JPG, JPEG, PNG, WebP",
-  ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const softwareApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Passport Photo Resizer",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
-  isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteName,
-  url: siteUrl,
-};
-
-const webPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": canonicalUrl,
-  url: canonicalUrl,
-  name: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
-  description:
-    "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": siteUrl,
-    url: siteUrl,
-    name: siteName,
-  },
-  mainEntityOfPage: canonicalUrl,
-};
-
 const searchActionJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -358,10 +303,6 @@ export default function PassportPhotoResizerSeoContent() {
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
-      <JsonLd data={webApplicationJsonLd} />
-      <JsonLd data={softwareApplicationJsonLd} />
-      <JsonLd data={organizationJsonLd} />
-      <JsonLd data={webPageJsonLd} />
       <JsonLd data={searchActionJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />

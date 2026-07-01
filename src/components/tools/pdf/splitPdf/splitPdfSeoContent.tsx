@@ -98,23 +98,6 @@ export default function SplitPdfSeoContent() {
     })),
   };
 
-
-  const softwareAppSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "Split PDF",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Any",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-    },
-    description:
-      "Free online tool to split PDF files, extract specific pages using flexible patterns, and export results as a single PDF or ZIP of separate files. All processing happens locally in the browser.",
-  };
-
-
   // ---------------------------------------------------------------------
   // Reusable content
   // ---------------------------------------------------------------------
@@ -247,11 +230,6 @@ export default function SplitPdfSeoContent() {
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
-      {/* ===================== STRUCTURED DATA (SEO ONLY) ===================== */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

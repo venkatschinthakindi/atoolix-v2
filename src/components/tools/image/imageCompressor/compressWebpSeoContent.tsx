@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { serverConfig } from "@/config/server";
 
-const siteName = "YourSiteName";
-const siteUrl = "https://yourdomain.com";
+const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/webp-compressor";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
@@ -251,64 +252,6 @@ const howToJsonLd = {
   })),
 };
 
-const webApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "WebP Compressor with Preview",
-  applicationCategory: "UtilitiesApplication",
-  applicationSubCategory: "WebP Compression Tool",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and a modern web browser.",
-  isAccessibleForFree: true,
-  description: "Free browser-based WebP compressor with preview and adjustable quality for modern web optimization.",
-  featureList: [
-    "WebP compression",
-    "Preview before download",
-    "Quality adjustment",
-    "Browser processing",
-    "Instant download",
-    "Transparency support",
-  ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteName,
-  url: siteUrl,
-};
-
-const webSiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": siteUrl,
-  url: siteUrl,
-  name: siteName,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
-};
-
-const webPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": canonicalUrl,
-  url: canonicalUrl,
-  name: "Free WebP Compressor Online – Compress WebP Images with Preview",
-  description:
-    "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": siteUrl,
-    url: siteUrl,
-    name: siteName,
-  },
-  mainEntityOfPage: canonicalUrl,
-};
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -348,12 +291,8 @@ function SectionHeading({ id, title, description }: { id: string; title: string;
 export default function WebpCompressorSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
-      <JsonLd data={organizationJsonLd} />
-      <JsonLd data={webSiteJsonLd} />
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
-      <JsonLd data={webApplicationJsonLd} />
-      <JsonLd data={webPageJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
 

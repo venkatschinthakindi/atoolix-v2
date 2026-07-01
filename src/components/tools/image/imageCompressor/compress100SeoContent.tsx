@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { serverConfig } from "@/config/server";
 
-const siteName = "YourSiteName";
-const siteUrl = "https://yourdomain.com";
+const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/image-compressor-100kb";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
@@ -295,66 +296,6 @@ const howToJsonLd = {
   })),
 };
 
-const webApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Image Compressor to 100 KB",
-  applicationCategory: "UtilitiesApplication",
-  applicationSubCategory: "Target Size Image Compressor",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and a modern web browser.",
-  isAccessibleForFree: true,
-  description:
-    "Free browser-based image compressor for JPG, JPEG, WebP, and PNG with 100 KB default target size control and preview.",
-  featureList: [
-    "Default 100 KB compression",
-    "Any target size",
-    "JPG, JPEG, WebP, PNG support",
-    "Transparency preservation",
-    "Preview before download",
-    "Browser processing",
-    "Instant download",
-  ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteName,
-  url: siteUrl,
-};
-
-const webSiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": siteUrl,
-  url: siteUrl,
-  name: siteName,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
-};
-
-const webPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": canonicalUrl,
-  url: canonicalUrl,
-  name: "Compress JPG, JPEG, WebP & PNG to 100 KB Online",
-  description:
-    "Compress JPG, JPEG, WebP, and PNG images to 100 KB by default, with the option to increase or decrease the target size to any value anytime.",
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": siteUrl,
-    url: siteUrl,
-    name: siteName,
-  },
-  mainEntityOfPage: canonicalUrl,
-};
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -418,12 +359,8 @@ function SectionHeading({
 export default function ImageCompressor100KbSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
-      <JsonLd data={organizationJsonLd} />
-      <JsonLd data={webSiteJsonLd} />
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
-      <JsonLd data={webApplicationJsonLd} />
-      <JsonLd data={webPageJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
 

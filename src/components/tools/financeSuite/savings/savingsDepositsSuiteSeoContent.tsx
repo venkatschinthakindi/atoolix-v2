@@ -224,31 +224,6 @@ const calculatorSchema = {
   description:
     "Free savings calculator for FD, RD, simple interest, compound interest, maturity value, and interest earned calculations.",
 };
-  const softwareAppSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "Savings and Deposits Calculator",
-    applicationCategory: "FinanceApplication",
-    operatingSystem: "Any",
-    browserRequirements: "Requires JavaScript",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-    },
-    description:
-      "Free savings calculator for simple interest, compound interest, fixed deposits (FD), recurring deposits (RD), maturity value, interest earned, growth projections, and PDF export.",
-    featureList: [
-      "Simple Interest Calculator",
-      "Compound Interest Calculator",
-      "Fixed Deposit Calculator",
-      "Recurring Deposit Calculator",
-      "Interest Earned Analysis",
-      "Growth Projection Charts",
-      "PDF Export",
-      "Mobile Responsive",
-    ],
-  };
 
   const howToSchema = {
     "@context": "https://schema.org",
@@ -302,13 +277,6 @@ const calculatorSchema = {
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(softwareAppSchema),
-        }}
-      />
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

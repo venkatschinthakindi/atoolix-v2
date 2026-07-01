@@ -159,21 +159,6 @@ export default function PngToJpegSeoContent() {
     })),
   };
 
-  const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "PNG to JPEG Converter",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    description:
-      "Free browser-based PNG to JPEG converter for fast and private image conversion.",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  };
-
   const privacyJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -187,12 +172,6 @@ export default function PngToJpegSeoContent() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(webAppJsonLd).replace(/</g, "\\u003c"),
         }}
       />
       <script

@@ -62,7 +62,7 @@ const seoRegistry: Record<string, any> = {
     { ssr: true }
   ),
   "image/png-to-jpg": dynamic(
-    () => import("@/components/tools/image/imageConverter/pngToJpegSeoContent"),
+    () => import("@/components/tools/image/imageConverter/pngToJpgSeoContent"),
     { ssr: true }
   ),
   "image/png-to-jpeg": dynamic(

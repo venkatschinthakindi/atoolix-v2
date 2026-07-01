@@ -162,17 +162,6 @@ export default function EmiCalculatorSeoContent() {
     { name: 'Amortization Schedule Calculator', href: '/tools/amortization-calculator' },
   ]
 
-  const softwareAppSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'EMI Calculator Online',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Any',
-    offers: { '@type': 'Offer', price: 0, priceCurrency: 'INR' },
-    description:
-      'Free EMI calculator online for home loan, personal loan, and car loan planning with prepayments, amortization schedule, interest saved, months saved, and responsive.',
-  }
-
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -185,7 +174,6 @@ export default function EmiCalculatorSeoContent() {
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <section aria-labelledby="intro-heading">

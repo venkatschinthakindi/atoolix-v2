@@ -1,7 +1,9 @@
 import { ToolRegistryEntry } from "@/data/tools";
 import { getTool } from "@/utility/getTool";
+import { serverConfig } from "@/config/server";
+import type { Metadata } from "next";
 
-export async function generateMetadata(params : any) {
+export async function generateMetadata(params : any): Promise<Metadata> {
     const resolvedParams = await params;
     const rawToolId = resolvedParams.toolId;
 
@@ -12,16 +14,18 @@ export async function generateMetadata(params : any) {
     description: tool?.description,
     keywords: tool?.keywords,
 
-    alternates: tool?.alternates,
+    alternates: {
+      canonical: tool?.alternates?.canonical,
+    },
     openGraph: {
       title: tool?.title,
       description: tool?.description,
       url: tool?.alternates?.canonical,
-      siteName: "YourSite",
+      siteName: serverConfig.siteName,
       type: "website",
       images: [
         {
-          url: "https://example.com/og.jpg",
+          url: serverConfig.siteLogoUrl,
           width: 1200,
           height: 630,
         },
@@ -32,16 +36,13 @@ export async function generateMetadata(params : any) {
       card: "summary_large_image",
       title: tool?.title,
       description: tool?.description,
-      images: ["https://example.com/og.jpg"],
-    },
-
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-      }
+      images: [
+        {
+          url: serverConfig.siteLogoUrl,
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
   };
 }

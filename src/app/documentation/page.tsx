@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Footer } from "../footer/footer";
 import FloatingDockLoader from "@/components/layout/floatingDockLoader";
+import { serverConfig } from "@/config/server";
 
-const siteName = "YourSiteName";
+const siteName = serverConfig.siteName;
 const updatedAt = new Date("2026-06-28T00:00:00Z");
 
 const quickLinks = [

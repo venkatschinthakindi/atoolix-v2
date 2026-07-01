@@ -159,21 +159,6 @@ export default function WebpToJpegSeoContent() {
     })),
   };
 
-  const webAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "WebP to JPEG Converter",
-    applicationCategory: "UtilityApplication",
-    operatingSystem: "All",
-    description:
-      "Free browser-based WebP to JPEG converter for fast, private, and compatible image conversion.",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-  };
-
   const privacyJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -187,12 +172,6 @@ export default function WebpToJpegSeoContent() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(webAppJsonLd).replace(/</g, "\\u003c"),
         }}
       />
       <script

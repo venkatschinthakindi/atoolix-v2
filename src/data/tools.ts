@@ -1,5 +1,8 @@
 import { ComponentType } from "react";
 
+const siteUrl = process.env.SITE_URL;
+
+
 type CategoryInfo = {
   id: string;
   title: string;
@@ -114,7 +117,7 @@ export const tools: ToolRegistryEntry[] = [
       "custom loan repayment simulator"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/calculator/emi-calculator"
+      canonical: `${siteUrl}/tools/calculator/emi-calculator`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -164,7 +167,7 @@ export const tools: ToolRegistryEntry[] = [
       "sip calculator professional tool download chart"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/calculator/roi-calculator"
+      "canonical": `${siteUrl}/tools/calculator/roi-calculator`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -214,7 +217,7 @@ export const tools: ToolRegistryEntry[] = [
       "fd rd calculator all in one download pdf chart"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/calculator/fd-calculator"
+      "canonical": `${siteUrl}/tools/calculator/fd-calculator`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -264,7 +267,7 @@ export const tools: ToolRegistryEntry[] = [
       "all in one retirement calculator download chart"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/calculator/retirement-calculator"
+      "canonical": `${siteUrl}/tools/calculator/retirement-calculator`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -302,7 +305,7 @@ export const tools: ToolRegistryEntry[] = [
       "expression calculator online"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/calculator"
+      canonical: `${siteUrl}/tools/calculator`
     },
     applicationType: "WebApplication",
     applicationCategory: "EducationalApplication",
@@ -339,7 +342,7 @@ export const tools: ToolRegistryEntry[] = [
       "advanced unit conversion"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/converter"
+      canonical: `${siteUrl}/tools/converter`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -368,7 +371,7 @@ export const tools: ToolRegistryEntry[] = [
       "merge pdf pages"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/pdf/merge-pdf"
+      canonical: `${siteUrl}/tools/pdf/merge-pdf`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -402,7 +405,7 @@ export const tools: ToolRegistryEntry[] = [
       "split pdf document"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/pdf/split-pdf"
+      canonical: `${siteUrl}/tools/pdf/split-pdf`
     },
     applicationType: "WebApplication",
     applicationCategory:"Utilities",
@@ -440,7 +443,7 @@ export const tools: ToolRegistryEntry[] = [
         "combine images into pdf"
     ],
     {
-      canonical: "https://yourdomain.com/tools/image/image-to-pdf"
+      canonical: `${siteUrl}/tools/image/image-to-pdf`
     },
     "WebApplication",
     "Utilities"
@@ -473,7 +476,7 @@ export const tools: ToolRegistryEntry[] = [
       "batch jpg to pdf"
     ],
     {
-      canonical: "https://yourdomain.com/tools/image/jpg-to-pdf"
+      canonical: `${siteUrl}/tools/image/jpg-to-pdf`
     },
     "WebApplication",
     "Utilities"
@@ -506,7 +509,7 @@ export const tools: ToolRegistryEntry[] = [
         "web based png to pdf generator"
       ],
       {
-        canonical: "https://yourdomain.com/tools/image/png-to-pdf"
+        canonical: `${siteUrl}/tools/image/png-to-pdf`
       },
       "WebApplication",
       "Utilities"
@@ -539,7 +542,7 @@ export const tools: ToolRegistryEntry[] = [
         "print ready pdf from webp"
       ],
       {
-        canonical: "https://yourdomain.com/tools/image/webp-to-pdf"
+        canonical: `${siteUrl}/tools/image/webp-to-pdf`
       },
       "WebApplication",
       "Utilities"
@@ -571,7 +574,7 @@ export const tools: ToolRegistryEntry[] = [
       "web based pdf compressor"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/pdf/compress-pdf"
+      canonical: `${siteUrl}/tools/pdf/compress-pdf`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -609,7 +612,7 @@ export const tools: ToolRegistryEntry[] = [
       "design ready png converter"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/image/jpg-to-png"
+      canonical: `${siteUrl}/tools/image/jpg-to-png`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -648,7 +651,7 @@ export const tools: ToolRegistryEntry[] = [
         "free png to jpg tool"
       ],
       alternates: {
-        canonical: "https://yourdomain.com/tools/image/png-to-jpg"
+        canonical: `${siteUrl}/tools/image/png-to-jpg`
       },
       applicationType: "WebApplication",
       applicationCategory: "Utilities",
@@ -687,7 +690,7 @@ export const tools: ToolRegistryEntry[] = [
         "professional png to jpg conversion"
       ],      
       "alternates": {
-        "canonical": "https://yourdomain.com/tools/image/png-to-jpeg"
+        "canonical": `${siteUrl}/tools/image/png-to-jpeg`
       },      
       "applicationType": "WebApplication",      
       "applicationCategory": "Utilities",
@@ -732,7 +735,7 @@ export const tools: ToolRegistryEntry[] = [
       "website speed optimization tool"
     ],    
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/jpg-to-webp"
+      "canonical": `${siteUrl}/tools/image/jpg-to-webp`
     },    
     "applicationType": "WebApplication",    
     "applicationCategory": "Utilities",
@@ -780,7 +783,7 @@ export const tools: ToolRegistryEntry[] = [
       "cloud storage image optimizer"
     ],  
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/png-to-webp"
+      "canonical": `${siteUrl}/tools/image/png-to-webp`
     },  
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -820,7 +823,7 @@ export const tools: ToolRegistryEntry[] = [
       "free webp to jpg tool online"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/image/webp-to-jpg"
+      canonical: `${siteUrl}/tools/image/webp-to-jpg`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -864,7 +867,7 @@ export const tools: ToolRegistryEntry[] = [
       "instant webp to jpeg converter"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/webp-to-jpeg"
+      "canonical": `${siteUrl}/tools/image/webp-to-jpeg`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -910,7 +913,7 @@ export const tools: ToolRegistryEntry[] = [
       "webp to png for logos icons"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/webp-to-png"
+      "canonical": `${siteUrl}/tools/image/webp-to-png`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -951,7 +954,7 @@ export const tools: ToolRegistryEntry[] = [
       "design format converter svg png"
     ],    
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/svg-to-png"
+      "canonical": `${siteUrl}/tools/image/svg-to-png`
     },    
     "applicationType": "WebApplication",    
     "applicationCategory": "Utilities",
@@ -990,7 +993,7 @@ export const tools: ToolRegistryEntry[] = [
       "design format converter svg jpg"
     ],    
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/svg-to-jpg"
+      "canonical": `${siteUrl}/tools/image/svg-to-jpg`
     },    
     "applicationType": "WebApplication",    
     "applicationCategory": "Utilities",
@@ -1046,7 +1049,7 @@ export const tools: ToolRegistryEntry[] = [
       "compress all image formats online"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/compress-image"
+      "canonical": `${siteUrl}/tools/image/compress-image`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -1091,7 +1094,7 @@ export const tools: ToolRegistryEntry[] = [
       "smart image compression tool online"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/image/compress-jpg"
+      canonical: `${siteUrl}/tools/image/compress-jpg`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -1133,7 +1136,7 @@ export const tools: ToolRegistryEntry[] = [
       "free png image compressor"
     ],    
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/compress-png"
+      "canonical": `${siteUrl}/tools/image/compress-png`
     },    
     "applicationType": "WebApplication",    
     "applicationCategory": "Utilities",
@@ -1190,7 +1193,7 @@ export const tools: ToolRegistryEntry[] = [
       "instant webp compression tool"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/compress-webp"
+      "canonical": `${siteUrl}/tools/image/compress-webp`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -1248,7 +1251,7 @@ export const tools: ToolRegistryEntry[] = [
       "all formats to 20kb compressor"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/compress-image-to-20kb"
+      "canonical": `${siteUrl}/tools/image/compress-image-to-20kb`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities",
@@ -1300,7 +1303,7 @@ export const tools: ToolRegistryEntry[] = [
       "free image compressor 50kb"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/compress-image-to-50kb"
+      "canonical": `${siteUrl}/tools/image/compress-image-to-50kb`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities"
@@ -1336,7 +1339,7 @@ export const tools: ToolRegistryEntry[] = [
       "upload image compress to exact size"
     ],
     alternates: {
-      canonical: "https://yourdomain.com/tools/image/compress-image-to-100kb"
+      canonical: `${siteUrl}/tools/image/compress-image-to-100kb`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities"
@@ -1392,7 +1395,7 @@ export const tools: ToolRegistryEntry[] = [
       "passport photo custom file size resizer"
     ],
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/passport-photo-resizer"
+      "canonical": `${siteUrl}/tools/image/passport-photo-resizer`
     },
     "applicationType": "WebApplication",
     "applicationCategory": "Utilities"
@@ -1431,7 +1434,7 @@ export const tools: ToolRegistryEntry[] = [
       "free signature resize tool"
     ],    
     "alternates": {
-      "canonical": "https://yourdomain.com/tools/image/resize-signature-for-upload"
+      "canonical": `${siteUrl}/tools/image/resize-signature-for-upload`
     },    
     "applicationType": "WebApplication",    
     "applicationCategory": "Utilities"
@@ -1488,7 +1491,7 @@ function getDefaultIamgeToPdfConverterRegistry(
       "combine images into pdf"
   ],
   alternates: any = {
-    canonical: "https://yourdomain.com/tools/image-to-pdf"
+    canonical: `${siteUrl}/tools/image-to-pdf`
   },
   applicationType: "WebApplication",
   applicationCategory: "Utilities") {

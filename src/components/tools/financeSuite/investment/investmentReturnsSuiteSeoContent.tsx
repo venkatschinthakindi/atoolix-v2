@@ -154,31 +154,6 @@ export default function InvestmentReturnsSeoContent() {
     { name: "SIP Calculator", href: "/tools/sip-calculator" },
   ];
 
-  const softwareAppSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Investment Returns Calculator",
-  applicationCategory: "FinanceApplication",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "INR",
-  },
-  description:
-    "Free investment calculator for SIP growth, step-up SIP, lump sum returns, CAGR, and XIRR with charts and PDF export.",
-  featureList: [
-    "SIP Calculator",
-    "Step-Up SIP Calculator",
-    "Lump Sum Calculator",
-    "CAGR Calculator",
-    "XIRR Calculator",
-    "Comparison Charts",
-    "PDF Export",
-    "Mobile Responsive",
-  ],
-};
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
@@ -228,10 +203,6 @@ const howToSchema = {
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

@@ -16,7 +16,7 @@ export default async function ToolsPage({ params }: any) {
       <div className="app-container page-section">
 
       <div className="section-header text-center mt-8">
-          <h1 className="section-title">All Tools</h1>
+          <h1 className="section-title">Free Online Tools for PDF, Images, Finance & Math</h1>
           <p className="section-copy mb-2">
             Browse PDF tools, image converters, compressors, and calculators. Explore all utilities available on this site.
           </p>

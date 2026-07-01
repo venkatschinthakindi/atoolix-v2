@@ -100,21 +100,6 @@ export default function MergePdfSeoContent() {
     })),
   };
 
-  const softwareAppSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "Merge PDF",
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Any",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-    },
-    description:
-      "Free online tool to merge PDF files, reorder documents, select specific pages, and add custom headers/footers. All processing happens locally in the browser.",
-  };
-
   // ---------------------------------------------------------------------
   // Reusable content
   // ---------------------------------------------------------------------
@@ -216,11 +201,6 @@ export default function MergePdfSeoContent() {
 
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
-      {/* ===================== STRUCTURED DATA (SEO ONLY) ===================== */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

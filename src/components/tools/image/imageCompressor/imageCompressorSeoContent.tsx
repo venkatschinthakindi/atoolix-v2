@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { serverConfig } from "@/config/server";
 
-const siteName = "YourSiteName";
-const siteUrl = "https://yourdomain.com";
+const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/compress-images-with-preview";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
@@ -191,37 +192,6 @@ const howToJsonLd = {
   })),
 };
 
-const webApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Compress Images with Preview",
-  applicationCategory: "UtilitiesApplication",
-  applicationSubCategory: "Image Compression Tool",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and a modern web browser.",
-  isAccessibleForFree: true,
-  description: "Free browser-based image compressor supporting JPG, JPEG, PNG, and WebP with preview and adjustable quality.",
-  featureList: ["Image compression", "Live preview", "Browser processing", "Quality adjustment", "Instant download", "Supports JPG, JPEG, PNG, WebP"],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const webPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": canonicalUrl,
-  url: canonicalUrl,
-  name: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
-  description:
-    "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": siteUrl,
-    url: siteUrl,
-    name: siteName,
-  },
-  mainEntityOfPage: canonicalUrl,
-};
-
 const searchActionJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -274,8 +244,6 @@ export default function CompressImagesWithPreviewSeoContent() {
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
-      <JsonLd data={webApplicationJsonLd} />
-      <JsonLd data={webPageJsonLd} />
       <JsonLd data={searchActionJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />

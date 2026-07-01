@@ -7,8 +7,13 @@ import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import ToolSeoContent from "@/app/tools/[...toolId]/toolSeoContent";
 import { ToolRegistryEntry } from "@/data/tools";
+import { serverConfig } from "@/config/server";
 
-export async function generateMetadata({ params }: any) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ toolId: string }>;
+}) {
   return createMetadata(params);
 }
 
@@ -20,22 +25,46 @@ export default async function ToolPage({ params }: any) {
 
   if (!tool) return notFound();
 
+  const softwareApplicationSchema = {
+    "@context": "https://schema.org",
+    "@type": tool.applicationType ?? "WebApplication",
+
+    name: tool.title,
+    description: tool.description,
+    "@id": `${tool.alternates?.canonical}#software`,
+    url: tool.alternates?.canonical,
+    browserRequirements: "Requires JavaScript. Works in modern web browsers.",
+    inLanguage: "en",
+
+    applicationCategory:
+      tool.applicationCategory ?? "UtilitiesApplication",
+
+    operatingSystem: "Any",
+    isAccessibleForFree: true,
+
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "INR",
+    },
+    ...(tool.keywords && {
+      keywords: Array.isArray(tool.keywords)
+        ? tool.keywords.join(", ")
+        : tool.keywords,
+    }),
+    publisher: {
+      "@id": `${serverConfig.siteUrl}/#organization`,
+    }
+  };
+
   return (
     <>
     <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": tool?.applicationType || "WebApplication",
-            operatingSystem: "Web",
-            applicationCategory: tool?.applicationCategory || "Utilities",
-            url: tool.alternates?.canonical,
-            name: tool.title,
-            description: tool.description,
-          }),
-        }}
-      />
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(softwareApplicationSchema),
+      }}
+    />
       <div className="app-shell">
         <div className="app-container page-section">
             <div className="mb-12">

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { serverConfig } from "@/config/server";
 
-const siteName = "YourSiteName";
-const siteUrl = "https://yourdomain.com";
+const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/signature-resizer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
@@ -166,74 +167,6 @@ const howToJsonLd = {
   })),
 };
 
-const webApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "Signature Resizer",
-  applicationCategory: "UtilitiesApplication",
-  applicationSubCategory: "Signature Tool",
-  operatingSystem: "Any",
-  browserRequirements: "Requires JavaScript and a modern web browser.",
-  isAccessibleForFree: true,
-  description: "Free browser-based signature resizer with exact dimensions, target KB control, preview, and instant download.",
-  featureList: [
-    "Signature resizing",
-    "Exact dimensions",
-    "Target KB control",
-    "Clean preview",
-    "Browser processing",
-    "Instant download",
-    "Supports JPG, JPEG, PNG, WebP",
-  ],
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const softwareApplicationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Signature Resizer",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
-  isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteName,
-  url: siteUrl,
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  url: siteUrl,
-  name: siteName,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
-};
-
-const webPageJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "@id": canonicalUrl,
-  url: canonicalUrl,
-  name: "Free Signature Resizer Online – Resize Signature to Exact KB & Dimensions for Forms",
-  description:
-    "Resize signature images online for free with exact width, height, and file size control. Crop, compress, preview instantly, and download JPG, JPEG, PNG, or WebP signatures for SSC, IBPS, RRB, UPSC, admission forms, and government uploads.",
-  isPartOf: {
-    "@type": "WebSite",
-    "@id": siteUrl,
-    url: siteUrl,
-    name: siteName,
-  },
-  mainEntityOfPage: canonicalUrl,
-};
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -273,11 +206,6 @@ export default function SignatureResizerSeoContent() {
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
-      <JsonLd data={webApplicationJsonLd} />
-      <JsonLd data={softwareApplicationJsonLd} />
-      <JsonLd data={organizationJsonLd} />
-      <JsonLd data={websiteJsonLd} />
-      <JsonLd data={webPageJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
 

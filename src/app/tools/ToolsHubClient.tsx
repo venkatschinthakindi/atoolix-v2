@@ -17,7 +17,7 @@ export default function ToolsHubClient() {
     {
       id: "all",
       title: "All",
-      description: "Browse all available tools",
+      description: "Discover Powerful Online Tools",
       icon: 'FileText'
     }, 
     ...categoryIcons.map(cat => ({ ...cat, id: cat.id.toLowerCase() }))
