@@ -7,13 +7,13 @@ const siteName = serverConfig.siteName;
 const updatedAt = new Date("2026-06-28T00:00:00Z");
 
 const quickLinks = [
-  { href: "/tools/image-compressor", label: "Image Compressor", desc: "Reduce JPG, PNG, and WebP image size." },
-  { href: "/tools/passport-photo", label: "Passport Photo Resizer", desc: "Create passport-size photos for forms." },
-  { href: "/tools/signature-compressor", label: "Signature Resizer", desc: "Resize signatures to KB limits." },
-  { href: "/tools/pdf-merge", label: "PDF Merge", desc: "Combine multiple PDF files into one." },
-  { href: "/tools/pdf-split", label: "PDF Split", desc: "Extract selected pages from a PDF." },
-  { href: "/tools/percentage-calculator", label: "Percentage Calculator", desc: "Calculate percentages instantly." },
-  { href: "/tools/fd-calculator", label: "FD Calculator", desc: "Estimate fixed deposit maturity value." },
+  { href: "/tools/image/compress-image", label: "Image Compressor", desc: "Reduce JPG, PNG, and WebP image size." },
+  { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer", desc: "Create passport-size photos for forms." },
+  { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer", desc: "Resize signatures to KB limits." },
+  { href: "/tools/pdf/merge-pdf", label: "PDF Merge", desc: "Combine multiple PDF files into one." },
+  { href: "/tools/pdf/split-pdf", label: "PDF Split", desc: "Extract selected pages from a PDF." },
+  { href: "/tools/calculator/emi-calculator", label: "EMI Calculator", desc: "Calculate percentages instantly." },
+  { href: "/tools/calculator/roi-calculator", label: "ROI Calculator", desc: "SIP ROI CAGR XIRR calculator." },
 ];
 
 const sections = [
@@ -44,11 +44,11 @@ const toolGroups = [
     items: [
       {
         name: "PDF Merge Tool",
-        href: "/tools/pdf-merge",
+        href: "/tools/pdf/merge-pdf",
         description: "Combine multiple PDF files into one document online.",
         useCases: ["Join reports", "Combine forms", "Create a single PDF for upload"],
         tips: "Arrange files in the right order before merging.",
-        related: ["/tools/pdf-split", "/tools/pdf-compress"],
+        related: ["/tools/pdf/split-pdf", "/tools/pdf/compress-pdf"],
       },
       {
         name: "PDF Split Tool",
@@ -56,23 +56,23 @@ const toolGroups = [
         description: "Extract selected pages from a PDF and create smaller files.",
         useCases: ["Separate chapters", "Extract forms", "Send only a few pages"],
         tips: "Use this when you only need part of a large PDF.",
-        related: ["/tools/pdf-merge", "/tools/pdf-compress"],
+        related: ["/tools/pdf/merge-pdf", "/tools/pdf/compress-pdf"],
       },
       {
         name: "PDF Compress Tool",
-        href: "/tools/pdf-compress",
+        href: "/tools/pdf/compress-pdf",
         description: "Reduce PDF file size for faster sharing and email attachments.",
         useCases: ["Email PDFs", "Upload to forms", "Reduce storage size"],
         tips: "Try lower compression if text clarity matters.",
-        related: ["/tools/pdf-merge", "/tools/pdf-split"],
+        related: ["/tools/pdf/merge-pdf", "/tools/pdf/split-pdf"],
       },
       {
         name: "PDF Convert Tool",
-        href: "/tools/pdf-convert",
+        href: "/tools/image/image-to-pdf",
         description: "Convert supported document formats into PDF for easy sharing and printing.",
         useCases: ["Standardize documents", "Prepare forms", "Archive files"],
         tips: "Check whether your source file is text-based or image-based.",
-        related: ["/tools/pdf-compress"],
+        related: ["/tools/pdf/compress-pdf"],
       },
     ],
   },
@@ -82,39 +82,39 @@ const toolGroups = [
     title: "Image Tools",
     description:
       "Compress JPG, PNG, and WebP images while preserving visual quality. Convert and prepare images for websites, forms, and sharing.",
-    supports: ["JPG", "JPEG", "PNG", "WebP"],
+    supports: ["JPG", "JPEG", "PNG", "WebP", "SVG"],
     items: [
       {
         name: "Image Compressor",
-        href: "/tools/image-compressor",
+        href: "/tools/image/compress-image",
         description: "Reduce image size without losing too much visual quality.",
         useCases: ["Optimize website images", "Speed up uploads", "Reduce storage"],
         tips: "Use a balance of quality and file size for best results.",
-        related: ["/tools/jpg-to-png", "/tools/webp-converter"],
+        related: ["/tools/image/compress-jpg", "/tools/image/jpg-to-png"],
       },
       {
         name: "JPG to PNG",
-        href: "/tools/jpg-to-png",
+        href: "/tools/image/jpg-to-png",
         description: "Convert JPG images to PNG when you need a different format.",
         useCases: ["Prepare images for editing", "Use PNG workflows"],
         tips: "PNG files are often larger than JPG.",
-        related: ["/tools/png-to-jpg", "/tools/webp-converter"],
+        related: ["/tools/image/png-to-jpg", "/tools/image/webp-to-jpeg"],
       },
       {
         name: "PNG to JPG",
-        href: "/tools/png-to-jpg",
+        href: "/tools/image/png-to-jpg",
         description: "Convert PNG files to JPG for smaller image sizes.",
         useCases: ["Compress images", "Reduce upload size", "Simplify sharing"],
         tips: "Use JPG when transparency is not needed.",
-        related: ["/tools/jpg-to-png", "/tools/image-compressor"],
+        related: ["/tools/image/jpg-to-png", "/tools/image/svg-to-png"],
       },
       {
         name: "WebP Converter",
-        href: "/tools/webp-converter",
+        href: "/tools/image/webp-to-jpg",
         description: "Convert images to WebP for modern web performance.",
         useCases: ["Improve page speed", "Modernize image assets"],
         tips: "WebP is useful for optimized website delivery.",
-        related: ["/tools/image-compressor"],
+        related: ["/tools/image/compress-image"],
       },
     ],
   },
@@ -124,32 +124,16 @@ const toolGroups = [
     title: "Passport Photo Tools",
     description:
       "Resize passport photos to exact pixel and file size requirements for online applications and official forms.",
-    supports: ["JPG", "JPEG", "PNG"],
+    supports: ["JPG", "JPEG", "PNG", "WebP"],
     items: [
       {
         name: "Passport Photo Resizer",
-        href: "/tools/passport-photo",
+        href: "/tools/image/passport-photo-resizer",
         description: "Create passport-size photos that match form requirements for dimensions and file size.",
         useCases: ["Visa forms", "ID applications", "Government portals"],
         tips: "Keep the face centered and follow the required crop ratio.",
-        related: ["/tools/file-size", "/tools/photo-dimensions"],
-      },
-      {
-        name: "Target Dimensions",
-        href: "/tools/photo-dimensions",
-        description: "Adjust photo dimensions to meet specific application rules.",
-        useCases: ["Country-specific forms", "Upload validation"],
-        tips: "Check the required width and height before exporting.",
-        related: ["/tools/passport-photo", "/tools/file-size"],
-      },
-      {
-        name: "Target File Size",
-        href: "/tools/file-size",
-        description: "Reduce a photo to a required file size such as KB limits.",
-        useCases: ["Online application uploads", "Strict form limits"],
-        tips: "Lower the file size gradually to keep face details clear.",
-        related: ["/tools/passport-photo", "/tools/photo-dimensions"],
-      },
+        related: ["/tools/image/resize-signature-for-upload"],
+      }
     ],
   },
   {
@@ -158,15 +142,15 @@ const toolGroups = [
     title: "Signature Tools",
     description:
       "Resize signatures to exact file size and dimension limits for forms, admissions, and online applications.",
-    supports: ["JPG", "JPEG", "PNG"],
+    supports: ["JPG", "JPEG", "PNG","WebP"],
     items: [
       {
         name: "Signature Resizer",
-        href: "/tools/signature-compressor",
+        href: "/tools/image/resize-signature-for-upload",
         description: "Resize signature images to meet upload requirements.",
         useCases: ["Admission forms", "Bank forms", "Government applications"],
         tips: "Use a clear image with good contrast for the best result.",
-        related: ["/tools/passport-photo", "/tools/file-size"],
+        related: ["/tools/image/passport-photo-resizer"],
       },
     ],
   },
@@ -179,36 +163,36 @@ const toolGroups = [
     supports: ["Numbers"],
     items: [
       {
-        name: "FD Calculator",
-        href: "/tools/fd-calculator",
-        description: "Estimate fixed deposit maturity value using principal, rate, and tenure.",
-        useCases: ["Savings planning", "FD comparisons", "Interest checks"],
-        tips: "Compare different tenures before investing.",
-        related: ["/tools/rd-calculator", "/tools/simple-interest"],
+        name: "EMI Calculator",
+        href: "/tools/calculator/emi-calculator",
+        description: "Calculate monthly loan payments based on principal, interest rate, and tenure.",
+        useCases: ["Loan planning", "Budgeting", "Interest calculations"],
+        tips: "Check different interest rates and tenures for comparison.",
+        related: ["/tools/calculator/roi-calculator", "/tools/calculator/fd-calculator"],
       },
       {
-        name: "RD Calculator",
-        href: "/tools/rd-calculator",
+        name: "FD Calculator",
+        href: "/tools/calculator/fd-calculator",
         description: "Estimate recurring deposit growth for monthly savings plans.",
         useCases: ["Monthly savings", "Goal planning", "Deposit estimates"],
         tips: "Test different monthly contribution amounts.",
-        related: ["/tools/fd-calculator"],
+        related: ["/tools/calculator/emi-calculator"],
       },
       {
-        name: "Simple Interest",
-        href: "/tools/simple-interest",
-        description: "Calculate simple interest based on principal, rate, and time.",
-        useCases: ["Quick interest calculation", "Basic finance planning"],
-        tips: "Best for short-term calculations or simple loans.",
-        related: ["/tools/compound-interest"],
+        name: "ROI Calculator",
+        href: "/tools/calculator/roi-calculator",
+        description: "Calculate return on investment for financial analysis.",
+        useCases: ["Investment evaluation", "Profitability checks"],
+        tips: "Consider both initial investment and long-term returns.",
+        related: ["/tools/calculator/emi-calculator", "/tools/calculator/fd-calculator"],
       },
       {
-        name: "Compound Interest",
-        href: "/tools/compound-interest",
-        description: "Calculate compound interest when growth happens over multiple periods.",
-        useCases: ["Investment planning", "Long-term growth estimates"],
-        tips: "Compounding frequency changes the result significantly.",
-        related: ["/tools/simple-interest"],
+        name: "Retirement Planning Calculator",
+        href: "/tools/calculator/retirement-calculator",
+        description: "Estimate retirement savings and plan for future financial needs.",
+        useCases: ["Retirement planning", "Savings goals", "Financial forecasting"],
+        tips: "Adjust contribution and growth assumptions for realistic planning.",
+        related: ["/tools/calculator/roi-calculator"],
       },
     ],
   },
@@ -222,35 +206,19 @@ const toolGroups = [
     items: [
       {
         name: "Percentage Calculator",
-        href: "/tools/percentage-calculator",
+        href: "/tools/calculator",
         description: "Find percentages, percentage increase, and percentage decrease quickly.",
         useCases: ["Discounts", "Marks calculations", "Growth calculations"],
         tips: "Useful for price comparisons and analytics.",
-        related: ["/tools/ratio-calculator", "/tools/unit-conversion"],
-      },
-      {
-        name: "Equation Solver",
-        href: "/tools/equation-solver",
-        description: "Solve basic equations with simple inputs.",
-        useCases: ["Homework", "Quick problem solving"],
-        tips: "Double-check your equation format before submitting.",
-        related: ["/tools/ratio-calculator"],
-      },
-      {
-        name: "Ratio Calculator",
-        href: "/tools/ratio-calculator",
-        description: "Compare values and simplify ratios for common calculations.",
-        useCases: ["Mixing values", "Comparison tasks"],
-        tips: "Ratios are easier to read when values are reduced first.",
-        related: ["/tools/percentage-calculator"],
+        related: ["/tools/unit-conversion"],
       },
       {
         name: "Unit Conversion",
-        href: "/tools/unit-conversion",
+        href: "/tools/converter",
         description: "Convert common units such as length, weight, and volume.",
         useCases: ["School work", "Travel planning", "Quick conversions"],
         tips: "Pick the right category before converting.",
-        related: ["/tools/percentage-calculator"],
+        related: ["/tools/calculator"],
       },
     ],
   },
@@ -318,20 +286,20 @@ export default function DocumentationPage() {
           <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">No install needed</span>
         </div>
       </section>
-      <section className="mb-12">
+      <section className="mb-2">
         <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-300">
           Documentation Center • Last updated: {lastUpdated}
         </p>
         <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
           {siteName} Documentation
         </h1>
-        <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
+        <p className="mt-2 text-base leading-7 text-zinc-300">
           Learn how to use every tool on the site, what each tool is for, and when to choose one tool
           over another. Use the table of contents to jump directly to the topic you need.
         </p>
       </section>
 
-      <section id="overview" className="scroll-mt-24 py-8">
+      <section id="overview" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">Overview</h2>
         <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
           {siteName} is a browser-based utility site for PDFs, images, passport photos, signatures,
@@ -340,7 +308,7 @@ export default function DocumentationPage() {
         </p>
       </section>
 
-      <nav aria-label="On this page" className="mb-12 rounded-3xl border border-white/10 bg-white/5 p-6">
+      <nav aria-label="On this page" className="mb-2 rounded-3xl border border-white/10 bg-white/5 p-6">
         <h2 className="text-lg font-semibold text-white">Contents</h2>
         <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {sections.map((section) => (
@@ -353,7 +321,7 @@ export default function DocumentationPage() {
         </ul>
       </nav>
 
-      <section id="how-it-works" className="scroll-mt-24 py-8">
+      <section id="how-it-works" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">How It Works</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-4">
           {[
@@ -371,25 +339,25 @@ export default function DocumentationPage() {
         </div>
       </section>
 
-      <section id="privacy" className="scroll-mt-24 py-8">
+      <section id="privacy" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">Privacy and Security</h2>
         <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
           Most PDF and image processing happens directly in your browser. Files are not uploaded to our servers unless a tool explicitly states otherwise. That makes browser-based tools a good choice for fast and privacy-friendly tasks.
         </p>
       </section>
 
-      <section id="browser-compatibility" className="scroll-mt-24 py-8">
+      <section id="browser-compatibility" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">Browser Compatibility</h2>
         <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
           The tools are intended to work in modern browsers such as Chrome, Safari, Firefox, and Edge. If a feature behaves strangely, try refreshing the page or switching to another browser.
         </p>
       </section>
 
-      <section id="supported-formats" className="scroll-mt-24 py-8">
+      <section id="supported-formats" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">Supported Formats</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {toolGroups.map((group) => (
-            <article key={group.id} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+            <article key={group.id} className="rounded-2xl border border-white/10 bg-white/5 p-3">
               <h3 className="text-lg font-semibold text-white">{group.icon} {group.title}</h3>
               <p className="mt-2 text-sm text-zinc-300">Supports: {group.supports.join(", ")}</p>
             </article>
@@ -458,19 +426,19 @@ export default function DocumentationPage() {
         </ul>
       </section>
 
-      <section id="faq" className="scroll-mt-24 py-8">
+      <section id="faq" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">FAQ</h2>
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 space-y-2">
           {faqs.map(([q, a]) => (
-            <details key={q} className="rounded-3xl border border-white/10 bg-white/5 p-5">
-              <summary className="cursor-pointer text-lg font-semibold text-white">{q}</summary>
-              <p className="mt-3 text-sm leading-6 text-zinc-300">{a}</p>
+            <details key={q} className="rounded-3xl border border-white/10 bg-white/5 p-3">
+              <summary className="cursor-pointer text-MD font-semibold text-white">{q}</summary>
+              <p className="mt-2 text-sm text-zinc-300">{a}</p>
             </details>
           ))}
         </div>
       </section>
 
-      <section id="related-tools" className="scroll-mt-24 py-8">
+      <section id="related-tools" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">Related Tools</h2>
         <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
           These are the highest-value tools to surface from the documentation because they are commonly used and easy to find.

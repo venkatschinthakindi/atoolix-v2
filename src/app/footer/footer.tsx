@@ -5,12 +5,12 @@ const footerLink =
   "text-zinc-400 transition-colors duration-200 hover:text-white hover:underline underline-offset-4";
 
 const popularTools = [
-  { href: "/tools/image-compressor", label: "Image Compressor" },
-  { href: "/tools/passport-photo", label: "Passport Photo Resizer" },
-  { href: "/tools/signature-compressor", label: "Signature Resizer" },
-  { href: "/tools/pdf-merge", label: "PDF Merge" },
-  { href: "/tools/percentage-calculator", label: "Percentage Calculator" },
-  { href: "/tools/pdf-split", label: "PDF Split" },
+  { href: "/tools/calculator/emi-calculator", label: "EMI Calculator" },
+  { href: "/tools/calculator/retirement-calculator", label: "Retirement Planning" },
+  { href: "/tools/image/compress-image-to-100kb", label: "Image Compressor" },
+  { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
+  { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
+  { href: "/tools/pdf/split-pdf", label: "PDF Split" },
 ];
 
 export async function Footer() {
@@ -37,11 +37,11 @@ export async function Footer() {
           <nav aria-label="Tool categories">
             <h4 className="mb-4 text-sm font-medium text-white">Tools</h4>
             <ul className="space-y-3 text-sm">
-              <li><Link href="/tools/pdf" className={footerLink}>PDF Tools</Link></li>
-              <li><Link href="/tools/image" className={footerLink}>Image Tools</Link></li>
-              <li><Link href="/tools/photo" className={footerLink}>Passport Photo Tools</Link></li>
-              <li><Link href="/tools/finance" className={footerLink}>Finance Tools</Link></li>
-              <li><Link href="/tools/math" className={footerLink}>Math Tools</Link></li>
+              <li><Link href="/pdf" className={footerLink}>PDF Tools</Link></li>
+              <li><Link href="/image" className={footerLink}>Image Tools</Link></li>
+              <li><Link href="/tools/image/passport-photo-resizer" className={footerLink}>Passport Photo Tool</Link></li>
+              <li><Link href="/finance" className={footerLink}>Finance Tools</Link></li>
+              <li><Link href="/calculator" className={footerLink}>Math Tools</Link></li>
             </ul>
           </nav>
 
