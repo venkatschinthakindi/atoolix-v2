@@ -19,6 +19,7 @@ import { Field } from "@/components/ui/field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { ExplainerPanel, TabKey } from "@/sharedUI/explainerPanel";
+import CustomSelect from "@/components/ui/customSelect";
 
 const FinanceChart = dynamic(
   () => import("@/components/tools/financeSuite/financeChart").then((m) => m.FinanceChart),
@@ -357,7 +358,7 @@ const FlowRow = memo(function FlowRow({
   return (
     <div
       className={[
-        "grid gap-3 rounded-2xl border p-3 transition md:grid-cols-[1fr_1fr_auto] md:items-end",
+        "grid gap-3 rounded-2xl border p-3 transition md:grid-cols-[1fr_1fr_auto] md:items-center",
         invalid
           ? "border-amber-400/30 bg-amber-500/5"
           : "border-white/10 bg-black/10",
@@ -429,6 +430,9 @@ const FlowRow = memo(function FlowRow({
             !flow.date ? "border-amber-400/40" : "",
           ].join(" ")}
         />
+        <p className="mt-1 text-xs text-white/40">
+        Date of the cash flow
+        </p>
       </Field>
 
       <button
@@ -978,7 +982,7 @@ export default function InvestmentReturnsSuite() {
 
                 <div>
                   <Field label="Compounding frequency">
-                    <select
+                    {/* <select
                       value={lumpFrequency}
                       onChange={(e) => setLumpFrequency(Number(e.target.value))}
                       className={inputClass}
@@ -988,7 +992,15 @@ export default function InvestmentReturnsSuite() {
                       <option value={2}>Semi-annually (every 6 months)</option>
                       <option value={4}>Quarterly (every 3 months)</option>
                       <option value={12}>Monthly (every month)</option>
-                    </select>
+                    </select> */}
+                    <CustomSelect value={lumpFrequency.toString()}
+                      callBackTrigger={(e) => setLumpFrequency(Number(e))}
+                      options={[
+                          { value: "1", label: "Annually (once a year)" },
+                          { value: "2", label: "Semi-annually (every 6 months)" },
+                          { value: "4", label: "Quarterly (every 3 months)" },
+                          { value: "12", label: "Monthly (every month)" },
+                      ]} />
                   </Field>
                   <FieldHint text="More frequent compounding = slightly higher returns. Most mutual funds compound daily or monthly." />
                 </div>

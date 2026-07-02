@@ -1,3 +1,4 @@
+import CustomSelect from "@/components/ui/customSelect";
 import { FieldLabel } from "@/components/ui/fieldLabel";
 
 export function OptionCard({
@@ -37,7 +38,7 @@ export function OptionCard({
 
       <div className="mt-4 space-y-3">
         <FieldLabel>Mode</FieldLabel>
-        <select
+        {/* <select
           value={mode}
           onChange={(e) => onModeChange(e.target.value as MergeMode)}
           className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-400/40 focus:ring-2 focus:ring-blue-400/15"
@@ -46,7 +47,14 @@ export function OptionCard({
           <option value="none">None</option>
           <option value="text">Text</option>
           <option value="file">File</option>
-        </select>
+        </select> */}
+        <CustomSelect value={mode}
+          callBackTrigger={(e) => onModeChange(e as MergeMode)}
+          options={[
+              { value: "none", label: "None" },
+              { value: "text", label: "Text" },
+              { value: "file", label: "File" },
+          ]} />
 
         {mode === "text" && (
           <>

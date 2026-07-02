@@ -73,18 +73,39 @@ export default function CustomSelect<T extends string>({
     if (!open || !buttonRef.current) return;
 
 
-    const updatePosition = () => {
-      const rect = buttonRef.current!.getBoundingClientRect();
-      const maxHeight = 280;
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const openUp = spaceBelow < maxHeight && rect.top > spaceBelow;
+    // const updatePosition = () => {
+    //   const rect = buttonRef.current!.getBoundingClientRect();
+    //   const maxHeight = 280;
+    //   const spaceBelow = window.innerHeight - rect.bottom;
+    //   const openUp = spaceBelow < maxHeight && rect.top > spaceBelow;
 
+
+    //   setMenuStyle({
+    //     position: "fixed",
+    //     left: rect.left,
+    //     width: rect.width,
+    //     top: openUp ? rect.top - 140 : rect.bottom + 10,
+    //     zIndex: 999999,
+    //   });
+    // };
+    const updatePosition = () => {
+      if (!buttonRef.current || !rootRef.current) return;
+
+      const rect = buttonRef.current.getBoundingClientRect();
+      const menuHeight = rootRef.current.offsetHeight;
+
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      const openUp = spaceBelow < menuHeight && spaceAbove > menuHeight;
 
       setMenuStyle({
         position: "fixed",
         left: rect.left,
         width: rect.width,
-        top: openUp ? Math.max(8, rect.top - maxHeight - 10) : rect.bottom + 10,
+        top: openUp
+          ? rect.top - menuHeight // exactly above
+          : rect.bottom,          // exactly below
         zIndex: 999999,
       });
     };
@@ -113,9 +134,9 @@ export default function CustomSelect<T extends string>({
         disabled={disabled}
         onClick={() => !disabled && setOpen((v) => !v)}
         className={[
-          "flex w-full items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 px-3 sm:px-4 py-1.5 sm:py-2 text-left text-white outline-none transition",
-          "hover:border-blue-500 hover:bg-black/50 focus:border-blue-500",
-          disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer",
+          "flex w-full items-center justify-between gap-3 rounded-2xl border border-white/10 bg-indigo/40 px-3 sm:px-4 py-1.5 sm:py-2 text-left text-white outline-none transition",
+          "hover:border-blue-500 hover:bg-indigo/50 focus:border-blue-500",
+          disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer ",
         ].join(" ")}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -165,14 +186,14 @@ export default function CustomSelect<T extends string>({
                         setOpen(false);
                       }}
                       className={[
-                        "flex w-full items-center justify-between rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-left text-xs sm:text-sm transition",
+                        "flex w-full mt-1 items-center gap-2 justify-between rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-left text-xs sm:text-sm transition",
                         active
                           ? "bg-gray-500/20 text-blue-300 hover:bg-gray-500/30"
                           : "bg-white/5 text-white hover:bg-white/10",
                         active ? "cursor-not-allowed pointer-events-none opacity-50" : "cursor-pointer",
                       ].join(" ")}
                     >
-                      <span className="flex items-center gap-2">
+                      <span className="flex  items-center gap-2">
                         <span>{opt.label}</span>
                         {active ? (
                           <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-blue-300" />

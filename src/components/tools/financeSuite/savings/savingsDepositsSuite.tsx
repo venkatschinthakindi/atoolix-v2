@@ -15,6 +15,7 @@ import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { StatCard } from "@/sharedUI/statCard";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { ExplainerPanel } from "@/sharedUI/explainerPanel";
+import CustomSelect from "@/components/ui/customSelect";
 
 type MainTab = "simple" | "compound" | "deposits";
 type DepositMode = "fd" | "rd";
@@ -622,7 +623,7 @@ export default function SavingsDepositsSuite() {
 
                   <div>
                     <Field label="Compounding frequency">
-                      <select
+                      {/* <select
                         value={compoundFrequency}
                         onChange={(e) => setCompoundFrequency(e.target.value)}
                         className={inputClass}
@@ -631,7 +632,15 @@ export default function SavingsDepositsSuite() {
                         <option value={2}>Semi-annually</option>
                         <option value={4}>Quarterly</option>
                         <option value={12}>Monthly</option>
-                      </select>
+                      </select> */}
+                      <CustomSelect value={compoundFrequency}
+                        callBackTrigger={(e) => setCompoundFrequency(e)}
+                        options={[
+                            { value: "1", label: "Annually (once a year)" },
+                            { value: "2", label: "Semi-annually (every 6 months)" },
+                            { value: "4", label: "Quarterly (every 3 months)" },
+                            { value: "12", label: "Monthly (every month)" },
+                        ]} />
                     </Field>
                     <FieldHint text="How often interest is added to the principal." />
                   </div>
@@ -755,7 +764,7 @@ export default function SavingsDepositsSuite() {
 
                     <div>
                       <Field label="Compounding frequency">
-                        <select
+                        {/* <select
                           value={fdFrequency}
                           onChange={(e) => setFdFrequency(e.target.value)}
                           className={inputClass}
@@ -764,7 +773,15 @@ export default function SavingsDepositsSuite() {
                           <option value={2}>Semi-annually</option>
                           <option value={4}>Quarterly</option>
                           <option value={12}>Monthly</option>
-                        </select>
+                        </select> */}
+                        <CustomSelect value={fdFrequency}
+                        callBackTrigger={(e) => setFdFrequency(e)}
+                        options={[
+                            { value: "1", label: "Annually (once a year)" },
+                            { value: "2", label: "Semi-annually (every 6 months)" },
+                            { value: "4", label: "Quarterly (every 3 months)" },
+                            { value: "12", label: "Monthly (every month)" },
+                        ]} />
                       </Field>
                       <FieldHint text="Quarterly is the common default for bank-style FD calculations." />
                     </div>
@@ -866,14 +883,20 @@ export default function SavingsDepositsSuite() {
 
                     <div>
                       <Field label="Deposit timing">
-                        <select
+                        {/* <select
                           value={rdConvention}
                           onChange={(e) => setRdConvention(e.target.value as RdConvention)}
                           className={inputClass}
                         >
                           <option value="end">End of month</option>
                           <option value="beginning">Beginning of month</option>
-                        </select>
+                        </select> */}
+                        <CustomSelect value={rdConvention}
+                        callBackTrigger={(e) => setRdConvention(e as RdConvention)}
+                        options={[
+                            { value: "end", label: "End of month" },
+                            { value: "beginning", label: "Beginning of month" }
+                        ]} />
                       </Field>
                       <FieldHint text="Use the default if you just want a quick estimate." />
                     </div>

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import AmortizationChart from "@/components/tools/emiCalculator/amortizationChart";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
+import CustomSelect from "@/components/ui/customSelect";
 
 /* ─────────────────────────────────────────────
    Types
@@ -698,7 +699,7 @@ export default function EMICalculator({
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Type">
-                      <select
+                      {/* <select
                         value={entry.type}
                         onChange={(e) =>
                           updatePrepayment(
@@ -711,10 +712,22 @@ export default function EMICalculator({
                       >
                         <option value="one-time">One-time</option>
                         <option value="monthly">Monthly</option>
-                      </select>
+                      </select> */}
+                      <CustomSelect value={entry.type} 
+                                    callBackTrigger={(e:PrepaymentType) =>
+                          updatePrepayment(
+                            entry.id,
+                            "type",
+                            e as PrepaymentType  
+                          )
+                        }
+                        options={[
+                            { value: "one-time", label: "One-time" },
+                            { value: "monthly", label: "Monthly" },
+                        ]} />
                     </Field>
                     <Field label="Mode">
-                      <select
+                      {/* <select
                         value={entry.mode}
                         onChange={(e) =>
                           updatePrepayment(
@@ -727,7 +740,20 @@ export default function EMICalculator({
                       >
                         <option value="principal">Principal reduction</option>
                         <option value="emi">EMI reduction</option>
-                      </select>
+                      </select> */}
+
+                      <CustomSelect value={entry.mode} 
+                                    callBackTrigger={(e:PrepaymentMode) =>
+                          updatePrepayment(
+                            entry.id,
+                            "mode",
+                            e
+                          )
+                        }
+                        options={[
+                            { value: "principal", label: "Principal reduction" },
+                            { value: "emi", label: "EMI reduction" },
+                        ]} />
                     </Field>
                     <Field label="Amount (₹)">
                       <input
@@ -914,7 +940,7 @@ export default function EMICalculator({
           <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
             <div className="flex items-center gap-2 text-xs text-white/60">
               <span>Chart</span>
-              <select
+              {/* <select
                 value={chartType}
                 onChange={(e) =>
                   setChartType(
@@ -937,7 +963,29 @@ export default function EMICalculator({
                 <option value="bar">Bar</option>
                 <option value="pie">Pie</option>
                 <option value="doughnut">Doughnut</option>
-              </select>
+              </select> */}
+              <CustomSelect value={chartType}
+                                    callBackTrigger={(e) =>
+                  setChartType(
+                    e as
+                      | "line"
+                      | "area"
+                      | "smooth"
+                      | "stepped"
+                      | "bar"
+                      | "pie"
+                      | "doughnut"
+                  )
+                }
+                        options={[
+                            { value: "line", label: "Line" },
+                            { value: "area", label: "Area" },
+                            { value: "smooth", label: "Smooth" },
+                            { value: "stepped", label: "Stepped" },
+                            { value: "bar", label: "Bar" },
+                            { value: "pie", label: "Pie" },
+                            { value: "doughnut", label: "Doughnut" }
+                        ]} />
             </div>
             {(
               [
