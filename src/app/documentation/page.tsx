@@ -52,7 +52,7 @@ const toolGroups = [
       },
       {
         name: "PDF Split Tool",
-        href: "/tools/pdf-split",
+        href: "/tools/pdf/split-pdf",
         description: "Extract selected pages from a PDF and create smaller files.",
         useCases: ["Separate chapters", "Extract forms", "Send only a few pages"],
         tips: "Use this when you only need part of a large PDF.",
@@ -210,7 +210,7 @@ const toolGroups = [
         description: "Find percentages, percentage increase, and percentage decrease quickly.",
         useCases: ["Discounts", "Marks calculations", "Growth calculations"],
         tips: "Useful for price comparisons and analytics.",
-        related: ["/tools/unit-conversion"],
+        related: ["/tools/converter"],
       },
       {
         name: "Unit Conversion",
