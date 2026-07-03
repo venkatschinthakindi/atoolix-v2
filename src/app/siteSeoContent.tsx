@@ -46,12 +46,12 @@ export const metadata: Metadata = {
 };
 
 const quickLinks = [
-  { href: "/tools/image-compressor", label: "Image Compressor" },
-  { href: "/tools/passport-photo", label: "Passport Photo Resizer" },
-  { href: "/tools/signature-compressor", label: "Signature Resizer" },
-  { href: "/tools/pdf-merge", label: "PDF Merge" },
-  { href: "/tools/percentage-calculator", label: "Percentage Calculator" },
-  { href: "/tools/fd-calculator", label: "FD Calculator" },
+  { href: "/tools/image/compress-image", label: "Image Compressor" },
+  { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
+  { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
+  { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
+  { href: "/tools/calculator", label: "Percentage Calculator" },
+  { href: "/tools/calculator/fd-calculator", label: "FD Calculator" },
 ];
 
 const categories = [
@@ -60,10 +60,10 @@ const categories = [
     description:
       "Merge, split, compress, convert, and manage PDF files quickly in your browser.",
     items: [
-      { href: "/tools/pdf-merge", label: "PDF Merge" },
-      { href: "/tools/pdf-split", label: "PDF Split" },
-      { href: "/tools/pdf-compress", label: "PDF Compress" },
-      { href: "/tools/pdf-convert", label: "PDF Convert" },
+      { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
+      { href: "/tools/pdf/split-pdf", label: "PDF Split" },
+      { href: "/tools/pdf/compress-pdf", label: "PDF Compress" },
+      { href: "/tools/image/image-to-pdf", label: "PDF Convert" },
     ],
   },
   {
@@ -71,10 +71,10 @@ const categories = [
     description:
       "Use practical calculators for savings, interest, deposits, and planning.",
     items: [
-      { href: "/tools/simple-interest", label: "Simple Interest" },
-      { href: "/tools/compound-interest", label: "Compound Interest" },
-      { href: "/tools/fd-calculator", label: "FD Calculator" },
-      { href: "/tools/rd-calculator", label: "RD Calculator" },
+      { href: "/tools/calculator/fd-calculator?interest=compound", label: "Compound Interest" },
+      { href: "/tools/calculator/fd-calculator", label: "FD Calculator" },
+      { href: "/tools/calculator/retirement-calculator", label: "Retirement Planning" },
+      { href: "/tools/calculator/roi-calculator", label: "Investment returns" }      
     ],
   },
   {
@@ -82,10 +82,9 @@ const categories = [
     description:
       "Solve common math and percentage problems with simple inputs.",
     items: [
-      { href: "/tools/percentage-calculator", label: "Percentage Calculator" },
-      { href: "/tools/equation-solver", label: "Equation Solver" },
-      { href: "/tools/ratio-calculator", label: "Ratio Calculator" },
-      { href: "/tools/unit-conversion", label: "Unit Conversion" },
+      { href: "/tools/calculator?mode=percentage", label: "Percentage Calculator" },
+      { href: "/tools/calculator", label: "Equation Solver" },
+      { href: "/tools/converter", label: "Unit Conversion" },
     ],
   },
   {
@@ -93,10 +92,10 @@ const categories = [
     description:
       "Convert and compress images for web, forms, and sharing.",
     items: [
-      { href: "/tools/jpg-to-png", label: "JPG to PNG" },
-      { href: "/tools/png-to-jpg", label: "PNG to JPG" },
-      { href: "/tools/image-compressor", label: "Image Compressor" },
-      { href: "/tools/webp-converter", label: "WebP Converter" },
+      { href: "/tools/image/jpg-to-png", label: "JPG to PNG" },
+      { href: "/tools/image/png-to-jpg", label: "PNG to JPG" },
+      { href: "/tools/image/compress-image", label: "Image Compressor" },
+      { href: "/tools/image/jpg-to-webp", label: "WebP Converter" },
     ],
   },
   {
@@ -104,20 +103,21 @@ const categories = [
     description:
       "Create passport size photos and resize signatures to target dimensions and file size.",
     items: [
-      { href: "/tools/passport-photo", label: "Passport Size Photo" },
-      { href: "/tools/signature-compressor", label: "Signature Resizer" },
-      { href: "/tools/photo-dimensions", label: "Target Dimensions" },
-      { href: "/tools/file-size", label: "Target File Size" },
+      { href: "/tools/image/passport-photo-resizer", label: "Passport Size Photo" },
+      { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
+      { href: "/tools/image/resize-signature-for-upload?mode=dimensions", label: "Target Dimensions" },
+      { href: "/tools/image/compress-image-to-50kb", label: "Target File Size" },
     ],
   },
 ];
 
 const recentlyUpdated = [
-  { href: "/tools/passport-photo", label: "Passport Photo Resizer" },
-  { href: "/tools/signature-compressor", label: "Signature Resizer" },
-  { href: "/tools/image-compressor", label: "JPG Compressor" },
-  { href: "/tools/pdf-merge", label: "PDF Merge" },
+  { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
+  { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
+  { href: "/tools/image/compress-jpg", label: "JPG Compressor" },
+  { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
 ];
+
 import Link from "next/link";
 
 export async function HomePageSeo() {
@@ -142,13 +142,13 @@ export async function HomePageSeo() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/tools/pdf"
+                href="/pdf"
                 className="rounded-xl border border-white/15 bg-white/8 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/12"
               >
                 Start with PDF tools
               </Link>
               <Link
-                href="/tools/finance"
+                href="/finance"
                 className="rounded-xl border border-white/15 bg-white/8 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/12"
               >
                 Open finance calculators
