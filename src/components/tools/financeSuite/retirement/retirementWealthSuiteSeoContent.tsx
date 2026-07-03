@@ -296,12 +296,10 @@ const retirementStrategies = [
 ];
 
 const relatedTools = [
-  { name: "SIP Calculator", href: "/tools/sip-calculator" },
-  { name: "SWP Calculator", href: "/tools/swp-calculator" },
-  { name: "FIRE Calculator", href: "/tools/fire-calculator" },
-  { name: "Retirement Planner", href: "/tools/retirement-calculator" },
-  { name: "Compound Interest Calculator", href: "/tools/compound-interest-calculator" },
-];
+    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
+    { name: 'Savings and deposits', href: '/tools/calculator/fd-calculator' },
+    { name: 'Investment returns', href: '/tools/calculator/roi-calculator' },
+  ]
 
 const articleSchema = {
   "@context": "https://schema.org",

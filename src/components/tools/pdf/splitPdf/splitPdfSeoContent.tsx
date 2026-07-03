@@ -198,7 +198,7 @@ export default function SplitPdfSeoContent() {
     {
       name: "Merge PDF",
       href: "/tools/pdf/merge-pdf",
-      icon: "🔗",
+      icon: "📚",
     },
     {
       name: "Compress PDF",
@@ -206,25 +206,10 @@ export default function SplitPdfSeoContent() {
       icon: "📉",
     },
     {
-      name: "Delete PDF Pages",
-      href: "/tools/delete-pdf-pages",
-      icon: "❌",
-    },
-    {
-      name: "Rotate PDF",
-      href: "/tools/rotate-pdf",
-      icon: "🔄",
-    },
-    {
-      name: "PDF to Word",
-      href: "/tools/pdf-to-word",
-      icon: "📝",
-    },
-    {
-      name: "Word to PDF",
-      href: "/tools/word-to-pdf",
-      icon: "📄",
-    },
+      name: "Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      icon: "📸"
+    }
   ];
 
 

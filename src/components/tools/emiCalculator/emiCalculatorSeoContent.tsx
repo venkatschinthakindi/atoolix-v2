@@ -155,11 +155,9 @@ export default function EmiCalculatorSeoContent() {
   ]
 
   const relatedTools = [
-    { name: 'Loan Calculator', href: '/tools/loan-calculator' },
-    { name: 'Home Loan Calculator', href: '/tools/home-loan-calculator' },
-    { name: 'Personal Loan Calculator', href: '/tools/personal-loan-calculator' },
-    { name: 'Car Loan Calculator', href: '/tools/car-loan-calculator' },
-    { name: 'Amortization Schedule Calculator', href: '/tools/amortization-calculator' },
+    { name: 'Investment returns', href: '/tools/calculator/roi-calculator' },
+    { name: 'Savings and deposits', href: '/tools/calculator/fd-calculator' },
+    { name: 'Retirement planning', href: '/tools/calculator/retirement-calculator' }
   ]
 
   const faqSchema = {

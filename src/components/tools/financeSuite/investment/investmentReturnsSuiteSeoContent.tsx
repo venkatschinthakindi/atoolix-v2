@@ -147,12 +147,11 @@ export default function InvestmentReturnsSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "EMI Calculator", href: "/tools/emi-calculator" },
-    { name: "Loan Calculator", href: "/tools/loan-calculator" },
-    { name: "Compound Interest Calculator", href: "/tools/compound-interest-calculator" },
-    { name: "Retirement Calculator", href: "/tools/retirement-calculator" },
-    { name: "SIP Calculator", href: "/tools/sip-calculator" },
-  ];
+    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
+    { name: 'Savings and deposits', href: '/tools/calculator/fd-calculator' },
+    { name: 'Retirement planning', href: '/tools/calculator/retirement-calculator' }
+  ]
+
 
 const howToSchema = {
   "@context": "https://schema.org",

@@ -209,12 +209,10 @@ export default function SavingsDepositsSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "EMI Calculator", href: "/tools/emi-calculator" },
-    { name: "Loan Calculator", href: "/tools/loan-calculator" },
-    { name: "Compound Interest Calculator", href: "/tools/compound-interest-calculator" },
-    { name: "Investment Returns Calculator", href: "/tools/investment-returns-calculator" },
-    { name: "Retirement Calculator", href: "/tools/retirement-calculator" },
-  ];
+    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
+    { name: 'Retirement planning', href: '/tools/calculator/retirement-calculator' },
+    { name: 'Investment returns', href: '/tools/calculator/roi-calculator' },
+  ]
 const calculatorSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
