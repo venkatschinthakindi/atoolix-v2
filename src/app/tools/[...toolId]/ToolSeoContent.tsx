@@ -33,7 +33,7 @@ const seoRegistry: Record<string, any> = {
     { ssr: true }
   ),
   "image/jpg-to-pdf": dynamic(
-    () => import("@/components/tools/pdf/image-to-pdf/JpgJpegSeoContent"),
+    () => import("@/components/tools/pdf/image-to-pdf/JpgToPdfSeoContent"),
     { ssr: true }
   ),
   "image/png-to-pdf": dynamic(

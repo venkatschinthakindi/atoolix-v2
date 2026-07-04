@@ -175,12 +175,10 @@ export default function PdfCompressorSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "PDF Merger", href: "/tools/pdf-merger" },
-    { name: "PDF Splitter", href: "/tools/pdf-splitter" },
-    { name: "PDF to Images", href: "/tools/pdf-to-images" },
-    { name: "Image Compressor", href: "/tools/image-compressor" },
-    { name: "JPG to PDF", href: "/tools/jpg-to-pdf" },
-    { name: "PDF Editor", href: "/tools/pdf-editor" },
+    { name: "PDF Merger", href: "/tools/pdf/merge-pdf" },
+    { name: "PDF Splitter", href: "/tools/pdf/split-pdf" },
+    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf" },
+    { name: "Image to PDF", href: "/tools/image/image-to-pdf" }
   ];
 
   const cardClass =

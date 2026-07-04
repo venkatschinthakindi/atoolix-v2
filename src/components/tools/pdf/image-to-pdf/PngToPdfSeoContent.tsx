@@ -159,12 +159,11 @@ export default function PngToPdfSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "Image Compressor", href: "/tools/image-compressor" },
-    { name: "JPG to PDF Converter", href: "/tools/jpg-to-pdf" },
-    { name: "PNG to PDF Converter", href: "/tools/png-to-pdf" },
-    { name: "PDF to Images Converter", href: "/tools/pdf-to-images" },
-    { name: "Image Resizer", href: "/tools/image-resizer" },
-    { name: "PDF Merger", href: "/tools/pdf-merger" },
+    { name: "PDF Merger", href: "/tools/pdf/merge-pdf" },
+    { name: "PDF Splitter", href: "/tools/pdf/split-pdf" },
+    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf" },
+    { name: "PDF Compressor", href: "/tools/pdf/compress-pdf" },
+    { name: "Image to PDF", href: "/tools/image/image-to-pdf" }
   ];
 
   return (
