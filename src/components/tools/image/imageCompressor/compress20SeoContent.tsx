@@ -206,13 +206,11 @@ const formatGuidance = [
 ];
 
 const relatedTools = [
-  { name: "Compress JPG", href: "/tools/jpg-compressor" },
-  { name: "Resize Image", href: "/tools/resize-image" },
-  { name: "Crop Image", href: "/tools/crop-image" },
-  { name: "Image Converter", href: "/tools/image-converter" },
-  { name: "Compress WebP", href: "/tools/webp-compressor" },
-  { name: "PNG Compressor", href: "/tools/png-compressor" },
-  { name: "Image Compressor 50 KB", href: "/tools/image-compressor-50kb" },
+  { name: "Compress Image", href: "/tools/image/compress-image" },
+  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
+  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
+  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
+  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" }
 ];
 
 const sizeGuide = [

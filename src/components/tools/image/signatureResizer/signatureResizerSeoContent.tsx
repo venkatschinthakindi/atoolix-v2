@@ -135,12 +135,11 @@ const tips = [
 ];
 
 const relatedTools = [
-  { name: "Passport Photo Resizer", href: "/tools/passport-photo-resizer" },
-  { name: "Resize Image to KB", href: "/tools/resize-image-to-kb" },
-  { name: "Crop Image", href: "/tools/crop-image" },
-  { name: "Image to JPG", href: "/tools/image-to-jpg" },
-  { name: "PNG Converter", href: "/tools/png-converter" },
-  { name: "WebP Converter", href: "/tools/webp-converter" },
+  { name: "Compress Image", href: "/tools/image/compress-image" },
+  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
+  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
+  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
+  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
 ];
 
 const faqJsonLd = {

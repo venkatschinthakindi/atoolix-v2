@@ -155,16 +155,11 @@ const audience = [
 const devices = ["Windows", "macOS", "Android", "iPhone"];
 
 const relatedTools = [
-  { name: "Compress Image", href: "/tools/image-compressor" },
-  { name: "Resize JPG", href: "/tools/resize-jpg" },
-  { name: "Crop JPG", href: "/tools/crop-jpg" },
-  { name: "Convert to JPG", href: "/tools/convert-to-jpg" },
-  { name: "Compress PNG", href: "/tools/png-compressor" },
-  { name: "Compress WebP", href: "/tools/webp-compressor" },
-  { name: "Resize Image", href: "/tools/resize-image" },
-  { name: "Image Converter", href: "/tools/image-converter" },
-  { name: "Bulk Image Compressor", href: "/tools/bulk-image-compressor" },
-  { name: "Image Size Reducer", href: "/tools/image-size-reducer" },
+  { name: "Compress Image", href: "/tools/image/compress-image" },
+  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
+  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
+  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
+  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
 ];
 
 const faqJsonLd = {

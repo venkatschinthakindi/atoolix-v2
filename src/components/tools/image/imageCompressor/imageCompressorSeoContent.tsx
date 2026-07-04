@@ -160,12 +160,11 @@ const devices = [
 ];
 
 const relatedTools = [
-  { name: "Resize Image", href: "/tools/resize-image" },
-  { name: "Crop Image", href: "/tools/crop-image" },
-  { name: "Convert Image", href: "/tools/image-converter" },
-  { name: "JPG Compressor", href: "/tools/jpg-compressor" },
-  { name: "PNG Compressor", href: "/tools/png-compressor" },
-  { name: "WebP Compressor", href: "/tools/webp-compressor" },
+  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
+  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
+  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
+  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
+  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
 ];
 
 const faqJsonLd = {
@@ -468,6 +467,11 @@ export default function CompressImagesWithPreviewSeoContent() {
           title="Start Compressing Your Images"
           description="This tool is designed for everyday image optimization directly in your browser. Whether you're preparing images for websites, documents, forms, or sharing online, you can quickly reduce file size while reviewing the result before downloading."
         />
+        <div></div>
+      </section>
+
+      <section aria-labelledby="releated-tools" className="space-y-4">
+        <SectionHeading id="releated-tools" title="Releated Tools"/>
         <div className="flex flex-wrap gap-2.5">
           {relatedTools.map((tool) => (
             <a

@@ -219,12 +219,11 @@ const commonUses = [
 const devices = ["Windows", "macOS", "Android", "iPhone"];
 
 const relatedTools = [
-  { name: "Passport Photo Cropper", href: "/tools/passport-photo-cropper" },
-  { name: "Resize Image to KB", href: "/tools/resize-image-to-kb" },
-  { name: "Resize Image in CM", href: "/tools/resize-image-in-cm" },
-  { name: "Resize Image in Inches", href: "/tools/resize-image-in-inches" },
-  { name: "Image to JPG", href: "/tools/image-to-jpg" },
-  { name: "WebP Converter", href: "/tools/webp-converter" },
+  { name: "Compress Image", href: "/tools/image/compress-image" },
+  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
+  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
+  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
+  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
 ];
 
 const faqJsonLd = {
