@@ -51,7 +51,9 @@ const quickLinks = [
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
   { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
   { href: "/tools/calculator", label: "Percentage Calculator" },
-  { href: "/tools/calculator/fd-calculator", label: "FD Calculator" },
+  { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
+  { href: "/tools/calculator/retirement-calculator?category=retirement", label: "Retirement Calculator" },
+  { href: "/tools/calculator/retirement-calculator?category=fire", label: "FIRE Calculator" },
 ];
 
 const categories = [
@@ -71,10 +73,10 @@ const categories = [
     description:
       "Use practical calculators for savings, interest, deposits, and planning.",
     items: [
-      { href: "/tools/calculator/fd-calculator?interest=compound", label: "Compound Interest" },
-      { href: "/tools/calculator/fd-calculator", label: "FD Calculator" },
+      { href: "/tools/calculator/fd-calculator?category=compound", label: "Compound Interest" },
+      { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
       { href: "/tools/calculator/retirement-calculator", label: "Retirement Planning" },
-      { href: "/tools/calculator/roi-calculator", label: "Investment returns" }      
+      { href: "/tools/calculator/roi-calculator", label: "Investment Returns" }      
     ],
   },
   {
@@ -82,8 +84,8 @@ const categories = [
     description:
       "Solve common math and percentage problems with simple inputs.",
     items: [
-      { href: "/tools/calculator?mode=percentage", label: "Percentage Calculator" },
-      { href: "/tools/calculator", label: "Equation Solver" },
+      { href: "/tools/calculator?category=percentage", label: "Percentage Calculator" },
+      { href: "/tools/calculator?category=equation", label: "Equation Solver" },
       { href: "/tools/converter", label: "Unit Conversion" },
     ],
   },
