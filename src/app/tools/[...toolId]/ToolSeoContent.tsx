@@ -56,7 +56,7 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/converter/unitConverterSeoContent"),
     { ssr: true }
   ),
-
+//done
   "image/jpg-to-png": dynamic(
     () => import("@/components/tools/image/imageConverter/jpgToPngSeoContent"),
     { ssr: true }
@@ -97,6 +97,8 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/image/imageConverter/svgToJpgSeoContent"),
     { ssr: true }
   ),
+
+  //DONE
   "image/compress-image": dynamic(
     () => import("@/components/tools/image/imageCompressor/imageCompressorSeoContent"),
     { ssr: true }

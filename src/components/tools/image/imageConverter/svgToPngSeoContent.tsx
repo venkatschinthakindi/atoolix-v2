@@ -137,13 +137,15 @@ export default function SvgToPngSeoContent() {
     },
   ];
 
+
   const relatedTools = [
-    { name: "PNG to SVG Converter", href: "/tools/png-to-svg-converter" },
-    { name: "SVG to JPG Converter", href: "/tools/svg-to-jpg-converter" },
-    { name: "Image Converter", href: "/tools/image-converter" },
-    { name: "Resize Image", href: "/tools/resize-image" },
-    { name: "Compress Image", href: "/tools/compress-image" },
-    { name: "Crop Image", href: "/tools/crop-image" },
+    { name: "SVG to JPG Converter", href: "/tools/image/svg-to-jpg" },
+    { name: "WebP to PNG Converter", href: "/tools/image/webp-to-png" },
+    { name: "PNG to JPG Converter", href: "/tools/image/png-to-jpg" },
+    { name: "JPG to WebP Converter", href: "/tools/image/jpg-to-webp" },
+    { name: "Image Compressor", href: "/tools/image/compress-image" },
+    { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
+    { name: "Resize Signature for Upload", href: "/tools/image/resize-signature-for-upload" },
   ];
 
   const faqJsonLd = {

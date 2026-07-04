@@ -138,12 +138,12 @@ export default function PngToJpgSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "JPG to PNG Converter", href: "/tools/jpg-to-png-converter" },
-    { name: "WebP to JPG Converter", href: "/tools/webp-to-jpg-converter" },
-    { name: "PNG Compressor", href: "/tools/png-compressor" },
-    { name: "Image Converter", href: "/tools/image-converter" },
-    { name: "Resize Image", href: "/tools/resize-image" },
-    { name: "Crop Image", href: "/tools/crop-image" },
+    { name: "SVG to PNG Converter", href: "/tools/image/svg-to-png" },
+    { name: "WebP to PNG Converter", href: "/tools/image/webp-to-png" },
+    { name: "JPG to WebP Converter", href: "/tools/image/jpg-to-webp" },
+    { name: "Image Compressor", href: "/tools/image/compress-image" },
+    { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
+    { name: "Resize Signature for Upload", href: "/tools/image/resize-signature-for-upload" },
   ];
 
   const faqJsonLd = {
