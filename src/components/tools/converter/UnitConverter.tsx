@@ -4,6 +4,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { ArrowRightLeft, Plus, Trash2, Sparkles, Scale, Boxes, Search } from "lucide-react";
 import { getConvertUnits } from "@/lib/convertUnitsUtility";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type UnitOption = { abbr: string; name: string; measure?: string };
 type Theme = "light" | "dark";
@@ -106,6 +107,25 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
     standardUnits: UnitOption[];
     unitMeasureMap: Record<string, string>;
   }>({ standardUnits: [], unitMeasureMap: {} });
+
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const tool = searchParams.get("unit");
+
+    if (tool === "length") {
+      setFrom("m");
+      setTo("cm");
+    } else if (tool === "weight") {
+      setFrom("kg");
+      setTo("g");
+    } else if (tool === "volume") {
+      setFrom("l");
+      setTo("mL");
+    } else if (tool === "temperature") {
+      setFrom("°C");
+      setTo("°F");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     let mounted = true;

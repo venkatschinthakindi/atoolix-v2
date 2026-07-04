@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SmartCalculator } from "@/components/tools/calculator/SmartCalculator";
 import { AdvancedEquationSolverPage } from "@/components/tools/calculator/EquationSolver";
 import { PercentageCalculator } from "@/components/tools/calculator/percentage/percentageCalculator";
+import { useSearchParams } from "next/navigation";
 
 type CalculatorToolProps = {
   initialExpression?: string;
@@ -29,6 +30,20 @@ function TabbedCalculator({
   theme,
 }: CalculatorToolProps) {
   const [activeTab, setActiveTab] = useState<Tab>("percentage");
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const tool = searchParams.get("category");
+
+    if (tool === "percentage") {
+      setActiveTab("percentage");
+    } else if (tool === "equation") {
+      setActiveTab("solve");
+    } else if (tool === "basic") {
+      setActiveTab("calc");
+    }
+  }, [searchParams]);
+
+  
   
   const tabs: { id: Tab; label: string }[] = [
     { id: "percentage", label: "Percentage Calculator" },

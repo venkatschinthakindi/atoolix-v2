@@ -138,12 +138,10 @@ export default function CalculatorSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "Percentage Calculator", href: "/tools/percentage-calculator" },
-    { name: "GST Calculator", href: "/tools/gst-calculator" },
-    { name: "ROI Calculator", href: "/tools/roi-calculator" },
-    { name: "Profit and Loss Calculator", href: "/tools/profit-loss-calculator" },
-    { name: "Equation Solver", href: "/tools/equation-solver" },
-    { name: "Basic Calculator", href: "/tools/basic-calculator" },
+    { name: "Length Converter", href: "/tools/converter?unit=length" },
+    { name: "Weight Converter", href: "/tools/converter?unit=weight" },
+    { name: "Volume Converter", href: "/tools/converter?unit=volume" },
+    { name: "Temperature Converter", href: "/tools/converter?unit=temperature" }
   ];
 
   return (

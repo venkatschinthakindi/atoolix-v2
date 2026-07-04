@@ -138,12 +138,9 @@ export default function UnitConverterSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "Length Converter", href: "/tools/length-converter" },
-    { name: "Weight Converter", href: "/tools/weight-converter" },
-    { name: "Volume Converter", href: "/tools/volume-converter" },
-    { name: "Temperature Converter", href: "/tools/temperature-converter" },
-    { name: "Area Converter", href: "/tools/area-converter" },
-    { name: "Speed Converter", href: "/tools/speed-converter" },
+    { name: "Percentage Calculator", href: "/tools/calculator?category=percentage" },
+    { name: "Calculator", href: "/tools/calculator?category=basic" },
+    { name: "Equation Solver", href: "/tools/calculator?category=equation" }
   ];
 
   const faqJsonLd = {
