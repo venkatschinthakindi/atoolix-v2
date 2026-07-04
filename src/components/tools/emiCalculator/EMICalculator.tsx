@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import AmortizationChart from "@/components/tools/emiCalculator/amortizationChart";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import CustomSelect from "@/components/ui/customSelect";
+import { useSearchParams } from "next/navigation";
 
 /* ─────────────────────────────────────────────
    Types
@@ -350,8 +351,19 @@ export default function EMICalculator({
 }) {
   const defaultPreset = getLoanPreset(defaultType);
 
+  const searchParams = useSearchParams();
+  const getInitialActiveTab = (): LoanType  => {
+    const type = searchParams.get("category")?.toLowerCase() || "";
+
+    if (type === "home") return "home";
+    if (type === "car") return "car";
+    if (type === "personal") return "personal";
+
+    return defaultType;
+  };
+
   /* Core state */
-  const [loanType, setLoanType] = useState<LoanType>(defaultType);
+  const [loanType, setLoanType] = useState<LoanType>(() => getInitialActiveTab());
   const [principal, setPrincipal] = useState<number>(defaultPreset.principal);
   const [annualRate, setAnnualRate] = useState<number>(defaultPreset.annualRate);
   const [tenureYears, setTenureYears] = useState<number>(

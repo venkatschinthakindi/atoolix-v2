@@ -1,10 +1,10 @@
 "use client";
 
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
-import { ArrowRightLeft, Plus, Trash2, Sparkles, Scale, Boxes, Search } from "lucide-react";
+import { ArrowRightLeft, Plus, Trash2, Sparkles } from "lucide-react";
 import { getConvertUnits } from "@/lib/convertUnitsUtility";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 type UnitOption = { abbr: string; name: string; measure?: string };
 type Theme = "light" | "dark";
@@ -110,7 +110,7 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
 
   const searchParams = useSearchParams();
   useEffect(() => {
-    const tool = searchParams.get("unit");
+    const tool = searchParams.get("unit")?.toLowerCase() || "";
 
     if (tool === "length") {
       setFrom("m");

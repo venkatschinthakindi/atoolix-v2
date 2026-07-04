@@ -16,6 +16,7 @@ import { StatCard } from "@/sharedUI/statCard";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { ExplainerPanel } from "@/sharedUI/explainerPanel";
 import CustomSelect from "@/components/ui/customSelect";
+import { useSearchParams } from "next/navigation";
 
 type MainTab = "simple" | "compound" | "deposits";
 type DepositMode = "fd" | "rd";
@@ -135,8 +136,28 @@ function FieldHint({ text }: { text: string }) {
 }
 
 export default function SavingsDepositsSuite() {
-  const [activeTab, setActiveTab] = useState<MainTab>("simple");
-  const [depositMode, setDepositMode] = useState<DepositMode>("fd");
+  const searchParams = useSearchParams();
+
+  const getInitialActiveTab = (): MainTab => {
+    const type = searchParams.get("category")?.toLowerCase() || "";
+
+    if (type === "simple") return "simple";
+    if (type === "compound") return "compound";
+    if (type === "fd" || type === "rd") return "deposits";
+
+    return "simple";
+  };
+
+  const getInitialDepositMode = (): DepositMode => {
+    const type = searchParams.get("category")?.toLowerCase() || "";
+
+    if (type === "rd") return "rd";
+    return "fd";
+  };
+
+  const [activeTab, setActiveTab] = useState<MainTab>(() => getInitialActiveTab());
+  const [depositMode, setDepositMode] = useState<DepositMode>(() => getInitialDepositMode());
+
 
   const [principal, setPrincipal] = useState<NumInput>("100000");
   const [simpleRate, setSimpleRate] = useState<NumInput>("6");

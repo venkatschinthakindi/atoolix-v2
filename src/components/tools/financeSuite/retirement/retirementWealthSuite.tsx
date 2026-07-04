@@ -17,6 +17,7 @@ import { Field } from "@/components/ui/field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { StatCard } from "@/sharedUI/statCard";
+import { useSearchParams } from "next/navigation";
 
 type TabKey = "retirement" | "fire" | "swp";
 type ScenarioKey = "conservative" | "base" | "aggressive";
@@ -265,7 +266,19 @@ function WarningCallout({ text }: { text: string }) {
 
 export default function RetirementWealthSuite() {
   const chartRef = useRef<HTMLDivElement | null>(null);
-  const [activeTab, setActiveTab] = useState<TabKey>("retirement");
+
+  const searchParams = useSearchParams();
+  const getInitialActiveTab = ():TabKey  => {
+    const type = searchParams.get("category")?.toLowerCase() || "";
+
+    if (type === "retirement") return "retirement";
+    if (type === "fire") return "fire";
+    if (type === "swp") return "swp";
+
+    return "retirement";
+  };
+  const [activeTab, setActiveTab] = useState<TabKey>(() => getInitialActiveTab());
+
   const [selectedScenario, setSelectedScenario] = useState<ScenarioKey>("base");
 
   const [currentAge, setCurrentAge] = useState(30);

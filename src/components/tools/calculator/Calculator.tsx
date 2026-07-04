@@ -29,21 +29,22 @@ function TabbedCalculator({
   initialExpression,
   theme,
 }: CalculatorToolProps) {
-  const [activeTab, setActiveTab] = useState<Tab>("percentage");
   const searchParams = useSearchParams();
-  useEffect(() => {
-    const tool = searchParams.get("category");
+
+  const getInitialActiveTab = ():Tab  => {
+    const tool = searchParams.get("category")?.toLowerCase() || "";
 
     if (tool === "percentage") {
-      setActiveTab("percentage");
+      return "percentage";
     } else if (tool === "equation") {
-      setActiveTab("solve");
+      return "solve";
     } else if (tool === "basic") {
-      setActiveTab("calc");
+      return "calc";
     }
-  }, [searchParams]);
 
-  
+    return "percentage";
+  };
+  const [activeTab, setActiveTab] = useState<Tab>(() => getInitialActiveTab());
   
   const tabs: { id: Tab; label: string }[] = [
     { id: "percentage", label: "Percentage Calculator" },

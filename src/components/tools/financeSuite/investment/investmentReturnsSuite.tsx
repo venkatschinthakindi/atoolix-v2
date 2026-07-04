@@ -20,6 +20,7 @@ import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { ExplainerPanel, TabKey } from "@/sharedUI/explainerPanel";
 import CustomSelect from "@/components/ui/customSelect";
+import { useSearchParams } from "next/navigation";
 
 const FinanceChart = dynamic(
   () => import("@/components/tools/financeSuite/financeChart").then((m) => m.FinanceChart),
@@ -469,7 +470,19 @@ function XirrSignLegend() {
 }
 
 export default function InvestmentReturnsSuite() {
-  const [activeTab, setActiveTab] = useState<TabKey>("sip");
+  const searchParams = useSearchParams();
+  
+  const getInitialActiveTab = ():TabKey  => {
+    const type = searchParams.get("category")?.toLowerCase() || "";
+
+    if (type === "sip") return "sip";
+    if (type === "lump") return "lump";
+    if (type === "performance") return "performance";
+
+    return "sip";
+  };
+  const [activeTab, setActiveTab] = useState<TabKey>(() => getInitialActiveTab());
+    
   const chartRef = useRef<HTMLDivElement | null>(null);
 
   const [sipAmount, setSipAmount] = useState(5000);
