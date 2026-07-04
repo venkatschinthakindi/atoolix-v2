@@ -209,9 +209,17 @@ export default function SavingsDepositsSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
-    { name: 'Retirement planning', href: '/tools/calculator/retirement-calculator' },
-    { name: 'Investment returns', href: '/tools/calculator/roi-calculator' },
+    { name: 'Home Loan EMI', href: '/tools/calculator/emi-calculator?category=home' },
+    { name: 'Car Loan EMI', href: '/tools/calculator/emi-calculator?category=car' },
+    { name: 'Personal Loan EMI', href: '/tools/calculator/emi-calculator?category=personal' },
+
+    { name: 'SIP Returns', href: '/tools/calculator/roi-calculator?category=sip' },
+    { name: 'Lumpsum Returns', href: '/tools/calculator/roi-calculator?category=lump' },
+    { name: 'Performance Returns', href: '/tools/calculator/roi-calculator?category=performance' },
+
+    { name: 'Retirement Calculator', href: '/tools/calculator/retirement-calculator?category=retirement' },
+    { name: 'FIRE Calculator', href: '/tools/calculator/retirement-calculator?category=fire' },
+    { name: 'SWP Calculator', href: '/tools/calculator/retirement-calculator?category=swp' }
   ]
 const calculatorSchema = {
   "@context": "https://schema.org",

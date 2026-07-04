@@ -155,11 +155,19 @@ export default function EmiCalculatorSeoContent() {
   ]
 
   const relatedTools = [
-    { name: 'Investment returns', href: '/tools/calculator/roi-calculator' },
-    { name: 'Savings and deposits', href: '/tools/calculator/fd-calculator' },
-    { name: 'Retirement planning', href: '/tools/calculator/retirement-calculator' }
-  ]
+  { name: 'SIP Returns', href: '/tools/calculator/roi-calculator?category=sip' },
+  { name: 'Lumpsum Returns', href: '/tools/calculator/roi-calculator?category=lump' },
+  { name: 'Performance Returns', href: '/tools/calculator/roi-calculator?category=performance' },
 
+  { name: 'Simple Interest', href: '/tools/calculator/fd-calculator?category=simple' },
+  { name: 'Compound Interest', href: '/tools/calculator/fd-calculator?category=compound' },
+  { name: 'Fixed Deposit', href: '/tools/calculator/fd-calculator?category=fd' },
+  { name: 'Recurring Deposit', href: '/tools/calculator/fd-calculator?category=rd' },
+
+  { name: 'Retirement Calculator', href: '/tools/calculator/retirement-calculator?category=retirement' },
+  { name: 'FIRE Calculator', href: '/tools/calculator/retirement-calculator?category=fire' },
+  { name: 'SWP Calculator', href: '/tools/calculator/retirement-calculator?category=swp' }
+]
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

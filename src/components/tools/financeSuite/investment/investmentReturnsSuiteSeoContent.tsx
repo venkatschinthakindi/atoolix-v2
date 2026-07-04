@@ -147,9 +147,18 @@ export default function InvestmentReturnsSeoContent() {
   ];
 
   const relatedTools = [
-    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
-    { name: 'Savings and deposits', href: '/tools/calculator/fd-calculator' },
-    { name: 'Retirement planning', href: '/tools/calculator/retirement-calculator' }
+    { name: 'Home Loan EMI', href: '/tools/calculator/emi-calculator?category=home' },
+    { name: 'Car Loan EMI', href: '/tools/calculator/emi-calculator?category=car' },
+    { name: 'Personal Loan EMI', href: '/tools/calculator/emi-calculator?category=personal' },
+
+    { name: 'Simple Interest', href: '/tools/calculator/fd-calculator?category=simple' },
+    { name: 'Compound Interest', href: '/tools/calculator/fd-calculator?category=compound' },
+    { name: 'Fixed Deposit', href: '/tools/calculator/fd-calculator?category=fd' },
+    { name: 'Recurring Deposit', href: '/tools/calculator/fd-calculator?category=rd' },
+
+    { name: 'Retirement Calculator', href: '/tools/calculator/retirement-calculator?category=retirement' },
+    { name: 'FIRE Calculator', href: '/tools/calculator/retirement-calculator?category=fire' },
+    { name: 'SWP Calculator', href: '/tools/calculator/retirement-calculator?category=swp' }
   ]
 
 

@@ -296,10 +296,19 @@ const retirementStrategies = [
 ];
 
 const relatedTools = [
-    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
-    { name: 'Savings and deposits', href: '/tools/calculator/fd-calculator' },
-    { name: 'Investment returns', href: '/tools/calculator/roi-calculator' },
-  ]
+  { name: 'Home Loan EMI', href: '/tools/calculator/emi-calculator?category=home' },
+  { name: 'Car Loan EMI', href: '/tools/calculator/emi-calculator?category=car' },
+  { name: 'Personal Loan EMI', href: '/tools/calculator/emi-calculator?category=personal' },
+
+  { name: 'SIP Returns', href: '/tools/calculator/roi-calculator?category=sip' },
+  { name: 'Lumpsum Returns', href: '/tools/calculator/roi-calculator?category=lump' },
+  { name: 'Performance Returns', href: '/tools/calculator/roi-calculator?category=performance' },
+
+  { name: 'Simple Interest', href: '/tools/calculator/fd-calculator?category=simple' },
+  { name: 'Compound Interest', href: '/tools/calculator/fd-calculator?category=compound' },
+  { name: 'Fixed Deposit', href: '/tools/calculator/fd-calculator?category=fd' },
+  { name: 'Recurring Deposit', href: '/tools/calculator/fd-calculator?category=rd' }
+]
 
 const articleSchema = {
   "@context": "https://schema.org",
