@@ -55,8 +55,8 @@ useEffect(() => {
   const others = tools.slice(1, 10);
 
   return (
-    <section className="page-section px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <section className="page-section px-18" >
+      <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>

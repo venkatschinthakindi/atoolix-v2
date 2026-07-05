@@ -19,6 +19,8 @@ import {
   ImageDown,
   IdCard,
   PenTool,
+  Globe,
+  Clock3
 } from "lucide-react";
 import React from "react";
 
@@ -41,6 +43,8 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
   ImageDown: ImageDown,
   IdCard: IdCard,
   PenTool: PenTool,
+  Globe: Globe,
+  Clock3: Clock3
 };
 
 export function IconResolver({ name, className,size, strokeWidth, color }: { name: string; 

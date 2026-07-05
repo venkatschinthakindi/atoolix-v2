@@ -135,6 +135,10 @@ const seoRegistry: Record<string, any> = {
     () => import("@/components/tools/image/signatureResizer/signatureResizerSeoContent"),
     { ssr: true }
   ),
+  "date-time/timezone-converter": dynamic(
+    () => import("@/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent"),
+    { ssr: true }
+  ),
 };
 
 export default function ToolSeoContent({ toolId }: { toolId: string }) {

@@ -64,6 +64,12 @@ export const categoryIcons: CategoryInfo[] = [
     description: "Financial planning and analysis tools",
     icon: 'DollarSign'
   },
+  {
+    id: "DateAndTime",
+    title: "Date & Time",
+    description: "Date and time calculation tools",
+    icon: 'Clock'
+  },
 ];
 
 export type ToolRegistryEntry<Props = {}> = {
@@ -1439,6 +1445,61 @@ export const tools: ToolRegistryEntry[] = [
     "applicationType": "WebApplication",    
     "applicationCategory": "Utilities"
   },
+
+  // Date and Time Tools Start
+  {
+    id: "date-time/timezone-converter",
+    icon: "Globe",
+    loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
+    title:
+      "Timezone Converter Online | Convert Time Between Time Zones Instantly | World Time Converter",
+    toolShortName: "Timezone Converter",
+    onPageTitle:
+      "Free Timezone Converter | Convert Time Across Multiple Time Zones Online",
+    description:
+      "Convert time between multiple time zones instantly with our free online Timezone Converter. Compare world times, calculate time differences, handle daylight saving time (DST) automatically, and convert dates and times across cities worldwide. Perfect for remote teams, meetings, travel planning, international business, and global scheduling.",
+    keywords: [
+      "timezone converter",
+      "time zone converter",
+      "world time converter",
+      "convert time between time zones",
+      "timezone conversion",
+      "online timezone converter",
+      "free timezone converter",
+      "international time converter",
+      "world clock converter",
+      "multiple timezone converter",
+      "convert time zones online",
+      "time difference calculator",
+      "time difference between cities",
+      "compare time zones",
+      "world time comparison",
+      "meeting time planner",
+      "meeting timezone converter",
+      "global meeting planner",
+      "remote team timezone tool",
+      "international meeting time",
+      "UTC converter",
+      "GMT converter",
+      "UTC to local time",
+      "local time converter",
+      "daylight saving time converter",
+      "DST timezone converter",
+      "timezone calculator",
+      "current time around the world",
+      "city time converter",
+      "timezone comparison tool"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/date-time/timezone-converter`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Date & Time",
+    category: "DateAndTime",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+  }
   //Image compressors End  
 ];
 
