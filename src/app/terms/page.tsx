@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   description:
     `Read the Terms and Conditions for ${siteName}. These terms explain how you may use the site, what rights we reserve, and the limits of our liability.`,
   alternates: {
-    canonical: "/terms",
+    canonical: `${serverConfig.siteUrl}/terms`,
   },
   openGraph: {
     title: `Terms and Conditions | ${siteName}`,
     description:
       `Read the Terms and Conditions for ${siteName}. These terms explain how you may use the site, what rights we reserve, and the limits of our liability.`,
-    url: "/terms",
+    url: `${serverConfig.siteUrl}/terms`,
     siteName,
     type: "website",
   },

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     `Get in touch with ${siteName} for support, feedback, partnerships, and tool requests.`,
   alternates: {
-    canonical: "/contact",
+    canonical: `${serverConfig.siteUrl}/contact`,
   },
   openGraph: {
     title: `Contact ${siteName}`,
@@ -82,6 +82,9 @@ export default function ContactPage() {
               name: `Contact ${siteName}`,
               description: `Get in touch with ${siteName} for support, feedback, partnerships, and tool requests.`,
               url: `${siteUrl}/contact`,
+              alternates: {
+                canonical: `${serverConfig.siteUrl}/contact`,
+              },
               inLanguage: "en",
             }).replace(/</g, "\\u003c"),
           }}

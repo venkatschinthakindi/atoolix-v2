@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   description:
     `Read the ${siteName} Privacy Policy to understand what data we collect, how we use it, and how we protect your information.`,
   alternates: {
-    canonical: "/privacy-policy",
+    canonical: `${serverConfig.siteUrl}/privacy-policy`,
   },
   openGraph: {
     title: `Privacy Policy | ${siteName}`,
     description:
       `Read the ${siteName} Privacy Policy to understand what data we collect, how we use it, and how we protect your information.`,
-    url: "/privacy-policy",
+    url: `${serverConfig.siteUrl}/privacy-policy`,
     siteName,
     type: "website",
   },

@@ -12,13 +12,13 @@ export const metadata: Metadata = {
   description:
     `${siteName} is a growing platform for finance tools, PDF tools, image tools, and everyday utilities. Fast, private, browser-based, and built to expand.`,
   alternates: {
-    canonical: "/about",
+    canonical: `${serverConfig.siteUrl}/about`,
   },
   openGraph: {
     title: `About ${siteName}`,
     description:
       `${siteName} is a growing platform for finance tools, PDF tools, image tools, and everyday utilities.`,
-    url: "/about",
+    url: `${serverConfig.siteUrl}/about`,
     siteName,
     type: "website",
   },
@@ -80,8 +80,11 @@ export default function AboutPage() {
               "@type": "AboutPage",
               name: `About ${siteName}`,
               description: `${siteName} is a growing platform for finance tools, PDF tools, image tools, and everyday utilities.`,
-              url: "/about",
+              url: `${serverConfig.siteUrl}/about`,
               inLanguage: "en",
+              alternates: {
+                canonical: `${serverConfig.siteUrl}/about`,
+              },
             }).replace(/</g, "\\u003c"),
           }}
         />
