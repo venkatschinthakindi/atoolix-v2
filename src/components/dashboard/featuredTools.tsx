@@ -55,7 +55,7 @@ useEffect(() => {
   const others = tools.slice(1, 10);
 
   return (
-    <section className="page-section px-18" >
+    <section className="page-section px-10" >
       <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -146,7 +146,7 @@ useEffect(() => {
                         // whileHover={{ y: -4 }}
                         // transition={{ duration: 0.15 }}
                         onClick={() => router.push(`/tools/${tool.id}`)}
-                        className="card-surface card-surface-sm w-[350px] transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
+                        className="card-surface card-surface-sm w-[300px] transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
                       >
                         {/* <div className="mb-4 flex items-start justify-between gap-3">
                           <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">

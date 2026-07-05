@@ -820,6 +820,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Monthly SIP amount (₹)">
                     <input
                       type="number"
+                      aria-label="Monthly SIP amount in rupees"
                       value={sipAmount}
                       onChange={(e) => setSipAmount(Number(e.target.value))}
                       min={0}
@@ -834,6 +835,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Expected annual return (%)">
                     <input
                       type="number"
+                      aria-label="Expected annual return in percentage"
                       value={sipRate}
                       onChange={(e) => setSipRate(Number(e.target.value))}
                       min={0}
@@ -849,6 +851,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Investment horizon (years)">
                     <input
                       type="number"
+                      aria-label="Investment horizon in years"
                       value={sipYears}
                       onChange={(e) => setSipYears(Number(e.target.value))}
                       min={1}
@@ -863,6 +866,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Annual step-up rate (%)">
                     <input
                       type="number"
+                      aria-label="Annual step-up rate in percentage"
                       value={sipStepUp}
                       onChange={(e) => setSipStepUp(Number(e.target.value))}
                       min={0}
@@ -954,6 +958,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Investment amount (₹)">
                     <input
                       type="number"
+                      aria-label="Investment amount in ₹"
                       value={lumpAmount}
                       onChange={(e) => setLumpAmount(Number(e.target.value))}
                       min={0}
@@ -968,6 +973,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Annual rate (%)">
                     <input
                       type="number"
+                      aria-label="Expected annual return in percentage"
                       value={lumpRate}
                       onChange={(e) => setLumpRate(Number(e.target.value))}
                       min={0}
@@ -983,6 +989,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Investment horizon (years)">
                     <input
                       type="number"
+                      aria-label="Investment horizon in years"
                       value={lumpYears}
                       onChange={(e) => setLumpYears(Number(e.target.value))}
                       min={1}
@@ -995,17 +1002,6 @@ export default function InvestmentReturnsSuite() {
 
                 <div>
                   <Field label="Compounding frequency">
-                    {/* <select
-                      value={lumpFrequency}
-                      onChange={(e) => setLumpFrequency(Number(e.target.value))}
-                      className={inputClass}
-                      aria-label="How often interest is compounded"
-                    >
-                      <option value={1}>Annually (once a year)</option>
-                      <option value={2}>Semi-annually (every 6 months)</option>
-                      <option value={4}>Quarterly (every 3 months)</option>
-                      <option value={12}>Monthly (every month)</option>
-                    </select> */}
                     <CustomSelect value={lumpFrequency.toString()}
                       callBackTrigger={(e) => setLumpFrequency(Number(e))}
                       options={[
@@ -1085,6 +1081,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Opening value (₹)">
                     <input
                       type="number"
+                      aria-label="What the investment was worth at the start of the period."
                       value={cagrStart}
                       onChange={(e) => setCagrStart(Number(e.target.value))}
                       min={1}
@@ -1099,6 +1096,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Ending value (₹)">
                     <input
                       type="number"
+                      aria-label="What the investment is worth at the end of the period."
                       value={cagrEnd}
                       onChange={(e) => setCagrEnd(Number(e.target.value))}
                       min={0}
@@ -1113,6 +1111,7 @@ export default function InvestmentReturnsSuite() {
                   <Field label="Period (years)">
                     <input
                       type="number"
+                      aria-label="Number of years between the opening and ending values."
                       value={cagrYears}
                       onChange={(e) => setCagrYears(Number(e.target.value))}
                       min={1}

@@ -520,6 +520,7 @@ export default function ImageToPDFClient({ config }: Props) {
               </label>
               <input
                 type="range"
+                aria-label="Margin"
                 min={0}
                 max={64}
                 value={margin}

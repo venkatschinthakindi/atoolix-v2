@@ -335,9 +335,9 @@ function StatCard({
 /** Section heading used throughout */
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-sm font-semibold text-white/80 tracking-wide uppercase mb-3">
+    <h1 className="text-sm font-semibold text-white/80 tracking-wide uppercase mb-3">
       {children}
-    </h3>
+    </h1>
   );
 }
 
@@ -579,7 +579,8 @@ export default function EMICalculator({
         <SectionHeading>Loan Details</SectionHeading>
         <Field label="Loan Amount (₹)">
           <input
-            type="number"
+            type="number" 
+            aria-label="Loan Amount"
             value={principal}
             onChange={(e) => setPrincipal(Number(e.target.value))}
             className={inputCls}
@@ -588,6 +589,7 @@ export default function EMICalculator({
         <Field label="Annual Interest Rate (%)">
           <input
             type="number"
+            aria-label="Annual Interest Rate"
             step="0.01"
             value={annualRate}
             onChange={(e) => setAnnualRate(Number(e.target.value))}
@@ -597,6 +599,7 @@ export default function EMICalculator({
         <Field label="Tenure (Years)">
           <input
             type="number"
+            aria-label="Tenure"
             value={tenureYears}
             onChange={(e) => setTenureYears(Number(e.target.value))}
             className={inputCls}
@@ -711,20 +714,6 @@ export default function EMICalculator({
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Type">
-                      {/* <select
-                        value={entry.type}
-                        onChange={(e) =>
-                          updatePrepayment(
-                            entry.id,
-                            "type",
-                            e.target.value as PrepaymentType
-                          )
-                        }
-                        className={selectCls}
-                      >
-                        <option value="one-time">One-time</option>
-                        <option value="monthly">Monthly</option>
-                      </select> */}
                       <CustomSelect value={entry.type} 
                                     callBackTrigger={(e:PrepaymentType) =>
                           updatePrepayment(
@@ -739,21 +728,6 @@ export default function EMICalculator({
                         ]} />
                     </Field>
                     <Field label="Mode">
-                      {/* <select
-                        value={entry.mode}
-                        onChange={(e) =>
-                          updatePrepayment(
-                            entry.id,
-                            "mode",
-                            e.target.value as PrepaymentMode
-                          )
-                        }
-                        className={selectCls}
-                      >
-                        <option value="principal">Principal reduction</option>
-                        <option value="emi">EMI reduction</option>
-                      </select> */}
-
                       <CustomSelect value={entry.mode} 
                                     callBackTrigger={(e:PrepaymentMode) =>
                           updatePrepayment(
@@ -952,30 +926,6 @@ export default function EMICalculator({
           <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
             <div className="flex items-center gap-2 text-xs text-white/60">
               <span>Chart</span>
-              {/* <select
-                value={chartType}
-                onChange={(e) =>
-                  setChartType(
-                    e.target.value as
-                      | "line"
-                      | "area"
-                      | "smooth"
-                      | "stepped"
-                      | "bar"
-                      | "pie"
-                      | "doughnut"
-                  )
-                }
-                className="rounded-lg border border-white/10 bg-gray-900 px-2 py-1 text-white text-xs focus:outline-none"
-              >
-                <option value="line">Line</option>
-                <option value="area">Area</option>
-                <option value="smooth">Smooth</option>
-                <option value="stepped">Stepped</option>
-                <option value="bar">Bar</option>
-                <option value="pie">Pie</option>
-                <option value="doughnut">Doughnut</option>
-              </select> */}
               <CustomSelect value={chartType}
                                     callBackTrigger={(e) =>
                   setChartType(

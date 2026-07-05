@@ -201,7 +201,7 @@ export async function HomePageSeo() {
                 key={group.title}
                 className="rounded-3xl border border-slate-200 p-6 shadow-sm transition hover:shadow-md"
               >
-                <h3 className="text-xl font-semibold">{group.title}</h3>
+                <h1 className="text-xl font-semibold">{group.title}</h1>
                 <p className="mt-3 text-sm leading-6">{group.description}</p>
                 <ul className="mt-4 space-y-2 text-sm">
                   {group.items.map((item) => (

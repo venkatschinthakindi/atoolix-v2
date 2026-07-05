@@ -504,9 +504,10 @@ export default function SavingsDepositsSuite() {
                 </div>
                 <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
                   <div>
-                    <Field label="Principal (₹)">
+                    <Field label="Principal (₹)" >
                       <input
                         type="text"
+                        aria-label="Principal (₹)"
                         inputMode="decimal"
                         value={principal}
                         onChange={(e) => setPrincipal(e.target.value)}
@@ -520,6 +521,7 @@ export default function SavingsDepositsSuite() {
                     <Field label="Interest rate (%)">
                       <input
                         type="text"
+                        aria-label="Interest rate (%)"
                         inputMode="decimal"
                         value={simpleRate}
                         onChange={(e) => setSimpleRate(e.target.value)}
@@ -533,6 +535,7 @@ export default function SavingsDepositsSuite() {
                     <Field label="Duration (years)">
                       <input
                         type="text"
+                        aria-label="Duration (years)"
                         inputMode="decimal"
                         value={simpleYears}
                         onChange={(e) => setSimpleYears(e.target.value)}
@@ -607,6 +610,7 @@ export default function SavingsDepositsSuite() {
                     <Field label="Principal (₹)">
                       <input
                         type="text"
+                        aria-label="Principal"
                         inputMode="decimal"
                         value={compoundPrincipal}
                         onChange={(e) => setCompoundPrincipal(e.target.value)}
@@ -620,6 +624,7 @@ export default function SavingsDepositsSuite() {
                     <Field label="Interest rate (%)">
                       <input
                         type="text"
+                        aria-label="Annual nominal interest rate in percentage"
                         inputMode="decimal"
                         value={compoundRate}
                         onChange={(e) => setCompoundRate(e.target.value)}
@@ -633,6 +638,7 @@ export default function SavingsDepositsSuite() {
                     <Field label="Duration (years)">
                       <input
                         type="text"
+                        aria-label="Duration in years for which the money is invested"
                         inputMode="decimal"
                         value={compoundYears}
                         onChange={(e) => setCompoundYears(e.target.value)}
@@ -644,16 +650,6 @@ export default function SavingsDepositsSuite() {
 
                   <div>
                     <Field label="Compounding frequency">
-                      {/* <select
-                        value={compoundFrequency}
-                        onChange={(e) => setCompoundFrequency(e.target.value)}
-                        className={inputClass}
-                      >
-                        <option value={1}>Annually</option>
-                        <option value={2}>Semi-annually</option>
-                        <option value={4}>Quarterly</option>
-                        <option value={12}>Monthly</option>
-                      </select> */}
                       <CustomSelect value={compoundFrequency}
                         callBackTrigger={(e) => setCompoundFrequency(e)}
                         options={[
@@ -748,6 +744,7 @@ export default function SavingsDepositsSuite() {
                       <Field label="Deposit amount (₹)">
                         <input
                           type="text"
+                          aria-label="Deposit amount"
                           inputMode="decimal"
                           value={fdAmount}
                           onChange={(e) => setFdAmount(e.target.value)}
@@ -761,6 +758,7 @@ export default function SavingsDepositsSuite() {
                       <Field label="Interest rate (%)">
                         <input
                           type="text"
+                          aria-label="Annual interest rate in percentage"
                           inputMode="decimal"
                           value={fdRate}
                           onChange={(e) => setFdRate(e.target.value)}
@@ -774,6 +772,7 @@ export default function SavingsDepositsSuite() {
                       <Field label="Duration (years)">
                         <input
                           type="text"
+                          aria-label="Duration in years for which the deposit is held"
                           inputMode="decimal"
                           value={fdYears}
                           onChange={(e) => setFdYears(e.target.value)}
@@ -785,16 +784,6 @@ export default function SavingsDepositsSuite() {
 
                     <div>
                       <Field label="Compounding frequency">
-                        {/* <select
-                          value={fdFrequency}
-                          onChange={(e) => setFdFrequency(e.target.value)}
-                          className={inputClass}
-                        >
-                          <option value={1}>Annually</option>
-                          <option value={2}>Semi-annually</option>
-                          <option value={4}>Quarterly</option>
-                          <option value={12}>Monthly</option>
-                        </select> */}
                         <CustomSelect value={fdFrequency}
                         callBackTrigger={(e) => setFdFrequency(e)}
                         options={[
@@ -867,6 +856,7 @@ export default function SavingsDepositsSuite() {
                       <Field label="Monthly deposit (₹)">
                         <input
                           type="text"
+                          aria-label="Monthly deposit amount"
                           inputMode="decimal"
                           value={rdAmount}
                           onChange={(e) => setRdAmount(e.target.value)}
@@ -880,6 +870,7 @@ export default function SavingsDepositsSuite() {
                       <Field label="Interest rate (%)">
                         <input
                           type="text"
+                          aria-label="Annual interest rate in percentage"
                           inputMode="decimal"
                           value={rdRate}
                           onChange={(e) => setRdRate(e.target.value)}
@@ -893,6 +884,7 @@ export default function SavingsDepositsSuite() {
                       <Field label="Term (months)">
                         <input
                           type="text"
+                          aria-label="Duration in months for which the money is deposited"
                           inputMode="decimal"
                           value={rdMonths}
                           onChange={(e) => setRdMonths(e.target.value)}
@@ -904,14 +896,6 @@ export default function SavingsDepositsSuite() {
 
                     <div>
                       <Field label="Deposit timing">
-                        {/* <select
-                          value={rdConvention}
-                          onChange={(e) => setRdConvention(e.target.value as RdConvention)}
-                          className={inputClass}
-                        >
-                          <option value="end">End of month</option>
-                          <option value="beginning">Beginning of month</option>
-                        </select> */}
                         <CustomSelect value={rdConvention}
                         callBackTrigger={(e) => setRdConvention(e as RdConvention)}
                         options={[

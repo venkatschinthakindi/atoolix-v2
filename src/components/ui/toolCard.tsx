@@ -154,7 +154,7 @@ export function ToolCard({ label, icon: Icon, description }: ToolCardProps) {
       {/* Card content wrapper with glass morph */}
       <div className="relative z-10 flex h-full w-full flex-col items-center gap-2 rounded-xl bg-white/10 p-3 backdrop-blur-sm">
         {/* icon tile - premium with subtle shadow */}
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-lg shadow-black/5">
+        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white shadow-lg shadow-black/5">
           <IconResolver name={Icon} className={`h-5 w-5 ${color.icon}`} strokeWidth={2.5} />
         </span>
 

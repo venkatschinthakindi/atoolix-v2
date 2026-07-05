@@ -437,7 +437,7 @@ button {
   }
 
   .tab-button-active {
-    @apply bg-green-600 text-white font-semibold shadow-md;
+    @apply bg-green-700 text-white font-semibold shadow-md;
   }
 
   .hero-banner {

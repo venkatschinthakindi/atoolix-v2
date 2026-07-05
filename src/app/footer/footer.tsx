@@ -35,7 +35,7 @@ export async function Footer() {
           </div>
 
           <nav aria-label="Tool categories">
-            <h4 className="mb-4 text-sm font-medium text-white">Tools</h4>
+            <h1 className="mb-4 text-sm font-medium text-white">Tools</h1>
             <ul className="space-y-3 text-sm">
               <li><Link href="/pdf" className={footerLink}>PDF Tools</Link></li>
               <li><Link href="/image" className={footerLink}>Image Tools</Link></li>
@@ -46,7 +46,7 @@ export async function Footer() {
           </nav>
 
           <nav aria-label="Company">
-            <h4 className="mb-4 text-sm font-medium text-white">Company</h4>
+            <h1 className="mb-4 text-sm font-medium text-white">Company</h1>
             <ul className="space-y-3 text-sm">
               <li><Link href="/about" className={footerLink}>About</Link></li>
               <li><Link href="/contact" className={footerLink}>Contact</Link></li>
@@ -56,7 +56,7 @@ export async function Footer() {
           </nav>
 
           <nav aria-label="Popular tools">
-            <h4 className="mb-4 text-sm font-medium text-white">Popular Tools</h4>
+            <h1 className="mb-4 text-sm font-medium text-white">Popular Tools</h1>
             <ul className="space-y-3 text-sm">
               {popularTools.map((item) => (
                 <li key={item.href}>

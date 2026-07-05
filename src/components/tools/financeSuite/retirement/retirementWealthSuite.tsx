@@ -702,6 +702,7 @@ export default function RetirementWealthSuite() {
               <Field label="Current age">
                 <input
                   type="number"
+                  aria-label="Current age"
                   value={currentAge}
                   onChange={(e) => handleAgeChange(Number(e.target.value))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -714,6 +715,7 @@ export default function RetirementWealthSuite() {
               <Field label="Retirement age">
                 <input
                   type="number"
+                  aria-label="Retirement age"
                   value={retirementAge}
                   onChange={(e) => handleRetAgeChange(Number(e.target.value))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -726,6 +728,7 @@ export default function RetirementWealthSuite() {
               <Field label="Current savings">
                 <input
                   type="number"
+                  aria-label="Current savings"
                   value={currentSavings}
                   onChange={(e) => setCurrentSavings(clampNum(Number(e.target.value), 0, 1e12))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -737,6 +740,7 @@ export default function RetirementWealthSuite() {
               <Field label="Monthly contribution">
                 <input
                   type="number"
+                  aria-label="Monthly contribution"
                   value={monthlyContribution}
                   onChange={(e) => setMonthlyContribution(clampNum(Number(e.target.value), 0, 1e12))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -748,6 +752,7 @@ export default function RetirementWealthSuite() {
               <Field label="Expected return (%)">
                 <input
                   type="number"
+                  aria-label="Expected return"
                   value={expectedReturn}
                   onChange={(e) => setExpectedReturn(clampNum(Number(e.target.value), 0, 25))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -761,6 +766,7 @@ export default function RetirementWealthSuite() {
               <Field label="Tax drag (%)">
                 <input
                   type="number"
+                  aria-label="Tax drag"
                   value={taxDrag}
                   onChange={(e) => setTaxDrag(clampNum(Number(e.target.value), 0, 10))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -773,6 +779,7 @@ export default function RetirementWealthSuite() {
               <Field label="Inflation rate (%)">
                 <input
                   type="number"
+                  aria-label="Inflation rate"
                   value={inflationRate}
                   onChange={(e) => setInflationRate(clampNum(Number(e.target.value), 0, 30))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -785,6 +792,7 @@ export default function RetirementWealthSuite() {
               <Field label="Annual expense today">
                 <input
                   type="number"
+                  aria-label="Annual expense today"
                   value={annualNeed}
                   onChange={(e) => setAnnualNeed(clampNum(Number(e.target.value), 0, 1e12))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -871,6 +879,7 @@ export default function RetirementWealthSuite() {
               <Field label="Current savings">
                 <input
                   type="number"
+                  aria-label="Current savings"
                   value={fireSavings}
                   onChange={(e) => setFireSavings(clampNum(Number(e.target.value), 0, 1e12))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -882,6 +891,7 @@ export default function RetirementWealthSuite() {
               <Field label="Monthly savings">
                 <input
                   type="number"
+                  aria-label="Monthly savings"
                   value={fireContribution}
                   onChange={(e) => setFireContribution(clampNum(Number(e.target.value), 0, 1e12))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -893,6 +903,7 @@ export default function RetirementWealthSuite() {
               <Field label="Expected return (%)">
                 <input
                   type="number"
+                  aria-label="Expected return"
                   value={fireReturn}
                   onChange={(e) => setFireReturn(clampNum(Number(e.target.value), 0, 25))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -906,6 +917,7 @@ export default function RetirementWealthSuite() {
               <Field label="Tax drag (%)">
                 <input
                   type="number"
+                  aria-label="Tax drag"
                   value={fireTaxDrag}
                   onChange={(e) => setFireTaxDrag(clampNum(Number(e.target.value), 0, 10))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -918,6 +930,7 @@ export default function RetirementWealthSuite() {
               <Field label="Annual expense today">
                 <input
                   type="number"
+                  aria-label="Annual expense today"
                   value={fireAnnualExpense}
                   onChange={(e) => setFireAnnualExpense(clampNum(Number(e.target.value), 0, 1e12))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -929,6 +942,7 @@ export default function RetirementWealthSuite() {
               <Field label="FIRE horizon (years)">
                 <input
                   type="number"
+                  aria-label="FIRE horizon"
                   value={fireHorizonYears}
                   onChange={(e) => setFireHorizonYears(clampInt(Number(e.target.value), 1, 60))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -941,6 +955,7 @@ export default function RetirementWealthSuite() {
               <Field label="Withdrawal rate (%)">
                 <input
                   type="number"
+                  aria-label="Withdrawal rate"
                   value={fireWithdrawalRate}
                   onChange={(e) => setFireWithdrawalRate(clampNum(Number(e.target.value), 0.1, 10))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -954,6 +969,7 @@ export default function RetirementWealthSuite() {
               <Field label="Inflation rate (%)">
                 <input
                   type="number"
+                  aria-label="Inflation rate"
                   value={fireInflation}
                   onChange={(e) => setFireInflation(clampNum(Number(e.target.value), 0, 30))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -1067,6 +1083,7 @@ export default function RetirementWealthSuite() {
               <Field label="Corpus available">
                 <input
                   type="number"
+                  aria-label="Corpus available"
                   value={swpCorpus}
                   onChange={(e) => setSwpCorpus(clampNum(Number(e.target.value), 0, 1e12))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -1078,6 +1095,7 @@ export default function RetirementWealthSuite() {
               <Field label="Expected return (%)">
                 <input
                   type="number"
+                  aria-label="Expected return"
                   value={swpReturn}
                   onChange={(e) => setSwpReturn(clampNum(Number(e.target.value), 0, 25))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -1091,6 +1109,7 @@ export default function RetirementWealthSuite() {
               <Field label="Withdrawal period (years)">
                 <input
                   type="number"
+                  aria-label="Withdrawal period"
                   value={swpYears}
                   onChange={(e) => setSwpYears(clampInt(Number(e.target.value), 1, 100))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -1103,6 +1122,7 @@ export default function RetirementWealthSuite() {
               <Field label="Inflation rate (%)">
                 <input
                   type="number"
+                  aria-label="Inflation rate"
                   value={swpInflationRate}
                   onChange={(e) => setSwpInflationRate(clampNum(Number(e.target.value), 0, 30))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"
@@ -1115,6 +1135,7 @@ export default function RetirementWealthSuite() {
               <Field label="Tax drag (%)">
                 <input
                   type="number"
+                  aria-label="Tax drag"
                   value={swpTaxDrag}
                   onChange={(e) => setSwpTaxDrag(clampNum(Number(e.target.value), 0, 10))}
                   className="w-full rounded-xl border border-white/10 bg-black/20 p-3 text-white outline-none transition focus:border-blue-400/40"

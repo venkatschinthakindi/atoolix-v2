@@ -426,7 +426,7 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
               <button
                 type="button"
                 onClick={addCustomUnit}
-                className="inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-5 py-4 text-sm font-semibold text-white transition hover:bg-emerald-400"
+                className="inline-flex items-center justify-center rounded-2xl bg-emerald-700 px-5 py-4 text-sm font-semibold text-white transition hover:bg-emerald-600"
               >
                 Add unit
               </button>
