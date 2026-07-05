@@ -1224,7 +1224,11 @@ export default function TimezoneConverterClient() {
                 <td className="py-4 pr-3">
                     <div className="flex max-w-[280px] flex-col gap-1.5">
                       <span className="text-sm text-zinc-200">
-                        {weekdayName(selectedInstant!, state.sourceZone)} · {localDateLabel(selectedInstant!, state.sourceZone)} · {abbreviation(selectedInstant!, state.sourceZone)}
+                        {selectedInstant && (
+                          <>
+                            {weekdayName(selectedInstant!, state.sourceZone)} · {localDateLabel(selectedInstant!, state.sourceZone)} · {abbreviation(selectedInstant!, state.sourceZone)}
+                          </>
+                        )}
                       </span>
                   </div>
                 </td>

@@ -140,12 +140,12 @@ export function HeroCommandCenter() {
     searchTools={false}/>
   </div>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        {["Finance", "PDF", , "Calculator",  "Image"].map(
+        {["Finance", "PDF", , "Calculator",  "Image", "Date & Time"].map(
           (item) => (
             <div
               key={item}
               className="cursor-pointer glass px-4 py-2 text-sm text-white/70"
-              onClick={() => router.push(`/${item?.toLowerCase()}`)}
+              onClick={() => router.push(`/${item?.toLowerCase().replace(/ /g, "").replace(/&/g, "")}`)}
             >
               {item}
             </div>

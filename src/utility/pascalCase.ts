@@ -11,7 +11,7 @@ String.prototype.toPascalCase = function (): string {
     .trim()
     .split(" ")
     .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join("");
+    .join(" ");
 };
 
 export {};
