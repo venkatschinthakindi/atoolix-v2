@@ -1,5 +1,3 @@
-"use client";
-
 import { useRouter } from "next/navigation";
 import { CommandPalette } from "@/components/ui/commandPalette";
 import { useEffect, useRef, useState } from "react";
@@ -58,12 +56,7 @@ export function HeroCommandCenter() {
 
   return (
     <section
-      // initial={{ opacity: 0, y: 20 }}
-      // animate={{ opacity: 1, y: 0 }}
-      // transition={{ duration: 0.6 }}
-      //initial={false}
       className="hero-banner"
-      
     >
       <span className="hero-pill">
         100+ Productivity Tools
@@ -117,12 +110,6 @@ export function HeroCommandCenter() {
                   </span>
                   <p className="text-sm line-clamp-2" title={String(item.description)}>{item.title}</p>
                 </div>
-                {/* <div className="flex items-center gap-2">
-                  {categoryIcons[item.category]}
-                  <span className="badge-pill">
-                    {item.category}
-                  </span>
-                </div> */}
               </div>
             ))
           ) : (

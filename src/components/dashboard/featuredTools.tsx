@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
@@ -78,8 +76,6 @@ useEffect(() => {
 
         {/* Featured Tool */}
         <div
-          // whileHover={{ scale: 1.01 }}
-          // transition={{ duration: 0.2 }}
           onClick={() => router.push(`/tools/${featured.id}`)}
           className="surface-card-light group relative cursor-pointer overflow-hidden"
         >
@@ -92,10 +88,6 @@ useEffect(() => {
               <span className="rounded-full bg-violet-500/15 px-3 py-1 text-xs text-violet-300">
                 Most Used
               </span>
-{/* 
-              <span className="text-xs text-white/40">
-                12k monthly users
-              </span> */}
             </div>
             <div className="absolute right-0 top-0">
               {/* View All inside card */}
@@ -143,34 +135,10 @@ useEffect(() => {
                   return (
                     <div
                         key={tool.id}
-                        // whileHover={{ y: -4 }}
-                        // transition={{ duration: 0.15 }}
                         onClick={() => router.push(`/tools/${tool.id}`)}
                         className="card-surface card-surface-sm w-[300px] transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
                       >
-                        {/* <div className="mb-4 flex items-start justify-between gap-3">
-                          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/10">
-                            <Icon className="h-6 w-6 text-indigo-400" />
-                          </div>
-
-                          {tool.comingSoon ? (
-                            <span className="rounded-full bg-yellow-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-yellow-300">
-                              Coming Soon
-                            </span>
-                          ) : (
-                            <span className="rounded-full bg-violet-500/15 px-2 py-1 text-[10px] uppercase tracking-[0.2em] text-violet-300">
-                              {tool.category}
-                            </span>
-                          )}
-                        </div> */}
                         <ToolCard label={tool.toolShortName} icon={tool.icon} description={tool.description}></ToolCard>
-
-                        {/* Title with tooltip */}
-                        {/* <h4 className="font-medium text-white truncate" title={tool.title}>
-                          {tool.title}
-                        </h4> */}
-
-                        {/* Description with tooltip */}
                         <p
                           className="mt-2 line-clamp-2 text-xs text-zinc-400"
                           title={tool.title}
