@@ -1,3 +1,4 @@
+"use client";
 import { FieldLabel } from "@/components/ui/fieldLabel";
 import { ArrowDown, ArrowUp, FileText, X } from "lucide-react";
 

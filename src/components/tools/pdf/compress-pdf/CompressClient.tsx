@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { PDFDocument } from "pdf-lib";
 import { Props } from "@/types/props";
 import { DropZone } from "@/components/ui/dropZone";
 import {
@@ -23,6 +22,7 @@ import {
   Loader2,
   Eye,
 } from "lucide-react";
+import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
@@ -112,6 +112,14 @@ async function compressPdf(
   const total = pdfDoc.numPages;
   const jpegs: Uint8Array[] = [];
 
+  const pdfLibRef = useRef<any>(null);
+  const getPdfLib = useCallback(async () => {
+      if (!pdfLibRef.current) {
+        pdfLibRef.current = await asyncGetPdfLib();
+      }
+      return pdfLibRef.current.create();
+    }, []);
+  const PDFDocument = await getPdfLib();
   for (let i = 1; i <= total; i++) {
     const page = await pdfDoc.getPage(i);
     const viewport = page.getViewport({ scale });

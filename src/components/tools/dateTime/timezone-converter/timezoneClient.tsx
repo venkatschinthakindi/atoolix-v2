@@ -15,8 +15,17 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { format as dfFormat } from "date-fns";
 import { formatInTimeZone, getTimezoneOffset } from "date-fns-tz";
 import { ChevronDown, ChevronUp, Trash2Icon } from "lucide-react";
-import TimezoneSelect from "./timezoneSelect";
-import { getTimeZones } from "@vvo/tzdb";
+
+import dynamic from "next/dynamic";
+import { TimeZone } from "@vvo/tzdb";
+
+const TimezoneSelect = dynamic(
+  () => import("@/components/tools/dateTime/timezone-converter/timezoneSelect").then((m) => m.default),
+  {
+    ssr: false
+  }
+);
+
 
 type TargetRow = { id: string; zone: string };
 
@@ -250,8 +259,8 @@ function copyToClipboard(text: string) {
   });
 }
 
-function buildZoneOptions(date: Date): ZoneOption[] {
-  return getTimeZones()
+function buildZoneOptions(date: Date, getTimeZones: TimeZone[]): ZoneOption[] {
+  return getTimeZones
     .filter((z) => isValidTz(z.name))
     .map((z) => {
       const city =
@@ -663,11 +672,27 @@ export default function TimezoneConverterClient() {
     return parse.instant;
   }, [validInputs, parse.instant]);
 
+  const [getTimeZones, setTimeZones] = useState<TimeZone[]>([]);
+  useEffect(() => {
+    let mounted = true;
+
+    (async () => {
+      const { getTimeZones } = await import("@vvo/tzdb");
+
+      if (mounted) {
+        setTimeZones(getTimeZones());
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
   const now = useMemo(() => new Date(nowTick), [nowTick]);
   const optionReferenceDate = selectedInstant ?? now;
-  const zoneOptions = useMemo(() => buildZoneOptions(optionReferenceDate).sort(
+  const zoneOptions = useMemo(() => buildZoneOptions(optionReferenceDate, getTimeZones).sort(
     (a, b) => a.country.localeCompare(b.country) || a.city.localeCompare(b.city)
-  ), [optionReferenceDate]);
+  ), [optionReferenceDate, getTimeZones]);
 
   const zoneMap = useMemo(
     () => new Map(zoneOptions.map((z) => [z.value, z])),

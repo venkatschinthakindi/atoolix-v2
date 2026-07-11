@@ -1,33 +1,105 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { JetBrains_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { cn } from "@/utility/cn";
 import "@/utility/pascalCase";
 import { serverConfig } from "@/config/server";
 
-const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
+  variable: "--font-mono",
   display: "swap",
   preload: true,
   adjustFontFallback: true,
+  fallback: [
+    "ui-monospace",
+    "SFMono-Regular",
+    "Consolas",
+    "Menlo",
+    "monospace",
+  ],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-  preload: true,
-  adjustFontFallback: true
-});
+const TITLE = "Free Online Tools – PDF, Image, Calculator & Finance Tools";
+const DESCRIPTION =
+  "Free online PDF tools, image converters and compressors, calculators, EMI and finance tools. Fast, secure, no signup required.";
 
-export const metadata = {
-  title: "All Free Online Tools - PDF, Image, Calculator, EMI and Finance Tools",
-  description:
-    "Explore free online tools including PDF tools, image converters, compressors, Finance tools and calculators.",
+export const metadata: Metadata = {
+  title: {
+    default: TITLE,
+    template: `%s | ${serverConfig.siteName}`,
+  },
+  description: DESCRIPTION,
+  applicationName: serverConfig.siteName,
+  metadataBase: new URL(serverConfig.siteUrl),
+  alternates: {
+    canonical: "/",
+  },
+  keywords: [
+    "free online tools",
+    "pdf tools",
+    "image converter",
+    "image compressor",
+    "emi calculator",
+    "finance calculator",
+  ],
+  authors: [{ name: serverConfig.siteName, url: serverConfig.siteUrl }],
+  creator: serverConfig.siteName,
+  publisher: serverConfig.siteName,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: serverConfig.siteUrl,
+    siteName: serverConfig.siteName,
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: serverConfig.siteLogoUrl,
+        width: 1200,
+        height: 630,
+        alt: serverConfig.siteName,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [
+      {
+        url: serverConfig.siteLogoUrl,
+        width: 1200,
+        height: 630,
+        alt: serverConfig.siteName,
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
+  manifest: "/site.webmanifest"
 };
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
+};
+
 const siteJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -67,8 +139,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-mono", jetbrainsMono.variable)}
-    >
+      dir="ltr"
+      className={cn(
+        "h-full",
+        "antialiased",
+        "font-mono",
+        jetbrainsMono.variable
+      )}
+      >
       <body className="min-h-full flex flex-col">
         <script
           type="application/ld+json"
@@ -79,7 +157,7 @@ export default function RootLayout({
         <main>
           {children}
         </main>
-        </body>
+      </body>
     </html>
   );
 }

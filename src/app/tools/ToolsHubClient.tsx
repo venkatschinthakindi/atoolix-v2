@@ -1,15 +1,15 @@
 "use client";
 
-import { categoryIcons, getCachedTools } from "@/data/tools";
-import { useState, useMemo, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { FilteredTools } from "@/components/ui/filteredTools";
-import FloatingDockLoader from "@/components/layout/floatingDockLoader";
+import { categoryIcons } from "@/data/tools";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function ToolsHubClient() {
-  const tools = getCachedTools();
-  const searchParams = useSearchParams();
-  const toolId = searchParams?.get("categoryid")?.toString()?.toLowerCase() || "all";
+export default function ToolsHubClient({ filterKey}: {
+  filterKey: string
+}) {
+  const toolId = filterKey?.toLowerCase() || "all";
+  
+  console.warn(filterKey);
 
   const router = useRouter();
 
@@ -22,12 +22,12 @@ export default function ToolsHubClient() {
     }, 
     ...categoryIcons.map(cat => ({ ...cat, id: cat.id.toLowerCase() }))
   ];
-
+  console.warn(categories);
   // Find the category from URL params (search in categories, not just categoryIcons)
   const matchedCategory = categories.find(c => c.id === toolId);
   
   const [activeCategory, setActiveCategory] = useState(matchedCategory?.id?.toLowerCase() || "all");
-
+  console.warn(matchedCategory);
   // Prevent infinite loop: only update URL when activeCategory changes from user click
   useEffect(() => {
     let filteredURL = `/tools?categoryid=all`;
@@ -35,20 +35,10 @@ export default function ToolsHubClient() {
       filteredURL = `/tools?categoryid=${activeCategory}`;
       router.push(filteredURL, { scroll: false });
     }
-  }, [activeCategory, searchParams]);
-
-  const filteredTools = useMemo(() => {
-    return activeCategory === "all"
-      ? tools
-      : tools.filter(t => t.category?.toLowerCase() === activeCategory);
-  }, [activeCategory, tools]);
+  }, [activeCategory]);
 
   return (
     <div>
-      <div className="mb-12">
-        <FloatingDockLoader />
-      </div>
-
       <div className="flex flex-wrap gap-3 mb-8">
         {categories.map(cat => (
           <button
@@ -64,8 +54,6 @@ export default function ToolsHubClient() {
           </button>
         ))}
       </div>
-
-      <FilteredTools filteredTools={filteredTools}/>
     </div>
   );
 }

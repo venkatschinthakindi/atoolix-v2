@@ -1,5 +1,5 @@
 import { CompressorConfig } from "@/types/imageCompressor.types";
-import PassportPhotoCompressorClient from "./passportPhotoCompressorClient";
+import PassportPhotoCompressorClient from "@/components/tools/image/passpoerPhotoResizer/passportPhotoCompressorClient";
 
 export default function PasspoerPhotoCompressorTool({ initialExpression, theme, title,description,
   allowedFormats, defaultQuality, mode, targetKB, lockTarget, targetWidth, targetHeight }: any) {

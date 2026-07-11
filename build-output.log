@@ -1,0 +1,137 @@
+
+> toolkit-v2@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.2.9 (Turbopack)
+- Environments: .env
+- Experiments (use with caution):
+  Γ£ô inlineCss
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 26.2s
+  Running TypeScript ...
+  Finished TypeScript in 16.1s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/48) ...
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /_not-found. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /about. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /calculator. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /contact. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /datetime. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /documentation. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /finance. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+  Generating static pages using 7 workers (12/48) 
+ΓÜá Unsupported metadata viewport is configured in metadata export in /image. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /pdf. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /privacy. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /terms. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+  Generating static pages using 7 workers (24/48) 
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+ΓÜá Unsupported metadata viewport is configured in metadata export in /tools/[...toolId]. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+  Generating static pages using 7 workers (36/48) 
+Γ£ô Generating static pages using 7 workers (48/48) in 8.4s
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ Γùï /about
+Γö£ Γùï /calculator
+Γö£ Γùï /contact
+Γö£ Γùï /datetime
+Γö£ Γùï /documentation
+Γö£ Γùï /finance
+Γö£ Γùï /image
+Γö£ Γùï /pdf
+Γö£ Γùï /privacy
+Γö£ Γùï /terms
+Γö£ Γùï /tools
+Γöö ΓùÅ /tools/[...toolId]
+  Γö£ /tools/calculator/emi-calculator
+  Γö£ /tools/calculator/roi-calculator
+  Γö£ /tools/calculator/fd-calculator
+  Γöö [+30 more paths]
+
+
+Γùï  (Static)  prerendered as static content
+ΓùÅ  (SSG)     prerendered as static HTML (uses generateStaticParams)
+

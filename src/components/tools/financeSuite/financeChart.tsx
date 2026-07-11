@@ -24,16 +24,41 @@ export function FinanceChart({ title, labels, datasets, chartType = "line" }: Pr
   const [ChartLib, setChartLib] = useState<null | Awaited<ReturnType<typeof asyncGetReactChartJsLib>>>(null);
 
   useEffect(() => {
-    // Initialize Chart.js once
-    initChartJS();
+    let idleHandle: number | null = null;
+    let cancelled = false;
 
-    // Load React Chart.js components asynchronously
-    async function loadLibs() {
+    const loadLibs = async () => {
+      await initChartJS();
       const lib = await asyncGetReactChartJsLib();
-      setChartLib(lib);
-    }
+      if (!cancelled) {
+        setChartLib(lib);
+      }
+    };
 
-    loadLibs();
+    const scheduleLoad = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        idleHandle = window.requestIdleCallback(() => {
+          loadLibs().catch(() => undefined);
+        });
+      } else {
+        idleHandle = window.setTimeout(() => {
+          loadLibs().catch(() => undefined);
+        }, 200);
+      }
+    };
+
+    scheduleLoad();
+
+    return () => {
+      cancelled = true;
+      if (idleHandle !== null) {
+        if (typeof window.cancelIdleCallback === "function") {
+          window.cancelIdleCallback(idleHandle);
+        } else {
+          window.clearTimeout(idleHandle);
+        }
+      }
+    };
   }, []);
 
   if (!ChartLib) {

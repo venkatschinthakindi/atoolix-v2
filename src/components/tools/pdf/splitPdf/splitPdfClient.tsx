@@ -27,16 +27,18 @@ import { ToolState } from "@/types/toolState";
 import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 import { asyncGetJsZipLib } from "@/lib/jsZipUtility";
-
-
 import { StatCard } from "@/components/ui/statCard";
 import { PremiumButton } from "@/components/ui/premiumButton";
 import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
 import CustomSelect from "@/components/ui/customSelect";
-import ZipViewerModal from "@/components/ui/zip/zipViewerModal";
 import { readZipEntries, ZipEntry } from "@/lib/readZipEntries";
-
+const ZipViewerModal = dynamic(
+  () => import("@/components/ui/zip/zipViewerModal").then((m) => m.default),
+  {
+    ssr: false
+  }
+);
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),

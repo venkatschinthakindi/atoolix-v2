@@ -1,5 +1,4 @@
 import JSZip, { JSZipObject } from "jszip";
-let pdfjsLib: typeof import("pdfjs-dist") | null = null;
 
 async function getPdfJs() {
   const pdfjsLib = await import("pdfjs-dist");

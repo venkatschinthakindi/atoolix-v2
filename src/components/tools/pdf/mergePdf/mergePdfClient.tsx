@@ -32,12 +32,12 @@ import { ProgressBar } from "@/components/ui/progressBar";
 import { Props } from "@/types/props";
 import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 import { StatCard } from "@/components/ui/statCard";
-import { FileRow, parsePages } from "@/components/tools/pdf/mergePdf/ui/fileRow";
-import { EmptyState } from "@/components/tools/pdf/mergePdf/ui/emptyState";
+import { FileRow, parsePages } from "@/components/ui/mergePdf/ui/fileRow";
+import { EmptyState } from "@/components/ui/mergePdf/ui/emptyState";
 import { PremiumButton } from "@/components/ui/premiumButton";
 import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
-import { MergeOptionCard } from "./ui/mergeOptionCard";
+import { MergeOptionCard } from "@/components/ui/mergePdf/ui/mergeOptionCard";
 
 // ─── Lazy-loaded heavy modules ───────────────────────────────────────────────
 const PdfViewerModal = dynamic(

@@ -1,6 +1,5 @@
-import ImageCompressorClient from "@/components/tools/image/imageCompressor/ImageCompressorClient";
 import { CompressorConfig } from "@/types/imageCompressor.types";
-import PassportPhotoCompressorClient from "../passpoerPhotoResizer/passportPhotoCompressorClient";
+import PassportPhotoCompressorClient from "@/components/tools/image/passpoerPhotoResizer/passportPhotoCompressorClient";
 
 export default function SignatureCompressorTool({ initialExpression, theme, title,description,allowedFormats, 
   defaultQuality, mode, targetKB, lockTarget,targetWidth, targetHeight }: any) {

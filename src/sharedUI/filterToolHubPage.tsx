@@ -1,29 +1,29 @@
-import { FilteredTools } from "@/components/ui/filteredTools";
+import { FilteredTools } from "@/components/ui/FilteredTools";
 import BackButton from "@/components/ui/backButton";
-import FloatingDockLoader from "@/components/layout/floatingDockLoader";
+import ToolsHubClient from "@/app/tools/ToolsHubClient";
+import { FloatingDock } from "@/components/layout/floatingDock";
 
-export function FilterToolHubPage({ filterKey }: any) {
+export function FilterToolHubPage({ filterKey, showCategoryBar}: {
+  filterKey: string,
+  showCategoryBar?: boolean
+}) {
   return (
     <>
-    <div>
       <div className="app-container page-section">
-        <div className="mb-12">
-          <>
-          <FloatingDockLoader />
-          </>
-        </div>
-        <div className="section-header">
-          <BackButton />
-        </div>
+        <FloatingDock />
+        
         <div className="section-header text-center">
-          <h1 className="section-title">All {filterKey.toPascalCase()} Tools</h1>
+          <h1 className="section-title">{filterKey.toPascalCase()} Tools</h1>
           <p className="section-copy mb-2">
             Explore all {filterKey.toLowerCase()} utilities available on this site.
           </p>
         </div>
+        <div className="section-header pb-8">
+          <BackButton />
+        </div>
+        {!!showCategoryBar && <ToolsHubClient filterKey={filterKey}/>}
         <FilteredTools filterKey={filterKey}/>
       </div>
-    </div>
     </>
   );
 }

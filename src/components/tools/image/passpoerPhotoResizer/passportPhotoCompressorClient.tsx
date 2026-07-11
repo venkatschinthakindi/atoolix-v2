@@ -24,8 +24,17 @@ import { getImageMetadata } from "@/features/imageConverter/imageMetadata/getIma
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { ImageMetadata } from "@/types/imageMetadata";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
-import { ImagePreviewModal } from "@/components/ui/image/imagePreviewModal";
 import { CompressionResult, compressWithDimensionsImage } from "@/features/imageCompressor/compressWithDimensions";
+
+import dynamic from "next/dynamic";
+
+
+const ImagePreviewModal = dynamic(
+  () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
+  {
+    ssr: false
+  }
+);
 
 interface Props {
   config: CompressorConfig;

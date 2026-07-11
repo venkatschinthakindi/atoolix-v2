@@ -5,10 +5,7 @@ import {
   Copy,
   RotateCcw,
   Calculator,
-  Sparkles,
   FileText,
-  Percent,
-  ArrowUpRight,
 } from "lucide-react";
 import {
   percentageOf,
@@ -27,8 +24,6 @@ import {
   roiPercent,
   reverseCostFromProfit,
   sellingPriceFromProfit,
-  originalPriceFromDiscount,
-  basePriceFromGst,
 } from "@/lib/percentage/percentage";
 
 type Mode =

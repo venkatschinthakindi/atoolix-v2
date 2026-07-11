@@ -1,3 +1,4 @@
+"use client";
 import { CheckCircle2, Download, ImageIcon, Sparkles, X, ZoomIn, ZoomOut } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 type ModalVariant = "preview" | "download";

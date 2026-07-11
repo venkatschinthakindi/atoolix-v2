@@ -1,7 +1,4 @@
-"use client";
-
 import { IconResolver } from "@/sharedUI/iconResolver";
-import React, { useMemo } from "react";
 
 // 100 UNIQUE gradient + icon-color pairings
 const CARD_COLORS: { bg: string; icon: string }[] = [
@@ -123,11 +120,10 @@ export interface ToolCardProps {
 }
 
 export function ToolCard({ label, icon: Icon, description }: ToolCardProps) {
-  const color = useMemo(() => getColorFromLabel(label), [label]);
+  const color = getColorFromLabel(label);
 
   return (
-    <button
-      type="button"
+    <div
       title={description}
       aria-label={label}
       className={`group relative flex w-full flex-col items-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-br ${color.bg} p-0.5 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400`}
@@ -166,7 +162,7 @@ export function ToolCard({ label, icon: Icon, description }: ToolCardProps) {
         {/* premium subtle divider */}
         <span className="h-0.5 w-8 rounded-full bg-white/20" aria-hidden="true" />
       </div>
-    </button>
+    </div>
   );
 }
 

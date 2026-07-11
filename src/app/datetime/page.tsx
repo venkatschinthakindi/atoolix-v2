@@ -10,7 +10,7 @@ export const metadata = {
 export default function Page(props: any) {
   return (
     <div className="app-shell">
-      <div className="app-container page-section pt-2">
+      <div className="app-container page-section pt-12">
         <FilterToolHubPage filterKey="date-time" />
         <Footer />
       </div>

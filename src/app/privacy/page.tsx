@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "../footer/footer";
-import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 import { serverConfig } from "@/config/server";
+import { FloatingDock } from "@/components/layout/floatingDock";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl ?? "https://atoolverse.com";
@@ -56,7 +56,7 @@ export default function PrivacyPolicyPage() {
 
   return (
     <div className="app-shell px-10 pt-30">
-      <FloatingDockLoader />
+      <FloatingDock />
 
       <div className="app-container page-section pt-2">
         <script

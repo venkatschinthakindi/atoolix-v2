@@ -6,7 +6,6 @@ import {
   HelpCircle,
   X,
   Calculator,
-  Sparkles,
   FileText,
 } from "lucide-react";
 import { getMath } from "@/lib/mathJsUtility";
@@ -26,7 +25,7 @@ export function AdvancedEquationSolverPage() {
   }, [sidebarOpen]);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+    <div className="mx-auto w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <div className="grid gap-6 xl:grid-cols-[1fr_auto]">
         <div className="space-y-4">
           <EquationSolver sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

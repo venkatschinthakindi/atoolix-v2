@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 
 import { Field } from "@/components/ui/field";
-import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { StatCard } from "@/sharedUI/statCard";
 import { useSearchParams } from "next/navigation";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import AmortizationChart from "@/components/tools/emiCalculator/amortizationChart";
+// import AmortizationChart from "@/components/tools/emiCalculator/amortizationChart";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import CustomSelect from "@/components/ui/customSelect";
 import { useSearchParams } from "next/navigation";
@@ -340,7 +340,14 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
     </h1>
   );
 }
-
+import dynamic from "next/dynamic";
+const AmortizationChart = dynamic(
+  () => import("@/components/tools/emiCalculator/amortizationChart").then((m) => m.default),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 /* ─────────────────────────────────────────────
    Main component
 ───────────────────────────────────────────── */
@@ -361,7 +368,7 @@ export default function EMICalculator({
 
     return defaultType;
   };
-
+  
   /* Core state */
   const [loanType, setLoanType] = useState<LoanType>(() => getInitialActiveTab());
   const [principal, setPrincipal] = useState<number>(defaultPreset.principal);

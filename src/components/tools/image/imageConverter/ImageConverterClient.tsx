@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import {
   Download,
   Eye,
@@ -25,8 +25,15 @@ import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
-import { asyncGetNextImageLib } from "@/lib/nextImageUtility";
-import { ImagePreviewModal } from "@/components/ui/image/imagePreviewModal";
+import dynamic from "next/dynamic";
+
+
+const ImagePreviewModal = dynamic(
+  () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
+  {
+    ssr: false
+  }
+);
 
 interface Props {
   config: ToolConfig;
@@ -97,14 +104,6 @@ export default function ImageConverterClient({ config }: Props) {
   }, [outputUrl]);
 
   const validFileTypes = useMemo(() => getAcceptString(config.inputFormats), [config.inputFormats]);
-
-  const NextImage = useMemo(() => {
-    try {
-      return asyncGetNextImageLib();
-    } catch {
-      return null;
-    }
-  }, []);
 
   const handleFiles = useCallback(async (files: File[]) => {
     try {

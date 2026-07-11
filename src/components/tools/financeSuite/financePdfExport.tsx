@@ -139,7 +139,7 @@ export function FinancePdfExport({
 
     try {
       await initChartJS();
-
+      
       const { jsPDF, autoTable, toPng } = await getPdfModules();
 
       const pdf = new jsPDF("p", "mm", "a4") as JsPdfWithAutoTable;

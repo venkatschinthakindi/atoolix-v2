@@ -2,8 +2,14 @@
 
 import { useMemo, useRef } from "react";
 import { FileUp } from "lucide-react";
-import CustomSelect, { type SelectOption } from "@/components/ui/customSelect";
-import TiptapEditor from "@/components/tools/pdf/mergePdf/ui/tiptapEditor";
+import CustomSelect from "@/components/ui/customSelect";
+import dynamic from "next/dynamic";
+const TiptapEditor = dynamic(
+  () => import("@/components/ui/mergePdf/ui/tiptapEditor").then((m) => m.default),
+  {
+    ssr: false
+  }
+);
 
 type MergeMode =
   | "none"

@@ -2,7 +2,6 @@
 
 import { ImageFormat } from "@/types/imageConverter.types";
 import { useCallback, useImperativeHandle, useRef, useState } from "react";
-import Image from 'next/image';
 import { UploadCloud } from "lucide-react";
 
 export function DropZone({

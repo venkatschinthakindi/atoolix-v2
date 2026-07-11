@@ -4,22 +4,12 @@ import { getMath } from "@/lib/mathJsUtility";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Calculator,
-  Sparkles,
   History,
-  MemoryStick,
   Delete,
   Equal,
   Percent,
-  Sigma,
-  SquareRadical,
-  Pi,
-  FunctionSquare,
-  ChevronLeft,
-  ChevronRight,
   RotateCcw,
   Copy,
-  Clock3,
-  FileText,
 } from "lucide-react";
 
 type SmartCalculatorProps = {
@@ -236,7 +226,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
   const numberButtons = ["7", "8", "9", "4", "5", "6", "1", "2", "3"];
 
   return (
-    <div className={`mx-auto w-full max-w-6xl px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 ${themeClass}`}>
+    <div className={`mx-auto w-full px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 ${themeClass}`}>
       <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-4">
           <ShellCard>

@@ -1,13 +1,13 @@
 
-import { ToolRenderer } from "@/components/tools/toolRenderer";
 import { notFound } from "next/navigation";
-import FloatingDockLoader from "@/components/layout/floatingDockLoader";
 import BackButton from "@/components/ui/backButton";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
-import ToolSeoContent from "@/app/tools/[...toolId]/toolSeoContent";
+import ToolSeoContent from "@/app/tools/[...toolId]/ToolSeoContent";
 import { ToolRegistryEntry } from "@/data/tools";
 import { serverConfig } from "@/config/server";
+import ToolRendererClient from "@/components/tools/toolRendererClient";
+import { FloatingDock } from "@/components/layout/floatingDock";
 
 export async function generateMetadata({
   params,
@@ -22,7 +22,8 @@ export default async function ToolPage({ params }: any) {
   const rawToolId = resolvedParams.toolId;
   
   const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry};
-
+  const { ...toolMeta } = tool;
+  console.warn(toolMeta);
   if (!tool) return notFound();
 
   const softwareApplicationSchema = {
@@ -59,25 +60,16 @@ export default async function ToolPage({ params }: any) {
 
   return (
     <>
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(softwareApplicationSchema),
-      }}
-    />
       <div className="app-shell">
         <div className="app-container page-section">
             <div className="mb-12">
-              <>
-                <FloatingDockLoader />
-              </>
+                <FloatingDock />
             </div>
 
             <div className="section-header">
               <BackButton />
             </div>
             
-            <>
               <div className="text-center space-y-4 mb-2">
                 <h1 className="md:text-l font-extrabold text-white tracking-wide">
                   {tool.onPageTitle || tool.title}
@@ -87,11 +79,17 @@ export default async function ToolPage({ params }: any) {
                 </p>
               </div>
               
-              <ToolRenderer toolId={toolId} />
+              <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
               <ToolSeoContent toolId={toolId} />
-            </>
+            
           </div>
-        </div>  
+      </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareApplicationSchema),
+        }}
+      /> 
     </>
   );
 }

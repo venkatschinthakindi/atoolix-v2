@@ -1,22 +1,19 @@
-import { getCachedTools } from "@/data/tools";
+import { getCachedTools, ToolRegistryEntry } from "@/data/tools";
 
-export function getTool(toolId: string) {
-  const tools = getCachedTools();
-  const rawToolId = (Array.isArray(toolId) ? 
-      toolId?.join("/"):
-      toolId)?.toString()?.toLowerCase() || "";
-  
-  const tool = !rawToolId ? null: tools.find(tool => tool.id.toLowerCase() === rawToolId);
+const toolMap = new Map<string, ToolRegistryEntry>(
+  getCachedTools().map((tool) => [tool.id, tool])
+);
 
-  if (!tool) {
-   return  {
-      toolId: 'not-found',
-      tool: null
-    }
-  };
-  
+export function getTool(toolId: string | string[]) {
+  const normalizedToolId =
+  typeof toolId === "string"
+    ? toolId.toLowerCase()
+    : toolId.join("/").toLowerCase();
+
+  const tool = toolMap.get(normalizedToolId);
+
   return {
-    toolId: rawToolId,
-    tool: tool
+    toolId: tool ? normalizedToolId : "not-found",
+    tool,
   };
 }

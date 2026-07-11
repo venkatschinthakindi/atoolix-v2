@@ -1,17 +1,11 @@
 "use client";
 
-import { useMemo, useState, Suspense, lazy, useRef, useEffect, KeyboardEvent } from "react";
+import { useState, Suspense, lazy, useRef, useEffect, KeyboardEvent } from "react";
 import {
-  Sparkles,
   Calculator,
-  RotateCcw,
-  Copy,
-  FileText,
-  ChevronLeft,
-  ChevronRight,
-  Gauge,
   Percent,
 } from "lucide-react";
+// import ToolLoader from "../../ToolLoader";
 
 type PercentageTab = "basic" | "of";
 
@@ -146,17 +140,6 @@ function TabButton({
   );
 }
 
-function PanelFallback() {
-  return (
-    <div className="space-y-4 rounded-2xl border border-white/10 bg-black/10 p-4">
-      <div className="h-4 w-36 animate-pulse rounded bg-white/10" />
-      <div className="h-12 animate-pulse rounded-2xl bg-white/10" />
-      <div className="h-12 animate-pulse rounded-2xl bg-white/10" />
-      <div className="h-24 animate-pulse rounded-2xl bg-white/10" />
-    </div>
-  );
-}
-
 export function PercentageCalculator() {
   const [activeTab, setActiveTab] = useState<PercentageTab>("basic");
   const tabRefs = useRef<Record<PercentageTab, HTMLButtonElement | null>>({
@@ -191,7 +174,7 @@ export function PercentageCalculator() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+    <div className="mx-auto w-full text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <section className="mb-3">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between">
           <p className="text-center text-sm text-white/65">
@@ -245,9 +228,9 @@ export function PercentageCalculator() {
             tabIndex={0}
             className="p-3 sm:p-4 md:p-5"
           >
-            <Suspense fallback={<PanelFallback />}>
+            {/* <Suspense fallback={<ToolLoader />}> */}
               <ActiveComponent />
-            </Suspense>
+            {/* </Suspense> */}
           </div>
         </ShellCard>
       </div>

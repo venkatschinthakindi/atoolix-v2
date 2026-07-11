@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SmartCalculator } from "@/components/tools/calculator/SmartCalculator";
 import { AdvancedEquationSolverPage } from "@/components/tools/calculator/EquationSolver";
 import { PercentageCalculator } from "@/components/tools/calculator/percentage/percentageCalculator";

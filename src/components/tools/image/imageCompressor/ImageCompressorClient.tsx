@@ -26,7 +26,7 @@ import { compressImage } from "@/features/imageCompressor/compressImage";
 import { ImageMetadata } from "@/types/imageMetadata";
 import { CompressionResult } from "@/types/compression.types";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
-import { ImagePreviewModal } from "@/components/ui/image/imagePreviewModal";
+import dynamic from "next/dynamic";
 
 interface Props {
   config: CompressorConfig;
@@ -269,6 +269,13 @@ export default function ImageCompressorClient({ config }: Props) {
     setModalVariant("download");
     setShowModal(true);
   };
+
+  const ImagePreviewModal = dynamic(
+    () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
+    {
+      ssr: false
+    }
+  );
 
   return (
     <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">

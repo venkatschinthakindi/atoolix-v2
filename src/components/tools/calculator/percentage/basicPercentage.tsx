@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Copy, RotateCcw, Calculator, Sparkles, FileText, Percent } from "lucide-react";
+import { Copy, RotateCcw, Calculator } from "lucide-react";
 import { percentageOf, round } from "@/lib/percentage/percentage";
 
 function ShellCard({
