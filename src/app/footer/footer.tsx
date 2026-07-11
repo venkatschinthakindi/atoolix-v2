@@ -41,6 +41,7 @@ export async function Footer() {
               <li><Link href="/image" className={footerLink}>Image Tools</Link></li>
               <li><Link href="/tools/image/passport-photo-resizer" className={footerLink}>Passport Photo Tool</Link></li>
               <li><Link href="/finance" className={footerLink}>Finance Tools</Link></li>
+              <li><Link href="/datetime" className={footerLink}>Date & Time Tools</Link></li>
               <li><Link href="/calculator" className={footerLink}>Math Tools</Link></li>
             </ul>
           </nav>

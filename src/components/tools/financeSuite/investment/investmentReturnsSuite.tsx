@@ -738,8 +738,8 @@ export default function InvestmentReturnsSuite() {
   ]);
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6 px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      <section className={`${shellClass} mb-5 px-5 py-6 sm:px-6 lg:px-8`}>
+    <div className="mx-auto w-full max-w-6xl space-y-6 px-3 py-3 text-white">
+      <section className={`${shellClass} mb-5 px-5 py-6`}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">

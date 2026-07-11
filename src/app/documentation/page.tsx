@@ -7,6 +7,7 @@ const siteName = serverConfig.siteName;
 const updatedAt = new Date("2026-06-28T00:00:00Z");
 
 const quickLinks = [
+  { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter", desc: "Convert Between Time Zones Instantly." },
   { href: "/tools/image/compress-image", label: "Image Compressor", desc: "Reduce JPG, PNG, and WebP image size." },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer", desc: "Create passport-size photos for forms." },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer", desc: "Resize signatures to KB limits." },
@@ -27,6 +28,7 @@ const sections = [
   { id: "passport-photo-tools", title: "Passport Photo Tools" },
   { id: "signature-tools", title: "Signature Tools" },
   { id: "finance-tools", title: "Finance Calculators" },
+  { id: "date-time-tools", title: "Date & Time Tools" },
   { id: "math-tools", title: "Math Tools" },
   { id: "troubleshooting", title: "Troubleshooting" },
   { id: "faq", title: "FAQ" },
@@ -195,6 +197,24 @@ const toolGroups = [
         related: ["/tools/calculator/roi-calculator"],
       },
     ],
+  },
+  {
+    id: "date-time-tools",
+    icon: "📅",
+    title: "Date and Time Tools",
+    description:
+      "Convert and calculate dates, times, and time zones for various applications and tasks.",
+    supports: ["Numbers"],
+    items: [
+      {
+        name: "Time Zone Converter",
+        href: "/tools/date-time/timezone-converter",
+        description: "Convert between time zones for accurate dates and times.",
+        useCases: ["Travel planning", "Event scheduling", "Timezone conversions"],
+        tips: "Pick the right source and destination time zones.",
+        related: ["/tools/calculator/emi-calculator"],
+      }
+    ]
   },
   {
     id: "math-tools",

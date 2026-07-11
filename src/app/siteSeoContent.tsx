@@ -50,6 +50,7 @@ const quickLinks = [
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
   { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
+  { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter" },
   { href: "/tools/calculator", label: "Percentage Calculator" },
   { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
   { href: "/tools/calculator/retirement-calculator?category=retirement", label: "Retirement Calculator" },
@@ -111,9 +112,17 @@ const categories = [
       { href: "/tools/image/compress-image-to-50kb", label: "Target File Size" },
     ],
   },
+  {
+    title: "Date & Time Tools",
+    description:
+      "Convert time between UTC, GMT, IST, PST, EST, CET, JST, and hundreds of other time zones instantly. Compare multiple cities and plan meetings across different regions.",
+    items: [
+      { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter" }
+    ],
+  },
 ];
-
 const recentlyUpdated = [
+  {href: "/tools/date-time/timezone-converter", label: "Time Zone Converter" },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
   { href: "/tools/image/compress-jpg", label: "JPG Compressor" },
