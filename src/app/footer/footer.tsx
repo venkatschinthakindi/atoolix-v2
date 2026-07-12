@@ -53,6 +53,7 @@ export async function Footer() {
               <li><Link href="/contact" className={footerLink}>Contact</Link></li>
               <li><Link href="/privacy" className={footerLink}>Privacy Policy</Link></li>
               <li><Link href="/terms" className={footerLink}>Terms</Link></li>
+              <li><Link href="/disclaimer" className={footerLink}>Disclaimer</Link></li>
             </ul>
           </nav>
 
