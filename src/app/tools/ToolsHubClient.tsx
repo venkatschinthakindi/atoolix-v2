@@ -9,8 +9,6 @@ export default function ToolsHubClient({ filterKey}: {
 }) {
   const toolId = filterKey?.toLowerCase() || "all";
   
-  console.warn(filterKey);
-
   const router = useRouter();
 
   const categories = [
@@ -22,12 +20,11 @@ export default function ToolsHubClient({ filterKey}: {
     }, 
     ...categoryIcons.map(cat => ({ ...cat, id: cat.id.toLowerCase() }))
   ];
-  console.warn(categories);
   // Find the category from URL params (search in categories, not just categoryIcons)
   const matchedCategory = categories.find(c => c.id === toolId);
   
   const [activeCategory, setActiveCategory] = useState(matchedCategory?.id?.toLowerCase() || "all");
-  console.warn(matchedCategory);
+  //console.warn(matchedCategory);
   // Prevent infinite loop: only update URL when activeCategory changes from user click
   useEffect(() => {
     let filteredURL = `/tools?categoryid=all`;

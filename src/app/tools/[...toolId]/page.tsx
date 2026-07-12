@@ -23,7 +23,7 @@ export default async function ToolPage({ params }: any) {
   
   const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry};
   const { ...toolMeta } = tool;
-  console.warn(toolMeta);
+  //console.warn(toolMeta);
   if (!tool) return notFound();
 
   const softwareApplicationSchema = {

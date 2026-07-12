@@ -66,7 +66,7 @@ export default function AdComponent({
         //   setAdLoaded(true);
         // }
       } catch (e) {
-        console.log("AdSense not loaded");
+        //console.log("AdSense not loaded");
       }
     }, 100);
 
@@ -109,7 +109,7 @@ export default function AdComponent({
                   (window as any).adsbygoogle.push({});
                   setAdLoaded(true);
                 } catch (e) {
-                  console.log("Ad push failed");
+                  //console.log("Ad push failed");
                 }
               }}
             />

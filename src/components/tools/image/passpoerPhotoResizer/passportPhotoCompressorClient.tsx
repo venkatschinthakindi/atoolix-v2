@@ -286,7 +286,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
       setModalVariant("preview");
       setShowModal(true);
     } catch (e) {
-      console.error(e);
+      //console.error(e);
       setError("Failed to compress image.");
     } finally {
       setProcessing(false);
@@ -408,7 +408,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
                   className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:px-4 sm:text-sm"
                 >
                   <Trash2 className="h-3.5 w-3.5 text-blue-300" />
-                  Clear All
+                  Start Over
                 </button>
               )}
             </div>

@@ -5,7 +5,7 @@ import { serverConfig } from "@/config/server";
 import { FloatingDock } from "@/components/layout/floatingDock";
 
 const siteName = serverConfig.siteName;
-const siteUrl = serverConfig.siteUrl ?? "https://atoolverse.com";
+const siteUrl = serverConfig.siteUrl ?? "https://AtoolVerse.com";
 const updatedAt = new Date("2026-06-28T00:00:00Z");
 
 export const metadata: Metadata = {
@@ -35,20 +35,20 @@ const contactOptions = [
   {
     title: "Support",
     description: "Need help with a tool, upload issue, or browser problem?",
-    value: "support@atoolverse.com",
-    href: "mailto:support@atoolverse.com",
+    value: "support@AtoolVerse.com",
+    href: "mailto:support@AtoolVerse.com",
   },
   {
     title: "General inquiries",
     description: "For general questions, product feedback, or suggestions.",
-    value: "support@atoolverse.com",
-    href: "mailto:support@atoolverse.com",
+    value: "support@AtoolVerse.com",
+    href: "mailto:support@AtoolVerse.com",
   },
   {
     title: "Partnerships",
     description: "For business inquiries, collaborations, or integrations.",
-    value: "support@atoolverse.com",
-    href: "mailto:support@atoolverse.com",
+    value: "support@AtoolVerse.com",
+    href: "mailto:support@AtoolVerse.com",
   },
 ];
 

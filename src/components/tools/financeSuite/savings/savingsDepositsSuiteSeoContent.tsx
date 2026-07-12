@@ -251,19 +251,19 @@ const calculatorSchema = {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://AToolVerse.com",
+        item: "https://AtoolVerse.com",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Tools",
-        item: "https://AToolVerse.com/tools",
+        item: "https://AtoolVerse.com/tools",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Savings and Deposits Calculator",
-        item: "https://AToolVerse.com/tools/savings-deposits-calculator",
+        item: "https://AtoolVerse.com/tools/savings-deposits-calculator",
       },
     ],
   };

@@ -182,19 +182,19 @@ const howToSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://AToolVerse.com",
+      item: "https://AtoolVerse.com",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Tools",
-      item: "https://AToolVerse.com/tools",
+      item: "https://AtoolVerse.com/tools",
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "Investment Returns Calculator",
-      item: "https://AToolVerse.com/tools/investment-returns-calculator",
+      item: "https://AtoolVerse.com/tools/investment-returns-calculator",
     },
   ],
 };

@@ -4,6 +4,9 @@ import "@/app/globals.css";
 import { cn } from "@/utility/cn";
 import "@/utility/pascalCase";
 import { serverConfig } from "@/config/server";
+import { PwaProvider } from "@/components/pwa/PwaProvider";
+import InstallButton from "@/components/pwa/InstallButton";
+import PwaUpdateToast from "@/components/pwa/PwaUpdateToast";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -89,9 +92,14 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
-  manifest: "/site.webmanifest"
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "ATtoolVerse",
+    statusBarStyle: "black-translucent"
+  },
 };
 
 export const viewport: Viewport = {
@@ -148,15 +156,19 @@ export default function RootLayout({
       )}
       >
       <body className="min-h-full flex flex-col">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(siteJsonLd),
-          }}
-        />
-        <main>
-          {children}
-        </main>
+        <PwaProvider>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(siteJsonLd),
+            }}
+          />
+          <InstallButton />
+          <PwaUpdateToast />
+          <main>
+            {children}
+          </main>
+        </PwaProvider>
       </body>
     </html>
   );

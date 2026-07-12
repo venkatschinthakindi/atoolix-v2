@@ -24,7 +24,7 @@ export async function Footer() {
           <div className="space-y-4">
             <h2 className="text-xl font-semibold tracking-tight text-white">
               <Link href="/" className="text-white transition-colors duration-200 hover:text-violet-300">
-                AToolVerse
+                AtoolVerse
               </Link>
             </h2>
 
@@ -73,7 +73,7 @@ export async function Footer() {
         <div className="my-10 border-t border-white/10" />
 
         <div className="flex flex-col items-center justify-between gap-4 text-xs text-zinc-500 md:flex-row">
-          <small>© {year} AToolVerse. Fast • Secure • Browser-based.</small>
+          <small>© {year} AtoolVerse. Fast • Secure • Browser-based.</small>
           <div className="flex items-center gap-6">
             <Link href="/contact" className={footerLink}>
               Suggest a Tool

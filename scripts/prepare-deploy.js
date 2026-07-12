@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 const deployDir = "deploy";
 
@@ -8,27 +9,40 @@ fs.rmSync(deployDir, {
   force: true,
 });
 
+if (!fs.existsSync(".next/standalone")) {
+  throw new Error("Standalone build not found. Run `next build` first.");
+}
+
+if (!fs.existsSync(".next/static")) {
+  throw new Error("Static assets not found.");
+}
+
 // Copy standalone output
 fs.cpSync(".next/standalone", deployDir, {
   recursive: true,
 });
 
 // Copy static assets
-fs.cpSync(".next/static", `${deployDir}/.next/static`, {
+const sorceDir = path.join(".next", "static");
+const destinationDir = path.join(deployDir, ".next", "static");
+
+fs.cpSync(sorceDir, destinationDir, {
   recursive: true,
 });
 
-// Copy public assets
 if (fs.existsSync("public")) {
   fs.cpSync("public", `${deployDir}/public`, {
     recursive: true,
   });
 }
 
-// Copy IIS web.config
 if (fs.existsSync("web.config")) {
   fs.copyFileSync("web.config", `${deployDir}/web.config`);
 }
 
-
-console.log("Deploy package created successfully.");
+if (fs.existsSync("package.json")) {
+  fs.copyFileSync(
+    "package.json",
+    path.join(deployDir, "package.json")
+  );
+}

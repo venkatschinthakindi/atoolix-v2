@@ -5,7 +5,7 @@ import { serverConfig } from "@/config/server";
 import { FloatingDock } from "@/components/layout/floatingDock";
 
 const siteName = serverConfig.siteName;
-const siteUrl = serverConfig.siteUrl ?? "https://atoolverse.com";
+const siteUrl = serverConfig.siteUrl ?? "https://AtoolVerse.com";
 const updatedAt = new Date("2026-06-28T00:00:00Z");
 
 export const metadata: Metadata = {
@@ -279,8 +279,8 @@ export default function PrivacyPolicyPage() {
           <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
             <p>
               If you have questions about this Privacy Policy or how your information is handled, please contact us at{" "}
-              <a href="mailto:support@atoolverse.com" className="text-violet-300 hover:text-violet-200">
-                support@atoolverse.com
+              <a href="mailto:support@AtoolVerse.com" className="text-violet-300 hover:text-violet-200">
+                support@AtoolVerse.com
               </a>
               .
             </p>

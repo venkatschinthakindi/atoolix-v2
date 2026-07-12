@@ -290,7 +290,7 @@ export function FinancePdfExport({
           pdf.addImage(chartImage, "PNG", marginX, y, contentW, 86);
           y += 96;
         } catch (chartError) {
-          console.warn("Chart export skipped:", chartError);
+          //console.warn("Chart export skipped:", chartError);
         }
       }
 
@@ -314,7 +314,7 @@ export function FinancePdfExport({
       const finalFileName = safeFileName(ensurePdfExtension(filename));
       pdf.save(finalFileName);
     } catch (error) {
-      console.error("PDF export failed:", error);
+      //console.error("PDF export failed:", error);
       onError?.(error);
     } finally {
       exportingRef.current = false;

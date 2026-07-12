@@ -44,7 +44,7 @@ async function readPdfInfo(
       pages: pdf.numPages,
     };
   } catch {
-    console.error("Failed to read PDF info");
+    //console.error("Failed to read PDF info");
     // Corrupted/encrypted PDF
     try {
       const data = await entry.async("arraybuffer");

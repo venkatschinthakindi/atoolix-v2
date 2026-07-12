@@ -41,10 +41,10 @@ export default function ToolRendererClient({
   // need one client-side registry lookup — but only for the loader itself,
   // not for metadata (that arrives pre-resolved via toolMeta).
   const loader = useMemo(() => {
-    console.warn(toolId);
+    //console.warn(toolId);
     if (!toolId) return null;
     const tool = clientToolLoaders.get(toolId);;
-    console.warn(tool);
+    //console.warn(tool);
     return tool;
   }, [toolId]);
 
