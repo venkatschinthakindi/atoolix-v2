@@ -800,7 +800,7 @@ export default function PdfMergerClient({ config }: Props) {
                     label={autoOptimize ? "Build PDF + Optimize" : "Build PDF"}
                     onClick={merge}
                     disabled={!canBuild}
-                    accent={autoOptimize ? "emerald" : "blue"}
+                    accent={autoOptimize ? "blue" : "blue"}
                   />
                   <div className="grid grid-cols-2 gap-2 sm:gap-3">
                     <MiniPill

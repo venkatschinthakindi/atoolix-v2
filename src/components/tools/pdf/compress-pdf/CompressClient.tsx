@@ -112,14 +112,7 @@ async function compressPdf(
   const total = pdfDoc.numPages;
   const jpegs: Uint8Array[] = [];
 
-  const pdfLibRef = useRef<any>(null);
-  const getPdfLib = useCallback(async () => {
-      if (!pdfLibRef.current) {
-        pdfLibRef.current = await asyncGetPdfLib();
-      }
-      return pdfLibRef.current.create();
-    }, []);
-  const PDFDocument = await getPdfLib();
+  const PDFDocument = await asyncGetPdfLib();
   for (let i = 1; i <= total; i++) {
     const page = await pdfDoc.getPage(i);
     const viewport = page.getViewport({ scale });

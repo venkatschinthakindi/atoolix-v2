@@ -32,13 +32,14 @@ export function PremiumButton({
         "bg-white/5 text-white",
         "transition-all duration-200",
         "hover:border-blue-400/30 hover:bg-white/10",
+        "bg-gradient-to-r from-blue-500 to-violet-500",
         disabled
           ? "pointer-events-none opacity-50"
           : "",
       ].join(" ")}
     >
       <span
-        className={`absolute inset-0 bg-gradient-to-r ${accentMap[accent]} opacity-0 transition-opacity duration-200 group-hover:opacity-10`}
+        className={`absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-10`}
       />
 
 

@@ -1,6 +1,6 @@
 /* AtoolVerse Service Worker */
 
-const CACHE_VERSION = "f5b68505d9f9da35";
+const CACHE_VERSION = "456592f882a19c24";
 const CACHE_NAME = `AtoolVerse-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -13,12 +13,7 @@ const APP_SHELL = [
   "/maskable-512.png",
 ];
 
-/* ----------------------------------------
- * Install
- * ---------------------------------------- */
-
 self.addEventListener("install", (event) => {
-  //console.log("[SW] Installing", CACHE_VERSION);
 
   event.waitUntil(
     (async () => {
@@ -31,25 +26,14 @@ self.addEventListener("install", (event) => {
   );
 });
 
-/* ----------------------------------------
- * Skip Waiting
- * ---------------------------------------- */
-
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") {
-    //console.log("[SW] Skip waiting");
 
     self.skipWaiting();
   }
 });
 
-/* ----------------------------------------
- * Activate
- * ---------------------------------------- */
-
 self.addEventListener("activate", (event) => {
-  //console.log("[SW] Activated", CACHE_VERSION);
-
   event.waitUntil(
     (async () => {
       const keys = await caches.keys();
@@ -64,10 +48,6 @@ self.addEventListener("activate", (event) => {
     })()
   );
 });
-
-/* ----------------------------------------
- * Fetch
- * ---------------------------------------- */
 
 self.addEventListener("fetch", (event) => {
   const request = event.request;
@@ -98,10 +78,6 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(cacheFirst(request));
 });
 
-/* ----------------------------------------
- * Network First (Pages)
- * ---------------------------------------- */
-
 async function networkFirst(request) {
   try {
     const response = await fetch(request);
@@ -123,10 +99,6 @@ async function networkFirst(request) {
     return caches.match("/offline");
   }
 }
-
-/* ----------------------------------------
- * Cache First (Assets)
- * ---------------------------------------- */
 
 async function cacheFirst(request) {
   const cached = await caches.match(request);

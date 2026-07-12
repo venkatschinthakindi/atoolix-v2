@@ -11,7 +11,7 @@ export default function Page(props: any) {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
-        <FilterToolHubPage filterKey="calculator" />
+        <FilterToolHubPage filterKey="math" />
         <Footer />
       </div>
     </div>

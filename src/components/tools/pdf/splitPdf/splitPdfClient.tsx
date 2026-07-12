@@ -14,8 +14,7 @@ import {
   ShieldCheck,
   Clock3,
   Wand2,
-  Scissors,
-  Trash2,
+  Scissors
 } from "lucide-react";
 
 
@@ -413,6 +412,7 @@ export default function PdfSpliterClient({ config }: Props) {
 
         const zipBlob = await zip.generateAsync({ type: "blob" });
         setDownloadableContent(zipBlob);
+        openPreview(zipBlob);
       }
 
 
