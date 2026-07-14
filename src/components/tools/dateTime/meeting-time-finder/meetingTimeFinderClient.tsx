@@ -14,7 +14,7 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { format as dfFormat } from "date-fns";
 import { formatInTimeZone, getTimezoneOffset } from "date-fns-tz";
-import { ChevronDown, ChevronUp, Trash2Icon } from "lucide-react";
+import { ChevronDown, ChevronUp, GripVertical, Trash2Icon } from "lucide-react";
 
 import dynamic from "next/dynamic";
 import { TimeZone } from "@vvo/tzdb";
@@ -52,6 +52,8 @@ type ResultRow = {
   abbreviation: string;
   details: string;
   note: string;
+  diff: string;
+  inHours: boolean;
 };
 
 type Validation = {
@@ -68,6 +70,75 @@ type ConverterState = {
   use24Hour: boolean;
 };
 
+// ISO weekday numbering: Monday = 1 ... Sunday = 7 (matches date-fns "i" token).
+type WorkingHoursConfig = {
+  startTime: string; // "HH:mm", local to each zone
+  endTime: string; // "HH:mm", local to each zone
+  days: number[]; // ISO weekdays considered "working days", e.g. [1,2,3,4,5]
+  slotMinutes: number; // suggestion granularity: 5, 15, 30, or 60
+};
+
+const DEFAULT_WORKING_HOURS: WorkingHoursConfig = {
+  startTime: "09:00",
+  endTime: "17:00",
+  days: [1, 2, 3, 4, 5],
+  slotMinutes: 15,
+};
+
+const WEEKDAY_OPTIONS: { iso: number; label: string }[] = [
+  { iso: 1, label: "Mon" },
+  { iso: 2, label: "Tue" },
+  { iso: 3, label: "Wed" },
+  { iso: 4, label: "Thu" },
+  { iso: 5, label: "Fri" },
+  { iso: 6, label: "Sat" },
+  { iso: 7, label: "Sun" },
+];
+
+const SLOT_PRECISION_OPTIONS = [5, 15, 30, 60];
+
+type MeetingTemplate = {
+  id: string;
+  label: string;
+  title: string;
+  durationMinutes: number;
+  description: string;
+  workingHours?: Partial<WorkingHoursConfig>;
+};
+
+const MEETING_TEMPLATES: MeetingTemplate[] = [
+  {
+    id: "sales-call",
+    label: "Sales call",
+    title: "Sales Call",
+    durationMinutes: 30,
+    description: "Discovery / sales call.",
+  },
+  {
+    id: "board-review",
+    label: "Board review",
+    title: "Board Review",
+    durationMinutes: 90,
+    description: "Quarterly board review meeting.",
+    workingHours: { startTime: "08:00", endTime: "18:00", days: [1, 2, 3, 4, 5] },
+  },
+  {
+    id: "client-demo",
+    label: "Client demo",
+    title: "Client Demo",
+    durationMinutes: 45,
+    description: "Live product demo for the client.",
+  },
+  {
+    id: "travel-briefing",
+    label: "Travel briefing",
+    title: "Travel Briefing",
+    durationMinutes: 20,
+    description: "Pre-trip briefing covering itinerary and logistics.",
+    workingHours: { startTime: "07:00", endTime: "20:00", days: [1, 2, 3, 4, 5, 6, 7] },
+  },
+];
+
 const MAX_TARGETS = 10;
 const URL_DEBOUNCE_MS = 900;
 const TOAST_MS = 3000;
@@ -78,6 +149,7 @@ const QUICK_ADD_ZONES = [
   { label: "Chicago", zone: "America/Chicago" },
   { label: "Toronto", zone: "America/Toronto" },
   { label: "Mexico City", zone: "America/Mexico_City" },
+  { label: "São Paulo", zone: "America/Sao_Paulo" },
   { label: "London", zone: "Europe/London" },
   { label: "Paris", zone: "Europe/Paris" },
   { label: "Berlin", zone: "Europe/Berlin" },
@@ -92,8 +164,62 @@ const QUICK_ADD_ZONES = [
   { label: "Seoul", zone: "Asia/Seoul" },
   { label: "Sydney", zone: "Australia/Sydney" },
   { label: "Auckland", zone: "Pacific/Auckland" },
+  { label: "Johannesburg", zone: "Africa/Johannesburg" },
   { label: "UTC", zone: "UTC" },
 ];
+
+// Common timezone abbreviations mapped to their canonical IANA zone(s).
+// Used to let people search "EST", "PST", "IST", "CET", etc. and get a
+// sensible zone back, even though the live abbreviation shown for a zone
+// changes with DST (e.g. America/New_York shows EDT in summer).
+const COMMON_ABBREVIATIONS: Record<string, string[]> = {
+  EST: ["America/New_York"],
+  EDT: ["America/New_York"],
+  ET: ["America/New_York"],
+  CST: ["America/Chicago"],
+  CDT: ["America/Chicago"],
+  CT: ["America/Chicago"],
+  MST: ["America/Denver"],
+  MDT: ["America/Denver"],
+  MT: ["America/Denver"],
+  PST: ["America/Los_Angeles"],
+  PDT: ["America/Los_Angeles"],
+  PT: ["America/Los_Angeles"],
+  AKST: ["America/Anchorage"],
+  AKDT: ["America/Anchorage"],
+  HST: ["Pacific/Honolulu"],
+  AST: ["America/Halifax"],
+  ADT: ["America/Halifax"],
+  BRT: ["America/Sao_Paulo"],
+  GMT: ["UTC", "Europe/London"],
+  UTC: ["UTC"],
+  BST: ["Europe/London"],
+  WET: ["Europe/Lisbon"],
+  CET: ["Europe/Paris", "Europe/Berlin", "Europe/Madrid", "Europe/Rome"],
+  CEST: ["Europe/Paris", "Europe/Berlin"],
+  EET: ["Europe/Athens"],
+  EEST: ["Europe/Athens"],
+  MSK: ["Europe/Moscow"],
+  IST: ["Asia/Kolkata"],
+  PKT: ["Asia/Karachi"],
+  GST: ["Asia/Dubai"],
+  ICT: ["Asia/Bangkok"],
+  SGT: ["Asia/Singapore"],
+  HKT: ["Asia/Hong_Kong"],
+  CST_CHINA: ["Asia/Shanghai"],
+  JST: ["Asia/Tokyo"],
+  KST: ["Asia/Seoul"],
+  WIB: ["Asia/Jakarta"],
+  AEST: ["Australia/Sydney"],
+  AEDT: ["Australia/Sydney"],
+  ACST: ["Australia/Adelaide"],
+  AWST: ["Australia/Perth"],
+  NZST: ["Pacific/Auckland"],
+  NZDT: ["Pacific/Auckland"],
+  WAT: ["Africa/Lagos"],
+  CAT: ["Africa/Johannesburg"],
+  EAT: ["Africa/Nairobi"],
+};
 
 function isValidTz(value: string) {
   try {
@@ -259,6 +385,49 @@ function copyToClipboard(text: string) {
   });
 }
 
+function downloadTextFile(content: string, filename: string, mime: string) {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function toCsvValue(value: string) {
+  if (/[",\n\r]/.test(value)) return `"${value.replace(/"/g, '""')}"`;
+  return value;
+}
+
+function toCsvRow(values: string[]) {
+  return values.map(toCsvValue).join(",");
+}
+
+function pad2(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+// Formats an instant as a UTC-based ICS date-time (YYYYMMDDTHHMMSSZ). Using
+// UTC for DTSTART/DTEND makes the event unambiguous and DST-proof: every
+// calendar app resolves it to the correct local time in the recipient's own
+// zone regardless of when DST changes happen on either end.
+function toIcsUtc(date: Date) {
+  return `${date.getUTCFullYear()}${pad2(date.getUTCMonth() + 1)}${pad2(date.getUTCDate())}T${pad2(
+    date.getUTCHours()
+  )}${pad2(date.getUTCMinutes())}${pad2(date.getUTCSeconds())}Z`;
+}
+
+function icsEscape(text: string) {
+  return text
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/\r?\n/g, "\\n");
+}
+
 function buildZoneOptions(date: Date, getTimeZones: TimeZone[]): ZoneOption[] {
   return getTimeZones
     .filter((z) => isValidTz(z.name))
@@ -335,10 +504,18 @@ function searchZones(
       .slice(0, 15);
   }
 
+  // Abbreviation lookup: "EST", "PST", "IST", "CET"... resolves to canonical
+  // zone(s) regardless of the zone's *current* live abbreviation (which
+  // shifts with DST, e.g. EST -> EDT in summer for America/New_York).
+  const abbrevMatches = COMMON_ABBREVIATIONS[query.trim().toUpperCase()] ?? [];
+  const abbrevZoneSet = new Set(abbrevMatches);
+
   return pool
     .map((z) => {
       let score = 999;
-      if (z.cityLower === q || z.valueLower === q) score = 0;
+      if (abbrevZoneSet.has(z.value)) score = -1;
+      else if (z.cityLower === q || z.valueLower === q) score = 0;
+      else if (z.abbreviation.toLowerCase() === q) score = 0.5;
       else if (z.countryLower === q) score = 1;
       else if (z.cityLower.startsWith(q)) score = 2;
       else if (z.countryLower.startsWith(q)) score = 3;
@@ -376,6 +553,73 @@ function noteForTarget(instant: Date, sourceZone: string, targetZone: string) {
   const dst = abbreviation(instant, targetZone).toUpperCase();
   const dayDiff = dayDifference(sourceZone, targetZone, instant);
   return `${targetWeekday} · ${targetLabel} · ${dayDiff} · ${dst || "TZ"}`;
+}
+
+// Time difference of targetZone relative to sourceZone at a given instant,
+// e.g. "+10h 30m", "-5h", "Same time". Computed from actual UTC offsets so
+// it stays correct across DST boundaries on either side.
+function diffFromSource(instant: Date, sourceZone: string, targetZone: string) {
+  const sourceOffsetMs = getTimezoneOffset(sourceZone, instant);
+  const targetOffsetMs = getTimezoneOffset(targetZone, instant);
+  if (!Number.isFinite(sourceOffsetMs) || !Number.isFinite(targetOffsetMs)) return "";
+  const diffMinutes = Math.round((targetOffsetMs - sourceOffsetMs) / 60000);
+  if (diffMinutes === 0) return "Same time";
+  const sign = diffMinutes > 0 ? "+" : "-";
+  const abs = Math.abs(diffMinutes);
+  const h = Math.floor(abs / 60);
+  const m = abs % 60;
+  if (h === 0) return `${sign}${m}m`;
+  if (m === 0) return `${sign}${h}h`;
+  return `${sign}${h}h ${m}m`;
+}
+
+// Returns the ISO weekday (1 = Monday ... 7 = Sunday) of `instant` as observed
+// in `zone`'s local calendar. Always derived from the actual instant, so DST
+// transitions and date-line crossings are handled automatically.
+function isoWeekdayInZone(instant: Date, zone: string) {
+  return Number(formatInTimeZone(instant, zone, "i"));
+}
+
+// Whether `instant`, as observed locally in `zone`, falls on a configured
+// working day and within the configured start/end local time window. Because
+// this always re-derives the local weekday/time from the instant (rather than
+// from a fixed offset), it naturally accounts for DST shifts and doesn't
+// drift when clocks change in either the source or target zone.
+function isWithinWorkingHours(instant: Date, zone: string, config: WorkingHoursConfig) {
+  const weekday = isoWeekdayInZone(instant, zone);
+  if (!config.days.includes(weekday)) return false;
+  const localTime = formatInTimeZone(instant, zone, "HH:mm");
+  return localTime >= config.startTime && localTime < config.endTime;
+}
+
+// Scans forward from `fromInstant` in fixed UTC steps of `config.slotMinutes`,
+// looking for instants where every zone in `zones` is simultaneously within
+// its configured working days/hours. Because each candidate instant is
+// re-evaluated against each zone's *current* offset (via isWithinWorkingHours),
+// results remain correct across DST spring-forward/fall-back transitions that
+// occur anywhere within the search window.
+function findMeetingSuggestions(
+  fromInstant: Date,
+  zones: string[],
+  config: WorkingHoursConfig,
+  options?: { maxResults?: number; horizonDays?: number }
+) {
+  const maxResults = options?.maxResults ?? 8;
+  const horizonDays = options?.horizonDays ?? 10;
+  const stepMs = Math.max(5, config.slotMinutes) * 60000;
+  const totalSteps = Math.ceil((horizonDays * 24 * 60) / Math.max(5, config.slotMinutes));
+
+  // Start from the next clean slot boundary (in UTC) at or after fromInstant.
+  const start = new Date(Math.ceil(fromInstant.getTime() / stepMs) * stepMs);
+
+  const results: Date[] = [];
+  for (let i = 0; i < totalSteps && results.length < maxResults; i++) {
+    const candidate = new Date(start.getTime() + i * stepMs);
+    if (zones.every((zone) => isWithinWorkingHours(candidate, zone, config))) {
+      results.push(candidate);
+    }
+  }
+  return results;
 }
 
 function buildInitialState(searchParams: ReturnType<typeof useSearchParams>): ConverterState {
@@ -421,10 +665,15 @@ const MemoRow = memo(function MemoRow({
   resultsAreStale,
   onUpdate,
   onMove,
-  onCopy,
   onRemove,
   onMakeSource,
   selectOptions,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd,
+  isDragging,
+  isDragOver,
 }: {
   row: TargetRow;
   index: number;
@@ -433,21 +682,57 @@ const MemoRow = memo(function MemoRow({
   resultsAreStale: boolean;
   onUpdate: (id: string, value: string) => void;
   onMove: (id: string, dir: -1 | 1) => void;
-  onCopy: (id: string) => void;
   onRemove: (id: string) => void;
   onMakeSource: (zone: string) => void;
   selectOptions: any[];
+  onDragStart: (id: string) => void;
+  onDragOver: (id: string) => void;
+  onDrop: (id: string) => void;
+  onDragEnd: () => void;
+  isDragging: boolean;
+  isDragOver: boolean;
 }) {
   return (
-    <tr className="border-b border-white/5 align-top">
+    <tr
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.effectAllowed = "move";
+        try {
+          e.dataTransfer.setData("text/plain", row.id);
+        } catch {}
+        onDragStart(row.id);
+      }}
+      onDragOver={(e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        onDragOver(row.id);
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        onDrop(row.id);
+      }}
+      onDragEnd={onDragEnd}
+      className={`border-b border-white/5 align-top transition-colors ${
+        isDragging ? "opacity-40" : ""
+      } ${isDragOver ? "bg-white/10" : ""}`}
+    >
       <th scope="row" className="py-4 pr-3 text-left font-normal">
-        <div className="mt-3 max-w-[320px]">
-          <TimezoneSelect
-            value={row.zone}
-            onChange={(value) => onUpdate(row.id, value)}
-            options={selectOptions}
-            placeholder="Search timezone..."
-          />
+        <div className="flex items-start gap-2">
+          <span
+            aria-hidden="true"
+            className="mt-4 cursor-grab select-none text-zinc-500 active:cursor-grabbing"
+            title="Drag to reorder"
+          >
+            <GripVertical className="h-4 w-4" />
+          </span>
+          <div className="mt-3 max-w-[320px] flex-1">
+            <TimezoneSelect
+              value={row.zone}
+              onChange={(value) => onUpdate(row.id, value)}
+              options={selectOptions}
+              placeholder="Search timezone..."
+            />
+          </div>
         </div>
       </th>
 
@@ -468,6 +753,17 @@ const MemoRow = memo(function MemoRow({
         <div className="flex max-w-[280px] flex-col gap-1.5">
           <span className="text-sm text-zinc-200">{result?.details ?? ""}</span>
           <span className="text-xs text-zinc-400">{result?.note ?? ""}</span>
+          {result ? (
+            <span
+              className={`mt-0.5 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                result.inHours
+                  ? "bg-emerald-500/15 text-emerald-300"
+                  : "bg-white/5 text-zinc-500"
+              }`}
+            >
+              {result.inHours ? "● Working hours" : "○ Outside working hours"}
+            </span>
+          ) : null}
         </div>
       </td>
 
@@ -476,6 +772,20 @@ const MemoRow = memo(function MemoRow({
           <div>{result?.abbreviation ?? ""}</div>
           <div>{result?.offset ?? ""}</div>
         </div>
+      </td>
+
+      <td className="py-4 pr-3">
+        <span
+          className={`inline-flex rounded-full px-2 py-1 text-xs font-medium tabular-nums ${
+            resultsAreStale
+              ? "bg-white/5 text-zinc-500"
+              : result?.diff === "Same time"
+                ? "bg-emerald-500/15 text-emerald-300"
+                : "bg-indigo-500/15 text-indigo-300"
+          }`}
+        >
+          {result?.diff ?? ""}
+        </span>
       </td>
 
       <td className="py-4 pr-3">
@@ -517,7 +827,6 @@ function TimezoneCards({
   resultsAreStale,
   onUpdate,
   onMove,
-  onCopy,
   onRemove,
   onMakeSource,
   selectOptions,
@@ -527,7 +836,6 @@ function TimezoneCards({
   resultsAreStale: boolean;
   onUpdate: (id: string, value: string) => void;
   onMove: (id: string, dir: -1 | 1) => void;
-  onCopy: (id: string) => void;
   onRemove: (id: string) => void;
   onMakeSource: (zone: string) => void;
   selectOptions: any[];
@@ -561,6 +869,33 @@ function TimezoneCards({
               <div className="mt-1 text-xs text-zinc-400">{result?.details ?? ""}</div>
             </button>
 
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {result?.diff ? (
+                <span
+                  className={`inline-flex rounded-full px-2 py-1 text-xs font-medium tabular-nums ${
+                    resultsAreStale
+                      ? "bg-white/5 text-zinc-500"
+                      : result.diff === "Same time"
+                        ? "bg-emerald-500/15 text-emerald-300"
+                        : "bg-indigo-500/15 text-indigo-300"
+                  }`}
+                >
+                  {result.diff} vs source
+                </span>
+              ) : null}
+              {result ? (
+                <span
+                  className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
+                    result.inHours
+                      ? "bg-emerald-500/15 text-emerald-300"
+                      : "bg-white/5 text-zinc-500"
+                  }`}
+                >
+                  {result.inHours ? "● Working hours" : "○ Outside hours"}
+                </span>
+              ) : null}
+            </div>
+
             <div className="mt-3 space-y-1 text-sm text-zinc-300">
               <div>{result?.offset ?? ""}</div>
               <div>{result?.abbreviation ?? ""}</div>
@@ -584,14 +919,6 @@ function TimezoneCards({
               >
                 Down
               </button>
-              <button
-                type="button"
-                onClick={() => onCopy(row.id)}
-                disabled={resultsAreStale}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 disabled:cursor-not-allowed disabled:opacity-30"
-              >
-                Copy
-              </button>
               {index !== 0 ? (
                 <button
                   type="button"
@@ -609,7 +936,7 @@ function TimezoneCards({
   );
 }
 
-export default function TimezoneConverterClient() {
+export default function MeetingTimeFinderClient() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -628,6 +955,15 @@ export default function TimezoneConverterClient() {
   const [validation, setValidation] = useState<Validation>({});
   const [state, setState] = useState<ConverterState>(() => buildInitialState(searchParams));
   const [nowTick, setNowTick] = useState(() => Date.now());
+  const [dragId, setDragId] = useState<string | null>(null);
+  const [dragOverId, setDragOverId] = useState<string | null>(null);
+  const [workingHours, setWorkingHours] = useState<WorkingHoursConfig>(DEFAULT_WORKING_HOURS);
+  const [meetingSuggestions, setMeetingSuggestions] = useState<Date[] | null>(null);
+  const [suggestionsNote, setSuggestionsNote] = useState<string>("");
+  const [meetingTitle, setMeetingTitle] = useState("");
+  const [meetingDurationMinutes, setMeetingDurationMinutes] = useState(30);
+  const [meetingDescription, setMeetingDescription] = useState("");
+  const [activeTemplateId, setActiveTemplateId] = useState<string | null>(null);
 
   const currentZone = useMemo(
     () => Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
@@ -758,6 +1094,8 @@ export default function TimezoneConverterClient() {
       const abbr = abbreviation(selectedInstant, row.zone);
       const details = `${weekdayName(selectedInstant, row.zone)} · ${localDateLabel(selectedInstant, row.zone)} · ${abbr || "TZ"}`;
       const note = noteForTarget(selectedInstant, state.sourceZone, row.zone);
+      const diff = diffFromSource(selectedInstant, state.sourceZone, row.zone);
+      const inHours = isWithinWorkingHours(selectedInstant, row.zone, workingHours);
       return {
         id: row.id,
         zone: row.zone,
@@ -767,9 +1105,11 @@ export default function TimezoneConverterClient() {
         abbreviation: abbr,
         details,
         note,
+        diff,
+        inHours,
       };
     });
-  }, [selectedInstant, validInputs, state.targets, state.use24Hour, state.sourceZone]);
+  }, [selectedInstant, validInputs, state.targets, state.use24Hour, state.sourceZone, workingHours]);
 
   const resultMap = useMemo(() => new Map(results.map((r) => [r.id, r])), [results]);
   const selectedZones = useMemo(() => new Set(state.targets.map((t) => t.zone)), [state.targets]);
@@ -829,6 +1169,42 @@ export default function TimezoneConverterClient() {
     });
   }, []);
 
+  const reorderTargets = useCallback((sourceId: string, targetId: string) => {
+    if (sourceId === targetId) return;
+    setState((prev) => {
+      const from = prev.targets.findIndex((t) => t.id === sourceId);
+      const to = prev.targets.findIndex((t) => t.id === targetId);
+      if (from < 0 || to < 0) return prev;
+      const next = [...prev.targets];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return { ...prev, targets: next };
+    });
+  }, []);
+
+  const handleRowDragStart = useCallback((id: string) => {
+    setDragId(id);
+    setDragOverId(id);
+  }, []);
+
+  const handleRowDragOver = useCallback((id: string) => {
+    setDragOverId((prev) => (prev === id ? prev : id));
+  }, []);
+
+  const handleRowDrop = useCallback(
+    (id: string) => {
+      if (dragId) reorderTargets(dragId, id);
+      setDragId(null);
+      setDragOverId(null);
+    },
+    [dragId, reorderTargets]
+  );
+
+  const handleRowDragEnd = useCallback(() => {
+    setDragId(null);
+    setDragOverId(null);
+  }, []);
+
   const removeTarget = useCallback((id: string) => {
     setState((prev) => {
       if (prev.targets.length <= 1) return prev;
@@ -856,48 +1232,6 @@ export default function TimezoneConverterClient() {
     [showToast]
   );
 
-  const copyRow = useCallback(
-    async (id: string) => {
-      if (!selectedInstant || resultsAreStale) return;
-      const row = state.targets.find((t) => t.id === id);
-      if (!row) return;
-
-      const fmt = state.use24Hour ? "EEE, MMM d yyyy HH:mm" : "EEE, MMM d yyyy hh:mm a";
-      const text = [
-        `Source: ${state.sourceZone}`,
-        `Selected: ${formatInTimeZone(selectedInstant, state.sourceZone, fmt)}`,
-        `Target: ${row.zone}`,
-        `Converted: ${formatInTimeZone(selectedInstant, row.zone, fmt)}`,
-        `Offset: ${offsetText(selectedInstant, row.zone)}`,
-        `Abbreviation: ${abbreviation(selectedInstant, row.zone)}`,
-      ].join("\n");
-
-      const ok = await copyToClipboard(text);
-      if (ok) showToast("note", `${zoneMap.get(row.zone)?.label ?? row.zone} copied.`);
-      else showToast("error", "Copy failed.");
-    },
-    [selectedInstant, resultsAreStale, state.sourceZone, state.targets, state.use24Hour, showToast, zoneMap]
-  );
-
-  const copyAll = useCallback(
-    async () => {
-      if (!selectedInstant || resultsAreStale) return;
-      const fmt = state.use24Hour ? "EEE, MMM d yyyy HH:mm" : "EEE, MMM d yyyy hh:mm a";
-      const text = [
-        `Source: ${state.sourceZone}`,
-        `Selected: ${formatInTimeZone(selectedInstant, state.sourceZone, fmt)}`,
-        ...state.targets.map(
-          (row) =>
-            `${row.zone}: ${formatInTimeZone(selectedInstant, row.zone, fmt)} (${offsetText(selectedInstant, row.zone)}, ${abbreviation(selectedInstant, row.zone)})`
-        ),
-      ].join("\n");
-      const ok = await copyToClipboard(text);
-      if (ok) showToast("note", "All rows copied.");
-      else showToast("error", "Copy failed.");
-    },
-    [selectedInstant, resultsAreStale, state.sourceZone, state.targets, state.use24Hour, showToast]
-  );
-
   const copyShareLink = useCallback(async () => {
     if (resultsAreStale) {
       showToast("error", "Fix the source date/time before sharing a link.");
@@ -922,6 +1256,164 @@ export default function TimezoneConverterClient() {
       sourceTime: formatInTimeZone(now, prev.sourceZone, "HH:mm"),
     }));
   }, []);
+
+  const toggleWorkingDay = useCallback((iso: number) => {
+    setWorkingHours((prev) => {
+      const has = prev.days.includes(iso);
+      const days = has ? prev.days.filter((d) => d !== iso) : [...prev.days, iso].sort((a, b) => a - b);
+      return { ...prev, days };
+    });
+  }, []);
+
+  const findSlots = useCallback(() => {
+    const zones = [state.sourceZone, ...state.targets.map((t) => t.zone)];
+    if (workingHours.days.length === 0) {
+      setMeetingSuggestions([])
+      setSuggestionsNote("Select at least one working day.");
+      return;
+    }
+    if (workingHours.startTime >= workingHours.endTime) {
+      setMeetingSuggestions([])
+      setSuggestionsNote("Start time must be before end time.");
+      return;
+    }
+    const from = selectedInstant ?? new Date();
+    const found = findMeetingSuggestions(from, zones, workingHours, { maxResults: 8, horizonDays: 10 });
+    setMeetingSuggestions(found)
+    setSuggestionsNote(
+      found.length === 0
+        ? "No overlapping working-hours slot found in the next 10 days with the current settings. Try widening the hours or days."
+        : ""
+    );
+  }, [state.sourceZone, state.targets, selectedInstant, workingHours]);
+
+  const applySuggestion = useCallback(
+    (instant: Date) => {
+      setState((prev) => ({
+        ...prev,
+        sourceDate: formatInTimeZone(instant, prev.sourceZone, "yyyy-MM-dd"),
+        sourceTime: formatInTimeZone(instant, prev.sourceZone, "HH:mm"),
+      }));
+      setMeetingSuggestions(null)
+      showToast("note", "Meeting time applied to the source date/time.");
+    },
+    [showToast]
+  );
+
+  const applyTemplate = useCallback((template: MeetingTemplate) => {
+    setMeetingTitle(template.title);
+    setMeetingDurationMinutes(template.durationMinutes);
+    setMeetingDescription(template.description);
+    setActiveTemplateId(template.id);
+    if (template.workingHours) {
+      setWorkingHours((prev) => ({ ...prev, ...template.workingHours }));
+    }
+  }, []);
+
+  const exportCsv = useCallback(() => {
+    if (!selectedInstant || resultsAreStale) {
+      showToast("error", "Fix the source date/time before exporting.");
+      return;
+    }
+    const header = [
+      "Zone",
+      "Location",
+      "Role",
+      "Local date",
+      "Local time",
+      "Weekday",
+      "Abbreviation",
+      "UTC offset",
+      "Diff vs source",
+      "Working hours",
+    ];
+
+    const rowFor = (zone: string, role: string): string[] => [
+      zone,
+      zoneMap.get(zone)?.label ?? zone,
+      role,
+      formatInTimeZone(selectedInstant, zone, "yyyy-MM-dd"),
+      formatInTimeZone(selectedInstant, zone, state.use24Hour ? "HH:mm" : "hh:mm a"),
+      weekdayName(selectedInstant, zone),
+      abbreviation(selectedInstant, zone),
+      offsetText(selectedInstant, zone),
+      zone === state.sourceZone ? "Source" : diffFromSource(selectedInstant, state.sourceZone, zone),
+      isWithinWorkingHours(selectedInstant, zone, workingHours) ? "Yes" : "No",
+    ];
+
+    const rows = [
+      rowFor(state.sourceZone, "Source"),
+      ...state.targets.map((t) => rowFor(t.zone, "Target")),
+    ];
+
+    const csv = [toCsvRow(header), ...rows.map(toCsvRow)].join("\r\n");
+    const filename = `timezone-comparison-${formatInTimeZone(selectedInstant, state.sourceZone, "yyyyMMdd-HHmm")}.csv`;
+    downloadTextFile(csv, filename, "text/csv;charset=utf-8;");
+    showToast("note", "CSV exported.");
+  }, [selectedInstant, resultsAreStale, state.sourceZone, state.targets, state.use24Hour, workingHours, zoneMap, showToast]);
+
+  const exportIcs = useCallback(() => {
+    if (!selectedInstant || resultsAreStale) {
+      showToast("error", "Fix the source date/time before exporting.");
+      return;
+    }
+    const duration = Number.isFinite(meetingDurationMinutes) && meetingDurationMinutes > 0 ? meetingDurationMinutes : 30;
+    const start = selectedInstant;
+    const end = new Date(start.getTime() + duration * 60000);
+    const title = meetingTitle.trim() || "Meeting";
+
+    const zoneLines = [state.sourceZone, ...state.targets.map((t) => t.zone)]
+      .map((zone) => {
+        const label = zoneMap.get(zone)?.label ?? zone;
+        const localStr = formatInTimeZone(
+          start,
+          zone,
+          state.use24Hour ? "EEE, MMM d yyyy HH:mm" : "EEE, MMM d yyyy hh:mm a"
+        );
+        return `${label} (${zone}): ${localStr}`;
+      })
+      .join("\n");
+
+    const description = [meetingDescription.trim(), "Local times:", zoneLines].filter(Boolean).join("\n\n");
+    const uid = `${stableId()}@timezone-converter`;
+
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Timezone Converter//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      `UID:${uid}`,
+      `DTSTAMP:${toIcsUtc(new Date())}`,
+      `DTSTART:${toIcsUtc(start)}`,
+      `DTEND:${toIcsUtc(end)}`,
+      `SUMMARY:${icsEscape(title)}`,
+      `DESCRIPTION:${icsEscape(description)}`,
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+
+    const safeName = title.replace(/[^a-z0-9]+/gi, "-").toLowerCase() || "meeting";
+    downloadTextFile(ics, `${safeName}.ics`, "text/calendar;charset=utf-8;");
+    showToast("note", "Calendar invite (.ics) downloaded.");
+  }, [
+    selectedInstant,
+    resultsAreStale,
+    meetingDurationMinutes,
+    meetingTitle,
+    meetingDescription,
+    state.sourceZone,
+    state.targets,
+    state.use24Hour,
+    zoneMap,
+    showToast,
+  ]);
+
+  useEffect(() => {
+    setMeetingSuggestions(null)
+    setSuggestionsNote("");
+  }, [workingHours]);
 
   const onSearchKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -1012,12 +1504,12 @@ export default function TimezoneConverterClient() {
             Browser zone: {currentZone}
           </p>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white">
-            Timezone Converter
+            Meeting Time Finder
           </h1>
           <p className="mt-4 text-sm sm:text-base leading-7 text-zinc-300">
-            Convert one source time into up to 10 time zones instantly. Invalid or ambiguous source times are flagged before conversion. Need to schedule a meeting instead? Try the{" "}
-            <Link href="/tools/date-time/meeting-time-finder" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
-              Meeting Time Finder
+            Compare time zones and find the next slot where everyone's working hours overlap. Set working days and hours, apply a meeting template, and export a CSV or calendar invite. Just need a quick conversion? Try the{" "}
+            <Link href="/tools/date-time/timezone-converter" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
+              Timezone Converter
             </Link>.
           </p>
         </section>
@@ -1044,6 +1536,26 @@ export default function TimezoneConverterClient() {
                 options={selectOptions}
                 placeholder="Search source timezone..."
               />
+              {mounted && currentZone && state.sourceZone !== currentZone ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setState((prev) => {
+                      if (currentZone === prev.sourceZone) return prev;
+                      const targetIndex = prev.targets.findIndex((t) => t.zone === currentZone);
+                      if (targetIndex < 0) {
+                        return { ...prev, sourceZone: currentZone };
+                      }
+                      const nextTargets = [...prev.targets];
+                      nextTargets[targetIndex] = { ...nextTargets[targetIndex], zone: prev.sourceZone };
+                      return { ...prev, sourceZone: currentZone, targets: nextTargets };
+                    })
+                  }
+                  className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-300 transition hover:bg-white/10"
+                >
+                  📍 Detected your timezone as <span className="font-medium text-white">{currentZone}</span> — use it
+                </button>
+              ) : null}
             </label>
 
             <label className="block">
@@ -1109,14 +1621,14 @@ export default function TimezoneConverterClient() {
           </div>
           <div className="mt-4 grid gap-3">
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Quick add</span>
+              <span className="mb-2 block text-sm text-zinc-300">Popular timezones</span>
               <div className="flex flex-wrap gap-2">
                 {QUICK_ADD_ZONES.map(({ label, zone }) => (
                   <button
                     key={zone}
                     type="button"
                     onClick={() => addTarget(zone)}
-                    disabled={state.targets.length >= MAX_TARGETS}
+                    disabled={state.targets.length >= MAX_TARGETS || zone === state.sourceZone || state.targets.some((t) => t.zone === zone)}
                     className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     + {label}
@@ -1146,7 +1658,7 @@ export default function TimezoneConverterClient() {
               placeholder={
                 state.targets.length >= MAX_TARGETS
                   ? "Maximum of 10 target zones reached"
-                  : "Search target zone..."
+                  : "Search by city, country, or abbreviation (EST, IST, CET)..."
               }
               disabled={state.targets.length >= MAX_TARGETS}
               className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30 disabled:cursor-not-allowed disabled:opacity-60"
@@ -1193,11 +1705,126 @@ export default function TimezoneConverterClient() {
         </section>
 
         <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
+          <h2 className="text-lg font-semibold text-white">Find a meeting time</h2>
+          <p className="mt-1 text-sm text-zinc-400">
+            Set working days and hours (local to each zone), and I'll find the next slots where everyone in the comparison is available. DST is handled automatically.
+          </p>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-[auto_1fr_1fr_auto] lg:items-end">
+            <div>
+              <span className="mb-2 block text-sm text-zinc-300">Working days</span>
+              <div className="flex flex-wrap gap-1.5">
+                {WEEKDAY_OPTIONS.map(({ iso, label }) => {
+                  const active = workingHours.days.includes(iso);
+                  return (
+                    <button
+                      key={iso}
+                      type="button"
+                      onClick={() => toggleWorkingDay(iso)}
+                      aria-pressed={active}
+                      className={`rounded-full border px-3 py-2 text-xs font-medium transition ${
+                        active
+                          ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
+                          : "border-white/10 bg-white/5 text-zinc-400 hover:bg-white/10"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <label className="block">
+              <span className="mb-2 block text-sm text-zinc-300">Work starts (local)</span>
+              <input
+                type="time"
+                value={workingHours.startTime}
+                onChange={(e) => setWorkingHours((p) => ({ ...p, startTime: e.target.value }))}
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+              />
+            </label>
+
+            <label className="block">
+              <span className="mb-2 block text-sm text-zinc-300">Work ends (local)</span>
+              <input
+                type="time"
+                value={workingHours.endTime}
+                onChange={(e) => setWorkingHours((p) => ({ ...p, endTime: e.target.value }))}
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+              />
+            </label>
+
+            <label className="block">
+              <span className="mb-2 block text-sm text-zinc-300">Precision</span>
+              <select
+                value={workingHours.slotMinutes}
+                onChange={(e) => setWorkingHours((p) => ({ ...p, slotMinutes: Number(e.target.value) }))}
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+              >
+                {SLOT_PRECISION_OPTIONS.map((m) => (
+                  <option key={m} value={m} className="bg-slate-900">
+                    {m} min
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={findSlots}
+              className="rounded-full border border-white/10 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/20"
+            >
+              Find next available slots
+            </button>
+            <span className="text-xs text-zinc-400">
+              Checking {state.targets.length + 1} {(state.targets.length + 1) === 1 ? "zone" : "zones"} · next 10 days
+            </span>
+          </div>
+
+          {suggestionsNote ? (
+            <p className="mt-3 text-sm text-amber-200">{suggestionsNote}</p>
+          ) : null}
+
+          {meetingSuggestions && meetingSuggestions.length > 0 ? (
+            <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              {meetingSuggestions.map((instant) => (
+                <button
+                  key={instant.toISOString()}
+                  type="button"
+                  onClick={() => applySuggestion(instant)}
+                  className="rounded-2xl border border-white/10 bg-slate-950/40 px-3 py-3 text-left transition hover:border-emerald-400/30 hover:bg-emerald-500/10"
+                >
+                  <div className="text-xs uppercase tracking-wide text-zinc-400">
+                    {formatInTimeZone(instant, state.sourceZone, "EEE, MMM d")}
+                  </div>
+                  <div className="mt-1 text-sm font-semibold text-white">
+                    {formatInTimeZone(
+                      instant,
+                      state.sourceZone,
+                      state.use24Hour ? "HH:mm" : "hh:mm a"
+                    )}{" "}
+                    <span className="font-normal text-zinc-400">({abbreviation(instant, state.sourceZone)})</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </section>
+
+        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white">
-                Comparing {state.targets.length + 1}{" "}
-                {(state.targets.length + 1) === 1 ? "zone" : "zones"}
-            </h2>
+            <div>
+              <h2 className="text-lg font-semibold text-white">
+                  Comparing {state.targets.length + 1}{" "}
+                  {(state.targets.length + 1) === 1 ? "zone" : "zones"}
+              </h2>
+              <p className="mt-1 hidden text-xs text-zinc-400 md:block">
+                Drag <GripVertical className="inline h-3 w-3 align-text-bottom" /> to reorder rows, or use the arrows.
+              </p>
+            </div>
 
             <button
                 type="button"
@@ -1227,6 +1854,7 @@ export default function TimezoneConverterClient() {
                   <th scope="col" className="py-3 pr-3">Local time</th>
                   <th scope="col" className="py-3 pr-3">Details</th>
                   <th scope="col" className="py-3 pr-3">Offset</th>
+                  <th scope="col" className="py-3 pr-3">Diff vs source</th>
                   <th scope="col" className="py-3 pr-3">Action</th>
                 </tr>
                 <tr className="border-b ">
@@ -1269,6 +1897,19 @@ export default function TimezoneConverterClient() {
                           </>
                         )}
                       </span>
+                      {selectedInstant ? (
+                        <span
+                          className={`mt-0.5 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                            isWithinWorkingHours(selectedInstant, state.sourceZone, workingHours)
+                              ? "bg-emerald-500/15 text-emerald-300"
+                              : "bg-white/5 text-zinc-500"
+                          }`}
+                        >
+                          {isWithinWorkingHours(selectedInstant, state.sourceZone, workingHours)
+                            ? "● Working hours"
+                            : "○ Outside working hours"}
+                        </span>
+                      ) : null}
                   </div>
                 </td>
 
@@ -1288,6 +1929,10 @@ export default function TimezoneConverterClient() {
                 </td>
 
                 <td className="py-4 pr-3">
+                    <span className="inline-flex rounded-full bg-white/10 px-2 py-1 text-xs text-zinc-300">Source</span>
+                </td>
+
+                <td className="py-4 pr-3">
                     —
                 </td>
                 </tr>
@@ -1303,10 +1948,15 @@ export default function TimezoneConverterClient() {
                     resultsAreStale={resultsAreStale}
                     onUpdate={updateTarget}
                     onMove={moveTarget}
-                    onCopy={copyRow}
                     onRemove={removeTarget}
                     onMakeSource={makeSource}
                     selectOptions={selectOptions}
+                    onDragStart={handleRowDragStart}
+                    onDragOver={handleRowDragOver}
+                    onDrop={handleRowDrop}
+                    onDragEnd={handleRowDragEnd}
+                    isDragging={dragId === row.id}
+                    isDragOver={dragOverId === row.id && dragId !== row.id}
                   />
                 ))}
               </tbody>
@@ -1319,11 +1969,95 @@ export default function TimezoneConverterClient() {
             resultsAreStale={resultsAreStale}
             onUpdate={updateTarget}
             onMove={moveTarget}
-            onCopy={copyRow}
             onRemove={removeTarget}
             onMakeSource={makeSource}
             selectOptions={selectOptions}
           />
+        </section>
+
+        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
+          <h2 className="text-lg font-semibold text-white">Meeting details &amp; export</h2>
+          <p className="mt-1 text-sm text-zinc-400">
+            Pick a template to prefill the title, duration, and description, then export as CSV or a calendar invite.
+          </p>
+
+          <div className="mt-4">
+            <span className="mb-2 block text-sm text-zinc-300">Meeting templates</span>
+            <div className="flex flex-wrap gap-2">
+              {MEETING_TEMPLATES.map((template) => (
+                <button
+                  key={template.id}
+                  type="button"
+                  onClick={() => applyTemplate(template)}
+                  aria-pressed={activeTemplateId === template.id}
+                  className={`rounded-full border px-3 py-2 text-xs sm:text-sm font-medium transition ${
+                    activeTemplateId === template.id
+                      ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
+                      : "border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10"
+                  }`}
+                >
+                  {template.label} · {template.durationMinutes}m
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-[2fr_1fr]">
+            <label className="block">
+              <span className="mb-2 block text-sm text-zinc-300">Meeting title</span>
+              <input
+                type="text"
+                value={meetingTitle}
+                onChange={(e) => setMeetingTitle(e.target.value)}
+                placeholder="e.g. Q3 Board Review"
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-2 block text-sm text-zinc-300">Duration (minutes)</span>
+              <input
+                type="number"
+                min={5}
+                step={5}
+                value={meetingDurationMinutes}
+                onChange={(e) => setMeetingDurationMinutes(Number(e.target.value))}
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+              />
+            </label>
+          </div>
+
+          <label className="mt-3 block">
+            <span className="mb-2 block text-sm text-zinc-300">Description (optional)</span>
+            <textarea
+              value={meetingDescription}
+              onChange={(e) => setMeetingDescription(e.target.value)}
+              rows={3}
+              placeholder="Agenda, dial-in info, links..."
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+            />
+          </label>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={exportCsv}
+              disabled={resultsAreStale}
+              className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              ⬇ Export CSV
+            </button>
+            <button
+              type="button"
+              onClick={exportIcs}
+              disabled={resultsAreStale}
+              className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              📅 Download .ics calendar invite
+            </button>
+          </div>
+          <p className="mt-2 text-xs text-zinc-500">
+            The .ics event is anchored to the exact selected instant (stored in UTC), so it opens at the correct local time in any calendar app regardless of DST.
+          </p>
         </section>
 
         <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">

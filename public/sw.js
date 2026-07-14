@@ -1,6 +1,6 @@
 /* AtoolVerse Service Worker */
 
-const CACHE_VERSION = "456592f882a19c24";
+const CACHE_VERSION = "51adbac6fa613866";
 const CACHE_NAME = `AtoolVerse-${CACHE_VERSION}`;
 
 const APP_SHELL = [

@@ -106,4 +106,11 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
         "@/components/tools/dateTime/timezone-converter/timezoneConverter"
       ),
   ],
+  [
+    "date-time/meeting-time-finder",
+    () =>
+      import(
+        "@/components/tools/dateTime/meeting-time-finder/meetingTimeFinder"
+      ),
+  ],
 ]);

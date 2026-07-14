@@ -1,6 +1,6 @@
 import { serverConfig } from "@/config/server";
 const siteUrl = serverConfig.siteUrl;
-const canonicalPath = "/tools/timezone-converter";
+const canonicalPath = "/tools/timezone-converter"; // ⚠️ set this to THIS page's actual route
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
 type FaqItem = { q: string; a: string };
@@ -9,89 +9,89 @@ type StepItem = { title: string; desc: string; icon: string };
 const faqItems: FaqItem[] = [
   {
     q: "What does this timezone converter do?",
-    a: "It converts one selected source time into multiple target time zones and shows the local time, offset, abbreviation, and day difference.",
+    a: "It converts one source date and time into up to 10 other time zones side by side, showing local time, UTC offset, abbreviation, and day difference for each.",
   },
   {
-    q: "Can I compare more than one time zone at once?",
-    a: "Yes. You can compare several target zones side by side in a single view.",
+    q: "How is this different from a meeting scheduler?",
+    a: "This tool is for fast, one-off conversions — enter a time once and see it everywhere instantly. If you need to find a time slot where several people's working hours overlap, use the Meeting Time Finder instead.",
   },
   {
-    q: "Does this tool handle daylight saving time?",
-    a: "Yes. It accounts for DST changes and can flag invalid or ambiguous source times during transitions.",
+    q: "Does it handle daylight saving time?",
+    a: "Yes. Offsets are calculated from the real UTC offset at the selected instant, and the tool flags source times that are invalid or ambiguous due to a DST transition.",
   },
   {
-    q: "Can I convert a time from IST to UTC or EST?",
-    a: "Yes. You can select the source zone and view conversions such as IST to UTC, EST, PST, GMT, and many other zones.",
+    q: "Can I convert IST to UTC, EST, or GMT?",
+    a: "Yes. Pick any source zone and add target zones such as UTC, EST, PST, GMT, CET, and more from the quick-add list or the search box.",
   },
   {
-    q: "Is this a world clock converter?",
-    a: "It works like a world clock converter because it shows the same source instant across multiple cities and time zones.",
+    q: "Can I search by city or country instead of picking from a long list?",
+    a: "Yes. Type a city or country name in the search box and matching zones appear instantly, ranked by relevance.",
   },
   {
-    q: "Can I use this for meeting planning?",
-    a: "Yes. It is useful for scheduling calls, interviews, webinars, and global team meetings across different regions.",
+    q: "Can I copy the converted times?",
+    a: "Yes. Copy a single row's details or copy every zone at once as plain text, ready to paste into an email or message.",
   },
   {
-    q: "Can I share the conversion link?",
-    a: "Yes. The tool can generate a shareable URL with your selected source zone, date, time, and target zones.",
+    q: "Can I share this exact comparison with someone else?",
+    a: "Yes. Copy a share link that encodes your source zone, date, time, and target zones — anyone who opens it sees the same comparison.",
   },
   {
-    q: "Does it support 12-hour and 24-hour time?",
-    a: "Yes. You can switch between 12-hour and 24-hour display formats.",
+    q: "Does it support 12-hour and 24-hour formats?",
+    a: "Yes. Toggle between 12-hour AM/PM and 24-hour display at any time.",
   },
   {
-    q: "Is this timezone converter free?",
-    a: "Yes. You can use it without a paid subscription.",
+    q: "Can I reorder the zones I'm comparing?",
+    a: "Yes. Move any row up or down, or click a zone's time to make it the new source zone.",
   },
   {
-    q: "Can I use it on mobile?",
-    a: "Yes. The interface is responsive and works on phones, tablets, and desktops.",
+    q: "Is this free and does it work on mobile?",
+    a: "Yes. It's free to use and the layout adapts to a card view on phones and tablets.",
   },
   {
-    q: "Does the tool show day differences?",
-    a: "Yes. It shows whether the converted time falls on the same day, the next day, or the previous day in the target zone.",
+    q: "Does it show if a converted time falls on a different day?",
+    a: "Yes. Each row shows whether the result lands on the same day, the next day, or the previous day relative to your source time.",
   },
   {
-    q: "Can I copy converted times?",
-    a: "Yes. You can copy a single row or all rows for easy sharing and planning.",
+    q: "Does my data get sent to a server?",
+    a: "No. All conversions happen locally in your browser.",
   },
 ];
 
 const howToSteps: StepItem[] = [
   {
-    title: "Choose the source time zone",
-    desc: "Select the zone where your original time belongs.",
+    title: "Pick the source zone",
+    desc: "Choose the time zone your original time is in. Your browser's zone is detected automatically.",
     icon: "🕒",
   },
   {
-    title: "Enter the date and time",
-    desc: "Set the source date and time you want to convert.",
+    title: "Enter date and time",
+    desc: "Set the exact source date and time you want converted.",
     icon: "📅",
   },
   {
     title: "Add target zones",
-    desc: "Pick one or more target cities or time zones to compare.",
+    desc: "Search by city or country, or use quick-add buttons, to compare up to 10 zones at once.",
     icon: "🌍",
   },
   {
-    title: "Review conversions",
-    desc: "Check the converted local time, offset, and day difference for each zone.",
+    title: "Read the results",
+    desc: "See converted local time, UTC offset, abbreviation, and day difference for every zone instantly.",
     icon: "👀",
   },
   {
     title: "Copy or share",
-    desc: "Copy the results or share the link with your selected settings.",
+    desc: "Copy a single row, copy everything, or share a link that preserves your exact comparison.",
     icon: "🔗",
   },
 ];
 
 const supportedUseCases = [
-  { useCase: "Business meetings", note: "Plan calls across teams in different countries." },
-  { useCase: "Interview scheduling", note: "Avoid confusion when booking cross-time-zone interviews." },
-  { useCase: "Travel planning", note: "Check local arrival and departure times before you fly." },
-  { useCase: "Webinars and events", note: "Coordinate a launch or live session for a global audience." },
-  { useCase: "Remote work", note: "Keep your daily work schedule aligned with teammates abroad." },
-  { useCase: "Exam and form deadlines", note: "Understand submission times in the correct local zone." },
+  { useCase: "Quick call scheduling", note: "Check what time it is somewhere else before you dial in." },
+  { useCase: "Travel planning", note: "See local arrival and departure times before you book a flight." },
+  { useCase: "Cross-border deadlines", note: "Confirm submission or filing deadlines in the correct local zone." },
+  { useCase: "Remote check-ins", note: "Glance at a teammate's local time before messaging them." },
+  { useCase: "Event announcements", note: "Convert a single event time into every region your audience is in." },
+  { useCase: "Personal reminders", note: "Confirm a friend or family member's local time across zones." },
 ];
 
 const popularPairs = [
@@ -104,22 +104,22 @@ const popularPairs = [
 ];
 
 const tips = [
-  "Set the source date carefully when DST changes are involved.",
-  "Use the same source instant to compare all target zones.",
-  "Check the day difference when scheduling international meetings.",
-  "Use 24-hour mode to avoid AM/PM confusion.",
-  "Copy the share link if you need to send the same conversion to someone else.",
-  "Use city names when you want a more practical comparison view.",
+  "Double-check the source date when converting near a DST changeover — the tool will warn you if the time is invalid or ambiguous.",
+  "Use city names in search when you want a more intuitive comparison than raw UTC offsets.",
+  "Check the day-difference badge — an overlapping hour can still land on a different calendar day.",
+  "Use 24-hour mode when sharing with international contacts to avoid AM/PM mix-ups.",
+  "Copy the share link instead of retyping times when sending the comparison to someone else.",
+  "Need to find a slot that works for everyone's working hours instead of a single conversion? Use the Meeting Time Finder.",
 ];
 
 const relatedTools = [
+  { name: "Meeting Time Finder", href: "/tools/meeting-time-finder" }, // adjust to actual route
   { name: "Unit Converter", href: "/tools/converter" },
   { name: "Calculator", href: "/tools/calculator" },
   { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
   { name: "ROI Calculator", href: "/tools/calculator/roi-calculator" },
   { name: "PDF Tools", href: "/tools/pdf" },
   { name: "Image Tools", href: "/tools/image" },
-  { name: "Finance Tools", href: "/tools/finance" }
 ];
 
 const faqJsonLd = {
@@ -138,7 +138,7 @@ const faqJsonLd = {
 const howToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Use the Timezone Converter",
+  name: "How to Convert a Time Across Multiple Time Zones",
   description: "Convert one source time into multiple time zones with local time, offset, and day difference.",
   totalTime: "PT1M",
   step: howToSteps.map((step, index) => ({
@@ -209,24 +209,26 @@ export default function TimezoneConverterSeoContent() {
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
-      {/* <JsonLd data={softwareApplicationSchema} /> */}
 
       <section aria-labelledby="intro-heading" className="space-y-3">
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Free Browser-Based Timezone Converter
+          Free Instant Timezone Converter
         </p>
         <h1
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          Free Timezone Converter Online – Convert Time Across Multiple Time Zones
+          Timezone Converter – Instantly Convert Time Across Multiple Zones
         </h1>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Convert one source time into multiple time zones instantly. Compare local time,
-          UTC offset, daylight saving time changes, and day differences for cities around
-          the world with a free timezone converter built for planning meetings, travel,
-          and global coordination. Use common zones like IST, UTC, GMT, EST, PST, and
-          many more to quickly see how the same instant appears in different regions.
+          Enter a time once and see it converted across up to 10 time zones instantly — no
+          scheduling logic, just a fast, accurate lookup. Compare local time, UTC offset,
+          and day differences for zones like IST, UTC, GMT, EST, and PST, copy the results,
+          or share a link. Need to find a slot that fits everyone's working hours instead?
+          Try the{" "}
+          <a href="/tools/meeting-time-finder" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
+            Meeting Time Finder
+          </a>.
         </p>
       </section>
 
@@ -234,7 +236,7 @@ export default function TimezoneConverterSeoContent() {
         <SectionHeading
           id="use-cases-heading"
           title="Common Use Cases"
-          description="A timezone converter is useful whenever you need to coordinate across regions."
+          description="A quick converter is useful whenever you need a single time translated, not a scheduled overlap."
         />
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {supportedUseCases.map((item) => (
@@ -250,7 +252,7 @@ export default function TimezoneConverterSeoContent() {
         <SectionHeading
           id="pairs-heading"
           title="Popular Timezone Conversions"
-          description="These are some of the most commonly searched timezone pairs."
+          description="Some of the most commonly searched timezone pairs."
         />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {popularPairs.map((pair) => (
@@ -273,7 +275,7 @@ export default function TimezoneConverterSeoContent() {
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
           {howToSteps.map((step) => (
             <article key={step.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-lg">{step.icon}</div>
+              <div className="text-lg" aria-hidden="true">{step.icon}</div>
               <h3 className="mt-2 text-sm font-semibold">{step.title}</h3>
               <p className="mt-1.5 text-sm leading-6 text-white/70">{step.desc}</p>
             </article>
@@ -281,39 +283,11 @@ export default function TimezoneConverterSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="features-heading" className="space-y-4">
-        <SectionHeading
-          id="features-heading"
-          title="What You Can Compare"
-          description="The tool focuses on practical conversion details that matter in real scheduling."
-        />
-        <ul className="grid gap-3 md:grid-cols-2">
-          <li className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
-            Converted local time in each target zone.
-          </li>
-          <li className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
-            UTC or local offset for every selected zone.
-          </li>
-          <li className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
-            DST-aware conversions with invalid or ambiguous time warnings.
-          </li>
-          <li className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
-            Same-day, next-day, or previous-day indicators.
-          </li>
-          <li className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
-            Copyable results and shareable links.
-          </li>
-          <li className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
-            12-hour and 24-hour display options.
-          </li>
-        </ul>
-      </section>
-
       <section aria-labelledby="tips-heading" className="space-y-4">
         <SectionHeading
           id="tips-heading"
-          title="Timezone Planning Tips"
-          description="Use these quick tips to avoid confusion when scheduling across regions."
+          title="Conversion Tips"
+          description="Quick tips to avoid the most common mistakes."
         />
         <ul className="grid gap-3 md:grid-cols-2">
           {tips.map((item) => (
@@ -348,8 +322,8 @@ export default function TimezoneConverterSeoContent() {
       <section aria-labelledby="cta-heading" className="space-y-4">
         <SectionHeading
           id="cta-heading"
-          title="Plan Across Time Zones Faster"
-          description="Use this timezone converter to compare multiple cities, check day changes, and avoid meeting confusion. It is useful for international teams, interview scheduling, travel planning, webinars, and any situation where a single time needs to be understood in several regions. You can also switch formats, copy results, or share the conversion link directly. Explore the related tools below for more utilities."
+          title="Need to Schedule a Meeting Instead?"
+          description="This tool is built for fast, single conversions. If you need to find a time slot where several people's working hours overlap — with templates, CSV export, and calendar invites — the Meeting Time Finder is the better fit."
         />
         <div className="flex flex-wrap gap-2.5">
           {relatedTools.map((tool) => (

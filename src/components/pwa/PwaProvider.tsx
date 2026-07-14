@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -46,6 +47,10 @@ export function PwaProvider({
   const [isOnline, setOnline] = useState(true);
 
   const [updateAvailable, setUpdateAvailable] = useState(false);
+
+  // Guards against reloading twice if controllerchange fires more than once.
+  const reloadingRef = useRef(false);
+
   // ----------------------------------------
   // Register Service Worker
   // ----------------------------------------
@@ -63,6 +68,13 @@ export function PwaProvider({
         if (!mounted) return;
 
         setRegistration(reg);
+
+        // Covers long-lived open tabs: proactively re-check for a new SW.
+        const intervalId = window.setInterval(() => {
+          reg.update().catch(() => {});
+        }, 60 * 60 * 1000); // hourly
+
+        return () => window.clearInterval(intervalId);
       })
       .catch((err) => {
         //console.error("[PWA]", err);
@@ -74,50 +86,79 @@ export function PwaProvider({
   }, []);
 
   // ----------------------------------------
-// Detect Service Worker Updates
-// ----------------------------------------
+  // Reload once the new SW actually takes control
+  // ----------------------------------------
 
-useEffect(() => {
-  if (!registration) {
-    return;
-  }
-
-  // Already waiting?
-  if (registration.waiting) {
-    setUpdateAvailable(true);
-  }
-
-  const handleUpdateFound = () => {
-    const worker = registration.installing;
-
-    if (!worker) {
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) {
       return;
     }
 
-    worker.addEventListener("statechange", () => {
-      if (
-        worker.state === "installed" &&
-        navigator.serviceWorker.controller
-      ) {
-        //console.log("[PWA] New version available");
+    const handleControllerChange = () => {
+      if (reloadingRef.current) return;
+      reloadingRef.current = true;
+      window.location.reload();
+    };
 
-        setUpdateAvailable(true);
+    navigator.serviceWorker.addEventListener(
+      "controllerchange",
+      handleControllerChange
+    );
+
+    return () => {
+      navigator.serviceWorker.removeEventListener(
+        "controllerchange",
+        handleControllerChange
+      );
+    };
+  }, []);
+
+  // ----------------------------------------
+  // Detect Service Worker Updates
+  // ----------------------------------------
+
+  useEffect(() => {
+    if (!registration) {
+      return;
+    }
+
+    // Already waiting?
+    if (registration.waiting) {
+      setUpdateAvailable(true);
+    }
+
+    const handleUpdateFound = () => {
+      const worker = registration.installing;
+
+      if (!worker) {
+        return;
       }
-    });
-  };
 
-  registration.addEventListener(
-    "updatefound",
-    handleUpdateFound
-  );
+      worker.addEventListener("statechange", () => {
+        if (
+          worker.state === "installed" &&
+          navigator.serviceWorker.controller
+        ) {
+          //console.log("[PWA] New version available");
 
-  return () => {
-    registration.removeEventListener(
+          setUpdateAvailable(true);
+        }
+      });
+    };
+
+    registration.addEventListener(
       "updatefound",
       handleUpdateFound
     );
-  };
-}, [registration]);
+
+    return () => {
+      registration.removeEventListener(
+        "updatefound",
+        handleUpdateFound
+      );
+    };
+  }, [registration]);
+
   // ----------------------------------------
   // Install Prompt
   // ----------------------------------------
@@ -204,7 +245,7 @@ useEffect(() => {
 
     setInstallPrompt(null);
   }, [installPrompt]);
-  
+
   const updateApp = useCallback(() => {
     if (!registration?.waiting) {
       return;
@@ -213,6 +254,8 @@ useEffect(() => {
     registration.waiting.postMessage({
       type: "SKIP_WAITING",
     });
+    // Reload is handled by the controllerchange listener above,
+    // once the new worker actually takes control.
   }, [registration]);
 
   const value = useMemo(
