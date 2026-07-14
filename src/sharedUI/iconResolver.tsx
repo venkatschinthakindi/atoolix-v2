@@ -18,6 +18,7 @@ import {
   IdCard,
   PenTool,
   Globe,
+  CalendarClock,
   Clock3
 } from "lucide-react";
 import React from "react";
@@ -42,6 +43,7 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
   IdCard: IdCard,
   PenTool: PenTool,
   Globe: Globe,
+  CalendarClock: CalendarClock,
   Clock3: Clock3
 };
 

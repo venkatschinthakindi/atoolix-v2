@@ -621,7 +621,38 @@ function findMeetingSuggestions(
   }
   return results;
 }
+function normalizeDaysParam(raw: string | null): number[] | null {
+  if (raw === null) return null;
+  const days = raw
+    .split(",")
+    .map((d) => Number(d))
+    .filter((d) => Number.isInteger(d) && d >= 1 && d <= 7);
+  return Array.from(new Set(days)).sort((a, b) => a - b);
+}
 
+function buildInitialWorkingHours(searchParams: ReturnType<typeof useSearchParams>): WorkingHoursConfig {
+  const start = normalizeTime(searchParams.get("wstart") ?? "");
+  const end = normalizeTime(searchParams.get("wend") ?? "");
+  const slotRaw = Number(searchParams.get("wslot"));
+  const slot = SLOT_PRECISION_OPTIONS.includes(slotRaw) ? slotRaw : null;
+  const days = normalizeDaysParam(searchParams.get("wdays"));
+
+  return {
+    startTime: start || DEFAULT_WORKING_HOURS.startTime,
+    endTime: end || DEFAULT_WORKING_HOURS.endTime,
+    slotMinutes: slot ?? DEFAULT_WORKING_HOURS.slotMinutes,
+    days: days !== null ? days : DEFAULT_WORKING_HOURS.days,
+  };
+}
+
+function buildInitialMeetingDetails(searchParams: ReturnType<typeof useSearchParams>) {
+  const durationRaw = Number(searchParams.get("mdur"));
+  return {
+    title: searchParams.get("mtitle") ?? "",
+    durationMinutes: Number.isFinite(durationRaw) && durationRaw > 0 ? durationRaw : 30,
+    description: searchParams.get("mdesc") ?? "",
+  };
+}
 function buildInitialState(searchParams: ReturnType<typeof useSearchParams>): ConverterState {
   const detectedZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const sourceZone = searchParams.get("source");
@@ -647,13 +678,26 @@ function buildInitialState(searchParams: ReturnType<typeof useSearchParams>): Co
   };
 }
 
-function serializeState(state: ConverterState) {
+function serializeFullState(
+  state: ConverterState,
+  workingHours: WorkingHoursConfig,
+  meetingTitle: string,
+  meetingDurationMinutes: number,
+  meetingDescription: string
+) {
   const params = new URLSearchParams();
   params.set("source", state.sourceZone);
   params.set("date", state.sourceDate);
   params.set("time", state.sourceTime);
   params.set("zones", encodeZones(state.targets.map((t) => t.zone)));
   params.set("format", state.use24Hour ? "24" : "12");
+  params.set("wdays", workingHours.days.join(","));
+  params.set("wstart", workingHours.startTime);
+  params.set("wend", workingHours.endTime);
+  params.set("wslot", String(workingHours.slotMinutes));
+  if (meetingTitle.trim()) params.set("mtitle", meetingTitle);
+  if (meetingDurationMinutes) params.set("mdur", String(meetingDurationMinutes));
+  if (meetingDescription.trim()) params.set("mdesc", meetingDescription);
   return params.toString();
 }
 
@@ -980,6 +1024,13 @@ export default function MeetingTimeFinderClient() {
       sourceDate: initial.sourceDate || dfFormat(now, "yyyy-MM-dd"),
       sourceTime: initial.sourceTime || dfFormat(now, "HH:mm"),
     }));
+
+    setWorkingHours(buildInitialWorkingHours(searchParams));
+
+    const initialMeeting = buildInitialMeetingDetails(searchParams);
+    setMeetingTitle(initialMeeting.title);
+    setMeetingDurationMinutes(initialMeeting.durationMinutes);
+    setMeetingDescription(initialMeeting.description);
   }, []);
 
   useEffect(() => {
@@ -1053,7 +1104,13 @@ export default function MeetingTimeFinderClient() {
     if (!normalizeDate(state.sourceDate)) return;
     if (!normalizeTime(state.sourceTime)) return;
 
-    const next = serializeState(state);
+    const next = serializeFullState(
+      state,
+      workingHours,
+      meetingTitle,
+      meetingDurationMinutes,
+      meetingDescription
+    );
     if (next === searchParams.toString()) return;
 
     if (debounceRef.current) window.clearTimeout(debounceRef.current);
@@ -1065,7 +1122,7 @@ export default function MeetingTimeFinderClient() {
     return () => {
       if (debounceRef.current) window.clearTimeout(debounceRef.current);
     };
-  }, [mounted, state, pathname, router]);
+  }, [mounted, state, workingHours, meetingTitle, meetingDurationMinutes, meetingDescription, pathname, router]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -1073,6 +1130,11 @@ export default function MeetingTimeFinderClient() {
     if (current === lastSyncedParamsRef.current) return;
     lastSyncedParamsRef.current = current;
     setState(buildInitialState(searchParams));
+    setWorkingHours(buildInitialWorkingHours(searchParams));
+    const meeting = buildInitialMeetingDetails(searchParams);
+    setMeetingTitle(meeting.title);
+    setMeetingDurationMinutes(meeting.durationMinutes);
+    setMeetingDescription(meeting.description);
   }, [mounted, searchParams]);
 
 
@@ -1243,10 +1305,30 @@ export default function MeetingTimeFinderClient() {
     allowed.set("time", state.sourceTime);
     allowed.set("zones", encodeZones(state.targets.map((t) => t.zone)));
     allowed.set("format", state.use24Hour ? "24" : "12");
+    allowed.set("wdays", workingHours.days.join(","));
+    allowed.set("wstart", workingHours.startTime);
+    allowed.set("wend", workingHours.endTime);
+    allowed.set("wslot", String(workingHours.slotMinutes));
+    if (meetingTitle.trim()) allowed.set("mtitle", meetingTitle);
+    if (meetingDurationMinutes) allowed.set("mdur", String(meetingDurationMinutes));
+    if (meetingDescription.trim()) allowed.set("mdesc", meetingDescription);
     const ok = await copyToClipboard(`${window.location.origin}${pathname}?${allowed.toString()}`);
     if (ok) showToast("note", "Share link copied.");
     else showToast("error", "Copy failed.");
-  }, [resultsAreStale, pathname, state.sourceZone, state.sourceDate, state.sourceTime, state.targets, state.use24Hour, showToast]);
+  }, [
+    resultsAreStale,
+    pathname,
+    state.sourceZone,
+    state.sourceDate,
+    state.sourceTime,
+    state.targets,
+    state.use24Hour,
+    workingHours,
+    meetingTitle,
+    meetingDurationMinutes,
+    meetingDescription,
+    showToast,
+  ]);
 
   const jumpToNow = useCallback(() => {
     const now = new Date();
@@ -2058,48 +2140,6 @@ export default function MeetingTimeFinderClient() {
           <p className="mt-2 text-xs text-zinc-500">
             The .ics event is anchored to the exact selected instant (stored in UTC), so it opens at the correct local time in any calendar app regardless of DST.
           </p>
-        </section>
-
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
-          <h2 className="text-xl font-semibold text-white">Related tools</h2>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Link
-              href="/tools/converter"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
-            >
-              Unit Converter
-            </Link>
-            <Link
-              href="/tools/calculator/emi-calculator"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
-            >
-              EMI Calculator
-            </Link>
-            <Link
-              href="/tools/calculator/roi-calculator"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
-            >
-              ROI Calculator
-            </Link>
-            <Link
-              href="/pdf"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
-            >
-              PDF Tools
-            </Link>
-            <Link
-              href="/image"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
-            >
-              Image Tools
-            </Link>
-            <Link
-              href="/finance"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
-            >
-              Finance Tools
-            </Link>
-          </div>
         </section>
       </div>
     </div>
