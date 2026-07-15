@@ -3,6 +3,7 @@
 import { RefreshCcw, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { usePwa } from "./PwaProvider";
+import { serverConfig } from "@/config/client";
 
 export default function PwaUpdateToast() {
   const { updateAvailable, updateApp } = usePwa();
@@ -63,7 +64,7 @@ export default function PwaUpdateToast() {
               🚀 New version ready
             </div>
             <p className="mt-1 text-[12.5px] leading-relaxed text-white/60">
-              A newer version of AtoolVerse is ready. Refresh to get the latest
+              A newer version of {serverConfig.siteName} is ready. Refresh to get the latest
               features and fixes.
             </p>
 

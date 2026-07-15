@@ -1,3 +1,4 @@
+import { serverConfig } from "@/config/server";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -341,19 +342,19 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://AtoolVerse.com",
+      item: `${serverConfig.siteUrl}`,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Tools",
-      item: "https://AtoolVerse.com/tools",
+      item: `${serverConfig.siteUrl}/tools`,
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "Retirement Calculator",
-      item: "https://AtoolVerse.com/tools/retirement-calculator",
+      item: `${serverConfig.siteUrl}/tools/retirement-calculator`,
     },
   ],
 };

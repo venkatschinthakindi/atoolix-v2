@@ -1,12 +1,14 @@
+import "client-only";
+
 export const serverConfig = {
-  siteName: process.env.SITE_NAME!,
-  siteUrl: process.env.SITE_URL!,
-  siteLogoUrl: process.env.SITE_LOGO_URL!,
-  siteDescription: process.env.SITE_DESCRIPTION!,
+  siteName: process.env.NEXT_PUBLIC_SITE_NAME!,
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL!,
+  siteLogoUrl: process.env.NEXT_PUBLIC_SITE_LOGO_URL!,
+  siteDescription: process.env.NEXT_PUBLIC_SITE_DESCRIPTION!,
 
-  companyName: process.env.COMPANY_NAME!,
+  companyName: process.env.NEXT_PUBLIC_SITE_COMPANY_NAME!,
 
-  supportEmail: process.env.SUPPORT_EMAIL!,
+  supportEmail: process.env.NEXT_PUBLIC_SITE_SUPPORT_EMAIL!,
 
   theme: {
     default: "dark",
@@ -14,6 +16,6 @@ export const serverConfig = {
   },
 
   analytics: {
-    googleAnalyticsId: process.env.GA_ID,
+    googleAnalyticsId: process.env.NEXT_PUBLIC_GA_ID,
   },
 } as const;

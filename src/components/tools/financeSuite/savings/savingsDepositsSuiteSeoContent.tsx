@@ -1,3 +1,5 @@
+import { serverConfig } from "@/config/server";
+
 export default function SavingsDepositsSeoContent() {
   const faqItems = [
     {
@@ -251,19 +253,19 @@ const calculatorSchema = {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://AtoolVerse.com",
+        item: `${serverConfig.siteUrl}`,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Tools",
-        item: "https://AtoolVerse.com/tools",
+        item: `${serverConfig.siteUrl}/tools`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Savings and Deposits Calculator",
-        item: "https://AtoolVerse.com/tools/savings-deposits-calculator",
+        item: `${serverConfig.siteUrl}/tools/savings-deposits-calculator`,
       },
     ],
   };

@@ -97,7 +97,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "ATtoolVerse",
+    title: "atoolix",
     statusBarStyle: "black-translucent"
   },
 };

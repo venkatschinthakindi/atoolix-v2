@@ -303,9 +303,9 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
               <Sparkles className="h-3.5 w-3.5" />
               Unit converter
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
               Convert Units Fast
-            </h1>
+            </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
               Transform length, weight, volume, temperature, and more with effortless conversions — all powered by a sleek, user‑friendly interface.
             </p>

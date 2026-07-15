@@ -335,9 +335,9 @@ function StatCard({
 /** Section heading used throughout */
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h1 className="text-sm font-semibold text-white/80 tracking-wide uppercase mb-3">
+    <h2 className="text-sm font-semibold text-white/80 tracking-wide uppercase mb-3">
       {children}
-    </h1>
+    </h2>
   );
 }
 import dynamic from "next/dynamic";

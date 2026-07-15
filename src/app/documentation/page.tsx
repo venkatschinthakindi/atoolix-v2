@@ -310,9 +310,9 @@ export default function DocumentationPage() {
         <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-300">
           Documentation Center • Last updated: {lastUpdated}
         </p>
-        <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+        <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
           {siteName} Documentation
-        </h1>
+        </h2>
         <p className="mt-2 text-base leading-7 text-zinc-300">
           Learn how to use every tool on the site, what each tool is for, and when to choose one tool
           over another. Use the table of contents to jump directly to the topic you need.

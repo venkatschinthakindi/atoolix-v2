@@ -8,6 +8,7 @@ import { ToolRegistryEntry } from "@/data/tools";
 import { serverConfig } from "@/config/server";
 import ToolRendererClient from "@/components/tools/toolRendererClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
+import { Footer } from "@/app/footer/footer";
 
 export async function generateMetadata({
   params,
@@ -81,7 +82,7 @@ export default async function ToolPage({ params }: any) {
               
               <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
               <ToolSeoContent toolId={toolId} />
-            
+              <Footer />
           </div>
       </div>
       <script

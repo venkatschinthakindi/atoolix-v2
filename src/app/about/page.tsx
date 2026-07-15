@@ -49,7 +49,7 @@ const features = [
   {
     title: "Built to grow",
     description:
-      "AtoolVerse is designed to expand, so new tools and categories can be added over time.",
+      `${siteName} is designed to expand, so new tools and categories can be added over time.`,
   },
 ];
 
@@ -115,14 +115,14 @@ export default function AboutPage() {
         <section className="mb-14">
           <h2 className="text-3xl font-semibold text-white">What we do</h2>
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            AtoolVerse brings practical tools together in one place so you can calculate, convert, compress, and prepare files
+            {siteName} brings practical tools together in one place so you can calculate, convert, compress, and prepare files
             without unnecessary complexity. The goal is to keep the experience clean and fast while building a platform that can grow
             with new tools later.
           </p>
         </section>
 
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">Why AtoolVerse</h2>
+          <h2 className="text-3xl font-semibold text-white">Why {siteName}</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {features.map((feature) => (
               <article key={feature.title} className="rounded-3xl border border-white/10 bg-white/5 p-6">
@@ -152,7 +152,7 @@ export default function AboutPage() {
           <h2 className="text-3xl font-semibold text-white">Designed to expand</h2>
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
             The site is intentionally extensible, so more tools can be added in the future without changing the core experience.
-            That makes AtoolVerse a strong base for future categories such as more finance utilities, image tools, PDF tools, and
+            That makes {siteName} a strong base for future categories such as more finance utilities, image tools, PDF tools, and
             other everyday productivity features.
           </p>
         </section>

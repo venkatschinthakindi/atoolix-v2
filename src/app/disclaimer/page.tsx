@@ -230,10 +230,10 @@ export default function DisclaimerPage() {
           <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
             If you have any questions about this Disclaimer, please contact us at{" "}
             <a
-              href="mailto:support@atoolverse.com"
+              href="mailto:support@atoolix.com"
               className="text-white underline underline-offset-4"
             >
-              support@atoolverse.com
+              support@{siteName}.com
             </a>
             . You can also visit our{" "}
             <Link href="/contact" className="text-white underline underline-offset-4">

@@ -1,7 +1,7 @@
-/* AtoolVerse Service Worker */
+/* atoolix Service Worker */
 
 const CACHE_VERSION = "__BUILD_VERSION__";
-const CACHE_NAME = `AtoolVerse-${CACHE_VERSION}`;
+const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 
 const APP_SHELL = [
   "/",
@@ -87,7 +87,7 @@ self.addEventListener("fetch", (event) => {
   // Matches "/tools" exactly (the tools index) and everything under
   // "/tools/..." (every individual tool page, present and future).
   const isNoCachePath = NO_CACHE_PREFIXES.some(
-    (prefix) => url.pathname === prefix || url.pathname.startsWith(`${prefix}/`)
+    (prefix) => url.pathname?.toLowerCase() === prefix || url.pathname?.toLowerCase().startsWith(`${prefix}/`)
   );
 
   if (isNoCachePath) {

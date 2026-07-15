@@ -1585,9 +1585,9 @@ export default function MeetingTimeFinderClient() {
           <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[11px] sm:text-xs font-medium text-zinc-300">
             Browser zone: {currentZone}
           </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white">
             Meeting Time Finder
-          </h1>
+          </h2>
           <p className="mt-4 text-sm sm:text-base leading-7 text-zinc-300">
             Compare time zones and find the next slot where everyone's working hours overlap. Set working days and hours, apply a meeting template, and export a CSV or calendar invite. Just need a quick conversion? Try the{" "}
             <Link href="/tools/date-time/timezone-converter" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">

@@ -413,9 +413,9 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "PDF",
-    featured: true,
+    featured: false,
+    comingSoon: false,
     preload: false,
-    comingSoon: true,
     defaultProps: {
       allowedFormats: ["pdf"]
     }
