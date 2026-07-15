@@ -38,6 +38,7 @@ const seoLoaders: Record<string, SeoLoader> = {
   "image/resize-signature-for-upload": () => import("@/components/tools/image/signatureResizer/signatureResizerSeoContent"),
   "date-time/timezone-converter": () => import("@/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent"),
   "date-time/meeting-time-finder": () => import("@/components/tools/dateTime/meeting-time-finder/meetingTimeFinderSeoContent"),
+  "image/background-remover": () => import("@/components/tools/image/backgroundRemover/backgroundRemoverSeoContent"),
 };
 
 export default async function ToolSeoContent({ toolId }: { toolId: string }) {

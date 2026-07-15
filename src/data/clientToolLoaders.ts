@@ -100,6 +100,10 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
       ),
   ],
   [
+    "image/background-remover",
+    () => import("@/components/tools/image/backgroundRemover/backgroundRemover"),
+  ],
+  [
     "date-time/timezone-converter",
     () =>
       import(

@@ -52,12 +52,12 @@ export const categoryIcons: CategoryInfo[] = [
   //   description: "Crop images to custom sizes and aspect ratios",
   //   icon: 'Image'
   // },
-  // {
-  //   id: "Background_Remover",
-  //   title: "Background Remover",
-  //   description: "Remove image backgrounds automatically with AI",
-  //   icon: 'Image'
-  // },
+  {
+    id: "Image_Editor",
+    title: "Image Editor",
+    description: "Edit, enhance, and transform your images — remove backgrounds, resize, crop, and more.",
+    icon: "Wand2"
+  },
   {
     id: "Finance",
     title: "Finance",
@@ -392,29 +392,6 @@ export const tools: ToolRegistryEntry[] = [
     )
   },
   {
-    id: "image/webp-to-pdf",
-    icon: "FileImage",
-    ...getDefaultIamgeToPdfConverterRegistry(
-      "WEBP to PDF",
-      "WEBP to PDF Converter Online | Free Image Tool",
-      "Convert WEBP to PDF Online | Fast & High-Quality",
-      "Convert WEBP images into PDF documents instantly. Maintain image clarity and combine multiple WEBP files into a single, print-ready PDF output.",
-      ["webp"],
-      [
-        "webp to pdf converter",
-        "convert webp to pdf",
-        "webp to pdf online",
-        "merge webp into pdf",
-        "create pdf from webp"
-      ],
-      {
-        canonical: `${siteUrl}/tools/image/webp-to-pdf`
-      },
-      "WebApplication",
-      "Utilities"
-    )
-  },
-  {
     id: "pdf/compress-pdf",
     //loader: () => import("@/components/tools/pdf/compress-pdf/CompressPDF"),
     toolShortName: "Compress PDF",
@@ -442,6 +419,314 @@ export const tools: ToolRegistryEntry[] = [
     defaultProps: {
       allowedFormats: ["pdf"]
     }
+  },
+  
+  //SVG
+  {
+    id: "image/svg-to-png",
+    icon: "ArrowLeftRight",
+    //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
+    title: "SVG to PNG Converter Online | Vector to Raster",
+    toolShortName: "SVG to PNG",
+    onPageTitle: "Convert SVG to PNG Online | Fast Vector to Raster Tool",
+    description: "Convert SVG vector graphics to PNG format online with high-quality retention. Export scalable designs into lightweight PNGs for web and design use.",
+    keywords: [
+      "svg to png converter",
+      "convert svg to png online",
+      "vector to raster converter",
+      "transparent svg to png",
+      "svg to png free tool"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/image/svg-to-png`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Image_Converter",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      inputFormats: ["svg"],
+      outputFormats: ["png"]
+    },
+  },
+  {
+    id: "image/svg-to-jpg",
+    icon: "ArrowLeftRight",
+    //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
+    title: "SVG to JPG Converter Online | Vector to Image",
+    toolShortName: "SVG to JPG",
+    onPageTitle: "Convert SVG to JPG Online | Optimize Graphics for Web",
+    description: "Convert SVG vector graphics to JPG format online with fast conversion and compression. Export scalable designs as lightweight JPG images.",
+    keywords: [
+      "svg to jpg converter",
+      "convert svg to jpg online",
+      "vector to jpg converter",
+      "svg to jpeg converter",
+      "svg to jpg free tool"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/image/svg-to-jpg`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Image_Converter",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      inputFormats: ["svg"],
+      outputFormats: ["jpg"]
+    },
+  },
+  //Image Converters End
+  //Image compressors Start
+  {
+    id: "image/compress-image",
+    icon: "ImageDown",
+    //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
+    title: "Image Compressor Online | JPG, PNG, WEBP",
+    toolShortName: "Compress Image",
+    onPageTitle: "Compress JPG, PNG & WEBP Images | Custom Quality Control",
+    description: "Compress JPG, JPEG, WEBP, and PNG images online with adjustable quality settings. Reduce file size for faster websites, email, and storage, free and instant.",
+    keywords: [
+      "image compressor online",
+      "compress jpg online",
+      "compress png online",
+      "compress webp online",
+      "reduce image file size",
+      "bulk image compressor",
+      "online image optimizer"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/image/compress-image`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Image_Compressor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      allowedFormats: [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp"
+      ],
+      defaultQuality: 80,
+      mode: "quality"
+    },
+  },
+  {
+    id: "image/passport-photo-resizer",
+    icon: "IdCard",
+    ...getDefaultCompressorRegistry(),
+    category: "Image_Editor",
+    //loader: () => import("@/components/tools/image/passpoerPhotoResizer/passpoerPhotoCompressor"),
+    defaultProps: {
+      ...getDefaultCompressorRegistry().defaultProps as any,
+      targetKB: 20,
+      lockTarget: false,
+      targetWidth: 51,
+      targetHeight: 51
+    },
+    toolShortName: "Passport Photo Resizer",
+    title: "Passport Photo Resizer Online | Custom Size 0-100KB",
+    onPageTitle: "Resize Passport Photo | Custom Size & Official Dimensions",
+    description: "Resize passport photos online with a custom file size from 0-100KB and official dimensions for India, USA, UK, and EU passport or visa applications.",
+    keywords: [
+      "passport photo resizer online",
+      "resize passport photo",
+      "passport photo size 20kb",
+      "passport photo size 50kb",
+      "rta driving license photo resizer",
+      "visa photo resizer",
+      "2x2 inch passport photo"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/image/passport-photo-resizer`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities"
+  },
+  {
+    id: "image/resize-signature-for-upload",
+    icon: "PenTool",
+    ...getDefaultCompressorRegistry(),
+    category: "Image_Editor",
+    //loader: () => import("@/components/tools/image/signatureResizer/signatureCompressor"),
+    defaultProps: {
+      ...getDefaultCompressorRegistry().defaultProps as any,
+      targetKB: 20,
+      lockTarget: false,
+      targetWidth: 51,
+      targetHeight: 51
+    },
+    toolShortName: "Signature Resizer",
+    title: "Resize Signature for Upload | 0-100KB Optimizer",
+    onPageTitle: "Compress & Resize Signature Images for Online Forms",
+    description: "Resize and compress signature images online with a custom size from 0-100KB. Optimize JPG, JPEG, PNG, and WEBP signatures for forms and document uploads.",
+    keywords: [
+      "resize signature for upload",
+      "compress signature image online",
+      "signature image resizer",
+      "reduce signature file size",
+      "signature size for form upload"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/image/resize-signature-for-upload`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities"
+  },
+  {
+    id: "image/background-remover",
+    icon: "Scissors",
+    //loader: () => import("@/components/tools/image/backgroundRemover/BackgroundRemoverClient"),
+    title: "Background Remover Online | Remove Image Background Free",
+    toolShortName: "Background Remover",
+    onPageTitle: "Background Remover | Remove Background from Any Photo Free",
+    description: "Remove the background from any photo instantly and replace it with transparent, white, black, or any custom color or image — free, private, and processed entirely in your browser.",
+    keywords: [
+      "background remover",
+      "remove background from image",
+      "remove image background online",
+      "transparent background maker",
+      "photo background remover free",
+      "white background photo tool",
+      "change photo background color",
+      "passport photo background remover",
+      "product photo background remover",
+      "ai background remover",
+      "remove bg online free",
+      "add background to image"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/image/background-remover`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Image_Editor",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: {
+      inputFormats: [
+        "jpg",
+        "jpeg",
+        "png",
+        "webp",
+        "bmp",
+        "gif",
+        "avif"
+      ],
+      outputFormats: ["png"],
+      maxFileMB: 25,
+      defaultBackgroundMode: "transparent"
+    },
+  },
+  // Date and Time Tools Start
+  {
+    id: "date-time/timezone-converter",
+    icon: "Globe",
+    //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
+    title: "Timezone Converter Online | Convert Time Between Time Zones Instantly",
+    toolShortName: "Timezone Converter",
+    onPageTitle: "Timezone Converter | Convert Time Across Multiple Zones Instantly",
+    description:
+      "Free timezone converter to instantly convert time between world time zones. Compare local time, UTC offset, and daylight saving time (DST) changes for up to 10 zones at once — copy results or share a link.",
+    keywords: [
+      "timezone converter",
+      "time zone converter",
+      "world time converter",
+      "time converter",
+      "utc converter",
+      "utc to local time converter",
+      "gmt converter",
+      "local time converter",
+      "international time converter",
+      "convert time zones",
+      "utc offset calculator",
+      "daylight saving time converter",
+      "DST converter",
+      "IST converter",
+      "EST to IST",
+      "PST to IST",
+      "GMT to IST",
+      "current time in city",
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/date-time/timezone-converter`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Date & Time",
+    category: "DateAndTime",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+  },
+  {
+    id: "date-time/meeting-time-finder",
+    icon: "CalendarClock",
+    //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
+    title: "Meeting Time Finder | Find the Best Meeting Time Across Time Zones",
+    toolShortName: "Meeting Time Finder",
+    onPageTitle: "Meeting Time Finder | Schedule Meetings Across Time Zones",
+    description:
+      "Find overlapping working hours across multiple time zones automatically. Set working days and hours per zone, apply meeting templates, and export a CSV comparison or a .ics calendar invite — built for scheduling global team meetings, interviews, and calls.",
+    keywords: [
+      "meeting time finder",
+      "meeting scheduler",
+      "meeting time planner",
+      "world meeting planner",
+      "best time to meet across time zones",
+      "time zone meeting scheduler",
+      "team meeting time zones",
+      "working hours overlap calculator",
+      "schedule meeting multiple time zones",
+      "international meeting scheduler",
+      "interview scheduling time zones",
+      "calendar invite generator",
+      "ics calendar export",
+      "compare time zones for meetings",
+      "cross timezone scheduling tool",
+      "remote team meeting planner",
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/date-time/meeting-time-finder`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Date & Time",
+    category: "DateAndTime",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+  },
+  //Image compressors End
+  {
+    id: "image/webp-to-pdf",
+    icon: "FileImage",
+    ...getDefaultIamgeToPdfConverterRegistry(
+      "WEBP to PDF",
+      "WEBP to PDF Converter Online | Free Image Tool",
+      "Convert WEBP to PDF Online | Fast & High-Quality",
+      "Convert WEBP images into PDF documents instantly. Maintain image clarity and combine multiple WEBP files into a single, print-ready PDF output.",
+      ["webp"],
+      [
+        "webp to pdf converter",
+        "convert webp to pdf",
+        "webp to pdf online",
+        "merge webp into pdf",
+        "create pdf from webp"
+      ],
+      {
+        canonical: `${siteUrl}/tools/image/webp-to-pdf`
+      },
+      "WebApplication",
+      "Utilities"
+    )
   },
   {
     id: "image/jpg-to-png",
@@ -680,104 +965,6 @@ export const tools: ToolRegistryEntry[] = [
     },
   },
 
-  //SVG
-  {
-    id: "image/svg-to-png",
-    icon: "ArrowLeftRight",
-    //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
-    title: "SVG to PNG Converter Online | Vector to Raster",
-    toolShortName: "SVG to PNG",
-    onPageTitle: "Convert SVG to PNG Online | Fast Vector to Raster Tool",
-    description: "Convert SVG vector graphics to PNG format online with high-quality retention. Export scalable designs into lightweight PNGs for web and design use.",
-    keywords: [
-      "svg to png converter",
-      "convert svg to png online",
-      "vector to raster converter",
-      "transparent svg to png",
-      "svg to png free tool"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/image/svg-to-png`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities",
-    category: "Image_Converter",
-    featured: false,
-    comingSoon: false,
-    preload: false,
-    defaultProps: {
-      inputFormats: ["svg"],
-      outputFormats: ["png"]
-    },
-  },
-  {
-    id: "image/svg-to-jpg",
-    icon: "ArrowLeftRight",
-    //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
-    title: "SVG to JPG Converter Online | Vector to Image",
-    toolShortName: "SVG to JPG",
-    onPageTitle: "Convert SVG to JPG Online | Optimize Graphics for Web",
-    description: "Convert SVG vector graphics to JPG format online with fast conversion and compression. Export scalable designs as lightweight JPG images.",
-    keywords: [
-      "svg to jpg converter",
-      "convert svg to jpg online",
-      "vector to jpg converter",
-      "svg to jpeg converter",
-      "svg to jpg free tool"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/image/svg-to-jpg`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities",
-    category: "Image_Converter",
-    featured: false,
-    comingSoon: false,
-    preload: false,
-    defaultProps: {
-      inputFormats: ["svg"],
-      outputFormats: ["jpg"]
-    },
-  },
-  //Image Converters End
-  //Image compressors Start
-  {
-    id: "image/compress-image",
-    icon: "ImageDown",
-    //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
-    title: "Image Compressor Online | JPG, PNG, WEBP",
-    toolShortName: "Compress Image",
-    onPageTitle: "Compress JPG, PNG & WEBP Images | Custom Quality Control",
-    description: "Compress JPG, JPEG, WEBP, and PNG images online with adjustable quality settings. Reduce file size for faster websites, email, and storage, free and instant.",
-    keywords: [
-      "image compressor online",
-      "compress jpg online",
-      "compress png online",
-      "compress webp online",
-      "reduce image file size",
-      "bulk image compressor",
-      "online image optimizer"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/image/compress-image`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities",
-    category: "Image_Compressor",
-    featured: true,
-    comingSoon: false,
-    preload: false,
-    defaultProps: {
-      allowedFormats: [
-        "jpg",
-        "jpeg",
-        "png",
-        "webp"
-      ],
-      defaultQuality: 80,
-      mode: "quality"
-    },
-  },
   {
     id: "image/compress-jpg",
     icon: "ImageDown",
@@ -967,146 +1154,8 @@ export const tools: ToolRegistryEntry[] = [
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities"
-  },
-  {
-    id: "image/passport-photo-resizer",
-    icon: "IdCard",
-    ...getDefaultCompressorRegistry(),
-    //loader: () => import("@/components/tools/image/passpoerPhotoResizer/passpoerPhotoCompressor"),
-    defaultProps: {
-      ...getDefaultCompressorRegistry().defaultProps as any,
-      targetKB: 20,
-      lockTarget: false,
-      targetWidth: 51,
-      targetHeight: 51
-    },
-    toolShortName: "Passport Photo Resizer",
-    title: "Passport Photo Resizer Online | Custom Size 0-100KB",
-    onPageTitle: "Resize Passport Photo | Custom Size & Official Dimensions",
-    description: "Resize passport photos online with a custom file size from 0-100KB and official dimensions for India, USA, UK, and EU passport or visa applications.",
-    keywords: [
-      "passport photo resizer online",
-      "resize passport photo",
-      "passport photo size 20kb",
-      "passport photo size 50kb",
-      "rta driving license photo resizer",
-      "visa photo resizer",
-      "2x2 inch passport photo"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/image/passport-photo-resizer`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities"
-  },
-  {
-    id: "image/resize-signature-for-upload",
-    icon: "PenTool",
-    ...getDefaultCompressorRegistry(),
-    //loader: () => import("@/components/tools/image/signatureResizer/signatureCompressor"),
-    defaultProps: {
-      ...getDefaultCompressorRegistry().defaultProps as any,
-      targetKB: 20,
-      lockTarget: false,
-      targetWidth: 51,
-      targetHeight: 51
-    },
-    toolShortName: "Signature Resizer",
-    title: "Resize Signature for Upload | 0-100KB Optimizer",
-    onPageTitle: "Compress & Resize Signature Images for Online Forms",
-    description: "Resize and compress signature images online with a custom size from 0-100KB. Optimize JPG, JPEG, PNG, and WEBP signatures for forms and document uploads.",
-    keywords: [
-      "resize signature for upload",
-      "compress signature image online",
-      "signature image resizer",
-      "reduce signature file size",
-      "signature size for form upload"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/image/resize-signature-for-upload`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities"
-  },
-
-  // Date and Time Tools Start
-  {
-    id: "date-time/timezone-converter",
-    icon: "Globe",
-    //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
-    title: "Timezone Converter Online | Convert Time Between Time Zones Instantly",
-    toolShortName: "Timezone Converter",
-    onPageTitle: "Timezone Converter | Convert Time Across Multiple Zones Instantly",
-    description:
-      "Free timezone converter to instantly convert time between world time zones. Compare local time, UTC offset, and daylight saving time (DST) changes for up to 10 zones at once — copy results or share a link.",
-    keywords: [
-      "timezone converter",
-      "time zone converter",
-      "world time converter",
-      "time converter",
-      "utc converter",
-      "utc to local time converter",
-      "gmt converter",
-      "local time converter",
-      "international time converter",
-      "convert time zones",
-      "utc offset calculator",
-      "daylight saving time converter",
-      "DST converter",
-      "IST converter",
-      "EST to IST",
-      "PST to IST",
-      "GMT to IST",
-      "current time in city",
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/date-time/timezone-converter`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Date & Time",
-    category: "DateAndTime",
-    featured: true,
-    comingSoon: false,
-    preload: false,
-  },
-  {
-    id: "date-time/meeting-time-finder",
-    icon: "CalendarClock",
-    //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
-    title: "Meeting Time Finder | Find the Best Meeting Time Across Time Zones",
-    toolShortName: "Meeting Time Finder",
-    onPageTitle: "Meeting Time Finder | Schedule Meetings Across Time Zones",
-    description:
-      "Find overlapping working hours across multiple time zones automatically. Set working days and hours per zone, apply meeting templates, and export a CSV comparison or a .ics calendar invite — built for scheduling global team meetings, interviews, and calls.",
-    keywords: [
-      "meeting time finder",
-      "meeting scheduler",
-      "meeting time planner",
-      "world meeting planner",
-      "best time to meet across time zones",
-      "time zone meeting scheduler",
-      "team meeting time zones",
-      "working hours overlap calculator",
-      "schedule meeting multiple time zones",
-      "international meeting scheduler",
-      "interview scheduling time zones",
-      "calendar invite generator",
-      "ics calendar export",
-      "compare time zones for meetings",
-      "cross timezone scheduling tool",
-      "remote team meeting planner",
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/date-time/meeting-time-finder`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Date & Time",
-    category: "DateAndTime",
-    featured: true,
-    comingSoon: false,
-    preload: false,
   }
-  //Image compressors End
+  
 ];
 
 function getDefaultCompressorRegistry() {
