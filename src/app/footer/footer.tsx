@@ -59,7 +59,7 @@ export async function Footer() {
           </nav>
 
           <nav aria-label="Popular tools">
-            <h2 className="mb-4 text-sm font-medium text-white">Popular Tools</h2>
+            <span className="mb-4 text-sm font-medium text-white">Popular Tools</span>
             <ul className="space-y-3 text-sm">
               {popularTools.map((item) => (
                 <li key={item.href}>

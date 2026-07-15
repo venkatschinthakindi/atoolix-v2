@@ -60,9 +60,9 @@ useEffect(() => {
         {/* Header */}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="section-title">
+            <span className="section-title">
               Featured Tools
-            </h2>
+            </span>
             <p className="section-copy">
               Powerful utilities designed to speed up your workflow
             </p>

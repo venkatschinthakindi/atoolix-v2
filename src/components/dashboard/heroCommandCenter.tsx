@@ -64,10 +64,10 @@ export function HeroCommandCenter() {
         100+ Productivity Tools
       </span>
 
-      <h1 className="hero-title">
+      <span className="hero-title">
         Find the perfect tool  <br />
         for every task
-      </h1>
+      </span>
 
       <p className="hero-copy">
         All your calculators, PDF tools, AI utilities and developer tools in one place.

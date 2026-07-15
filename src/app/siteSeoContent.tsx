@@ -142,7 +142,7 @@ export async function HomePageSeo() {
             </p>
 
             <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Free Online Tools for PDF, Images, Finance & Math
+              Free Online Tools for PDF, Images, Finance, Math and More
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
@@ -175,7 +175,7 @@ export async function HomePageSeo() {
           </div>
 
           <aside className="rounded-3xl border border-white/10 bg-white/10 p-5 shadow-2xl backdrop-blur-sm sm:p-6">
-            <h2 className="text-lg font-semibold text-white">Popular tools</h2>
+            <span className="text-lg font-semibold text-white">Popular tools</span>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {quickLinks.map((link) => (
                 <Link
@@ -196,8 +196,8 @@ export async function HomePageSeo() {
 
       <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-semibold sm:text-3xl">Browse Free Online Tool Categories</h2>
+          <div className="max-w-3xl pt-4">
+            <span className="text-2xl font-semibold sm:text-3xl">Browse Free Online Tool Categories</span>
             <p className="mt-3 text-base">
               Find the tool you need without installing software. Each category is built for quick access, clear input,
               and useful output.
@@ -210,7 +210,7 @@ export async function HomePageSeo() {
                 key={group.title}
                 className="rounded-3xl border border-slate-200 p-6 shadow-sm transition hover:shadow-md"
               >
-                <h2 className="text-xl font-semibold">{group.title}</h2>
+                <span className="text-xl font-semibold">{group.title}</span>
                 <p className="mt-3 text-sm leading-6">{group.description}</p>
                 <ul className="mt-4 space-y-2 text-sm">
                   {group.items.map((item) => (
@@ -234,7 +234,7 @@ export async function HomePageSeo() {
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2">
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Why people use this site</h2>
+              <span className="text-2xl font-semibold tracking-tight sm:text-3xl">Why people use this site</span>
               <p className="mt-4 text-base">
                 The site is built for students, job seekers, creators, and professionals who need quick browser tools for
                 documents, calculations, and image preparation.
@@ -242,7 +242,7 @@ export async function HomePageSeo() {
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Common use cases</h2>
+              <span className="text-2xl font-semibold tracking-tight sm:text-3xl">Common use cases</span>
               <ul className="mt-4 space-y-3 text-base">
                 <li>Compress a passport photo to the required size.</li>
                 <li>Reduce signature file size for upload forms.</li>
@@ -258,7 +258,7 @@ export async function HomePageSeo() {
       <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">About our tools</h2>
+            <span className="text-2xl font-semibold tracking-tight sm:text-3xl">About our tools</span>
             <p className="mt-4 text-base leading-7">
               Our browser-based tools are designed to help users complete common tasks quickly with a simple interface and
               clear results. We focus on practical utilities such as PDF processing, image conversion, finance planning,
@@ -276,7 +276,7 @@ export async function HomePageSeo() {
       <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <h2 className="text-xl font-semibold">Explore Tool Categories</h2>
+            <span className="text-xl font-semibold">Explore Tool Categories</span>
             <div className="flex flex-wrap gap-3">
               {quickLinks.map((link) => (
                 <Link
@@ -295,7 +295,7 @@ export async function HomePageSeo() {
       <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <h2 className="text-xl font-semibold">Recently updated</h2>
+            <span className="text-xl font-semibold">Recently updated</span>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-white/75">
               {recentlyUpdated.map((item) => (
                 <li key={item.href}>
