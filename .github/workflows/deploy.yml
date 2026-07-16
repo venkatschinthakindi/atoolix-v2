@@ -60,14 +60,7 @@ jobs:
 
             ln -sfn "$APP_DIR/releases/$RELEASE" "$APP_DIR/current"
 
-            if pm2 describe atoolix >/dev/null 2>&1; then
-              pm2 reload atoolix --update-env
-            else
-              cd "$APP_DIR/current"
-              PORT=3000 pm2 start server.js --name atoolix
-            fi
-
-            pm2 save
+            systemctl restart atoolix
 
             cd "$APP_DIR/releases"
             ls -1dt */ | tail -n +4 | xargs -r rm -rf
