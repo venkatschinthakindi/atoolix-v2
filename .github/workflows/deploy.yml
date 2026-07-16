@@ -60,7 +60,7 @@ jobs:
 
             ln -sfn "$APP_DIR/releases/$RELEASE" "$APP_DIR/current"
 
-            systemctl restart atoolix
+            sudo systemctl restart atoolix.service
 
             cd "$APP_DIR/releases"
             ls -1dt */ | tail -n +4 | xargs -r rm -rf
