@@ -13,7 +13,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { Field } from "@/components/ui/field";
+import { Field } from "@/components/ui/Field";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { StatCard } from "@/sharedUI/statCard";
 import { useSearchParams } from "next/navigation";

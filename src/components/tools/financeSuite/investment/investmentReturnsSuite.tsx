@@ -15,7 +15,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-import { Field } from "@/components/ui/field";
+import { Field } from "@/components/ui/Field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { ExplainerPanel, TabKey } from "@/sharedUI/explainerPanel";

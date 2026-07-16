@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Props } from "@/types/props";
-import { DropZone } from "@/components/ui/dropZone";
+import { DropZone } from "@/components/ui/DropZone";
 import {
   Sparkles,
   FileUp,

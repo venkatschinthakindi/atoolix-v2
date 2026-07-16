@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { CommandPalette } from "@/components/ui/commandPalette";
+import { CommandPalette } from "@/components/ui/CommandPalette";
 import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { getCachedTools } from "@/data/tools";

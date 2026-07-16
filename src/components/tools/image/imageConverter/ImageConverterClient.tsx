@@ -15,8 +15,8 @@ import {
   Maximize2,
 } from "lucide-react";
 
-import { DropZone, getAcceptString } from "@/components/ui/dropZone";
-import { ProgressBar } from "@/components/ui/progressBar";
+import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 import { ToolConfig } from "@/types/imageConverter.types";
 import { convertImage } from "@/features/imageConverter/converters/convertImage";
 import { validateImage } from "@/features/imageConverter/validateImage";

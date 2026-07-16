@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { FinanceChart } from "@/components/tools/financeSuite/financeChart";
 import { FinancePdfExport } from "@/components/tools/financeSuite/financePdfExport";
-import { Field } from "@/components/ui/field";
+import { Field } from "@/components/ui/Field";
 import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { StatCard } from "@/sharedUI/statCard";
 import { SectionHeader } from "@/sharedUI/sectionHeader";

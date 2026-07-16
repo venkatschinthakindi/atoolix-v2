@@ -15,8 +15,8 @@ import {
   Gauge,
 } from "lucide-react";
 
-import { DropZone, getAcceptString } from "@/components/ui/dropZone";
-import { ProgressBar } from "@/components/ui/progressBar";
+import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 import { CompressorConfig } from "@/types/imageCompressor.types";
 import { validateImage } from "@/features/imageConverter/validateImage";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";

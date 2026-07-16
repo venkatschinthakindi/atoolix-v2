@@ -17,8 +17,8 @@ import {
   Wand2,
 } from "lucide-react";
 
-import { DropZone, getAcceptString } from "@/components/ui/dropZone";
-import { ProgressBar } from "@/components/ui/progressBar";
+import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 

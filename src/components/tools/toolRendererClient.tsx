@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useMemo, type ComponentType } from "react";
-import { ToolContextProvider } from "@/context/toolContext";
+import { ToolContextProvider } from "@/context/ToolContext";
 import ToolLoader from "@/components/tools/ToolLoader";
 import { ToolRegistryEntry } from "@/data/tools";
 import { clientToolLoaders } from "@/data/clientToolLoaders";

@@ -18,8 +18,8 @@ import {
 } from "lucide-react";
 
 
-import { DropZone } from "@/components/ui/dropZone";
-import { ProgressBar } from "@/components/ui/progressBar";
+import { DropZone } from "@/components/ui/DropZone";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Props } from "@/types/props";
 import { PDFItem } from "@/types/pdfItem";
 import { ToolState } from "@/types/toolState";

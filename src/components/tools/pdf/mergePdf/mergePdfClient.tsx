@@ -27,8 +27,8 @@ import {
   Plus,
 } from "lucide-react";
 
-import { DropZone } from "@/components/ui/dropZone";
-import { ProgressBar } from "@/components/ui/progressBar";
+import { DropZone } from "@/components/ui/DropZone";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Props } from "@/types/props";
 import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 import { StatCard } from "@/components/ui/statCard";

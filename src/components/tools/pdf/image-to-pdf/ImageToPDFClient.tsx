@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 
 import { imagesToPDF, PageSize, Orientation } from "@/utility/imageFileToPdf";
-import { DropZone, getAcceptString } from "@/components/ui/dropZone";
+import { DropZone, getAcceptString } from "@/components/ui/DropZone";
 import { Props } from "@/types/props";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 import { StatCard } from "@/components/ui/statCard";
@@ -34,7 +34,7 @@ import { PremiumButton } from "@/components/ui/premiumButton";
 import { MiniPill } from "@/components/ui/miniPill";
 import { GlassIcon } from "@/components/ui/glassIcon";
 import CustomSelect from "@/components/ui/customSelect";
-import { ProgressBar } from "@/components/ui/progressBar";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),

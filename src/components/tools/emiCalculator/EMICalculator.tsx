@@ -342,7 +342,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 }
 import dynamic from "next/dynamic";
 const AmortizationChart = dynamic(
-  () => import("@/components/tools/emiCalculator/amortizationChart").then((m) => m.default),
+  () => import("@/components/tools/emiCalculator/AmortizationChart").then((m) => m.default),
   {
     ssr: false,
     loading: () => null,
