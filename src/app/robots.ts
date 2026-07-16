@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        disallow: "/",//make it as allow befrore deploy
+        allow: "/",//make it as allow befrore deploy
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
