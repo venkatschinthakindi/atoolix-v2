@@ -169,6 +169,8 @@ export default function RootLayout({
             {children}
           </main>
         </PwaProvider>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1267608571294570"
+          crossOrigin="anonymous"></script>
       </body>
     </html>
   );
