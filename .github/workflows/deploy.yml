@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,5 +34,40 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
           source: "deploy.tar.gz"
           target: "${{ secrets.SERVER_PATH }}/releases"
+
+      - name: Deploy on VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            set -e
+
+            APP_DIR="${{ secrets.SERVER_PATH }}"
+            RELEASE=$(date +%Y%m%d-%H%M%S)
+
+            mkdir -p "$APP_DIR/releases/$RELEASE"
+
+            tar -xzf "$APP_DIR/releases/deploy.tar.gz" \
+              -C "$APP_DIR/releases/$RELEASE"
+
+            rm -f "$APP_DIR/releases/deploy.tar.gz"
+
+            ln -sfn "$APP_DIR/releases/$RELEASE" "$APP_DIR/current"
+
+            if pm2 describe atoolix >/dev/null 2>&1; then
+              pm2 reload atoolix --update-env
+            else
+              cd "$APP_DIR/current"
+              PORT=3000 pm2 start server.js --name atoolix
+            fi
+
+            pm2 save
+
+            cd "$APP_DIR/releases"
+            ls -1dt */ | tail -n +4 | xargs -r rm -rf
