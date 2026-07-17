@@ -19,6 +19,17 @@ const APP_SHELL = [
 // shell/RSC responses causes stale/inconsistent behavior across visits.
 const NO_CACHE_PREFIXES = [
   "/tools",
+  "/about",
+  "/calculator",
+  "/datetime",
+  "/finance",
+  "/image",
+  "/pdf",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/disclaimer",
+  "/documentation"
 ];
 
 // ---------------------------------------------------------------------------
@@ -59,6 +70,9 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+navigator.serviceWorker.addEventListener("controllerchange", () => {
+  window.location.reload();
+});
 // ---------------------------------------------------------------------------
 // FETCH
 // ---------------------------------------------------------------------------
