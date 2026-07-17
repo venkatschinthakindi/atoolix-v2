@@ -210,14 +210,15 @@ export default function MergePdfSeoContent() {
       <section
         aria-labelledby="intro-heading"
       >
-        <h1
+        <div className="flex gap-3">
+          <span className="text-2xl">🔗</span>
+        <h2
           id="intro-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">🔗</span>
           Merge PDF Online – Combine, Arrange & Customize PDF Files Instantly
-        </h1>
-
+        </h2>
+</div>
         <p className="text-white/60 text-sm leading-relaxed">
           Merge PDF files online for free and create fully customized documents
           in seconds. This advanced <b className="text-white">PDF merger tool</b>
