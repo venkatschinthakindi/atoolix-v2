@@ -87,6 +87,7 @@ export type ToolRegistryEntry<Props = {}> = {
   comingSoon?: boolean;
   preload?: boolean;
   defaultProps?: Props;
+  toolImage: string;
 };
 
 export function getCachedTools(): ToolRegistryEntry[] {
@@ -121,7 +122,8 @@ export const tools: ToolRegistryEntry[] = [
     category: "Finance",
     featured: true,
     comingSoon: false,
-    preload: false
+    preload: false,
+    toolImage:"emi-calculator.png"
   },
   {
     id: "calculator/roi-calculator",
@@ -150,6 +152,7 @@ export const tools: ToolRegistryEntry[] = [
     featured: false,
     comingSoon: false,
     preload: false,
+    toolImage:"roi-calculator.png"
   },
   {
     id: "calculator/fd-calculator",
@@ -178,6 +181,7 @@ export const tools: ToolRegistryEntry[] = [
     featured: false,
     comingSoon: false,
     preload: false,
+    toolImage:"fd-calculator.png"
   },
   {
     id: "calculator/retirement-calculator",
@@ -206,6 +210,7 @@ export const tools: ToolRegistryEntry[] = [
     featured: false,
     comingSoon: false,
     preload: false,
+    toolImage:"retirement-calculator.png"
   },
   {
     id: "calculator",
@@ -232,7 +237,8 @@ export const tools: ToolRegistryEntry[] = [
     applicationCategory: "EducationalApplication",
     category: "Math",
     featured: true,
-    preload: false
+    preload: false,
+    toolImage:"calculator.png"
   },
   {
     id: "converter",
@@ -259,7 +265,8 @@ export const tools: ToolRegistryEntry[] = [
     applicationCategory: "Utilities",
     category: "Math",
     featured: true,
-    preload: false
+    preload: false,
+    toolImage:"converter.png"
   },
   {
     id: "pdf/merge-pdf",
@@ -287,7 +294,8 @@ export const tools: ToolRegistryEntry[] = [
     preload: false,
     defaultProps: {
       allowedFormats: ["pdf"]
-    }
+    },
+    toolImage:"merge-pdf.png"
   },
   {
     id: "pdf/split-pdf",
@@ -315,7 +323,8 @@ export const tools: ToolRegistryEntry[] = [
     preload: false,
     defaultProps: {
       allowedFormats: ["pdf"]
-    }
+    },
+    toolImage:"split-pdf.png"
   },
   {
     id: "image/image-to-pdf",
@@ -340,7 +349,8 @@ export const tools: ToolRegistryEntry[] = [
       },
       "WebApplication",
       "Utilities"
-    )
+    ),
+    toolImage:"image-to-pdf.png"
   },
   {
     id: "image/jpg-to-pdf",
@@ -364,7 +374,8 @@ export const tools: ToolRegistryEntry[] = [
       },
       "WebApplication",
       "Utilities"
-    )
+    ),
+    toolImage:"jpg-to-pdf.png"
   },
   {
     id: "image/png-to-pdf",
@@ -387,7 +398,8 @@ export const tools: ToolRegistryEntry[] = [
       },
       "WebApplication",
       "Utilities"
-    )
+    ),
+    toolImage:"png-to-pdf.png"
   },
   {
     id: "pdf/compress-pdf",
@@ -416,7 +428,8 @@ export const tools: ToolRegistryEntry[] = [
     preload: false,
     defaultProps: {
       allowedFormats: ["pdf"]
-    }
+    },
+    toolImage:"compress-pdf.png"
   },
   
   //SVG
@@ -448,6 +461,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["svg"],
       outputFormats: ["png"]
     },
+    toolImage:"svg-to-png.png"
   },
   {
     id: "image/svg-to-jpg",
@@ -477,6 +491,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["svg"],
       outputFormats: ["jpg"]
     },
+    toolImage:"svg-to-jpg.png"
   },
   //Image Converters End
   //Image compressors Start
@@ -516,6 +531,7 @@ export const tools: ToolRegistryEntry[] = [
       defaultQuality: 80,
       mode: "quality"
     },
+    toolImage:"compress-image.png"
   },
   {
     id: "image/passport-photo-resizer",
@@ -547,7 +563,8 @@ export const tools: ToolRegistryEntry[] = [
       canonical: `${siteUrl}/tools/image/passport-photo-resizer`
     },
     applicationType: "WebApplication",
-    applicationCategory: "Utilities"
+    applicationCategory: "Utilities",
+    toolImage:"passport-photo-resizer.png"
   },
   {
     id: "image/resize-signature-for-upload",
@@ -577,7 +594,8 @@ export const tools: ToolRegistryEntry[] = [
       canonical: `${siteUrl}/tools/image/resize-signature-for-upload`
     },
     applicationType: "WebApplication",
-    applicationCategory: "Utilities"
+    applicationCategory: "Utilities",
+    toolImage:"resize-signature-for-upload.png"
   },
   {
     id: "image/background-remover",
@@ -624,6 +642,7 @@ export const tools: ToolRegistryEntry[] = [
       maxFileMB: 25,
       defaultBackgroundMode: "transparent"
     },
+    toolImage:"background-remover.png"
   },
   // Date and Time Tools Start
   {
@@ -664,6 +683,7 @@ export const tools: ToolRegistryEntry[] = [
     featured: true,
     comingSoon: false,
     preload: false,
+    toolImage:"timezone-converter.png"
   },
   {
     id: "date-time/meeting-time-finder",
@@ -701,6 +721,7 @@ export const tools: ToolRegistryEntry[] = [
     featured: true,
     comingSoon: false,
     preload: false,
+    toolImage:"meeting-time-finder.png"
   },
   //Image compressors End
   {
@@ -724,7 +745,8 @@ export const tools: ToolRegistryEntry[] = [
       },
       "WebApplication",
       "Utilities"
-    )
+    ),
+    toolImage:"webp-to-pdf.png"
   },
   {
     id: "image/jpg-to-png",
@@ -755,6 +777,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["jpg", "jpeg"],
       outputFormats: ["png"]
     },
+    toolImage:"jpg-to-png.png"
   },
   {
     id: "image/png-to-jpg",
@@ -785,6 +808,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["png"],
       outputFormats: ["jpg"]
     },
+    toolImage:"png-to-jpg.png"
   },
   {
     id: "image/png-to-jpeg",
@@ -813,7 +837,8 @@ export const tools: ToolRegistryEntry[] = [
     defaultProps: {
       inputFormats: ["png"],
       outputFormats: ["jpeg"]
-    }
+    },
+    toolImage:"png-to-jpeg.png"
   },
   {
     id: "image/jpg-to-webp",
@@ -844,6 +869,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["jpg", "jpeg"],
       outputFormats: ["webp"]
     },
+    toolImage:"jpg-to-webp.png"
   },
   {
     id: "image/png-to-webp",
@@ -874,6 +900,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["png"],
       outputFormats: ["webp"]
     },
+    toolImage:"png-to-webp.png"
   },
   {
     id: "image/webp-to-jpg",
@@ -903,6 +930,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["webp"],
       outputFormats: ["jpg"]
     },
+    toolImage:"webp-to-jpg.png"
   },
   {
     id: "image/webp-to-jpeg",
@@ -932,6 +960,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["webp"],
       outputFormats: ["jpeg"]
     },
+    toolImage:"webp-to-jpeg.png"
   },
   {
     id: "image/webp-to-png",
@@ -961,6 +990,7 @@ export const tools: ToolRegistryEntry[] = [
       inputFormats: ["webp"],
       outputFormats: ["png"]
     },
+    toolImage:"webp-to-png.png"
   },
 
   {
@@ -995,6 +1025,7 @@ export const tools: ToolRegistryEntry[] = [
       defaultQuality: 80,
       mode: "quality"
     },
+    toolImage:"compress-jpg.png"
   },
   {
     id: "image/compress-png",
@@ -1028,6 +1059,7 @@ export const tools: ToolRegistryEntry[] = [
       defaultQuality: 80,
       mode: "quality"
     },
+    toolImage:"compress-png.png"
   },
   {
     id: "image/compress-webp",
@@ -1061,6 +1093,7 @@ export const tools: ToolRegistryEntry[] = [
       defaultQuality: 80,
       mode: "quality"
     },
+    toolImage:"compress-webp.png"
   },
 
   {
@@ -1100,6 +1133,7 @@ export const tools: ToolRegistryEntry[] = [
       targetKB: 20,
       lockTarget: true
     },
+    toolImage:"compress-image-to-20kb.png"
   },
   {
     id: "image/compress-image-to-50kb",
@@ -1125,7 +1159,8 @@ export const tools: ToolRegistryEntry[] = [
       canonical: `${siteUrl}/tools/image/compress-image-to-50kb`
     },
     applicationType: "WebApplication",
-    applicationCategory: "Utilities"
+    applicationCategory: "Utilities",
+    toolImage:"compress-image-to-50kb.png"
   },
   {
     id: "image/compress-image-to-100kb",
@@ -1151,9 +1186,9 @@ export const tools: ToolRegistryEntry[] = [
       canonical: `${siteUrl}/tools/image/compress-image-to-100kb`
     },
     applicationType: "WebApplication",
-    applicationCategory: "Utilities"
+    applicationCategory: "Utilities",
+    toolImage:"compress-image-to-100kb.png"
   }
-  
 ];
 
 function getDefaultCompressorRegistry() {

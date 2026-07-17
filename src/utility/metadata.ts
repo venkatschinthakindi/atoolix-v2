@@ -25,7 +25,7 @@ export async function generateMetadata(params : any): Promise<Metadata> {
       type: "website",
       images: [
         {
-          url: serverConfig.siteLogoUrl,
+          url: `${serverConfig.siteUrl}/toolimages/${tool?.toolImage}`,
           width: 1200,
           height: 630,
         },
@@ -38,7 +38,7 @@ export async function generateMetadata(params : any): Promise<Metadata> {
       description: tool?.description,
       images: [
         {
-          url: serverConfig.siteLogoUrl,
+          url: `${serverConfig.siteUrl}/toolimages/${tool?.toolImage}`,
           width: 1200,
           height: 630,
         },
