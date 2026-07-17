@@ -24,9 +24,9 @@ interface PwaContextValue {
   isInstalled: boolean;
   isOnline: boolean;
   registration: ServiceWorkerRegistration | null;
-  updateAvailable: boolean;
+  // updateAvailable: boolean;
   install(): Promise<void>;
-  updateApp(): void;
+  // updateApp(): void;
 }
 
 const PwaContext = createContext<PwaContextValue | null>(null);
@@ -46,7 +46,7 @@ export function PwaProvider({
 
   const [isOnline, setOnline] = useState(true);
 
-  const [updateAvailable, setUpdateAvailable] = useState(false);
+  // const [updateAvailable, setUpdateAvailable] = useState(false);
 
   // Guards against reloading twice if controllerchange fires more than once.
   const reloadingRef = useRef(false);
@@ -97,7 +97,7 @@ export function PwaProvider({
     const handleControllerChange = () => {
       if (reloadingRef.current) return;
       reloadingRef.current = true;
-      window.location.reload();
+      // window.location.reload();
     };
 
     navigator.serviceWorker.addEventListener(
@@ -123,9 +123,9 @@ export function PwaProvider({
     }
 
     // Already waiting?
-    if (registration.waiting) {
-      setUpdateAvailable(true);
-    }
+    // if (registration.waiting) {
+    //   setUpdateAvailable(true);
+    // }
 
     const handleUpdateFound = () => {
       const worker = registration.installing;
@@ -139,9 +139,9 @@ export function PwaProvider({
           worker.state === "installed" &&
           navigator.serviceWorker.controller
         ) {
-          //console.log("[PWA] New version available");
-
-          setUpdateAvailable(true);
+          registration.waiting?.postMessage({
+            type: "SKIP_WAITING",
+          });
         }
       });
     };
@@ -246,17 +246,17 @@ export function PwaProvider({
     setInstallPrompt(null);
   }, [installPrompt]);
 
-  const updateApp = useCallback(() => {
-    if (!registration?.waiting) {
-      return;
-    }
+  // const updateApp = useCallback(() => {
+  //   if (!registration?.waiting) {
+  //     return;
+  //   }
 
-    registration.waiting.postMessage({
-      type: "SKIP_WAITING",
-    });
-    // Reload is handled by the controllerchange listener above,
-    // once the new worker actually takes control.
-  }, [registration]);
+  //   registration.waiting.postMessage({
+  //     type: "SKIP_WAITING",
+  //   });
+  //   // Reload is handled by the controllerchange listener above,
+  //   // once the new worker actually takes control.
+  // }, [registration]);
 
   const value = useMemo(
     () => ({
@@ -264,18 +264,18 @@ export function PwaProvider({
       isInstalled,
       isOnline,
       registration,
-      updateAvailable,
+      // updateAvailable,
       install,
-      updateApp,
+      // updateApp,
     }),
     [
       installPrompt,
       isInstalled,
       isOnline,
       registration,
-      updateAvailable,
+      // updateAvailable,
       install,
-      updateApp,
+      // updateApp,
     ]
   );
 
