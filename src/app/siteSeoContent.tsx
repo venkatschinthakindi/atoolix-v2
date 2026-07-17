@@ -7,11 +7,11 @@ const siteUrl = serverConfig.siteUrl;
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Free Online Tools for PDF, Images, Finance & Math",
+    default: "Free Online Tools for PDF, Images, Finance & Conversions",
     template: `%s | ${siteName}`,
   },
   description:
-    "Free online tools for PDF editing, image compression, background removal, timezone conversion, and finance calculators. Fast, secure, browser-based — no install needed.",
+    "Free online tools for PDF, image compression, background removal, timezone conversion, and finance calculators. Fast, secure, browser-based — no install needed",
   keywords: [
     "online tools",
     "pdf tools",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Free Online Tools for PDF, Images, Finance & Math",
+    title: "Free Online Tools for PDF, Images, Finance & Conversions",
     description:
       "Use free browser-based tools for PDF editing, image conversion and compression, passport size photo creation, signature resizing, finance calculators, and math tools.",
     url: "/",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free Online Tools for PDF, Images, Finance & Math",
+    title: "Free Online Tools for PDF, Images, Finance & Conversions",
     description:
       "Free browser-based tools for PDF editing, image conversion and compression, passport size photo creation, signature resizing, finance calculators, and math tools.",
   },
