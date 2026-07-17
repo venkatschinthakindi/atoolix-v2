@@ -1,4 +1,5 @@
 import { Footer } from "@/app/footer/footer";
+import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
 
 export const metadata = {
@@ -6,7 +7,7 @@ export const metadata = {
   description:
     "Explore free online tools including PDF tools, image converters, compressors, Finance tools and calculators.",
   alternates: {
-    canonical: "/tools",
+    canonical: `${serverConfig.siteUrl}/tools`,
   },
   robots: {
     index: true,
