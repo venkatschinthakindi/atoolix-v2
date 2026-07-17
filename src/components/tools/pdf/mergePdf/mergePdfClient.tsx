@@ -622,7 +622,7 @@ export default function PdfMergerClient({ config }: Props) {
               <Sparkles className="h-3.5 w-3.5" />
               Private document workspace
             </div>
-            <br />
+            
             <div className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
               Merge PDFs with{" "}
               <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
@@ -651,10 +651,13 @@ export default function PdfMergerClient({ config }: Props) {
             <div className="relative p-3 sm:p-4 md:p-5">
               <div className="mb-3 sm:mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="w-full sm:w-auto">
-                  <h2 id="upload-heading" className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                  <div className="flex gap-3">
                     <GlassIcon icon={FileUp} />
+                  <h2 id="upload-heading" className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                    
                     Upload documents
                   </h2>
+                  </div>
                   <p className="mt-1 text-xs sm:text-sm text-white/60">
                     Drag PDFs here or browse your private archive.
                   </p>
@@ -698,10 +701,13 @@ export default function PdfMergerClient({ config }: Props) {
               <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="w-full sm:w-auto">
-                    <h2 id="files-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
+                    <div className="flex gap-3">
                       <GlassIcon icon={Files} />
+                    <h2 id="files-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
+                      
                       File order and pages
                     </h2>
+                    </div>
                     <p className="mt-1 text-xs sm:text-sm text-white/60">
                       Reorder files, refine page ranges, and preview what will be merged.
                     </p>
@@ -728,10 +734,13 @@ export default function PdfMergerClient({ config }: Props) {
           {/* Merge options */}
           <section className={premiumShellClass()} aria-labelledby="options-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <h2 id="options-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
+              <div className="flex gap-3">
                 <GlassIcon icon={Sparkles} />
+              <h2 id="options-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
+                
                 Merge options
               </h2>
+              </div>
               <p className="mt-1 text-xs sm:text-sm text-white/60">
                 Pick overlay or separate-page mode, then add elegant headers and footers in the same workspace.
               </p>

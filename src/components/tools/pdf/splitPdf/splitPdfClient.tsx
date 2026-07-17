@@ -517,10 +517,13 @@ export default function PdfSpliterClient({ config }: Props) {
           <div className="relative p-3 sm:p-4 md:p-5">
             <div className="mb-3 sm:mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="w-full sm:w-auto">
-                <h2 className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                <div className="flex gap-3">
                   <GlassIcon icon={FileUp} />
+                <h2 className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                  
                   Upload PDFs
                 </h2>
+                </div>
                 <p className="mt-1 text-xs sm:text-sm text-white/60">
                   Drag PDFs here or browse your device. You can add multiple files.
                 </p>
@@ -553,10 +556,13 @@ export default function PdfSpliterClient({ config }: Props) {
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="w-full sm:w-auto">
-                  <h2 className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                  <div className="flex gap-3">
                     <GlassIcon icon={FileText} />
+                  <h2 className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                    
                     Page selection
                   </h2>
+                  </div>
                   <p className="mt-1 text-xs sm:text-sm text-white/60">
                     Use ranges like <span className="text-white/80">first-3, 9-13, 19, last-2, all, odd, even, except 21-23</span>.
                   </p>

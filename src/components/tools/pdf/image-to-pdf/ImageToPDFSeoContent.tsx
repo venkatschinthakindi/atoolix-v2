@@ -170,13 +170,15 @@ export default function ImageToPdfSeoContent() {
     <div className="mx-auto max-w-6xl space-y-4 p-4 text-white sm:space-y-5 sm:p-5 lg:space-y-6 lg:p-6">
       
 <section aria-labelledby="intro-heading">
+  <div className="flex gap-3">
+    <span className="text-2xl">🪄</span>
         <h2
           id="intro-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          <span className="text-2xl">🪄</span>
+        >          
           Image to PDF Converter – Convert JPG, PNG & WEBP to PDF Online for Free
         </h2>
+        </div>
 
         <p className="mt-3 text-sm leading-relaxed text-white/65 sm:text-base">
           Convert JPG, JPEG, PNG, and WEBP images to PDF online using a browser-based tool that processes files on your device. built for speed, flexibility, and ease of use.
@@ -196,12 +198,15 @@ export default function ImageToPdfSeoContent() {
       <section
         aria-labelledby="what-is-heading"
       >
+        <div className="flex gap-3">
+          📘  
         <h2
           id="what-is-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-        📘  What Is an Image to PDF Converter?
+        What Is an Image to PDF Converter?
         </h2>
+        </div>
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
           An image to PDF converter is an online tool that transforms one or more
           image files into a PDF document. It is useful when you want to store
@@ -249,12 +254,15 @@ export default function ImageToPdfSeoContent() {
   </div>
 </section>
       <section aria-labelledby="features-heading">
+        <div className="flex gap-3">
+        ✨ 
         <h2
           id="features-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-        ✨ Key Features of the Image to PDF Tool
+        Key Features of the Image to PDF Tool
         </h2>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item, i) => (
             <div
@@ -278,12 +286,15 @@ export default function ImageToPdfSeoContent() {
       </section>
 
       <section aria-labelledby="workflow-heading">
+        <div className="flex gap-3">
+        🪜 
         <h2
           id="workflow-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-        🪜 How to Use the Image to PDF Converter
+        How to Use the Image to PDF Converter
         </h2>
+        </div>
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
             <div
@@ -310,12 +321,15 @@ export default function ImageToPdfSeoContent() {
       </section>
 
       <section aria-labelledby="audience-heading">
+        <div className="flex gap-3">
+        👥 
         <h2
           id="audience-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-        👥 Who Should Use This Tool?
+        Who Should Use This Tool?
         </h2>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item, i) => (
             <div

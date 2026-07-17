@@ -225,14 +225,16 @@ export default function SplitPdfSeoContent() {
       <section
         aria-labelledby="intro-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">✂️</span>
         <h2
           id="intro-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">✂️</span>
+          
           Split PDF Online – Extract, Separate & Organize Pages Instantly
         </h2>
-
+</div>
 
         <p className="text-white/60 text-sm leading-relaxed">
           Split a PDF file online for free and create customized documents
@@ -254,14 +256,16 @@ export default function SplitPdfSeoContent() {
       <section
         aria-labelledby="core-features-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">✨</span>
         <h2
           id="core-features-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">✨</span>
+          
           What You Can Do With This PDF Splitter
         </h2>
-
+</div>
 
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {coreFeatures.map((item, i) => (
@@ -290,14 +294,16 @@ export default function SplitPdfSeoContent() {
       <section
         aria-labelledby="page-selection-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">🎯</span>
         <h2
           id="page-selection-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">🎯</span>
+          
           Advanced Page Selection Patterns
         </h2>
-
+</div>
 
         <p className="text-white/60 text-sm mb-6">
           Use flexible page selection rules to precisely extract or split PDF
@@ -334,15 +340,15 @@ export default function SplitPdfSeoContent() {
       <section
         aria-labelledby="workflow-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">⚙️</span>
         <h2
           id="workflow-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
-        >
-          <span className="text-2xl">⚙️</span>
+        >          
           How to Split PDF Files Online
         </h2>
-
-
+</div>
         <div className="grid gap-4 md:gap-5 md:grid-cols-2">
           {howToSteps.map((step, i) => (
             <div
@@ -378,14 +384,16 @@ export default function SplitPdfSeoContent() {
       <section
         aria-labelledby="features-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">🎯</span>
         <h2
           id="features-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">🎯</span>
+          
           Key Features of PDF Splitter Tool
         </h2>
-
+</div>
 
         <div className="flex flex-wrap gap-3">
           {features.map((feature, i) => (
@@ -405,14 +413,15 @@ export default function SplitPdfSeoContent() {
       <section
         aria-labelledby="audience-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">👥</span>
         <h2
           id="audience-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
-        >
-          <span className="text-2xl">👥</span>
+        >          
           Who Uses PDF Split Tools
         </h2>
-
+</div>
 
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {audiences.map((item, i) => (
@@ -441,13 +450,16 @@ export default function SplitPdfSeoContent() {
       <section
         aria-labelledby="related-tools-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">🔧</span>
         <h2
           id="related-tools-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">🔧</span>
+          
           Related PDF Tools
         </h2>
+        </div>
 
 
         <div className="flex flex-wrap gap-3">
@@ -472,7 +484,7 @@ export default function SplitPdfSeoContent() {
       {/* ===================== FAQ (SSR - INTERACTIVE PANELS) ===================== */}
       <section
         aria-labelledby="faq-heading"
-      >
+      >        
         <h2
           id="faq-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"

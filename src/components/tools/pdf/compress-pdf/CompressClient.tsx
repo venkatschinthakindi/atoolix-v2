@@ -447,13 +447,16 @@ export default function CompressClient({ config }: Props) {
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           <section className={premiumShellClass()} aria-labelledby="upload-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+              <div className="flex gap-3">
+                <GlassIcon icon={FileUp} />
               <h2
                 id="upload-heading"
                 className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
               >
-                <GlassIcon icon={FileUp} />
+                
                 Upload PDF
               </h2>
+              </div>
               <p className="mt-1 text-xs text-white/60 sm:text-sm">
                 Drag one PDF here or browse your device. Compression runs entirely on your machine.
               </p>
@@ -504,13 +507,16 @@ export default function CompressClient({ config }: Props) {
 
           <section className={premiumShellClass()} aria-labelledby="levels-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+              <div className="flex gap-3">
+                <GlassIcon icon={Gauge} />
               <h2
                 id="levels-heading"
                 className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
               >
-                <GlassIcon icon={Gauge} />
+                
                 Compression level
               </h2>
+              </div>
               <p className="mt-1 text-xs text-white/60 sm:text-sm">
                 Choose a trade-off between file size and visual fidelity.
               </p>
@@ -527,13 +533,16 @@ export default function CompressClient({ config }: Props) {
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           <section className={premiumShellClass()} aria-labelledby="actions-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+              <div className="flex gap-3">
+                <GlassIcon icon={Wand2} />
               <h2
                 id="actions-heading"
                 className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
               >
-                <GlassIcon icon={Wand2} />
+                
                 Action suite
               </h2>
+              </div>
               <p className="mt-1 text-xs text-white/60 sm:text-sm">
                 Compress, preview, download, and reset in a polished flow.
               </p>
@@ -636,12 +645,15 @@ export default function CompressClient({ config }: Props) {
           )}
 
           <section aria-labelledby="workflow-heading">
+            <div className="flex gap-3">
+              ✍️ 
             <h2
               id="workflow-heading"
               className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
             >
-            ✍️ Compression notes
+            Compression notes
             </h2>
+            </div>
             <div className="grid gap-4 md:grid-cols-1">
               <p>
                 Each page is re-rendered as a JPEG image — no data leaves your device. Text-heavy PDFs:

@@ -236,14 +236,16 @@ export default function MergePdfSeoContent() {
       <section
         aria-labelledby="core-features-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">✨</span>
         <h2
           id="core-features-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">✨</span>
+          
           What You Can Do With This PDF Merger
         </h2>
-
+</div>
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {coreFeatures.map((item, i) => (
             <div
@@ -270,13 +272,16 @@ export default function MergePdfSeoContent() {
       <section
         aria-labelledby="workflow-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">⚙️</span>
         <h2
           id="workflow-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">⚙️</span>
+          
           How to Merge and Customize PDF Files
         </h2>
+        </div>
 
         <div className="grid gap-4 md:gap-5 md:grid-cols-2">
           {howToSteps.map((step, i) => (
@@ -312,14 +317,16 @@ export default function MergePdfSeoContent() {
       <section
         aria-labelledby="features-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">🎯</span>
         <h2
           id="features-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">🎯</span>
+          
           Key Features of PDF Merger Tool
         </h2>
-
+</div>
         <div className="flex flex-wrap gap-3">
           {features.map((feature, i) => (
             <span
@@ -337,14 +344,16 @@ export default function MergePdfSeoContent() {
       <section
         aria-labelledby="audience-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">👥</span>
         <h2
           id="audience-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">👥</span>
+          
           Who Uses PDF Merge Tools
         </h2>
-
+</div>
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {audiences.map((item, i) => (
             <div
@@ -371,14 +380,16 @@ export default function MergePdfSeoContent() {
       <section
         aria-labelledby="related-tools-heading"
       >
+        <div className="flex gap-3">
+          <span className="text-2xl">🔧</span>
         <h2
           id="related-tools-heading"
           className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
         >
-          <span className="text-2xl">🔧</span>
+          
           Related PDF Tools
         </h2>
-
+</div>
         <div className="flex flex-wrap gap-3">
           {relatedTools.map((tool, i) => (
             <a

@@ -169,13 +169,16 @@ export default function JpgToPdfSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-4 text-white sm:space-y-5 sm:p-5 lg:space-y-6 lg:p-6">
       <section aria-labelledby="intro-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">🪄</span>
         <h2
           id="intro-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">🪄</span>
+          
           JPG and JPEG Converter – Convert JPG & JPEG Files Online for Free
         </h2>
+        </div>
 
         <p className="mt-3 text-sm leading-relaxed text-white/65 sm:text-base">
           Convert JPG and JPEG files online using a browser-based tool that processes files on your device. Built for speed, flexibility, and ease of use.
@@ -193,12 +196,15 @@ export default function JpgToPdfSeoContent() {
       </section>
 
       <section aria-labelledby="what-is-heading">
+        <div className="flex gap-3">
+          📘 
         <h2
           id="what-is-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          📘 What Is a JPG and JPEG Converter?
+          What Is a JPG and JPEG Converter?
         </h2>
+        </div>
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
           A JPG and JPEG converter is an online tool that transforms one or more
           JPG or JPEG files into a document. It is useful when you want to store
@@ -245,12 +251,15 @@ export default function JpgToPdfSeoContent() {
       </section>
 
       <section aria-labelledby="features-heading">
+        <div className="flex gap-3">
+          ✨ 
         <h2
           id="features-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          ✨ Key Features of the JPG and JPEG Tool
+          Key Features of the JPG and JPEG Tool
         </h2>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item, i) => (
             <div
@@ -274,12 +283,15 @@ export default function JpgToPdfSeoContent() {
       </section>
 
       <section aria-labelledby="workflow-heading">
+        <div className="flex gap-3">
+          🪜 
         <h2
           id="workflow-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          🪜 How to Use the JPG and JPEG Converter
+          How to Use the JPG and JPEG Converter
         </h2>
+        </div>
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
             <div
@@ -306,12 +318,15 @@ export default function JpgToPdfSeoContent() {
       </section>
 
       <section aria-labelledby="audience-heading">
+        <div className="flex gap-3">
+          👥 
         <h2
           id="audience-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          👥 Who Should Use This Tool?
+          Who Should Use This Tool?
         </h2>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item, i) => (
             <div

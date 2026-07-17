@@ -341,9 +341,10 @@ export default function ImageCompressorClient({ config }: Props) {
         <section className={premiumShellClass()}>
           <div className="relative p-3 sm:p-4 md:p-5">
             <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:mb-4">
-              <div>
+              <div className="flex gap-3">
+                <FileUp className="h-4 w-4 text-blue-300" />
                 <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                  <FileUp className="h-4 w-4 text-blue-300" />
+                  
                   Drag & Drop Image Upload
                 </h2>
                 <p className="mt-1 text-xs text-white/60 sm:text-sm">
@@ -383,10 +384,13 @@ export default function ImageCompressorClient({ config }: Props) {
             <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">
+                  <div className="flex gap-3">
+                  <Eye className="h-4 w-4 text-blue-300" />
                   <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                    <Eye className="h-4 w-4 text-blue-300" />
+                    
                     Confirm Before Compression
                   </h2>
+                  </div>
                   <p className="mt-1 text-xs text-white/60 sm:text-sm">
                     Preview the selected image before compressing. The optimized output
                     will open in a modal after processing.
@@ -529,10 +533,13 @@ export default function ImageCompressorClient({ config }: Props) {
         {isDone && outputUrl && outputBlob && (
           <section className={premiumShellClass()}>
             <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
+            <div className="flex gap-3">
+              <CheckCircle2 className="h-4 w-4 text-emerald-300" />
               <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                <CheckCircle2 className="h-4 w-4 text-emerald-300" />
+                
                 Your compressed image is ready
               </h2>
+              </div>
               <p className="mt-1 text-xs text-white/60 sm:text-sm">
                 Preview the compressed result and download it directly.
               </p>

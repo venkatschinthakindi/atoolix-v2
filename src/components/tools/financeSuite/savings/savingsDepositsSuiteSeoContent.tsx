@@ -313,13 +313,16 @@ const calculatorSchema = {
 />
 
       <section aria-labelledby="intro-heading">
-        <h2
+        <div className="flex gap-3">
+          <span className="text-2xl">🏦</span>
+          <h2
           id="intro-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">🏦</span>
           Savings and Deposits Calculator for FD, RD, Simple Interest, Compound Interest, Maturity Value, and Interest Earned
         </h2>
+        </div>
+        
 
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
           Calculate savings growth online using a comprehensive savings and
@@ -339,10 +342,13 @@ const calculatorSchema = {
       </section>
 
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">📘</span>
+<h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
     What Is a Savings Calculator?
   </h2>
+  </div>
+  
 
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
@@ -360,13 +366,16 @@ const calculatorSchema = {
   </div>
 </section>
       <section aria-labelledby="features-heading">
-        <h2
+        <div className="flex gap-3">          
+          <span className="text-2xl">✨</span>
+          <h2
           id="features-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">✨</span>
           Key Features of the Savings and Deposits Calculator
         </h2>
+        </div>
+        
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item, i) => (
@@ -393,14 +402,15 @@ const calculatorSchema = {
       </section>
 
       <section aria-labelledby="workflow-heading">
-        <h2
+        <div className="flex gap-3">
+          <span className="text-2xl">🪜</span>
+          <h2
           id="workflow-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">🪜</span>
           How to Use the Savings and Deposits Calculator
         </h2>
-
+</div>
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
             <div
@@ -430,14 +440,15 @@ const calculatorSchema = {
       </section>
 
       <section aria-labelledby="audience-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">👥</span>
         <h2
           id="audience-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          <span className="text-2xl">👥</span>
+        >          
           Who Should Use This Tool
         </h2>
-
+</div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item, i) => (
             <div
@@ -463,11 +474,12 @@ const calculatorSchema = {
       </section>
 
       <section>
-        <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+        <div className="flex gap-3">
           <span className="text-2xl">📚</span>
+        <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
           Understanding Interest Calculations
         </h2>
-
+</div>
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
           
             <p className="text-sm leading-relaxed text-white/65">
@@ -485,11 +497,12 @@ const calculatorSchema = {
           </div>
     </section>
     <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
-    <span className="text-2xl">📈</span>
+      <div className="flex gap-3">
+        <span className="text-2xl">📈</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">    
     How to Calculate Savings Growth
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Savings growth depends on four primary factors: the amount deposited,
@@ -505,11 +518,12 @@ const calculatorSchema = {
   </div>
 </section>
     <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
-    <span className="text-2xl">🧮</span>
+      <div className="flex gap-3">
+        <span className="text-2xl">🧮</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">    
     Interest Calculation Formulas
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Financial institutions use standard mathematical formulas to calculate
@@ -546,11 +560,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">📖</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     Savings Calculator Examples
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Example calculations help illustrate how savings grow under different
@@ -568,11 +584,13 @@ const calculatorSchema = {
   </div>
 </section>
     <section>
+      <div className="flex gap-3">
+        <span className="text-2xl">💡</span>
   <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
-    <span className="text-2xl">💡</span>
+    
     Why Compound Interest Matters for Long-Term Savings
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Compound interest is often called the eighth wonder of the world because
@@ -590,11 +608,12 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🌱</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">    
     Benefits of Compound Interest
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <ul className="space-y-3 text-sm leading-relaxed text-white/65">
       <li>• Earn returns on previously earned interest</li>
@@ -606,11 +625,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🔄</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     How Compounding Frequency Affects Returns
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Compounding frequency determines how often earned interest is added back
@@ -627,11 +648,13 @@ const calculatorSchema = {
   </div>
 </section>
   <section>
+    <div className="flex gap-3">
+      <span className="text-2xl">⚖️</span>
   <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
-    <span className="text-2xl">⚖️</span>
+    
     Simple Interest vs Compound Interest
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Understanding the difference between simple interest and compound interest
@@ -655,11 +678,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🏦</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     How Fixed Deposit Interest is Calculated
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       A Fixed Deposit Calculator helps estimate how much a lump sum investment
@@ -680,11 +705,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🏛️</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     Benefits of Fixed Deposits
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <ul className="space-y-3 text-sm leading-relaxed text-white/65">
       <li>• Predictable maturity value and returns</li>
@@ -696,11 +723,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">📅</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     How Recurring Deposit Interest is Calculated
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       A Recurring Deposit Calculator estimates the maturity value of monthly
@@ -722,11 +751,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">💰</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     Benefits of Recurring Deposits
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <ul className="space-y-3 text-sm leading-relaxed text-white/65">
       <li>• Encourages disciplined monthly saving habits</li>
@@ -738,11 +769,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🚀</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     Benefits of Using This Savings Calculator
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       This online Savings Calculator combines multiple financial planning tools
@@ -765,11 +798,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🏦</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     Fixed Deposit vs Savings Account
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Savings accounts provide easy access to funds and high liquidity, while
@@ -781,11 +816,13 @@ const calculatorSchema = {
   </div>
 </section>
       <section>
-        <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+        <div className="flex gap-3">
           <span className="text-2xl">⚖️</span>
+        <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+          
           FD vs RD Savings Options
         </h2>
-
+</div>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <h3 className="mb-3 text-sm font-semibold text-blue-300">
@@ -828,11 +865,13 @@ const calculatorSchema = {
         </div>
       </section>
         <section>
+          <div className="flex gap-3">
+            <span className="text-2xl">📊</span>
   <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
-    <span className="text-2xl">📊</span>
+    
     FD Calculator vs RD Calculator
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       An FD Calculator estimates the maturity value of a one-time lump sum
@@ -852,11 +891,13 @@ const calculatorSchema = {
   </div>
 </section>
         <section>
+          <div className="flex gap-3">
+            <span className="text-2xl">🎯</span>
   <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
-    <span className="text-2xl">🎯</span>
+    
     Savings Calculator for Financial Planning
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Savings calculators are useful for planning emergency funds, education
@@ -874,13 +915,16 @@ const calculatorSchema = {
 </section>
 
       <section aria-labelledby="related-tools-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">🧰</span>
         <h2
           id="related-tools-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">🧰</span>
+          
           Related Finance Tools
         </h2>
+        </div>
 
         <div className="flex flex-wrap gap-3">
           {relatedTools.map((tool, i) => (
@@ -897,11 +941,13 @@ const calculatorSchema = {
       </section>
 
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🎯</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     How to Choose Between FD, RD, and Savings Plans
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Choosing the right savings option depends on your income pattern,
@@ -920,11 +966,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">📈</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     Factors That Affect Savings Growth
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Several factors influence savings growth, including deposit amount,
@@ -942,11 +990,13 @@ const calculatorSchema = {
   </div>
 </section>
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">🏁</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+    
     Conclusion
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       The Savings and Deposits Calculator helps estimate simple interest,
@@ -1024,11 +1074,13 @@ const calculatorSchema = {
         </div>
       </section>
       <section>
+        <div className="flex gap-3">
+          <span className="text-2xl">🧠</span>
   <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
-    <span className="text-2xl">🧠</span>
+    
     Related Financial Calculations
   </h2>
-
+</div>
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
     <p className="text-sm leading-relaxed text-white/65">
       Savings planning often involves multiple calculations including loan EMI

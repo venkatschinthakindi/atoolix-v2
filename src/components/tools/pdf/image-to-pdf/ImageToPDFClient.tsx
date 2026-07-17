@@ -379,10 +379,13 @@ export default function ImageToPDFClient({ config }: Props) {
           <div className="relative p-3 sm:p-4 md:p-5">
             <div className="mb-3 sm:mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="w-full sm:w-auto">
-                  <h2 id="upload-heading" className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                  <div className="flex gap-3">
                     <GlassIcon icon={FileUp} />
+                  <h2 id="upload-heading" className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
+                    
                     Upload documents
                   </h2>
+                  </div>
                   <p className="mt-1 text-xs sm:text-sm text-white/60">
                     Drag PDFs here or browse your private archive.
                   </p>
