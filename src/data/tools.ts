@@ -1,6 +1,4 @@
-import { ComponentType } from "react";
-
-const siteUrl = process.env.SITE_URL;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 
 type CategoryInfo = {
@@ -82,7 +80,7 @@ export type ToolRegistryEntry<Props = {}> = {
   category?: string;
   icon?: any;
   keywords?: string[];
-  alternates?: { canonical: string };
+  alternates: { canonical: string };
   applicationType?: string;
   applicationCategory?: string;
   featured?: boolean;

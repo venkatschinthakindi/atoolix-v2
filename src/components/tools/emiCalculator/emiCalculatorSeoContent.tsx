@@ -183,10 +183,12 @@ export default function EmiCalculatorSeoContent() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <section aria-labelledby="intro-heading">
-        <h2 id="intro-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
-          <span className="text-2xl">🧮</span>
-          EMI Calculator Online with Prepayments, Amortization Schedule, and Loan Comparison
-        </h2>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="text-2xl" aria-hidden="true">🧮</span>
+          <h2 id="intro-heading" className="text-xl font-bold text-white tracking-tight">
+            EMI Calculator Online with Prepayments, Amortization Schedule, and Loan Comparison
+          </h2>
+        </div>
         <p className="text-white/60 text-sm leading-relaxed">
           Calculate EMI online for home loan, personal loan, and car loan scenarios with a fast, responsive, and SEO-friendly calculator. Add prepayments, compare repayment options, review amortization schedules, and track interest saved and months saved directly in your browser.
         </p>
@@ -196,10 +198,12 @@ export default function EmiCalculatorSeoContent() {
       </section>
 
       <section aria-labelledby="core-features-heading">
-        <h2 id="core-features-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
+        <div className="flex gap-3">
           <span className="text-2xl">✨</span>
-          What You Can Do With This EMI Calculator
-        </h2>
+          <h2 id="core-features-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
+            What You Can Do With This EMI Calculator
+          </h2>
+        </div>
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {coreFeatures.map((item, i) => (
             <div key={i} className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30">
@@ -216,10 +220,12 @@ export default function EmiCalculatorSeoContent() {
       </section>
 
       <section aria-labelledby="workflow-heading">
-        <h2 id="workflow-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
-          <span className="text-2xl">🪜</span>
-          How to Use the EMI Calculator
-        </h2>
+        <div className="flex gap-3">
+          <span className="text-2xl">✨</span>
+          <h2 id="workflow-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
+            How to Use the EMI Calculator
+          </h2>
+        </div>
         <div className="grid gap-4 md:gap-5 md:grid-cols-2">
           {howToSteps.map((step, i) => (
             <div key={i} className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-blue-400/30">
@@ -239,10 +245,13 @@ export default function EmiCalculatorSeoContent() {
       </section>
 
       <section aria-labelledby="features-heading">
-        <h2 id="features-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
+        
+        <div className="flex gap-3">
           <span className="text-2xl">⚡</span>
+          <h2 id="features-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
           Key Features of EMI Calculator Tool
         </h2>
+        </div>
         <div className="flex flex-wrap gap-3">
           {coreFeatures.map((feature, i) => (
             <span key={i} className="px-4 py-2.5 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/80 hover:bg-white/15 hover:border-blue-400/30 flex items-center gap-2">
@@ -254,10 +263,13 @@ export default function EmiCalculatorSeoContent() {
       </section>
 
       <section aria-labelledby="audience-heading">
-        <h2 id="audience-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
+        
+        <div className="flex gap-3">
           <span className="text-2xl">👥</span>
-          Who Uses EMI Calculator Tools
-        </h2>
+          <h2 id="audience-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
+            Who Uses EMI Calculator Tools
+          </h2>
+        </div>
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {audiences.map((item, i) => (
             <div key={i} className="p-5 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-blue-400/30">
@@ -274,10 +286,12 @@ export default function EmiCalculatorSeoContent() {
       </section>
 
       <section aria-labelledby="related-tools-heading">
-        <h2 id="related-tools-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">
+        <div className="flex gap-3">
           <span className="text-2xl">🧰</span>
-          Related Loan Tools
-        </h2>
+          <h2 id="related-tools-heading" className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3">          
+            Related Loan Tools
+          </h2>
+        </div>
         <div className="flex flex-wrap gap-3">
           {relatedTools.map((tool, i) => (
             <a

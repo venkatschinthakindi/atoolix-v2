@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteName}`,
   },
   description:
-    "Free browser-based tools for PDF editing, image conversion and compression, passport size photo creation, signature resizing, finance calculators, and math tools. No installation or registration required.",
+    "Free online tools for PDF editing, image compression, background removal, timezone conversion, and finance calculators. Fast, secure, browser-based — no install needed.",
   keywords: [
     "online tools",
     "pdf tools",

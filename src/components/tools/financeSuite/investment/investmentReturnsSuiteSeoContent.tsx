@@ -232,13 +232,15 @@ const howToSchema = {
         />
 
       <section aria-labelledby="intro-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">📈</span>
         <h2
           id="intro-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">📈</span>
           Investment Returns Calculator for SIP Growth, Lump Sum Returns, CAGR, and XIRR
         </h2>
+        </div>
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
           Calculate investment returns online with a fast, responsive, and SEO-friendly
           calculator built for SIP growth, step-up SIP planning, lump sum return
@@ -254,13 +256,14 @@ const howToSchema = {
       </section>
 
       <section aria-labelledby="features-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">✨</span>
         <h2
           id="features-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">✨</span>
           Key Features of the Investment Returns Calculator
-        </h2>
+        </h2></div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item, i) => (
             <div
@@ -280,13 +283,15 @@ const howToSchema = {
       </section>
 
       <section aria-labelledby="workflow-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">🪜</span>
         <h2
           id="workflow-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          <span className="text-2xl">🪜</span>
           How to Use the Investment Calculator
         </h2>
+        </div>
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
             <div
@@ -309,13 +314,15 @@ const howToSchema = {
       </section>
 
       <section aria-labelledby="audience-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">👥</span>
         <h2
           id="audience-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          <span className="text-2xl">👥</span>
+        >          
           Who Should Use This Tool
         </h2>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item, i) => (
             <div
@@ -335,11 +342,12 @@ const howToSchema = {
       </section>
 
 <section>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">
+  <div className="flex gap-3">
     <span className="text-2xl">⚖️</span>
+  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">    
     SIP vs Lump Sum Investment
   </h2>
-
+</div>
   <div className="grid gap-4 md:grid-cols-2">
     <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
       <h3 className="mb-3 text-sm font-semibold text-blue-300">
@@ -370,13 +378,15 @@ const howToSchema = {
 </section>
 
       <section aria-labelledby="related-tools-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl">🧰</span>
         <h2
           id="related-tools-heading"
           className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          <span className="text-2xl">🧰</span>
+        >          
           Related Finance Tools
         </h2>
+        </div>
         <div className="flex flex-wrap gap-3">
           {relatedTools.map((tool, i) => (
             <a
