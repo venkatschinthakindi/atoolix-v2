@@ -298,9 +298,9 @@ export default function PngCompressorSeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           PNG Transparency Compressor
         </p>
-        <h1 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+        <h2 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
           Free PNG Compressor Online – Compress PNG Images with Transparency
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Compress PNG images online without losing the properties that make PNG useful in the first place. Keep transparent backgrounds, sharp edges, and clean graphic detail while reducing file size with preview and download controls.
         </p>

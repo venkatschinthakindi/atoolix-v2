@@ -183,12 +183,12 @@ export default function SvgToJpgSeoContent() {
       />
 
       <section aria-labelledby="intro-heading" className="space-y-4">
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           SVG to JPG Converter – Convert Vector Graphics to JPG Instantly
-        </h1>
+        </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
           Convert SVG vector graphics to JPG instantly with this free browser-based converter.

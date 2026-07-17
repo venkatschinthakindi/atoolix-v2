@@ -214,12 +214,12 @@ export default function TimezoneConverterSeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           Free Instant Timezone Converter
         </p>
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           Timezone Converter – Instantly Convert Time Across Multiple Zones
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Enter a time once and see it converted across up to 10 time zones instantly — no
           scheduling logic, just a fast, accurate lookup. Compare local time, UTC offset,

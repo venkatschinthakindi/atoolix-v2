@@ -321,12 +321,12 @@ export default function ImageCompressor50SeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           Target Size Image Compressor
         </p>
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           Compress JPG, JPEG, WebP & PNG to 50 KB
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Reduce image file size to a specific KB target without guessing quality
           settings. This tool is built for uploads, forms, email attachments, and

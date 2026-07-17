@@ -13,7 +13,7 @@ export function FilterToolHubPage({ filterKey, showCategoryBar}: {
         <FloatingDock />
         
         <div className="section-header text-center">
-          <h1 className="section-title">{filterKey.toPascalCase()} Tools</h1>
+          <h2 className="section-title">{filterKey.toPascalCase()} Tools</h2>
           <p className="section-copy mb-2">
             Explore all {filterKey.toLowerCase()} utilities available on this site.
           </p>

@@ -141,9 +141,9 @@ export async function HomePageSeo() {
               Free browser-based tools for everyday tasks
             </p>
 
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+            <h2 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
               Free Online Tools for PDF, Images, Finance, Math and More
-            </h1>
+            </h2>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
               Access free browser-based tools for PDF editing, image conversion and compression, passport size photo

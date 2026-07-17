@@ -296,9 +296,9 @@ export default function WebpCompressorSeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           Modern Web Image Compression
         </p>
-        <h1 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+        <h2 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
           Free WebP Compressor Online – Compress WebP Images with Preview
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Compress WebP images online with quality control, preview, and instant download. Built for modern web images, this tool helps you reduce file size while keeping images useful for pages, apps, and digital products.
         </p>

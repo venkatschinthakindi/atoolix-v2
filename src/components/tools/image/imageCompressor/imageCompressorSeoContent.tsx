@@ -251,9 +251,9 @@ export default function CompressImagesWithPreviewSeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           Free Browser-Based Image Compressor
         </p>
-        <h1 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+        <h2 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
           Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Compress large JPG, JPEG, PNG, and WebP images online without installing software. Reduce image file size using adjustable compression quality, preview the optimized result, and download it instantly.
         </p>

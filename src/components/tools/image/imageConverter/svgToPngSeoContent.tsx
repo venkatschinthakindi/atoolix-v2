@@ -184,12 +184,12 @@ export default function SvgToPngSeoContent() {
       />
 
       <section aria-labelledby="intro-heading" className="space-y-4">
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           SVG to PNG Converter – Convert Vector Graphics to PNG Instantly
-        </h1>
+        </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
           Convert SVG vector graphics to PNG instantly with this free browser-based converter.

@@ -354,12 +354,12 @@ export default function ImageToPDFClient({ config }: Props) {
               <Sparkles className="h-3.5 w-3.5" />
               'Secure Images Workspace'
             </div>
-            <h1 className="text-5xl font-semibold tracking-tight sm:text-5xl lg:text-5xl">
+            <h2 className="text-5xl font-semibold tracking-tight sm:text-5xl lg:text-5xl">
               {config.toolShortName}  &nbsp;with&nbsp;
               <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
                 Advanced Controls
               </span>
-            </h1>
+            </h2>
             <p className="mt-3 max-w-2xl text-xs leading-6 text-white/65 sm:text-base">
               {config.description}
             </p>
@@ -427,10 +427,13 @@ export default function ImageToPDFClient({ config }: Props) {
             <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="w-full sm:w-auto">
-                  <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+                  <div className="flex gap-3">
                     <GlassIcon icon={LayoutGrid} />
+                  <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+                    
                     Image order
                   </h2>
+                  </div>
                   <p className="mt-1 text-xs text-white/60 sm:text-sm">
                     Reorder images before generating the PDF.
                   </p>

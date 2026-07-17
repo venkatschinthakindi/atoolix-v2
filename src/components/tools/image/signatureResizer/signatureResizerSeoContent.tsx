@@ -212,9 +212,9 @@ export default function SignatureResizerSeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           Free Browser-Based Signature Resizer
         </p>
-        <h1 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+        <h2 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
           Free Signature Resizer Online – Resize Signature to Exact KB & Dimensions for Forms
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Resize signature images online for free with exact width, height, and file size control. Upload a JPG, JPEG, PNG, or WebP file, crop it tightly, preview the strokes clearly, and download a form-ready signature for exam applications, job portals, admission forms, and government uploads. This tool is built for users who need a clean signature resizer with portal-friendly pixel presets and small KB limits. You can start with common sizes like 300 x 80 or 140 x 60, then fine-tune the output to match the form requirement.
         </p>

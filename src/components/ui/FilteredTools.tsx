@@ -41,7 +41,7 @@ export function FilteredTools({
               icon={tool.icon}
               description={tool.description}
             />
-            <h1
+            <h2
               className="text-white text-sm font-semibold mt-4 overflow-hidden"
               style={{
                 display: "-webkit-box",
@@ -51,7 +51,7 @@ export function FilteredTools({
               title={tool.title}
             >
               {tool.title}
-            </h1>
+            </h2>
           </div>
           <div className="card-footer">
             {tool.comingSoon ? "Preview →" : "Open →"}

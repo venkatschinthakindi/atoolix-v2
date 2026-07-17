@@ -432,9 +432,9 @@ export default function RetirementCalculatorSeoContent() {
     />
       <section aria-labelledby="hero-heading" className="space-y-4">
         <p className="text-sm font-medium text-blue-300">Retirement planning • FIRE • SWP • Inflation</p>
-        <h1 id="hero-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
+        <h2 id="hero-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
           Retirement Calculator for FIRE Planning, Retirement Corpus, SWP Income, Inflation Adjustment, Safe Withdrawal Rate, and Financial Independence
-        </h1>
+        </h2>
         <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
           Use this retirement calculator to estimate your retirement corpus,
             FIRE number, monthly retirement income, SWP withdrawals,

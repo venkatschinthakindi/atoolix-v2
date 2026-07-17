@@ -183,12 +183,12 @@ export default function PngToJpegSeoContent() {
       />
 
       <section aria-labelledby="intro-heading" className="space-y-4">
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           PNG to JPEG Converter – Convert Images Instantly in Your Browser
-        </h1>
+        </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
           Convert PNG images to JPEG instantly with this free browser-based converter.

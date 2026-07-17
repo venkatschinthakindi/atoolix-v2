@@ -212,12 +212,12 @@ export default function ImageConverterClient({ config }: Props) {
               <Sparkles className="h-3.5 w-3.5" />
               Private image workspace
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
               Instant Image Conversion{" "}
               <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
                 & Previews
               </span>
-            </h1>
+            </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
               Seamless conversion made simple: upload, preview, and transform {config.inputFormats?.join(", ")?.toUpperCase()} into crisp {config.outputFormats?.[0]?.toUpperCase()} with just a few clicks.
             </p>

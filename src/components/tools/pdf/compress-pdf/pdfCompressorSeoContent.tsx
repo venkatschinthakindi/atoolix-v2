@@ -193,9 +193,9 @@ export default function PdfCompressorSeoContent() {
             <span aria-hidden="true">🗜️</span>
             Secure browser PDF compression
           </div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
             Compress PDF Online – Reduce PDF File Size Quickly, Securely, and Free
-          </h1>
+          </h2>
           <p className="text-sm leading-relaxed text-white/70 sm:text-base">
             Compress PDF files online in seconds without installing software or uploading your documents to external servers. Reduce PDF file size, shrink large PDF documents, and optimize PDFs for sharing while preserving readability whenever possible.
           </p>

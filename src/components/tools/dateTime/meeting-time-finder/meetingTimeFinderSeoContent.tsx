@@ -264,12 +264,12 @@ export default function MeetingTimeFinderSeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           Free Browser-Based Timezone Converter & Meeting Time Finder
         </p>
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           Timezone Converter & Meeting Time Finder – Convert Time and Find Overlapping Hours
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Convert one source time into up to 10 time zones at once, then let the built-in
           meeting finder scan the next 10 days for slots where every zone is inside working

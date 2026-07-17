@@ -164,12 +164,12 @@ export default function CalculatorSeoContent() {
       }}
     />
      <section aria-labelledby="intro-heading" className="space-y-4">
-        <h1
+        <h2
             id="intro-heading"
             className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
             Online Calculator Suite – Percentage, GST, ROI, Profit & Loss Calculator
-        </h1>
+        </h2>
 
         <p className="max-w-3xl text-sm sm:text-base text-white/70 leading-relaxed">
             Free online calculator suite to calculate percentage, GST, ROI, profit and loss, Reverse Percentage Calculator, and solve equations instantly. No signup required.

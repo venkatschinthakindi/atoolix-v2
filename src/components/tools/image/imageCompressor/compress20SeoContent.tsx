@@ -347,12 +347,12 @@ export default function ImageCompressor20KbSeoContent() {
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
           Strict Size Image Compressor
         </p>
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           Compress JPG, JPEG, WebP & PNG to 20 KB
-        </h1>
+        </h2>
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
           Reduce image file size to a strict 20 KB target for official uploads,
           signatures, passport photos, and other small-file requirements.

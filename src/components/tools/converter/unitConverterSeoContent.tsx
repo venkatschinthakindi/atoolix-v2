@@ -188,12 +188,12 @@ export default function UnitConverterSeoContent() {
       />
 
       <section aria-labelledby="intro-heading" className="space-y-4">
-        <h1
+        <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
           Online Unit Converter – Convert Length, Weight, Volume, Temperature & More Instantly
-        </h1>
+        </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
           Convert units instantly online with this free unit converter. Whether you need to

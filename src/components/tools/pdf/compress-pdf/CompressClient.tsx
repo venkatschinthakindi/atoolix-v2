@@ -415,12 +415,12 @@ export default function CompressClient({ config }: Props) {
               <Sparkles className="h-3.5 w-3.5" />
               Private PDF compressor
             </div>
-            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
               Compress PDFs with{" "}
               <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
                 Precision Control
               </span>
-            </h1>
+            </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
               Reduce file size locally, choose how aggressive the compression should be, and keep the workflow fast and simple.
             </p>
