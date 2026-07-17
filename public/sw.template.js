@@ -145,7 +145,9 @@ async function networkFirst(request) {
   try {
     const response = await fetch(request);
 
-    if (response.ok) {
+    if (response.ok &&
+      response.status === 200 &&
+      response.type === "basic") {
       const cache = await caches.open(CACHE_NAME);
       await cache.put(request, response.clone());
     }
