@@ -6,7 +6,7 @@ import "@/utility/pascalCase";
 import { serverConfig } from "@/config/server";
 import { PwaProvider } from "@/components/pwa/PwaProvider";
 import InstallButton from "@/components/pwa/InstallButton";
-import PwaUpdateToast from "@/components/pwa/PwaUpdateToast";
+// import PwaUpdateToast from "@/components/pwa/PwaUpdateToast";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],

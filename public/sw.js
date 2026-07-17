@@ -1,6 +1,6 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "dcb36b7e2aabf677";
+const CACHE_VERSION = "2109a61ee9f1f317";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -145,7 +145,9 @@ async function networkFirst(request) {
   try {
     const response = await fetch(request);
 
-    if (response.ok) {
+    if (response.ok &&
+      response.status === 200 &&
+      response.type === "basic") {
       const cache = await caches.open(CACHE_NAME);
       await cache.put(request, response.clone());
     }
