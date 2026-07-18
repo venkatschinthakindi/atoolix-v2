@@ -3,7 +3,7 @@ import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
-const title = "Explore all finance utilities available on this site.";
+const title = "Explore Finance Calculators, EMI & Investment Tools Online";
 const description = "Calculate EMI, SIP, ROI, simple interest, compound interest, savings, investments, loan repayments, and returns with our free online finance calculators.";
 
 export const metadata = {
@@ -30,7 +30,7 @@ export default function Page(props: any) {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
-        <FilterToolHubPage filterKey="finance" />
+        <FilterToolHubPage filterKey="finance" title={title} />
         <Footer />
       </div>
     </div>

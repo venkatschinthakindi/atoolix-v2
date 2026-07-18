@@ -6,72 +6,72 @@ const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/compress-images-with-preview";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
-  description:
-    "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
-  keywords: [
-    "image compressor",
-    "free image compressor",
-    "compress images online",
-    "compress images online free",
-    "compress image",
-    "compress photo",
-    "compress photos",
-    "compress pictures",
-    "compress jpg",
-    "compress jpeg",
-    "compress png",
-    "compress webp",
-    "jpg compressor",
-    "jpeg compressor",
-    "png compressor",
-    "webp compressor",
-    "reduce image size",
-    "image size reducer",
-    "shrink image",
-    "image optimizer",
-    "online image optimizer",
-    "optimize images",
-    "photo compressor",
-    "picture compressor",
-    "quality based image compression",
-    "browser image compressor",
-    "preview image before download",
-    "image quality control",
-  ],
-  alternates: {
-    canonical: canonicalPath,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-  applicationName: "Compress Images with Preview",
-  category: "Utilities",
-  openGraph: {
-    title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
-    description:
-      "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
-    url: canonicalUrl,
-    siteName,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
-    description:
-      "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
-  },
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(siteUrl),
+//   title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
+//   description:
+//     "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
+//   keywords: [
+//     "image compressor",
+//     "free image compressor",
+//     "compress images online",
+//     "compress images online free",
+//     "compress image",
+//     "compress photo",
+//     "compress photos",
+//     "compress pictures",
+//     "compress jpg",
+//     "compress jpeg",
+//     "compress png",
+//     "compress webp",
+//     "jpg compressor",
+//     "jpeg compressor",
+//     "png compressor",
+//     "webp compressor",
+//     "reduce image size",
+//     "image size reducer",
+//     "shrink image",
+//     "image optimizer",
+//     "online image optimizer",
+//     "optimize images",
+//     "photo compressor",
+//     "picture compressor",
+//     "quality based image compression",
+//     "browser image compressor",
+//     "preview image before download",
+//     "image quality control",
+//   ],
+//   alternates: {
+//     canonical: canonicalUrl,
+//   },
+//   robots: {
+//     index: true,
+//     follow: true,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       "max-image-preview": "large",
+//       "max-snippet": -1,
+//       "max-video-preview": -1,
+//     },
+//   },
+//   applicationName: "Compress Images with Preview",
+//   category: "Utilities",
+//   openGraph: {
+//     title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
+//     description:
+//       "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
+//     url: canonicalUrl,
+//     siteName,
+//     type: "website",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
+//     description:
+//       "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
+//   },
+// };
 
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };

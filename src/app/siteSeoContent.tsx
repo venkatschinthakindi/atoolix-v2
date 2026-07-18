@@ -23,13 +23,13 @@ export const metadata: Metadata = {
     "math tools",
   ],
   alternates: {
-    canonical: "/",
+    canonical: serverConfig.siteUrl,
   },
   openGraph: {
     title: "Free Online Tools for PDF, Images, Finance & Conversions",
     description:
       "Use free browser-based tools for PDF editing, image conversion and compression, passport size photo creation, signature resizing, finance calculators, and math tools.",
-    url: "/",
+    url: serverConfig.siteUrl,
     siteName,
     type: "website",
   },

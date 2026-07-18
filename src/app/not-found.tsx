@@ -29,7 +29,7 @@ export default function NotFound() {
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-4 pt-6 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#F1DBA0] text-xs font-bold text-slate-950">
-            <Image src="/logo.png" alt="Atoolix | find the best tools" title='Atoolix | find the perfect tools' className="transparent" width={24} height={24} />
+            <Image src="/logo.png" alt="Atoolix find the best tools" title='Atoolix find the perfect tools' className="transparent" width={24} height={24} />
           </div>
           <span className="text-sm font-semibold tracking-wide text-slate-100">
             Atoolix

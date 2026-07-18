@@ -6,76 +6,76 @@ const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/passport-photo-resizer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
-  description:
-    "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
-  keywords: [
-    "passport photo resizer",
-    "passport size photo resizer",
-    "passport photo resize online",
-    "resize passport photo online",
-    "passport photo size converter",
-    "passport size photo maker",
-    "passport size photo editor online",
-    "passport photo resize to 10kb",
-    "passport photo resize to 20kb",
-    "passport photo resize to 30kb",
-    "passport photo resize to 50kb",
-    "passport photo resize to 100kb",
-    "passport photo resize to 150kb",
-    "passport photo resize to 200kb",
-    "passport photo resize to 200x200",
-    "passport photo resize to 300x300",
-    "passport photo resize for visa",
-    "passport photo for online application",
-    "passport photo dimensions online",
-    "passport photo file size",
-    "passport photo crop online",
-    "resize image to kb",
-    "resize image to exact dimensions",
-    "passport photo online free",
-    "passport photo jpg",
-    "passport photo jpeg",
-    "passport photo png",
-    "passport photo webp",
-    "passport size photo online",
-    "passport photo cropper",
-    "resize image in inches",
-    "resize image in cm",
-  ],
-  alternates: {
-    canonical: canonicalPath,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-  applicationName: "Passport Photo Resizer",
-  category: "Utilities",
-  openGraph: {
-    title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
-    description:
-      "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
-    url: canonicalUrl,
-    siteName,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
-    description:
-      "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
-  },
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(siteUrl),
+//   title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
+//   description:
+//     "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
+//   keywords: [
+//     "passport photo resizer",
+//     "passport size photo resizer",
+//     "passport photo resize online",
+//     "resize passport photo online",
+//     "passport photo size converter",
+//     "passport size photo maker",
+//     "passport size photo editor online",
+//     "passport photo resize to 10kb",
+//     "passport photo resize to 20kb",
+//     "passport photo resize to 30kb",
+//     "passport photo resize to 50kb",
+//     "passport photo resize to 100kb",
+//     "passport photo resize to 150kb",
+//     "passport photo resize to 200kb",
+//     "passport photo resize to 200x200",
+//     "passport photo resize to 300x300",
+//     "passport photo resize for visa",
+//     "passport photo for online application",
+//     "passport photo dimensions online",
+//     "passport photo file size",
+//     "passport photo crop online",
+//     "resize image to kb",
+//     "resize image to exact dimensions",
+//     "passport photo online free",
+//     "passport photo jpg",
+//     "passport photo jpeg",
+//     "passport photo png",
+//     "passport photo webp",
+//     "passport size photo online",
+//     "passport photo cropper",
+//     "resize image in inches",
+//     "resize image in cm",
+//   ],
+//   alternates: {
+//     canonical: canonicalUrl,
+//   },
+//   robots: {
+//     index: true,
+//     follow: true,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       "max-image-preview": "large",
+//       "max-snippet": -1,
+//       "max-video-preview": -1,
+//     },
+//   },
+//   applicationName: "Passport Photo Resizer",
+//   category: "Utilities",
+//   openGraph: {
+//     title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
+//     description:
+//       "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
+//     url: canonicalUrl,
+//     siteName,
+//     type: "website",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
+//     description:
+//       "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
+//   },
+// };
 
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };

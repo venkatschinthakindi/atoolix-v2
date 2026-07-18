@@ -3,7 +3,7 @@ import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
-const title = "Explore all date-time utilities available on this site.";
+const title = "Explore Date, Time and Timezone Calculators & Utilities";
 const description = "Use free online date and time tools to convert timezones, calculate dates, and more. Quick, accurate, and user-friendly.";
 
 export const metadata = {
@@ -30,7 +30,7 @@ export default function Page(props: any) {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
-        <FilterToolHubPage filterKey="date-time" />
+        <FilterToolHubPage filterKey="date-time" title={title} />
         <Footer />
       </div>
     </div>

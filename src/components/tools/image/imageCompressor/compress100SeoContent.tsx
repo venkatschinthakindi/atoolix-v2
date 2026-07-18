@@ -6,56 +6,56 @@ const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/image-compressor-100kb";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Compress JPG, JPEG, WebP & PNG to 100 KB Online",
-  description:
-    "Compress JPG, JPEG, WebP, and PNG images to 100 KB by default, with the option to increase or decrease the target size to any value anytime. Preview, preserve transparency, and download instantly.",
-  keywords: [
-    "compress image to 100kb",
-    "jpg compressor 100kb",
-    "jpeg compressor 100kb",
-    "webp compressor 100kb",
-    "png compressor 100kb",
-    "image to 100kb",
-    "compress photo to 100kb",
-    "resize image to 100kb",
-    "target size image compressor",
-    "seo image compressor",
-    "website image optimizer",
-    "page speed image optimizer",
-  ],
-  alternates: {
-    canonical: canonicalPath,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-  applicationName: "Image Compressor to 100 KB",
-  category: "Utilities",
-  openGraph: {
-    title: "Compress JPG, JPEG, WebP & PNG to 100 KB Online",
-    description:
-      "Compress JPG, JPEG, WebP, and PNG images to 100 KB by default, with the option to increase or decrease the target size to any value anytime.",
-    url: canonicalUrl,
-    siteName,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Compress JPG, JPEG, WebP & PNG to 100 KB Online",
-    description:
-      "Compress JPG, JPEG, WebP, and PNG images to 100 KB by default, with the option to increase or decrease the target size to any value anytime.",
-  },
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(siteUrl),
+//   title: "Compress JPG, JPEG, WebP & PNG to 100 KB Online",
+//   description:
+//     "Compress JPG, JPEG, WebP, and PNG images to 100 KB by default, with the option to increase or decrease the target size to any value anytime. Preview, preserve transparency, and download instantly.",
+//   keywords: [
+//     "compress image to 100kb",
+//     "jpg compressor 100kb",
+//     "jpeg compressor 100kb",
+//     "webp compressor 100kb",
+//     "png compressor 100kb",
+//     "image to 100kb",
+//     "compress photo to 100kb",
+//     "resize image to 100kb",
+//     "target size image compressor",
+//     "seo image compressor",
+//     "website image optimizer",
+//     "page speed image optimizer",
+//   ],
+//   alternates: {
+//     canonical: canonicalUrl,
+//   },
+//   robots: {
+//     index: true,
+//     follow: true,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       "max-image-preview": "large",
+//       "max-snippet": -1,
+//       "max-video-preview": -1,
+//     },
+//   },
+//   applicationName: "Image Compressor to 100 KB",
+//   category: "Utilities",
+//   openGraph: {
+//     title: "Compress JPG, JPEG, WebP & PNG to 100 KB Online",
+//     description:
+//       "Compress JPG, JPEG, WebP, and PNG images to 100 KB by default, with the option to increase or decrease the target size to any value anytime.",
+//     url: canonicalUrl,
+//     siteName,
+//     type: "website",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Compress JPG, JPEG, WebP & PNG to 100 KB Online",
+//     description:
+//       "Compress JPG, JPEG, WebP, and PNG images to 100 KB by default, with the option to increase or decrease the target size to any value anytime.",
+//   },
+// };
 
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };

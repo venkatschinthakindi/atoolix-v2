@@ -6,67 +6,67 @@ const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/jpg-compressor-with-preview";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Free JPG Compressor Online – JPG & JPEG Compressor with Preview & Quality Control",
-  description:
-    "Compress JPG and JPEG images online for free. Reduce image size with adjustable quality, preview the compressed result before downloading, and optimize photos directly in your browser without uploading them.",
-  keywords: [
-    "jpg compressor",
-    "jpeg compressor",
-    "compress jpg image",
-    "compress jpeg image",
-    "compress jpg online",
-    "compress jpeg online",
-    "reduce image size",
-    "reduce jpg size",
-    "reduce jpeg size",
-    "compress image without losing quality",
-    "online jpg optimizer",
-    "compress photo online",
-    "optimize jpg",
-    "optimize jpeg",
-    "compress camera photos",
-    "compress large jpg",
-    "compress image for website",
-    "compress image for email",
-    "free jpg optimizer",
-    "jpg photo compressor",
-    "jpeg photo compressor",
-    "preview jpg compression",
-    "browser photo compressor",
-  ],
-  alternates: {
-    canonical: canonicalPath,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-  applicationName: "JPG Compressor with Preview",
-  category: "Utilities",
-  openGraph: {
-    title: "Free JPG Compressor Online – JPG & JPEG Compressor with Preview & Quality Control",
-    description:
-      "Compress JPG and JPEG images online for free. Reduce image size with adjustable quality, preview the compressed result before downloading, and optimize photos directly in your browser without uploading them.",
-    url: canonicalUrl,
-    siteName,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Free JPG Compressor Online – JPG & JPEG Compressor with Preview & Quality Control",
-    description:
-      "Compress JPG and JPEG images online for free. Reduce image size with adjustable quality, preview the compressed result before downloading, and optimize photos directly in your browser without uploading them.",
-  },
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(siteUrl),
+//   title: "Free JPG Compressor Online – JPG & JPEG Compressor with Preview & Quality Control",
+//   description:
+//     "Compress JPG and JPEG images online for free. Reduce image size with adjustable quality, preview the compressed result before downloading, and optimize photos directly in your browser without uploading them.",
+//   keywords: [
+//     "jpg compressor",
+//     "jpeg compressor",
+//     "compress jpg image",
+//     "compress jpeg image",
+//     "compress jpg online",
+//     "compress jpeg online",
+//     "reduce image size",
+//     "reduce jpg size",
+//     "reduce jpeg size",
+//     "compress image without losing quality",
+//     "online jpg optimizer",
+//     "compress photo online",
+//     "optimize jpg",
+//     "optimize jpeg",
+//     "compress camera photos",
+//     "compress large jpg",
+//     "compress image for website",
+//     "compress image for email",
+//     "free jpg optimizer",
+//     "jpg photo compressor",
+//     "jpeg photo compressor",
+//     "preview jpg compression",
+//     "browser photo compressor",
+//   ],
+//   alternates: {
+//     canonical: canonicalUrl,
+//   },
+//   robots: {
+//     index: true,
+//     follow: true,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       "max-image-preview": "large",
+//       "max-snippet": -1,
+//       "max-video-preview": -1,
+//     },
+//   },
+//   applicationName: "JPG Compressor with Preview",
+//   category: "Utilities",
+//   openGraph: {
+//     title: "Free JPG Compressor Online – JPG & JPEG Compressor with Preview & Quality Control",
+//     description:
+//       "Compress JPG and JPEG images online for free. Reduce image size with adjustable quality, preview the compressed result before downloading, and optimize photos directly in your browser without uploading them.",
+//     url: canonicalUrl,
+//     siteName,
+//     type: "website",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Free JPG Compressor Online – JPG & JPEG Compressor with Preview & Quality Control",
+//     description:
+//       "Compress JPG and JPEG images online for free. Reduce image size with adjustable quality, preview the compressed result before downloading, and optimize photos directly in your browser without uploading them.",
+//   },
+// };
 
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };

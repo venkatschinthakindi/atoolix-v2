@@ -6,60 +6,60 @@ const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/webp-compressor";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Free WebP Compressor Online – Compress WebP Images with Preview",
-  description:
-    "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
-  keywords: [
-    "webp compressor",
-    "compress webp",
-    "compress webp online",
-    "free webp compressor",
-    "reduce webp file size",
-    "webp optimizer",
-    "online webp optimizer",
-    "compress webp with preview",
-    "browser webp compressor",
-    "webp quality control",
-    "compress web images",
-    "optimize webp",
-    "webp image compressor",
-    "small webp files",
-    "webp transparency",
-    "modern image format",
-  ],
-  alternates: {
-    canonical: canonicalPath,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-  applicationName: "WebP Compressor with Preview",
-  category: "Utilities",
-  openGraph: {
-    title: "Free WebP Compressor Online – Compress WebP Images with Preview",
-    description:
-      "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
-    url: canonicalUrl,
-    siteName,
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Free WebP Compressor Online – Compress WebP Images with Preview",
-    description:
-      "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
-  },
-};
+// export const metadata: Metadata = {
+//   metadataBase: new URL(siteUrl),
+//   title: "Free WebP Compressor Online – Compress WebP Images with Preview",
+//   description:
+//     "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
+//   keywords: [
+//     "webp compressor",
+//     "compress webp",
+//     "compress webp online",
+//     "free webp compressor",
+//     "reduce webp file size",
+//     "webp optimizer",
+//     "online webp optimizer",
+//     "compress webp with preview",
+//     "browser webp compressor",
+//     "webp quality control",
+//     "compress web images",
+//     "optimize webp",
+//     "webp image compressor",
+//     "small webp files",
+//     "webp transparency",
+//     "modern image format",
+//   ],
+//   alternates: {
+//     canonical: canonicalUrl,
+//   },
+//   robots: {
+//     index: true,
+//     follow: true,
+//     googleBot: {
+//       index: true,
+//       follow: true,
+//       "max-image-preview": "large",
+//       "max-snippet": -1,
+//       "max-video-preview": -1,
+//     },
+//   },
+//   applicationName: "WebP Compressor with Preview",
+//   category: "Utilities",
+//   openGraph: {
+//     title: "Free WebP Compressor Online – Compress WebP Images with Preview",
+//     description:
+//       "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
+//     url: canonicalUrl,
+//     siteName,
+//     type: "website",
+//   },
+//   twitter: {
+//     card: "summary_large_image",
+//     title: "Free WebP Compressor Online – Compress WebP Images with Preview",
+//     description:
+//       "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
+//   },
+// };
 
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };

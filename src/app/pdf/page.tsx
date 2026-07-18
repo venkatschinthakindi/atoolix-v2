@@ -3,7 +3,7 @@ import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
-const title = "Explore all pdf utilities available on this site.";
+const title = "Explore the Complete Collection of PDF Tools and Utilities";
 const description = "Use free online PDF tools to merge, split, compress, convert, edit, rotate, organize, and manage PDF files quickly, securely, and without installation.";
 
 export const metadata = {
@@ -30,7 +30,7 @@ export default function Page(props: any) {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
-        <FilterToolHubPage filterKey="pdf" />
+        <FilterToolHubPage filterKey="pdf" title={title} />
         <Footer />
       </div>
     </div>
