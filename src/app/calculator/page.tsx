@@ -1,10 +1,30 @@
 import { Footer } from "@/app/footer/footer";
+import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
 
+const siteUrl = serverConfig.siteUrl;
+const siteName = serverConfig.siteName;
+const title = "Explore all math utilities available on this site.";
+const description = "Calculate EMI, ROI, percentages, interest, and more with our collection of free online calculators. Quick, accurate, and user-friendly.";
+
 export const metadata = {
-  title: "Free Online Calculators for Finance, Percentage & Everyday Math",
-  description:
-    "Calculate EMI, ROI, percentages, interest, and more with our collection of free online calculators. Quick, accurate, and user-friendly.",
+  title: title,
+  description: description,
+  alternates: {
+    canonical: `${siteUrl}/calculator`,
+  },
+  openGraph: {
+    title: title,
+    description: description,
+    url: `${serverConfig.siteUrl}/calculator`,
+    siteName,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: title,
+    description: description,
+  },
 };
 
 export default function Page(props: any) {

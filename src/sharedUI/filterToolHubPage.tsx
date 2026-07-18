@@ -14,9 +14,9 @@ export function FilterToolHubPage({ filterKey, showCategoryBar}: {
         
         <div className="section-header text-center">
           <h2 className="section-title">{filterKey.toPascalCase()} Tools</h2>
-          <p className="section-copy mb-2">
+          <h1 className="section-copy mb-2">
             Explore all {filterKey.toLowerCase()} utilities available on this site.
-          </p>
+          </h1>
         </div>
         <div className="section-header pb-8">
           <BackButton />

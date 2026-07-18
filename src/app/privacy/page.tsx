@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   description:
     `Read the ${siteName} Privacy Policy to understand what data we collect, how we use it, and how we protect your information.`,
   alternates: {
-    canonical: `${serverConfig.siteUrl}/privacy-policy`,
+    canonical: `${serverConfig.siteUrl}/privacy`,
   },
   openGraph: {
     title: `Privacy Policy | ${siteName}`,
     description:
       `Read the ${siteName} Privacy Policy to understand what data we collect, how we use it, and how we protect your information.`,
-    url: `${serverConfig.siteUrl}/privacy-policy`,
+    url: `${serverConfig.siteUrl}/privacy`,
     siteName,
     type: "website",
   },
@@ -79,7 +79,7 @@ export default function PrivacyPolicyPage() {
           </p>
 
           <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            Privacy Policy
+            Privacy Policy | {siteName}
           </h1>
 
           <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">

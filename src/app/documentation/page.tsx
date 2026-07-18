@@ -2,9 +2,33 @@ import Link from "next/link";
 import { Footer } from "../footer/footer";
 import { serverConfig } from "@/config/server";
 import { FloatingDock } from "@/components/layout/floatingDock";
+import { Metadata } from "next";
 
 const siteName = serverConfig.siteName;
+const siteUrl = serverConfig.siteUrl;
 const updatedAt = new Date("2026-06-28T00:00:00Z");
+const description = `${siteName} is a browser-based utility site for PDFs, images, passport photos, signatures,
+          finance calculations, and everyday math tasks. The goal is to make common jobs fast, private,
+          and easy to understand`;
+export const metadata: Metadata = {
+  title: `${siteName} Documentation`,
+  description: description,
+  alternates: {
+    canonical: `${siteUrl}/documentation`,
+  },
+  openGraph: {
+    title:  `${siteName} Documentation`,
+    description: description,
+    url: `${siteUrl}/documentation`,
+    siteName,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteName} Documentation`,
+    description: description,
+  },
+};
 
 const quickLinks = [
   { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter", desc: "Convert Between Time Zones Instantly." },

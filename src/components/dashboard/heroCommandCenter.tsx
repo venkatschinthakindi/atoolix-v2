@@ -78,8 +78,10 @@ export function HeroCommandCenter() {
           <Search className="w-5 h-5 text-white/40 search-box" />
 
           <input
+            id="dashboard-tool-search"
             placeholder="Search calculators, PDF tools, AI utilities..."
             className="search-field"
+            aria-label="Search tools"
             value={query}
             onChange={(e) => {
               const next = e.target.value;

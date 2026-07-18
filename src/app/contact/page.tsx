@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: `Contact ${siteName}`,
     description:
       `Contact ${siteName} for support, feedback, partnerships, and tool requests.`,
-    url: "/contact",
+    url:  `${serverConfig.siteUrl}/contact`,
     siteName,
     type: "website",
   },

@@ -49,10 +49,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: serverConfig.siteLogoUrl,
+        url: `${serverConfig.siteUrl}/logo.png`,
         width: 1200,
         height: 630,
-        alt: serverConfig.siteName,
+        alt: `${serverConfig.siteName} - Free Online Tools`,
       },
     ],
   },
@@ -62,10 +62,10 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: [
       {
-        url: serverConfig.siteLogoUrl,
+        url: `${serverConfig.siteUrl}/logo.png`,
         width: 1200,
         height: 630,
-        alt: serverConfig.siteName,
+        alt: `${serverConfig.siteName} - Free Online Tools`,
       },
     ],
   },

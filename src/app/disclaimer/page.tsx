@@ -89,7 +89,7 @@ export default function DisclaimerPage() {
           </p>
 
           <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            Disclaimer
+            Disclaimer | {siteName}
           </h1>
 
           <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
