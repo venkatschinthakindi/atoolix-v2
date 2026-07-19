@@ -25,6 +25,7 @@ import {
   ShieldCheck,
   Clock3,
   Plus,
+  Trash2,
 } from "lucide-react";
 
 import { DropZone } from "@/components/ui/DropZone";
@@ -669,7 +670,7 @@ export default function PdfMergerClient({ config }: Props) {
                       onClick={clearAllFiles}
                       className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
                     >
-                      <Wand2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
+                      <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
                       <span>Start Over</span>
                     </button>
                     <button
