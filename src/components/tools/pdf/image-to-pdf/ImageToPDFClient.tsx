@@ -209,7 +209,7 @@ export default function ImageToPDFClient({ config }: Props) {
     }
     setDropzoneKey((prev) => prev + 1);
     if (fileInputRef.current) fileInputRef.current.value = "";
-  }, [previewUrl]);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -250,25 +250,41 @@ export default function ImageToPDFClient({ config }: Props) {
     setFiles(reordered.map((x) => x.file));
   }, [images]);
 
+  
+  const previewPdf = useCallback(async () => {
+    if (!files.length) return;
+    setLoading(true);
+    try {
+      setModalVariant("preview");
+      setShowModal(true);
+    } catch (err) {
+      //console.error(err);
+      //alert("Failed to generate preview");
+    } finally {
+      setLoading(false);
+    }
+  }, [files, pageSize, orientation, margin, fitMode]);
+
+  
   const handleDownload = useCallback(async () => {
     if (!files.length) return;
 
     setModalVariant("download");
     setLoading(true);
-    setProgress(10);
     try {      
       setShowModal(true);
-      setProgress(100);
     } catch (err) {
       //console.error(err);
       //alert("Failed to generate PDF");
       setLoading(false);
-      setProgress(0);
     }
-  }, [files, pageSize, orientation, margin, fitMode, outputName, resetAll]);
+  }, [files, pageSize, orientation, margin, fitMode]);
 
   const downloadProcessedFile = useCallback(async () => {
-    if (files?.length??0 === 0) return;
+    const fileCount = files?.length??0;
+    if (fileCount <= 0){
+      return;
+    }
 
     const pdfBytes = await imagesToPDF(files, {
       pageSize,
@@ -284,7 +300,7 @@ export default function ImageToPDFClient({ config }: Props) {
     setTimeout(() => {
       resetAll();
     }, 500);
-  },[]);
+  },[files, pageSize, orientation, margin, fitMode]);
 
   const openPreview = useCallback(() => {
     if (!previewUrl) return;
@@ -292,22 +308,11 @@ export default function ImageToPDFClient({ config }: Props) {
     setShowModal(true);
   }, [previewUrl]);
 
-  const previewPdf = useCallback(async () => {
-    if (!files.length) return;
-    setLoading(true);
-    try {
-      setModalVariant("preview");
-      setShowModal(true);
-    } catch (err) {
-      //console.error(err);
-      //alert("Failed to generate preview");
-    } finally {
-      setLoading(false);
-    }
-  }, [files, pageSize, orientation, margin, fitMode]);
-
   const generatedPdf = useCallback(async () => {
-    if (!files.length) return;
+    const fileCount = files?.length??0;
+    if (fileCount <= 0){
+      return;
+    }
     setLoading(true);
     try {
       const pdfBytes = await imagesToPDF(files, {
