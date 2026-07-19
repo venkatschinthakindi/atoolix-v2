@@ -215,9 +215,9 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator",
     //loader: () => import("@/components/tools/calculator/Calculator"),
-    title: "Advanced Calculator & Equation Solver Online",
-    toolShortName: "Advanced Calculator",
-    onPageTitle: "Scientific Calculator & Equation Solver",
+    title: "Calculator – Scientific, Percentage & Equation Solver",
+    toolShortName: "Scientific, Percentage & Equation Solver",
+    onPageTitle: "Scientific Calculator, Percentage & Equation Solver",
     description: "A powerful online scientific calculator with algebra, trigonometry, logs, derivatives, matrices, unit conversion, and statistics support.",
     icon: "Calculator",
     keywords: [

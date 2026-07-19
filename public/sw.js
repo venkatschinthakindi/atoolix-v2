@@ -1,6 +1,6 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "099054e2b1289847";
+const CACHE_VERSION = "8bddbb654fa790c7";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 
 const APP_SHELL = [
