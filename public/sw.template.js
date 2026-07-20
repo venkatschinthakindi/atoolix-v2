@@ -70,9 +70,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// navigator.serviceWorker.addEventListener("controllerchange", () => {
-//   window.location.reload();
-// });
 // ---------------------------------------------------------------------------
 // FETCH
 // ---------------------------------------------------------------------------
