@@ -1,6 +1,6 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "57f4955c7fb36366";
+const CACHE_VERSION = "b8b403552df5f5c5";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -70,9 +70,9 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-navigator.serviceWorker.addEventListener("controllerchange", () => {
-  window.location.reload();
-});
+// navigator.serviceWorker.addEventListener("controllerchange", () => {
+//   window.location.reload();
+// });
 // ---------------------------------------------------------------------------
 // FETCH
 // ---------------------------------------------------------------------------

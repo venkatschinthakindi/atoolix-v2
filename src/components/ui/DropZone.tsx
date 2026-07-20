@@ -1,180 +1,216 @@
 "use client";
 
 import { ImageFormat } from "@/types/imageConverter.types";
-import { useCallback, useImperativeHandle, useRef, useState } from "react";
+import {
+  useCallback,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { UploadCloud } from "lucide-react";
 
 export function DropZone({
   onFiles,
-  validFileTypes = ".jpg,.jpeg,.png,.webp, .pdf",
+  validFileTypes = ".jpg,.jpeg,.png,.webp,.pdf",
   allowMultiple = true,
   addMoreFiles = false,
-  ref = null
+  ref = null,
 }: {
   onFiles: (files: File[]) => any;
   validFileTypes?: string;
   allowMultiple: boolean;
   addMoreFiles?: boolean;
-  ref?: any
+  ref?: any;
 }) {
-
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useImperativeHandle(ref, () => ({
-      openFilePicker: () => openPicker(),
-    }));
+    openFilePicker: () => openPicker(),
+  }));
+
   const validatePDF = (file: File) => {
     const allowedMimeTypes = ["application/pdf"];
-    const allowedExtensions = validFileTypes.split(",").map((ext) => ext.trim().toLowerCase());
+
+    const allowedExtensions = validFileTypes
+      .split(",")
+      .map((ext) => ext.trim().toLowerCase());
+
     const fileName = file.name.toLowerCase();
+
     const isValidMime = allowedMimeTypes.includes(file.type);
-    const isValidExtension = allowedExtensions.some((ext) => fileName.endsWith(ext));
+
+    const isValidExtension = allowedExtensions.some((ext) =>
+      fileName.endsWith(ext)
+    );
+
     return isValidMime || isValidExtension;
   };
 
   const handleFiles = (files: File[]) => {
     const pdfFiles = files.filter(validatePDF);
+
     if (pdfFiles.length === 0) {
-      setError("Only PDF files are allowed");
+      setError(`Only these file types are allowed: ${validFileTypes}`);
       return;
     }
+
     setError(null);
     setIsUploading(true);
     setUploadProgress(0);
-    
+
     const interval = setInterval(() => {
-      setUploadProgress(prev => {
-        if (prev >= 100) {
+      setUploadProgress((prev) => {
+        if (prev >= 90) {
           clearInterval(interval);
-          setIsUploading(false);
           return 100;
         }
+
         return prev + 10;
       });
     }, 200);
-    
-    onFiles(pdfFiles);
+
+    // Wait until the progress animation finishes
+    setTimeout(() => {
+      setIsUploading(false);
+      onFiles(pdfFiles);
+    }, 2000); // 10 steps × 200ms
   };
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const files = Array.from(e.dataTransfer.files);
-    handleFiles(files);
-  }, []);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+
+      const files = Array.from(e.dataTransfer.files);
+
+      handleFiles(files);
+    },
+    []
+  );
 
   const openPicker = () => {
     fileInputRef.current?.click();
   };
 
   return (
-    <div className="space-y-2">
-      {/* PREMIUM DROPZONE - Smooth hover (no odd blowing) */}
-      <div
+    <div className="space-y-4">
+          <div
         onClick={openPicker}
-        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+        }}
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
-        className={`group relative 
-          flex flex-col items-center gap-2 sm:flex-row sm:gap-2 lg:gap-2
-          p-2 sm:p-4
-          rounded-2xl sm:rounded-3xl 
-          border border-white/15 
-          overflow-hidden 
-          transition-all duration-300 ease-out cursor-pointer w-full
-          backdrop-blur-sm
-          hover:shadow-2xl hover:shadow-blue-500/40 hover:scale-[1.01] hover:border-blue-400/60
+        className={`group relative overflow-hidden rounded-2xl border-2 border-dashed cursor-pointer transition-all duration-200
           ${
             isDragging
-              ? "border-blue-400/80 bg-gradient-to-br from-indigo-950/98 via-indigo-950/92 to-indigo-950/85 shadow-2xl shadow-blue-500/70 "
-              : "bg-gradient-to-br from-indigo-950/90 via-indigo-950/65 to-indigo-950/40"
+              ? "border-blue-500 bg-blue-500/5"
+              : "border-zinc-700 bg-zinc-900/30 hover:border-zinc-900/50 hover:bg-zinc-900/60"
           }`}
       >
-        {/* ✅ ONLY 1: Glass morph (smooth, no pulse) */}
-        <span className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
-
-        {/* ✅ ONLY 2: Inner glow (smooth, no pulse) */}
-        <span className="absolute inset-2 sm:inset-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-400/15 via-blue-400/8 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
-
-        {/* UPLOAD PROGRESS */}
+        {/* Upload Overlay */}
         {isUploading && (
-          <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-indigo-950/95 backdrop-blur-md flex items-center justify-center z-50">
-            <div className="flex flex-col items-center gap-2 sm:gap-6 p-3 sm:p-4 rounded-2xl sm:rounded-3xl bg-white/5 backdrop-blur-sm border border-blue-400/20">
-              <div className="relative">
-                <div className="h-10 w-10 sm:h-10 sm:w-10 rounded-full border-4 border-blue-400/20 animate-spin" />
-                <div className="absolute inset-0 h-10 w-10 sm:h-10 sm:w-10 rounded-full border-4 border-blue-400 border-t-transparent animate-spin" />
-              </div>
-              
-              <div className="w-full max-w-48 sm:max-w-64">
-                <div className="h-1.5 sm:h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-blue-400 to-indigo-400 transition-all duration-300 ease-out"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm">
+            <div className="w-full max-w-sm rounded-xl border border-zinc-700 bg-zinc-900 p-8 shadow-2xl">
+              <div className="flex flex-col items-center gap-5">
+                <div className="relative">
+                  <div className="h-12 w-12 rounded-full border-4 border-zinc-700 animate-spin"></div>
+                  <div className="absolute inset-0 h-12 w-12 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
                 </div>
-                <p className="text-center text-blue-400/70 text-xs sm:text-sm mt-2 font-medium">
-                  {uploadProgress}% uploaded
+
+                <div className="w-full">
+                  <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
+                    <div
+                      className="h-full rounded-full bg-blue-500 transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    />
+                  </div>
+
+                  <p className="mt-3 text-center text-sm text-zinc-400">
+                    {uploadProgress}% Complete
+                  </p>
+                </div>
+
+                <p className="text-sm font-medium text-white">
+                  Processing your file...
                 </p>
               </div>
-              
-              <p className="text-white text-sm sm:text-base font-bold tracking-tight">
-                Processing your file...
-              </p>
             </div>
           </div>
         )}
 
-        {/* Card content wrapper */}
-        <div className="relative z-10 flex items-center justify-center gap-4 sm:gap-6 lg:gap-8 p-3 sm:p-4 lg:p-6 rounded-xl sm:rounded-2xl bg-white/3 backdrop-blur-sm border border-blue-400/15 w-full">
-          {/* Icon with Electric Blue glow */}
-          <div className="relative flex-shrink-0">
+        <div className="flex flex-col items-center px-8 py-6 text-center sm:px-12 sm:py-8">
+
           <div
-            className="absolute inset-0 rounded-xl sm:rounded-2xl bg-blue-400/30 blur-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            aria-hidden="true"
-          />
-          <div className="relative flex h-14 w-14 sm:h-16 sm:w-16 lg:h-20 lg:w-20 items-center justify-center rounded-xl sm:rounded-2xl bg-white/90 backdrop-blur-sm border border-blue-400/20 shadow-lg shadow-blue-500/10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-            <UploadCloud className="h-7 w-7 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-blue-500 drop-shadow-[0_0_20px_rgba(59,130,246,0.6)]" />
+            className={`flex h-16 w-16 items-center justify-center rounded-full border transition-colors duration-200
+              ${
+                isDragging
+                  ? "border-blue-500 bg-blue-500/10"
+                  : "border-zinc-700 bg-zinc-900/30 group-hover:border-blue-500/40"
+              }`}
+          >
+            <UploadCloud className="h-7 w-7 text-blue-400" />
           </div>
-        </div>
 
-          {/* Text content */}
-          <div className="flex flex-col items-center items-start gap-2 sm:gap-3 flex-1">
-            <div className="flex items-center gap-2">
-              <span className="h-1 w-4 sm:w-6 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full" aria-hidden="true" />
-              <p className="text-white text-md sm:text-md font-bold tracking-tight drop-shadow-sm leading-tight">
-                Drag & Drop Files Here {addMoreFiles === true ? "To Add More" : ""}
-              </p>
-            </div>
-            
-            <p className="text-white/70 text-sm sm:text-base font-medium tracking-normal">
-              Secure upload for <span className="text-blue-400 font-semibold">high-value documents</span>
-            </p>
-            <p className="text-white/60 text-sm sm:text-base font-normal tracking-normal">
-              or <span className="text-blue-400 font-semibold cursor-pointer hover:text-blue-300 transition-colors">
-                browse files
-              </span>
-            </p>
-            
-            <div className="w-full h-0.5 sm:h-0.75 bg-gradient-to-r from-transparent via-blue-400/15 to-transparent group-hover:via-blue-400/50 transition-all duration-300" />
-            
-            <div className="flex items-center gap-2 sm:gap-3">
-              <span className="h-0.5 w-3 sm:w-4 bg-blue-400/25 rounded-full" aria-hidden="true" />
-              <p className="text-white/40 text-xs sm:text-sm font-medium tracking-normal">
-                Supported formats: <span className="text-blue-400/70 font-semibold">{validFileTypes}</span>
-              </p>
-            </div>
-          </div>
-        </div>
+          <h3 className="mt-4 text-md font-semibold tracking-tight text-white">
+            {isDragging
+              ? "Drop files here"
+              : `Drag & drop your files ${
+                  addMoreFiles ? "to Add More" : ""
+                }`}
+          </h3>
 
-        {/* Corner accent (smooth, no pulse) */}
-        <span className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-tr-2xl sm:rounded-tr-3xl bg-gradient-to-bl from-blue-400/10 via-blue-400/3 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+          <p className="mt-1 max-w-xl text-sm leading-6 text-zinc-400">
+            or{" "}
+            <span className="font-medium text-blue-400 underline underline-offset-2">
+              browse your device
+            </span>
+            <span>
+              &nbsp;—— {validFileTypes} files
+            </span>
+          </p>
+{/* 
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+
+            <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
+              Secure
+            </span>
+
+            <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
+              Fast
+            </span>
+
+            <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
+              Browser Processing
+            </span>
+
+          </div> */}
+
+          {/* <div className="mt-8 h-px w-full bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+
+          <div className="mt-6 space-y-2">
+
+            <p className="text-sm text-zinc-500">
+              Supported formats
+            </p>
+
+            <p className="text-sm font-medium text-zinc-300">
+              {validFileTypes}
+            </p>
+
+          </div> */}
+
+          <p className="pt-2 text-[11px] text-white/30">Processed entirely on your device. Nothing is uploaded.</p>
+
+        </div>
       </div>
-
-      {/* HIDDEN INPUT */}
+            {/* Hidden Input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -183,19 +219,23 @@ export function DropZone({
         className="hidden"
         onChange={(e) => {
           if (!e.target.files) return;
+
           handleFiles(Array.from(e.target.files));
+
+          // Allows selecting the same file again
+          // e.target.value = "";
         }}
       />
 
-      {/* Error message */}
+      {/* Error */}
       {error && (
-        <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-red-500/40 bg-red-500/15 p-3 sm:p-4 backdrop-blur-sm">
-          <span className="absolute inset-0 rounded-xl sm:rounded-2xl bg-red-500/10" aria-hidden="true" />
-          <div className="relative flex items-center gap-2 sm:gap-3">
-            <div className="h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-red-500/20 flex items-center justify-center">
-              <span className="text-red-400 text-sm sm:text-base font-bold">!</span>
-            </div>
-            <p className="text-red-400 text-sm sm:text-base font-semibold tracking-tight drop-shadow-sm">
+        <div className="flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+          <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500/20">
+            <span className="text-xs font-bold text-red-400">!</span>
+          </div>
+
+          <div>
+            <p className="text-sm font-medium text-red-300">
               {error}
             </p>
           </div>
@@ -206,5 +246,8 @@ export function DropZone({
 }
 
 export function getAcceptString(formats: ImageFormat[] | undefined) {
-  return formats?.map((format) => `.${format}`).join(",") ?? ".jpg,.jpeg,.png,.webp";
+  return (
+    formats?.map((format) => `.${format}`).join(",") ??
+    ".jpg,.jpeg,.png,.webp"
+  );
 }
