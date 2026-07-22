@@ -68,6 +68,12 @@ export const categoryIcons: CategoryInfo[] = [
     description: "Date and time calculation tools",
     icon: 'Clock'
   },
+  {
+    id: "QRCode",
+    title: "QR Code",
+    description: "Generate and scan QR codes",
+    icon: 'QrCode'
+  }
 ];
 
 export type ToolRegistryEntry<Props = {}> = {
@@ -376,6 +382,37 @@ export const tools: ToolRegistryEntry[] = [
       "Utilities"
     ),
     toolImage:"jpg-to-pdf.png"
+  },
+  {
+    id: "qr-code/qr-code-generator",
+    //loader: () => import("@/components/tools/qrCode/qrCodeGenerator/QrCodeGenerator"),
+    toolShortName: "QR Code Generator",
+    title: "Generate QR Code Online | Scan QR Code",
+    description: "Generate OR scan QR codes online for free. Create, download, and share QR codes with just a few clicks.",
+    onPageTitle: "Generate QR Code Online | Scan QR Code",
+    icon: "QrCode",
+    keywords: [
+      "qr code generator",
+      "qr code online",
+      "generate qr code",
+      "qr code creator",
+      "scan qr code",
+      "scan qr code online",
+      "scan qr code free",
+      "free qr code generator"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/qr-code/qr-code-generator`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "QRCode",
+    featured: true,
+    preload: false,
+    defaultProps: {
+      allowedFormats: ["png"]
+    },
+    toolImage:"qr-code-generator.png"
   },
   {
     id: "image/png-to-pdf",

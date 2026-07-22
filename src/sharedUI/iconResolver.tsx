@@ -19,7 +19,8 @@ import {
   PenTool,
   Globe,
   CalendarClock,
-  Clock3
+  Clock3,
+  QrCode
 } from "lucide-react";
 import React from "react";
 
@@ -44,7 +45,8 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
   PenTool: PenTool,
   Globe: Globe,
   CalendarClock: CalendarClock,
-  Clock3: Clock3
+  Clock3: Clock3,
+  QrCode: QrCode
 };
 
 export function IconResolver({ name, className,size, strokeWidth, color }: { name: string; 

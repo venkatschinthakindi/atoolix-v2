@@ -33,7 +33,7 @@ export async function Footer() {
             href="/"
             className="text-white transition-colors duration-200 hover:text-violet-300 flex items-center"
           >
-            <Image src="/logo.png" title='Atoolix find the best tool' width={35} height={35} alt="Atoolix find the perfect tools" />
+            <Image src="/android-chrome-192x192.png" title='Atoolix find the best tool' width={35} height={35} alt="Atoolix find the perfect tools" />
             <span className="-ml-3">Toolix</span>
           </Link>
         </h2>

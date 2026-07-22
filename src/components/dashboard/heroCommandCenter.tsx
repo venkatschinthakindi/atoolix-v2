@@ -131,7 +131,7 @@ export function HeroCommandCenter() {
     searchTools={false}/>
   </div>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        {["Finance", "PDF", , "Calculator",  "Image", "Date & Time"].map(
+        {["Finance", "PDF", , "Calculator",  "Image", "Date & Time", "QR Code"].map(
           (item) => (
             <div
               key={item}

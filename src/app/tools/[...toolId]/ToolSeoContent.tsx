@@ -39,6 +39,7 @@ const seoLoaders: Record<string, SeoLoader> = {
   "date-time/timezone-converter": () => import("@/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent"),
   "date-time/meeting-time-finder": () => import("@/components/tools/dateTime/meeting-time-finder/meetingTimeFinderSeoContent"),
   "image/background-remover": () => import("@/components/tools/image/backgroundRemover/backgroundRemoverSeoContent"),
+  "qr-code/qr-code-generator": () => import("@/components/tools/qrCode/qrCodeSeoContent"),
 };
 
 export default async function ToolSeoContent({ toolId }: { toolId: string }) {

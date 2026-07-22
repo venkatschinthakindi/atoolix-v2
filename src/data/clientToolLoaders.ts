@@ -57,6 +57,7 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
   ["image/png-to-pdf", imageToPdfLoader],
   ["image/webp-to-pdf", imageToPdfLoader],
 
+  ["qr-code/qr-code-generator", () => import("@/components/tools/qrCode/QrCode")],
   [
     "calculator",
     () => import("@/components/tools/calculator/Calculator"),

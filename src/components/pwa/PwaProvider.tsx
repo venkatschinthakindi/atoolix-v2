@@ -60,28 +60,25 @@ export function PwaProvider({
       return;
     }
 
-    let mounted = true;
+    let intervalId: number | undefined;
 
     navigator.serviceWorker
       .register("/sw.js")
       .then((reg) => {
-        if (!mounted) return;
+        intervalId = window.setInterval(() => {
+          reg.update().catch(() => {});
+        }, 60 * 60 * 1000);
 
         setRegistration(reg);
-
-        // Covers long-lived open tabs: proactively re-check for a new SW.
-        const intervalId = window.setInterval(() => {
-          reg.update().catch(() => {});
-        }, 60 * 60 * 1000); // hourly
-
-        return () => window.clearInterval(intervalId);
       })
-      .catch((err) => {
-        //console.error("[PWA]", err);
+      .catch(() => {
+        // optional: log in development
       });
 
     return () => {
-      mounted = false;
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     };
   }, []);
 
@@ -97,7 +94,7 @@ export function PwaProvider({
     const handleControllerChange = () => {
       if (reloadingRef.current) return;
       reloadingRef.current = true;
-      // window.location.reload();
+      window.location.reload();
     };
 
     navigator.serviceWorker.addEventListener(
@@ -139,8 +136,8 @@ export function PwaProvider({
           worker.state === "installed" &&
           navigator.serviceWorker.controller
         ) {
-          registration.waiting?.postMessage({
-            type: "SKIP_WAITING",
+          worker.postMessage({
+              type: "SKIP_WAITING",
           });
         }
       });

@@ -2,15 +2,18 @@
 
 const CACHE_VERSION = "__BUILD_VERSION__";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
-
 const APP_SHELL = [
-  "/",
   "/offline",
   "/favicon.ico",
   "/apple-touch-icon.png",
   "/android-chrome-192x192.png",
   "/android-chrome-512x512.png",
   "/maskable-512.png",
+  "/logo.png",
+  "/logo_white.png",
+  "/screenshots/desktop-home.png",
+  "/screenshots/mobile-home.png",
+  __TOOL_IMAGES__
 ];
 
 // Paths under these prefixes are never cached — page shell, RSC payloads,
@@ -29,7 +32,13 @@ const NO_CACHE_PREFIXES = [
   "/privacy",
   "/terms",
   "/disclaimer",
-  "/documentation"
+  "/documentation",
+  "/manifest.webmanifest",
+  "/robots.ts",
+  "/robots.txt",
+  "/sitemap.ts",
+  "/sitemap.xml",
+
 ];
 
 // ---------------------------------------------------------------------------
@@ -65,6 +74,10 @@ self.addEventListener("activate", (event) => {
         keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
       );
 
+      if (self.registration.navigationPreload) {
+        await self.registration.navigationPreload.enable();
+      }
+
       await self.clients.claim();
     })()
   );
@@ -85,6 +98,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   const url = new URL(request.url);
+  const isSameOrigin = url.origin === self.location.origin;
 
   if (url.protocol !== "http:" && url.protocol !== "https:") {
     return;
@@ -108,7 +122,9 @@ self.addEventListener("fetch", (event) => {
 
   // Full page loads: hard refresh, typed URL, external link, hard nav.
   if (request.mode === "navigate") {
-    event.respondWith(networkFirst(request));
+    event.respondWith(
+  networkFirst(request, event.preloadResponse)
+);
     return;
   }
 
@@ -125,7 +141,9 @@ self.addEventListener("fetch", (event) => {
   const isNextDataRequest = url.pathname.startsWith("/_next/data/");
 
   if (isRscRequest || isNextDataRequest) {
-    event.respondWith(networkFirst(request));
+    event.respondWith(
+      networkFirst(request, event.preloadResponse)
+    );
     return;
   }
 
@@ -133,11 +151,21 @@ self.addEventListener("fetch", (event) => {
   const isImmutableStatic = url.pathname.startsWith("/_next/static/");
 
   if (isImmutableStatic) {
+    if (!isSameOrigin) {
+      event.respondWith(fetch(request));
+      return;
+    }
+
     event.respondWith(cacheFirst(request));
     return;
   }
 
   // Everything else same-origin GET (images, fonts, misc assets).
+  if (!isSameOrigin) {
+    event.respondWith(fetch(request));
+    return;
+  }
+
   event.respondWith(cacheFirst(request));
 });
 
@@ -152,26 +180,21 @@ async function networkOnly(request) {
   return fetch(request);
 }
 
-async function networkFirst(request) {
+async function networkFirst(request, preloadResponsePromise) {
   try {
-    const response = await fetch(request);
+    const preload = await preloadResponsePromise;
 
-    if (response.ok &&
-      response.status === 200 &&
-      response.type === "basic") {
-      const cache = await caches.open(CACHE_NAME);
-      await cache.put(request, response.clone());
+    if (preload) {
+      return preload;
     }
 
-    return response;
+    return await fetch(request);
   } catch {
-    const cached = await caches.match(request);
-
-    if (cached) {
-      return cached;
+    if (request.mode === "navigate") {
+      return (await caches.match("/offline")) || Response.error();
     }
 
-    return caches.match("/offline");
+    return Response.error();
   }
 }
 
@@ -185,9 +208,16 @@ async function cacheFirst(request) {
   try {
     const response = await fetch(request);
 
-    if (response.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      await cache.put(request, response.clone());
+    const cacheControl = response.headers.get("Cache-Control") || "";
+
+    if (
+        response.ok &&
+        response.status === 200 &&
+        (response.type === "basic" || response.type === "cors") &&
+        !cacheControl.includes("no-store")
+    ) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
     }
 
     return response;

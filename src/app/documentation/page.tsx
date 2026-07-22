@@ -54,6 +54,7 @@ const sections = [
   { id: "finance-tools", title: "Finance Calculators" },
   { id: "date-time-tools", title: "Date & Time Tools" },
   { id: "math-tools", title: "Math Tools" },
+  { id: "qr-code", title: "QR Code Tools" },
   { id: "troubleshooting", title: "Troubleshooting" },
   { id: "faq", title: "FAQ" },
   { id: "related-tools", title: "Related Tools" },
@@ -266,6 +267,23 @@ const toolGroups = [
       },
     ],
   },
+  {
+    id: "qr-code",
+    icon: "📱",
+    title: "QR Code",
+    description: "Generate and scan QR codes",
+    supports: ["Text"],
+    items: [
+      {
+        name: "QR Code Generator & Scanner",
+        href: "/tools/qr-code/qr-code-generator",
+        description: "Generate custom QR codes for URLs, WiFi, contacts, and more — plus scan any QR code instantly.",
+        useCases: ["Share WiFi access", "Save contact cards", "Link menus and flyers"],
+        tips: "Use higher error correction when adding a logo so the code stays scannable.",
+        related: ["/tools/timezone-converter", "/tools/converter"],
+      }
+    ]
+  }
 ];
 
 const faqs = [

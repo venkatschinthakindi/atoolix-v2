@@ -1,16 +1,51 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "9f2bd7df4209a707";
+const CACHE_VERSION = "2a8a455f7b8e2012";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
-
 const APP_SHELL = [
-  "/",
   "/offline",
   "/favicon.ico",
   "/apple-touch-icon.png",
   "/android-chrome-192x192.png",
   "/android-chrome-512x512.png",
   "/maskable-512.png",
+  "/logo.png",
+  "/logo_white.png",
+    "/toolimages/background-remover.png",
+  "/toolimages/calculator.png",
+  "/toolimages/compress-image-to-100kb.png",
+  "/toolimages/compress-image-to-20kb.png",
+  "/toolimages/compress-image-to-50kb.png",
+  "/toolimages/compress-image.png",
+  "/toolimages/compress-jpg.png",
+  "/toolimages/compress-pdf.png",
+  "/toolimages/compress-png.png",
+  "/toolimages/compress-webp.png",
+  "/toolimages/converter.png",
+  "/toolimages/emi-calculator.png",
+  "/toolimages/fd-calculator.png",
+  "/toolimages/image-to-pdf.png",
+  "/toolimages/jpg-to-pdf.png",
+  "/toolimages/jpg-to-png.png",
+  "/toolimages/jpg-to-webp.png",
+  "/toolimages/meeting-time-finder.png",
+  "/toolimages/merge-pdf.png",
+  "/toolimages/passport-photo-resizer.png",
+  "/toolimages/png-to-jpeg.png",
+  "/toolimages/png-to-jpg.png",
+  "/toolimages/png-to-pdf.png",
+  "/toolimages/png-to-webp.png",
+  "/toolimages/resize-signature-for-upload.png",
+  "/toolimages/retirement-calculator.png",
+  "/toolimages/roi-calculator.png",
+  "/toolimages/split-pdf.png",
+  "/toolimages/svg-to-jpg.png",
+  "/toolimages/svg-to-png.png",
+  "/toolimages/timezone-converter.png",
+  "/toolimages/webp-to-jpeg.png",
+  "/toolimages/webp-to-jpg.png",
+  "/toolimages/webp-to-pdf.png",
+  "/toolimages/webp-to-png.png"
 ];
 
 // Paths under these prefixes are never cached — page shell, RSC payloads,
@@ -29,7 +64,13 @@ const NO_CACHE_PREFIXES = [
   "/privacy",
   "/terms",
   "/disclaimer",
-  "/documentation"
+  "/documentation",
+  "/manifest.webmanifest",
+  "/robots.ts",
+  "/robots.txt",
+  "/sitemap.ts",
+  "/sitemap.xml",
+
 ];
 
 // ---------------------------------------------------------------------------
@@ -65,6 +106,10 @@ self.addEventListener("activate", (event) => {
         keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
       );
 
+      if (self.registration.navigationPreload) {
+        await self.registration.navigationPreload.enable();
+      }
+
       await self.clients.claim();
     })()
   );
@@ -85,6 +130,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   const url = new URL(request.url);
+  const isSameOrigin = url.origin === self.location.origin;
 
   if (url.protocol !== "http:" && url.protocol !== "https:") {
     return;
@@ -108,7 +154,9 @@ self.addEventListener("fetch", (event) => {
 
   // Full page loads: hard refresh, typed URL, external link, hard nav.
   if (request.mode === "navigate") {
-    event.respondWith(networkFirst(request));
+    event.respondWith(
+  networkFirst(request, event.preloadResponse)
+);
     return;
   }
 
@@ -125,7 +173,9 @@ self.addEventListener("fetch", (event) => {
   const isNextDataRequest = url.pathname.startsWith("/_next/data/");
 
   if (isRscRequest || isNextDataRequest) {
-    event.respondWith(networkFirst(request));
+    event.respondWith(
+      networkFirst(request, event.preloadResponse)
+    );
     return;
   }
 
@@ -133,11 +183,21 @@ self.addEventListener("fetch", (event) => {
   const isImmutableStatic = url.pathname.startsWith("/_next/static/");
 
   if (isImmutableStatic) {
+    if (!isSameOrigin) {
+      event.respondWith(fetch(request));
+      return;
+    }
+
     event.respondWith(cacheFirst(request));
     return;
   }
 
   // Everything else same-origin GET (images, fonts, misc assets).
+  if (!isSameOrigin) {
+    event.respondWith(fetch(request));
+    return;
+  }
+
   event.respondWith(cacheFirst(request));
 });
 
@@ -152,26 +212,21 @@ async function networkOnly(request) {
   return fetch(request);
 }
 
-async function networkFirst(request) {
+async function networkFirst(request, preloadResponsePromise) {
   try {
-    const response = await fetch(request);
+    const preload = await preloadResponsePromise;
 
-    if (response.ok &&
-      response.status === 200 &&
-      response.type === "basic") {
-      const cache = await caches.open(CACHE_NAME);
-      await cache.put(request, response.clone());
+    if (preload) {
+      return preload;
     }
 
-    return response;
+    return await fetch(request);
   } catch {
-    const cached = await caches.match(request);
-
-    if (cached) {
-      return cached;
+    if (request.mode === "navigate") {
+      return (await caches.match("/offline")) || Response.error();
     }
 
-    return caches.match("/offline");
+    return Response.error();
   }
 }
 
@@ -185,9 +240,16 @@ async function cacheFirst(request) {
   try {
     const response = await fetch(request);
 
-    if (response.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      await cache.put(request, response.clone());
+    const cacheControl = response.headers.get("Cache-Control") || "";
+
+    if (
+        response.ok &&
+        response.status === 200 &&
+        (response.type === "basic" || response.type === "cors") &&
+        !cacheControl.includes("no-store")
+    ) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
     }
 
     return response;
