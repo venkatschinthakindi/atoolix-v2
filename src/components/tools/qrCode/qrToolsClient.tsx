@@ -300,7 +300,7 @@ export default function QRToolsClient() {
 
   return (
   <div className="min-h-screen text-white">
-    <div className="mx-12 grid gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+    <div className="grid gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
       <section className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-sm backdrop-blur-md sm:p-6">
         <div className="mb-6 flex gap-2 rounded-2xl bg-black/20 p-1">
           <button

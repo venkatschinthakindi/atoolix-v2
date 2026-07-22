@@ -22,6 +22,7 @@ const routes = [
   "finance",
   "image",
   "pdf",
+  "qrcode",
 
   // Calculator Tools
   "calculator/emi-calculator",
@@ -69,6 +70,9 @@ const routes = [
   // Date & Time
   "date-time/timezone-converter",
   "date-time/meeting-time-finder",
+
+  // QR Code Tools
+  "qr-code/qr-code-generator",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
