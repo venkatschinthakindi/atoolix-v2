@@ -60,17 +60,29 @@ export function HeroCommandCenter() {
     <section
       className="hero-banner"
     >
-      <span className="hero-pill">
+      {/* <span className="hero-pill">
         100+ Productivity Tools
-      </span>
+      </span> */}
+      <div className="flex flex-wrap items-center justify-center gap-2 pb-4 text-xs font-medium">
+        <span className="rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-zinc-300">
+          🔒 Files Stay on Your Device
+        </span>
+
+        <span className="rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-zinc-300">
+          💻 Works offline
+        </span>
+
+        <span className="rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-zinc-300">
+          ✓ No Sign-up Required
+        </span>
+      </div>
 
       <span className="hero-title">
-        Find the perfect tool  <br />
-        for every task
+        Free online tools for PDFs, images<br/>calculators, QR codes & more
       </span>
 
       <p className="hero-copy">
-        All your calculators, PDF tools, AI utilities and developer tools in one place.
+        Everything happens in your browser — Your files stay on your device. Nothing is uploaded, stored, or shared.
       </p>
 
       <div ref={searchRef} className="relative mt-10 w-full max-w-2xl">
@@ -123,10 +135,10 @@ export function HeroCommandCenter() {
       )}
       </div>
     <div className="mt-8 flex gap-4">
-    <CommandPalette buttonName="Explore Tools ⌘K"
+    <CommandPalette buttonName="Find the Right Tool ⌘K"
     buttonClassName="cursor-pointer rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition"
     searchTools={true}/>
-    <CommandPalette buttonName="Browse Categories"
+    <CommandPalette buttonName="View All Categories"
     buttonClassName="cursor-pointer rounded-xl border border-white/10 px-6 py-3 text-white/80 hover:bg-white/5 transition"
     searchTools={false}/>
   </div>

@@ -156,11 +156,11 @@ export async function HomePageSeo() {
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="text-white">
             <p className="mb-4 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium tracking-wide text-white/80 backdrop-blur">
-              Free browser-based tools for everyday tasks
+              Nothing leaves your device
             </p>
 
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Free Online Tools for PDF, Images, Finance, Math and More
+            <h1 className="max-w-3xl text-2xl font-semibold tracking-tight sm:text-3xl lg:text-3xl">
+              Finance, calculators, PDF and image tools, QR codes, meeting schedulers, time zone conversions — all run entirely in your browser.
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">

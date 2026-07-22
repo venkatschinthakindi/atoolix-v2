@@ -456,7 +456,7 @@ button {
   }
 
   .hero-title {
-    @apply max-w-4xl text-5xl md:text-7xl font-bold tracking-tight leading-[0.95];
+    @apply max-w-5xl text-2xl md:text-5xl font-bold tracking-tight leading-[0.95];
     background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 40%, #67e8f9 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -464,7 +464,7 @@ button {
   }
 
   .hero-copy {
-    @apply mt-6 max-w-xl text-lg text-white/60;
+    @apply mt-6 max-w-4xl text-lg text-white/60;
   }
 
   .glass-input {

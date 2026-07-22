@@ -61,7 +61,7 @@ useEffect(() => {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <span className="section-title">
-              Featured Tools
+              🔥 Popular this week
             </span>
             <p className="section-copy">
               Powerful utilities designed to speed up your workflow
@@ -72,7 +72,7 @@ useEffect(() => {
             href="/tools"
             className="hidden sm:inline-flex items-center gap-2 text-sm text-indigo-400 hover:text-indigo-300 transition"
           >
-            View All →
+            View All Tools →
           </Link>
         </div>
 
@@ -98,7 +98,7 @@ useEffect(() => {
                 onClick={(e) => e.stopPropagation()}
                 className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/80 hover:bg-white/20 transition"
               >
-                View All
+                View All Tools
               </Link>
             </div>
 
@@ -111,7 +111,7 @@ useEffect(() => {
             </p>
 
             <div className="badge-pill inline-flex items-center">
-              Open Tool →
+              Try Tool →
             </div>
           </div>
         </div>
@@ -154,7 +154,7 @@ useEffect(() => {
                 <Link
                   href="/tools"
                   className="min-w-[150px] inline-flex items-center text-sm gap-2 text-indigo-400">
-                  View All →
+                  View More →
                 </Link>
             </div>
           </div>
