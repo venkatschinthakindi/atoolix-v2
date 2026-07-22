@@ -1,6 +1,6 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "2a8a455f7b8e2012";
+const CACHE_VERSION = "17b550af9a703df5";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 const APP_SHELL = [
   "/offline",
@@ -11,6 +11,8 @@ const APP_SHELL = [
   "/maskable-512.png",
   "/logo.png",
   "/logo_white.png",
+  "/screenshots/desktop-home.png",
+  "/screenshots/mobile-home.png",
     "/toolimages/background-remover.png",
   "/toolimages/calculator.png",
   "/toolimages/compress-image-to-100kb.png",
@@ -35,6 +37,7 @@ const APP_SHELL = [
   "/toolimages/png-to-jpg.png",
   "/toolimages/png-to-pdf.png",
   "/toolimages/png-to-webp.png",
+  "/toolimages/qr-code-generator.png",
   "/toolimages/resize-signature-for-upload.png",
   "/toolimages/retirement-calculator.png",
   "/toolimages/roi-calculator.png",
