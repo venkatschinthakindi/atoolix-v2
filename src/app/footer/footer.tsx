@@ -131,18 +131,20 @@ export async function Footer() {
       <div className="space-y-1 text-center md:text-left">
 
         <small>
-          © {year} {serverConfig.siteName}. Free • Fast • Secure - Your Files Never Leave Your Device.
+          © {year} {serverConfig.siteName.toPascalCase()}
         </small>
-
+        <small className="block">
+           Free • Fast • Secure <b>- </b>Your Files Never Leave Your Device
+        </small>
         <p className="text-sm leading-5 text-zinc-500">
-          Atoolix is developed and maintained by{" "}
+          Atoolix is built and maintained by{" "}
           <a
             href="https://thrinetratech.in"
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-violet-300"
+            className="transition-colors hover:text-violet-300 text-violet-500"
           >
-            Thrinetra Tech.
+            <b className="text-md text-green-600">Thrinetra Tech.</b>
           </a>
         </p>
 
