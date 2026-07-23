@@ -23,6 +23,7 @@ import {
   isValidUrlLike,
   safeScanTarget,
 } from "@/components/tools/qrCode/qrUtils";
+import { ConfirmModal } from "@/components/ui/confirmModal";
 
 const ImagePreviewModal = dynamic(
   () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
@@ -63,6 +64,7 @@ export default function QRToolsClient() {
   const [scanModalOpen, setScanModalOpen] = useState(false);
   const previewTokenRef = useRef(0);
   const logoTokenRef = useRef(0);
+  const [pendingUrl, setPendingUrl] = useState<string | null>(null);
 
   const rawScannerId = useId();
   const scannerId = useMemo(() => safeId("qr-scanner", rawScannerId), [rawScannerId]);
@@ -260,9 +262,45 @@ export default function QRToolsClient() {
       return;
     }
 
-    window.open(safe, "_blank", "noopener,noreferrer");
+    if (/^https?:\/\//i.test(safe)) {
+      if (isSameSite(safe)) {
+        window.location.href = safe;
+        return;
+      }
+      setPendingUrl(safe);
+      return;
+    }
+
+    setScanError("This QR contains plain text or an unsupported payload.");
   }, [scanResult, setScanError]);
 
+  function getHostname(value: string) {
+    try {
+      return new URL(value).hostname.replace(/^www\./i, "");
+    } catch {
+      return "";
+    }
+  }
+
+  function isSameSite(url: string) {
+    const currentHost = window.location.hostname.replace(/^www\./i, "");
+    const targetHost = getHostname(url);
+    return currentHost === targetHost;
+  }
+  const pendingHostname = useMemo(() => {
+    if (!pendingUrl) return "";
+    try {
+      return new URL(pendingUrl).hostname;
+    } catch {
+      return pendingUrl;
+    }
+  }, [pendingUrl]);
+
+  const confirmOpenExternal = useCallback(() => {
+    if (!pendingUrl) return;
+    window.open(pendingUrl, "_blank", "noopener,noreferrer");
+    setPendingUrl(null);
+  }, [pendingUrl]);
   const onImageScan = useCallback(
     async (file?: File | null) => {
       if (!file) return;
@@ -386,6 +424,24 @@ export default function QRToolsClient() {
       onOpen={openScanAction}
       actionType={scanActionType}
     />
+    <ConfirmModal
+      open={!!pendingUrl}
+      title="Open External Website?"
+      message="You're leaving this site and opening an external website. Check the website address and only continue if you trust it."
+      confirmText="Continue"
+      cancelText="Cancel"
+      onCancel={() => setPendingUrl(null)}
+      onConfirm={confirmOpenExternal}
+    >
+      <div className="rounded-xl border bg-slate-50 p-3">
+        <div className="break-all text-sm font-semibold text-slate-900">
+          {pendingHostname}
+        </div>
+        <div className="mt-2 break-all font-mono text-xs text-slate-500">
+          {pendingUrl}
+        </div>
+      </div>
+    </ConfirmModal>
   </div>
 );
 }
