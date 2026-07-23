@@ -141,6 +141,7 @@ const categories = [
 ];
 const recentlyUpdated = [
   {href: "/tools/date-time/timezone-converter", label: "Time Zone Converter" },
+  {href: "/tools/qr-code/qr-code-generator", label: "QR Code Generator & Scanner" },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
   { href: "/tools/image/compress-jpg", label: "JPG Compressor" },
