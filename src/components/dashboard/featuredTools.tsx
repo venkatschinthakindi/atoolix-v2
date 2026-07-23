@@ -6,6 +6,9 @@ import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ToolCard } from "@/components/ui/toolCard";
 import { getCachedTools } from "@/data/tools";
+import { QuickAccessSection } from "./quickAccessSection";
+import { useFavoriteToolStore } from "@/stores/favoriteToolsStore";
+import { useRecentToolStore } from "@/stores/recentToolsStore";
 
 export function FeaturedTools() {
   const router = useRouter();
@@ -55,6 +58,7 @@ useEffect(() => {
   const others = tools.slice(1, 10);
 
   return (
+    <>
     <section className="page-section px-10" >
       <div className="space-y-8">
         {/* Header */}
@@ -76,12 +80,10 @@ useEffect(() => {
           </Link>
         </div>
 
-        {/* Featured Tool */}
         <div
           onClick={() => router.push(`/tools/${featured.id}`)}
           className="surface-card-light group relative cursor-pointer overflow-hidden"
         >
-          {/* Glow */}
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)]" />
 
 
@@ -92,7 +94,6 @@ useEffect(() => {
               </span>
             </div>
             <div className="absolute right-0 top-0">
-              {/* View All inside card */}
               <Link
                 href="/tools"
                 onClick={(e) => e.stopPropagation()}
@@ -116,9 +117,7 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* Carousel Section */}
-            <div className="relative">
-              {/* Cards */}
+        {/* <div className="relative">
               <div
                   ref={scrollRef}
                   className="tool-scroll"
@@ -169,11 +168,27 @@ useEffect(() => {
               <ChevronRight className="h-5 w-5" />
             </button>
           )}
-          {/* Right Fade */}
           <div className="tool-scroll-fade" />
-        </div>
+        </div> */}
         
       </div>
     </section>
+    <QuickAccessSection
+        groups={[
+          {
+            title: '⭐ Favorites',
+            items: useFavoriteToolStore((s) => s.items),
+            viewAllHref: '/favorites',
+            emptyText: 'Save your favorite tools for quick access.',
+          },
+          {
+            title: '🕒 Recently Used',
+            items: useRecentToolStore((s) => s.items),
+            viewAllHref: '/history',
+            emptyText: 'Recently used tools will appear here.',
+          },
+        ]}
+      />
+    </>
   );
 }

@@ -571,7 +571,11 @@ button {
   }
 
   .surface-card-light {
-    @apply rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900 via-zinc-900 to-indigo-950 p-8 shadow-2xl;
+    @apply rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-900/20 via-zinc-900 to-indigo-950 p-8 shadow-2xl;
+  }
+
+  .surface-card-light-favorite {
+    @apply rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-900/60 via-zinc-900 to-indigo-950 p-8 shadow-2xl;
   }
 
   .tool-scroll {
@@ -620,4 +624,20 @@ button {
       transform: translateY(0);
     }
   }
+
+  /* @keyframes toast-progress {
+    from {
+      width: 100%;
+    }
+
+    to {
+      width: 0%;
+    }
+  }
+
+  .animate-toast-progress {
+    animation-name: toast-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  } */
 }

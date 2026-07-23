@@ -28,6 +28,8 @@ const NO_CACHE_PREFIXES = [
   "/finance",
   "/image",
   "/pdf",
+  "/qrcode",
+  "/qr-code",
   "/contact",
   "/privacy",
   "/terms",
@@ -104,15 +106,15 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (url.pathname.startsWith("/api")) {
+  if (url.pathname.startsWith("/api") || url.pathname === "/") {
     return;
   }
-
+  
   // Tool pages: always network, never read from or write to cache.
   // Matches "/tools" exactly (the tools index) and everything under
   // "/tools/..." (every individual tool page, present and future).
   const isNoCachePath = NO_CACHE_PREFIXES.some(
-    (prefix) => url.pathname?.toLowerCase() === prefix || url.pathname?.toLowerCase().startsWith(`${prefix}/`)
+    (prefix) => url.pathname?.toLowerCase() === prefix || url.pathname?.toLowerCase().startsWith(`${prefix}`)
   );
 
   if (isNoCachePath) {

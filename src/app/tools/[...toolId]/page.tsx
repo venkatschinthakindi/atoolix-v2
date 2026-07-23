@@ -9,6 +9,7 @@ import { serverConfig } from "@/config/server";
 import ToolRendererClient from "@/components/tools/toolRendererClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
 import { Footer } from "@/app/footer/footer";
+import { ToolHeaderFavorite } from "@/components/favorites/toolHeaderFavorite";
 
 export async function generateMetadata({
   params,
@@ -71,15 +72,23 @@ export default async function ToolPage({ params }: any) {
               <BackButton />
             </div>
             
-              <div className="text-center space-y-4 mb-2">
+              {/* <div className="text-center flex-center space-y-4 mb-2">
                 <h1 className="md:text-l font-extrabold text-white tracking-wide">
                   {tool.onPageTitle || tool.title}
                 </h1>
-                <p className="text-white/70 text-xs  max-w-3xl mx-auto leading-relaxed">
-                  {tool.description}
-                </p>
+                <ToolHeaderFavorite tool={tool} />
+              </div> */}
+              <div className="mb-2 flex flex-col items-center space-y-4">
+                <div className="inline-flex items-center justify-center gap-2">
+                  <h1 className="text-center text-xl font-extrabold tracking-wide text-white md:text-2xl">
+                    {tool.onPageTitle || tool.title}
+                  </h1>
+                  <ToolHeaderFavorite tool={tool} />
+                </div>
               </div>
-              
+              <p className="text-white/70 text-xs  max-w-3xl mx-auto leading-relaxed">
+                {tool.description}
+              </p>
               <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
               <ToolSeoContent toolId={toolId} />
               <Footer />
