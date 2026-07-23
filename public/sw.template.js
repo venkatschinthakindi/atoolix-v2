@@ -32,6 +32,7 @@ const NO_CACHE_PREFIXES = [
   "/qr-code",
   "/contact",
   "/privacy",
+  "/privacysecurity",
   "/terms",
   "/disclaimer",
   "/documentation",

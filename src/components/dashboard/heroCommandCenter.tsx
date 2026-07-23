@@ -91,7 +91,7 @@ export function HeroCommandCenter() {
 
           <input
             id="dashboard-tool-search"
-            placeholder="Search calculators, PDF tools, AI utilities..."
+            placeholder="Search Finance, Privacy, PDF tools, AI utilities..."
             className="search-field"
             aria-label="Search tools"
             value={query}
@@ -143,7 +143,7 @@ export function HeroCommandCenter() {
     searchTools={false}/>
   </div>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        {["Finance", "PDF", , "Calculator",  "Image", "Date & Time", "QR Code"].map(
+        {["Privacy & Security", "Finance", "PDF", "Image", "Date & Time", "QR Code"].map(
           (item) => (
             <div
               key={item}

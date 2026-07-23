@@ -9,6 +9,12 @@ type CategoryInfo = {
 };
 export const categoryIcons: CategoryInfo[] = [
   {
+    id:"Privacy",
+    title: "Privacy & Security",
+    description: "Privacy & Security tools and utilities",
+    icon: 'ShieldCheck'
+  },
+  {
     id: "PDF",
     title: "PDF",
     description: "PDF tools and utilities",
@@ -101,6 +107,39 @@ export function getCachedTools(): ToolRegistryEntry[] {
 }
 
 export const tools: ToolRegistryEntry[] = [
+  {
+    id: "privacy/file-analyzer",
+    // loader: () => import("@/components/tools/fileAnalyzer/FileAnalyzer"),
+    title: "File privacy & security analyzer - scan your file before you send it with One-Click Fix",
+    toolShortName: "File Analyzer",
+    onPageTitle: "Know what's inside your file before you share it—and fix issues with one click.",
+    description: "A complete health, privacy, quality, and compatibility check for any file — entirely in your browser.",
+    icon: "ShieldCheck",
+    keywords: [
+      "remove exif data online",
+      "remove metadata from pdf",
+      "remove gps location from photo",
+      "file privacy checker",
+      "document metadata remover",
+      "pdf javascript remover",
+      "docx metadata cleaner",
+      "sensitive data scanner",
+      "file security analyzer",
+      "is my file safe to share",
+      "strip metadata browser tool",
+      "remove author from word document"
+    ],
+    alternates: {
+      canonical: `${siteUrl}/tools/privacy/file-analyzer`
+    },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Privacy",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    toolImage: "file-analyzer.png"
+  },
   {
     id: "calculator/emi-calculator",
     //loader: () => import("@/components/tools/emiCalculator/EMICalculator"),

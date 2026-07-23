@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface BackButtonProps {
@@ -10,8 +11,8 @@ interface BackButtonProps {
 
 export default function BackButton({
   fallbackHref = "/",
-  children = "← Back",
-  className = "text-sm text-white/50 hover:text-white mb-2",
+  children = " Back",
+  className = "text-md text-white/50 hover:text-white mb-2 flex items-center",
 }: BackButtonProps) {
   const router = useRouter();
 
@@ -29,7 +30,7 @@ export default function BackButton({
       onClick={handleClick}
       className={`${className}`}
     >
-      {children}
+      <ArrowLeft className="mr-2 h-4 w-4" />{children}
     </button>
   );
 }

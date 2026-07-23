@@ -21,7 +21,8 @@ import {
   CalendarClock,
   Clock3,
   QrCode,
-  Pencil
+  Pencil,
+  ShieldCheck
 } from "lucide-react";
 import React from "react";
 
@@ -48,7 +49,8 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
   CalendarClock: CalendarClock,
   Clock3: Clock3,
   QrCode: QrCode,
-  Pencil: Pencil
+  Pencil: Pencil,
+  ShieldCheck: ShieldCheck
 };
 
 export function IconResolver({ name, className,size, strokeWidth, color }: { name: string; 

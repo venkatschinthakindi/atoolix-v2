@@ -1,6 +1,6 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "a514a446da395164";
+const CACHE_VERSION = "07279504174c1330";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 const APP_SHELL = [
   "/offline",
@@ -26,6 +26,7 @@ const APP_SHELL = [
   "/toolimages/converter.png",
   "/toolimages/emi-calculator.png",
   "/toolimages/fd-calculator.png",
+  "/toolimages/file-analyzer.png",
   "/toolimages/image-to-pdf.png",
   "/toolimages/jpg-to-pdf.png",
   "/toolimages/jpg-to-png.png",
@@ -63,6 +64,8 @@ const NO_CACHE_PREFIXES = [
   "/finance",
   "/image",
   "/pdf",
+  "/qrcode",
+  "/qr-code",
   "/contact",
   "/privacy",
   "/terms",

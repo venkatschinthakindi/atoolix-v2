@@ -16,6 +16,10 @@ const imageToPdfLoader: ToolLoader = () =>
 
 export const clientToolLoaders = new Map<string,() => Promise<any>>([
   [
+    "privacy/file-analyzer",
+    () => import("@/components/tools/privacy/fileAnalyzer"),
+  ],
+  [
     "calculator/emi-calculator",
     () => import("@/components/tools/emiCalculator/EMICalculator"),
   ],

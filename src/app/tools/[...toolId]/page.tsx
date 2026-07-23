@@ -1,6 +1,5 @@
 
 import { notFound } from "next/navigation";
-import BackButton from "@/components/ui/backButton";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import ToolSeoContent from "@/app/tools/[...toolId]/ToolSeoContent";
@@ -10,6 +9,8 @@ import ToolRendererClient from "@/components/tools/toolRendererClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
 import { Footer } from "@/app/footer/footer";
 import { ToolHeaderFavorite } from "@/components/favorites/toolHeaderFavorite";
+import { FloatingButton } from "@/components/ui/floatingButton";
+import BackButton from "@/components/ui/backButton";
 
 export async function generateMetadata({
   params,
@@ -68,25 +69,19 @@ export default async function ToolPage({ params }: any) {
                 <FloatingDock />
             </div>
 
-            <div className="section-header">
-              <BackButton />
-            </div>
-            
-              {/* <div className="text-center flex-center space-y-4 mb-2">
-                <h1 className="md:text-l font-extrabold text-white tracking-wide">
-                  {tool.onPageTitle || tool.title}
-                </h1>
-                <ToolHeaderFavorite tool={tool} />
-              </div> */}
+            <FloatingButton children={<BackButton />}/>
               <div className="mb-2 flex flex-col items-center space-y-4">
                 <div className="inline-flex items-center justify-center gap-2">
-                  <h1 className="text-center text-xl font-extrabold tracking-wide text-white md:text-2xl">
+                  <h1 className="text-center max-w-4xl text-2xl font-extrabold tracking-wide text-white md:text-2xl">
                     {tool.onPageTitle || tool.title}
                   </h1>
-                  <ToolHeaderFavorite tool={tool} />
+                  
+                  <FloatingButton 
+                  className='fixed top-21 right-40 z-50 transition-all duration-300'
+                  children={<ToolHeaderFavorite tool={tool}/>}/>
                 </div>
               </div>
-              <p className="text-white/70 text-xs  max-w-3xl mx-auto leading-relaxed">
+              <p className="text-white/70 text-sm text-center max-w-3xl mx-auto leading-relaxed">
                 {tool.description}
               </p>
               <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />

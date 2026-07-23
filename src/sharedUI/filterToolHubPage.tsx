@@ -1,7 +1,8 @@
 import { FilteredTools } from "@/components/ui/FilteredTools";
-import BackButton from "@/components/ui/backButton";
 import ToolsHubClient from "@/app/tools/ToolsHubClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
+import { FloatingButton } from "@/components/ui/floatingButton";
+import BackButton from "@/components/ui/backButton";
 
 export function FilterToolHubPage({ filterKey, showCategoryBar, title}: {
   filterKey: string,
@@ -20,7 +21,7 @@ export function FilterToolHubPage({ filterKey, showCategoryBar, title}: {
           </h1>
         </div>
         <div className="section-header pb-8">
-          <BackButton />
+          <FloatingButton children={<BackButton />}/>
         </div>
         {!!showCategoryBar && <ToolsHubClient filterKey={filterKey}/>}
         <FilteredTools filterKey={filterKey}/>
