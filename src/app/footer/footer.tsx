@@ -126,15 +126,15 @@ export async function Footer() {
 
     <div className="my-8 border-t border-white/10" />
 
-    <div className="flex flex-col items-center justify-between gap-4 text-xs text-zinc-500 md:flex-row">
+    <div className="flex flex-col items-center justify-between gap-4 text-lg text-zinc-500 md:flex-row">
 
       <div className="space-y-1 text-center md:text-left">
 
         <small>
-          © {year} {serverConfig.siteName}. Fast • Secure • Browser-based.
+          © {year} {serverConfig.siteName}. Free • Fast • Secure - Your Files Never Leave Your Device.
         </small>
 
-        <p className="text-[11px] leading-5 text-zinc-500">
+        <p className="text-sm leading-5 text-zinc-500">
           Atoolix is developed and maintained by{" "}
           <a
             href="https://thrinetratech.in"
@@ -142,15 +142,13 @@ export async function Footer() {
             rel="noopener noreferrer"
             className="transition-colors hover:text-violet-300"
           >
-            Thrinetra Tech
+            Thrinetra Tech.
           </a>
-          , a software company building modern web applications and
-          Progressive Web Apps.
         </p>
 
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 text-sm">
 
         <Link href="/contact" className={footerLink}>
           Suggest a Tool
