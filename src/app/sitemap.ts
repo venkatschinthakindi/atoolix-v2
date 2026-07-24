@@ -17,8 +17,9 @@ const routes = [
   "disclaimer",
 
   // Categories
+  "tools",
   "calculator",
-  "date-time",
+  "datetime",
   "finance",
   "image",
   "pdf",
@@ -26,57 +27,57 @@ const routes = [
   "privacysecurity",
 
   // privacysecurity
-  "privacy/file-analyzer",
+  "tools/privacy/file-analyzer",
 
   // Calculator Tools
-  "calculator/emi-calculator",
-  "calculator/roi-calculator",
-  "calculator/fd-calculator",
-  "calculator/retirement-calculator",
+  "tools/calculator/emi-calculator",
+  "tools/calculator/roi-calculator",
+  "tools/calculator/fd-calculator",
+  "tools/calculator/retirement-calculator",
 
   // PDF Tools
-  "pdf/split-pdf",
-  "pdf/merge-pdf",
-  "pdf/compress-pdf",
+  "tools/pdf/split-pdf",
+  "tools/pdf/merge-pdf",
+  "tools/pdf/compress-pdf",
 
   // Image → PDF
-  "image/image-to-pdf",
-  "image/jpg-to-pdf",
-  "image/png-to-pdf",
-  "image/webp-to-pdf",
+  "tools/image/image-to-pdf",
+  "tools/image/jpg-to-pdf",
+  "tools/image/png-to-pdf",
+  "tools/image/webp-to-pdf",
 
   // Image Converter
-  "image/jpg-to-png",
-  "image/png-to-jpg",
-  "image/png-to-jpeg",
-  "image/jpg-to-webp",
-  "image/png-to-webp",
-  "image/webp-to-jpg",
-  "image/webp-to-jpeg",
-  "image/webp-to-png",
-  "image/svg-to-png",
-  "image/svg-to-jpg",
+  "tools/image/jpg-to-png",
+  "tools/image/png-to-jpg",
+  "tools/image/png-to-jpeg",
+  "tools/image/jpg-to-webp",
+  "tools/image/png-to-webp",
+  "tools/image/webp-to-jpg",
+  "tools/image/webp-to-jpeg",
+  "tools/image/webp-to-png",
+  "tools/image/svg-to-png",
+  "tools/image/svg-to-jpg",
 
   // Image Compressor
-  "image/compress-image",
-  "image/compress-jpg",
-  "image/compress-png",
-  "image/compress-webp",
-  "image/compress-image-to-20kb",
-  "image/compress-image-to-50kb",
-  "image/compress-image-to-100kb",
+  "tools/image/compress-image",
+  "tools/image/compress-jpg",
+  "tools/image/compress-png",
+  "tools/image/compress-webp",
+  "tools/image/compress-image-to-20kb",
+  "tools/image/compress-image-to-50kb",
+  "tools/image/compress-image-to-100kb",
 
   // Image Tools
-  "image/passport-photo-resizer",
-  "image/resize-signature-for-upload",
-  "image/background-remover",
+  "tools/image/passport-photo-resizer",
+  "tools/image/resize-signature-for-upload",
+  "tools/image/background-remover",
 
   // Date & Time
-  "date-time/timezone-converter",
-  "date-time/meeting-time-finder",
+  "tools/date-time/timezone-converter",
+  "tools/date-time/meeting-time-finder",
 
   // QR Code Tools
-  "qr-code/qr-code-generator",
+  "tools/qr-code/qr-code-generator",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
