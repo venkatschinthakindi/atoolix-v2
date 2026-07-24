@@ -23,6 +23,10 @@ const routes = [
   "image",
   "pdf",
   "qrcode",
+  "privacysecurity",
+
+  // privacysecurity
+  "privacy/file-analyzer",
 
   // Calculator Tools
   "calculator/emi-calculator",
