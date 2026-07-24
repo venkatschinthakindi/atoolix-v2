@@ -27,7 +27,7 @@ const routes = [
   "privacysecurity",
 
   // privacysecurity
-  "tools/privacy/file-analyzer",
+  "tools/privacysecurity/file-analyzer",
 
   // Calculator Tools
   "tools/calculator/emi-calculator",
@@ -73,11 +73,11 @@ const routes = [
   "tools/image/background-remover",
 
   // Date & Time
-  "tools/date-time/timezone-converter",
-  "tools/date-time/meeting-time-finder",
+  "tools/datetime/timezone-converter",
+  "tools/datetime/meeting-time-finder",
 
   // QR Code Tools
-  "tools/qr-code/qr-code-generator",
+  "tools/qrcode/qr-code-generator",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

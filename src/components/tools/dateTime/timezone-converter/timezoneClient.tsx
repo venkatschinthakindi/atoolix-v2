@@ -1016,7 +1016,7 @@ export default function TimezoneConverterClient() {
           </h2>
           <p className="mt-4 text-sm sm:text-base leading-7 text-zinc-300">
             Convert one source time into up to 10 time zones instantly. Invalid or ambiguous source times are flagged before conversion. Need to schedule a meeting instead? Try the{" "}
-            <Link href="/tools/date-time/meeting-time-finder" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
+            <Link href="/tools/datetime/meeting-time-finder" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
               Meeting Time Finder
             </Link>.
           </p>

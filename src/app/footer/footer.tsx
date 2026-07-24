@@ -8,6 +8,7 @@ const footerLink =
 
 const popularTools = [
   { href: "/tools/calculator/emi-calculator", label: "EMI Calculator" },
+  { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" },
   { href: "/tools/calculator/retirement-calculator", label: "Retirement Planning" },
   { href: "/tools/image/compress-image-to-100kb", label: "Image Compressor" },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
@@ -53,6 +54,7 @@ export async function Footer() {
         </h2>
 
         <ul className="space-y-3 text-sm">
+          <li><Link href="/privacysecurity" className={footerLink}>Privacy & Security Tools</Link></li>
           <li><Link href="/pdf" className={footerLink}>PDF Tools</Link></li>
           <li><Link href="/image" className={footerLink}>Image Tools</Link></li>
           <li><Link href="/finance" className={footerLink}>Finance Calculators</Link></li>

@@ -1590,7 +1590,7 @@ export default function MeetingTimeFinderClient() {
           </h2>
           <p className="mt-4 text-sm sm:text-base leading-7 text-zinc-300">
             Compare time zones and find the next slot where everyone's working hours overlap. Set working days and hours, apply a meeting template, and export a CSV or calendar invite. Just need a quick conversion? Try the{" "}
-            <Link href="/tools/date-time/timezone-converter" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
+            <Link href="/tools/datetime/timezone-converter" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
               Timezone Converter
             </Link>.
           </p>

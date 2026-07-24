@@ -1,6 +1,6 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "07279504174c1330";
+const CACHE_VERSION = "3b8da00f5a588f56";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 const APP_SHELL = [
   "/offline",
@@ -68,6 +68,7 @@ const NO_CACHE_PREFIXES = [
   "/qr-code",
   "/contact",
   "/privacy",
+  "/privacysecurity",
   "/terms",
   "/disclaimer",
   "/documentation",

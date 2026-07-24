@@ -4,7 +4,7 @@ import { serverConfig } from "@/config/server";
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
 
-const TITLE = "Free Online Tools – PDF, Image, Calculator & Finance Tools";
+const TITLE = "Free Online Tools – PDF, Privacy, Image, Calculator & Finance Tools";
 const DESCRIPTION =
   "Free online PDF tools, image converters and compressors, calculators, EMI and finance tools. Fast, secure, no signup required.";
 
@@ -64,11 +64,12 @@ export const metadata: Metadata = {
 };
 
 const quickLinks = [
+  { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" },
+  { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter" },
   { href: "/tools/image/compress-image", label: "Image Compressor" },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
-  { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
-  { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter" },
+  { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },  
   { href: "/tools/calculator", label: "Percentage Calculator" },
   { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
   { href: "/tools/calculator/retirement-calculator?category=retirement", label: "Retirement Calculator" },
@@ -96,6 +97,14 @@ const categories = [
       { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
       { href: "/tools/calculator/retirement-calculator", label: "Retirement Planning" },
       { href: "/tools/calculator/roi-calculator", label: "Investment Returns" }      
+    ],
+  },
+  {
+    title: "Privacy & Security Tools",
+    description:
+      "Privacy & Security Tools - Check your file for privacy and security risks before you share it.",
+    items: [
+      { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" }
     ],
   },
   {
@@ -135,13 +144,14 @@ const categories = [
     description:
       "Convert time between UTC, GMT, IST, PST, EST, CET, JST, and hundreds of other time zones instantly. Compare multiple cities and plan meetings across different regions.",
     items: [
-      { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter" }
+      { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter" }
     ],
   },
 ];
 const recentlyUpdated = [
-  { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter" },
-  { href: "/tools/qr-code/qr-code-generator", label: "QR Code Generator & Scanner" },
+  { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter" },
+  { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" },
+  { href: "/tools/qrcode/qr-code-generator", label: "QR Code Generator & Scanner" },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
   { href: "/tools/image/compress-jpg", label: "JPG Compressor" },

@@ -8,7 +8,7 @@ import { detectFile } from '@/lib/engine/detector';
 import { sha256Hex } from '@/lib/utils/format';
 import { hasFix, runFix, runAllFixes, type FixAllStep } from '@/lib/fixes/registry';
 import type { Finding, FileContext, FullReport } from '@/lib/engine/types';
-import { PrivacyDropZone } from '@/components/tools/privacy/PrivacyDropZone';
+import { PrivacyDropZone } from '@/components/tools/privacysecurity/PrivacyDropZone';
 
 type Status = 'idle' | 'analyzing' | 'done' | 'error';
 

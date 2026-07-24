@@ -108,7 +108,7 @@ export function getCachedTools(): ToolRegistryEntry[] {
 
 export const tools: ToolRegistryEntry[] = [
   {
-    id: "privacy/file-analyzer",
+    id: "privacysecurity/file-analyzer",
     // loader: () => import("@/components/tools/fileAnalyzer/FileAnalyzer"),
     title: "File privacy & security analyzer - scan your file before you send it with One-Click Fix",
     toolShortName: "File Analyzer",
@@ -130,7 +130,7 @@ export const tools: ToolRegistryEntry[] = [
       "remove author from word document"
     ],
     alternates: {
-      canonical: `${siteUrl}/tools/privacy/file-analyzer`
+      canonical: `${siteUrl}/tools/privacysecurity/file-analyzer`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -423,7 +423,7 @@ export const tools: ToolRegistryEntry[] = [
     toolImage:"jpg-to-pdf.png"
   },
   {
-    id: "qr-code/qr-code-generator",
+    id: "qrcode/qr-code-generator",
     //loader: () => import("@/components/tools/qrCode/qrCodeGenerator/QrCodeGenerator"),
     toolShortName: "QR Code Generator",
     title: "Generate QR Code Online | Scan QR Code",
@@ -441,7 +441,7 @@ export const tools: ToolRegistryEntry[] = [
       "free qr code generator"
     ],
     alternates: {
-      canonical: `${siteUrl}/tools/qr-code/qr-code-generator`
+      canonical: `${siteUrl}/tools/qrcode/qr-code-generator`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -722,7 +722,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   // Date and Time Tools Start
   {
-    id: "date-time/timezone-converter",
+    id: "datetime/timezone-converter",
     icon: "Globe",
     //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
     title: "Timezone Converter Online | Convert Time Between Time Zones Instantly",
@@ -751,7 +751,7 @@ export const tools: ToolRegistryEntry[] = [
       "current time in city",
     ],
     alternates: {
-      canonical: `${siteUrl}/tools/date-time/timezone-converter`
+      canonical: `${siteUrl}/tools/datetime/timezone-converter`
     },
     applicationType: "WebApplication",
     applicationCategory: "Date & Time",
@@ -762,7 +762,7 @@ export const tools: ToolRegistryEntry[] = [
     toolImage:"timezone-converter.png"
   },
   {
-    id: "date-time/meeting-time-finder",
+    id: "datetime/meeting-time-finder",
     icon: "CalendarClock",
     //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
     title: "Meeting Time Finder | Find the Best Meeting Time Across Time Zones",
@@ -789,7 +789,7 @@ export const tools: ToolRegistryEntry[] = [
       "remote team meeting planner",
     ],
     alternates: {
-      canonical: `${siteUrl}/tools/date-time/meeting-time-finder`
+      canonical: `${siteUrl}/tools/datetime/meeting-time-finder`
     },
     applicationType: "WebApplication",
     applicationCategory: "Date & Time",

@@ -10,12 +10,12 @@ export const metadata = {
   title: title,
   description: description,
   alternates: {
-    canonical: `${siteUrl}/privacysecurity`,
+    canonical: `${siteUrl}/privacy`,
   },
   openGraph: {
     title: title,
     description: description,
-    url: `${siteUrl}/privacysecurity`,
+    url: `${siteUrl}/privacy`,
     siteName,
     type: "website",
   },

@@ -30,7 +30,7 @@ export default function Page(props: any) {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
-        <FilterToolHubPage filterKey="date-time" title={title} />
+        <FilterToolHubPage filterKey="datetime" title={title} />
         <Footer />
       </div>
     </div>

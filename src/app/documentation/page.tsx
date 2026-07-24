@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 const quickLinks = [
-  { href: "/tools/date-time/timezone-converter", label: "Time Zone Converter", desc: "Convert Between Time Zones Instantly." },
+  { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter", desc: "Convert Between Time Zones Instantly." },
   { href: "/tools/image/compress-image", label: "Image Compressor", desc: "Reduce JPG, PNG, and WebP image size." },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer", desc: "Create passport-size photos for forms." },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer", desc: "Resize signatures to KB limits." },
@@ -233,7 +233,7 @@ const toolGroups = [
     items: [
       {
         name: "Time Zone Converter",
-        href: "/tools/date-time/timezone-converter",
+        href: "/tools/datetime/timezone-converter",
         description: "Convert between time zones for accurate dates and times.",
         useCases: ["Travel planning", "Event scheduling", "Timezone conversions"],
         tips: "Pick the right source and destination time zones.",
@@ -276,7 +276,7 @@ const toolGroups = [
     items: [
       {
         name: "QR Code Generator & Scanner",
-        href: "/tools/qr-code/qr-code-generator",
+        href: "/tools/qrcode/qr-code-generator",
         description: "Generate custom QR codes for URLs, WiFi, contacts, and more — plus scan any QR code instantly.",
         useCases: ["Share WiFi access", "Save contact cards", "Link menus and flyers"],
         tips: "Use higher error correction when adding a logo so the code stays scannable.",

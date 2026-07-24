@@ -1,6 +1,6 @@
 import { serverConfig } from "@/config/server";
 const siteUrl = serverConfig.siteUrl;
-const canonicalPath = "/tools/privacy/file-analyzer"; // ⚠️ set this to THIS page's actual route
+const canonicalPath = "/tools/privacysecurity/file-analyzer"; // ⚠️ set this to THIS page's actual route
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
 type FaqItem = { q: string; a: string };

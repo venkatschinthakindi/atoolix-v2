@@ -36,11 +36,11 @@ const seoLoaders: Record<string, SeoLoader> = {
   "image/compress-image-to-100kb": () => import("@/components/tools/image/imageCompressor/compress100SeoContent"),
   "image/passport-photo-resizer": () => import("@/components/tools/image/passpoerPhotoResizer/passpoerPhotoSeoContent"),
   "image/resize-signature-for-upload": () => import("@/components/tools/image/signatureResizer/signatureResizerSeoContent"),
-  "date-time/timezone-converter": () => import("@/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent"),
-  "date-time/meeting-time-finder": () => import("@/components/tools/dateTime/meeting-time-finder/meetingTimeFinderSeoContent"),
+  "datetime/timezone-converter": () => import("@/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent"),
+  "datetime/meeting-time-finder": () => import("@/components/tools/dateTime/meeting-time-finder/meetingTimeFinderSeoContent"),
   "image/background-remover": () => import("@/components/tools/image/backgroundRemover/backgroundRemoverSeoContent"),
-  "qr-code/qr-code-generator": () => import("@/components/tools/qrCode/qrCodeSeoContent"),
-  "privacy/file-analyzer": () => import("@/components/tools/privacy/filecheckupseocontent"),
+  "qrcode/qr-code-generator": () => import("@/components/tools/qrCode/qrCodeSeoContent"),
+  "privacysecurity/file-analyzer": () => import("@/components/tools/privacysecurity/filecheckupseocontent"),
 };
 
 export default async function ToolSeoContent({ toolId }: { toolId: string }) {
