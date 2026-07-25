@@ -36,7 +36,7 @@ export const useFavoriteToolStore = create<FavoriteStore>()(
             order: nextOrder(state.items),
           };
           
-          return { items: sortFavorites([...state.items, item]) };
+          return { items: sortFavorites([...state.items, item]).sort((a, b) => b.addedAt - a.addedAt).slice(0, 10) };
         }),
       remove: (toolId) =>
         set((state) => ({

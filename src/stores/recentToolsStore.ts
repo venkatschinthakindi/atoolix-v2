@@ -1,11 +1,10 @@
-// src/stores/recent-tools.store.ts
 'use client';
 
-import { ToolRegistryEntry } from '@/data/tools';
-import { nextOrder } from '@/lib/favorite/favoriteUtils';
-import { RecentTool } from '@/types/favorite/favorite';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import { nextOrder } from '@/lib/favorite/favoriteUtils';
+import { RecentTool } from '@/types/favorite/favorite';
+import { ToolRegistryEntry } from '@/data/tools';
 
 type RecentStore = {
   items: RecentTool[];
@@ -24,23 +23,25 @@ export const useRecentToolStore = create<RecentStore>()(
       push: (tool) =>
         set((state) => {
           const filtered = state.items.filter((i) => i.toolId !== tool.id);
+
           const item: RecentTool = {
-                      toolId: tool.id,
-                      icon: tool.icon,
-                      displayName: tool.toolShortName || tool.onPageTitle,
-                      addedAt: Date.now(),
-                      order: nextOrder(state.items),
-                    };
-              return {
-                items: [item, ...filtered].slice(0, 20),
-              };
+            toolId: tool.id,
+            icon: tool.icon,
+            displayName: tool.toolShortName || tool.onPageTitle,
+            addedAt: Date.now(),
+            order: nextOrder(state.items),
+          };
+
+          return {
+            items: [item, ...filtered].slice(0, 8),
+          };
         }),
       clear: () => set({ items: [] }),
     }),
     {
       name: 'atoolix.recent-tools',
       storage: createJSONStorage(() => localStorage),
-      onRehydrateStorage: () => (state) => state?.setHydrated(true)
+      onRehydrateStorage: () => (state) => state?.setHydrated(true),
     }
   )
 );

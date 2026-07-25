@@ -27,15 +27,15 @@ export const FavoriteButton = memo(function FavoriteButton({
         aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
         onClick={() => toggle(tool)}
         className={cn(
-          'inline-flex h-5 w-5 items-center justify-center rounded-full border transition-transform duration-200 active:scale-95',
+          'inline-flex h-7 w-7 items-center justify-center rounded-full border transition-transform duration-200 active:scale-95',
           isFavorite
-            ? 'border-yellow-300 bg-yellow-400 text-black'
+            ? 'border-yellow-300 bg-orange-400 text-slate-50 hover:bg-orange-500'
             : 'border-border bg-background text-muted-foreground hover:bg-muted'
         )}
       >
         <span
           className={cn(
-            'text-lg leading-none transition-transform duration-200',
+            'text-3xl leading-none transition-transform duration-200',
             isFavorite && 'scale-110'
           )}
         >
