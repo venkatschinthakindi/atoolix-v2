@@ -12,12 +12,10 @@ import {
   Wand2,
   Maximize2,
   RefreshCw,
-  Loader2,
   FileIcon,
 } from "lucide-react";
 
 import { DropZone, getAcceptString } from "@/components/ui/DropZone";
-import { ProgressBar } from "@/components/ui/ProgressBar";
 import { ToolConfig } from "@/types/imageConverter.types";
 import { convertImage } from "@/features/imageConverter/converters/convertImage";
 import { validateImage } from "@/features/imageConverter/validateImage";
@@ -26,6 +24,15 @@ import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
+import { FeatureBadge } from "../imageToolUI/featureBadge";
+import { WorkspaceCard } from "../imageToolUI/workspaceCard";
+import { MetadataGrid } from "../imageToolUI/metadataGrid";
+import { StatCard } from "../imageToolUI/statCard";
+import { EmptyState } from "../imageToolUI/emptyState";
+import { ToolButton } from "../imageToolUI/toolButton";
+import { SuccessBanner } from "../imageToolUI/successBanner";
+import { SectionHeader } from "../imageToolUI/sectionHeader";
+import { ToolProgress } from "../imageToolUI/toolProgress";
 
 const ImagePreviewModal = dynamic(
   () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
@@ -54,181 +61,6 @@ function formatBytes(bytes: number) {
 
 function getPrettyFormat(format?: string) {
   return (format || "").toUpperCase() || "—";
-}
-
-function SectionHeader({
-  title,
-  subtitle,
-  icon,
-}: {
-  title: string;
-  subtitle: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-center gap-4">
-      <div className="rounded-2xl bg-blue-500/10 p-3">
-        <div className="text-blue-400">{icon}</div>
-      </div>
-      <div>
-        <h2 className="text-xl font-semibold text-white">{title}</h2>
-        <p className="mt-1 text-sm text-slate-400">{subtitle}</p>
-      </div>
-    </div>
-  );
-}
-
-function FeatureBadge({ children, color = "blue" }: { children: React.ReactNode; color?: "blue" | "green" | "purple" | "orange" }) {
-  const styles: Record<string, string> = {
-    blue: "bg-blue-500/10 text-blue-300 border-blue-500/20",
-    green: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
-    purple: "bg-violet-500/10 text-violet-300 border-violet-500/20",
-    orange: "bg-amber-500/10 text-amber-300 border-amber-500/20",
-  };
-
-  return (
-    <span className={`inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium ${styles[color]}`}>
-      {children}
-    </span>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-  icon,
-}: {
-  label: string;
-  value: string;
-  icon?: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl bg-slate-950/60 p-2">
-      <div className="flex items-center justify-between gap-3">
-        <div className="text-sm text-slate-500">{label}</div>
-        {icon ? <div className="text-slate-400">{icon}</div> : null}
-      </div>
-      <div className="mt-2 text-lg font-semibold text-white">{value}</div>
-    </div>
-  );
-}
-
-function MetadataGrid({ children }: { children: React.ReactNode }) {
-  return <div className="grid gap-4 sm:grid-cols-2">{children}</div>;
-}
-
-function WorkspaceCard({ children }: { children: React.ReactNode }) {
-  return <div className="rounded-[24px] border border-white/10 bg-slate-900/60">{children}</div>;
-}
-
-function ToolButton({
-  children,
-  onClick,
-  disabled,
-  variant = "primary",
-  icon,
-  className = "",
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  disabled?: boolean;
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
-  icon?: React.ReactNode;
-  className?: string;
-}) {
-  const styles: Record<string, string> = {
-    primary: "bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-40",
-    secondary: "bg-slate-800 text-white hover:bg-slate-700 disabled:opacity-40",
-    outline: "border border-white/10 bg-transparent text-white hover:bg-white/5 disabled:opacity-40",
-    ghost: "bg-transparent text-slate-300 hover:bg-white/5 disabled:opacity-40",
-    danger: "bg-red-600 text-white hover:bg-red-500 disabled:opacity-40",
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl px-2 py-2 text-base font-semibold transition ${styles[variant]} ${className}`}
-    >
-      {icon}
-      {children}
-    </button>
-  );
-}
-
-function EmptyState({
-  title,
-  description,
-  icon,
-}: {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col items-center justify-center rounded-[24px] border border-white/10 bg-slate-900/60 px-8 py-16 text-center">
-      <div className="rounded-2xl bg-blue-500/10 p-4">
-        <div className="text-blue-400">{icon}</div>
-      </div>
-      <h3 className="mt-5 text-xl font-semibold text-white">{title}</h3>
-      <p className="mt-3 max-w-md text-slate-400">{description}</p>
-    </div>
-  );
-}
-
-function SuccessBanner({
-  title,
-  subtitle,
-  icon,
-}: {
-  title: string;
-  subtitle: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-[24px] bg-slate-900/70 backdrop-blur-xl">
-      <header className="border-b border-white/10 p-2 rounded-[24px]">
-        <div className="flex items-center gap-5">
-          <div className="rounded-full bg-emerald-500/10 p-2">
-            <div className="text-emerald-400">{icon}</div>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-white">{title}</h2>
-            <p className="mt-2 text-slate-400">{subtitle}</p>
-          </div>
-        </div>
-      </header>
-    </div>
-  );
-}
-
-function ToolProgress({ progress, processingMessage }: { progress: number, processingMessage: string }) {
-  return (
-    <div className="rounded-[24px] border border-blue-500/20 bg-gradient-to-br from-blue-950/40 to-slate-900">
-      <div className="p-5">
-        <div className="flex items-center gap-4">
-          <div className="rounded-2xl bg-blue-500/10 p-4">
-            <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold text-white">{processingMessage}</h2>
-            <p className="mt-1 text-slate-400">Everything happens locally inside your browser.</p>
-          </div>
-        </div>
-
-        <div className="mt-8">
-          <ProgressBar value={progress} />
-        </div>
-
-        <div className="mt-8 grid grid-cols-3 gap-4">
-          <div className="rounded-2xl bg-slate-950/60 p-2 text-sm text-emerald-300">Reading File</div>
-          <div className="rounded-2xl bg-blue-500/10 p-2 text-sm font-medium text-blue-300">Processing File</div>
-          <div className="rounded-2xl bg-slate-950/60 p-2 text-sm text-slate-400">Preparing Download</div>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function ToolHero({
