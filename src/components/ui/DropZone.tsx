@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { UploadCloud } from "lucide-react";
+import { CloudUpload, UploadCloud } from "lucide-react";
 
 export function DropZone({
   onFiles,
@@ -55,7 +55,7 @@ export function DropZone({
     const pdfFiles = files.filter(validatePDF);
 
     if (pdfFiles.length === 0) {
-      setError(`Only these file types are allowed: ${validFileTypes}`);
+      setError(`Invalid file type. Only ${validFileTypes} files are allowed.`);
       return;
     }
 
@@ -73,8 +73,6 @@ export function DropZone({
         return prev + 10;
       });
     }, 200);
-
-    // Wait until the progress animation finishes
     setTimeout(() => {
       setIsUploading(false);
       onFiles(pdfFiles);
@@ -98,8 +96,8 @@ export function DropZone({
   };
 
   return (
-    <div className="space-y-4">
-          <div
+    <div className="space-y-4 pt-4">
+        <div
         onClick={openPicker}
         onDragOver={(e) => {
           e.preventDefault();
@@ -111,19 +109,13 @@ export function DropZone({
           ${
             isDragging
               ? "border-blue-500 bg-blue-500/5"
-              : "border-zinc-700 bg-zinc-900/30 hover:border-zinc-900/50 hover:bg-zinc-900/60"
+              : "border-zinc-700 bg-zinc-900/30 hover:border-lime-900/50 hover:bg-lime-900/10"
           }`}
       >
-        {/* Upload Overlay */}
         {isUploading && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm">
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-zinc-900/75 backdrop-blur-sm">
             <div className="w-full max-w-sm rounded-xl border border-zinc-700 bg-zinc-900 p-8 shadow-2xl">
               <div className="flex flex-col items-center gap-5">
-                <div className="relative">
-                  <div className="h-12 w-12 rounded-full border-4 border-zinc-700 animate-spin"></div>
-                  <div className="absolute inset-0 h-12 w-12 rounded-full border-4 border-blue-500 border-t-transparent animate-spin"></div>
-                </div>
-
                 <div className="w-full">
                   <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
                     <div
@@ -145,20 +137,8 @@ export function DropZone({
           </div>
         )}
 
-        <div className="flex flex-col items-center px-8 py-6 text-center sm:px-12 sm:py-8">
-
-          <div
-            className={`flex h-16 w-16 items-center justify-center rounded-full border transition-colors duration-200
-              ${
-                isDragging
-                  ? "border-blue-500 bg-blue-500/10"
-                  : "border-zinc-700 bg-zinc-900/30 group-hover:border-blue-500/40"
-              }`}
-          >
-            <UploadCloud className="h-7 w-7 text-blue-400" />
-          </div>
-
-          <h3 className="mt-4 text-md font-semibold tracking-tight text-white">
+        <div className="flex flex-col items-center px-8 py-2 text-center sm:px-12 sm:py-2">
+          <h3 className="mt-2 text-md font-semibold tracking-tight text-white">
             {isDragging
               ? "Drop files here"
               : `Drag & drop your files ${
@@ -166,51 +146,23 @@ export function DropZone({
                 }`}
           </h3>
 
-          <p className="mt-1 max-w-xl text-sm leading-6 text-zinc-400">
-            or{" "}
-            <span className="font-medium text-blue-400 underline underline-offset-2">
-              browse your device
-            </span>
-            <span>
-              &nbsp;—— {validFileTypes} files
-            </span>
-          </p>
-{/* 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-
-            <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
-              Secure
-            </span>
-
-            <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
-              Fast
-            </span>
-
-            <span className="rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
-              Browser Processing
-            </span>
-
-          </div> */}
-
-          {/* <div className="mt-8 h-px w-full bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
-
-          <div className="mt-6 space-y-2">
-
-            <p className="text-sm text-zinc-500">
-              Supported formats
+          <div className="flex gap-2">
+            <CloudUpload className="h-10 w-10 text-green-400"></CloudUpload>
+            <p className="mt-1 max-w-xl text-sm leading-6 text-zinc-400">
+              or{" "}
+              <span className="font-medium text-blue-400 underline underline-offset-2">
+                browse your device
+              </span>
+              <span>
+                &nbsp;—— {validFileTypes} files
+              </span>
             </p>
-
-            <p className="text-sm font-medium text-zinc-300">
-              {validFileTypes}
-            </p>
-
-          </div> */}
+          </div>
 
           <p className="pt-2 text-[11px] text-white/30">Processed entirely on your device. Nothing is uploaded.</p>
 
         </div>
       </div>
-            {/* Hidden Input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -221,13 +173,8 @@ export function DropZone({
           if (!e.target.files) return;
 
           handleFiles(Array.from(e.target.files));
-
-          // Allows selecting the same file again
-          // e.target.value = "";
         }}
       />
-
-      {/* Error */}
       {error && (
         <div className="flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
           <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500/20">

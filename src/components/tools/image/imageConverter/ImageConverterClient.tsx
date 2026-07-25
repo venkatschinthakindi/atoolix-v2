@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
+import dynamic from "next/dynamic";
 import {
   Download,
   Eye,
   FileUp,
   Image as ImageIcon,
   CheckCircle2,
-  Clock3,
-  Sparkles,
   ShieldCheck,
-  Trash2,
   Wand2,
   Maximize2,
+  RefreshCw,
+  Loader2,
+  FileIcon,
 } from "lucide-react";
 
 import { DropZone, getAcceptString } from "@/components/ui/DropZone";
@@ -25,14 +26,10 @@ import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
-import dynamic from "next/dynamic";
-
 
 const ImagePreviewModal = dynamic(
   () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
-  {
-    ssr: false
-  }
+  { ssr: false }
 );
 
 interface Props {
@@ -41,29 +38,286 @@ interface Props {
 
 type ModalVariant = "preview" | "download";
 
-function premiumShellClass() {
-  return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
-}
+function formatBytes(bytes: number) {
+  if (!bytes) return "0 B";
+  const units = ["B", "KB", "MB", "GB"];
+  let value = bytes;
+  let unit = 0;
 
-function toMb(size: number) {
-  return (size / 1024 / 1024).toFixed(2);
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit += 1;
+  }
+
+  return `${value.toFixed(value >= 100 ? 0 : value >= 10 ? 1 : 2)} ${units[unit]}`;
 }
 
 function getPrettyFormat(format?: string) {
   return (format || "").toUpperCase() || "—";
 }
 
-function LoadingSkeleton() {
+function SectionHeader({
+  title,
+  subtitle,
+  icon,
+}: {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+}) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      <div className="h-36 rounded-2xl border border-white/10 bg-white/5 animate-pulse" />
-      <div className="h-36 rounded-2xl border border-white/10 bg-white/5 animate-pulse" />
-      <div className="h-36 rounded-2xl border border-white/10 bg-white/5 animate-pulse hidden lg:block" />
+    <div className="flex items-center gap-4">
+      <div className="rounded-2xl bg-blue-500/10 p-3">
+        <div className="text-blue-400">{icon}</div>
+      </div>
+      <div>
+        <h2 className="text-xl font-semibold text-white">{title}</h2>
+        <p className="mt-1 text-sm text-slate-400">{subtitle}</p>
+      </div>
     </div>
   );
 }
 
+function FeatureBadge({ children, color = "blue" }: { children: React.ReactNode; color?: "blue" | "green" | "purple" | "orange" }) {
+  const styles: Record<string, string> = {
+    blue: "bg-blue-500/10 text-blue-300 border-blue-500/20",
+    green: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
+    purple: "bg-violet-500/10 text-violet-300 border-violet-500/20",
+    orange: "bg-amber-500/10 text-amber-300 border-amber-500/20",
+  };
 
+  return (
+    <span className={`inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium ${styles[color]}`}>
+      {children}
+    </span>
+  );
+}
+
+function StatCard({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string;
+  icon?: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-2xl bg-slate-950/60 p-2">
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-sm text-slate-500">{label}</div>
+        {icon ? <div className="text-slate-400">{icon}</div> : null}
+      </div>
+      <div className="mt-2 text-lg font-semibold text-white">{value}</div>
+    </div>
+  );
+}
+
+function MetadataGrid({ children }: { children: React.ReactNode }) {
+  return <div className="grid gap-4 sm:grid-cols-2">{children}</div>;
+}
+
+function WorkspaceCard({ children }: { children: React.ReactNode }) {
+  return <div className="rounded-[24px] border border-white/10 bg-slate-900/60">{children}</div>;
+}
+
+function ToolButton({
+  children,
+  onClick,
+  disabled,
+  variant = "primary",
+  icon,
+  className = "",
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
+  icon?: React.ReactNode;
+  className?: string;
+}) {
+  const styles: Record<string, string> = {
+    primary: "bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-40",
+    secondary: "bg-slate-800 text-white hover:bg-slate-700 disabled:opacity-40",
+    outline: "border border-white/10 bg-transparent text-white hover:bg-white/5 disabled:opacity-40",
+    ghost: "bg-transparent text-slate-300 hover:bg-white/5 disabled:opacity-40",
+    danger: "bg-red-600 text-white hover:bg-red-500 disabled:opacity-40",
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className={`inline-flex w-full items-center justify-center gap-2 rounded-2xl px-2 py-2 text-base font-semibold transition ${styles[variant]} ${className}`}
+    >
+      {icon}
+      {children}
+    </button>
+  );
+}
+
+function EmptyState({
+  title,
+  description,
+  icon,
+}: {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center rounded-[24px] border border-white/10 bg-slate-900/60 px-8 py-16 text-center">
+      <div className="rounded-2xl bg-blue-500/10 p-4">
+        <div className="text-blue-400">{icon}</div>
+      </div>
+      <h3 className="mt-5 text-xl font-semibold text-white">{title}</h3>
+      <p className="mt-3 max-w-md text-slate-400">{description}</p>
+    </div>
+  );
+}
+
+function SuccessBanner({
+  title,
+  subtitle,
+  icon,
+}: {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-[24px] bg-slate-900/70 backdrop-blur-xl">
+      <header className="border-b border-white/10 p-2 rounded-[24px]">
+        <div className="flex items-center gap-5">
+          <div className="rounded-full bg-emerald-500/10 p-2">
+            <div className="text-emerald-400">{icon}</div>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold text-white">{title}</h2>
+            <p className="mt-2 text-slate-400">{subtitle}</p>
+          </div>
+        </div>
+      </header>
+    </div>
+  );
+}
+
+function ToolProgress({ progress, processingMessage }: { progress: number, processingMessage: string }) {
+  return (
+    <div className="rounded-[24px] border border-blue-500/20 bg-gradient-to-br from-blue-950/40 to-slate-900">
+      <div className="p-5">
+        <div className="flex items-center gap-4">
+          <div className="rounded-2xl bg-blue-500/10 p-4">
+            <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold text-white">{processingMessage}</h2>
+            <p className="mt-1 text-slate-400">Everything happens locally inside your browser.</p>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          <ProgressBar value={progress} />
+        </div>
+
+        <div className="mt-8 grid grid-cols-3 gap-4">
+          <div className="rounded-2xl bg-slate-950/60 p-2 text-sm text-emerald-300">Reading File</div>
+          <div className="rounded-2xl bg-blue-500/10 p-2 text-sm font-medium text-blue-300">Processing File</div>
+          <div className="rounded-2xl bg-slate-950/60 p-2 text-sm text-slate-400">Preparing Download</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToolHero({
+  config,
+  processing,
+  file,
+  dropzoneKey,
+  handleFiles,
+  validFileTypes
+}: {
+  config: ToolConfig;
+  processing: boolean;
+  file: File | null;
+  dropzoneKey: number;
+  handleFiles: (files: File[]) => void;
+  validFileTypes: string;
+}) {
+  const outputFormat = config.outputFormats?.[0] || "png";
+
+  return (
+    <section className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      <div className="absolute inset-0">
+        <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
+        <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-violet-600/10 blur-3xl" />
+      </div>
+
+      <div className="relative px-6 py-8 lg:px-12 lg:py-12">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_420px]">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-300">
+              <ShieldCheck className="h-4 w-4" />
+              Private • Browser Based • Secure
+            </div>
+
+            <h1 className="mt-6 text-4xl font-bold tracking-tight text-white lg:text-6xl">
+              Convert Images
+              <span className="block bg-gradient-to-r from-blue-400 via-white to-violet-400 bg-clip-text text-transparent">
+                in Seconds
+              </span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+              Convert{" "}
+              <strong className="text-white">{config.inputFormats.join(", ").toUpperCase()}</strong>{" "}
+              to <strong className="text-white">{outputFormat.toUpperCase()}</strong>. Everything happens
+              securely inside your browser. No uploads. No waiting. No registration.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <FeatureBadge color="blue">⚡ Instant Conversion</FeatureBadge>
+              <FeatureBadge color="green">🔒 100% Private</FeatureBadge>
+              <FeatureBadge color="purple">📤 No Upload</FeatureBadge>
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-white/10 bg-black/20 p-4 backdrop-blur">
+            <div className="text-lg font-semibold text-white">Quick Overview</div>
+
+            <div className="mt-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Input</span>
+                <span className="font-medium text-white">{config.inputFormats.join(", ").toUpperCase()}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Output</span>
+                <span className="font-medium text-white">{outputFormat.toUpperCase()}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Processing</span>
+                <span className="text-emerald-300">Local Browser</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Status</span>
+                <span className="text-blue-300">{processing ? "Processing" : file ? "Ready" : "Waiting"}</span>
+              </div>
+            </div>
+
+            <DropZone
+              key={dropzoneKey}
+              allowMultiple={false}
+              onFiles={handleFiles}
+              validFileTypes={validFileTypes}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function ImageConverterClient({ config }: Props) {
   const [metadata, setMetadata] = useState<ImageMetadata | null>(null);
@@ -104,37 +358,42 @@ export default function ImageConverterClient({ config }: Props) {
   }, [outputUrl]);
 
   const validFileTypes = useMemo(() => getAcceptString(config.inputFormats), [config.inputFormats]);
+  const outputFormat = config.outputFormats?.[0] || "png";
+  const canConvert = !!file && !processing;
 
-  const handleFiles = useCallback(async (files: File[]) => {
-    try {
-      const selected = files[0];
-      if (!selected) return;
+  const handleFiles = useCallback(
+    async (files: File[]) => {
+      try {
+        const selected = files[0];
+        if (!selected) return;
 
-      validateImage(selected);
+        validateImage(selected);
 
-      const normalized = normalizeFile(selected);
-      if (!normalized.format) {
-        setError("Unsupported file format");
-        return;
+        const normalized = normalizeFile(selected);
+        if (!normalized.format) {
+          setError("Unsupported file format");
+          return;
+        }
+
+        const imageMetadata = await getImageMetadata(selected);
+
+        if (outputUrl) URL.revokeObjectURL(outputUrl);
+
+        setOutputUrl(null);
+        setFile(selected);
+        setMetadata(imageMetadata);
+        setError("");
+        setProgress(0);
+        setProcessing(false);
+        setShowModal(false);
+        setModalVariant("preview");
+      } catch (err) {
+        if (err instanceof Error) setError(err.message);
+        else setError("Invalid file");
       }
-
-      const imageMetadata = await getImageMetadata(selected);
-
-      if (outputUrl) URL.revokeObjectURL(outputUrl);
-
-      setOutputUrl(null);
-      setFile(selected);
-      setMetadata(imageMetadata);
-      setError("");
-      setProgress(0);
-      setProcessing(false);
-      setShowModal(false);
-      setModalVariant("preview");
-    } catch (err) {
-      if (err instanceof Error) setError(err.message);
-      else setError("Invalid file");
-    }
-  }, [outputUrl]);
+    },
+    [outputUrl]
+  );
 
   const handleConvert = useCallback(async () => {
     if (!file) return;
@@ -171,12 +430,7 @@ export default function ImageConverterClient({ config }: Props) {
   const handleDownload = useCallback(async () => {
     if (!outputUrl || !file) return;
 
-    const fileName = generateFileName(
-      file.name || "image",
-      "converted",
-      config.outputFormats[0]
-    );
-
+    const fileName = generateFileName(file.name || "image", "converted", config.outputFormats[0]);
     const saveAs = await asyncGetFileSaverLib();
     saveAs(outputUrl, fileName);
   }, [outputUrl, file, config.outputFormats]);
@@ -195,266 +449,199 @@ export default function ImageConverterClient({ config }: Props) {
     setDropzoneKey((p) => p + 1);
   }, [outputUrl]);
 
-  const isReady = !!file && !outputUrl;
-  const isDone = !!outputUrl;
-  const outputFormat = config.outputFormats?.[0] || "png";
-
-  const handleCloseModal = useCallback(() => {
-    setShowModal(false);
-  }, []);
-
   return (
-    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
-              <Sparkles className="h-3.5 w-3.5" />
-              Private image workspace
-            </div>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              Instant Image Conversion{" "}
-              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
-                & Previews
-              </span>
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Seamless conversion made simple: upload, preview, and transform {config.inputFormats?.join(", ")?.toUpperCase()} into crisp {config.outputFormats?.[0]?.toUpperCase()} with just a few clicks.
-            </p>
-          </div>
+    <div className="mx-auto w-full max-w-6xl px-4 py-4 text-white sm:px-6 sm:py-3 lg:px-8">
+      <ToolHero config={config} processing={processing} file={file} 
+      dropzoneKey={dropzoneKey} handleFiles={handleFiles} validFileTypes={validFileTypes} />
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <FileUp className="h-3.5 w-3.5 text-blue-300" />
-                Input
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">{config.inputFormats.join(", ").toUpperCase()}</div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <ImageIcon className="h-3.5 w-3.5 text-blue-300" />
-                Output
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">{getPrettyFormat(outputFormat)}</div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <ShieldCheck className="h-3.5 w-3.5 text-blue-300" />
-                Secure
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">Local</div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <Clock3 className="h-3.5 w-3.5 text-blue-300" />
-                Status
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">{processing ? "Working" : file ? "Ready" : "Idle"}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="space-y-4 sm:space-y-5">
-        <section className={premiumShellClass()}>
-          <div className="relative p-3 sm:p-4 md:p-5">
-            <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:mb-4">
-              <div className="flex gap-3">
-                <FileUp className="h-4 w-4 text-blue-300" />
-                <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                  
-                  Drag & Drop Image Upload
-                </h2>
-                <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                  Drag or browse to upload. Preview formats instantly, convert to crisp {config.outputFormats?.[0]?.toLowerCase()} with transparency, and view polished results in seconds.
-                </p>
-              </div>
-              {file && (
-                <button
-                  type="button"
-                  onClick={resetTool}
-                  className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:px-4 sm:text-sm"
-                >
-                  <Trash2 className="h-3.5 w-3.5 text-blue-300" />
-                  Start Over
-                </button>
-              )}
-            </div>
-
-            <DropZone
-              key={dropzoneKey}
-              allowMultiple={false}
-              onFiles={handleFiles}
-              validFileTypes={validFileTypes}
-            />
-          </div>
-        </section>
-
+      <div className="mt-8 space-y-8">
         {error && (
           <section className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
             {error}
           </section>
         )}
-
-        {isReady && file && (
-          <section className={premiumShellClass()}>
-            <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div className="min-w-0">
-                  <div className="flex gap-3">
-                    <Eye className="h-4 w-4 text-blue-300" />
-                  <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                    
-                    Confirm Before Conversion.
-                  </h2>
-                  </div>
-                  <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                    Preview your selected image before converting. Once complete, the enhanced result opens in a modal for quick and easy review.
-                  </p>
+        {file && (
+      <section className="mt-8 grid gap-5 xl:grid-cols-[1.4fr_420px]">
+        <div className="space-y-6">
+          <WorkspaceCard>
+            <header className="border-b border-white/10 px-6 py-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-semibold text-white">Preview</h2>
+                  <p className="mt-1 text-sm text-slate-400">Original image before conversion.</p>
                 </div>
-                <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                  {toMb(file.size)} MB
-                </div>
+                <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300">
+                  Ready
+                </span>
               </div>
-            </div>
-
-            <div className="grid gap-4 p-3 sm:p-4 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.9fr)] lg:p-5">
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4">
-                <div className="mb-3 flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-medium text-white/85">📄 {file.name}</div>
-                    <div className="mt-0.5 text-xs text-white/40">{file.type || "unknown"}</div>
-                  </div>
-                  <div className="rounded-full bg-blue-500/10 px-3 py-1 text-xs text-blue-200">
-                    Preview
-                  </div>
-                </div>
-
-                <div className="overflow-hidden rounded-xl border border-white/10 bg-black/40">
-                  <div className="relative flex items-center justify-center bg-black/30" style={{ aspectRatio: "4 / 3" }}>
-                    {previewUrl ? (
+            </header>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="flex rounded-[24px] justify-center  p-3 sm:p-4">
+              {previewUrl ? (
                       <img
                         src={previewUrl}
                         alt="preview"
-                        className="h-full w-full object-contain"
                         draggable={false}
+                        className="max-h-[420px] max-w-full object-contain"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center text-sm text-white/40">
-                        No preview available
-                      </div>
+                      <EmptyState
+                        title="No preview available"
+                        description="This file type does not expose a preview here."
+                        icon={<ImageIcon className="h-6 w-6" />}
+                      />
                     )}
+            </div>
+            <div className="px-6 py-3 rounded-[24px] m-4 bg-gradient-to-b from-slate-950 to-slate-900">
+              <h3 className="text-lg font-semibold text-white">File Information</h3>
+              <div className="flex items-center gap-2 py-4">
+                <MetadataGrid>
+                    <StatCard
+                      label="File Name"
+                      value={file.name}
+                      icon={<FileIcon className="h-4 w-4" />}
+                    />
+                    <StatCard
+                      label="Dimensions"
+                      value={metadata ? `${metadata.width} × ${metadata.height}` : "—"}
+                      icon={<Maximize2 className="h-4 w-4" />}
+                    />
+                    <StatCard
+                      label="File Size"
+                      value={metadata ? formatBytes(metadata.size) : "—"}
+                      icon={<FileUp className="h-4 w-4" />}
+                    />
+                    <StatCard
+                      label="Format"
+                      value={(file.type || "unknown").toUpperCase()}
+                      icon={<ImageIcon className="h-4 w-4" />}
+                    />
+                    <StatCard
+                      label="Privacy"
+                      value="Local Processing"
+                      icon={<ShieldCheck className="h-4 w-4" />}
+                    />
+                </MetadataGrid>
+              </div>
+            </div>
+
+            
+            </div>
+          </WorkspaceCard>
+        </div>
+
+        <aside className="space-y-5">
+          <section className="sticky top-12 rounded-[24px] border border-white/10 bg-slate-900/70 p-5 backdrop-blur-xl">
+            <SectionHeader
+              title="Conversion"
+              subtitle=""
+              icon={<RefreshCw className="h-5 w-5" />}
+            />
+
+            <div className="mt-8 space-y-5">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-2xl bg-slate-950/60 p-4">
+                  <div className="text-sm text-slate-500">Input</div>
+                  <div className="mt-2 font-semibold text-white">
+                    {config.inputFormats.join(", ").toUpperCase()}
                   </div>
                 </div>
-
-                {metadata && (
-                  <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-                    <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/75">
-                      <div className="text-[11px] text-white/40">Dimensions</div>
-                      <div className="mt-1 font-medium">
-                        {metadata.width} × {metadata.height}
-                      </div>
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/75">
-                      <div className="text-[11px] text-white/40">Size</div>
-                      <div className="mt-1 font-medium">{toMb(metadata.size)} MB</div>
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/75">
-                      <div className="text-[11px] text-white/40">Type</div>
-                      <div className="mt-1 font-medium">{file.type || "unknown"}</div>
-                    </div>
+                <div className="rounded-xl bg-slate-950/60 p-4">
+                  <div className="text-sm text-slate-500">Output</div>
+                  <div className="mt-2 font-semibold text-white">
+                    {config.outputFormats[0].toUpperCase()}
                   </div>
-                )}
+                </div>
+                <div className="rounded-xl bg-slate-950/60 p-4">
+                  <div className="text-sm text-slate-500">Processing</div>
+                  <div className="mt-2 font-semibold text-emerald-300">Local Browser</div>
+                </div>
+                <div className="rounded-xl bg-slate-950/60 p-4">
+                  <div className="text-sm text-slate-500">Status</div>
+                  <div className="mt-2 font-semibold text-blue-300">
+                    {processing ? "Processing" : file ? "Ready" : "Waiting"}
+                  </div>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-3">
-                <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <h3 className="text-sm font-semibold text-white/85">Conversion</h3>
-                  <p className="mt-1 text-xs leading-5 text-white/55">
-                    Your image will be processed locally in your browser. Click Convert to start, then preview the result in a modal once processing is complete.
-                  </p>
+              <ToolButton
+                onClick={handleConvert}
+                disabled={!canConvert}
+                variant="primary"
+                icon={<Wand2 className="h-5 w-5" />}
+              >
+                {processing ? "Converting..." : `Convert to ${config.outputFormats[0].toUpperCase()}`}
+              </ToolButton>
 
-                  <div className="mt-4 grid grid-cols-2 gap-2">
-                    <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/70">
-                      Input: {config.inputFormats.map((f) => f.toUpperCase()).join(", ")}
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/70">
-                      Output: {getPrettyFormat(outputFormat)}
-                    </div>
+              <div className="rounded-[24px] border border-white/10 bg-slate-950/60 p-4">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-2xl bg-blue-500/10 p-3">
+                    <ShieldCheck className="h-5 w-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-white">Privacy first</div>
+                    <div className="mt-1 text-sm text-slate-400">No server upload. No account needed.</div>
                   </div>
                 </div>
-
-                <button
-                  onClick={handleConvert}
-                  disabled={processing || !file}
-                  className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition active:scale-[0.99] ${
-                    processing || !file
-                      ? "cursor-not-allowed bg-gray-800 text-gray-500"
-                      : "bg-blue-600 hover:bg-blue-500"
-                  }`}
-                >
-                  <Wand2 className="h-4 w-4" />
-                  {processing ? "Converting..." : "Convert Image"}
-                </button>
-
-                {processing && (
-                  <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                    <ProgressBar value={progress} />
-                    <p className="mt-2 text-xs text-white/50">Processing your image locally...</p>
-                  </div>
-                )}
               </div>
             </div>
           </section>
-        )}
+        </aside>
+      </section>
+    )}
 
-        {isDone && outputUrl && (
-          <section className={premiumShellClass()}>
-            <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-            <div className="flex gap-3">
-              <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-              <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                
-                Your image is ready
-              </h2>
-              </div>
-              <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                Preview the converted image or download it directly.
-              </p>
+        {processing && <ToolProgress progress={progress} processingMessage='Converting your image' />}
+
+        {outputUrl && (
+          <div className="space-y-6">
+            <SuccessBanner
+              title="Image Ready"
+              subtitle="Your image has been converted successfully."
+              icon={<CheckCircle2 className="h-10 w-10" />}
+            />
+
+            <div className="grid gap-5 md:grid-cols-4">
+              <StatCard label="Output" value={getPrettyFormat(outputFormat)} icon={<ImageIcon className="h-4 w-4" />} />
+              <StatCard label="File Size" value={metadata ? formatBytes(metadata.size) : "—"} icon={<FileUp className="h-4 w-4" />} />
+              <StatCard
+                label="Resolution"
+                value={metadata ? `${metadata.width}×${metadata.height}` : "—"}
+                icon={<Maximize2 className="h-4 w-4" />}
+              />
+              <StatCard label="Private" value="100%" icon={<ShieldCheck className="h-4 w-4" />} />
             </div>
 
-            <div className="grid gap-3 p-3 sm:grid-cols-2 sm:p-4 lg:p-5">
-              <button
+            <section className="grid gap-3 sm:grid-cols-2">
+              <ToolButton
+                variant="outline"
                 onClick={() => {
                   setModalVariant("preview");
                   setShowModal(true);
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/85 transition hover:border-blue-400/30 hover:bg-white/10"
+                icon={<Eye className="h-4 w-4" />}
               >
-                <Maximize2 className="h-4 w-4 text-blue-300" />
                 Preview Result
-              </button>
+              </ToolButton>
 
-              <button
+              <ToolButton
+                variant="primary"
                 onClick={() => {
                   setModalVariant("download");
                   setShowModal(true);
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-emerald-500"
+                icon={<Download className="h-4 w-4" />}
               >
-                <Download className="h-4 w-4" />
                 Download Image
-              </button>
-            </div>
-          </section>
+              </ToolButton>
+            </section>
+          </div>
         )}
       </div>
 
       {showModal && outputUrl && (
         <ImagePreviewModal
           url={outputUrl}
-          onClose={handleCloseModal}
+          onClose={() => setShowModal(false)}
           documentName={generateFileName(file?.name || "image", "converted", config.outputFormats[0])}
           variant={modalVariant}
           onDownload={handleDownload}
