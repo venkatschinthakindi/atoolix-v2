@@ -299,6 +299,9 @@ export default function ImageCompressorClient({ config }: Props) {
       setOutputUrl(url);
       setOutputBlob(compressionResult.blob);
       setProgress(100);
+      
+      setModalVariant("preview");
+      setShowModal(true);
     } catch {
       setError("Failed to compress image. Please try again or use a different file.");
     } finally {
