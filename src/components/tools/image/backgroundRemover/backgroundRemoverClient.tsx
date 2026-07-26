@@ -4,26 +4,26 @@ import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import {
   Download,
   Eye,
-  FileUp,
-  Image as ImageIcon,
   CheckCircle2,
-  Clock3,
-  Sparkles,
-  ShieldCheck,
   Trash2,
   Maximize2,
   Loader2,
   Palette,
   Wand2,
+  FileImage,
 } from "lucide-react";
 
-import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { getAcceptString } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
 import dynamic from "next/dynamic";
 import { ToolConfig } from "@/types/imageConverter.types";
+
+// Same shared hero used across the other tools — confirmed real, reused
+// instead of hand-rolling the top section again.
+import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
 
 const ImagePreviewModal = dynamic(
   () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
@@ -50,7 +50,16 @@ const COLOR_PRESETS: { label: string; value: string }[] = [
 ];
 
 function premiumShellClass() {
-  return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+  // return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+  return "relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+}
+
+function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
+  return (
+    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
+      <Icon className="h-4 w-4" />
+    </span>
+  );
 }
 
 function toKB(bytes: number) {
@@ -365,105 +374,43 @@ export default function BackgroundRemoverClient({ config }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
-              <Sparkles className="h-3.5 w-3.5" />
-              Private background remover
-            </div>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              Remove Background{" "}
-              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
-                Instantly
-              </span>
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Remove the background from any photo, then swap it for transparency, a solid
-              color, a custom image, or a blurred version of the original — all processed
-              locally in your browser.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <FileUp className="h-3.5 w-3.5 text-blue-300" />
-                Input
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">
-                {allowedFormats.join(", ").toUpperCase()}
-              </div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <ImageIcon className="h-3.5 w-3.5 text-blue-300" />
-                Output
-              </div>
-              {/* Updates live the moment the user picks a format, regardless
-                  of whether processing has run yet. */}
-              <div className="mt-2 text-sm font-medium text-white/85">
-                {getPrettyFormat(outputFormat)}
-              </div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <ShieldCheck className="h-3.5 w-3.5 text-blue-300" />
-                Secure
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">Local</div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <Clock3 className="h-3.5 w-3.5 text-blue-300" />
-                Status
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">
-                {processing ? "Working" : isDone ? "Done" : file ? "Ready" : "Idle"}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ToolHero
+        config={config}
+        processing={processing}
+        file={file}
+        dropzoneKey={dropzoneKey}
+        handleFiles={handleFiles}
+        validFileTypes={validFileTypes}
+        eyebrow="Private • Browser Based • Secure"
+        title="Remove Background"
+        titleAccent="Instantly"
+        description={
+          <>
+            Remove the background from any photo, then swap it for transparency, a solid
+            color, a custom image, or a blurred version of the original — all processed
+            locally in your browser.
+          </>
+        }
+        badges={[
+          { label: "⚡ Instant Removal", color: "blue" },
+          { label: "🔒 100% Private", color: "green" },
+          { label: "📤 No Upload", color: "purple" },
+        ]}
+        stats={[
+          { label: "Input", value: allowedFormats.join(", ").toUpperCase() },
+          { label: "Output", value: getPrettyFormat(outputFormat) },
+          { label: "Processing", value: "Local Browser", color: "emerald" },
+          {
+            label: "Status",
+            value: processing ? "Working" : isDone ? "Done" : file ? "Ready" : "Idle",
+            color: "blue",
+          },
+        ]}
+      />
 
-      <div className="space-y-4 sm:space-y-5">
-        <section className={premiumShellClass()}>
-          <div className="relative p-3 sm:p-4 md:p-5">
-            <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:mb-4">
-              <div>
-                <div className="flex gap-3">
-                  <FileUp className="h-4 w-4 text-blue-300" />
-                <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                  
-                  Drag & Drop Image Upload
-                </h2>
-                </div>
-                <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                  Drag or browse to upload, review your image, choose a background, then
-                  remove it.
-                </p>
-              </div>
-              {file && (
-                <button
-                  type="button"
-                  onClick={resetTool}
-                  className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:px-4 sm:text-sm"
-                >
-                  <Trash2 className="h-3.5 w-3.5 text-blue-300" />
-                  Start Over
-                </button>
-              )}
-            </div>
-            <DropZone
-              key={dropzoneKey}
-              allowMultiple={false}
-              onFiles={handleFiles}
-              validFileTypes={validFileTypes}
-            />
-          </div>
-        </section>
-
+      <div className="mt-6 space-y-4 sm:space-y-5">
         {error && (
-          <section className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          <section className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
             {error}
           </section>
         )}
@@ -471,14 +418,13 @@ export default function BackgroundRemoverClient({ config }: Props) {
         {showConfigSection && file && (
           <section className={premiumShellClass()}>
             <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">
                   <div className="flex gap-3">
-                    <Eye className="h-4 w-4 text-blue-300" />
-                  <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                    
-                    {cutoutUrl ? "Background removed" : "Review your image"}
-                  </h2>
+                    <GlassIcon icon={Eye} />
+                    <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
+                      {cutoutUrl ? "Background removed" : "Review your image"}
+                    </h2>
                   </div>
                   <p className="mt-1 text-xs text-white/60 sm:text-sm">
                     {cutoutUrl
@@ -486,8 +432,18 @@ export default function BackgroundRemoverClient({ config }: Props) {
                       : "Choose your background and export format, then remove the background."}
                   </p>
                 </div>
-                <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
-                  {toKB(file.size)}
+                <div className="flex items-center gap-2">
+                  <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
+                    {toKB(file.size)}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={resetTool}
+                    className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10"
+                  >
+                    <Trash2 className="h-3.5 w-3.5 text-blue-300" />
+                    Start Over
+                  </button>
                 </div>
               </div>
             </div>
@@ -573,10 +529,10 @@ export default function BackgroundRemoverClient({ config }: Props) {
               {/* Right: background + export controls, then the process button */}
               <div className="flex flex-col gap-3">
                 <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <h3 className="flex items-center gap-2 text-sm font-semibold text-white/85">
-                    <Palette className="h-4 w-4 text-blue-300" />
-                    Background
-                  </h3>
+                  <div className="flex gap-3">
+                    <GlassIcon icon={Palette} />
+                    <h3 className="text-sm font-semibold text-white/85">Background</h3>
+                  </div>
 
                   <div className="mt-3 grid grid-cols-2 gap-2">
                     {(
@@ -600,7 +556,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                         aria-pressed={backgroundMode === mode}
                         className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition ${
                           backgroundMode === mode
-                            ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
+                            ? "border-blue-400/35 bg-blue-400/10 text-white"
                             : "border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10"
                         }`}
                       >
@@ -619,7 +575,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                           title={preset.label}
                           className={`h-8 w-8 rounded-full border-2 transition ${
                             backgroundColor.toLowerCase() === preset.value
-                              ? "border-emerald-400"
+                              ? "border-blue-400"
                               : "border-white/20"
                           }`}
                           style={{ backgroundColor: preset.value }}
@@ -682,14 +638,17 @@ export default function BackgroundRemoverClient({ config }: Props) {
                         max={30}
                         value={blurStrength}
                         onChange={(e) => setBlurStrength(Number(e.target.value))}
-                        className="w-full"
+                        className="w-full accent-blue-400"
                       />
                     </div>
                   )}
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <h3 className="text-sm font-semibold text-white/85">Export format</h3>
+                  <div className="flex gap-3">
+                    <GlassIcon icon={FileImage} />
+                    <h3 className="text-sm font-semibold text-white/85">Export format</h3>
+                  </div>
                   <div className="mt-3 grid grid-cols-3 gap-2">
                     {(["png", "webp", "jpeg"] as OutputFormat[]).map((fmt) => (
                       <button
@@ -699,7 +658,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                         aria-pressed={outputFormat === fmt}
                         className={`rounded-xl border px-3 py-2.5 text-xs font-medium uppercase transition ${
                           outputFormat === fmt
-                            ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
+                            ? "border-blue-400/35 bg-blue-400/10 text-white"
                             : "border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10"
                         }`}
                       >
@@ -720,7 +679,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                     type="button"
                     onClick={handleStartProcessing}
                     disabled={!file}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-blue-500 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-gray-800 disabled:text-gray-500"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <Wand2 className="h-4 w-4" />
                     Remove Background
@@ -754,12 +713,11 @@ export default function BackgroundRemoverClient({ config }: Props) {
         {isDone && outputUrl && outputBlob && (
           <section className={premiumShellClass()}>
             <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-            <div className="flex gap-3">
-              <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-              <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                
-                Your image is ready
-              </h2>
+              <div className="flex gap-3">
+                <GlassIcon icon={CheckCircle2} />
+                <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
+                  Your image is ready
+                </h2>
               </div>
               <p className="mt-1 text-xs text-white/60 sm:text-sm">
                 Preview the result and download it directly.
@@ -769,15 +727,15 @@ export default function BackgroundRemoverClient({ config }: Props) {
             <div className="grid gap-4 p-3 sm:grid-cols-2 sm:p-4 lg:p-5">
               <button
                 onClick={handleOpenPreview}
-                className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/85 transition hover:border-blue-400/30 hover:bg-white/10"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400"
               >
-                <Maximize2 className="h-4 w-4 text-blue-300" />
+                <Maximize2 className="h-4 w-4" />
                 Preview Result
               </button>
 
               <button
                 onClick={handleOpenDownload}
-                className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-emerald-500"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-4 py-3 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300"
               >
                 <Download className="h-4 w-4" />
                 Download Image
@@ -786,7 +744,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
 
             <div className="px-3 pb-3 sm:px-4 sm:pb-4 lg:px-5 lg:pb-5">
               <div className="rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4">
-                <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   <div className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/75">
                     <div className="text-[11px] text-white/40">Original</div>
                     <div className="mt-1 font-medium">{file ? toKB(file.size) : "—"}</div>
