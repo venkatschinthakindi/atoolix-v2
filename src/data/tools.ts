@@ -100,6 +100,8 @@ export type ToolRegistryEntry<Props = {}> = {
   preload?: boolean;
   defaultProps?: Props;
   toolImage: string;
+  allowMultiple?: boolean;
+  archived: boolean;
 };
 
 export function getCachedTools(): ToolRegistryEntry[] {
@@ -109,6 +111,7 @@ export function getCachedTools(): ToolRegistryEntry[] {
 export const tools: ToolRegistryEntry[] = [
   {
     id: "privacysecurity/file-analyzer",
+    archived: false,
     // loader: () => import("@/components/tools/fileAnalyzer/FileAnalyzer"),
     title: "File privacy & security analyzer - scan your file before you send it with One-Click Fix",
     toolShortName: "File Analyzer",
@@ -142,6 +145,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "calculator/emi-calculator",
+    archived: false,
     //loader: () => import("@/components/tools/emiCalculator/EMICalculator"),
     title: "EMI Calculator Online | Home, Car & Personal Loan",
     toolShortName: "EMI Calculator",
@@ -172,6 +176,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "calculator/roi-calculator",
+    archived: false,
     //loader: () => import("@/components/tools/financeSuite/investment/investmentReturnsSuite"),
     toolShortName: "Investment Returns",
     title: "SIP Calculator with Step-Up | CAGR, XIRR & Returns",
@@ -201,6 +206,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "calculator/fd-calculator",
+    archived: false,
     //loader: () => import("@/components/tools/financeSuite/savings/savingsDepositsSuite"),
     toolShortName: "Savings Calculator",
     title: "FD & RD Calculator | Fixed & Recurring Deposit Returns",
@@ -230,6 +236,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "calculator/retirement-calculator",
+    archived: false,
     //loader: () => import("@/components/tools/financeSuite/retirement/retirementWealthSuite"),
     toolShortName: "Retirement Planner",
     title: "Retirement Calculator | FIRE & SWP Planner",
@@ -259,6 +266,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "calculator",
+    archived: false,
     //loader: () => import("@/components/tools/calculator/Calculator"),
     title: "Calculator – Scientific, Percentage & Equation Solver",
     toolShortName: "Scientific, Percentage & Equation Solver",
@@ -287,6 +295,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "converter",
+    archived: false,
     //loader: () => import("@/components/tools/converter/UnitConverter"),
     toolShortName: "Unit Converter",
     title: "Unit Converter Online | Length, Weight, Temperature",
@@ -315,6 +324,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "pdf/merge-pdf",
+    archived: false,
     //loader: () => import("@/components/tools/pdf/mergePdf/mergePdf"),
     toolShortName: "Merge PDF",
     title: "Merge PDF Files Online for Free | PDF Merger",
@@ -344,6 +354,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "pdf/split-pdf",
+    archived: false,
     //loader: () => import("@/components/tools/pdf/splitPdf/splitPdf"),
     title: "Split PDF Files Online Free | Extract PDF Pages",
     toolShortName: "Split PDF",
@@ -373,6 +384,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/image-to-pdf",
+    archived: false,
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "Image to PDF",
@@ -380,6 +392,7 @@ export const tools: ToolRegistryEntry[] = [
       "Image to PDF Converter | JPG, PNG, JPEG, WEBP to PDF",
       "Convert JPG, PNG, JPEG, and WEBP images to PDF online for free. Merge multiple images into a single PDF instantly, no installation required.",
       ["jpg", "jpeg", "png", "webp"],
+      true,
       [
         "image to pdf converter",
         "jpg to pdf",
@@ -399,6 +412,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/jpg-to-pdf",
+    archived: true,
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "JPG to PDF",
@@ -406,6 +420,7 @@ export const tools: ToolRegistryEntry[] = [
       "JPG to PDF Converter | Convert JPG & JPEG to PDF",
       "Convert JPG and JPEG images to PDF online for free. Combine multiple images into a single PDF quickly and securely, no software required.",
       ["jpg", "jpeg"],
+      true,
       [
         "jpg to pdf converter",
         "jpeg to pdf",
@@ -424,6 +439,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "qrcode/qr-code-generator",
+    archived: false,
     //loader: () => import("@/components/tools/qrCode/qrCodeGenerator/QrCodeGenerator"),
     toolShortName: "QR Code Generator",
     title: "Generate QR Code Online | Scan QR Code",
@@ -455,6 +471,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/png-to-pdf",
+    archived: true,
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "PNG to PDF",
@@ -462,6 +479,7 @@ export const tools: ToolRegistryEntry[] = [
       "Convert PNG to PDF Online | High-Quality Converter",
       "Convert PNG images into high-quality PDF documents instantly. Combine multiple images and export clean, print-ready PDFs, free and online.",
       ["png"],
+      true,
       [
         "png to pdf converter",
         "convert png to pdf",
@@ -479,6 +497,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "pdf/compress-pdf",
+    archived: false,
     //loader: () => import("@/components/tools/pdf/compress-pdf/CompressPDF"),
     toolShortName: "Compress PDF",
     title: "Compress PDF Online | Reduce PDF File Size",
@@ -511,6 +530,7 @@ export const tools: ToolRegistryEntry[] = [
   //SVG
   {
     id: "image/svg-to-png",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "SVG to PNG Converter Online | Vector to Raster",
@@ -541,6 +561,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/svg-to-jpg",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "SVG to JPG Converter Online | Vector to Image",
@@ -573,6 +594,7 @@ export const tools: ToolRegistryEntry[] = [
   //Image compressors Start
   {
     id: "image/compress-image",
+    archived: false,
     icon: "ImageDown",
     //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Image Compressor Online | JPG, PNG, WEBP",
@@ -611,6 +633,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/passport-photo-resizer",
+    archived: false,
     icon: "IdCard",
     ...getDefaultCompressorRegistry(),
     category: "Image_Editor",
@@ -644,6 +667,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/resize-signature-for-upload",
+    archived: false,
     icon: "PenTool",
     ...getDefaultCompressorRegistry(),
     category: "Image_Editor",
@@ -675,6 +699,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/background-remover",
+    archived: false,
     icon: "Scissors",
     //loader: () => import("@/components/tools/image/backgroundRemover/BackgroundRemoverClient"),
     title: "Background Remover Online | Remove Image Background Free",
@@ -723,6 +748,7 @@ export const tools: ToolRegistryEntry[] = [
   // Date and Time Tools Start
   {
     id: "datetime/timezone-converter",
+    archived: false,
     icon: "Globe",
     //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
     title: "Timezone Converter Online | Convert Time Between Time Zones Instantly",
@@ -763,6 +789,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "datetime/meeting-time-finder",
+    archived: false,
     icon: "CalendarClock",
     //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
     title: "Meeting Time Finder | Find the Best Meeting Time Across Time Zones",
@@ -802,6 +829,7 @@ export const tools: ToolRegistryEntry[] = [
   //Image compressors End
   {
     id: "image/webp-to-pdf",
+    archived: true,
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "WEBP to PDF",
@@ -809,6 +837,7 @@ export const tools: ToolRegistryEntry[] = [
       "Convert WEBP to PDF Online | Fast & High-Quality",
       "Convert WEBP images into PDF documents instantly. Maintain image clarity and combine multiple WEBP files into a single, print-ready PDF output.",
       ["webp"],
+      true,
       [
         "webp to pdf converter",
         "convert webp to pdf",
@@ -826,6 +855,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/jpg-to-png",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "JPG to PNG Converter Online | Lossless Conversion",
@@ -857,6 +887,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/png-to-jpg",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "PNG to JPG Converter Online | Fast Compression",
@@ -888,6 +919,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/png-to-jpeg",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "PNG to JPEG Converter Online | High-Quality Export",
@@ -918,6 +950,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/jpg-to-webp",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "JPG to WEBP Converter Online | Fast Optimization",
@@ -949,6 +982,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/png-to-webp",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "PNG to WEBP Converter Online | Fast Compression",
@@ -980,6 +1014,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/webp-to-jpg",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "WEBP to JPG Converter Online | Fast Conversion",
@@ -1010,6 +1045,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/webp-to-jpeg",
+    archived: false,
     icon: "ArrowLeftRight",
     ////loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "WEBP to JPEG Converter Online | High-Quality Export",
@@ -1040,6 +1076,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/webp-to-png",
+    archived: false,
     icon: "ArrowLeftRight",
     //loader: () => import("@/components/tools/image/imageConverter/ImageConverter"),
     title: "WEBP to PNG Converter Online | Preserve Transparency",
@@ -1071,6 +1108,7 @@ export const tools: ToolRegistryEntry[] = [
 
   {
     id: "image/compress-jpg",
+    archived: true,
     icon: "ImageDown",
     //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Compress JPG Online | Adjustable Quality Compressor",
@@ -1105,6 +1143,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/compress-png",
+    archived: true,
     icon: "ImageDown",
     //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Compress PNG Online | Adjustable Quality Compressor",
@@ -1139,6 +1178,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/compress-webp",
+    archived: true,
     icon: "ImageDown",
     //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Compress WEBP Online | Adjustable Quality Compressor",
@@ -1174,6 +1214,7 @@ export const tools: ToolRegistryEntry[] = [
 
   {
     id: "image/compress-image-to-20kb",
+    archived: false,
     icon: "ImageDown",
     //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Compress Image to 20KB Online | JPG, PNG, WEBP",
@@ -1213,6 +1254,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/compress-image-to-50kb",
+    archived: false,
     icon: "ImageDown",
     ...getDefaultCompressorRegistry(),
     defaultProps: {
@@ -1240,6 +1282,7 @@ export const tools: ToolRegistryEntry[] = [
   },
   {
     id: "image/compress-image-to-100kb",
+    archived: false,
     icon: "ImageDown",
     ...getDefaultCompressorRegistry(),
     defaultProps: {
@@ -1299,6 +1342,7 @@ function getDefaultIamgeToPdfConverterRegistry(
   onPageTitle: string = "Image to PDF Converter Online | JPG, PNG, JPEG, WEBP to PDF",
   description: string = "Convert images to PDF online for free. Supports JPG, JPEG, PNG, and WEBP formats. Merge multiple images into a single PDF instantly without installation.",
   allowedFormats: string[] = ["jpg", "jpeg", "png", "webp"],
+  allowMultiple: boolean = true,
   keywords: string[] = [
     "image to pdf converter",
     "jpg to pdf",
@@ -1319,6 +1363,7 @@ function getDefaultIamgeToPdfConverterRegistry(
     toolShortName: toolShortName,
     onPageTitle: onPageTitle,
     description: description,
+    allowMultiple: allowMultiple,
     keywords: keywords,
     alternates: alternates,
     applicationType: applicationType,

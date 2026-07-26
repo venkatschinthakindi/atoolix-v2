@@ -5,17 +5,14 @@ import {
   Download,
   Eye,
   FileUp,
-  Image as ImageIcon,
   CheckCircle2,
-  Clock3,
-  Sparkles,
-  ShieldCheck,
   Trash2,
   Maximize2,
   Gauge,
+  Ratio,
 } from "lucide-react";
 
-import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { getAcceptString } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { CompressorConfig } from "@/types/imageCompressor.types";
 import { validateImage } from "@/features/imageConverter/validateImage";
@@ -28,11 +25,14 @@ import { CompressionResult, compressWithDimensionsImage } from "@/features/image
 
 import dynamic from "next/dynamic";
 
+// Same shared hero the rest of the tools use — confirmed real, so we lean
+// on it instead of hand-rolling the top section again.
+import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
 
 const ImagePreviewModal = dynamic(
   () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
   {
-    ssr: false
+    ssr: false,
   }
 );
 
@@ -43,7 +43,16 @@ interface Props {
 type ModalVariant = "preview" | "download";
 
 function premiumShellClass() {
-  return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+  // return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+  return "relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+}
+
+function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
+  return (
+    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
+      <Icon className="h-4 w-4" />
+    </span>
+  );
 }
 
 function toKB(bytes: number) {
@@ -272,7 +281,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
         width: safeWidth,
         height: safeHeight,
         lockAspectRatio,
-        allowUpscale: true
+        allowUpscale: true,
       });
 
       setProgress(85);
@@ -286,7 +295,6 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
       setModalVariant("preview");
       setShowModal(true);
     } catch (e) {
-      //console.error(e);
       setError("Failed to compress image.");
     } finally {
       setProcessing(false);
@@ -329,124 +337,71 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
-              <Sparkles className="h-3.5 w-3.5" />
-              Private image compressor
-            </div>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              {config.topSectionHeader || "Compress Images"}{" "}
-              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
-                with Preview
-              </span>
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              {config.topSectionDescription ||
-                `Upload, inspect, compress, and download images in a polished browser-based workspace with ${
-                  config.mode === "quality" ? "quality" : "target-size"
-                } control.`}
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <FileUp className="h-3.5 w-3.5 text-blue-300" />
-                Input
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">
-                {config.allowedFormats?.join(", ").toUpperCase() || "IMAGE"}
-              </div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <ImageIcon className="h-3.5 w-3.5 text-blue-300" />
-                Mode
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">
-                {getPrettyFormat(config.mode)}
-              </div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <ShieldCheck className="h-3.5 w-3.5 text-blue-300" />
-                Secure
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">Local</div>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="flex items-center gap-2 text-xs text-white/45">
-                <Clock3 className="h-3.5 w-3.5 text-blue-300" />
-                Status
-              </div>
-              <div className="mt-2 text-sm font-medium text-white/85">
-                {processing ? "Working" : file ? "Ready" : "Idle"}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ToolHero
+        config={config}
+        processing={processing}
+        file={file}
+        dropzoneKey={dropzoneKey}
+        handleFiles={handleFiles}
+        validFileTypes={validFileTypes}
+        eyebrow="Private • Browser Based • Secure"
+        title={config.topSectionHeader || "Compress Passport Photos"}
+        titleAccent="with Preview"
+        description={
+          config.topSectionDescription || (
+            <>
+              Upload, resize to the exact dimensions required, and compress your photo —
+              entirely inside your browser with a live{" "}
+              {config.mode === "quality" ? "quality" : "target-size"} preview.
+            </>
+          )
+        }
+        badges={[
+          { label: "⚡ Instant Compression", color: "blue" },
+          { label: "🔒 100% Private", color: "green" },
+          { label: "📤 No Upload", color: "purple" },
+        ]}
+        stats={[
+          { label: "Input", value: config.allowedFormats?.join(", ").toUpperCase() || "IMAGE" },
+          { label: "Mode", value: getPrettyFormat(config.mode) },
+          { label: "Processing", value: "Local Browser", color: "emerald" },
+          { label: "Status", value: processing ? "Working" : file ? "Ready" : "Waiting", color: "blue" },
+        ]}
+      />
 
-      <div className="space-y-4 sm:space-y-5">
-        <section className={premiumShellClass()}>
-          <div className="relative p-3 sm:p-4 md:p-5">
-            <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:mb-4">
-              <div className="flex gap-3">
-                <FileUp className="h-4 w-4 text-blue-300" />
-                <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                  
-                  Drag & Drop Image Upload
-                </h2>
-                <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                  Drag or browse to upload. Preview your image, adjust compression settings, and download the optimized result.
-                </p>
-              </div>
-              {file && (
-                <button
-                  type="button"
-                  onClick={resetTool}
-                  className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:px-4 sm:text-sm"
-                >
-                  <Trash2 className="h-3.5 w-3.5 text-blue-300" />
-                  Start Over
-                </button>
-              )}
-            </div>
-            <DropZone
-              key={dropzoneKey}
-              allowMultiple={false}
-              onFiles={handleFiles}
-              validFileTypes={validFileTypes}
-            />
-          </div>
-        </section>
-
+      <div className="mt-6 space-y-4 sm:space-y-5">
         {error && (
-          <section className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          <section className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
             {error}
           </section>
         )}
 
         {isReady && file && (
           <section className={premiumShellClass()}>
-            <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <div className="min-w-0">
-                  <div className="flex gap-3">
-                    <Eye className="h-4 w-4 text-blue-300" />
+            <div className="flex flex-col gap-3 border-b border-white/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
+              <div className="min-w-0">
+                <div className="flex gap-3">
+                  <GlassIcon icon={Eye} />
                   <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                    
                     Confirm Before Compression
                   </h2>
-                  </div>
-                  <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                    Preview the selected image before compressing. The optimized output will open in a modal after processing.
-                  </p>
                 </div>
+                <p className="mt-1 text-xs text-white/60 sm:text-sm">
+                  Preview the selected image before compressing. The optimized output will open in a modal after processing.
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
                 <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
                   {toKB(file.size)}
                 </div>
+                <button
+                  type="button"
+                  onClick={resetTool}
+                  className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10"
+                >
+                  <Trash2 className="h-3.5 w-3.5 text-blue-300" />
+                  Start Over
+                </button>
               </div>
             </div>
 
@@ -505,7 +460,10 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
 
               <div className="flex flex-col gap-3">
                 <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <h3 className="text-sm font-semibold text-white/85">Compression</h3>
+                  <div className="flex gap-3">
+                    <GlassIcon icon={Gauge} />
+                    <h3 className="text-sm font-semibold text-white/85">Compression</h3>
+                  </div>
                   <p className="mt-1 text-xs leading-5 text-white/55">
                     Compress locally in your browser. Use the controls below to balance quality and file size.
                   </p>
@@ -522,7 +480,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
                         max={100}
                         value={quality}
                         onChange={(e) => setQuality(Number(e.target.value))}
-                        className="w-full"
+                        className="w-full accent-blue-400"
                       />
                     </div>
                   )}
@@ -540,16 +498,15 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
                         value={targetKB}
                         disabled={config.lockTarget}
                         onChange={(e) => setTargetKB(Number(e.target.value))}
-                        className="w-full"
+                        className="w-full accent-blue-400"
                       />
                     </div>
                   )}
 
                   <div className="mt-4 rounded-2xl border border-white/10 bg-black/10 p-4">
-                    <div className="mb-3 flex items-center justify-between">
-                      <div>
-                        <h4 className="text-sm font-semibold text-white/85">Resize Image</h4>
-                      </div>
+                    <div className="mb-3 flex items-center gap-3">
+                      <GlassIcon icon={Ratio} />
+                      <h4 className="text-sm font-semibold text-white/85">Resize Image</h4>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -583,7 +540,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
                         type="checkbox"
                         checked={lockAspectRatio}
                         onChange={(e) => setLockAspectRatio(e.target.checked)}
-                        className="h-4 w-4 rounded border-white/20 bg-transparent"
+                        className="h-4 w-4 rounded border-white/20 bg-transparent accent-blue-400"
                       />
                       Lock Aspect Ratio
                     </label>
@@ -593,11 +550,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
                 <button
                   onClick={handleCompress}
                   disabled={processing || !file}
-                  className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition active:scale-[0.99] ${
-                    processing || !file
-                      ? "cursor-not-allowed bg-gray-800 text-gray-500"
-                      : "bg-blue-600 hover:bg-blue-500"
-                  }`}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Gauge className="h-4 w-4" />
                   {processing ? "Compressing..." : "Compress Image"}
@@ -606,9 +559,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
                 {processing && (
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
                     <ProgressBar value={progress} />
-                    <p className="mt-2 text-xs text-white/50">
-                      Processing your image locally...
-                    </p>
+                    <p className="mt-2 text-xs text-white/50">Processing your image locally...</p>
                   </div>
                 )}
               </div>
@@ -619,33 +570,39 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
         {isDone && outputUrl && outputBlob && (
           <section className={premiumShellClass()}>
             <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-            <div className="flex gap-3">
-              <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-              <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
-                
-                Your compressed image is ready
-              </h2>
+              <div className="flex gap-3">
+                <GlassIcon icon={CheckCircle2} />
+                <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight">
+                  Your compressed image is ready
+                </h2>
               </div>
               <p className="mt-1 text-xs text-white/60 sm:text-sm">
                 Preview the compressed result and download it directly.
               </p>
             </div>
 
-            <div className="grid gap-4 p-3 sm:grid-cols-2 sm:p-4 lg:p-5">
+            <div className="grid gap-4 p-3 sm:grid-cols-3 sm:p-4 lg:p-5">
               <button
                 onClick={handleOpenPreview}
-                className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium text-white/85 transition hover:border-blue-400/30 hover:bg-white/10"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400"
               >
-                <Maximize2 className="h-4 w-4 text-blue-300" />
+                <Maximize2 className="h-4 w-4" />
                 Preview Result
               </button>
 
               <button
                 onClick={handleOpenDownload}
-                className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-emerald-500"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-4 py-3 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300"
               >
                 <Download className="h-4 w-4" />
                 Download Image
+              </button>
+              <button
+                onClick={resetTool}
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-emerald-700 px-4 py-3 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300"
+              >
+                <Trash2 className="h-4 w-4" />
+                Start Over
               </button>
             </div>
 
@@ -653,7 +610,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
               <div className="rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4">
                 <div className="mb-3 flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-white/85">Compression Summary</h3>
-                  <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs text-emerald-200">
+                  <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200">
                     {getPrettyFormat(outputFormat)}
                   </span>
                 </div>
@@ -694,11 +651,7 @@ export default function PassportPhotoCompressorClient({ config }: Props) {
         <ImagePreviewModal
           url={outputUrl}
           onClose={() => setShowModal(false)}
-          documentName={generateFileName(
-            file?.name || "image",
-            "compressed",
-            outputFormat
-          )}
+          documentName={generateFileName(file?.name || "image", "compressed", outputFormat)}
           variant={modalVariant}
           onDownload={handleDownload}
         />

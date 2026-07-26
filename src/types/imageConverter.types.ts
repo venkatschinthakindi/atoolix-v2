@@ -13,6 +13,7 @@ export interface PdfToolConfig {
   allowedFormats?:ImageFormat[];
   toolShortName?: string;
   onPageTitle?: string;
+  allowMultiple?: boolean
 }
 
 export interface ConvertOptions {
