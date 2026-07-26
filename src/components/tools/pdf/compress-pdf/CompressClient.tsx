@@ -3,14 +3,9 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Props } from "@/types/props";
-import { DropZone } from "@/components/ui/DropZone";
 import {
-  Sparkles,
-  FileUp,
   FileText,
-  Clock3,
   CheckCircle2,
-  ShieldCheck,
   Wand2,
   RotateCcw,
   Download,
@@ -21,8 +16,14 @@ import {
   CircleCheck,
   Loader2,
   Eye,
+  Info,
+  TrendingDown,
 } from "lucide-react";
 import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
+
+// Same shared hero used across the image tools — confirmed real, reused
+// here instead of hand-rolling the top section again.
+import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
@@ -144,42 +145,14 @@ async function compressPdf(
 }
 
 function premiumShellClass() {
-  return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+  return "relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 }
 
-function GlassIcon({
-  icon: Icon,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-}) {
+function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
   return (
     <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
       <Icon className="h-4 w-4" />
     </span>
-  );
-}
-
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 px-2 py-2 backdrop-blur-sm">
-      <div className="flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center text-blue-200">
-          <Icon className="h-4.5 w-4.5" />
-        </span>
-        <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-white/45">{label}</p>
-          <p className="text-sm font-semibold text-white">{value}</p>
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -215,50 +188,73 @@ function LevelCard({
   );
 }
 
+// ---------------------------------------------------------------------------
+// SizeComparison — the payoff moment. Leads with a big hero percentage, then
+// two proportional bars (original vs. compressed) so the size drop is SEEN,
+// not just read as a number in a pill.
+// ---------------------------------------------------------------------------
 function SizeComparison({ before, after }: { before: number; after: number }) {
-  const ratio = Math.min(after / before, 1);
+  const ratio = before > 0 ? Math.min(after / before, 1) : 1;
   const savedPct = Math.round((1 - ratio) * 100);
-  const fillPct = Math.round(ratio * 100);
+  // Keep a visible sliver on the compressed bar even at extreme reduction,
+  // so the bar doesn't disappear and look like a rendering bug.
+  const compressedBarPct = Math.max(4, Math.round(ratio * 100));
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-white/45">Compression result</p>
-          <h3 className="mt-1 text-sm font-semibold text-white">File size comparison</h3>
+    <div className={premiumShellClass()}>
+      <div className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+        <div className="flex gap-3">
+          <GlassIcon icon={TrendingDown} />
+          <div>
+            <p className="text-xs uppercase tracking-[0.16em] text-white/45">Compression result</p>
+            <h3 className="mt-1 text-sm font-semibold text-white">File size comparison</h3>
+          </div>
         </div>
         <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200">
           {savedPct > 0 ? `Saved ${savedPct}%` : "No change"}
         </span>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-white/10 bg-black/10 p-3">
-          <p className="text-[11px] uppercase tracking-[0.14em] text-white/40">Original</p>
-          <p className="mt-1 text-lg font-semibold text-white">{formatBytes(before)}</p>
+      {/* Hero number — the moment that's meant to land */}
+      <div className="border-b border-white/10 px-4 py-6 text-center sm:px-5 md:px-6">
+        <p className="bg-gradient-to-r from-emerald-300 via-white to-blue-300 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl">
+          {savedPct > 0 ? `${savedPct}%` : "0%"}
+        </p>
+        <p className="mt-2 text-sm text-white/60">
+          {savedPct > 0
+            ? "smaller than the original — ready to share or store"
+            : "Size unchanged — PDF may already be optimized"}
+        </p>
+      </div>
+
+      {/* Two proportional bars so the shrink is visible, not just numeric */}
+      <div className="space-y-4 px-4 py-4 sm:px-5 md:px-6">
+        <div>
+          <div className="mb-1.5 flex items-center justify-between text-xs text-white/50">
+            <span>Original</span>
+            <span className="font-medium text-white/80">{formatBytes(before)}</span>
+          </div>
+          <div className="h-3 overflow-hidden rounded-full bg-white/10">
+            <div className="h-full w-full rounded-full bg-white/30" />
+          </div>
         </div>
-        <div className="rounded-xl border border-white/10 bg-black/10 p-3">
-          <p className="text-[11px] uppercase tracking-[0.14em] text-white/40">Compressed</p>
-          <p className="mt-1 text-lg font-semibold text-white">{formatBytes(after)}</p>
+        <div>
+          <div className="mb-1.5 flex items-center justify-between text-xs text-white/50">
+            <span>Compressed</span>
+            <span className="font-medium text-emerald-200">{formatBytes(after)}</span>
+          </div>
+          <div className="h-3 overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-blue-400 transition-all duration-500"
+              style={{ width: `${compressedBarPct}%` }}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="mt-4">
-        <div className="mb-2 flex items-center justify-between text-xs text-white/50">
-          <span>Compression ratio</span>
-          <span>{fillPct}% of original</span>
-        </div>
-        <div className="h-2 overflow-hidden rounded-full bg-white/10">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-blue-400 transition-all"
-            style={{ width: `${fillPct}%` }}
-          />
-        </div>
-      </div>
-
-      <p className="mt-3 text-sm text-white/65">
+      <p className="px-4 pb-4 text-sm text-white/65 sm:px-5 md:px-6 md:pb-5">
         {savedPct > 0
-          ? `Reduced by ${formatBytes(before - after)}.`
+          ? `Reduced by ${formatBytes(before - after)} — down from ${formatBytes(before)} to ${formatBytes(after)}.`
           : "Size unchanged — PDF may be text-only or already optimised."}
       </p>
     </div>
@@ -279,9 +275,8 @@ export default function CompressClient({ config }: Props) {
   const [modalVariant, setModalVariant] = useState<"preview" | "download">("preview");
 
   const cancelledRef = useRef(false);
-  const dropZoneRef = useRef<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [dropzoneKey, setDropzoneKey] = useState("dz-0");
+  const [dropzoneKey, setDropzoneKey] = useState(0);
 
   useEffect(() => {
     return () => {
@@ -305,16 +300,12 @@ export default function CompressClient({ config }: Props) {
   }, []);
 
   const handleFiles = useCallback(
-    (files: FileList | File[]) => {
+    (files: File[]) => {
       const f = Array.from(files)[0];
       if (f) acceptFile(f);
     },
     [acceptFile]
   );
-
-  const handleBrowse = useCallback(() => {
-    inputRef.current?.click();
-  }, []);
 
   const openPreview = useCallback((blob: Blob) => {
     if (previewUrl) URL.revokeObjectURL(previewUrl);
@@ -395,7 +386,7 @@ export default function CompressClient({ config }: Props) {
     setProgress({ page: 0, total: 0 });
     setCompressedBlob(null);
     setFileReducedPercent(null);
-    setDropzoneKey((k) => `${k.split("-")[0]}-${Date.now()}`);
+    setDropzoneKey((k) => k + 1);
     if (inputRef.current) inputRef.current.value = "";
     handleCloseModal();
   };
@@ -403,151 +394,99 @@ export default function CompressClient({ config }: Props) {
   const isWorking = status === "working";
   const isDone = status === "done";
   const pct = progress.total > 0 ? Math.round((progress.page / progress.total) * 100) : 0;
-  const hasFiles = !!file;
+  const hasFile = !!file;
   const canBuild = !!file && !isWorking;
 
   return (
     <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
-              <Sparkles className="h-3.5 w-3.5" />
-              Private PDF compressor
-            </div>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              Compress PDFs with{" "}
-              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
-                Precision Control
-              </span>
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Reduce file size locally, choose how aggressive the compression should be, and keep the workflow fast and simple.
-            </p>
-          </div>
+      <ToolHero
+        config={config}
+        processing={isWorking}
+        file={file}
+        dropzoneKey={dropzoneKey}
+        handleFiles={handleFiles}
+        validFileTypes=".pdf"
+        eyebrow="Private • Browser Based • Secure"
+        title="Compress PDFs with"
+        titleAccent="Precision Control"
+        description={
+          <>
+            Reduce file size locally, choose how aggressive the compression should be, and keep the
+            workflow fast and simple.
+          </>
+        }
+        badges={[
+          { label: "⚡ Instant Compression", color: "blue" },
+          { label: "🔒 100% Private", color: "green" },
+          { label: "📤 No Upload", color: "purple" },
+        ]}
+        stats={[
+          { label: "File", value: hasFile ? "Selected" : "None" },
+          {
+            label: "Progress",
+            value: isWorking ? `${pct}%` : fileReducedPercent ? `Saved ${fileReducedPercent}%` : "—",
+          },
+          {
+            label: "Status",
+            value: status === "done" ? "Done" : status === "error" ? "Error" : "Ready",
+            color: "blue",
+          },
+          { label: "Secure", value: "Local", color: "emerald" },
+        ]}
+      />
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <StatCard icon={FileText} label="File" value={hasFiles ? "Selected" : "None"} />
-            <StatCard
-              icon={Clock3}
-              label="Progress"
-              value={isWorking ? `${pct}%` : fileReducedPercent ? `Saved ${fileReducedPercent}%` : "—"}
-            />
-            <StatCard
-              icon={CheckCircle2}
-              label="Status"
-              value={status === "done" ? "Done" : status === "error" ? "Error" : "Ready"}
-            />
-            <StatCard icon={ShieldCheck} label="Secure" value="Local" />
-          </div>
-        </div>
-      </section>
-
-      <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+      <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
-          <section className={premiumShellClass()} aria-labelledby="upload-heading">
-            <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <div className="flex gap-3">
-                <GlassIcon icon={FileUp} />
-              <h2
-                id="upload-heading"
-                className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
-              >
-                
-                Upload PDF
-              </h2>
+          <section className={premiumShellClass()} aria-labelledby="levels-heading">
+            <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+              <div>
+                <div className="flex gap-3">
+                  <GlassIcon icon={Gauge} />
+                  <h2 id="levels-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+                    Compression level
+                  </h2>
+                </div>
+                <p className="mt-1 text-xs text-white/60 sm:text-sm">
+                  Choose a trade-off between file size and visual fidelity.
+                </p>
               </div>
-              <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                Drag one PDF here or browse your device. Compression runs entirely on your machine.
-              </p>
-            </div>
-
-            <div className="p-3 sm:p-4 md:p-5">
-              <DropZone
-                ref={dropZoneRef}
-                key={dropzoneKey}
-                allowMultiple={false}
-                validFileTypes=".pdf"
-                addMoreFiles={hasFiles}
-                onFiles={handleFiles}
-              />
 
               {file && (
-                <div className="mt-4 rounded-2xl border border-white/10 bg-black/10 p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-white" title={file.name}>
-                        {file.name}
-                      </p>
-                      <p className="text-xs text-white/55">{formatBytes(file.size)}</p>
-                    </div>
-                    <button
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 hover:text-white"
-                      onClick={reset}
-                      aria-label="Remove file"
-                      type="button"
-                      title="Remove file"
-                    >
-                      <Minus className="h-4.5 w-4.5" />
-                    </button>
+                <div className="flex items-center gap-2">
+                  <div className="min-w-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/70">
+                    <span className="max-w-[160px] truncate align-middle" title={file.name}>
+                      {file.name}
+                    </span>
+                    <span className="ml-1.5 text-white/40">· {formatBytes(file.size)}</span>
                   </div>
-                </div>
-              )}
-
-              {error && (
-                <div className="mt-4 rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
-                  <div className="flex items-start gap-2">
-                    <AlertCircle className="mt-0.5 h-4.5 w-4.5 shrink-0" />
-                    <span>{error}</span>
-                  </div>
+                  <button
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 hover:text-white"
+                    onClick={reset}
+                    aria-label="Remove file"
+                    type="button"
+                    title="Remove file"
+                  >
+                    <Minus className="h-4 w-4" />
+                  </button>
                 </div>
               )}
             </div>
-          </section>
 
-          <section className={premiumShellClass()} aria-labelledby="levels-heading">
-            <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <div className="flex gap-3">
-                <GlassIcon icon={Gauge} />
-              <h2
-                id="levels-heading"
-                className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
-              >
-                
-                Compression level
-              </h2>
+            {error && (
+              <div className="mx-4 mt-4 rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100 sm:mx-5">
+                <div className="flex items-start gap-2">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{error}</span>
+                </div>
               </div>
-              <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                Choose a trade-off between file size and visual fidelity.
-              </p>
-            </div>
+            )}
 
             <div className="grid gap-3 p-3 sm:grid-cols-3 sm:p-4 md:p-5">
               {(["low", "medium", "high"] as CompressionLevel[]).map((l) => (
                 <LevelCard key={l} level={l} active={level === l} onClick={() => setLevel(l)} />
               ))}
             </div>
-          </section>
-        </div>
-
-        <div className="space-y-3 sm:space-y-4 md:space-y-5">
-          <section className={premiumShellClass()} aria-labelledby="actions-heading">
-            <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <div className="flex gap-3">
-                <GlassIcon icon={Wand2} />
-              <h2
-                id="actions-heading"
-                className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md"
-              >
-                
-                Action suite
-              </h2>
-              </div>
-              <p className="mt-1 text-xs text-white/60 sm:text-sm">
-                Compress, preview, download, and reset in a polished flow.
-              </p>
-            </div>
-
+            {file && (
             <div className="space-y-4 p-3 sm:p-4 md:p-5">
               {isWorking && (
                 <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
@@ -576,12 +515,12 @@ export default function CompressClient({ config }: Props) {
                 >
                   {isWorking ? (
                     <>
-                      <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                       Compressing…
                     </>
                   ) : (
                     <>
-                      <FileArchive className="h-4.5 w-4.5" />
+                      <FileArchive className="h-4 w-4" />
                       Compress PDF
                     </>
                   )}
@@ -595,7 +534,7 @@ export default function CompressClient({ config }: Props) {
                       type="button"
                       disabled={!compressedBlob}
                     >
-                      <Eye className="h-4.5 w-4.5" />
+                      <Eye className="h-4 w-4" />
                       Preview PDF
                     </button>
 
@@ -605,7 +544,7 @@ export default function CompressClient({ config }: Props) {
                       type="button"
                       disabled={!compressedBlob}
                     >
-                      <Download className="h-4.5 w-4.5" />
+                      <Download className="h-4 w-4" />
                       Download PDF
                     </button>
                   </div>
@@ -616,51 +555,45 @@ export default function CompressClient({ config }: Props) {
                       onClick={reset}
                       type="button"
                     >
-                      <RotateCcw className="h-4.5 w-4.5" />
+                      <RotateCcw className="h-4 w-4" />
                       Compress another file / Reset all
                     </button>
 
                     <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-black/10 px-5 py-4 text-sm text-white/70">
-                      <CircleCheck className="mr-2 h-4.5 w-4.5 text-emerald-300" />
+                      <CircleCheck className="mr-2 h-4 w-4 text-emerald-300" />
                       Ready
                     </div>
                   </div>
                 </>
               )}
             </div>
+            )}
           </section>
-
+        </div>
+        <div className="space-y-3 sm:space-y-4 md:space-y-5">
           {isDone && sizes && <SizeComparison before={sizes.before} after={sizes.after} />}
+        </div>
 
-          {isDone && (
-            <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
-              <div className="flex items-start gap-2">
-                <CircleCheck className="mt-0.5 h-4.5 w-4.5 shrink-0" />
-                <span>
-                  Saved as{" "}
-                  <strong>{file?.name.replace(/\.pdf$/i, "_compressed.pdf")}</strong>
-                </span>
+        <div className="space-y-3 sm:space-y-4 md:space-y-5">
+          {!isDone && !!file && (
+            <section className={premiumShellClass()} aria-labelledby="workflow-heading">
+              <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+                <div className="flex gap-3">
+                  <GlassIcon icon={Info} />
+                  <h2 id="workflow-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+                    Compression notes
+                  </h2>
+                </div>
               </div>
-            </div>
+              <div className="p-4 sm:p-5">
+                <p className="text-sm leading-6 text-white/65">
+                  Each page is re-rendered as a JPEG image — no data leaves your device. Text-heavy PDFs:
+                  ~20–40% smaller. Image-heavy PDFs: 50–80% smaller. On <em>Aggressive</em>, text won't be
+                  selectable in the output.
+                </p>
+              </div>
+            </section>
           )}
-
-          <section aria-labelledby="workflow-heading">
-            <div className="flex gap-3">
-              ✍️ 
-            <h2
-              id="workflow-heading"
-              className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-            >
-            Compression notes
-            </h2>
-            </div>
-            <div className="grid gap-4 md:grid-cols-1">
-              <p>
-                Each page is re-rendered as a JPEG image — no data leaves your device. Text-heavy PDFs:
-                ~20–40% smaller. Image-heavy PDFs: 50–80% smaller. On <em>Aggressive</em>, text won't be selectable in the output.
-              </p>
-            </div>
-          </section>
         </div>
       </div>
 
