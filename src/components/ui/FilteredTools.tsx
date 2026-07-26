@@ -7,10 +7,10 @@ export function FilteredTools({
   filteredTools,
 }: any) {
   if(!!filteredTools){
-    filteredTools = filteredTools;
+    filteredTools = filteredTools.filter((tool: any) => tool.archived === false);
   }
   else if (filterKey === "all") {
-    filteredTools = getCachedTools();
+    filteredTools = getCachedTools().filter((tool: any) => tool.archived === false);
   }
   else {
     const searchKey = filterKey?.toLowerCase();
@@ -23,7 +23,7 @@ export function FilteredTools({
       )
       .map((tool) => tool.id);
 
-    filteredTools = tools.filter((tool) => filteredKeys.includes(tool.id));
+    filteredTools = tools.filter((tool) => tool.archived === false && filteredKeys.includes(tool.id));
   }
 
   return (
