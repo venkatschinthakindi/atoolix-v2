@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { getCachedTools } from "@/data/tools";
 import { IconResolver } from "@/sharedUI/iconResolver";
+import { FeatureBadge } from "../ui/featureBadge";
 
 export function HeroCommandCenter() {
     const router = useRouter();
@@ -55,26 +56,21 @@ export function HeroCommandCenter() {
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
-
+    const badges = [
+          { label: "🔒 Files Stay on Your Device", color: "blue" },
+          { label: "💻 Works offline", color: "green" },
+          { label: "✓ No Sign-up Required", color: "purple" },
+        ];
   return (
     <section
       className="hero-banner"
     >
-      {/* <span className="hero-pill">
-        100+ Productivity Tools
-      </span> */}
-      <div className="flex flex-wrap items-center justify-center gap-2 pb-4 text-xs font-medium">
-        <span className="rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-zinc-300">
-          🔒 Files Stay on Your Device
-        </span>
-
-        <span className="rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-zinc-300">
-          💻 Works offline
-        </span>
-
-        <span className="rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-zinc-300">
-          ✓ No Sign-up Required
-        </span>
+      <div className="flex flex-wrap gap-3 items-center justify-center gap-2 pb-4 text-xs font-medium">
+        {badges.map((b) => (
+          <FeatureBadge key={b.label} color={b.color as any}>
+            {b.label}
+          </FeatureBadge>
+        ))}
       </div>
 
       <span className="hero-title">

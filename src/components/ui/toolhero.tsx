@@ -1,6 +1,6 @@
 import { ShieldCheck } from "lucide-react";
 import { DropZone } from "@/components/ui/DropZone";
-import { FeatureBadge } from "../imageToolUI/featureBadge";
+import { FeatureBadge } from "./featureBadge";
 
 interface QuickOverviewStat {
   label: string;

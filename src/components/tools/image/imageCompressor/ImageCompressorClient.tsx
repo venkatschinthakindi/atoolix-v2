@@ -26,15 +26,15 @@ import { ImageMetadata } from "@/types/imageMetadata";
 import { CompressionResult } from "@/types/compression.types";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
-import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
-import { WorkspaceCard } from "@/components/tools/image/imageToolUI/workspaceCard";
-import { MetadataGrid } from "@/components/tools/image/imageToolUI/metadataGrid";
-import { StatCard } from "@/components/tools/image/imageToolUI/statCard";
-import { SectionHeader } from "@/components/tools/image/imageToolUI/sectionHeader";
-import { ToolButton } from "@/components/tools/image/imageToolUI/toolButton";
-import { EmptyState } from "@/components/tools/image/imageToolUI/emptyState";
-import { SuccessBanner } from "@/components/tools/image/imageToolUI/successBanner";
-import { ToolProgress } from "@/components/tools/image/imageToolUI/toolProgress";
+import { ToolHero } from "@/components/ui/toolhero";
+import { WorkspaceCard } from "@/components/ui/imageToolUI/workspaceCard";
+import { MetadataGrid } from "@/components/ui/imageToolUI/metadataGrid";
+import { StatCard } from "@/components/ui/imageToolUI/statCard";
+import { SectionHeader } from "@/components/ui/imageToolUI/sectionHeader";
+import { ToolButton } from "@/components/ui/imageToolUI/toolButton";
+import { EmptyState } from "@/components/ui/imageToolUI/emptyState";
+import { SuccessBanner } from "@/components/ui/imageToolUI/successBanner";
+import { ToolProgress } from "@/components/ui/imageToolUI/toolProgress";
 
 interface Props {
   config: CompressorConfig;

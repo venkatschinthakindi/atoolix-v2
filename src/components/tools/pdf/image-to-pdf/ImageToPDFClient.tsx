@@ -26,11 +26,11 @@ import CustomSelect from "@/components/ui/customSelect";
 // Same shared kit ImageCompressorClient uses — confirmed by the screenshots,
 // so reusing it here (not re-inventing markup) is what actually keeps the
 // two tools visually identical.
-import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
-import { SectionHeader } from "@/components/tools/image/imageToolUI/sectionHeader";
-import { ToolButton } from "@/components/tools/image/imageToolUI/toolButton";
-import { SuccessBanner } from "@/components/tools/image/imageToolUI/successBanner";
-import { ToolProgress } from "@/components/tools/image/imageToolUI/toolProgress";
+import { ToolHero } from "@/components/ui/toolhero";
+import { SectionHeader } from "@/components/ui/imageToolUI/sectionHeader";
+import { ToolButton } from "@/components/ui/imageToolUI/toolButton";
+import { SuccessBanner } from "@/components/ui/imageToolUI/successBanner";
+import { ToolProgress } from "@/components/ui/imageToolUI/toolProgress";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),

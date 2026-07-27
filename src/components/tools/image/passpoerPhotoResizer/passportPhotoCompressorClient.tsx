@@ -27,7 +27,7 @@ import dynamic from "next/dynamic";
 
 // Same shared hero the rest of the tools use — confirmed real, so we lean
 // on it instead of hand-rolling the top section again.
-import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
+import { ToolHero } from "@/components/ui/toolhero";
 
 const ImagePreviewModal = dynamic(
   () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
@@ -44,7 +44,7 @@ type ModalVariant = "preview" | "download";
 
 function premiumShellClass() {
   // return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
-  return "relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  return "relative flex flex-col  overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 }
 
 function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {

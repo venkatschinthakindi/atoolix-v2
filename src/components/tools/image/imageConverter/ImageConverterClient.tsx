@@ -24,15 +24,15 @@ import { ImageMetadata } from "@/types/imageMetadata";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
-import { FeatureBadge } from "../imageToolUI/featureBadge";
-import { WorkspaceCard } from "../imageToolUI/workspaceCard";
-import { MetadataGrid } from "../imageToolUI/metadataGrid";
-import { StatCard } from "../imageToolUI/statCard";
-import { EmptyState } from "../imageToolUI/emptyState";
-import { ToolButton } from "../imageToolUI/toolButton";
-import { SuccessBanner } from "../imageToolUI/successBanner";
-import { SectionHeader } from "../imageToolUI/sectionHeader";
-import { ToolProgress } from "../imageToolUI/toolProgress";
+import { FeatureBadge } from "../../../ui/featureBadge";
+import { WorkspaceCard } from "../../../ui/imageToolUI/workspaceCard";
+import { MetadataGrid } from "../../../ui/imageToolUI/metadataGrid";
+import { StatCard } from "../../../ui/imageToolUI/statCard";
+import { EmptyState } from "../../../ui/imageToolUI/emptyState";
+import { ToolButton } from "../../../ui/imageToolUI/toolButton";
+import { SuccessBanner } from "../../../ui/imageToolUI/successBanner";
+import { SectionHeader } from "../../../ui/imageToolUI/sectionHeader";
+import { ToolProgress } from "../../../ui/imageToolUI/toolProgress";
 
 const ImagePreviewModal = dynamic(
   () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),

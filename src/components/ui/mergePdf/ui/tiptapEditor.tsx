@@ -204,12 +204,13 @@ export default function TiptapEditor({
           padding: 1rem 1.5rem;
         }
         .fhcontent{
-          max-height: 150px;
+          max-height: 80px;
           overflow-y: auto;
           outline: none;
           white-space: pre-wrap;
           word-break: break-word;
           padding: 1rem 1.5rem;
+          color: #fff;
           }
       `}</style>
 
@@ -217,14 +218,14 @@ export default function TiptapEditor({
         className="cursor-text rounded-xl border border-slate-300 p-2 shadow-sm transition hover:border-slate-400"
         onClick={() => setOpen(true)}
       >
-        <div className="min-h-[220px] max-h-[220px] overflow-hidden text-slate-900">
+        <div className="min-h-[80px] max-h-[120px] overflow-hidden text-slate-900">
           {html ? (
             <div
-              className="fhcontent prose prose-slate max-w-none max-h-[220px] overflow-y-auto"
+              className="fhcontent prose prose-slate max-w-none max-h-[80px] overflow-y-auto"
               dangerouslySetInnerHTML={{ __html: html }}
             />
           ) : (
-            <div className="text-slate-400">Click to edit content</div>
+            <div className="text-white">Click to edit content</div>
           )}
         </div>
       </div>

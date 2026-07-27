@@ -32,7 +32,7 @@ import { readZipEntries, ZipEntry } from "@/lib/readZipEntries";
 
 // Same shared hero used across the other tools — confirmed real, reused
 // here instead of hand-rolling the top section again.
-import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
+import { ToolHero } from "@/components/ui/toolhero";
 
 const ZipViewerModal = dynamic(
   () => import("@/components/ui/zip/zipViewerModal").then((m) => m.default),
@@ -49,7 +49,7 @@ const PdfViewerModal = dynamic(
 type SplitMode = "single" | "multiple";
 
 function premiumShellClass() {
-  return "relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  return "relative flex flex-col  overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 }
 
 function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
@@ -548,8 +548,8 @@ export default function PdfSpliterClient({ config }: Props) {
                   </div>
                 </div>
               ))}
-              <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl border border-white/10 bg-black/10 p-3">
+              <div className="flex flex-wrap gap-3">
+                  <div className="basis-full sm:basis-[calc(50%-0.375rem)] rounded-2xl border border-white/10 bg-black/10 p-3">
                     <div className="mb-2 text-xs font-medium text-white/85 sm:text-sm">Output format</div>
                     <CustomSelect
                       value={splitOption}
@@ -564,7 +564,7 @@ export default function PdfSpliterClient({ config }: Props) {
                     type="button"
                     onClick={() => setAutoOptimize((v) => !v)}
                     aria-pressed={autoOptimize}
-                    className={`rounded-2xl  border px-3 py-2.5 text-xs font-medium transition ${
+                    className={`basis-full sm:basis-[calc(50%-0.375rem)] rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
                       autoOptimize
                         ? "border-blue-400/35 bg-blue-400/10 text-white"
                         : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"

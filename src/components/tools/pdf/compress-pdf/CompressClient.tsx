@@ -23,7 +23,7 @@ import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 
 // Same shared hero used across the image tools — confirmed real, reused
 // here instead of hand-rolling the top section again.
-import { ToolHero } from "@/components/tools/image/imageCompressor/toolhero";
+import { ToolHero } from "@/components/ui/toolhero";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
@@ -145,7 +145,7 @@ async function compressPdf(
 }
 
 function premiumShellClass() {
-  return "relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  return "relative flex flex-col  overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 }
 
 function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {

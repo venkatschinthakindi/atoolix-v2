@@ -10,20 +10,20 @@ import {
   memo,
 } from "react";
 import {
+  AlertCircle,
   ArrowDownUp,
   CheckCircle2,
+  CircleCheck,
   Download,
   Eye,
   FileText,
   FileUp,
   Files,
+  Loader2,
   PanelBottomOpen,
   PanelTopOpen,
   RotateCcw,
-  Sparkles,
   Wand2,
-  ShieldCheck,
-  Clock3,
   Plus,
   Trash2,
 } from "lucide-react";
@@ -32,13 +32,13 @@ import { DropZone } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Props } from "@/types/props";
 import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
-import { StatCard } from "@/components/ui/statCard";
 import { FileRow, parsePages } from "@/components/ui/mergePdf/ui/fileRow";
 import { EmptyState } from "@/components/ui/mergePdf/ui/emptyState";
-import { PremiumButton } from "@/components/ui/premiumButton";
-import { MiniPill } from "@/components/ui/miniPill";
-import { GlassIcon } from "@/components/ui/glassIcon";
 import { MergeOptionCard } from "@/components/ui/mergePdf/ui/mergeOptionCard";
+
+// Same shared hero used across the other tools — confirmed real, reused
+// here instead of hand-rolling the top section again.
+import { ToolHero } from "@/components/ui/toolhero";
 
 // ─── Lazy-loaded heavy modules ───────────────────────────────────────────────
 const PdfViewerModal = dynamic(
@@ -74,7 +74,15 @@ function createFileItem(file: File): FileItem {
 }
 
 function premiumShellClass() {
-  return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+  return "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+}
+
+function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
+  return (
+    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
+      <Icon className="h-4 w-4" />
+    </span>
+  );
 }
 
 // ─── oklch sanitiser (lazy — only imported when actually needed) ─────────────
@@ -392,6 +400,7 @@ export default function PdfMergerClient({ config }: Props) {
   const [processingLabel, setProcessingLabel] = useState("Preparing files...");
   const [autoOptimize, setAutoOptimize] = useState(true);
   const [autoDownloadFailed, setAutoDownloadFailed] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Cache the pdfLib instance so we don't re-load it on every file add
   const pdfLibRef = useRef<any>(null);
@@ -424,29 +433,31 @@ export default function PdfMergerClient({ config }: Props) {
   // ── File handlers (stable references via useCallback) ─────────────────────
   const handleFiles = useCallback(
     async (newFiles: File[]) => {
-      const PDFDocument = await getPdfLib();
-      const additions: FileItem[] = [];
+      try {
+        const PDFDocument = await getPdfLib();
+        const additions: FileItem[] = [];
 
-      // Process files in parallel for speed
-      await Promise.all(
-        newFiles.map(async (file) => {
-          const buffer = await file.arrayBuffer();
-          const pdf = await PDFDocument.load(buffer);
-          additions.push({
-            ...createFileItem(file),
-            totalPages: pdf.getPageCount(),
-          });
-        })
-      );
+        // Process files in parallel for speed
+        await Promise.all(
+          newFiles.map(async (file) => {
+            const buffer = await file.arrayBuffer();
+            const pdf = await PDFDocument.load(buffer);
+            additions.push({
+              ...createFileItem(file),
+              totalPages: pdf.getPageCount(),
+            });
+          })
+        );
 
-      setFiles((prev) => {
-        const next = [...prev, ...additions];
-        return next;
-      });
-      setState(additions.length ? "ready" : "idle");
-      setProgress(0);
-      setMergedBlob(null);
-      setAutoDownloadFailed(false);
+        setFiles((prev) => [...prev, ...additions]);
+        setState(additions.length ? "ready" : "idle");
+        setProgress(0);
+        setMergedBlob(null);
+        setAutoDownloadFailed(false);
+        setError(null);
+      } catch {
+        setError("One of those files couldn't be read as a PDF. Try a different file.");
+      }
     },
     [getPdfLib]
   );
@@ -460,6 +471,7 @@ export default function PdfMergerClient({ config }: Props) {
     setHeaderMode("none");
     setFooterMode("none");
     setAutoDownloadFailed(false);
+    setError(null);
   }, []);
 
   const moveFile = useCallback((id: string, direction: -1 | 1) => {
@@ -485,64 +497,6 @@ export default function PdfMergerClient({ config }: Props) {
     });
   }, []);
 
-  const merge = useCallback(async () => {
-    if (!files.length) return;
-
-    setState("processing");
-    setProgress(5);
-    setProcessingLabel("Creating merged document...");
-
-    const PDFDocument = await getPdfLib();
-    const merged = await PDFDocument.create();
-
-    // Snapshot files to avoid stale closure issues
-    const currentFiles = files;
-
-    for (let i = 0; i < currentFiles.length; i++) {
-      const current = currentFiles[i];
-      setProcessingLabel(`Reading ${current.file.name}`);
-      const buffer = await current.file.arrayBuffer();
-      const pdf = await PDFDocument.load(buffer);
-      const pages = parsePages(current.input, pdf.getPageCount());
-      const indices = pages.map((v, idx) => (v ? idx : -1)).filter((v) => v !== -1);
-
-      if (indices.length) {
-        const copied = await merged.copyPages(pdf, indices);
-        copied.forEach((page: any) => merged.addPage(page));
-      }
-
-      setProgress(10 + ((i + 1) / currentFiles.length) * 65);
-    }
-
-    setProcessingLabel("Rendering headers and footers...");
-    setProgress(80);
-
-    await addHeaderFooterToPdf(PDFDocument, merged, {
-      headerMode,
-      footerMode,
-      headerHtml,
-      footerHtml,
-      headerFile,
-      footerFile,
-    });
-
-    if (autoOptimize) {
-      setProcessingLabel("Optimizing layout...");
-      setProgress(92);
-      await new Promise((r) => setTimeout(r, 180));
-    }
-
-    const finalBytes = await merged.save({ useObjectStreams: autoOptimize });
-    const blob = new Blob([new Uint8Array(finalBytes)], { type: "application/pdf" });
-
-    setMergedBlob(blob);
-    setProgress(100);
-    setProcessingLabel("Done");
-    setState("done");
-    setAutoDownloadFailed(false);
-    openPreview(blob);
-  }, [files, getPdfLib, headerMode, footerMode, headerHtml, footerHtml, headerFile, footerFile, autoOptimize]);
-
   const openPreview = useCallback((blob: Blob) => {
     const url = URL.createObjectURL(blob);
     setPreviewUrl(url);
@@ -557,13 +511,80 @@ export default function PdfMergerClient({ config }: Props) {
     setShowModal(true);
   }, []);
 
+  const merge = useCallback(async () => {
+    if (!files.length) return;
+
+    setState("processing");
+    setError(null);
+    setProgress(5);
+    setProcessingLabel("Creating merged document...");
+
+    try {
+      const PDFDocument = await getPdfLib();
+      const merged = await PDFDocument.create();
+
+      // Snapshot files to avoid stale closure issues
+      const currentFiles = files;
+
+      for (let i = 0; i < currentFiles.length; i++) {
+        const current = currentFiles[i];
+        setProcessingLabel(`Reading ${current.file.name}`);
+        const buffer = await current.file.arrayBuffer();
+        const pdf = await PDFDocument.load(buffer);
+        const pages = parsePages(current.input, pdf.getPageCount());
+        const indices = pages.map((v, idx) => (v ? idx : -1)).filter((v) => v !== -1);
+
+        if (indices.length) {
+          const copied = await merged.copyPages(pdf, indices);
+          copied.forEach((page: any) => merged.addPage(page));
+        }
+
+        setProgress(10 + ((i + 1) / currentFiles.length) * 65);
+      }
+
+      setProcessingLabel("Rendering headers and footers...");
+      setProgress(80);
+
+      await addHeaderFooterToPdf(PDFDocument, merged, {
+        headerMode,
+        footerMode,
+        headerHtml,
+        footerHtml,
+        headerFile,
+        footerFile,
+      });
+
+      if (autoOptimize) {
+        setProcessingLabel("Optimizing layout...");
+        setProgress(92);
+        await new Promise((r) => setTimeout(r, 180));
+      }
+
+      const finalBytes = await merged.save({ useObjectStreams: autoOptimize });
+      const blob = new Blob([new Uint8Array(finalBytes)], { type: "application/pdf" });
+
+      setMergedBlob(blob);
+      setProgress(100);
+      setProcessingLabel("Done");
+      setState("done");
+      setAutoDownloadFailed(false);
+      openPreview(blob);
+    } catch (err) {
+      // Previously unhandled — a failure here left state stuck on
+      // "processing" forever with no way to recover except a page refresh.
+      setError("Something went wrong while merging your PDFs. Please try again.");
+      setState("ready");
+      setProgress(0);
+      setProcessingLabel("Preparing files...");
+    }
+  }, [files, getPdfLib, headerMode, footerMode, headerHtml, footerHtml, headerFile, footerFile, autoOptimize, openPreview]);
+
   const download = useCallback(async () => {
     if (!mergedBlob) return;
     try {
-      const saveAs = await import("@/lib/fileSaverUtility").then(
-        (m) => m.asyncGetFileSaverLib()
-      );
+      const saveAs = await import("@/lib/fileSaverUtility").then((m) => m.asyncGetFileSaverLib());
       saveAs(mergedBlob, "document.pdf");
+      setAutoDownloadFailed(false);
 
       setTimeout(() => {
         setFiles([]);
@@ -578,7 +599,8 @@ export default function PdfMergerClient({ config }: Props) {
         setPreviewUrl(null);
       }, 300);
     } catch (error) {
-      //console.error("Download failed:", error);
+      // Previously set but never rendered anywhere — the user had no idea
+      // the download failed. Now surfaced as a banner with a retry button.
       setAutoDownloadFailed(true);
     }
   }, [mergedBlob]);
@@ -593,11 +615,16 @@ export default function PdfMergerClient({ config }: Props) {
   }, [previewUrl]);
 
   const resetPdf = useCallback(() => {
+    setFiles([]);
     setMergedBlob(null);
-    setState(files.length > 0 ? "ready" : "idle");
+    setState("idle");
     setProgress(0);
+    setDropzoneKey((prev) => prev + 1);
+    setHeaderMode("none");
+    setFooterMode("none");
     setProcessingLabel("Preparing files...");
     setAutoDownloadFailed(false);
+    setError(null);
     if (previewUrl) {
       URL.revokeObjectURL(previewUrl);
       setPreviewUrl(null);
@@ -610,111 +637,83 @@ export default function PdfMergerClient({ config }: Props) {
   const dropZoneRef = useRef<any>(null);
   const openFilePicker = useCallback(() => dropZoneRef.current?.openFilePicker(), []);
 
-  const canBuild = files.length > 0 && state !== "processing";
+  const isWorking = state === "processing";
+  const isDone = state === "done";
+  const canBuild = files.length > 0 && !isWorking;
   const hasFiles = files.length > 0;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white">
-      {/* ── Hero ── */}
-      <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
-              <Sparkles className="h-3.5 w-3.5" />
-              Private document workspace
-            </div>
-            
-            <div className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              Merge PDFs with{" "}
-              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
-                Advanced Control
-              </span>
-            </div>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Take full control of your documents. Reorder files, fine-tune page selections, optimize output quality, and generate professional PDFs effortlessly.
-            </p>
-          </div>
+    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+      <ToolHero
+        config={config}
+        processing={isWorking}
+        file={files.length > 0 ? files[0].file : null}
+        dropzoneKey={dropzoneKey}
+        handleFiles={handleFiles}
+        validFileTypes=".pdf"
+        eyebrow="Private • Browser Based • Secure"
+        title="Merge PDFs with"
+        titleAccent="Advanced Control"
+        description={
+          <>
+            Take full control of your documents. Reorder files, fine-tune page selections,
+            optimize output quality, and generate professional PDFs effortlessly.
+          </>
+        }
+        badges={[
+          { label: "⚡ Instant Merge", color: "blue" },
+          { label: "🔒 100% Private", color: "green" },
+          { label: "📤 No Upload", color: "purple" },
+        ]}
+        stats={[
+          { label: "Files", value: files?.length?.toString() || "None" },
+          { label: "Pages", value: totalPages?.toString() || "—" },
+          { label: "Selected", value: selectedPagesCount?.toString() || "—", color: "blue" },
+          { label: "Secure", value: "Local", color: "emerald" },
+        ]}
+      />
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <StatCard icon={Files} label="Files" value={files.length} />
-            <StatCard icon={Clock3} label="Pages" value={totalPages || "—"} />
-            <StatCard icon={CheckCircle2} label="Selected" value={selectedPagesCount || "—"} />
-            <StatCard icon={ShieldCheck} label="Secure" value="Local" />
-          </div>
-        </div>
-      </section>
-
-      <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        {/* ── Left column ── */}
-        <div className="space-y-3 sm:space-y-4 md:space-y-5">
-          {/* Upload */}
-          <section className={premiumShellClass()} aria-labelledby="upload-heading">
-            <div className="relative p-3 sm:p-4 md:p-5">
-              <div className="mb-3 sm:mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="w-full sm:w-auto">
-                  <div className="flex gap-3">
-                    <GlassIcon icon={FileUp} />
-                  <h2 id="upload-heading" className="flex items-center gap-2 text-base sm:text-md font-semibold tracking-tight">
-                    
-                    Upload documents
-                  </h2>
-                  </div>
-                  <p className="mt-1 text-xs sm:text-sm text-white/60">
-                    Drag PDFs here or browse your private archive.
-                  </p>
-                </div>
-                {hasFiles && (
-                  <>
-                    <button
-                      type="button"
-                      onClick={clearAllFiles}
-                      className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
-                    >
-                      <Trash2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
-                      <span>Start Over</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={openFilePicker}
-                      className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap"
-                    >
-                      <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-300" />
-                      <span>Add More Files</span>
-                    </button>
-                  </>
-                )}
-              </div>
-
-              <DropZone
-                ref={dropZoneRef}
-                key={dropzoneKey}
-                allowMultiple
-                validFileTypes=".pdf"
-                addMoreFiles={hasFiles}
-                onFiles={handleFiles}
-              />
+      <div className="mt-6 space-y-3 sm:hidden">
+        {error && (
+          <section className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <span>{error}</span>
             </div>
           </section>
+        )}
+      </div>
+
+      <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+        {/* ── Left column ── */}
+        <div className="space-y-3 sm:space-y-4 md:space-y-5">
+          {error && (
+            <section className="hidden rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100 sm:block">
+              <div className="flex items-start gap-2">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            </section>
+          )}
 
           {/* File list — only mounted when files exist */}
           {hasFiles && (
             <section className={premiumShellClass()} aria-labelledby="files-heading">
               <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="w-full sm:w-auto">
                     <div className="flex gap-3">
                       <GlassIcon icon={Files} />
-                    <h2 id="files-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
-                      
-                      File order and pages
-                    </h2>
+                      <h2 id="files-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+                        File order and pages
+                      </h2>
                     </div>
-                    <p className="mt-1 text-xs sm:text-sm text-white/60">
+                    <p className="mt-1 text-xs text-white/60 sm:text-sm">
                       Reorder files, refine page ranges, and preview what will be merged.
                     </p>
                   </div>
-                  <div className="cursor-pointer flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 whitespace-nowrap">
-                    <ArrowDownUp className="h-5 w-5 sm:h-3.5 sm:w-3.5 text-blue-300" />
+                  <div className="flex cursor-default items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 sm:px-4 sm:text-sm">
+                    <ArrowDownUp className="h-3.5 w-3.5 text-blue-300" />
                     Order matters
                   </div>
                 </div>
@@ -736,19 +735,18 @@ export default function PdfMergerClient({ config }: Props) {
           <section className={premiumShellClass()} aria-labelledby="options-heading">
             <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <div className="flex gap-3">
-                <GlassIcon icon={Sparkles} />
-              <h2 id="options-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
-                
-                Merge options
-              </h2>
+                <GlassIcon icon={PanelTopOpen} />
+                <h2 id="options-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+                  Merge options
+                </h2>
               </div>
-              <p className="mt-1 text-xs sm:text-sm text-white/60">
+              <p className="mt-1 text-xs text-white/60 sm:text-sm">
                 Pick overlay or separate-page mode, then add elegant headers and footers in the same workspace.
               </p>
             </div>
 
-            <div className="grid gap-3 sm:gap-2 p-3 sm:p-2 md:p-2">
-              <div className="rounded-2xl border border-white/10 p-2 sm:p-2">
+            <div className="p-3 flex flex-wrap gap-2">
+              <div className="basis-full sm:basis-[calc(50%-0.375rem)]  rounded-2xl border border-white/10 p-2 sm:p-2">
                 <MergeOptionCard
                   title="Header"
                   icon={PanelTopOpen}
@@ -763,7 +761,7 @@ export default function PdfMergerClient({ config }: Props) {
                 />
               </div>
 
-              <div className="rounded-2xl border border-white/10 p-2 sm:p-2">
+              <div className="basis-full sm:basis-[calc(50%-0.375rem)]  rounded-2xl border border-white/10 p-2 sm:p-2">
                 <MergeOptionCard
                   title="Footer"
                   icon={PanelBottomOpen}
@@ -778,75 +776,122 @@ export default function PdfMergerClient({ config }: Props) {
                 />
               </div>
             </div>
-          </section>
-
-          {/* Action suite */}
-          <section className={premiumShellClass()} aria-labelledby="actions-heading">
-            <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
-              <h3 id="actions-heading" className="flex items-center gap-2 sm:gap-2 text-base sm:text-md font-semibold tracking-tight">
-                <GlassIcon icon={ArrowDownUp} />
-                Action suite
-              </h3>
-              <p className="mt-1 text-xs sm:text-sm text-white/60">
-                Build, preview, and download with one polished flow.
-              </p>
-            </div>
-
-            <div className=
-            {
-               state !== "done" && previewUrl?
-               "grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 sm:gap-3"
-                : "grid grid-cols-1 gap-2 p-3 "
-            }
-            >
-              {state === "processing" && <ProgressBar value={progress} />}
-              {state === "processing" && (
-                <p className="text-[10px] sm:text-xs text-white/60">{processingLabel}</p>
+            <div className="space-y-4 p-3 sm:p-4 md:p-5">
+              {isWorking && (
+                <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                    <span className="text-sm text-white/70">{processingLabel}</span>
+                    <span className="text-sm font-medium text-white">{Math.round(progress)}%</span>
+                  </div>
+                  <ProgressBar value={progress} />
+                </div>
               )}
 
-              {state !== "done" ? (
-                <>
-                  <PremiumButton
-                    icon={Wand2}
-                    label={autoOptimize ? "Build PDF + Optimize" : "Build PDF"}
-                    onClick={merge}
-                    disabled={!canBuild}
-                    accent={autoOptimize ? "blue" : "blue"}
-                  />
-                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    <MiniPill
-                      label="Auto optimize"
-                      active={autoOptimize}
-                      onClick={toggleAutoOptimize}
-                    />
-                    <MiniPill label="Ready" active={hasFiles} />
+              {autoDownloadFailed && (
+                <div className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+                  <div className="mb-2 flex items-start gap-2">
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>The download didn't start automatically.</span>
                   </div>
+                  <button
+                    type="button"
+                    onClick={download}
+                    className="rounded-full border border-rose-300/30 bg-rose-400/10 px-3 py-1.5 text-xs font-medium text-rose-100 transition hover:bg-rose-400/20"
+                  >
+                    Try downloading again
+                  </button>
+                </div>
+              )}
+
+              {!isDone ? (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={toggleAutoOptimize}
+                      aria-pressed={autoOptimize}
+                      className={`rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
+                        autoOptimize
+                          ? "border-blue-400/35 bg-blue-400/10 text-white"
+                          : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
+                      }`}
+                    >
+                      {autoOptimize ? "Auto optimize: On" : "Auto optimize: Off"}
+                    </button>
+                    {
+                      !hasFiles && (
+                        <div className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-black/10 px-3 py-2.5 text-xs text-white/70">
+                          <CircleCheck className={`h-4 w-4 ${hasFiles ? "text-emerald-300" : "text-white/30"}`} />
+                          {hasFiles ? "Ready" : "Waiting for files"}
+                        </div>
+                      )
+                    }
+                    {
+                      hasFiles && (
+                        <button
+                        className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                        onClick={resetPdf}
+                        type="button"
+                      >
+                        <RotateCcw className="h-4 w-4" />
+                        Reset PDF
+                      </button>
+                      )
+                    }
+                    
+                  </div>
+                  <button
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={!canBuild}
+                    onClick={merge}
+                    aria-busy={isWorking}
+                    type="button"
+                  >
+                    {isWorking ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        {processingLabel}
+                      </>
+                    ) : (
+                      <>
+                        <Wand2 className="h-4 w-4" />
+                        {autoOptimize ? "Build PDF + Optimize" : "Build PDF"}
+                      </>
+                    )}
+                  </button>
                 </>
               ) : (
                 <>
-                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    <PremiumButton
-                      icon={Eye}
-                      label="Preview PDF"
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <button
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => mergedBlob && openPreview(mergedBlob)}
-                      accent="violet"
-                    />
-                    <PremiumButton
-                      icon={Download}
-                      label={autoOptimize ? "Download Optimized PDF" : "Download PDF"}
+                      type="button"
+                      disabled={!mergedBlob}
+                    >
+                      <Eye className="h-4 w-4" />
+                      Preview PDF
+                    </button>
+
+                    <button
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => mergedBlob && openDownloadModel(mergedBlob)}
-                      accent="emerald"
-                    />
+                      type="button"
+                      disabled={!mergedBlob}
+                    >
+                      <Download className="h-4 w-4" />
+                      {autoOptimize ? "Download Optimized PDF" : "Download PDF"}
+                    </button>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    <PremiumButton
-                      icon={RotateCcw}
-                      label="Reset PDF"
-                      onClick={resetPdf}
-                      accent="emerald"
-                    />
-                    <MiniPill label="Ready" active={hasFiles} />
-                  </div>
+
+                  <button
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                    onClick={resetPdf}
+                    type="button"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    Reset PDF
+                  </button>
                 </>
               )}
             </div>
