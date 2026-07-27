@@ -506,7 +506,7 @@ export default function PdfSpliterClient({ config }: Props) {
                   <span className="text-white/80">first-3, 9-13, 19, last-2, all, odd, even, except 21-23</span>.
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col items-center gap-2">
                 <div className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 sm:px-4 sm:text-sm">
                   <ArrowDownUp className="h-3.5 w-3.5 text-blue-300" />
                   Page logic preserved

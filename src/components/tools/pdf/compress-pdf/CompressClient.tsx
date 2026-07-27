@@ -145,7 +145,7 @@ async function compressPdf(
 }
 
 function premiumShellClass() {
-  return "relative flex flex-col  overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  return "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 }
 
 function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
@@ -438,11 +438,11 @@ export default function CompressClient({ config }: Props) {
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           <section className={premiumShellClass()} aria-labelledby="levels-heading">
-            <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+            <div className="relative flex flex-col flex-wrap items-center justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <div>
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-3">
                   <GlassIcon icon={Gauge} />
-                  <h2 id="levels-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
+                  <h2 id="levels-heading" className="flex flex-col items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
                     Compression level
                   </h2>
                 </div>
@@ -452,7 +452,7 @@ export default function CompressClient({ config }: Props) {
               </div>
 
               {file && (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col items-center gap-2">
                   <div className="min-w-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/70">
                     <span className="max-w-[160px] truncate align-middle" title={file.name}>
                       {file.name}

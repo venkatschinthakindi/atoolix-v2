@@ -119,7 +119,7 @@ export default function PdfViewerModal({
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5 pointer-events-none" />
 
         {/* Header */}
-        <header className="relative flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-black/40 via-black/30 to-black/40 px-4 py-3 sm:px-6 sm:py-4">
+        <header className="relative flex flex-col items-center justify-between border-b border-white/10 bg-gradient-to-r from-black/40 via-black/30 to-black/40 px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/20">
               <svg className="h-5 w-5 text-indigo-400 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

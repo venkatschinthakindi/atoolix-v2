@@ -51,7 +51,7 @@ const COLOR_PRESETS: { label: string; value: string }[] = [
 
 function premiumShellClass() {
   // return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
-  return "relative flex flex-col  overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  return "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 }
 
 function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
@@ -448,9 +448,9 @@ export default function BackgroundRemoverClient({ config }: Props) {
               </div>
             </div>
 
-            <div className="grid gap-4 p-3 sm:p-4 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.9fr)] lg:p-5">
+            <div className="flex flex-col gap-4 p-3 sm:p-4 lg:flex-row lg:p-5">
               {/* Left: original preview before processing, cutout result after */}
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4">
+              <div className="flex-[1.3] min-w-0 rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4">
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <div className="truncate text-sm font-medium text-white/85">📄 {file.name}</div>
@@ -527,7 +527,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
               </div>
 
               {/* Right: background + export controls, then the process button */}
-              <div className="flex flex-col gap-3">
+              <div className="flex-[1.3] min-w-0 flex flex-col gap-3">
                 <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                   <div className="flex gap-3">
                     <GlassIcon icon={Palette} />
