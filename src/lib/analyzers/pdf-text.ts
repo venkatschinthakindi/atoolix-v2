@@ -27,9 +27,6 @@ export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer, totalPa
   const facts: Record<string, string> = {};
 
   const pdfjs = await getPdfjs();
-  // Pass a copy — pdfjs's worker takes ownership of (transfers) the buffer
-  // it's given, and ctx.arrayBuffer is shared with the pdf-lib-based
-  // analyzer, which must not have its buffer silently detached.
   const loadingTask = pdfjs.getDocument({ data: arrayBuffer.slice(0) });
   const doc = await loadingTask.promise;
 
@@ -86,9 +83,12 @@ export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer, totalPa
   // Tagged-PDF check: presence of a structure tree is what lets screen
   // readers understand heading levels and reading order. This is a direct,
   // deterministic API result from pdf.js, not a guess.
+  // Tagged-PDF check: /MarkInfo.Marked is what tells readers/screen-readers
+  // this PDF has a structure tree. This is a direct, deterministic API result
+  // from pdf.js, not a guess.
   try {
-    const structTree = await doc.getStructTree();
-    const isTagged = !!structTree && Array.isArray(structTree.children) && structTree.children.length > 0;
+    const markInfo = await doc.getMarkInfo();
+    const isTagged = !!markInfo?.Marked;
     facts['Tagged for Accessibility'] = isTagged ? 'Yes' : 'No';
     if (!isTagged) {
       findings.push({
@@ -100,8 +100,9 @@ export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer, totalPa
       });
     }
   } catch {
+    console.error('Failed to get PDF mark info');
     // Some PDFs (especially malformed or heavily-optimized ones) don't
-    // expose a struct tree API cleanly — skip rather than report a false "No".
+    // expose mark info cleanly — skip rather than report a false "No".
   }
 
   await doc.destroy();
