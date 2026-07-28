@@ -9,7 +9,7 @@ export function SectionHeader({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="rounded-xl border border-white/10 bg-white/5 p-2 text-blue-300">
+      <div className="rounded-xl bg-white/5 p-2 text-blue-300">
         <Icon className="h-5 w-5" />
       </div>
       <div>

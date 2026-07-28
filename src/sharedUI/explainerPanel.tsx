@@ -7,9 +7,10 @@ export type TabKey = "sip" | "lump" | "performance" | "simple" | "compound" | "d
 export function ExplainerPanel({ tabKey, explainers }: { tabKey: TabKey, explainers:any }) {
   const [open, setOpen] = useState(false);
   const content = explainers[tabKey];
+  const premiumShellClass = "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 
   return (
-    <div className="rounded-2xl border border-blue-400/20 bg-blue-400/[0.06]">
+    <div className={`${premiumShellClass} rounded-2xl border border-blue-400/20 bg-blue-400/[0.06]`}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}

@@ -13,6 +13,8 @@ import {
   ArrowDownCircle,
   ArrowUpCircle,
   Trash2,
+  SlidersHorizontal,
+  ShieldCheck,
 } from "lucide-react";
 
 import { Field } from "@/components/ui/Field";
@@ -283,29 +285,88 @@ function xirr(cashflows: CashFlow[], guess = 0.1) {
 
 const shellClass =
   "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+const premiumShellClass =
+  "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 
+// Fixed: was "px-8  p-3  text-white" — the stray px-8 wasted horizontal
+// space on every plain number input with no visible reason (no icon sits
+// in that padding), and the doubled whitespace was leftover cruft.
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-black/20 px-8  p-3  text-white outline-none transition focus:border-blue-400/40";
+  "w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none transition focus:border-blue-400/40";
 
-const cardClass = "rounded-2xl border border-white/10 bg-black/20 p-2 sm:p-2";
+// Fixed: was "p-2 sm:p-2" (identical at both breakpoints, and cramped).
+const cardClass = "rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4";
 
-function StatCard({ label, value, icon }: { label: string; value: string; icon: string }) {
+type BadgeColor = "blue" | "green" | "purple";
+
+function Badge({ color, children }: { color: BadgeColor; children: React.ReactNode }) {
+  const styles: Record<BadgeColor, string> = {
+    blue: "border-blue-400/20 bg-blue-400/10 text-blue-200",
+    green: "border-emerald-400/20 bg-emerald-400/10 text-emerald-200",
+    purple: "border-violet-400/20 bg-violet-400/10 text-violet-200",
+  };
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-medium ${styles[color]}`}>
+      {children}
+    </span>
+  );
+}
+
+// Icon-chip StatCard, matching the pattern used across the other tools
+// (icon in a bordered chip, label/value stacked beside it) instead of raw
+// emoji — emoji render inconsistently across OS/browser font sets, which
+// reads as sloppy at a glance even though the data underneath is fine.
+function StatCard({
+  label,
+  value,
+  icon: Icon,
+}: {
+  label: string;
+  value: string;
+  icon: React.ComponentType<{ className?: string }>;
+}) {
   return (
     <div className={cardClass}>
-      <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-white/45">
-        <span>{icon}</span>
-        <span>{label}</span>
+      <div className="flex items-center gap-3">
+        <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-blue-200">
+          <Icon className="h-4 w-4" />
+        </span>
+        <div className="min-w-0">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-white/45">{label}</p>
+          <p className="mt-0.5 truncate text-sm font-semibold text-white">{value}</p>
+        </div>
       </div>
-      <div className="mx-2 text-xs font-semibold text-white sm:text-sm">{value}</div>
     </div>
   );
 }
 
-function ResultBox({ label, value }: { label: string; value: string }) {
+// "gradient" tone gives a headline number (Future Value, CAGR, XIRR) the
+// same hero treatment used for the compression-result percentage elsewhere
+// — the number people actually came here for should look like a result,
+// not just another form field echo.
+function ResultBox({
+  label,
+  value,
+  tone = "neutral",
+}: {
+  label: string;
+  value: string;
+  tone?: "neutral" | "positive" | "gradient";
+}) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
       <div className="text-xs text-white/50">{label}</div>
-      <div className="mt-2 text-lg font-semibold text-white">{value}</div>
+      <div
+        className={
+          tone === "gradient"
+            ? "mt-2 bg-gradient-to-r from-emerald-300 via-white to-blue-300 bg-clip-text text-2xl font-bold tracking-tight text-transparent"
+            : tone === "positive"
+            ? "mt-2 text-lg font-semibold text-emerald-300"
+            : "mt-2 text-lg font-semibold text-white"
+        }
+      >
+        {value}
+      </div>
     </div>
   );
 }
@@ -471,8 +532,8 @@ function XirrSignLegend() {
 
 export default function InvestmentReturnsSuite() {
   const searchParams = useSearchParams();
-  
-  const getInitialActiveTab = ():TabKey  => {
+
+  const getInitialActiveTab = (): TabKey => {
     const type = searchParams.get("category")?.toLowerCase() || "";
 
     if (type === "sip") return "sip";
@@ -482,7 +543,7 @@ export default function InvestmentReturnsSuite() {
     return "sip";
   };
   const [activeTab, setActiveTab] = useState<TabKey>(() => getInitialActiveTab());
-    
+
   const chartRef = useRef<HTMLDivElement | null>(null);
 
   const [sipAmount, setSipAmount] = useState(5000);
@@ -739,30 +800,81 @@ export default function InvestmentReturnsSuite() {
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 px-3 py-3 text-white">
-      <section className={`${shellClass} mb-5 px-5 py-6`}>
+      <section className={`${premiumShellClass} mb-5 px-5 py-6`}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
-              <BarChart3 className="h-3.5 w-3.5" />
-              Private finance workspace
-            </div>
-            <p className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              Investment returns with{" "}
-              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
-                clear projections
-              </span>
-            </p>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Compare SIP, lump sum, CAGR, and XIRR — all calculations run locally in your browser.
-            </p>
-          </div>
+          <div className="grid gap-10 lg:grid-cols-[1.4fr_minmax(300px,420px)]">
+            <div className="max-w-3xl min-w-0">
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
+                <BarChart3 className="h-3.5 w-3.5" />
+                Private finance workspace
+              </div>
+              {/* Fixed: was a <p>, which is a real heading/SEO bug for the
+                  page's main title. */}
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+                Investment returns with{" "}
+                <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
+                  clear projections
+                </span>
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
+                Compare SIP, lump sum, CAGR, and XIRR — all calculations run locally in your browser.
+              </p>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <StatCard label="Mode" value={tabs.find((t) => t.id === activeTab)?.label ?? "SIP"} icon="⚙️" />
-            <StatCard label="SIP value" value={formatCurrency(sipResult.futureValue)} icon="💰" />
-            <StatCard label="Lump sum" value={formatCurrency(lumpResult)} icon="🔺" />
-            <StatCard label="XIRR" value={xirrValueText} icon="%" />
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Badge color="blue">⚡ Instant Calculations</Badge>
+                <Badge color="green">🔒 100% Private</Badge>
+                <Badge color="purple">📊 Live Charts</Badge>
+              </div>
+            </div>
+              
+            <div className="min-w-0 rounded-3xl border border-white/10 bg-black/20 p-4 backdrop-blur">
+                <div className="text-lg font-semibold text-white">Quick Overview</div>
+          
+                <div className="mt-6 space-y-4">
+                  <div className="min-w-0 flex items-start justify-between gap-3">
+                    <span className="shrink-0 text-slate-400">Mode</span>
+                    <span
+                      className={
+                        "min-w-0 break-words text-right text-emerald-300"
+                        }
+                      >
+                      {tabs.find((t) => t.id === activeTab)?.label ?? "SIP"}
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex items-start justify-between gap-3">
+                    <span className="shrink-0 text-slate-400">SIP value</span>
+                    <span
+                      className={
+                        "min-w-0 break-words text-right text-emerald-300"
+                        }
+                      >
+                      {formatCurrency(sipResult.futureValue)}
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex items-start justify-between gap-3">
+                    <span className="shrink-0 text-slate-400">Lump sum</span>
+                    <span
+                      className={
+                        "min-w-0 break-words text-right text-emerald-300"
+                        }
+                      >
+                      {formatCurrency(lumpResult)}
+                    </span>
+                  </div>
+                  <div className="min-w-0 flex items-start justify-between gap-3">
+                    <span className="shrink-0 text-slate-400">XIRR</span>
+                    <span
+                      className={
+                        "min-w-0 break-words text-right text-emerald-300"
+                        }
+                      >
+                      {xirrValueText}
+                    </span>
+                  </div>
+                </div>
+              </div>
           </div>
+          
         </div>
       </section>
 
@@ -795,7 +907,7 @@ export default function InvestmentReturnsSuite() {
           <ExplainerPanel tabKey="sip" explainers={EXPLAINERS} />
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-            <section className={shellClass}>
+            <section className={premiumShellClass}>
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
                 <SectionHeader
                   title="SIP growth calculator"
@@ -880,13 +992,13 @@ export default function InvestmentReturnsSuite() {
               </div>
 
               <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                <ResultBox label="Total invested" value={formatCurrency(sipResult.invested)} />
-                <ResultBox label="Future value (with step-up)" value={formatCurrency(sipResult.futureValue)} />
-                <ResultBox label="Wealth gain" value={formatCurrency(sipResult.gain)} />
+                <ResultBox label="Total invested" value={formatCurrency(sipResult.invested)} tone="neutral" />
+                <ResultBox label="Future value (with step-up)" value={formatCurrency(sipResult.futureValue)} tone="gradient" />
+                <ResultBox label="Wealth gain" value={formatCurrency(sipResult.gain)} tone="positive" />
               </div>
             </section>
 
-            <section className={shellClass}>
+            <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
                 <SectionHeader
                   title="Growth comparison"
@@ -932,9 +1044,9 @@ export default function InvestmentReturnsSuite() {
           <ExplainerPanel tabKey="lump" explainers={EXPLAINERS} />
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-            <section className={shellClass}>
+            <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
-                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <SectionHeader
                     title="Lump sum calculator"
                     subtitle="Project the future value of a single one-time investment."
@@ -1016,13 +1128,13 @@ export default function InvestmentReturnsSuite() {
               </div>
 
               <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                <ResultBox label="Invested amount" value={formatCurrency(lumpAmount)} />
-                <ResultBox label="Future value" value={formatCurrency(lumpResult)} />
-                <ResultBox label="Compound gain" value={formatCurrency(lumpResult - lumpAmount)} />
+                <ResultBox label="Invested amount" value={formatCurrency(lumpAmount)} tone="neutral" />
+                <ResultBox label="Future value" value={formatCurrency(lumpResult)} tone="gradient" />
+                <ResultBox label="Compound gain" value={formatCurrency(lumpResult - lumpAmount)} tone="positive" />
               </div>
             </section>
 
-            <section className={shellClass}>
+            <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
                 <SectionHeader
                   title="Value projection"
@@ -1053,10 +1165,10 @@ export default function InvestmentReturnsSuite() {
           <ExplainerPanel tabKey="performance" explainers={EXPLAINERS} />
 
           <div className="grid gap-5 xl:grid-cols-2">
-            <section className={shellClass}>
+            <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
-                
-                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <SectionHeader
                     title="CAGR calculator"
                     subtitle="Find the annualised growth rate between two values."
@@ -1131,6 +1243,7 @@ export default function InvestmentReturnsSuite() {
                       ? formatPercent(cagrResult * 100)
                       : "Enter valid values above"
                   }
+                  tone={cagrStart > 0 && cagrYears > 0 ? "gradient" : "neutral"}
                 />
                 {Number.isFinite(cagrResult) && (
                   <p className="mt-3 text-xs text-white/45">
@@ -1140,7 +1253,7 @@ export default function InvestmentReturnsSuite() {
               </div>
             </section>
 
-            <section className={shellClass}>
+            <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
                 <SectionHeader
                   title="XIRR calculator"
@@ -1202,7 +1315,7 @@ export default function InvestmentReturnsSuite() {
                   </div>
                 )}
 
-                <ResultBox label="Annualised XIRR" value={xirrValueText} />
+                <ResultBox label="Annualised XIRR" value={xirrValueText} tone={xirrMeta.status === "ok" ? "gradient" : "neutral"} />
 
                 {xirrMeta.status === "invalid" && (
                   <div className="flex items-start gap-2 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-sm text-amber-100">
