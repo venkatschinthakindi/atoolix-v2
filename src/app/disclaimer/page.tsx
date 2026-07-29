@@ -6,7 +6,7 @@ import { FloatingDock } from "@/components/layout/floatingDock";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
-const updatedAt = new Date("2026-07-12T00:00:00Z");
+const updatedAt = new Date("2026-07-28T00:00:00Z");
 
 export const metadata: Metadata = {
   title: `Disclaimer | ${siteName}`,

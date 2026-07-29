@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
-const updatedAt = new Date("2026-06-28T00:00:00Z");
+const updatedAt = new Date("2026-07-28T00:00:00Z");
 const description = `${siteName} is a browser-based utility site for PDFs, images, passport photos, signatures,
           finance calculations, and everyday math tasks. The goal is to make common jobs fast, private,
           and easy to understand`;
