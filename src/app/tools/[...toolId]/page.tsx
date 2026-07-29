@@ -25,10 +25,9 @@ export default async function ToolPage({ params }: any) {
   const rawToolId = resolvedParams.toolId;
   
   const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry};
-  const { ...toolMeta } = tool;
-  //console.warn(toolMeta);
   if (!tool) return notFound();
 
+  const { ...toolMeta } = tool;
   const softwareApplicationSchema = {
     "@context": "https://schema.org",
     "@type": tool.applicationType ?? "WebApplication",
