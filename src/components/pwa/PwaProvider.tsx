@@ -81,7 +81,6 @@ export function PwaProvider({
       }
     };
   }, []);
-
   // ----------------------------------------
   // Reload once the new SW actually takes control
   // ----------------------------------------
