@@ -1,4 +1,3 @@
-"use server";
 import { serverConfig } from "@/config/server";
 import Image from "next/image";
 import Link from "next/link";
