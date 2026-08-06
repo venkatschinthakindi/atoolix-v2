@@ -1,0 +1,61 @@
+{
+  "app": {
+    "[project]/src/app/_not-found/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/about/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/calculator/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/contact/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/datetime/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/disclaimer/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/documentation/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/finance/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/image/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/offline/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/pdf/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/privacy/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/privacysecurity/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/qrcode/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/terms/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/tools/[...toolId]/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ],
+    "[project]/src/app/tools/page": [
+      "static/media/70bc3e132a0a741e.p.3t6q91iet4nsy.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": false,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

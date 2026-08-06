@@ -1,0 +1,3 @@
+module.exports=[477561,a=>{"use strict";var b=a.i(187924),c=a.i(819721);a.s(["default",0,function({title:d,description:e,allowedFormats:f}){let g=(0,c.default)(()=>a.A(281214),{loadableGenerated:{modules:[578793]},loading:()=>null});return(0,b.jsx)(g,{config:{title:d,description:e,allowedFormats:f}})}])},281214,a=>{a.v(b=>Promise.all(["server/chunks/ssr/_0u9spcj._.js","server/chunks/ssr/src_components_tools_pdf_mergePdf_mergePdfClient_tsx_00dk45n._.js","server/chunks/ssr/_0atcui4._.js"].map(b=>a.l(b))).then(()=>b(911059)))}];
+
+//# sourceMappingURL=src_components_tools_pdf_mergePdf_1pjg4u9._.js.map
