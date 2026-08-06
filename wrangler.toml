@@ -1,8 +1,9 @@
-name = "atoolix"
+name = "atoolix-v2"
+
 compatibility_date = "2026-08-06"
 
 compatibility_flags = [
   "nodejs_compat"
 ]
 
-main = ".open-next/worker.js"
+pages_build_output_dir = ".open-next"
