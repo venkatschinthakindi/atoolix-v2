@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/generate-sw.js && next build",
+    "build-cloudflare": "node scripts/generate-sw.js && opennextjs-cloudflare build",
     "build-webpack": "node scripts/generate-sw.js && next build --webpack && node scripts/prepare-deploy.js",
     "build-analyze": "npx next experimental-analyze",
     "deploy-build": "node scripts/generate-sw.js && next build && node scripts/prepare-deploy.js",
