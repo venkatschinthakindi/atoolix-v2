@@ -1,14 +1,18 @@
+'use client';
 import { FilteredTools } from "@/components/ui/FilteredTools";
 import ToolsHubClient from "@/app/tools/ToolsHubClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
 import { FloatingButton } from "@/components/ui/floatingButton";
 import BackButton from "@/components/ui/backButton";
 
+
+
 export function FilterToolHubPage({ filterKey, showCategoryBar, title}: {
-  filterKey: string,
+  filterKey?: string,
   showCategoryBar?: boolean,
   title?: string
 }) {
+  filterKey = filterKey?? "all";
   return (
     <>
       <div className="app-container page-section">

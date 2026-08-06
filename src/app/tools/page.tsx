@@ -9,7 +9,7 @@ export const metadata = {
   alternates: {
     canonical: `${serverConfig.siteUrl}/tools`,
   },
-  robots: {
+robots: {
     index: true,
     follow: true,
   },
@@ -25,14 +25,7 @@ export default async function Page({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const params = await searchParams;
-  const categoryId = Object.entries(params).find(
-    ([key]) => key.toLowerCase() === "categoryid"
-  )?.[1];
-  const filterKey =
-    (Array.isArray(categoryId) ? categoryId[0] : categoryId)
-      ?.trim()
-      .toLowerCase() ?? "all";
+  const filterKey = "all";
   return (
     <div className="app-shell px-6">
       <div className="app-container page-section">

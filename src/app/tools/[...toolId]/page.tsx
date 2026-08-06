@@ -11,6 +11,7 @@ import { Footer } from "@/app/footer/footer";
 import { ToolHeaderFavorite } from "@/components/favorites/toolHeaderFavorite";
 import { FloatingButton } from "@/components/ui/floatingButton";
 import BackButton from "@/components/ui/backButton";
+import { tools } from "@/data/tools";
 
 export async function generateMetadata({
   params,
@@ -18,6 +19,13 @@ export async function generateMetadata({
   params: Promise<{ toolId: string }>;
 }) {
   return createMetadata(params);
+}
+export async function generateStaticParams() {
+  return tools
+    .filter((tool) => !tool.archived)
+    .map((tool) => ({
+      toolId: tool.id.split("/"),
+    }));
 }
 
 export default async function ToolPage({ params }: any) {
