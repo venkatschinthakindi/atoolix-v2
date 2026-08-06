@@ -1,6 +1,6 @@
-const nextConfig = {
-  output: "export",
+import type { NextConfig } from "next";
 
+const nextConfig: NextConfig = {
   poweredByHeader: false,
 
   compress: true,
@@ -28,15 +28,6 @@ const nextConfig = {
     qualities: [50, 60, 75, 100],
   },
 
-  // async headers() {
-  //   return [
-  //     {
-  //       source: "/:path*",
-  //       headers: [securityHeaders],
-  //     },
-  //   ];
-  // },
-
   async redirects() {
     return [
       {
@@ -58,4 +49,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
