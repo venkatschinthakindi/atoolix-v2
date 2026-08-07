@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import ToolCard from "@/components/ui/toolCard";
 import { getCachedTools } from "@/data/tools";
 
@@ -6,16 +9,26 @@ export function FilteredTools({
   filterKey,
   filteredTools,
 }: any) {
-  if(!!filteredTools){
-    filteredTools = filteredTools.filter((tool: any) => tool.archived === false);
-  }
-  else if (filterKey === "all") {
-    filteredTools = getCachedTools().filter((tool: any) => tool.archived === false);
-  }
-  else {
-    const searchKey = filterKey?.toLowerCase();
-    const tools = getCachedTools();
-    const filteredKeys = tools
+  const [resolvedFilterKey, setResolvedFilterKey] = useState((filterKey ?? "all").toLowerCase());
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const categoryId = params.get("categoryId") ?? params.get("categoryid");
+    setResolvedFilterKey((categoryId?.trim().toLowerCase() ?? (filterKey ?? "all")).toLowerCase());
+  }, [filterKey]);
+
+  const visibleTools = useMemo(() => {
+    if (!!filteredTools) {
+      return filteredTools.filter((tool: any) => tool.archived === false);
+    }
+
+    const allTools = getCachedTools();
+    if (resolvedFilterKey === "all") {
+      return allTools.filter((tool: any) => tool.archived === false);
+    }
+
+    const searchKey = resolvedFilterKey?.toLowerCase();
+    const filteredKeys = allTools
       .filter(
         (tool) =>
           tool.id.toLowerCase().startsWith(searchKey) ||
@@ -23,12 +36,12 @@ export function FilteredTools({
       )
       .map((tool) => tool.id);
 
-    filteredTools = tools.filter((tool) => tool.archived === false && filteredKeys.includes(tool.id));
-  }
+    return allTools.filter((tool) => tool.archived === false && filteredKeys.includes(tool.id));
+  }, [filteredTools, resolvedFilterKey]);
 
   return (
     <div className="tool-grid">
-      {filteredTools.map((tool: any) => (
+      {visibleTools.map((tool: any) => (
         <Link
           key={tool.id}
           href={`/tools/${tool.id}`}
