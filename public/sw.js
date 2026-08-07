@@ -1,6 +1,6 @@
 /* atoolix Service Worker */
 
-const CACHE_VERSION = "a0d43054be3742f9";
+const CACHE_VERSION = "4360386ab4850875";
 const CACHE_NAME = `atoolix-${CACHE_VERSION}`;
 const APP_SHELL = [
   "/offline",
@@ -15,41 +15,16 @@ const APP_SHELL = [
   "/screenshots/mobile-home.png",
     "/toolimages/background-remover.png",
   "/toolimages/calculator.png",
-  "/toolimages/compress-image-to-100kb.png",
-  "/toolimages/compress-image-to-20kb.png",
-  "/toolimages/compress-image-to-50kb.png",
-  "/toolimages/compress-image.png",
-  "/toolimages/compress-jpg.png",
-  "/toolimages/compress-pdf.png",
-  "/toolimages/compress-png.png",
-  "/toolimages/compress-webp.png",
   "/toolimages/converter.png",
   "/toolimages/emi-calculator.png",
   "/toolimages/fd-calculator.png",
   "/toolimages/file-analyzer.png",
-  "/toolimages/image-to-pdf.png",
-  "/toolimages/jpg-to-pdf.png",
-  "/toolimages/jpg-to-png.png",
-  "/toolimages/jpg-to-webp.png",
   "/toolimages/meeting-time-finder.png",
-  "/toolimages/merge-pdf.png",
   "/toolimages/passport-photo-resizer.png",
-  "/toolimages/png-to-jpeg.png",
-  "/toolimages/png-to-jpg.png",
-  "/toolimages/png-to-pdf.png",
-  "/toolimages/png-to-webp.png",
   "/toolimages/qr-code-generator.png",
-  "/toolimages/resize-signature-for-upload.png",
   "/toolimages/retirement-calculator.png",
   "/toolimages/roi-calculator.png",
-  "/toolimages/split-pdf.png",
-  "/toolimages/svg-to-jpg.png",
-  "/toolimages/svg-to-png.png",
-  "/toolimages/timezone-converter.png",
-  "/toolimages/webp-to-jpeg.png",
-  "/toolimages/webp-to-jpg.png",
-  "/toolimages/webp-to-pdf.png",
-  "/toolimages/webp-to-png.png"
+  "/toolimages/timezone-converter.png"
 ];
 
 // Paths under these prefixes are never cached — page shell, RSC payloads,
