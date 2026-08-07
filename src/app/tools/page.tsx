@@ -16,16 +16,14 @@ robots: {
 };
 
 type PageProps = {
-  params: Promise<{}>;
-  searchParams: Promise<{ categoryId?: string }>;
+  params?: Record<string, string | string[] | undefined>;
+  searchParams?: Record<string, string | string[] | undefined>;
 };
 
-export default async function Page({
+export default function Page({
   searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const params = await searchParams;
+}: PageProps) {
+  const params = searchParams ?? {};
   const categoryId = Object.entries(params).find(
     ([key]) => key.toLowerCase() === "categoryid"
   )?.[1];
