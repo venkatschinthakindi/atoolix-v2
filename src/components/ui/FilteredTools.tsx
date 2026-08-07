@@ -12,12 +12,9 @@ export function FilteredTools({
   const [resolvedFilterKey, setResolvedFilterKey] = useState((filterKey ?? "all").toLowerCase());
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     const params = new URLSearchParams(window.location.search);
     const categoryId = params.get("categoryId") ?? params.get("categoryid");
-    const normalizedCategory = (categoryId?.trim().toLowerCase() || "all");
-    setResolvedFilterKey(normalizedCategory);
+    setResolvedFilterKey((categoryId?.trim().toLowerCase() ?? (filterKey ?? "all")).toLowerCase());
   }, [filterKey]);
 
   const visibleTools = useMemo(() => {
