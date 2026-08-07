@@ -5,7 +5,7 @@ import { generateMetadata as createMetadata } from "@/utility/metadata";
 import { ToolRegistryEntry } from "@/data/tools";
 import { serverConfig } from "@/config/server";
 import ToolPageClientShell from "./ToolPageClientShell";
-// import ToolPageClientShell from "@/app/tools/[...toolId]/ToolPageClientShell";
+import { Footer } from "@/app/footer/footer";
 export async function generateMetadata({
   params,
 }: {
@@ -57,6 +57,7 @@ export default async function ToolPage({ params }: any) {
   return (
     <>
       <ToolPageClientShell tool={tool} toolId={toolId} toolMeta={toolMeta} siteUrl={serverConfig.siteUrl} />
+      <Footer />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

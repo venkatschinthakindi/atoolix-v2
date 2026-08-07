@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "node scripts/generate-sw.js && next build",
-    "build-cloudflare": "node scripts/generate-sw.js && opennextjs-cloudflare build && cp .open-next/worker.js .open-next/_worker.js && rm -rf .next/cache",
+    "build-cloudflare": "node scripts/generate-sw.js && opennextjs-cloudflare build && node scripts/prepare-cloudflare.js",
     "build-webpack": "node scripts/generate-sw.js && next build --webpack && node scripts/prepare-deploy.js",
     "build-analyze": "npx next experimental-analyze",
     "deploy-build": "node scripts/generate-sw.js && next build && node scripts/prepare-deploy.js",

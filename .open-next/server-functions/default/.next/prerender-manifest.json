@@ -118,7 +118,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 679404,
+      "htmlSize": 679739,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -174,7 +174,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 679415,
+      "htmlSize": 679750,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -290,7 +290,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 684565,
+      "htmlSize": 684900,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -318,7 +318,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 717015,
+      "htmlSize": 717350,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -406,7 +406,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 684015,
+      "htmlSize": 684350,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -462,7 +462,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 677238,
+      "htmlSize": 677573,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -490,7 +490,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 677361,
+      "htmlSize": 677696,
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -610,7 +610,7 @@
       "routeType": "page",
       "response": "complete",
       "compute": "static",
-      "htmlSize": 751295,
+      "htmlSize": 751630,
       "experimentalBypassFor": [
         {
           "type": "header",

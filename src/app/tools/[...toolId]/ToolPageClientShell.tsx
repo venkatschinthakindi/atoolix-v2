@@ -1,29 +1,19 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import ToolLoader from "@/components/tools/ToolLoader";
 import { FloatingButton } from "@/components/ui/floatingButton";
 import BackButton from "@/components/ui/backButton";
 import type { ToolRegistryEntry } from "@/data/tools";
+import ToolRendererHost from "@/app/tools/[...toolId]/ToolRendererHost";
 
 const FloatingDock = dynamic(
   () => import("@/components/layout/floatingDock").then((mod) => mod.FloatingDock),
   { loading: () => null }
 );
 
-const Footer = dynamic(
-  () => import("@/app/footer/footer").then((mod) => mod.Footer),
-  { loading: () => null }
-);
-
 const ToolHeaderFavorite = dynamic(
   () => import("@/components/favorites/toolHeaderFavorite").then((mod) => mod.ToolHeaderFavorite),
   { loading: () => null }
-);
-
-const ToolRendererClient = dynamic(
-  () => import("@/components/tools/toolRendererClient"),
-  { loading: () => <ToolLoader />, ssr: false }
 );
 
 
@@ -62,8 +52,7 @@ export default function ToolPageClientShell({
           <p className="text-white/70 text-sm text-center max-w-3xl mx-auto leading-relaxed">
             {tool.description}
           </p>
-          <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
-          <Footer />
+          <ToolRendererHost toolId={toolId} toolMeta={toolMeta} />
         </div>
       </div>
     </>
