@@ -1,3 +1,0 @@
-module.exports=[646471,a=>{"use strict";var b=a.i(187924);let c=(0,a.i(819721).default)(async()=>{},{loadableGenerated:{modules:[112412]},ssr:!1});a.s(["default",0,function({initialExpression:a,theme:d,title:e,description:f,allowedFormats:g,defaultQuality:h,mode:i,targetKB:j,lockTarget:k}){return(0,b.jsx)(c,{config:{title:e,description:f,allowedFormats:g,defaultQuality:h,mode:i,targetKB:j,lockTarget:k}})}])}];
-
-//# sourceMappingURL=src_components_tools_image_imageCompressor_ImageCompressor_tsx_1s06i8p._.js.map

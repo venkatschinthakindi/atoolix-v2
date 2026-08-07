@@ -15,7 +15,7 @@ export type ToolRendererClientProps = {
 const createDynamicTool = (loader: () => Promise<{ default: ComponentType<any> }>) =>
   dynamic(loader as any, {
     loading: () => <ToolLoader />,
-    ssr: true,
+    ssr: false,
   });
 
 const toolComponentMap: Record<string, ComponentType<any>> = {

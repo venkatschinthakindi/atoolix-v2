@@ -23,7 +23,7 @@ const ToolHeaderFavorite = dynamic(
 
 const ToolRendererClient = dynamic(
   () => import("@/components/tools/toolRendererClient"),
-  { loading: () => <ToolLoader /> }
+  { loading: () => <ToolLoader />, ssr: false }
 );
 
 
