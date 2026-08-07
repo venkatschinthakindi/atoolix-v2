@@ -5,7 +5,6 @@ import { useMemo, type ComponentType } from "react";
 import { ToolContextProvider } from "@/context/ToolContext";
 import ToolLoader from "@/components/tools/ToolLoader";
 import { ToolRegistryEntry } from "@/data/tools";
-import { clientToolLoaders } from "@/data/clientToolLoaders";
 
 type ToolMeta = Omit<ToolRegistryEntry, "loader">;
 export type ToolRendererClientProps = {
@@ -13,7 +12,51 @@ export type ToolRendererClientProps = {
   toolMeta?: ToolMeta;
 };
 
-const dynamicComponentCache = new Map<string, ComponentType<any>>();
+const createDynamicTool = (loader: () => Promise<{ default: ComponentType<any> }>) =>
+  dynamic(loader as any, {
+    loading: () => <ToolLoader />,
+    ssr: true,
+  });
+
+const toolComponentMap: Record<string, ComponentType<any>> = {
+  "privacysecurity/file-analyzer": createDynamicTool(() => import("@/components/tools/privacysecurity/fileAnalyzer")),
+  "calculator/emi-calculator": createDynamicTool(() => import("@/components/tools/emiCalculator/EMICalculator")),
+  "calculator/roi-calculator": createDynamicTool(() => import("@/components/tools/financeSuite/investment/investmentReturnsSuite")),
+  "calculator/fd-calculator": createDynamicTool(() => import("@/components/tools/financeSuite/savings/savingsDepositsSuite")),
+  "calculator/retirement-calculator": createDynamicTool(() => import("@/components/tools/financeSuite/retirement/retirementWealthSuite")),
+  "pdf/split-pdf": createDynamicTool(() => import("@/components/tools/pdf/splitPdf/splitPdf")),
+  "pdf/merge-pdf": createDynamicTool(() => import("@/components/tools/pdf/mergePdf/mergePdf")),
+  "pdf/compress-pdf": createDynamicTool(() => import("@/components/tools/pdf/compress-pdf/CompressPDF")),
+  "image/image-to-pdf": createDynamicTool(() => import("@/components/tools/pdf/image-to-pdf/ImageToPDF")),
+  "image/jpg-to-pdf": createDynamicTool(() => import("@/components/tools/pdf/image-to-pdf/ImageToPDF")),
+  "image/png-to-pdf": createDynamicTool(() => import("@/components/tools/pdf/image-to-pdf/ImageToPDF")),
+  "image/webp-to-pdf": createDynamicTool(() => import("@/components/tools/pdf/image-to-pdf/ImageToPDF")),
+  "qrcode/qr-code-generator": createDynamicTool(() => import("@/components/tools/qrCode/QrCode")),
+  calculator: createDynamicTool(() => import("@/components/tools/calculator/Calculator")),
+  converter: createDynamicTool(() => import("@/components/tools/converter/UnitConverter")),
+  "image/jpg-to-png": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/png-to-jpg": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/png-to-jpeg": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/jpg-to-webp": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/png-to-webp": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/webp-to-jpg": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/webp-to-jpeg": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/webp-to-png": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/svg-to-png": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/svg-to-jpg": createDynamicTool(() => import("@/components/tools/image/imageConverter/ImageConverter")),
+  "image/compress-image": createDynamicTool(() => import("@/components/tools/image/imageCompressor/ImageCompressor")),
+  "image/compress-jpg": createDynamicTool(() => import("@/components/tools/image/imageCompressor/ImageCompressor")),
+  "image/compress-png": createDynamicTool(() => import("@/components/tools/image/imageCompressor/ImageCompressor")),
+  "image/compress-webp": createDynamicTool(() => import("@/components/tools/image/imageCompressor/ImageCompressor")),
+  "image/compress-image-to-20kb": createDynamicTool(() => import("@/components/tools/image/imageCompressor/ImageCompressor")),
+  "image/compress-image-to-50kb": createDynamicTool(() => import("@/components/tools/image/imageCompressor/ImageCompressor")),
+  "image/compress-image-to-100kb": createDynamicTool(() => import("@/components/tools/image/imageCompressor/ImageCompressor")),
+  "image/passport-photo-resizer": createDynamicTool(() => import("@/components/tools/image/passpoerPhotoResizer/passpoerPhotoCompressor")),
+  "image/resize-signature-for-upload": createDynamicTool(() => import("@/components/tools/image/signatureResizer/signatureCompressor")),
+  "image/background-remover": createDynamicTool(() => import("@/components/tools/image/backgroundRemover/backgroundRemover")),
+  "datetime/timezone-converter": createDynamicTool(() => import("@/components/tools/dateTime/timezone-converter/timezoneConverter")),
+  "datetime/meeting-time-finder": createDynamicTool(() => import("@/components/tools/dateTime/meeting-time-finder/meetingTimeFinder")),
+};
 
 const services = {
   api: {
@@ -37,31 +80,10 @@ export default function ToolRendererClient({
   toolId,
   toolMeta,
 }: ToolRendererClientProps) {
-  // Loader functions can't be passed as server->client props, so we still
-  // need one client-side registry lookup — but only for the loader itself,
-  // not for metadata (that arrives pre-resolved via toolMeta).
-  const loader = useMemo(() => {
-    //console.warn(toolId);
-    if (!toolId) return null;
-    const tool = clientToolLoaders.get(toolId);;
-    //console.warn(tool);
-    return tool;
-  }, [toolId]);
-
   const DynamicComp = useMemo(() => {
-    if (!toolId || !loader) return null;
-
-    const cached = dynamicComponentCache.get(toolId);
-    if (cached) return cached;
-
-    const component = dynamic(loader as any, {
-      loading: () => <ToolLoader />,
-      ssr: true,
-    }) as any;
-
-    dynamicComponentCache.set(toolId, component);
-    return component;
-  }, [toolId, loader]);
+    if (!toolId) return null;
+    return toolComponentMap[toolId] ?? null;
+  }, [toolId]);
 
   if (!toolMeta || !DynamicComp) return null;
 
