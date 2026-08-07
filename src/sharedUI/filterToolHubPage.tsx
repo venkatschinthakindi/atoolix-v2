@@ -1,4 +1,5 @@
 'use client';
+import "@/utility/pascalCase";
 import { FilteredTools } from "@/components/ui/FilteredTools";
 import ToolsHubClient from "@/app/tools/ToolsHubClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
