@@ -1,7 +1,7 @@
 "use client";
 
 import { CopyButton } from "@/components/ui/copyButton";
-import { FileUp, Scan } from "lucide-react";
+import { Scan } from "lucide-react";
 import { memo, useRef } from "react";
 
 type Props = {

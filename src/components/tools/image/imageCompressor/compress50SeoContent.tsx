@@ -5,58 +5,6 @@ const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/image-compressor-50kb";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
-
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Compress JPG, JPEG, WebP & PNG to 50 KB Online",
-//   description:
-//     "Compress JPG, JPEG, WebP, and PNG images to a target size of 50 KB with preview, transparency support, and instant download. Ideal for uploads, forms, email, and websites.",
-//   keywords: [
-//     "compress image to 50kb",
-//     "jpg compressor 50kb",
-//     "jpeg compressor 50kb",
-//     "webp compressor 50kb",
-//     "png compressor 50kb",
-//     "compress jpg to target size",
-//     "compress png to target size",
-//     "image size reducer",
-//     "compress image online",
-//     "target file size compressor",
-//     "reduce image size to kb",
-//     "browser image compressor",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "Image Compressor to 50 KB",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Compress JPG, JPEG, WebP & PNG to 50 KB Online",
-//     description:
-//       "Compress JPG, JPEG, WebP, and PNG images to a target size of 50 KB with preview, transparency support, and instant download. Ideal for uploads, forms, email, and websites.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Compress JPG, JPEG, WebP & PNG to 50 KB Online",
-//     description:
-//       "Compress JPG, JPEG, WebP, and PNG images to a target size of 50 KB with preview, transparency support, and instant download.",
-//   },
-// };
-
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };
 type FeatureItem = { title: string; desc: string; icon: string };

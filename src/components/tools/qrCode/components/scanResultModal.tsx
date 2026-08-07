@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { ScanActionType } from "@/components/tools/qrCode/qrTypes";
-import { Check, Copy } from "lucide-react";
 import { CopyButton } from "@/components/ui/copyButton";
 
 type Props = {

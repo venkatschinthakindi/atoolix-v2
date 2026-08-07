@@ -9,19 +9,6 @@ export interface PdfTextAnalysis {
   extractedText: string;
 }
 
-/**
- * Searchable-text / OCR-needed detection for PDFs (Quality + Accessibility
- * modules) via pdf.js's real text layer — a deterministic character count,
- * not a guess.
- *
- * NOTE: this file used to also do heuristic watermark detection (repeated
- * overlay text, diagonal rotation, keyword matching). That's intentionally
- * removed: it's a heuristic that can misfire on legitimate diagonal design
- * elements or repeated headers, which doesn't clear this product's ">95%
- * confidence, doesn't pretend to know things it can't" bar. If watermark
- * detection comes back later, it should be its own opt-in module clearly
- * labeled as a heuristic, not bundled into a check users treat as fact.
- */
 export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer, totalPageCount: number): Promise<PdfTextAnalysis> {
   const findings: Finding[] = [];
   const facts: Record<string, string> = {};
@@ -61,9 +48,7 @@ export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer, totalPa
       section: 'accessibility',
     });
   } else {
-    // Only meaningful once we know this ISN'T a scanned document overall —
-    // otherwise every page in a scan would trivially look "blank" by this
-    // metric, which isn't what this finding means.
+
     const blankPageNumbers = perPageTextLength.map((len, idx) => (len === 0 ? idx + 1 : null)).filter((n): n is number => n !== null);
     if (blankPageNumbers.length > 0) {
       findings.push({
@@ -80,12 +65,6 @@ export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer, totalPa
     facts['Pages Scanned for Text'] = `${MAX_PAGES_SCANNED} of ${doc.numPages} (capped for performance)`;
   }
 
-  // Tagged-PDF check: presence of a structure tree is what lets screen
-  // readers understand heading levels and reading order. This is a direct,
-  // deterministic API result from pdf.js, not a guess.
-  // Tagged-PDF check: /MarkInfo.Marked is what tells readers/screen-readers
-  // this PDF has a structure tree. This is a direct, deterministic API result
-  // from pdf.js, not a guess.
   try {
     const markInfo = await doc.getMarkInfo();
     const isTagged = !!markInfo?.Marked;

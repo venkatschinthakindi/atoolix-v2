@@ -37,9 +37,6 @@ export const pdfAnalyzer: Analyzer = {
     facts['Pages'] = String(doc.getPageCount());
     facts['Encrypted'] = isEncrypted ? 'Yes' : 'No';
 
-    // --- PDF version (File Identity: "file version, where available") -----
-    // The version is a literal part of the file header — "%PDF-1.7" etc. —
-    // so this is a direct read, not an inference.
     try {
       const header = new TextDecoder('ascii').decode(ctx.arrayBuffer.slice(0, 16));
       const versionMatch = header.match(/%PDF-(\d\.\d)/);
@@ -47,13 +44,6 @@ export const pdfAnalyzer: Analyzer = {
     } catch {
       // Non-fatal — version is a nice-to-have fact.
     }
-
-    // --- Missing EOF marker -------------------------------------------------
-    // A well-formed PDF ends with "%%EOF". pdf-lib is intentionally lenient
-    // and will often still open a file missing this marker, so a PDF can
-    // pass the parse step above and STILL be a truncated/incomplete file —
-    // this catches that case specifically rather than relying on pdf-lib's
-    // tolerance as a proxy for "the file is actually complete."
     try {
       const tailBytes = ctx.arrayBuffer.slice(Math.max(0, ctx.arrayBuffer.byteLength - 32));
       const tail = new TextDecoder('ascii', { fatal: false }).decode(tailBytes);
@@ -70,14 +60,6 @@ export const pdfAnalyzer: Analyzer = {
       // Non-fatal — this is a supplementary signal, not the primary parse check.
     }
 
-    // --- Coarse object-count consistency -----------------------------------
-    // Cross-checks the object count the trailer's xref table claims against
-    // how many "N 0 obj" declarations actually exist in the raw bytes. This
-    // is intentionally approximate (object streams and cross-reference
-    // streams in newer PDFs make an exact count harder without a full xref
-    // parser), so it's reported as informational, not a hard failure — a
-    // real mismatch is still a meaningful "something's structurally off"
-    // signal even at this resolution.
     try {
       const raw = new TextDecoder('latin1').decode(ctx.arrayBuffer);
       const sizeMatch = raw.match(/\/Size\s+(\d+)/);
@@ -238,12 +220,6 @@ export const pdfAnalyzer: Analyzer = {
         fixId: 'strip-pdf-actions',
       });
     }
-
-    // --- Searchable-text / OCR-needed check via pdfjs -------------------------
-    // Isolated in its own try/catch: pdf-lib-based checks above are more
-    // reliable across malformed PDFs, so a pdfjs-specific failure shouldn't
-    // take down the whole report — it just means this section is skipped
-    // and surfaced as its own finding instead of silently vanishing.
     try {
       const { findings: textFindings, facts: textFacts, extractedText } = await analyzePdfSearchableText(
         ctx.arrayBuffer,
@@ -278,12 +254,6 @@ export const pdfAnalyzer: Analyzer = {
   },
 };
 
-/**
- * Cheap, bounded scan for PDF dictionary keys (/JavaScript, /EmbeddedFile).
- * PDFs are not valid UTF-8 in general, so we decode as latin1 (byte-preserving)
- * over a capped window rather than the whole buffer, to keep this fast on
- * very large files.
- */
 function bufferToLatin1Preview(buffer: ArrayBuffer, maxBytes = 5_000_000): string {
   const bytes = new Uint8Array(buffer, 0, Math.min(buffer.byteLength, maxBytes));
   let out = '';

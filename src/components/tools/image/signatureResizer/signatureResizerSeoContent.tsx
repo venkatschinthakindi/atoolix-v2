@@ -6,65 +6,6 @@ const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/signature-resizer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Free Signature Resizer Online – Resize Signature to Exact KB & Dimensions for Forms",
-//   description:
-//     "Resize signature images online for free with exact width, height, and file size control. Crop, compress, preview instantly, and download JPG, JPEG, PNG, or WebP signatures for SSC, IBPS, RRB, UPSC, admission forms, and government uploads.",
-//   keywords: [
-//     "signature resizer",
-//     "resize signature online",
-//     "signature size converter",
-//     "signature resize to 10kb",
-//     "signature resize to 20kb",
-//     "signature resize to 50kb",
-//     "signature resize to 100kb",
-//     "signature resize to 300x80",
-//     "signature resize to 140x60",
-//     "signature resize for forms",
-//     "digital signature resizer",
-//     "signature crop online",
-//     "signature file size reducer",
-//     "signature size for exam forms",
-//     "SSC signature size",
-//     "IBPS signature size",
-//     "RRB signature size",
-//     "UPSC signature size",
-//     "State PSC signature size",
-//     "university admission signature size",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "Signature Resizer",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Free Signature Resizer Online – Resize Signature to Exact KB & Dimensions for Forms",
-//     description:
-//       "Resize signature images online for free with exact width, height, and file size control. Crop, compress, preview instantly, and download JPG, JPEG, PNG, or WebP signatures for SSC, IBPS, RRB, UPSC, admission forms, and government uploads.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Free Signature Resizer Online – Resize Signature to Exact KB & Dimensions for Forms",
-//     description:
-//       "Resize signature images online for free with exact width, height, and file size control. Crop, compress, preview instantly, and download JPG, JPEG, PNG, or WebP signatures for SSC, IBPS, RRB, UPSC, admission forms, and government uploads.",
-//   },
-// };
-
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };
 

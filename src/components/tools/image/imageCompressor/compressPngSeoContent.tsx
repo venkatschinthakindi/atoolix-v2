@@ -6,63 +6,6 @@ const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/png-compressor";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Free PNG Compressor Online – Compress PNG Images with Transparency",
-//   description:
-//     "Compress PNG images online for free while preserving transparency and crisp detail. Reduce PNG file size for logos, screenshots, icons, and graphics with preview and instant download.",
-//   keywords: [
-//     "png compressor",
-//     "compress png",
-//     "compress png online",
-//     "free png compressor",
-//     "reduce png file size",
-//     "png size reducer",
-//     "optimize png",
-//     "png optimizer",
-//     "compress png with transparency",
-//     "compress transparent png",
-//     "compress png screenshots",
-//     "compress png logos",
-//     "compress png icons",
-//     "compress png for website",
-//     "compress png for email",
-//     "browser png compressor",
-//     "preview png compression",
-//     "lossless png compressor",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "PNG Compressor with Preview",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Free PNG Compressor Online – Compress PNG Images with Transparency",
-//     description:
-//       "Compress PNG images online for free while preserving transparency and crisp detail. Reduce PNG file size for logos, screenshots, icons, and graphics with preview and instant download.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Free PNG Compressor Online – Compress PNG Images with Transparency",
-//     description:
-//       "Compress PNG images online for free while preserving transparency and crisp detail. Reduce PNG file size for logos, screenshots, icons, and graphics with preview and instant download.",
-//   },
-// };
-
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };
 type FeatureItem = { title: string; desc: string; icon: string };

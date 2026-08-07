@@ -1,62 +1,9 @@
-import type { Metadata } from "next";
 import { serverConfig } from "@/config/server";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
 const canonicalPath = "/tools/image-compressor-20kb";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
-
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Compress JPG, JPEG, WebP & PNG to 20 KB Online",
-//   description:
-//     "Compress JPG, JPEG, WebP, and PNG images to a strict target size of 20 KB with preview, transparency support, and instant download. Built for signatures, passport photos, and official uploads.",
-//   keywords: [
-//     "compress image to 20kb",
-//     "jpg compressor 20kb",
-//     "jpeg compressor 20kb",
-//     "webp compressor 20kb",
-//     "png compressor 20kb",
-//     "image to 20kb",
-//     "compress photo to 20kb",
-//     "resize image to 20kb",
-//     "target size image compressor",
-//     "official upload image size",
-//     "passport photo compressor",
-//     "signature image compressor",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "Image Compressor to 20 KB",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Compress JPG, JPEG, WebP & PNG to 20 KB Online",
-//     description:
-//       "Compress JPG, JPEG, WebP, and PNG images to a strict target size of 20 KB with preview, transparency support, and instant download.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Compress JPG, JPEG, WebP & PNG to 20 KB Online",
-//     description:
-//       "Compress JPG, JPEG, WebP, and PNG images to a strict target size of 20 KB with preview, transparency support, and instant download.",
-//   },
-// };
-
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };
 type FeatureItem = { title: string; desc: string; icon: string };
