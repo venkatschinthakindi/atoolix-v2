@@ -2,10 +2,19 @@
 import { notFound } from "next/navigation";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
-import { ToolRegistryEntry } from "@/data/tools";
+import { getCachedTools, ToolRegistryEntry } from "@/data/tools";
 import { serverConfig } from "@/config/server";
 import ToolPageClientShell from "./ToolPageClientShell";
 import { Footer } from "@/app/footer/footer";
+
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return getCachedTools()
+    .filter((tool) => !tool.archived)
+    .map((tool) => ({ toolId: tool.id.split("/") }));
+}
+
 export async function generateMetadata({
   params,
 }: {
