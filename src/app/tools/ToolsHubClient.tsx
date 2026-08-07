@@ -7,9 +7,8 @@ import { useRouter } from "next/navigation";
 export default function ToolsHubClient({ filterKey}: {
   filterKey: string
 }) {
-  const toolId = filterKey?.toLowerCase() || "all";
-  
   const router = useRouter();
+  const toolId = filterKey?.toLowerCase() || "all";
 
   const categories = [
     {
@@ -20,19 +19,25 @@ export default function ToolsHubClient({ filterKey}: {
     }, 
     ...categoryIcons.map(cat => ({ ...cat, id: cat.id.toLowerCase() }))
   ];
-  // Find the category from URL params (search in categories, not just categoryIcons)
   const matchedCategory = categories.find(c => c.id === toolId);
-  
   const [activeCategory, setActiveCategory] = useState(matchedCategory?.id?.toLowerCase() || "all");
-  //console.warn(matchedCategory);
-  // Prevent infinite loop: only update URL when activeCategory changes from user click
+
   useEffect(() => {
-    let filteredURL = `/tools?categoryid=all`;
-    if (!!toolId && toolId !== activeCategory) {
-      filteredURL = `/tools?categoryid=${activeCategory}`;
-      router.push(filteredURL, { scroll: false });
+    const nextCategory = matchedCategory?.id?.toLowerCase() || "all";
+    setActiveCategory(nextCategory);
+  }, [toolId]);
+
+  useEffect(() => {
+    const currentUrl = new URL(window.location.href);
+    const currentCategory = currentUrl.searchParams.get("categoryId") ?? currentUrl.searchParams.get("categoryid");
+    const normalizedCurrent = (currentCategory?.trim().toLowerCase() || "all");
+
+    if (normalizedCurrent !== activeCategory) {
+      const nextUrl = new URL(window.location.href);
+      nextUrl.searchParams.set("categoryid", activeCategory);
+      router.replace(nextUrl.pathname + nextUrl.search, { scroll: false });
     }
-  }, [activeCategory]);
+  }, [activeCategory, router]);
 
   return (
     <div>
