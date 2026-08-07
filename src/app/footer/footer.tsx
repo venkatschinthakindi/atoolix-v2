@@ -1,4 +1,3 @@
-import { serverConfig } from "@/config/server";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,6 +16,7 @@ const popularTools = [
 
 export async function Footer() {
   const year = new Date().getFullYear();
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? "Atoolix";
 
   return (
   <footer className="footer-panel relative overflow-hidden">
@@ -132,7 +132,7 @@ export async function Footer() {
       <div className="space-y-1 text-center md:text-left">
 
         <small>
-          © {year} {serverConfig.siteName.toPascalCase()}
+          © {year} {siteName.toPascalCase()}
         </small>
         <small className="block">
            Free • Fast • Secure <b>- </b>Your Files Never Leave Your Device
