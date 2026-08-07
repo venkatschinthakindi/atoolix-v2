@@ -25,10 +25,17 @@ export default async function Page({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const filterKey = "all";
+  const params = await searchParams;
+  const categoryId = Object.entries(params).find(
+    ([key]) => key.toLowerCase() === "categoryid"
+  )?.[1];
+  const filterKey =
+    (Array.isArray(categoryId) ? categoryId[0] : categoryId)
+      ?.trim()
+      .toLowerCase() ?? "all";
   return (
     <div className="app-shell px-6">
-      <div className="app-container page-section">
+      <div className="app-container page-section"> 
         <FilterToolHubPage filterKey={filterKey} showCategoryBar={true} />
         <Footer />
       </div>
