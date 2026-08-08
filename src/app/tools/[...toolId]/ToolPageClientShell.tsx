@@ -1,5 +1,3 @@
-"use client";
-
 import dynamic from "next/dynamic";
 import { FloatingButton } from "@/components/ui/floatingButton";
 import BackButton from "@/components/ui/backButton";
@@ -8,6 +6,10 @@ import ToolRendererHost from "@/app/tools/[...toolId]/ToolRendererHost";
 
 const FloatingDock = dynamic(
   () => import("@/components/layout/floatingDock").then((mod) => mod.FloatingDock),
+  { loading: () => null }
+);
+const ToolSeoContent = dynamic(
+  () => import("@/app/tools/[...toolId]/ToolSeoContent").then((mod) => mod.default),
   { loading: () => null }
 );
 
@@ -53,6 +55,7 @@ export default function ToolPageClientShell({
             {tool.description}
           </p>
           <ToolRendererHost toolId={toolId} toolMeta={toolMeta} />
+          <ToolSeoContent toolId={toolId} />
         </div>
       </div>
     </>
