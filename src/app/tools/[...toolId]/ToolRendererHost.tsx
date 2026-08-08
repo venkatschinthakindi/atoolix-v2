@@ -14,8 +14,7 @@ type ToolRendererHostProps = {
 const ToolRendererClient = dynamic(
   () => import("@/components/tools/toolRendererClient"),
   {
-    loading: () => <ToolLoader />,
-    ssr: false,
+    loading: () => <ToolLoader />
   }
 );
 
