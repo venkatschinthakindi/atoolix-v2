@@ -113,10 +113,11 @@ export const tools: ToolRegistryEntry[] = [
     id: "privacysecurity/file-analyzer",
     archived: false,
     // loader: () => import("@/components/tools/fileAnalyzer/FileAnalyzer"),
-    title: "File privacy & security analyzer - scan your file before you send it with One-Click Fix",
+    title: "File Privacy Checker & Analyzer – Check Your File Before Sharing",
     toolShortName: "File Analyzer",
-    onPageTitle: "Know what's inside your file before you share it—and fix issues with one click.",
-    description: "A complete health, privacy, quality, and compatibility check for any file — entirely in your browser.",
+    onPageTitle: "Check Your File for Privacy & Security Issues Before You Share It",
+    description:
+      "Analyze files for hidden metadata, privacy risks, quality, and compatibility issues directly in your browser. Review and fix supported issues before sharing.",
     icon: "ShieldCheck",
     keywords: [
       "remove exif data online",
@@ -751,11 +752,11 @@ export const tools: ToolRegistryEntry[] = [
     archived: false,
     icon: "Globe",
     //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
-    title: "Timezone Converter Online | Convert Time Between Time Zones Instantly",
+    title: "Timezone Converter – Convert Time Between Time Zones",
     toolShortName: "Timezone Converter",
-    onPageTitle: "Timezone Converter | Convert Time Across Multiple Zones Instantly",
+    onPageTitle: "Timezone Converter – Convert Time Across Multiple Time Zones",
     description:
-      "Free timezone converter to instantly convert time between world time zones. Compare local time, UTC offset, and daylight saving time (DST) changes for up to 10 zones at once — copy results or share a link.",
+      "Free timezone converter to convert time between multiple time zones instantly. Compare local times, UTC offsets, and daylight saving time (DST) for up to 10 locations, then copy or share your results.",
     keywords: [
       "timezone converter",
       "time zone converter",
@@ -792,11 +793,11 @@ export const tools: ToolRegistryEntry[] = [
     archived: false,
     icon: "CalendarClock",
     //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
-    title: "Meeting Time Finder | Find the Best Meeting Time Across Time Zones",
+    title: "Meeting Time Finder – Find the Best Time Across Time Zones",
     toolShortName: "Meeting Time Finder",
-    onPageTitle: "Meeting Time Finder | Schedule Meetings Across Time Zones",
+    onPageTitle: "Meeting Time Finder – Find the Best Time Across Time Zones",
     description:
-      "Find overlapping working hours across multiple time zones automatically. Set working days and hours per zone, apply meeting templates, and export a CSV comparison or a .ics calendar invite — built for scheduling global team meetings, interviews, and calls.",
+      "Find the best meeting time across multiple time zones by comparing working hours and availability. Set working days and hours, find overlapping times, use meeting templates, and export CSV or calendar invites for global meetings.",
     keywords: [
       "meeting time finder",
       "meeting scheduler",
