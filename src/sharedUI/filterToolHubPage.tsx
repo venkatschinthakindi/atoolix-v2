@@ -17,13 +17,12 @@ export function FilterToolHubPage({ filterKey, showCategoryBar, title}: {
 }) {
   
   const [resolvedFilterKey, setResolvedFilterKey] = useState((filterKey ?? "all").toLowerCase());
+  const pathname = usePathname();
+  const isToolsPage = pathname?.toLowerCase() === "/tools";
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const categoryId = params.get("categoryId") ?? params.get("categoryid");
-    
-    const pathname = usePathname();
-    const isToolsPage = pathname?.toLowerCase() === "/tools";
     filterKey = (categoryId?.trim().toLowerCase() ?? isToolsPage ? "all" : filterKey ?? "all").toLowerCase();
     setResolvedFilterKey(filterKey);
   }, [filterKey]);

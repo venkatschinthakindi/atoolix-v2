@@ -13,7 +13,6 @@ export function FilteredTools({
 }: any) {
   const pathname = usePathname();
   const isToolsPage = pathname?.toLowerCase() === "/tools";
-  console.log("FilteredTools filterKey:", filterKey, isToolsPage);
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryid");
   filterKey = (categoryId?.trim().toLowerCase() ?? isToolsPage ? "all" : filterKey ?? "all").toLowerCase();
