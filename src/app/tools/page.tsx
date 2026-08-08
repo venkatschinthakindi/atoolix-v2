@@ -1,7 +1,7 @@
 import { Footer } from "@/app/footer/footer";
 import { serverConfig } from "@/config/server";
 import { ToolsPageClient } from "./ToolsPageClient";
-
+import { Suspense } from "react";
 export const metadata = {
   title: "All Free Online Tools - PDF, Image, Calculator, EMI and Finance Tools",
   description:
@@ -25,8 +25,10 @@ export default function Page({
 }: PageProps) {
   return (
     <div className="app-shell px-6">
-      <div className="app-container page-section"> 
-        <ToolsPageClient />
+      <div className="app-container page-section">
+        <Suspense>
+          <ToolsPageClient />
+        </Suspense>
         <Footer />
       </div>
     </div>

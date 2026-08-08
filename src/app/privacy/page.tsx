@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Footer } from "../footer/footer";
 import { serverConfig } from "@/config/server";
 import { FloatingDock } from "@/components/layout/floatingDock";
-
+import { Suspense } from "react";
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl ?? "https://atoolix.com";
 const updatedAt = new Date("2026-07-28T00:00:00Z");

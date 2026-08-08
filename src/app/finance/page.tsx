@@ -1,6 +1,7 @@
 import { Footer } from "@/app/footer/footer";
 import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
+import { Suspense } from "react";
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
 const title = "Explore Finance Calculators, EMI & Investment Tools Online";
@@ -30,7 +31,9 @@ export default function Page(props: any) {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
-        <FilterToolHubPage filterKey="finance" title={title} />
+        <Suspense>
+          <FilterToolHubPage filterKey="finance" title={title} />
+        </Suspense>
         <Footer />
       </div>
     </div>
