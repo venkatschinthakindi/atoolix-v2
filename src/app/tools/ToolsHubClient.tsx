@@ -1,69 +1,65 @@
 "use client";
 
 import { categoryIcons } from "@/data/tools";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ToolsHubClient({ filterKey}: {
   filterKey: string
 }) {
-  // const router = useRouter();
-  // const toolId = filterKey?.toLowerCase() || "all";
-
-  // const categories = [
-  //   {
-  //     id: "all",
-  //     title: "All",
-  //     description: "Discover Powerful Online Tools",
-  //     icon: 'FileText'
-  //   }, 
-  //   ...categoryIcons.map(cat => ({ ...cat, id: cat.id.toLowerCase() }))
-  // ];
-  // const matchedCategory = categories.find(c => c.id === toolId);
-  // const [activeCategory, setActiveCategory] = useState(matchedCategory?.id?.toLowerCase() || "all");
-
-  // useEffect(() => {
-  //   const nextCategory = matchedCategory?.id?.toLowerCase() || "all";
-  //   setActiveCategory(nextCategory);
-  // }, [toolId]);
-
-  // useEffect(() => {
-  //   const currentUrl = new URL(window.location.href);
-  //   const currentCategory = currentUrl.searchParams.get("categoryId") ?? activeCategory;
-  //   const normalizedCurrent = (currentCategory?.trim().toLowerCase() || "all");
-
-  //   if (normalizedCurrent !== activeCategory) {
-  //     const nextUrl = new URL(window.location.href);
-  //     nextUrl.searchParams.set("categoryid", activeCategory);
-  //     router.replace(nextUrl.pathname + nextUrl.search, { scroll: false });
-  //   }
-  // }, [activeCategory, router]);
-  const toolId = filterKey?.toLowerCase() || "all";
-  
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const categories = [
-    {
-      id: "all",
-      title: "All",
-      description: "Discover Powerful Online Tools",
-      icon: 'FileText'
-    }, 
-    ...categoryIcons.map(cat => ({ ...cat, id: cat.id.toLowerCase() }))
-  ];
-  // Find the category from URL params (search in categories, not just categoryIcons)
-  const matchedCategory = categories.find(c => c.id === toolId);
-  
-  const [activeCategory, setActiveCategory] = useState(matchedCategory?.id?.toLowerCase() || "all");
-  //console.warn(matchedCategory);
-  // Prevent infinite loop: only update URL when activeCategory changes from user click
-  useEffect(() => {
-    let filteredURL = `/tools?categoryid=all`;
-    if (!!toolId && toolId !== activeCategory) {
-      filteredURL = `/tools?categoryid=${activeCategory}`;
-      router.push(filteredURL, { scroll: false });
+  const categoryId = searchParams.get("categoryid");
+
+  const toolId = categoryId?.toLowerCase() || "all";
+
+  const categories = useMemo(
+    () => [
+      {
+        id: "all",
+        title: "All",
+        description: "Discover Powerful Online Tools",
+        icon: "FileText",
+      },
+      ...categoryIcons.map((cat) => ({
+        ...cat,
+        id: cat.id.toLowerCase(),
+      })),
+    ],
+    []
+  );
+
+  const matchedCategory = categories.find(
+    (category) => category.id === toolId
+  );
+
+  const activeCategory = matchedCategory?.id || "all";
+
+  const handleCategoryChange = (categoryId: string) => {
+    const nextCategory = categoryId.toLowerCase();
+
+    // Already selected
+    if (nextCategory === activeCategory) {
+      return;
     }
-  }, [activeCategory]);
+
+    // Default category
+    if (nextCategory === "all") {
+      router.push("/tools", {
+        scroll: false,
+      });
+      return;
+    }
+
+    // Specific category
+    router.push(
+      `/tools?categoryid=${encodeURIComponent(nextCategory)}`,
+      {
+        scroll: false,
+      }
+    );
+  };
   
   return (
     <div>
@@ -71,7 +67,7 @@ export default function ToolsHubClient({ filterKey}: {
         {categories.map(cat => (
           <button
             key={cat.id}
-            onClick={() => setActiveCategory(cat.id)}
+            onClick={() => handleCategoryChange(cat.id)}
             className={`rounded-full text-sm transition border border-white/10 px-4 py-2 ${
               activeCategory === cat.id
                 ? "bg-white text-black"
