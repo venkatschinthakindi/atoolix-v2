@@ -5,12 +5,15 @@ import { useEffect, useMemo, useState } from "react";
 import ToolCard from "@/components/ui/toolCard";
 import { getCachedTools } from "@/data/tools";
 import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export function FilteredTools({
   filterKey,
   filteredTools,
 }: any) {
-  const isToolsPage = typeof window !== "undefined" && window.location.pathname.toLowerCase() === "/tools";
+  const pathname = usePathname();
+  const isToolsPage = pathname?.toLowerCase() === "/tools";
+  console.log("FilteredTools filterKey:", filterKey, isToolsPage);
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryid");
   filterKey = (categoryId?.trim().toLowerCase() ?? isToolsPage ? "all" : filterKey ?? "all").toLowerCase();
@@ -42,7 +45,7 @@ export function FilteredTools({
       .map((tool) => tool.id);
       
     return allTools.filter((tool) => tool.archived === false && filteredKeys.includes(tool.id));
-  }, [filteredTools, resolvedFilterKey]);
+  }, [filteredTools, resolvedFilterKey, filterKey]);
 
   return (
     <div className="tool-grid">

@@ -6,6 +6,7 @@ import ToolsHubClient from "@/app/tools/ToolsHubClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
 import { FloatingButton } from "@/components/ui/floatingButton";
 import BackButton from "@/components/ui/backButton";
+import { usePathname } from "next/navigation";
 
 
 
@@ -21,7 +22,8 @@ export function FilterToolHubPage({ filterKey, showCategoryBar, title}: {
     const params = new URLSearchParams(window.location.search);
     const categoryId = params.get("categoryId") ?? params.get("categoryid");
     
-    const isToolsPage = typeof window !== "undefined" && window.location.pathname.toLowerCase() === "/tools";
+    const pathname = usePathname();
+    const isToolsPage = pathname?.toLowerCase() === "/tools";
     filterKey = (categoryId?.trim().toLowerCase() ?? isToolsPage ? "all" : filterKey ?? "all").toLowerCase();
     setResolvedFilterKey(filterKey);
   }, [filterKey]);
