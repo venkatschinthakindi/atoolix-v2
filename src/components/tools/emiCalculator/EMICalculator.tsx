@@ -539,6 +539,45 @@ function QuickStartStrip() {
   );
 }
 
+/** Collapsible note explaining the calculation method, so it's clear what
+ *  standard this follows and where it may differ from a lender's own quote. */
+function MethodologyNote() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
+      >
+        <span className="text-xs font-medium text-white/60">
+          ⓘ How this is calculated
+        </span>
+        <span className="text-white/40 text-sm">{open ? "−" : "+"}</span>
+      </button>
+      {open && (
+        <div className="px-5 pb-4 pt-1 text-xs text-white/50 leading-relaxed space-y-2 border-t border-white/10">
+          <p>
+            This calculator uses the standard reducing-balance (amortizing
+            loan) formula used by banks worldwide: EMI = P × r × (1+r)ⁿ / [(1+r)ⁿ − 1],
+            where interest is charged only on the outstanding balance each
+            month. It works the same way regardless of currency or country.
+          </p>
+          <p>
+            It doesn't include fees, insurance, or charges some lenders bundle
+            into an official APR/APRC quote, and it assumes your rate
+            compounds monthly rather than daily. It also doesn't support
+            flat-rate (add-on interest) loans, used by some auto or consumer
+            lenders. Treat these numbers as an estimate and confirm the exact
+            figures with your lender.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function TabButton({
   active,
   onClick,
@@ -766,6 +805,9 @@ export default function EMICalculator({
         </div>
       </div>
 
+      {/* ── How this is calculated ── */}
+      <MethodologyNote />
+
       {/* ── Quick start ── */}
       <QuickStartStrip />
 
@@ -888,7 +930,7 @@ export default function EMICalculator({
                 value={fmt(base.totalPayment ?? base.emi * base.monthsUsed)}
               />
             </div>
-          </div>
+            </div>
             {hasPrepayments && (
               <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
                 <span className="text-white/50">With your prepayments</span>
@@ -1542,6 +1584,13 @@ export default function EMICalculator({
           </div>
         )}
       </div>
+
+      {/* ── Footer disclaimer ── */}
+      <p className="text-center text-sm text-emerald-300 px-2">
+        <b>Note: </b>Estimates only, based on standard reducing-balance amortization.
+        Actual EMI, fees, and total interest may vary by lender — confirm the
+        exact figures with your bank.
+      </p>
     </div>
   );
 }
