@@ -1,10 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
-// import AmortizationChart from "@/components/tools/emiCalculator/amortizationChart";
-import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import CustomSelect from "@/components/ui/customSelect";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const AmortizationChart = dynamic(
+  () =>
+    import("@/components/tools/emiCalculator/AmortizationChart").then(
+      (m) => m.default
+    ),
+  { ssr: false, loading: () => null }
+);
 
 /* ─────────────────────────────────────────────
    Types
@@ -12,12 +19,41 @@ import { useSearchParams } from "next/navigation";
 type LoanType = "home" | "personal" | "car";
 type PrepaymentType = "monthly" | "one-time";
 type PrepaymentMode = "principal" | "emi";
+type ResultTab = "summary" | "chart" | "schedule";
+type CurrencyCode =
+  | "INR"
+  | "USD"
+  | "EUR"
+  | "GBP"
+  | "AED"
+  | "AUD"
+  | "CAD"
+  | "SGD"
+  | "JPY";
+
+const CURRENCIES: Record<
+  CurrencyCode,
+  { label: string; symbol: string; locale: string }
+> = {
+  INR: { label: "Indian Rupee — INR (₹)", symbol: "₹", locale: "en-IN" },
+  USD: { label: "US Dollar — USD ($)", symbol: "$", locale: "en-US" },
+  EUR: { label: "Euro — EUR (€)", symbol: "€", locale: "de-DE" },
+  GBP: { label: "British Pound — GBP (£)", symbol: "£", locale: "en-GB" },
+  AED: { label: "UAE Dirham — AED", symbol: "AED", locale: "en-AE" },
+  AUD: { label: "Australian Dollar — AUD (A$)", symbol: "A$", locale: "en-AU" },
+  CAD: { label: "Canadian Dollar — CAD (C$)", symbol: "C$", locale: "en-CA" },
+  SGD: { label: "Singapore Dollar — SGD (S$)", symbol: "S$", locale: "en-SG" },
+  JPY: { label: "Japanese Yen — JPY (¥)", symbol: "¥", locale: "ja-JP" },
+};
 
 type LoanPreset = {
   principal: number;
   annualRate: number;
   tenureYears: number;
   description: string;
+  min: number;
+  max: number;
+  step: number;
 };
 
 type PrepaymentEntry = {
@@ -53,7 +89,7 @@ type PrepaymentAdjustment = {
 };
 
 /* ─────────────────────────────────────────────
-   Helpers
+   Calculation helpers (unchanged logic)
 ───────────────────────────────────────────── */
 
 function computeEMI(principal: number, annualRatePct: number, months: number) {
@@ -64,6 +100,15 @@ function computeEMI(principal: number, annualRatePct: number, months: number) {
   );
 }
 
+/** Present value of a lump sum due `months` from now — used to work out how
+ *  much a balloon payment actually lowers today's regular EMI by. */
+function presentValue(futureValue: number, annualRatePct: number, months: number) {
+  const r = annualRatePct / 12 / 100;
+  if (months <= 0) return futureValue;
+  if (r === 0) return futureValue;
+  return futureValue / Math.pow(1 + r, months);
+}
+
 function getLoanPreset(type: LoanType): LoanPreset {
   switch (type) {
     case "home":
@@ -72,6 +117,9 @@ function getLoanPreset(type: LoanType): LoanPreset {
         annualRate: 7.5,
         tenureYears: 20,
         description: "Long-term home loan with lower interest",
+        min: 100000,
+        max: 20000000,
+        step: 50000,
       };
     case "personal":
       return {
@@ -79,6 +127,9 @@ function getLoanPreset(type: LoanType): LoanPreset {
         annualRate: 12.5,
         tenureYears: 5,
         description: "Shorter personal loan with higher rate",
+        min: 25000,
+        max: 5000000,
+        step: 5000,
       };
     case "car":
       return {
@@ -86,6 +137,9 @@ function getLoanPreset(type: LoanType): LoanPreset {
         annualRate: 9.0,
         tenureYears: 7,
         description: "Vehicle loan with mid-term tenure",
+        min: 50000,
+        max: 10000000,
+        step: 10000,
       };
   }
 }
@@ -159,11 +213,22 @@ function amortizationScheduleWithPrepayments(
   prepayments: PrepaymentEntry[],
   bankEmiLimitPercent: number,
   extraMonthlyPayment: number,
-  balloonPayment: number
+  balloonPayment: number,
+  currencySymbol: string = "₹"
 ) {
+  const fmtPlain = (v: number) =>
+    v.toLocaleString(undefined, { maximumFractionDigits: 2 });
   const monthlyRate = annualRatePct / 12 / 100;
   let balance = principal;
-  let currentEmi = computeEMI(principal, annualRatePct, months);
+  // A balloon due at maturity is financed like a real balloon loan: it lowers
+  // the principal that the regular EMI needs to amortize, since the balloon's
+  // present value effectively covers that slice of the loan up front.
+  const balloonFinancedPrincipal =
+    balloonPayment > 0
+      ? Math.max(0, principal - presentValue(balloonPayment, annualRatePct, months))
+      : principal;
+  let currentEmi = computeEMI(balloonFinancedPrincipal, annualRatePct, months);
+  const baseEmiWithBalloon = currentEmi;
   const labels: string[] = [];
   const principalRemaining: number[] = [];
   const cumulativeInterest: number[] = [];
@@ -220,7 +285,7 @@ function amortizationScheduleWithPrepayments(
       const prefix = event.type === "monthly" ? "Monthly" : "One-time";
       const modeText =
         event.mode === "emi" ? "EMI reduction" : "Principal reduction";
-      prepaymentLabel += `${prefix} ${modeText} ₹${formatCurrency(actualAmount)}${
+      prepaymentLabel += `${prefix} ${modeText} ${currencySymbol}${fmtPlain(actualAmount)}${
         event.type === "one-time"
           ? ` on month ${event.month}`
           : ` from month ${event.month}`
@@ -230,13 +295,13 @@ function amortizationScheduleWithPrepayments(
     if (extraMonthlyPayment > 0) {
       payment += extraMonthlyPayment;
       prepaymentAmount += extraMonthlyPayment;
-      prepaymentLabel += `Extra monthly ₹${formatCurrency(extraMonthlyPayment)} ; `;
+      prepaymentLabel += `Extra monthly ${currencySymbol}${fmtPlain(extraMonthlyPayment)} ; `;
     }
 
     if (m === months && balloonPayment > 0) {
       payment += balloonPayment;
       prepaymentAmount += balloonPayment;
-      prepaymentLabel += `Balloon ₹${formatCurrency(balloonPayment)} ; `;
+      prepaymentLabel += `Balloon ${currencySymbol}${fmtPlain(balloonPayment)} ; `;
     }
 
     if (balance + interest <= payment) payment = balance + interest;
@@ -247,7 +312,19 @@ function amortizationScheduleWithPrepayments(
     cumInterest += interest;
 
     if (prepaymentAmount > 0 && balance > 0 && m < months) {
-      currentEmi = computeEMI(balance, annualRatePct, months - m);
+      const remainingMonths = months - m;
+      const remainingBalloonFinanced =
+        balloonPayment > 0
+          ? Math.max(
+              0,
+              balance - presentValue(balloonPayment, annualRatePct, remainingMonths)
+            )
+          : balance;
+      currentEmi = computeEMI(
+        remainingBalloonFinanced,
+        annualRatePct,
+        remainingMonths
+      );
     }
 
     labels.push(String(m));
@@ -272,7 +349,7 @@ function amortizationScheduleWithPrepayments(
     labels,
     principalRemaining,
     cumulativeInterest,
-    emi: computeEMI(principal, annualRatePct, months),
+    emi: baseEmiWithBalloon,
     monthsUsed: labels.length,
     totalPayment: totalPaid,
     monthRows,
@@ -283,20 +360,26 @@ function amortizationScheduleWithPrepayments(
 }
 
 /* ─────────────────────────────────────────────
-   Sub-components
+   Small presentational building blocks
 ───────────────────────────────────────────── */
 
-/** Labelled number input */
 function Field({
   label,
+  hint,
   children,
 }: {
   label: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-white/80">{label}</label>
+      <div className="flex items-baseline justify-between gap-2">
+        <label className="block text-sm font-medium text-white/80">
+          {label}
+        </label>
+        {hint && <span className="text-[11px] text-white/35">{hint}</span>}
+      </div>
       {children}
     </div>
   );
@@ -305,49 +388,181 @@ function Field({
 const inputCls =
   "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
 
-const selectCls =
-  "w-full px-4 py-3 rounded-xl border border-white/10 bg-gray-900 text-white focus:outline-none focus:border-blue-400/50 transition text-sm";
+/** Slider + synced number input, so numbers are easy to both scrub and type */
+function SliderField({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  prefix,
+  suffix,
+  formatValue,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  min: number;
+  max: number;
+  step: number;
+  prefix?: string;
+  suffix?: string;
+  formatValue?: (v: number) => string;
+}) {
+  const pct = Math.min(
+    100,
+    Math.max(0, ((value - min) / Math.max(1, max - min)) * 100)
+  );
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between gap-3">
+        <label className="text-sm font-medium text-white/80">{label}</label>
+        <div className="flex items-center rounded-lg border border-white/10 bg-white/5 focus-within:border-blue-400/50 overflow-hidden">
+          {prefix && (
+            <span className="pl-3 text-xs text-white/40">{prefix}</span>
+          )}
+          <input
+            type="number"
+            aria-label={label}
+            value={value}
+            onChange={(e) => onChange(Number(e.target.value))}
+            className="w-28 bg-transparent px-2 py-1.5 text-right text-sm text-white focus:outline-none"
+          />
+          {suffix && (
+            <span className="pr-3 text-xs text-white/40">{suffix}</span>
+          )}
+        </div>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={Math.min(Math.max(value, min), max)}
+        onChange={(e) => onChange(Number(e.target.value))}
+        aria-label={`${label} slider`}
+        className="w-full accent-blue-400 cursor-pointer"
+        style={{
+          background: `linear-gradient(to right, rgb(96 165 250 / 0.9) ${pct}%, rgb(255 255 255 / 0.1) ${pct}%)`,
+          height: 6,
+          borderRadius: 999,
+          appearance: "none",
+        }}
+      />
+      <div className="flex justify-between text-[11px] text-white/35">
+        <span>{formatValue ? formatValue(min) : min}</span>
+        <span>{formatValue ? formatValue(max) : max}</span>
+      </div>
+    </div>
+  );
+}
 
-/** Stat card used in summary grids */
 function StatCard({
   label,
   value,
   accent,
+  tone,
 }: {
   label: string;
   value: string;
   accent?: boolean;
+  tone?: "positive" | "neutral";
 }) {
   return (
     <div
-      className={`rounded-2xl border p-4 py-2 ${
-        accent
+      className={`rounded-2xl border p-4 py-3 ${
+        tone === "positive"
+          ? "border-emerald-400/30 bg-emerald-400/5"
+          : accent
           ? "border-blue-400/30 bg-blue-400/5"
           : "border-white/10 bg-white/5"
       }`}
     >
       <div className="text-xs text-white/60 mb-1">{label}</div>
-      <div className="text-xl font-semibold text-white">{value}</div>
+      <div
+        className={`text-lg font-semibold ${
+          tone === "positive" ? "text-emerald-300" : "text-white"
+        }`}
+      >
+        {value}
+      </div>
     </div>
   );
 }
 
-/** Section heading used throughout */
-function SectionHeading({ children }: { children: React.ReactNode }) {
+function SectionHeading({
+  children,
+  action,
+}: {
+  children: React.ReactNode;
+  action?: React.ReactNode;
+}) {
   return (
-    <h2 className="text-sm font-semibold text-white/80 tracking-wide uppercase mb-3">
-      {children}
-    </h2>
+    <div className="flex items-center justify-between mb-3">
+      <h2 className="text-sm font-semibold text-white/80 tracking-wide uppercase">
+        {children}
+      </h2>
+      {action}
+    </div>
   );
 }
-import dynamic from "next/dynamic";
-const AmortizationChart = dynamic(
-  () => import("@/components/tools/emiCalculator/AmortizationChart").then((m) => m.default),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
+
+/** Quick 3-step onboarding strip so first-time visitors know the flow */
+function QuickStartStrip() {
+  const steps = [
+    { icon: "🏦", title: "Pick a loan type", body: "Home, personal or car — loads a sensible starting point." },
+    { icon: "🧮", title: "Adjust the numbers", body: "Drag the sliders or type exact amount, rate and tenure." },
+    { icon: "📉", title: "See what you save", body: "Add prepayments and instantly compare interest & tenure." },
+  ];
+  return (
+    <div className="grid gap-3 sm:grid-cols-3">
+      {steps.map((s, i) => (
+        <div
+          key={s.title}
+          className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 flex gap-3 items-start"
+        >
+          <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
+            {s.icon}
+          </div>
+          <div>
+            <div className="text-xs font-semibold text-white/80">
+              {i + 1}. {s.title}
+            </div>
+            <div className="text-[11px] text-white/45 mt-0.5 leading-snug">
+              {s.body}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function TabButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`px-4 py-2 rounded-xl text-sm font-medium border transition ${
+        active
+          ? "border-blue-400/50 bg-blue-400/15 text-white"
+          : "border-white/10 bg-white/5 text-white/55 hover:bg-white/10 hover:text-white"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
 /* ─────────────────────────────────────────────
    Main component
 ───────────────────────────────────────────── */
@@ -359,23 +574,38 @@ export default function EMICalculator({
   const defaultPreset = getLoanPreset(defaultType);
 
   const searchParams = useSearchParams();
-  const getInitialActiveTab = (): LoanType  => {
+  const getInitialActiveTab = (): LoanType => {
     const type = searchParams.get("category")?.toLowerCase() || "";
-
     if (type === "home") return "home";
     if (type === "car") return "car";
     if (type === "personal") return "personal";
-
     return defaultType;
   };
-  
+
   /* Core state */
-  const [loanType, setLoanType] = useState<LoanType>(() => getInitialActiveTab());
+  const [loanType, setLoanType] = useState<LoanType>(() =>
+    getInitialActiveTab()
+  );
   const [principal, setPrincipal] = useState<number>(defaultPreset.principal);
-  const [annualRate, setAnnualRate] = useState<number>(defaultPreset.annualRate);
+  const [annualRate, setAnnualRate] = useState<number>(
+    defaultPreset.annualRate
+  );
   const [tenureYears, setTenureYears] = useState<number>(
     defaultPreset.tenureYears
   );
+
+  /* Currency — lets users worldwide see amounts in their own currency */
+  const [currency, setCurrency] = useState<CurrencyCode>("INR");
+  const currencyMeta = CURRENCIES[currency];
+  const fmt = useMemo(() => {
+    const nf = new Intl.NumberFormat(currencyMeta.locale, {
+      style: "currency",
+      currency,
+      maximumFractionDigits: currency === "JPY" ? 0 : 2,
+      minimumFractionDigits: currency === "JPY" ? 0 : 2,
+    });
+    return (v: number) => nf.format(Number.isFinite(v) ? v : 0);
+  }, [currency, currencyMeta.locale]);
 
   /* Prepayment & advanced state */
   const [compareEnabled, setCompareEnabled] = useState<boolean>(true);
@@ -385,6 +615,9 @@ export default function EMICalculator({
   const [extraMonthlyPayment, setExtraMonthlyPayment] = useState<number>(0);
   const [balloonPayment, setBalloonPayment] = useState<number>(0);
   const [showFullSchedule, setShowFullSchedule] = useState<boolean>(false);
+
+  /* Results tab */
+  const [resultTab, setResultTab] = useState<ResultTab>("summary");
 
   /* Chart visibility toggles */
   const [showBasePrincipal, setShowBasePrincipal] = useState<boolean>(true);
@@ -413,6 +646,7 @@ export default function EMICalculator({
       },
     ]);
     setNextPrepaymentId((id) => id + 1);
+    setPrepayOpen(true);
   };
 
   const updatePrepayment = <K extends keyof PrepaymentEntry>(
@@ -454,7 +688,8 @@ export default function EMICalculator({
         prepayments,
         bankEmiLimit,
         extraMonthlyPayment,
-        balloonPayment
+        balloonPayment,
+        currencyMeta.symbol
       ),
     [
       principal,
@@ -464,6 +699,7 @@ export default function EMICalculator({
       bankEmiLimit,
       extraMonthlyPayment,
       balloonPayment,
+      currencyMeta.symbol,
     ]
   );
 
@@ -510,13 +746,33 @@ export default function EMICalculator({
     [principal, adjusted.cumulativeInterest]
   );
 
+  const hasPrepayments = totalPrepaymentAmount > 0;
+
   /* ───── Render ───── */
   return (
     <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6 max-w-4xl mx-auto">
+      {/* ── Intro ── */}
+      <div className="text-center space-y-2">
+        <div className="inline-flex items-center gap-2 pt-1">
+          <span className="text-xs text-white/40">Currency</span>
+          <CustomSelect
+            value={currency}
+            callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
+            options={Object.entries(CURRENCIES).map(([code, meta]) => ({
+              value: code,
+              label: meta.label,
+            }))}
+          />
+        </div>
+      </div>
+
+      {/* ── Quick start ── */}
+      <QuickStartStrip />
+
       {/* ── Loan type tabs ── */}
       <div className="flex gap-2 flex-wrap justify-center">
         {(["home", "personal", "car"] as LoanType[]).map((t) => (
-          <button
+          <button type="button"
             key={t}
             onClick={() => handleLoanTypeChange(t)}
             aria-pressed={loanType === t}
@@ -532,36 +788,12 @@ export default function EMICalculator({
         ))}
       </div>
 
-      {/* ── Preset description ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
-        <div className="text-xs text-white/50 mb-1 uppercase tracking-wide">Loan preset</div>
-        <div className="text-sm text-white/80">{loanPreset.description}.</div>
-      </div>
-
-      {/* ── EMI Hero ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <div className="text-xs text-white/50 uppercase tracking-wide mb-2">
-          Estimated Monthly EMI
-        </div>
-        <div className="text-4xl font-bold text-white">
-          ₹ {formatCurrency(base.emi)}
-        </div>
-        <div className="grid grid-cols-2 gap-3 mt-5 pt-2">
-          <StatCard
-            label="Total Interest"
-            value={`₹ ${formatCurrency(base.cumulativeInterest.at(-1) ?? 0)}`}
-          />
-          <StatCard
-            label="Total Payment"
-            value={`₹ ${formatCurrency(base.totalPayment ?? base.emi * base.monthsUsed)}`}
-          />
-        </div>
-      </div>
-
       {/* ── Validation banner ── */}
       {hasValidationErrors && (
         <div className="rounded-2xl border border-orange-500/40 bg-orange-500/10 px-5 py-4 text-sm text-orange-100">
-          <div className="font-semibold text-white mb-2">Validation notes</div>
+          <div className="font-semibold text-white mb-2">
+            ⚠️ Please check these before your numbers are fully accurate
+          </div>
           <ul className="list-disc pl-5 space-y-1 text-xs text-orange-200">
             {!amountValid && <li>Loan amount must be greater than 0.</li>}
             {!rateValid && <li>Interest rate cannot be negative.</li>}
@@ -571,7 +803,8 @@ export default function EMICalculator({
             )}
             {!prepaymentsValid && (
               <li>
-                One or more prepayment entries have invalid amount or month.
+                One or more prepayment entries have an invalid amount or
+                month.
               </li>
             )}
             {!advancedValid && (
@@ -581,56 +814,115 @@ export default function EMICalculator({
         </div>
       )}
 
-      {/* ── Loan inputs ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-5">
-        <SectionHeading>Loan Details</SectionHeading>
-        <Field label="Loan Amount (₹)">
-          <input
-            type="number" 
-            aria-label="Loan Amount"
-            value={principal}
-            onChange={(e) => setPrincipal(Number(e.target.value))}
-            className={inputCls}
-          />
-        </Field>
-        <Field label="Annual Interest Rate (%)">
-          <input
-            type="number"
-            aria-label="Annual Interest Rate"
-            step="0.01"
-            value={annualRate}
-            onChange={(e) => setAnnualRate(Number(e.target.value))}
-            className={inputCls}
-          />
-        </Field>
-        <Field label="Tenure (Years)">
-          <input
-            type="number"
-            aria-label="Tenure"
-            value={tenureYears}
-            onChange={(e) => setTenureYears(Number(e.target.value))}
-            className={inputCls}
-          />
-        </Field>
+      {/* ── Loan details + live EMI result ── */}
+      <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+        <SectionHeading
+          action={
+            <button type="button"
+              onClick={() => handleLoanTypeChange(loanType)}
+              className="text-xs text-blue-300 hover:text-blue-200 underline underline-offset-2"
+            >
+              Reset to {loanType.charAt(0).toUpperCase() + loanType.slice(1)}{" "}
+              preset
+            </button>
+          }
+        >
+          Loan Details
+        </SectionHeading>
+        <p className="text-xs text-white/40 -mt-1 mb-5">
+          {loanPreset.description}. Drag a slider or type an exact value.
+        </p>
+
+        <div className="grid gap-6 md:grid-cols-2 md:gap-8 items-start">
+          {/* Inputs */}
+          <div className="space-y-5">
+            <SliderField
+              label="Loan Amount"
+              value={principal}
+              onChange={setPrincipal}
+              min={loanPreset.min}
+              max={loanPreset.max}
+              step={loanPreset.step}
+              prefix={currencyMeta.symbol}
+              formatValue={(v) => fmt(v)}
+            />
+            <SliderField
+              label="Annual Interest Rate"
+              value={annualRate}
+              onChange={setAnnualRate}
+              min={1}
+              max={20}
+              step={0.05}
+              suffix="%"
+            />
+            <SliderField
+              label="Tenure"
+              value={tenureYears}
+              onChange={setTenureYears}
+              min={1}
+              max={30}
+              step={1}
+              suffix="yrs"
+            />
+          </div>
+
+          {/* Live result */}
+          <div className="rounded-2xl border border-blue-400/20 bg-blue-400/5 p-5 md:sticky md:top-4">
+            <div className="text-xs text-white/50 uppercase tracking-wide mb-2">
+              Estimated Monthly EMI
+            </div>
+            <div className="text-3xl sm:text-4xl font-bold text-white break-all">
+              {fmt(base.emi)}
+            </div>
+            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="min-w-0">
+              <StatCard
+                label="Total Interest"
+                value={fmt(base.cumulativeInterest.at(-1) ?? 0)}
+              />
+            </div>
+
+            <div className="min-w-0">
+              <StatCard
+                label="Total Payment"
+                value={fmt(base.totalPayment ?? base.emi * base.monthsUsed)}
+              />
+            </div>
+          </div>
+            {hasPrepayments && (
+              <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
+                <span className="text-white/50">With your prepayments</span>
+                <span className="text-emerald-300 font-semibold">
+                  Save {fmt(interestSaved)} ·{" "}
+                  {monthsSaved > 0 ? `${monthsSaved} mo faster` : "same tenure"}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* ── Prepayment accordion ── */}
+      {/* ── Prepayment & advanced options ── */}
       <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-        <button
+        <button type="button"
           onClick={() => setPrepayOpen(!prepayOpen)}
           aria-expanded={prepayOpen}
           className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-white/5 transition"
         >
           <div>
-            <div className="text-sm font-semibold text-white">
+            <div className="text-sm font-semibold text-white flex items-center gap-2">
               💰 Prepayment Options
+              {hasPrepayments && (
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-400/15 text-emerald-300 border border-emerald-400/30">
+                  Active
+                </span>
+              )}
             </div>
             <div className="text-xs text-white/50 mt-0.5">
-              Add one-time or recurring prepayments with principal / EMI
-              reduction
+              Optional — add extra payments to close your loan faster
             </div>
           </div>
-          <span className="text-white/50 text-xl w-7 h-7 flex items-center justify-center rounded-lg bg-white/10">
+          <span className="text-white/50 text-xl w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 shrink-0">
             {prepayOpen ? "−" : "+"}
           </span>
         </button>
@@ -639,7 +931,10 @@ export default function EMICalculator({
           <div className="px-6 pb-6 pt-2 space-y-5 border-t border-white/10">
             {/* Bank limit + Advanced toggle row */}
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Bank EMI reduction limit (%)">
+              <Field
+                label="Bank EMI reduction limit (%)"
+                hint="Most banks cap this at 25%"
+              >
                 <input
                   type="number"
                   min={1}
@@ -653,7 +948,7 @@ export default function EMICalculator({
                 <div className="text-sm font-medium text-white/80">
                   Advanced options
                 </div>
-                <button
+                <button type="button"
                   onClick={() => setAdvancedOpen(!advancedOpen)}
                   className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white/70 text-sm hover:bg-white/10 hover:text-white transition"
                 >
@@ -669,7 +964,10 @@ export default function EMICalculator({
                   Extra payments
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="Extra monthly contribution (₹)">
+                  <Field
+                    label={`Extra monthly contribution (${currencyMeta.symbol})`}
+                    hint="Added on top of every EMI"
+                  >
                     <input
                       type="number"
                       min={0}
@@ -680,26 +978,32 @@ export default function EMICalculator({
                       className={inputCls}
                     />
                   </Field>
-                  <Field label="Balloon payment at maturity (₹)">
+                  <Field
+                    label={`Balloon payment at maturity (${currencyMeta.symbol})`}
+                    hint="Lowers your EMI now"
+                  >
                     <input
                       type="number"
                       min={0}
                       value={balloonPayment}
-                      onChange={(e) => setBalloonPayment(Number(e.target.value))}
+                      onChange={(e) =>
+                        setBalloonPayment(Number(e.target.value))
+                      }
                       className={inputCls}
                     />
                   </Field>
                 </div>
+                {balloonPayment > 0 && (
+                  <div className="rounded-xl border border-blue-400/30 bg-blue-400/10 px-4 py-3 text-xs text-blue-200 leading-relaxed">
+                    A balloon payment lowers your regular EMI starting right
+                    away — the loan is structured so this lump sum covers
+                    what's left when it matures. Increase it and watch the
+                    Effective EMI drop; decrease it and the EMI rises back
+                    toward normal.
+                  </div>
+                )}
               </div>
             )}
-
-            {/* Add prepayment button */}
-            <button
-              onClick={addPrepayment}
-              className="px-5 py-2.5 rounded-xl bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold hover:bg-blue-500/30 hover:text-white transition"
-            >
-              + Add Prepayment Entry
-            </button>
 
             {/* Prepayment entries */}
             <div className="space-y-4">
@@ -712,7 +1016,7 @@ export default function EMICalculator({
                     <div className="text-sm font-semibold text-white">
                       Prepayment #{index + 1}
                     </div>
-                    <button
+                    <button type="button"
                       onClick={() => removePrepayment(entry.id)}
                       className="text-xs text-red-400 hover:text-red-300 transition underline"
                     >
@@ -721,34 +1025,30 @@ export default function EMICalculator({
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Type">
-                      <CustomSelect value={entry.type} 
-                                    callBackTrigger={(e:PrepaymentType) =>
-                          updatePrepayment(
-                            entry.id,
-                            "type",
-                            e as PrepaymentType  
-                          )
+                      <CustomSelect
+                        value={entry.type}
+                        callBackTrigger={(e: PrepaymentType) =>
+                          updatePrepayment(entry.id, "type", e)
                         }
                         options={[
-                            { value: "one-time", label: "One-time" },
-                            { value: "monthly", label: "Monthly" },
-                        ]} />
+                          { value: "one-time", label: "One-time" },
+                          { value: "monthly", label: "Monthly" },
+                        ]}
+                      />
                     </Field>
                     <Field label="Mode">
-                      <CustomSelect value={entry.mode} 
-                                    callBackTrigger={(e:PrepaymentMode) =>
-                          updatePrepayment(
-                            entry.id,
-                            "mode",
-                            e
-                          )
+                      <CustomSelect
+                        value={entry.mode}
+                        callBackTrigger={(e: PrepaymentMode) =>
+                          updatePrepayment(entry.id, "mode", e)
                         }
                         options={[
-                            { value: "principal", label: "Principal reduction" },
-                            { value: "emi", label: "EMI reduction" },
-                        ]} />
+                          { value: "principal", label: "Principal reduction" },
+                          { value: "emi", label: "EMI reduction" },
+                        ]}
+                      />
                     </Field>
-                    <Field label="Amount (₹)">
+                    <Field label={`Amount (${currencyMeta.symbol})`}>
                       <input
                         type="number"
                         min={0}
@@ -790,346 +1090,457 @@ export default function EMICalculator({
               ))}
             </div>
 
-            {prepayments.length > 0 && (
-              <div className="rounded-xl border border-white/10 bg-white/5 px-2 mb-2 py-3 text-xs text-white/50">
-                {prepayments.length} prepayment{prepayments.length > 1 ? "s" : ""}{" "}
-                configured. EMI reduction entries are validated against the bank
-                cap when the schedule is calculated.
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* ── Reset button ── */}
-      <button
-        onClick={() => handleLoanTypeChange(loanType)}
-        className="w-full py-3 rounded-2xl border border-white/10 bg-white/5 text-white/70 text-sm font-semibold hover:bg-white/10 hover:text-white transition"
-      >
-        Reset to {loanType.charAt(0).toUpperCase() + loanType.slice(1)} Loan
-        Preset
-      </button>
-
-      {/* ── Prepayment summary ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <SectionHeading>With Prepayment Summary</SectionHeading>
-        {totalPrepaymentAmount > 0 ? (
-          <div className="space-y-5">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <StatCard
-                label="Total Prepayments Applied"
-                value={`₹ ${formatCurrency(totalPrepaymentAmount)}`}
-              />
-              <StatCard
-                label="Effective EMI"
-                value={`₹ ${formatCurrency(finalEmi)}`}
-                accent
-              />
-              <StatCard
-                label="Interest Saved"
-                value={`₹ ${formatCurrency(interestSaved)}`}
-                accent
-              />
-              <StatCard
-                label="Months Saved"
-                value={String(monthsSaved)}
-                accent
-              />
-            </div>
-
-            {/* Comparison table */}
-            <div className="rounded-2xl border border-dashed border-white/10 bg-white/5 px-5 py-4">
-              <div className="text-xs font-semibold text-white mb-3 uppercase tracking-wide">
-                Comparison
-              </div>
-              <div className="grid gap-y-2 gap-x-4 text-xs text-white/60 sm:grid-cols-2">
-                <div className="flex justify-between">
-                  <span>Base EMI</span>
-                  <span className="text-white">₹ {formatCurrency(base.emi)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Base total interest</span>
-                  <span className="text-white">
-                    ₹ {formatCurrency(base.cumulativeInterest.at(-1) ?? 0)}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Adjusted EMI</span>
-                  <span className="text-white">₹ {formatCurrency(finalEmi)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Adjusted total interest</span>
-                  <span className="text-white">
-                    ₹ {formatCurrency(adjusted.cumulativeInterest.at(-1) ?? 0)}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {clippedPrepayments && (
-              <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-2 py-3 text-xs text-yellow-200">
-                One or more EMI reduction entries exceeded the bank limit and
-                were capped to {bankEmiLimit}% of the current EMI.
-              </div>
-            )}
-
-            {emiCapAdjustments.length > 0 && (
-              <div className="rounded-2xl border border-blue-400/20 bg-blue-400/5 p-5">
-                <div className="text-xs font-semibold text-white mb-3 uppercase tracking-wide">
-                  EMI Cap Adjustment Details
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full text-xs">
-                    <thead>
-                      <tr className="text-left text-white/40">
-                        <th className="pb-2 pr-4">Month</th>
-                        <th className="pb-2 pr-4">Requested</th>
-                        <th className="pb-2 pr-4">Applied</th>
-                        <th className="pb-2 pr-4">Cap</th>
-                        <th className="pb-2">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {emiCapAdjustments.map((adj, idx) => (
-                        <tr
-                          key={`${adj.month}-${adj.prepaymentId}-${idx}`}
-                          className={`border-t border-white/5 text-white/60 ${
-                            idx % 2 === 0 ? "bg-white/[0.02]" : ""
-                          }`}
-                        >
-                          <td className="py-2 pr-4">{adj.month}</td>
-                          <td className="py-2 pr-4">
-                            ₹ {formatCurrency(adj.requestedAmount)}
-                          </td>
-                          <td className="py-2 pr-4">
-                            ₹ {formatCurrency(adj.appliedAmount)}
-                          </td>
-                          <td className="py-2 pr-4">
-                            {adj.capAmount
-                              ? `₹ ${formatCurrency(adj.capAmount)}`
-                              : "—"}
-                          </td>
-                          <td className="py-2">{adj.note}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <p className="text-sm text-white/40">
-            No prepayments applied. Open Prepayment Options above to add extras.
-          </p>
-        )}
-      </div>
-
-      {/* ── Chart ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-        {/* Chart controls */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
-          <SectionHeading>Amortization Overview</SectionHeading>
-          <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
-            <div className="flex items-center gap-2 text-xs text-white/60">
-              <span>Chart</span>
-              <CustomSelect value={chartType}
-                                    callBackTrigger={(e) =>
-                  setChartType(
-                    e as
-                      | "line"
-                      | "area"
-                      | "smooth"
-                      | "stepped"
-                      | "bar"
-                      | "pie"
-                      | "doughnut"
-                  )
-                }
-                        options={[
-                            { value: "line", label: "Line" },
-                            { value: "area", label: "Area" },
-                            { value: "smooth", label: "Smooth" },
-                            { value: "stepped", label: "Stepped" },
-                            { value: "bar", label: "Bar" },
-                            { value: "pie", label: "Pie" },
-                            { value: "doughnut", label: "Doughnut" }
-                        ]} />
-            </div>
-            {(
-              [
-                ["compareEnabled", compareEnabled, setCompareEnabled, "Compare with Prepay"] as const,
-                ["showBasePrincipal", showBasePrincipal, setShowBasePrincipal, "Base Principal"] as const,
-                ["showBaseInterest", showBaseInterest, setShowBaseInterest, "Base Interest"] as const,
-              ]
-            ).map(([key, checked, setter, label]) => (
-              <label key={key} className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={(e) => setter(e.target.checked)}
-                  className="accent-blue-400"
-                />
-                {label}
-              </label>
-            ))}
-            {compareEnabled && (
-              <>
-                <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={showPrepayPrincipal}
-                    onChange={(e) => setShowPrepayPrincipal(e.target.checked)}
-                    className="accent-blue-400"
-                  />
-                  Prepay Principal
-                </label>
-                <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={showPrepayInterest}
-                    onChange={(e) => setShowPrepayInterest(e.target.checked)}
-                    className="accent-blue-400"
-                  />
-                  Prepay Interest
-                </label>
-              </>
-            )}
-          </div>
-        </div>
-
-        <div style={{ minHeight: 360 }}>
-          <AmortizationChart
-            labels={base.labels}
-            principalSeries={base.principalRemaining}
-            interestSeries={base.cumulativeInterest}
-            principalSeriesB={
-              compareEnabled ? adjusted.principalRemaining : undefined
-            }
-            interestSeriesB={
-              compareEnabled ? adjusted.cumulativeInterest : undefined
-            }
-            prepaymentMarkers={adjusted.prepaymentMarkers}
-            chartType={chartType}
-            pieData={pieChartData}
-            showBasePrincipal={showBasePrincipal}
-            showBaseInterest={showBaseInterest}
-            showPrepayPrincipal={showPrepayPrincipal}
-            showPrepayInterest={showPrepayInterest}
-          />
-        </div>
-      </div>
-
-      {/* ── Amortization schedule ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-5">
-          <SectionHeading>
-            {showFullSchedule
-              ? "Full Schedule — Base / With Prepay"
-              : "Schedule — First 12 Months"}
-          </SectionHeading>
-          <button
-            onClick={() => setShowFullSchedule(!showFullSchedule)}
-            className="text-xs text-blue-400 hover:text-blue-300 transition underline"
-          >
-            {showFullSchedule ? "Show first 12 months" : "View full schedule"}
-          </button>
-        </div>
-
-        {/* Mobile card layout */}
-        <div className="md:hidden space-y-3">
-          {(showFullSchedule
-            ? adjusted.monthRows
-            : adjusted.monthRows.slice(0, 12)
-          ).map((row) => (
-            <div
-              key={row.month}
-              className={`rounded-xl border p-4 ${
-                row.isEvent
-                  ? "border-blue-400/20 bg-blue-400/5"
-                  : "border-white/10 bg-white/5"
-              }`}
+            <button type="button"
+              onClick={addPrepayment}
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold hover:bg-blue-500/30 hover:text-white transition"
             >
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-sm font-semibold text-white">
-                  Month {row.month}
-                </div>
-                {row.isEvent && (
-                  <span className="text-xs bg-blue-400/20 text-blue-300 px-2 py-0.5 rounded-full">
-                    Prepayment
-                  </span>
-                )}
+              + Add another prepayment
+            </button>
+
+            {prepayments.length > 0 && (
+              <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/50">
+                {prepayments.length} prepayment
+                {prepayments.length > 1 ? "s" : ""} configured. EMI reduction
+                entries are validated against the bank cap when the schedule
+                is calculated.
               </div>
-              <div className="space-y-1 text-xs text-white/60">
-                <div className="flex justify-between">
-                  <span>Base Remaining</span>
-                  <span className="text-white">
-                    ₹ {formatCurrency(base.principalRemaining[row.month - 1] ?? 0)}
-                  </span>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* ── Results: Summary / Chart / Schedule tabs ── */}
+      <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+        <div className="flex flex-wrap gap-2 mb-5">
+          <TabButton
+            active={resultTab === "summary"}
+            onClick={() => setResultTab("summary")}
+          >
+            📊 Summary
+          </TabButton>
+          <TabButton
+            active={resultTab === "chart"}
+            onClick={() => setResultTab("chart")}
+          >
+            📈 Chart
+          </TabButton>
+          <TabButton
+            active={resultTab === "schedule"}
+            onClick={() => setResultTab("schedule")}
+          >
+            📅 Schedule
+          </TabButton>
+        </div>
+
+        {/* Summary tab */}
+        {resultTab === "summary" && (
+          <div>
+            {hasPrepayments ? (
+              <div className="space-y-5">
+                {/* Plain-language payoff summary — the "why bother" answer */}
+                <div className="rounded-2xl border border-emerald-400/25 bg-emerald-400/5 p-5">
+                  <div className="text-sm font-semibold text-emerald-300 mb-1.5">
+                    🎉 Your prepayments are working for you
+                  </div>
+                  <p className="text-sm text-white/70 leading-relaxed">
+                    By putting {fmt(totalPrepaymentAmount)} extra toward this
+                    loan, you cut total interest from{" "}
+                    <span className="text-white font-medium">
+                      {fmt(base.cumulativeInterest.at(-1) ?? 0)}
+                    </span>{" "}
+                    down to{" "}
+                    <span className="text-white font-medium">
+                      {fmt(adjusted.cumulativeInterest.at(-1) ?? 0)}
+                    </span>
+                    {" — "}
+                    that's{" "}
+                    <span className="text-emerald-300 font-semibold">
+                      {fmt(interestSaved)} saved
+                      {(base.cumulativeInterest.at(-1) ?? 0) > 0
+                        ? ` (${(
+                            (interestSaved /
+                              (base.cumulativeInterest.at(-1) || 1)) *
+                            100
+                          ).toFixed(1)}% less interest)`
+                        : ""}
+                    </span>
+                    .{" "}
+                    {monthsSaved > 0
+                      ? `You'll also be debt-free ${monthsSaved} month${
+                          monthsSaved > 1 ? "s" : ""
+                        } sooner.`
+                      : "Your tenure stays the same, but every extra payment you make now reduces the interest you’ll pay over the life of the loan."}
+                  </p>
                 </div>
-                <div className="flex justify-between">
-                  <span>With Prepay</span>
-                  <span className="text-white">₹ {formatCurrency(row.balance)}</span>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <StatCard
+                    label="Total Prepayments Applied"
+                    value={fmt(totalPrepaymentAmount)}
+                  />
+                  <StatCard
+                    label="Effective EMI"
+                    value={fmt(finalEmi)}
+                    accent
+                  />
+                  <StatCard
+                    label="Interest Saved"
+                    value={fmt(interestSaved)}
+                    tone="positive"
+                  />
+                  <StatCard
+                    label="Months Saved"
+                    value={String(monthsSaved)}
+                    tone="positive"
+                  />
                 </div>
-                <div className="flex justify-between">
-                  <span>Payment</span>
-                  <span className="text-white">₹ {formatCurrency(row.payment)}</span>
+
+                <div className="rounded-2xl border border-dashed border-white/10 bg-white/5 px-5 py-4">
+                  <div className="text-xs font-semibold text-white mb-3 uppercase tracking-wide">
+                    Base vs. With Prepayment
+                  </div>
+                  <div className="grid gap-y-2 gap-x-4 text-xs text-white/60 sm:grid-cols-2">
+                    <div className="flex justify-between">
+                      <span>Base EMI</span>
+                      <span className="text-white">{fmt(base.emi)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Base total interest</span>
+                      <span className="text-white">
+                        {fmt(base.cumulativeInterest.at(-1) ?? 0)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Adjusted EMI</span>
+                      <span className="text-white">{fmt(finalEmi)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Adjusted total interest</span>
+                      <span className="text-white">
+                        {fmt(adjusted.cumulativeInterest.at(-1) ?? 0)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                {row.prepaymentLabel && (
-                  <div className="mt-2 pt-2 border-t border-white/10 text-yellow-300">
-                    {row.prepaymentLabel}
+
+                {clippedPrepayments && (
+                  <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-xs text-yellow-200">
+                    One or more EMI reduction entries exceeded the bank limit
+                    and were capped to {bankEmiLimit}% of the current EMI.
+                  </div>
+                )}
+
+                {emiCapAdjustments.length > 0 && (
+                  <div className="rounded-2xl border border-blue-400/20 bg-blue-400/5 p-5">
+                    <div className="text-xs font-semibold text-white mb-3 uppercase tracking-wide">
+                      EMI Cap Adjustment Details
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full text-xs">
+                        <thead>
+                          <tr className="text-left text-white/40">
+                            <th className="pb-2 pr-4">Month</th>
+                            <th className="pb-2 pr-4">Requested</th>
+                            <th className="pb-2 pr-4">Applied</th>
+                            <th className="pb-2 pr-4">Cap</th>
+                            <th className="pb-2">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {emiCapAdjustments.map((adj, idx) => (
+                            <tr
+                              key={`${adj.month}-${adj.prepaymentId}-${idx}`}
+                              className={`border-t border-white/5 text-white/60 ${
+                                idx % 2 === 0 ? "bg-white/[0.02]" : ""
+                              }`}
+                            >
+                              <td className="py-2 pr-4">{adj.month}</td>
+                              <td className="py-2 pr-4">
+                                {fmt(adj.requestedAmount)}
+                              </td>
+                              <td className="py-2 pr-4">
+                                {fmt(adj.appliedAmount)}
+                              </td>
+                              <td className="py-2 pr-4">
+                                {adj.capAmount ? fmt(adj.capAmount) : "—"}
+                              </td>
+                              <td className="py-2">{adj.note}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 )}
               </div>
-            </div>
-          ))}
-        </div>
+            ) : (
+              <div className="text-center py-8 space-y-4">
+                <p className="text-sm text-white/50">
+                  No prepayments applied yet. Even a small extra payment early
+                  in your loan can meaningfully cut your total interest — try
+                  it and see the difference instantly.
+                </p>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 max-w-md mx-auto text-left text-xs text-white/60 leading-relaxed">
+                  <span className="text-white/80 font-medium">
+                    Principal reduction
+                  </span>{" "}
+                  pays down what you owe directly — it lowers your total
+                  interest the most and can shorten your loan.
+                  <br />
+                  <br />
+                  <span className="text-white/80 font-medium">
+                    EMI reduction
+                  </span>{" "}
+                  keeps your tenure the same but lowers your future monthly
+                  payment, within your bank's allowed limit — useful if
+                  monthly cash flow matters more to you than finishing early.
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setPrepayOpen(true)}
+                  className="px-5 py-2.5 rounded-xl bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold hover:bg-blue-500/30 hover:text-white transition"
+                >
+                  💰 Open Prepayment Options
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
-        {/* Desktop table layout */}
-        <div
-          className={`hidden md:block ${
-            showFullSchedule
-              ? "max-h-[420px] overflow-y-auto"
-              : ""
-          }`}
-        >
-          <table className="min-w-full text-xs">
-            <thead className="sticky top-0 z-10 bg-gray-900">
-              <tr className="text-left text-white/40 border-b border-white/10">
-                <th className="pb-2 pr-4 font-medium">Month</th>
-                <th className="pb-2 pr-4 font-medium">Base Remaining</th>
-                <th className="pb-2 pr-4 font-medium">With Prepay Remaining</th>
-                <th className="pb-2 pr-4 font-medium">Payment</th>
-                <th className="pb-2 font-medium">Prepayment</th>
-              </tr>
-            </thead>
-            <tbody>
+        {/* Chart tab */}
+        {resultTab === "chart" && (
+          <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
+              <div className="flex items-center gap-2 text-xs text-white/60">
+                <span>Chart type</span>
+                <CustomSelect
+                  value={chartType}
+                  callBackTrigger={(e) =>
+                    setChartType(
+                      e as
+                        | "line"
+                        | "area"
+                        | "smooth"
+                        | "stepped"
+                        | "bar"
+                        | "pie"
+                        | "doughnut"
+                    )
+                  }
+                  options={[
+                    { value: "line", label: "Line" },
+                    { value: "area", label: "Area" },
+                    { value: "smooth", label: "Smooth" },
+                    { value: "stepped", label: "Stepped" },
+                    { value: "bar", label: "Bar" },
+                    { value: "pie", label: "Pie" },
+                    { value: "doughnut", label: "Doughnut" },
+                  ]}
+                />
+              </div>
+              <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
+                {(
+                  [
+                    [
+                      "compareEnabled",
+                      compareEnabled,
+                      setCompareEnabled,
+                      "Compare with Prepay",
+                    ] as const,
+                    [
+                      "showBasePrincipal",
+                      showBasePrincipal,
+                      setShowBasePrincipal,
+                      "Base Principal",
+                    ] as const,
+                    [
+                      "showBaseInterest",
+                      showBaseInterest,
+                      setShowBaseInterest,
+                      "Base Interest",
+                    ] as const,
+                  ]
+                ).map(([key, checked, setter, label]) => (
+                  <label
+                    key={key}
+                    className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={(e) => setter(e.target.checked)}
+                      className="accent-blue-400"
+                    />
+                    {label}
+                  </label>
+                ))}
+                {compareEnabled && (
+                  <>
+                    <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showPrepayPrincipal}
+                        onChange={(e) =>
+                          setShowPrepayPrincipal(e.target.checked)
+                        }
+                        className="accent-blue-400"
+                      />
+                      Prepay Principal
+                    </label>
+                    <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={showPrepayInterest}
+                        onChange={(e) =>
+                          setShowPrepayInterest(e.target.checked)
+                        }
+                        className="accent-blue-400"
+                      />
+                      Prepay Interest
+                    </label>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div style={{ minHeight: 360 }}>
+              <AmortizationChart
+                labels={base.labels}
+                principalSeries={base.principalRemaining}
+                interestSeries={base.cumulativeInterest}
+                principalSeriesB={
+                  compareEnabled ? adjusted.principalRemaining : undefined
+                }
+                interestSeriesB={
+                  compareEnabled ? adjusted.cumulativeInterest : undefined
+                }
+                prepaymentMarkers={adjusted.prepaymentMarkers}
+                chartType={chartType}
+                pieData={pieChartData}
+                showBasePrincipal={showBasePrincipal}
+                showBaseInterest={showBaseInterest}
+                showPrepayPrincipal={showPrepayPrincipal}
+                showPrepayInterest={showPrepayInterest}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Schedule tab */}
+        {resultTab === "schedule" && (
+          <div>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-5">
+              <div className="text-sm font-semibold text-white/80">
+                {showFullSchedule
+                  ? "Full Schedule — Base / With Prepay"
+                  : "First 12 Months"}
+              </div>
+              <button type="button"
+                onClick={() => setShowFullSchedule(!showFullSchedule)}
+                className="text-xs text-blue-400 hover:text-blue-300 transition underline self-start sm:self-auto"
+              >
+                {showFullSchedule
+                  ? "Show first 12 months"
+                  : "View full schedule"}
+              </button>
+            </div>
+
+            {/* Mobile card layout */}
+            <div className="md:hidden space-y-3">
               {(showFullSchedule
                 ? adjusted.monthRows
                 : adjusted.monthRows.slice(0, 12)
               ).map((row) => (
-                <tr
+                <div
                   key={row.month}
-                  className={`border-t border-white/5 text-white/60 ${
-                    row.isEvent ? "bg-blue-400/5" : ""
+                  className={`rounded-xl border p-4 ${
+                    row.isEvent
+                      ? "border-blue-400/20 bg-blue-400/5"
+                      : "border-white/10 bg-white/5"
                   }`}
                 >
-                  <td className="py-2 pr-4">{row.month}</td>
-                  <td className="py-2 pr-4">
-                    {base.principalRemaining[row.month - 1] !== undefined
-                      ? `₹ ${formatCurrency(base.principalRemaining[row.month - 1])}`
-                      : "—"}
-                  </td>
-                  <td className="py-2 pr-4">₹ {formatCurrency(row.balance)}</td>
-                  <td className="py-2 pr-4">₹ {formatCurrency(row.payment)}</td>
-                  <td className="py-2 text-yellow-300/80">
-                    {row.prepaymentLabel || "—"}
-                  </td>
-                </tr>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-sm font-semibold text-white">
+                      Month {row.month}
+                    </div>
+                    {row.isEvent && (
+                      <span className="text-xs bg-blue-400/20 text-blue-300 px-2 py-0.5 rounded-full">
+                        Prepayment
+                      </span>
+                    )}
+                  </div>
+                  <div className="space-y-1 text-xs text-white/60">
+                    <div className="flex justify-between">
+                      <span>Base Remaining</span>
+                      <span className="text-white">
+                        {fmt(base.principalRemaining[row.month - 1] ?? 0)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>With Prepay</span>
+                      <span className="text-white">{fmt(row.balance)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Payment</span>
+                      <span className="text-white">{fmt(row.payment)}</span>
+                    </div>
+                    {row.prepaymentLabel && (
+                      <div className="mt-2 pt-2 border-t border-white/10 text-yellow-300">
+                        {row.prepaymentLabel}
+                      </div>
+                    )}
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </div>
+
+            {/* Desktop table layout */}
+            <div
+              className={`hidden md:block ${
+                showFullSchedule ? "max-h-[420px] overflow-y-auto" : ""
+              }`}
+            >
+              <table className="min-w-full text-xs">
+                <thead className="sticky top-0 z-10 bg-gray-900">
+                  <tr className="text-left text-white/40 border-b border-white/10">
+                    <th className="pb-2 pr-4 font-medium">Month</th>
+                    <th className="pb-2 pr-4 font-medium">Base Remaining</th>
+                    <th className="pb-2 pr-4 font-medium">
+                      With Prepay Remaining
+                    </th>
+                    <th className="pb-2 pr-4 font-medium">Payment</th>
+                    <th className="pb-2 font-medium">Prepayment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(showFullSchedule
+                    ? adjusted.monthRows
+                    : adjusted.monthRows.slice(0, 12)
+                  ).map((row) => (
+                    <tr
+                      key={row.month}
+                      className={`border-t border-white/5 text-white/60 ${
+                        row.isEvent ? "bg-blue-400/5" : ""
+                      }`}
+                    >
+                      <td className="py-2 pr-4">{row.month}</td>
+                      <td className="py-2 pr-4">
+                        {base.principalRemaining[row.month - 1] !== undefined
+                          ? fmt(base.principalRemaining[row.month - 1])
+                          : "—"}
+                      </td>
+                      <td className="py-2 pr-4">{fmt(row.balance)}</td>
+                      <td className="py-2 pr-4">{fmt(row.payment)}</td>
+                      <td className="py-2 text-yellow-300/80">
+                        {row.prepaymentLabel || "—"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
