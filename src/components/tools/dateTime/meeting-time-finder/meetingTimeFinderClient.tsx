@@ -779,7 +779,7 @@ const MemoRow = memo(function MemoRow({
           >
             <GripVertical className="h-4 w-4" />
           </span>
-          <div className="mt-3 max-w-[320px] flex-1">
+          <div className="max-w-[320px] flex-1">
             <TimezoneSelect
               value={row.zone}
               onChange={(value) => onUpdate(row.id, value)}
@@ -1243,7 +1243,11 @@ export default function MeetingTimeFinderClient() {
         city: z.city,
         country: z.country,
         abbreviation: z.abbreviation,
-        offset: z.offset,
+        // TimezoneSelect's own item template prepends "UTC" itself, so pass
+        // just the "+06:00" part here to avoid it rendering "UTCUTC+06:00".
+        // offsetText()/z.offset elsewhere in this file keep the full "UTC+.."
+        // form, since those are rendered directly without another prefix.
+        offset: z.offset.replace(/^UTC/, ""),
       })),
     [zoneOptions]
   );
@@ -1323,6 +1327,18 @@ export default function MeetingTimeFinderClient() {
   }, [selectedInstant, validInputs, state.targets, state.use24Hour, state.sourceZone, workingHours]);
 
   const resultMap = useMemo(() => new Map(results.map((r) => [r.id, r])), [results]);
+
+  // How many of the compared zones (source + targets) are within working
+  // hours right now — used to give the hero a genuinely useful summary
+  // instead of a generic reassurance message.
+  const workingHoursSummary = useMemo(() => {
+    if (!selectedInstant) return null;
+    const zones = [state.sourceZone, ...state.targets.map((t) => t.zone)];
+    const inHours = zones.filter((z) =>
+      isWithinWorkingHours(selectedInstant, z, workingHours)
+    ).length;
+    return { inHours, total: zones.length };
+  }, [selectedInstant, state.sourceZone, state.targets, workingHours]);
   const selectedZones = useMemo(() => new Set(state.targets.map((t) => t.zone)), [state.targets]);
   const suggestions = useMemo(
     () => searchZones(zoneOptions, query, selectedZones, state.sourceZone),
@@ -1849,10 +1865,39 @@ export default function MeetingTimeFinderClient() {
                 </div>
               ) : null}
 
-              <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-white/30">
-                <span>🔒</span>
-                <span>Runs entirely in your browser — nothing is uploaded.</span>
-              </div>
+              {/* Useful, live summary instead of a generic privacy note:
+                  tells you right away whether now is actually a workable
+                  time for everyone, tied to the working hours you've set. */}
+              {workingHoursSummary ? (
+                <div
+                  className={`mt-4 rounded-xl border px-4 py-3 text-center ${
+                    workingHoursSummary.inHours === workingHoursSummary.total
+                      ? "border-emerald-400/25 bg-emerald-400/5"
+                      : workingHoursSummary.inHours === 0
+                      ? "border-rose-400/20 bg-rose-400/5"
+                      : "border-amber-400/20 bg-amber-400/5"
+                  }`}
+                >
+                  <div
+                    className={`text-sm font-semibold ${
+                      workingHoursSummary.inHours === workingHoursSummary.total
+                        ? "text-emerald-300"
+                        : workingHoursSummary.inHours === 0
+                        ? "text-rose-300"
+                        : "text-amber-300"
+                    }`}
+                  >
+                    {workingHoursSummary.inHours === workingHoursSummary.total
+                      ? "✅ Great time to meet"
+                      : `⚠️ ${workingHoursSummary.inHours} of ${workingHoursSummary.total} zones in working hours`}
+                  </div>
+                  <div className="mt-1 text-[11px] text-white/40">
+                    {workingHoursSummary.inHours === workingHoursSummary.total
+                      ? "Everyone's within working hours right now."
+                      : 'Use "Find a meeting time" below for a slot that works for everyone.'}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>

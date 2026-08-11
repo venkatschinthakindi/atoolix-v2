@@ -229,13 +229,13 @@ export default function TimezoneSelect({
           setActive(-1);
         }}
         onKeyDown={onKeyDown}
-        className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus:border-white/30"
+        className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-3 py-2 text-white outline-none focus:border-white/30"
       />
 
       {open && (
         <div className="absolute z-50 mt-2 max-h-80 w-full overflow-y-auto rounded-2xl border border-white/10 bg-slate-950 shadow-xl scrollbar-thin">
           {filtered.length === 0 && (
-            <div className="px-4 py-3 text-sm text-zinc-400">
+            <div className="px-3 py-2 text-sm text-zinc-400">
               No timezone found
             </div>
           )}
@@ -253,7 +253,7 @@ export default function TimezoneSelect({
                     e.preventDefault();
                     select(option);
                 }}
-                className={`flex w-full items-center justify-between px-4 py-3 text-left transition ${
+                className={`flex w-full items-center justify-between px-3 py-2 text-left transition ${
                   active === index
                     ? "bg-white/10"
                     : "hover:bg-white/5"
