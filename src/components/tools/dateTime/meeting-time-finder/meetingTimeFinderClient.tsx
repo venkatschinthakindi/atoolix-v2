@@ -287,7 +287,17 @@ function dayDifference(sourceZone: string, targetZone: string, instant: Date) {
   const sourceDay = formatInTimeZone(instant, sourceZone, "yyyy-MM-dd");
   const targetDay = formatInTimeZone(instant, targetZone, "yyyy-MM-dd");
   if (sourceDay === targetDay) return "Same day";
-  return targetDay > sourceDay ? "+1 day" : "-1 day";
+  // Compare the actual calendar dates rather than just their string order, so
+  // pairs of zones with an extreme offset gap (e.g. UTC-12 to UTC+14, a
+  // 26-hour spread) correctly show "+2 days" instead of being capped at ±1.
+  const [sy, sm, sd] = sourceDay.split("-").map(Number);
+  const [ty, tm, td] = targetDay.split("-").map(Number);
+  const sourceMidnight = Date.UTC(sy, sm - 1, sd);
+  const targetMidnight = Date.UTC(ty, tm - 1, td);
+  const diffDays = Math.round((targetMidnight - sourceMidnight) / 86400000);
+  if (diffDays === 1) return "+1 day";
+  if (diffDays === -1) return "-1 day";
+  return diffDays > 0 ? `+${diffDays} days` : `${diffDays} days`;
 }
 
 type ParseReason = "ok" | "invalid" | "gap" | "ambiguous";
@@ -838,7 +848,7 @@ const MemoRow = memo(function MemoRow({
             type="button"
             onClick={() => onMove(row.id, -1)}
             disabled={index === 0}
-            className="rounded-full border border-white/10 bg-white/5 px-2 py-2 text-xs text-zinc-300 disabled:opacity-30"
+            className="rounded-full border border-white/10 bg-black/30 px-2 py-2 text-xs text-zinc-300 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30 disabled:hover:border-white/10 disabled:hover:bg-black/30 disabled:hover:text-zinc-300"
           >
             <ChevronUp className="h-4 w-4" />
           </button>
@@ -846,7 +856,7 @@ const MemoRow = memo(function MemoRow({
             type="button"
             onClick={() => onMove(row.id, 1)}
             disabled={index === total - 1}
-            className="rounded-full border border-white/10 bg-white/5 px-2 py-2 text-xs text-zinc-300 disabled:opacity-30"
+            className="rounded-full border border-white/10 bg-black/30 px-2 py-2 text-xs text-zinc-300 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30 disabled:hover:border-white/10 disabled:hover:bg-black/30 disabled:hover:text-zinc-300"
           >
             <ChevronDown className="h-4 w-4" />
           </button>
@@ -854,7 +864,7 @@ const MemoRow = memo(function MemoRow({
             <button
               type="button"
               onClick={() => onRemove(row.id)}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-300"
+              className="rounded-full border border-rose-400/20 bg-rose-400/5 px-3 py-2 text-xs text-rose-300 transition hover:border-rose-400/40 hover:bg-rose-400/15"
             >
               <Trash2Icon className="h-4 w-4" />
             </button>
@@ -889,7 +899,7 @@ function TimezoneCards({
       {rows.map((row, index) => {
         const result = resultMap.get(row.id);
         return (
-          <div key={row.id} className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
+          <div key={row.id} className="rounded-2xl border border-white/10 bg-black/30 p-4">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-xs uppercase tracking-wide text-zinc-400">Zone {index + 1}</div>
@@ -951,7 +961,7 @@ function TimezoneCards({
                 type="button"
                 onClick={() => onMove(row.id, -1)}
                 disabled={index === 0}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 disabled:opacity-30"
+                className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs text-zinc-200 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30"
               >
                 Up
               </button>
@@ -959,7 +969,7 @@ function TimezoneCards({
                 type="button"
                 onClick={() => onMove(row.id, 1)}
                 disabled={index === rows.length - 1}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 disabled:opacity-30"
+                className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs text-zinc-200 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30"
               >
                 Down
               </button>
@@ -967,7 +977,7 @@ function TimezoneCards({
                 <button
                   type="button"
                   onClick={() => onRemove(row.id)}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200"
+                  className="rounded-full border border-rose-400/20 bg-rose-400/5 px-3 py-2 text-xs text-rose-300 transition hover:border-rose-400/40 hover:bg-rose-400/15"
                 >
                   Remove
                 </button>
@@ -976,6 +986,139 @@ function TimezoneCards({
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/** Numbered step badge used to make each section's place in the flow obvious
+ *  at a glance, without changing any of the section's own logic. */
+function StepHeader({
+  step,
+  title,
+  subtitle,
+  optional,
+  badge,
+}: {
+  step: number;
+  title: string;
+  subtitle?: string;
+  optional?: boolean;
+  badge?: string;
+}) {
+  return (
+    <div className="flex items-start gap-3">
+      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cyan-400/30 bg-cyan-400/10 text-xs font-semibold text-cyan-300">
+        {step}
+      </span>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          {optional ? (
+            <span className="rounded-full border border-white/10 bg-black/30 px-2 py-0.5 text-[10px] uppercase tracking-wide text-zinc-400">
+              Optional
+            </span>
+          ) : null}
+          {badge ? (
+            <span className="rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-300">
+              {badge}
+            </span>
+          ) : null}
+        </div>
+        {subtitle ? <p className="mt-1 text-sm text-zinc-400">{subtitle}</p> : null}
+      </div>
+    </div>
+  );
+}
+
+/** Plain-language explainer for the two things that confuse people most in a
+ *  timezone tool: Daylight Saving Time, and why a converted time sometimes
+ *  lands on a different calendar day. Written for non-technical users. */
+function TimezoneHelpNote() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/30 overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
+      >
+        <span className="text-xs font-medium text-zinc-300">
+          ⓘ Why times sometimes shift by an hour, or land on a different day
+        </span>
+        <span className="text-white/40 text-sm">{open ? "−" : "+"}</span>
+      </button>
+      {open && (
+        <div className="px-5 pb-5 pt-1 text-xs text-zinc-400 leading-relaxed space-y-4 border-t border-white/10">
+          <div>
+            <div className="text-white/80 font-medium mb-1">
+              🕑 Daylight Saving Time (DST)
+            </div>
+            <p>
+              Many countries move their clocks forward an hour in spring and
+              back an hour in autumn. Because of this, the gap between two
+              zones isn't always fixed — e.g. London and New York are 5 hours
+              apart most of the year, but only 4 hours apart for a few weeks
+              each spring/autumn when one region has already changed its
+              clocks and the other hasn't yet. This tool checks the real
+              rules for each zone on your exact chosen date, so the
+              difference shown is always correct for that day — not just a
+              rough year-round average.
+            </p>
+          </div>
+          <div>
+            <div className="text-white/80 font-medium mb-1">
+              ⏭️ "This time doesn't exist" (spring forward)
+            </div>
+            <p>
+              Once a year, some zones skip an hour entirely — clocks jump
+              straight from, say, 1:59 AM to 3:00 AM. If you type a time in
+              that skipped hour, it's not a real moment in that zone, so this
+              tool will warn you and won't let you convert it until you pick
+              a valid time.
+            </p>
+          </div>
+          <div>
+            <div className="text-white/80 font-medium mb-1">
+              🔁 "This time happens twice" (fall back)
+            </div>
+            <p>
+              Once a year, some zones repeat an hour — clocks go from 1:59 AM
+              back to 1:00 AM, so times like "1:30 AM" happen twice in one
+              night. If you enter a time like this, the tool will use the
+              earlier of the two and let you know it did so.
+            </p>
+          </div>
+          <div>
+            <div className="text-white/80 font-medium mb-1">
+              📅 "+1 day" / "-1 day" badges
+            </div>
+            <p>
+              Because zones are spread around a round globe, the same moment
+              can be "today" in one place and already "tomorrow" (or still
+              "yesterday") somewhere else. A badge like{" "}
+              <span className="text-white">+1 day</span> next to a zone means
+              it's a calendar day ahead of your source zone at that moment;{" "}
+              <span className="text-white">-1 day</span> means a day behind.
+              For a handful of extreme zone pairs on opposite sides of the
+              International Date Line, this can even be{" "}
+              <span className="text-white">+2 days</span> — the tool accounts
+              for that too, rather than assuming it's always just one day.
+            </p>
+          </div>
+          <div>
+            <div className="text-white/80 font-medium mb-1">
+              ✅ Working hours badge
+            </div>
+            <p>
+              "● Working hours" means that person's local clock, on that
+              exact date, falls within the working days/hours you've set for
+              this comparison — automatically adjusted for their own DST
+              rules, not yours.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1008,6 +1151,12 @@ export default function MeetingTimeFinderClient() {
   const [meetingDurationMinutes, setMeetingDurationMinutes] = useState(30);
   const [meetingDescription, setMeetingDescription] = useState("");
   const [activeTemplateId, setActiveTemplateId] = useState<string | null>(null);
+
+  /* Progressive disclosure: keep the advanced sections collapsed by default
+     so the page reads as "set time → compare zones" at a glance, with
+     meeting-finding and export available as clearly-labelled optional steps. */
+  const [finderOpen, setFinderOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
 
   const currentZone = useMemo(
     () => Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
@@ -1207,7 +1356,10 @@ export default function MeetingTimeFinderClient() {
       setState((prev) => {
         const index = prev.targets.findIndex((t) => t.id === id);
         if (index < 0) return prev;
-        if (value === prev.sourceZone) return prev;
+        if (value === prev.sourceZone) {
+          showToast("error", "That's already your source zone — pick a different one, or use \"Make source\" instead.");
+          return prev;
+        }
         if (prev.targets.some((t, i) => i !== index && t.zone === value)) {
           showToast("error", "That zone is already selected.");
           return prev;
@@ -1579,25 +1731,143 @@ export default function MeetingTimeFinderClient() {
     : "Waiting for valid input";
 
   return (
-    <div>
+    <div className="font-mono">
       <div className="app-container page-section pt-2">
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 px-5 py-8 sm:px-6 sm:py-10">
-          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[11px] sm:text-xs font-medium text-zinc-300">
-            Browser zone: {currentZone}
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white">
-            Meeting Time Finder
-          </h2>
-          <p className="mt-4 text-sm sm:text-base leading-7 text-zinc-300">
-            Compare time zones and find the next slot where everyone's working hours overlap. Set working days and hours, apply a meeting template, and export a CSV or calendar invite. Just need a quick conversion? Try the{" "}
-            <Link href="/tools/datetime/timezone-converter" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
-              Timezone Converter
-            </Link>.
-          </p>
+        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
+          <div className="grid gap-8 md:grid-cols-[1.3fr_1fr] items-start">
+            {/* Left: badge, heading, subtext, feature pills */}
+            <div className="space-y-5">
+              <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-xs font-medium text-cyan-300">
+                🌍 Free · Browser Based · No Signup
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+                <span className="text-white">Compare Time Zones</span>
+                <br />
+                <span className="text-cyan-300">in Seconds</span>
+              </h2>
+              <p className="text-sm sm:text-base leading-7 text-zinc-300 max-w-xl">
+                Find the next slot where everyone's working hours overlap. Set
+                working days and hours, apply a meeting template, and export
+                a CSV or calendar invite. Just need a quick conversion? Try
+                the{" "}
+                <Link
+                  href="/tools/datetime/timezone-converter"
+                  className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200"
+                >
+                  Timezone Converter
+                </Link>
+                .
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 text-xs font-medium text-blue-300">
+                  ⚡ Instant Comparison
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-medium text-emerald-300">
+                  🔄 DST-Aware
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-400/30 bg-violet-400/10 px-3 py-1.5 text-xs font-medium text-violet-300">
+                  📅 Export Ready
+                </span>
+              </div>
+            </div>
+
+            {/* Right: live "Right Now" mini world clock — built from the
+                same comparison data the tool already computes, so it shows
+                what this tool actually does rather than generic stats */}
+            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-sm font-semibold text-white">
+                  🕐 Right Now
+                </div>
+                <span
+                  className={`inline-flex items-center gap-1.5 text-[11px] font-medium ${
+                    resultsAreStale ? "text-amber-300" : "text-emerald-300"
+                  }`}
+                >
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      resultsAreStale ? "bg-amber-400" : "bg-emerald-400"
+                    }`}
+                  />
+                  {resultsAreStale ? "Check input" : "Live"}
+                </span>
+              </div>
+
+              {/* Source zone — the anchor everything else is measured from */}
+              <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 px-4 py-3">
+                <div className="text-[11px] uppercase tracking-wide text-cyan-300/70 truncate">
+                  {zoneMap.get(state.sourceZone)?.city ?? state.sourceZone} · Source
+                </div>
+                <div className="mt-1 text-2xl font-bold tabular-nums text-white">
+                  {selectedInstant
+                    ? formatInTimeZone(
+                        selectedInstant,
+                        state.sourceZone,
+                        state.use24Hour ? "HH:mm" : "hh:mm a"
+                      )
+                    : "--:--"}
+                </div>
+              </div>
+
+              {/* A peek at the first few zones being compared */}
+              <div className="mt-3 space-y-2">
+                {results.length === 0 ? (
+                  <div className="rounded-xl border border-dashed border-white/10 px-4 py-3 text-center text-xs text-zinc-500">
+                    Add a zone below to see it compared here.
+                  </div>
+                ) : (
+                  results.slice(0, 3).map((r) => (
+                    <div
+                      key={r.id}
+                      className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2.5"
+                    >
+                      <span className="truncate text-sm text-zinc-300">
+                        {zoneMap.get(r.zone)?.city ?? r.zone}
+                      </span>
+                      <div className="flex shrink-0 items-center gap-2">
+                        <span className="text-sm font-medium tabular-nums text-white">
+                          {r.localTime}
+                        </span>
+                        <span
+                          className={`rounded-full px-2 py-0.5 text-[10px] font-medium tabular-nums ${
+                            r.diff === "Same time"
+                              ? "bg-emerald-500/15 text-emerald-300"
+                              : "bg-indigo-500/15 text-indigo-300"
+                          }`}
+                        >
+                          {r.diff}
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {state.targets.length > 3 ? (
+                <div className="mt-2 text-center text-[11px] text-zinc-500">
+                  +{state.targets.length - 3} more in the full comparison below
+                </div>
+              ) : null}
+
+              <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-white/30">
+                <span>🔒</span>
+                <span>Runs entirely in your browser — nothing is uploaded.</span>
+              </div>
+            </div>
+          </div>
         </section>
 
-        <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
-          <div className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr] lg:items-end">
+        <section className="mb-6">
+          <TimezoneHelpNote />
+        </section>
+
+        <section className="mb-6 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+          <StepHeader
+            step={1}
+            title="Set your time & add zones to compare"
+            subtitle="Pick the source zone, date and time — then add the cities or zones you're coordinating with, below."
+          />
+          <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr_1fr] lg:items-end">
             <label className="block">
               <span className="mb-2 block text-sm text-zinc-300">Source timezone</span>
               <TimezoneSelect
@@ -1633,7 +1903,7 @@ export default function MeetingTimeFinderClient() {
                       return { ...prev, sourceZone: currentZone, targets: nextTargets };
                     })
                   }
-                  className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-300 transition hover:bg-white/10"
+                  className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1.5 text-xs text-cyan-300 transition hover:bg-cyan-400/20"
                 >
                   📍 Detected your timezone as <span className="font-medium text-white">{currentZone}</span> — use it
                 </button>
@@ -1666,6 +1936,33 @@ export default function MeetingTimeFinderClient() {
               ) : null}
             </label>
           </div>
+
+          {/* Live feedback: confirms the inputs above are being read correctly */}
+          <div
+            className={`mt-4 rounded-2xl border px-4 py-3 ${
+              resultsAreStale
+                ? "border-white/10 bg-black/30"
+                : "border-cyan-400/20 bg-cyan-400/5"
+            }`}
+          >
+            <div className="text-[11px] uppercase tracking-wide text-zinc-400">
+              Your source time
+            </div>
+            <div
+              className={`mt-1 text-lg sm:text-xl font-semibold tabular-nums ${
+                resultsAreStale ? "text-zinc-500" : "text-white"
+              }`}
+            >
+              {sourceDisplay}
+            </div>
+          </div>
+
+          {validation.warning ? (
+            <div className="mt-3 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-200">
+              ⚠️ {validation.warning}
+            </div>
+          ) : null}
+
           <div>
             {(copyNote || copyError) ? (
             <div
@@ -1681,7 +1978,7 @@ export default function MeetingTimeFinderClient() {
             <button
               type="button"
               onClick={jumpToNow}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:bg-white/10"
+              className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-2 text-xs sm:text-sm text-cyan-300 transition hover:bg-cyan-400/20"
             >
               Use current time in source zone
             </button>
@@ -1689,21 +1986,21 @@ export default function MeetingTimeFinderClient() {
               type="button"
               onClick={copyShareLink}
               disabled={resultsAreStale}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-violet-400/30 bg-violet-400/10 px-3 py-2 text-xs sm:text-sm text-violet-300 transition hover:bg-violet-400/20 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Copy share link
             </button>
             <button
               type="button"
               onClick={() => setState((p) => ({ ...p, use24Hour: !p.use24Hour }))}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:bg-white/10"
+              className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300"
             >
               {state.use24Hour ? "24h HH:MM" : "12h AM/PM"}
             </button>
           </div>
           <div className="mt-4 grid gap-3">
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Popular timezones</span>
+              <span className="mb-2 block text-sm text-zinc-300">Quick-add popular zones</span>
               <div className="flex flex-wrap gap-2">
                 {QUICK_ADD_ZONES.map(({ label, zone }) => (
                   <button
@@ -1711,7 +2008,7 @@ export default function MeetingTimeFinderClient() {
                     type="button"
                     onClick={() => addTarget(zone)}
                     disabled={state.targets.length >= MAX_TARGETS || zone === state.sourceZone || state.targets.some((t) => t.zone === zone)}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="rounded-full border border-blue-400/20 bg-blue-400/5 px-3 py-2 text-xs text-blue-200 transition hover:border-blue-400/40 hover:bg-blue-400/15 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-blue-400/20 disabled:hover:bg-blue-400/5"
                   >
                     + {label}
                   </button>
@@ -1743,7 +2040,7 @@ export default function MeetingTimeFinderClient() {
                   : "Search by city, country, or abbreviation (EST, IST, CET)..."
               }
               disabled={state.targets.length >= MAX_TARGETS}
-              className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-cyan-400/40 disabled:cursor-not-allowed disabled:opacity-60"
             />
             {query && state.targets.length < MAX_TARGETS ? (
               <div
@@ -1765,7 +2062,7 @@ export default function MeetingTimeFinderClient() {
                       onPointerDown={(e) => e.preventDefault()}
                       onClick={() => addTarget(zone.value)}
                       className={`flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm text-white transition ${
-                        index === activeIndex ? "bg-white/10" : "hover:bg-white/5"
+                        index === activeIndex ? "bg-cyan-400/10" : "hover:bg-white/5"
                       }`}
                     >
                       <div className="flex min-w-0 flex-col">
@@ -1786,12 +2083,27 @@ export default function MeetingTimeFinderClient() {
           </div>
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
-          <h2 className="text-lg font-semibold text-white">Find a meeting time</h2>
-          <p className="mt-1 text-sm text-zinc-400">
-            Set working days and hours (local to each zone), and I'll find the next slots where everyone in the comparison is available. DST is handled automatically.
-          </p>
+        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+          <button
+            type="button"
+            onClick={() => setFinderOpen((o) => !o)}
+            aria-expanded={finderOpen}
+            className="flex w-full items-center justify-between gap-3 text-left"
+          >
+            <StepHeader
+              step={2}
+              title="Find a meeting time"
+              subtitle="Set working days and hours (local to each zone) and find the next slots where everyone overlaps. DST is handled automatically."
+              optional
+              badge={meetingSuggestions && meetingSuggestions.length > 0 ? "Slots found" : undefined}
+            />
+            <span className="mt-1 shrink-0 text-white/50">
+              {finderOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </span>
+          </button>
 
+          {finderOpen && (
+          <>
           <div className="mt-4 grid gap-4 lg:grid-cols-[auto_1fr_1fr_auto] lg:items-end">
             <div>
               <span className="mb-2 block text-sm text-zinc-300">Working days</span>
@@ -1807,7 +2119,7 @@ export default function MeetingTimeFinderClient() {
                       className={`rounded-full border px-3 py-2 text-xs font-medium transition ${
                         active
                           ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
-                          : "border-white/10 bg-white/5 text-zinc-400 hover:bg-white/10"
+                          : "border-white/10 bg-black/30 text-zinc-400 hover:border-cyan-400/20 hover:bg-cyan-400/10 hover:text-cyan-200"
                       }`}
                     >
                       {label}
@@ -1857,7 +2169,7 @@ export default function MeetingTimeFinderClient() {
             <button
               type="button"
               onClick={findSlots}
-              className="rounded-full border border-white/10 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/20"
+              className="rounded-full border border-cyan-400/40 bg-cyan-500/20 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-500/30"
             >
               Find next available slots
             </button>
@@ -1894,17 +2206,27 @@ export default function MeetingTimeFinderClient() {
               ))}
             </div>
           ) : null}
+          </>
+          )}
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
-          <div className="mb-4 flex items-center justify-between">
+        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+          <div className="mb-4 flex items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-white">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-lg font-semibold text-white">
                   Comparing {state.targets.length + 1}{" "}
                   {(state.targets.length + 1) === 1 ? "zone" : "zones"}
-              </h2>
-              <p className="mt-1 hidden text-xs text-zinc-400 md:block">
-                Drag <GripVertical className="inline h-3 w-3 align-text-bottom" /> to reorder rows, or use the arrows.
+                </h2>
+                <span className="rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-cyan-300">
+                  Live
+                </span>
+              </div>
+              <p className="mt-1 text-xs text-zinc-400">
+                Updates instantly as you change the time or zones above.{" "}
+                <span className="hidden md:inline">
+                  Drag <GripVertical className="inline h-3 w-3 align-text-bottom" /> to reorder rows, or use the arrows.
+                </span>
               </p>
             </div>
 
@@ -1920,7 +2242,7 @@ export default function MeetingTimeFinderClient() {
                 if (first) addTarget(first.value);
                 }}
                 disabled={state.targets.length >= MAX_TARGETS}
-                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10 disabled:opacity-40"
+                className="rounded-full border border-blue-400/30 bg-blue-400/10 px-4 py-2 text-sm text-blue-200 transition hover:bg-blue-400/20 disabled:opacity-40"
             >
                 + Add zone
             </button>
@@ -2057,12 +2379,27 @@ export default function MeetingTimeFinderClient() {
           />
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
-          <h2 className="text-lg font-semibold text-white">Meeting details &amp; export</h2>
-          <p className="mt-1 text-sm text-zinc-400">
-            Pick a template to prefill the title, duration, and description, then export as CSV or a calendar invite.
-          </p>
+        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+          <button
+            type="button"
+            onClick={() => setExportOpen((o) => !o)}
+            aria-expanded={exportOpen}
+            className="flex w-full items-center justify-between gap-3 text-left"
+          >
+            <StepHeader
+              step={3}
+              title="Meeting details & export"
+              subtitle="Pick a template to prefill the title, duration and description, then export as CSV or a calendar invite."
+              optional
+              badge={meetingTitle.trim() ? "Details set" : undefined}
+            />
+            <span className="mt-1 shrink-0 text-white/50">
+              {exportOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+            </span>
+          </button>
 
+          {exportOpen && (
+          <>
           <div className="mt-4">
             <span className="mb-2 block text-sm text-zinc-300">Meeting templates</span>
             <div className="flex flex-wrap gap-2">
@@ -2075,7 +2412,7 @@ export default function MeetingTimeFinderClient() {
                   className={`rounded-full border px-3 py-2 text-xs sm:text-sm font-medium transition ${
                     activeTemplateId === template.id
                       ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
-                      : "border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10"
+                      : "border-white/10 bg-black/30 text-zinc-200 hover:border-violet-400/20 hover:bg-violet-400/10"
                   }`}
                 >
                   {template.label} · {template.durationMinutes}m
@@ -2124,7 +2461,7 @@ export default function MeetingTimeFinderClient() {
               type="button"
               onClick={exportCsv}
               disabled={resultsAreStale}
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-2.5 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-40"
             >
               ⬇ Export CSV
             </button>
@@ -2132,7 +2469,7 @@ export default function MeetingTimeFinderClient() {
               type="button"
               onClick={exportIcs}
               disabled={resultsAreStale}
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-2.5 text-sm font-medium text-violet-200 transition hover:bg-violet-500/20 disabled:cursor-not-allowed disabled:opacity-40"
             >
               📅 Download .ics calendar invite
             </button>
@@ -2140,6 +2477,8 @@ export default function MeetingTimeFinderClient() {
           <p className="mt-2 text-xs text-zinc-500">
             The .ics event is anchored to the exact selected instant (stored in UTC), so it opens at the correct local time in any calendar app regardless of DST.
           </p>
+          </>
+          )}
         </section>
       </div>
     </div>
