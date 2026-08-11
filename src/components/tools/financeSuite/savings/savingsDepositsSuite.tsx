@@ -1,457 +1,881 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import {
-  BarChart3,
-  Calculator,
-  PiggyBank,
-  ShieldCheck,
-  TrendingUp,
-} from "lucide-react";
-import { FinanceChart } from "@/components/tools/financeSuite/financeChart";
-import { FinancePdfExport } from "@/components/tools/financeSuite/financePdfExport";
-import { Field } from "@/components/ui/Field";
-import { formatCurrency } from "@/utility/formatCurrencyUtility";
-import { StatCard } from "@/sharedUI/statCard";
-import { SectionHeader } from "@/sharedUI/sectionHeader";
-import { ExplainerPanel } from "@/sharedUI/explainerPanel";
+import { useMemo, useState, useRef, type ReactNode, type ComponentType } from "react";
 import CustomSelect from "@/components/ui/customSelect";
-import { useSearchParams } from "next/navigation";
+import {
+  PiggyBank,
+  TrendingUp,
+  ShieldCheck,
+  Calculator,
+  BarChart3,
+} from "lucide-react";
+const FinanceChart = dynamic(
+  () => import("@/components/tools/financeSuite/financeChart").then((m) => m.FinanceChart),
+  { ssr: false}
+);
+const FinancePdfExport = dynamic(
+  () => import("@/components/tools/financeSuite/financePdfExport").then((m) => m.FinancePdfExport),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
+import dynamic from "next/dynamic";
+import { formatCurrency } from "@/utility/formatCurrencyUtility";
 
-type MainTab = "simple" | "compound" | "deposits";
+/* ─────────────────────────────────────────────
+   Types
+───────────────────────────────────────────── */
+
+type CalculatorTab = "simple" | "compound" | "deposits";
 type DepositMode = "fd" | "rd";
 type RdConvention = "end" | "beginning";
-type TabKey = MainTab;
-type NumInput = string;
+type CurrencyCode =
+  | "INR"
+  | "USD"
+  | "EUR"
+  | "GBP"
+  | "AED"
+  | "AUD"
+  | "CAD"
+  | "SGD"
+  | "JPY";
 
-type CalcResult = {
-  value: number;
-  interest: number;
+const CURRENCIES: Record<
+  CurrencyCode,
+  { label: string; symbol: string; locale: string }
+> = {
+  INR: { label: "Indian Rupee — INR (₹)", symbol: "₹", locale: "en-IN" },
+  USD: { label: "US Dollar — USD ($)", symbol: "$", locale: "en-US" },
+  EUR: { label: "Euro — EUR (€)", symbol: "€", locale: "de-DE" },
+  GBP: { label: "British Pound — GBP (£)", symbol: "£", locale: "en-GB" },
+  AED: { label: "UAE Dirham — AED", symbol: "AED", locale: "en-AE" },
+  AUD: { label: "Australian Dollar — AUD (A$)", symbol: "A$", locale: "en-AU" },
+  CAD: { label: "Canadian Dollar — CAD (C$)", symbol: "C$", locale: "en-CA" },
+  SGD: { label: "Singapore Dollar — SGD (S$)", symbol: "S$", locale: "en-SG" },
+  JPY: { label: "Japanese Yen — JPY (¥)", symbol: "¥", locale: "ja-JP" },
 };
 
-type ExportCard = {
+/* ─────────────────────────────────────────────
+   Small presentational building blocks (EXACT match to EMI)
+───────────────────────────────────────────── */
+
+function Field({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-baseline justify-between gap-2">
+        <label className="block text-sm font-medium text-white/80">
+          {label}
+        </label>
+        {hint && <span className="text-[11px] text-white/35">{hint}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+const inputCls =
+  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
+
+function StatCard({
+  label,
+  value,
+  icon,
+  accent,
+  tone,
+}: {
   label: string;
   value: string;
   icon?: string;
-};
+  accent?: boolean;
+  tone?: "positive" | "neutral";
+}) {
+  return (
+    <div
+      className={`rounded-2xl border p-4 py-3 ${
+        tone === "positive"
+          ? "border-emerald-400/30 bg-emerald-400/5"
+          : accent
+          ? "border-blue-400/30 bg-blue-400/5"
+          : "border-white/10 bg-white/5"
+      }`}
+    >
+      <div className="text-xs text-white/60 mb-1 flex items-center gap-1.5">
+        {icon && <span className="text-base">{icon}</span>}
+        {label}
+      </div>
+      <div
+        className={`text-lg font-semibold ${
+          tone === "positive" ? "text-emerald-300" : "text-white"
+        }`}
+      >
+        {value}
+      </div>
+    </div>
+  );
+}
 
-type ExportData = {
+function SectionHeader({
+  title,
+  subtitle,
+  icon,
+}: {
   title: string;
   subtitle: string;
-  summaryCards: ExportCard[];
-  inputRows: string[][];
-  resultRows: string[][];
-  notes: string[];
-};
-
-const shellClass =
-  "rounded-2xl border border-white/10 bg-white/5 shadow-[0_20px_80px_-30px_rgba(0,0,0,0.55)] backdrop-blur";
-
-const inputClass =
-  "w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-white/30 focus:border-blue-400/40 focus:bg-white/[0.07]";
-
-const tabs: { id: MainTab; label: string; icon: string }[] = [
-  { id: "simple", label: "Simple Interest", icon: "🧮" },
-  { id: "compound", label: "Compound Interest", icon: "📈" },
-  { id: "deposits", label: "FD & RD Planner", icon: "🏦" },
-];
-
-const EXPLAINERS: Record<TabKey, { title: string; lines: string[] }> = {
-  simple: {
-    title: "What is simple interest?",
-    lines: [
-      "Simple interest is calculated only on the original principal amount.",
-      "It is best for quick estimates when interest does not get added back into the principal.",
-      "Use this when you want the easiest possible growth calculation.",
-      "Example: ₹1,00,000 at 6% for 3 years.",
-    ],
-  },
-  compound: {
-    title: "What is compound interest?",
-    lines: [
-      "Compound interest means interest is added back to the principal and then earns more interest.",
-      "More frequent compounding usually gives a slightly higher final value.",
-      "This is common for savings, deposits, and long-term growth planning.",
-      "Example: ₹1,00,000 at 7% for 5 years, compounded quarterly.",
-    ],
-  },
-  deposits: {
-    title: "What are FD and RD?",
-    lines: [
-      "FD means Fixed Deposit: a one-time amount is invested for a chosen duration.",
-      "RD means Recurring Deposit: the same amount is deposited every month.",
-      "FD usually grows with compounding, while RD depends on monthly contributions plus interest.",
-      "Use the dropdowns if you want to change the calculation assumption.",
-    ],
-  },
-};
-
-function toNumber(value: string): number | null {
-  const trimmed = value.trim();
-  if (trimmed === "") return null;
-  const parsed = Number(trimmed);
-  return Number.isFinite(parsed) ? parsed : null;
+  icon: ComponentType<{ className?: string }>;
+}) {
+  const Icon = icon;
+  return (
+    <div className="flex items-start gap-3">
+      <div className="shrink-0 w-9 h-9 rounded-xl bg-blue-400/15 border border-blue-400/30 flex items-center justify-center">
+        <Icon className="w-5 h-5 text-blue-300" />
+      </div>
+      <div>
+        <div className="text-sm font-semibold text-white/90">{title}</div>
+        <div className="text-xs text-white/50 mt-0.5">{subtitle}</div>
+      </div>
+    </div>
+  );
 }
 
-function clampMin(value: number, min: number) {
-  return Math.max(min, value);
+/* ─────────────────────────────────────────────
+   Calculation helpers (with bug fixes)
+───────────────────────────────────────────── */
+
+function computeSimpleInterest(principal: number, ratePct: number, years: number) {
+  const p = Math.max(0, principal);
+  const r = Math.max(0, ratePct);
+  const y = Math.max(0, years);
+  const interest = p * (r / 100) * y;
+  return { interest, value: p + interest };
 }
 
-function calculateSimpleInterest(principal: number, rate: number, years: number): CalcResult {
-  const interest = principal * (rate / 100) * years;
-  return { value: principal + interest, interest };
+function computeCompoundInterest({
+  principal,
+  annualRatePct,
+  years,
+  frequency,
+}: {
+  principal: number;
+  annualRatePct: number;
+  years: number;
+  frequency: number;
+}) {
+  const p = Math.max(0, principal);
+  const r = Math.max(0, annualRatePct) / 100;
+  const n = Math.max(1, frequency);
+  const t = Math.max(0, years);
+  const amount = p * Math.pow(1 + r / n, n * t);
+  const interest = amount - p;
+  return { value: amount, interest };
 }
 
-function calculateCompound(amount: number, rate: number, years: number, frequency: number): CalcResult {
-  const periodic = rate / 100 / frequency;
-  const value = amount * Math.pow(1 + periodic, frequency * years);
-  return { value, interest: value - amount };
+function computeFD({
+  amount,
+  annualRatePct,
+  years,
+  frequency,
+}: {
+  amount: number;
+  annualRatePct: number;
+  years: number;
+  frequency: number;
+}) {
+  return computeCompoundInterest({
+    principal: amount,
+    annualRatePct,
+    years,
+    frequency,
+  });
 }
 
-function calculateRd(monthly: number, annualRate: number, months: number, convention: RdConvention): CalcResult {
-  const r = annualRate / 100 / 12;
-  const value =
-    r === 0
-      ? monthly * months
-      : convention === "beginning"
-        ? monthly * (((Math.pow(1 + r, months) - 1) / r) * (1 + r))
-        : monthly * (((Math.pow(1 + r, months) - 1) / r));
-  return { value, interest: value - monthly * months };
+function computeRD({
+  monthlyDeposit,
+  annualRatePct,
+  months,
+  convention,
+}: {
+  monthlyDeposit: number;
+  annualRatePct: number;
+  months: number;
+  convention: RdConvention;
+}) {
+  const n = Math.max(0, Math.floor(months));
+  const p = Math.max(0, monthlyDeposit);
+  const r = Math.max(0, annualRatePct) / 12 / 100;
+
+  if (n === 0 || p === 0) {
+    return {
+      value: 0,
+      interest: 0,
+      totalInvested: p * n,
+    };
+  }
+
+  if (r === 0) {
+    const totalInvested = p * n;
+    return {
+      value: totalInvested,
+      interest: 0,
+      totalInvested,
+    };
+  }
+
+  let fv = p * ((Math.pow(1 + r, n) - 1) / r);
+
+  if (convention === "beginning") {
+    fv *= 1 + r;
+  }
+
+  const totalInvested = p * n;
+  const interest = fv - totalInvested;
+
+  return { value: fv, interest, totalInvested };
 }
 
-function buildSeries(
-  count: number,
-  labelFactory: (index: number) => string,
-  valueFactory: (index: number) => number
-) {
-  const safeCount = Math.max(0, Math.floor(count));
-  return {
-    labels: Array.from({ length: safeCount }, (_, index) => labelFactory(index + 1)),
-    data: Array.from({ length: safeCount }, (_, index) => valueFactory(index + 1)),
-  };
+/* ─────────────────────────────────────────────
+   Quick start strip (EXACT match to EMI)
+───────────────────────────────────────────── */
+
+function QuickStartStrip() {
+  const steps = [
+    { icon: "🧮", title: "Pick a calculator", body: "Simple, compound, FD, or RD — choose your investment type." },
+    { icon: "💰", title: "Enter your numbers", body: "Amount, rate, and duration — drag sliders or type exact values." },
+    { icon: "📊", title: "See projections", body: "View charts and export reports to plan your finances." },
+  ];
+  return (
+    <div className="grid gap-3 sm:grid-cols-3 mb-8">
+      {steps.map((s, i) => (
+        <div
+          key={s.title}
+          className="rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
+        >
+          <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
+            {s.icon}
+          </div>
+          <div>
+            <div className="text-xs font-semibold text-white/80">
+              {i + 1}. {s.title}
+            </div>
+            <div className="text-[11px] text-white/45 mt-0.5 leading-snug">
+              {s.body}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-function FieldHint({ text }: { text: string }) {
-  return <p className="mt-2 text-xs leading-5 text-white/45">{text}</p>;
+/* ─────────────────────────────────────────────
+   Methodology note (EXACT match to EMI)
+───────────────────────────────────────────── */
+
+function MethodologyNote() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
+      >
+        <span className="text-xs font-medium text-white/60">
+          ⓘ How this is calculated
+        </span>
+        <span className="text-white/40 text-sm">{open ? "−" : "+"}</span>
+      </button>
+      {open && (
+        <div className="px-5 pb-4 pt-1 text-xs text-white/50 leading-relaxed space-y-2 border-t border-white/10">
+          <p>
+            <strong>Simple interest:</strong> Calculated as Principal × Rate × Time. Interest is only earned on the original principal amount.
+          </p>
+          <p>
+            <strong>Compound interest:</strong> Uses the formula A = P(1 + r/n)^(nt). Interest compounds and is added to principal each period.
+          </p>
+          <p>
+            <strong>Fixed Deposit (FD):</strong> Same as compound interest. Quarterly compounding is common but actual products may vary.
+          </p>
+          <p>
+            <strong>Recurring Deposit (RD):</strong> Uses a monthly-compounding annuity formula. Actual bank RD calculations may use different conventions.
+          </p>
+          <p className="text-white/40">
+            These are standard mathematical estimates. Actual financial products may include fees, taxes, or different compounding rules — confirm exact figures with your institution.
+          </p>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default function SavingsDepositsSuite() {
-  const searchParams = useSearchParams();
+/* ─────────────────────────────────────────────
+   Main component
+───────────────────────────────────────────── */
 
-  const getInitialActiveTab = (): MainTab => {
-    const type = searchParams.get("category")?.toLowerCase() || "";
+export default function SavingsAndDepositsCalculator() {
+  const [currency, setCurrency] = useState<CurrencyCode>("INR");
+  const currencyMeta = CURRENCIES[currency];
 
-    if (type === "simple") return "simple";
-    if (type === "compound") return "compound";
-    if (type === "fd" || type === "rd") return "deposits";
+  const fmt = useMemo(() => {
+    const nf = new Intl.NumberFormat(currencyMeta.locale, {
+      style: "currency",
+      currency,
+      maximumFractionDigits: currency === "JPY" ? 0 : 2,
+      minimumFractionDigits: currency === "JPY" ? 0 : 2,
+    });
+    return (v: number) => nf.format(Number.isFinite(v) ? v : 0);
+  }, [currency, currencyMeta.locale]);
 
-    return "simple";
-  };
+  const [activeTab, setActiveTab] = useState<CalculatorTab>("simple");
+  const [depositMode, setDepositMode] = useState<DepositMode>("fd");
 
-  const getInitialDepositMode = (): DepositMode => {
-    const type = searchParams.get("category")?.toLowerCase() || "";
+  /* Simple interest state */
+  const [principal, setPrincipal] = useState<number>(100000);
+  const [simpleRate, setSimpleRate] = useState<number>(7);
+  const [simpleYears, setSimpleYears] = useState<number>(5);
 
-    if (type === "rd") return "rd";
-    return "fd";
-  };
+  const simpleCalc = useMemo(
+    () => computeSimpleInterest(principal, simpleRate, simpleYears),
+    [principal, simpleRate, simpleYears]
+  );
 
-  const [activeTab, setActiveTab] = useState<MainTab>(() => getInitialActiveTab());
-  const [depositMode, setDepositMode] = useState<DepositMode>(() => getInitialDepositMode());
+  /* Compound interest state */
+  const [compoundPrincipal, setCompoundPrincipal] = useState<number>(100000);
+  const [compoundRate, setCompoundRate] = useState<number>(8);
+  const [compoundYears, setCompoundYears] = useState<number>(5);
+  const [compoundFrequency, setCompoundFrequency] = useState<string>("4");
 
+  const compoundCalc = useMemo(
+    () =>
+      computeCompoundInterest({
+        principal: compoundPrincipal,
+        annualRatePct: compoundRate,
+        years: compoundYears,
+        frequency: Number(compoundFrequency),
+      }),
+    [compoundPrincipal, compoundRate, compoundYears, compoundFrequency]
+  );
 
-  const [principal, setPrincipal] = useState<NumInput>("100000");
-  const [simpleRate, setSimpleRate] = useState<NumInput>("6");
-  const [simpleYears, setSimpleYears] = useState<NumInput>("3");
+  /* FD state */
+  const [fdAmount, setFdAmount] = useState<number>(100000);
+  const [fdRate, setFdRate] = useState<number>(7.5);
+  const [fdYears, setFdYears] = useState<number>(5);
+  const [fdFrequency, setFdFrequency] = useState<string>("4");
 
-  const [compoundPrincipal, setCompoundPrincipal] = useState<NumInput>("100000");
-  const [compoundRate, setCompoundRate] = useState<NumInput>("7");
-  const [compoundYears, setCompoundYears] = useState<NumInput>("5");
-  const [compoundFrequency, setCompoundFrequency] = useState<NumInput>("4");
+  const fdCalc = useMemo(
+    () =>
+      computeFD({
+        amount: fdAmount,
+        annualRatePct: fdRate,
+        years: fdYears,
+        frequency: Number(fdFrequency),
+      }),
+    [fdAmount, fdRate, fdYears, fdFrequency]
+  );
 
-  const [fdAmount, setFdAmount] = useState<NumInput>("200000");
-  const [fdRate, setFdRate] = useState<NumInput>("6.5");
-  const [fdYears, setFdYears] = useState<NumInput>("4");
-  const [fdFrequency, setFdFrequency] = useState<NumInput>("4");
-
-  const [rdAmount, setRdAmount] = useState<NumInput>("5000");
-  const [rdRate, setRdRate] = useState<NumInput>("6");
-  const [rdMonths, setRdMonths] = useState<NumInput>("60");
+  /* RD state */
+  const [rdAmount, setRdAmount] = useState<number>(5000);
+  const [rdRate, setRdRate] = useState<number>(7);
+  const [rdMonths, setRdMonths] = useState<number>(60);
   const [rdConvention, setRdConvention] = useState<RdConvention>("end");
 
-  const exportRef = useRef<HTMLDivElement | null>(null);
-  const chartRef = useRef<HTMLDivElement | null>(null);
+  const rdCalc = useMemo(
+    () =>
+      computeRD({
+        monthlyDeposit: rdAmount,
+        annualRatePct: rdRate,
+        months: Math.min(600, Math.max(1, rdMonths)),
+        convention: rdConvention,
+      }),
+    [rdAmount, rdRate, rdMonths, rdConvention]
+  );
 
-  const simpleInputs = {
-    principal: toNumber(principal),
-    rate: toNumber(simpleRate),
-    years: toNumber(simpleYears),
-  };
+  /* Chart refs */
+  const simpleChartRef = useRef<HTMLDivElement | null>(null);
+  const compoundChartRef = useRef<HTMLDivElement | null>(null);
+  const fdChartRef = useRef<HTMLDivElement | null>(null);
+  const rdChartRef = useRef<HTMLDivElement | null>(null);
 
-  const compoundInputs = {
-    principal: toNumber(compoundPrincipal),
-    rate: toNumber(compoundRate),
-    years: toNumber(compoundYears),
-    frequency: toNumber(compoundFrequency),
-  };
-
-  const fdInputs = {
-    amount: toNumber(fdAmount),
-    rate: toNumber(fdRate),
-    years: toNumber(fdYears),
-    frequency: toNumber(fdFrequency),
-  };
-
-  const rdInputs = {
-    amount: toNumber(rdAmount),
-    rate: toNumber(rdRate),
-    months: toNumber(rdMonths),
-  };
-
-  const simpleError =
-    simpleInputs.principal === null || simpleInputs.rate === null || simpleInputs.years === null
-      ? "Please enter all simple interest values."
-      : simpleInputs.principal < 0 || simpleInputs.rate < 0 || simpleInputs.years < 0
-        ? "Simple interest values cannot be negative."
-        : null;
-
-  const compoundError =
-    compoundInputs.principal === null || compoundInputs.rate === null || compoundInputs.years === null || compoundInputs.frequency === null
-      ? "Please enter all compound interest values."
-      : compoundInputs.principal < 0 || compoundInputs.rate < 0 || compoundInputs.years < 0 || compoundInputs.frequency <= 0
-        ? "Compound interest values must be valid and frequency must be at least 1."
-        : null;
-
-  const fdError =
-    fdInputs.amount === null || fdInputs.rate === null || fdInputs.years === null || fdInputs.frequency === null
-      ? "Please enter all FD values."
-      : fdInputs.amount < 0 || fdInputs.rate < 0 || fdInputs.years < 0 || fdInputs.frequency <= 0
-        ? "FD values must be valid and frequency must be at least 1."
-        : null;
-
-  const rdError =
-    rdInputs.amount === null || rdInputs.rate === null || rdInputs.months === null
-      ? "Please enter all RD values."
-      : rdInputs.amount < 0 || rdInputs.rate < 0 || rdInputs.months < 0
-        ? "RD values cannot be negative."
-        : null;
-
-  const simpleCalc = useMemo(() => {
-    if (simpleError) return { value: 0, interest: 0 };
-    return calculateSimpleInterest(simpleInputs.principal!, simpleInputs.rate!, simpleInputs.years!);
-  }, [simpleError, simpleInputs.principal, simpleInputs.rate, simpleInputs.years]);
-
-  const compoundCalc = useMemo(() => {
-    if (compoundError) return { value: 0, interest: 0 };
-    return calculateCompound(
-      compoundInputs.principal!,
-      compoundInputs.rate!,
-      compoundInputs.years!,
-      clampMin(compoundInputs.frequency!, 1)
-    );
-  }, [compoundError, compoundInputs.principal, compoundInputs.rate, compoundInputs.years, compoundInputs.frequency]);
-
-  const fdCalc = useMemo(() => {
-    if (fdError) return { value: 0, interest: 0 };
-    return calculateCompound(fdInputs.amount!, fdInputs.rate!, fdInputs.years!, clampMin(fdInputs.frequency!, 1));
-  }, [fdError, fdInputs.amount, fdInputs.rate, fdInputs.years, fdInputs.frequency]);
-
-  const rdCalc = useMemo(() => {
-    if (rdError) return { value: 0, interest: 0 };
-    return calculateRd(rdInputs.amount!, rdInputs.rate!, clampMin(rdInputs.months!, 0), rdConvention);
-  }, [rdError, rdInputs.amount, rdInputs.rate, rdInputs.months, rdConvention]);
-
+  /* Series for charts */
   const simpleSeries = useMemo(() => {
-    if (simpleError) return { labels: [] as string[], data: [] as number[] };
-    const years = Math.max(1, Math.floor(simpleInputs.years!));
-    return buildSeries(years, (i) => `Year ${i}`, (i) => calculateSimpleInterest(simpleInputs.principal!, simpleInputs.rate!, i).value);
-  }, [simpleError, simpleInputs.principal, simpleInputs.rate, simpleInputs.years]);
+    const labels: string[] = [];
+    const data: number[] = [];
+    const years = Math.max(0, simpleYears);
+
+    for (let y = 0; y <= Math.floor(years); y++) {
+      const { value } = computeSimpleInterest(principal, simpleRate, y);
+      labels.push(`Year ${y}`);
+      data.push(value);
+    }
+
+    // Add exact final duration if it isn't already a whole year
+    if (!Number.isInteger(years)) {
+      const { value } = computeSimpleInterest(
+        principal,
+        simpleRate,
+        years
+      );
+
+      labels.push(`Year ${years}`);
+      data.push(value);
+    }
+    return { labels, data };
+  }, [principal, simpleRate, simpleYears]);
 
   const compoundSeries = useMemo(() => {
-    if (compoundError) return { labels: [] as string[], data: [] as number[] };
-    const years = Math.max(1, Math.floor(compoundInputs.years!));
-    return buildSeries(
-      years,
-      (i) => `Year ${i}`,
-      (i) => calculateCompound(compoundInputs.principal!, compoundInputs.rate!, i, clampMin(compoundInputs.frequency!, 1)).value
-    );
-  }, [compoundError, compoundInputs.principal, compoundInputs.rate, compoundInputs.years, compoundInputs.frequency]);
+    const labels: string[] = [];
+    const data: number[] = [];
+    const years = Math.max(0, compoundYears);
+
+    for (let y = 0; y <= Math.floor(years); y++) {
+      const { value } = computeCompoundInterest({
+        principal: compoundPrincipal,
+        annualRatePct: compoundRate,
+        years: y,
+        frequency: Number(compoundFrequency),
+      });
+
+      labels.push(`Year ${y}`);
+      data.push(value);
+    }
+
+    if (!Number.isInteger(years)) {
+      const { value } = computeCompoundInterest({
+        principal: compoundPrincipal,
+        annualRatePct: compoundRate,
+        years,
+        frequency: Number(compoundFrequency),
+      });
+
+      labels.push(`Year ${years}`);
+      data.push(value);
+    }
+    return { labels, data };
+  }, [compoundPrincipal, compoundRate, compoundYears, compoundFrequency]);
 
   const fdSeries = useMemo(() => {
-    if (fdError) return { labels: [] as string[], data: [] as number[] };
-    const years = Math.max(1, Math.floor(fdInputs.years!));
-    return buildSeries(
-      years,
-      (i) => `Year ${i}`,
-      (i) => calculateCompound(fdInputs.amount!, fdInputs.rate!, i, clampMin(fdInputs.frequency!, 1)).value
-    );
-  }, [fdError, fdInputs.amount, fdInputs.rate, fdInputs.years, fdInputs.frequency]);
+    const labels: string[] = [];
+    const data: number[] = [];
+    const years = Math.max(0, fdYears);
+
+    for (let y = 0; y <= Math.floor(years); y++) {
+      const { value } = computeFD({
+        amount: fdAmount,
+        annualRatePct: fdRate,
+        years: y,
+        frequency: Number(fdFrequency),
+      });
+
+      labels.push(`Year ${y}`);
+      data.push(value);
+    }
+
+    if (!Number.isInteger(years)) {
+      const { value } = computeFD({
+        amount: fdAmount,
+        annualRatePct: fdRate,
+        years,
+        frequency: Number(fdFrequency),
+      });
+
+      labels.push(`Year ${years}`);
+      data.push(value);
+    }
+    return { labels, data };
+  }, [fdAmount, fdRate, fdYears, fdFrequency]);
 
   const rdSeries = useMemo(() => {
-    if (rdError) return { labels: [] as string[], data: [] as number[] };
-    const months = Math.max(1, Math.floor(rdInputs.months!));
-    return buildSeries(
-      months,
-      (i) => `Month ${i}`,
-      (i) => calculateRd(rdInputs.amount!, rdInputs.rate!, i, rdConvention).value
-    );
-  }, [rdError, rdInputs.amount, rdInputs.rate, rdInputs.months, rdConvention]);
+    const labels: string[] = [];
+    const data: number[] = [];
+    const months = Math.min(600, Math.max(1, Math.floor(rdMonths)));
+    for (let m = 0; m <= months; m++) {
+      const { value } = computeRD({
+        monthlyDeposit: rdAmount,
+        annualRatePct: rdRate,
+        months: m,
+        convention: rdConvention,
+      });
+      labels.push(`Month ${m}`);
+      data.push(value);
+    }
+    return { labels, data };
+  }, [rdAmount, rdRate, rdMonths, rdConvention]);
 
-  const reportLabel = tabs.find((t) => t.id === activeTab)?.label ?? "Simple Interest";
+  /* Export data */
+  const exportData = useMemo(() => {
+    const base = {
+      title: "Savings & Deposits Report",
+      subtitle: "Projection summary",
+      summaryCards: [] as { label: string; value: string }[],
+      inputRows: [] as { label: string; value: string }[],
+      resultRows: [] as { label: string; value: string }[],
+      notes: [] as string[],
+    };
 
-  const exportData: ExportData = useMemo(() => {
     if (activeTab === "simple") {
       return {
+        ...base,
         title: "Simple Interest Report",
-        subtitle: "Principal, rate, time, and projection summary.",
+        subtitle: `Principal ${fmt(principal)} • ${simpleRate}% • ${simpleYears} years`,
         summaryCards: [
-          { label: "Principal", value: formatCurrency(simpleInputs.principal ?? 0), icon: "💵" },
-          { label: "Interest", value: simpleError ? "Fix inputs" : formatCurrency(simpleCalc.interest), icon: "💹" },
-          { label: "Maturity", value: simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value), icon: "🏆" },
+          { label: "Principal", value: fmt(principal) },
+          { label: "Interest", value: fmt(simpleCalc.interest) },
+          { label: "Maturity", value: fmt(simpleCalc.value) },
         ],
         inputRows: [
-          ["Principal", formatCurrency(simpleInputs.principal ?? 0)],
-          ["Rate", `${simpleInputs.rate ?? 0}%`],
-          ["Years", `${simpleInputs.years ?? 0}`],
+          { label: "Principal", value: fmt(principal) },
+          { label: "Rate", value: `${simpleRate}%` },
+          { label: "Duration", value: `${simpleYears} years` },
         ],
         resultRows: [
-          ["Total interest", simpleError ? "Fix inputs" : formatCurrency(simpleCalc.interest)],
-          ["Maturity value", simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value)],
+          { label: "Total Interest", value: fmt(simpleCalc.interest) },
+          { label: "Maturity Value", value: fmt(simpleCalc.value) },
         ],
-        notes: ["Simple interest is calculated only on the original principal."],
+        notes: ["Simple interest calculated on original principal only."],
       };
     }
 
     if (activeTab === "compound") {
       return {
+        ...base,
         title: "Compound Interest Report",
-        subtitle: "Compound growth with selected frequency.",
+        subtitle: `${compoundFrequency}x yearly compounding`,
         summaryCards: [
-          { label: "Principal", value: formatCurrency(compoundInputs.principal ?? 0), icon: "💵" },
-          { label: "Maturity", value: compoundError ? "Fix inputs" : formatCurrency(compoundCalc.value), icon: "🏆" },
-          { label: "Gain", value: compoundError ? "Fix inputs" : formatCurrency(compoundCalc.interest), icon: "✨" },
+          { label: "Principal", value: fmt(compoundPrincipal) },
+          { label: "Gain", value: fmt(compoundCalc.interest) },
+          { label: "Maturity", value: fmt(compoundCalc.value) },
         ],
         inputRows: [
-          ["Principal", formatCurrency(compoundInputs.principal ?? 0)],
-          ["Rate", `${compoundInputs.rate ?? 0}%`],
-          ["Years", `${compoundInputs.years ?? 0}`],
-          ["Frequency", `${compoundInputs.frequency ?? 0} times/year`],
+          { label: "Principal", value: fmt(compoundPrincipal) },
+          { label: "Rate", value: `${compoundRate}%` },
+          { label: "Duration", value: `${compoundYears} years` },
+          { label: "Frequency", value: `${compoundFrequency}x/year` },
         ],
         resultRows: [
-          ["Total gain", compoundError ? "Fix inputs" : formatCurrency(compoundCalc.interest)],
-          ["Maturity value", compoundError ? "Fix inputs" : formatCurrency(compoundCalc.value)],
+          { label: "Maturity Value", value: fmt(compoundCalc.value) },
+          { label: "Compound Gain", value: fmt(compoundCalc.interest) },
         ],
-        notes: ["Compound interest adds earned interest back into principal before each new period."],
+        notes: ["Interest compounds and is added to principal each period."],
       };
     }
 
+    if (activeTab === "deposits" && depositMode === "fd") {
+      return {
+        ...base,
+        title: "Fixed Deposit (Estimate)",
+        subtitle: "Quarterly is a common compounding assumption for this estimate.",
+        summaryCards: [
+          { label: "Deposit", value: fmt(fdAmount) },
+          { label: "Interest", value: fmt(fdCalc.interest) },
+          { label: "Maturity", value: fmt(fdCalc.value) },
+        ],
+        inputRows: [
+          { label: "Deposit Amount", value: fmt(fdAmount) },
+          { label: "Rate", value: `${fdRate}%` },
+          { label: "Duration", value: `${fdYears} years` },
+          { label: "Frequency", value: `${fdFrequency}x/year` },
+        ],
+        resultRows: [
+          { label: "Maturity Value", value: fmt(fdCalc.value) },
+          { label: "Interest Earned", value: fmt(fdCalc.interest) },
+        ],
+        notes: [
+          "Uses standard compound-interest formula. Actual products may use different rules.",
+        ],
+      };
+    }
+
+    // RD
     return {
-      title: depositMode === "fd" ? "Fixed Deposit Report" : "Recurring Deposit Report",
-      subtitle:
-        depositMode === "fd"
-          ? "Lump-sum deposit growth with compounding."
-          : "Monthly contribution growth with deposit timing choice.",
-      summaryCards:
-        depositMode === "fd"
-          ? [
-              { label: "Deposit", value: formatCurrency(fdInputs.amount ?? 0), icon: "💰" },
-              { label: "Maturity", value: fdError ? "Fix inputs" : formatCurrency(fdCalc.value), icon: "💎" },
-              { label: "Interest", value: fdError ? "Fix inputs" : formatCurrency(fdCalc.interest), icon: "💹" },
-            ]
-          : [
-              { label: "Monthly deposit", value: formatCurrency(rdInputs.amount ?? 0), icon: "🏦" },
-              { label: "Maturity", value: rdError ? "Fix inputs" : formatCurrency(rdCalc.value), icon: "💎" },
-              { label: "Interest", value: rdError ? "Fix inputs" : formatCurrency(rdCalc.interest), icon: "💹" },
-            ],
-      inputRows:
-        depositMode === "fd"
-          ? [
-              ["Deposit amount", formatCurrency(fdInputs.amount ?? 0)],
-              ["Rate", `${fdInputs.rate ?? 0}%`],
-              ["Years", `${fdInputs.years ?? 0}`],
-              ["Compounding frequency", `${fdInputs.frequency ?? 0} times/year`],
-            ]
-          : [
-              ["Monthly deposit", formatCurrency(rdInputs.amount ?? 0)],
-              ["Rate", `${rdInputs.rate ?? 0}%`],
-              ["Term", `${rdInputs.months ?? 0} months`],
-              ["Timing", rdConvention === "beginning" ? "Beginning of month" : "End of month"],
-            ],
-      resultRows:
-        depositMode === "fd"
-          ? [
-              ["Maturity value", fdError ? "Fix inputs" : formatCurrency(fdCalc.value)],
-              ["Interest earned", fdError ? "Fix inputs" : formatCurrency(fdCalc.interest)],
-            ]
-          : [
-              ["Maturity value", rdError ? "Fix inputs" : formatCurrency(rdCalc.value)],
-              ["Interest earned", rdError ? "Fix inputs" : formatCurrency(rdCalc.interest)],
-            ],
-      notes:
-        depositMode === "fd"
-          ? ["FD calculations assume the selected compounding frequency."]
-          : ["RD calculation uses the selected monthly deposit timing assumption."],
+      ...base,
+      title: "Recurring Deposit / Monthly Savings (Estimate)",
+      subtitle: "Uses a standard monthly-compounding annuity model.",
+      summaryCards: [
+        { label: "Total Invested", value: fmt(rdCalc.totalInvested) },
+        { label: "Interest", value: fmt(rdCalc.interest) },
+        { label: "Maturity", value: fmt(rdCalc.value) },
+      ],
+      inputRows: [
+        { label: "Monthly Deposit", value: fmt(rdAmount) },
+        { label: "Rate", value: `${rdRate}%` },
+        { label: "Term", value: `${Math.min(600, Math.max(1, rdMonths))} months` },
+        { label: "Timing", value: rdConvention },
+      ],
+      resultRows: [
+        { label: "Maturity Value", value: fmt(rdCalc.value) },
+        { label: "Interest Earned", value: fmt(rdCalc.interest) },
+      ],
+      notes: [
+        "Actual bank RD calculations may use different compounding conventions.",
+      ],
     };
   }, [
     activeTab,
     depositMode,
-    simpleInputs.principal,
-    simpleInputs.rate,
-    simpleInputs.years,
-    simpleError,
-    simpleCalc.interest,
-    simpleCalc.value,
-    compoundInputs.principal,
-    compoundInputs.rate,
-    compoundInputs.years,
-    compoundInputs.frequency,
-    compoundError,
-    compoundCalc.value,
-    compoundCalc.interest,
-    fdInputs.amount,
-    fdInputs.rate,
-    fdInputs.years,
-    fdInputs.frequency,
-    fdError,
-    fdCalc.value,
-    fdCalc.interest,
-    rdInputs.amount,
-    rdInputs.rate,
-    rdInputs.months,
-    rdError,
-    rdCalc.value,
-    rdCalc.interest,
+    principal,
+    simpleRate,
+    simpleYears,
+    simpleCalc,
+    compoundPrincipal,
+    compoundRate,
+    compoundYears,
+    compoundFrequency,
+    compoundCalc,
+    fdAmount,
+    fdRate,
+    fdYears,
+    fdFrequency,
+    fdCalc,
+    rdAmount,
+    rdRate,
+    rdMonths,
     rdConvention,
+    rdCalc,
+    fmt,
   ]);
+
+  const tabs: { id: CalculatorTab; label: string; icon: string }[] = [
+    { id: "simple", label: "Simple Interest", icon: "🧮" },
+    { id: "compound", label: "Compound Interest", icon: "📈" },
+    { id: "deposits", label: "FD / RD", icon: "🏦" },
+  ];
 
   return (
     <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
-      <section className={`${shellClass} mb-5 px-5 py-6 sm:px-6 lg:px-8`}>
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
-              <BarChart3 className="h-3.5 w-3.5" />
-              Private finance workspace
-            </div>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              Savings and deposits with{" "}
-              <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
-                clear projections
-              </span>
-            </h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Compare simple interest, compound growth, FD, and RD — all calculations run locally in your browser.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:min-w-[520px]">
-            <StatCard label="Mode" value={tabs.find((t) => t.id === activeTab)?.label ?? "Simple Interest"} icon="⚙️" />
-            <StatCard label="Simple interest" value={formatCurrency(simpleCalc.value)} icon="🧮" />
-            <StatCard label="Compound value" value={formatCurrency(compoundCalc.value)} icon="📈" />
-            <StatCard label="FD / RD" value={formatCurrency(depositMode === "fd" ? fdCalc.value : rdCalc.value)} icon="🏦"  />
+      {/* ── Hero ── */}
+      <section className="mb-5 px-5 py-6 sm:px-6 lg:px-8 rounded-3xl border border-white/10 bg-slate-950/60">
+        {/* ── COMPLETELY REIMAGINED HERO ── */}
+<div className="relative mb-8">
+  {/* Split layout: Content left, Visual right */}
+  <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+    
+    {/* Left: Content */}
+    <div className="space-y-6">
+      {/* Badge with animation hint */}
+      <div className="inline-flex items-center gap-2">
+        <div className="relative">
+          <div className="absolute inset-0 bg-blue-400/30 blur-md rounded-full animate-pulse" />
+          <div className="relative inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/15 px-3 py-1.5 text-xs font-medium text-blue-200 backdrop-blur-sm">
+            <BarChart3 className="h-3.5 w-3.5" />
+            <span>Private finance workspace</span>
           </div>
         </div>
+      </div>
+
+      {/* Headline with interesting typography */}
+      <div className="space-y-3">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+          Your money,{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400">
+            projected forward
+          </span>
+        </h1>
+        <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-xl">
+          See exactly how your savings grow over time — whether it's simple interest, 
+          compound growth, or bank deposits. No accounts, no tracking, just calculations.
+        </p>
+      </div>
+
+      {/* Interactive value props */}
+      <div className="grid sm:grid-cols-2 gap-3">
+        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10">
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+              🔒
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-white/90">100% Private</div>
+              <div className="text-xs text-white/50 mt-0.5">Calculations run locally in your browser</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-emerald-400/30 hover:bg-emerald-400/10">
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 border border-emerald-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+              📄
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-white/90">Export Reports</div>
+              <div className="text-xs text-white/50 mt-0.5">Download PDF summaries instantly</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-violet-400/30 hover:bg-violet-400/10">
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-violet-600/20 border border-violet-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+              🌍
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-white/90">Global Currencies</div>
+              <div className="text-xs text-white/50 mt-0.5">Support for 9 major currencies</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-amber-400/30 hover:bg-amber-400/10">
+          <div className="flex items-start gap-3">
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/20 border border-amber-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+              ⚡
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-white/90">Instant Results</div>
+              <div className="text-xs text-white/50 mt-0.5">Real-time calculations as you type</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Currency + CTA */}
+      {/* <div className="flex flex-wrap items-center gap-3 pt-2">
+        <div className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
+          <span className="text-xs text-white/50">Currency</span>
+          <CustomSelect
+            value={currency}
+            callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
+            options={Object.entries(CURRENCIES).map(([code, meta]) => ({
+              value: code,
+              label: meta.label,
+            }))}
+          />
+        </div>
+      </div> */}
+    </div>
+
+    {/* Right: Interactive visual / Live preview */}
+    <div className="relative">
+      {/* Background glow */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 rounded-3xl blur-2xl" />
+      
+      {/* Main card */}
+      <div className="relative rounded-3xl border border-white/10 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-xs text-white/50 uppercase tracking-wide">Live preview</div>
+            <div className="text-sm font-semibold text-white/90">Your projections at a glance</div>
+          </div>
+          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        </div>
+
+        {/* Live stat cards */}
+        <div className="grid grid-cols-2 flex gap-3">
+          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🧮</span>
+              <span className="text-xs text-white/60">Simple</span>
+            </div>
+            <div className="text-lg sm:text-xl font-bold text-white">
+              {fmt(simpleCalc.value)}
+            </div>
+            <div className="text-[11px] text-emerald-400 mt-1">
+              +{fmt(simpleCalc.interest)} interest
+            </div>
+          </div>
+
+          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-violet-400/30">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">📈</span>
+              <span className="text-xs text-white/60">Compound</span>
+            </div>
+            <div className="text-lg sm:text-xl font-bold text-white">
+              {fmt(compoundCalc.value)}
+            </div>
+            <div className="text-[11px] text-emerald-400 mt-1">
+              +{fmt(compoundCalc.interest)} gain
+            </div>
+          </div>
+
+          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🏦</span>
+              <span className="text-xs text-white/60">FD</span>
+            </div>
+            <div className="text-lg sm:text-xl font-bold text-white">
+              {fmt(fdCalc.value)}
+            </div>
+            <div className="text-[11px] text-emerald-400 mt-1">
+              +{fmt(fdCalc.interest)} earned
+            </div>
+          </div>
+
+          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-emerald-400/30">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-lg">🗓️</span>
+              <span className="text-xs text-white/60">RD</span>
+            </div>
+            <div className="text-lg sm:text-xl font-bold text-white">
+              {fmt(rdCalc.value)}
+            </div>
+            <div className="text-[11px] text-emerald-400 mt-1">
+              +{fmt(rdCalc.interest)} earned
+            </div>
+          </div>
+        </div>
+
+        {/* Active calculator indicator */}
+        <div className="rounded-xl border border-dashed border-white/10 bg-white/5 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-sm font-bold text-white">
+                {activeTab === "simple" ? "🧮" : activeTab === "compound" ? "📈" : "🏦"}
+              </div>
+              <div>
+                <div className="text-xs text-white/50">Currently viewing</div>
+                <div className="text-sm font-semibold text-white">
+                  {activeTab === "simple" ? "Simple Interest" : activeTab === "compound" ? "Compound Interest" : depositMode === "fd" ? "Fixed Deposit" : "Recurring Deposit"}
+                </div>
+              </div>
+            </div>
+            <div className="text-xs text-white/40">
+              {tabs.find(t => t.id === activeTab)?.label}
+            </div>
+          </div>
+        </div>
+        <div className="hidden sm:flex items-center gap-2 text-xs text-white/40">
+        {/* ── Currency selector ── */}
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center gap-2 pt-1">
+              <span className="text-xs text-white/40">Currency</span>
+              <CustomSelect
+                value={currency}
+                callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
+                options={Object.entries(CURRENCIES).map(([code, meta]) => ({
+                  value: code,
+                  label: meta.label,
+                }))}
+              />
+            </div>
+            <p className="text-[11px] text-white/35">
+              Currency affects display only — no exchange-rate conversion is applied.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
       </section>
 
+      
+
+      {/* ── Quick start ── */}
+      <QuickStartStrip />
+
+      {/* ── Methodology note ── */}
+      <MethodologyNote />
+
+      {/* ── Tabs ── */}
       <div className="flex items-center gap-3">
         <div className="flex flex-1 justify-center gap-2 flex-wrap">
           {tabs.map((tab) => {
@@ -476,95 +900,102 @@ export default function SavingsDepositsSuite() {
         </div>
       </div>
 
-      <ExplainerPanel tabKey={activeTab} explainers={EXPLAINERS} />
-
-      <div ref={exportRef} className="space-y-6">
+      {/* ── Content ── */}
+      <div className="space-y-6">
         {activeTab === "simple" && (
           <div className="space-y-4">
             <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-              <section className={shellClass}>
-                <div className="border-b border-white/10 p-4 sm:p-5">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+              <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                <div className="border-b border-white/10 pb-4 mb-4">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <SectionHeader
                       title="Simple interest calculator"
                       subtitle="Enter principal, rate, and time to see total interest and maturity value."
                       icon={PiggyBank}
                     />
                     <FinancePdfExport
-                      filename="simle-interest-report"
+                      filename="simple-interest-report"
                       title={exportData.title}
                       subtitle={exportData.subtitle}
                       summaryCards={exportData.summaryCards}
-                      inputRows={exportData.inputRows}
-                      resultRows={exportData.resultRows}
+                      inputRows={exportData.inputRows.map(r => [r.label, r.value])}
+                      resultRows={exportData.resultRows.map(r => [r.label, r.value])}
                       notes={exportData.notes}
-                      chartRef={chartRef}
+                      chartRef={simpleChartRef}
                     />
                   </div>
                 </div>
-                <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+
+                <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <Field label="Principal (₹)" >
+                    <Field label={`Principal (${currencyMeta.symbol})`}>
                       <input
-                        type="text"
-                        aria-label="Principal (₹)"
+                        type="number"
+                        min={0}
+                        step="1"
                         inputMode="decimal"
                         value={principal}
-                        onChange={(e) => setPrincipal(e.target.value)}
-                        className={inputClass}
+                        onChange={(e) => setPrincipal(Number(e.target.value))}
+                        className={inputCls}
                       />
                     </Field>
-                    <FieldHint text="The starting amount you invest or deposit." />
+                    <div className="text-[11px] text-white/35 mt-1">
+                      The starting amount you invest or deposit.
+                    </div>
                   </div>
 
                   <div>
                     <Field label="Interest rate (%)">
                       <input
-                        type="text"
-                        aria-label="Interest rate (%)"
+                        type="number"
+                        min={0}
+                        step="0.01"
                         inputMode="decimal"
                         value={simpleRate}
-                        onChange={(e) => setSimpleRate(e.target.value)}
-                        className={inputClass}
+                        onChange={(e) => setSimpleRate(Number(e.target.value))}
+                        className={inputCls}
                       />
                     </Field>
-                    <FieldHint text="Annual simple interest rate." />
+                    <div className="text-[11px] text-white/35 mt-1">
+                      Annual simple interest rate.
+                    </div>
                   </div>
 
                   <div>
                     <Field label="Duration (years)">
                       <input
-                        type="text"
-                        aria-label="Duration (years)"
+                        type="number"
+                        min={0}
+                        step="1"
                         inputMode="decimal"
                         value={simpleYears}
-                        onChange={(e) => setSimpleYears(e.target.value)}
-                        className={inputClass}
+                        onChange={(e) => setSimpleYears(Number(e.target.value))}
+                        className={inputCls}
                       />
                     </Field>
-                    <FieldHint text="How long the money stays invested." />
+                    <div className="text-[11px] text-white/35 mt-1">
+                      How long the money stays invested.
+                    </div>
                   </div>
                 </div>
 
-                {simpleError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{simpleError}</div> : null}
-
-                <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                    <StatCard label="Total interest" value={simpleError ? "Fix inputs" : formatCurrency(simpleCalc.interest)}  icon="💹" />
-                  <StatCard label="Principal" value={formatCurrency(simpleInputs.principal ?? 0)} icon="💵" />
-                  <StatCard label="Maturity value" value={simpleError ? "Fix inputs" : formatCurrency(simpleCalc.value)} icon="🏆" />
+                <div className="grid gap-3 sm:grid-cols-3 mt-5">
+                  <StatCard label="Total interest" value={fmt(simpleCalc.interest)} icon="💹" />
+                  <StatCard label="Principal" value={fmt(principal)} icon="💵" />
+                  <StatCard label="Maturity value" value={fmt(simpleCalc.value)} icon="🏆" />
                 </div>
               </section>
 
-              <section ref={chartRef} className={shellClass}>
-                <div className="border-b border-white/10 p-4 sm:p-5">
+              <section ref={simpleChartRef} className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                <div className="border-b border-white/10 pb-4 mb-4">
                   <SectionHeader
                     title="Projection"
-                    subtitle="Shows the maturity value growing year by year."
+                    subtitle="Shows the projected value over the selected duration."
                     icon={BarChart3}
                   />
                 </div>
 
-                <div className="p-4 sm:p-5">
+                <div className="min-h-[260px]">
                   <FinanceChart
                     labels={simpleSeries.labels}
                     datasets={[
@@ -584,9 +1015,9 @@ export default function SavingsDepositsSuite() {
         {activeTab === "compound" && (
           <div className="space-y-4">
             <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-              <section className={shellClass}>
-                <div className="border-b border-white/10 p-4 sm:p-5">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+              <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                <div className="border-b border-white/10 pb-4 mb-4">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <SectionHeader
                       title="Compound interest calculator"
                       subtitle="Default compounding is quarterly, but you can change it."
@@ -597,91 +1028,102 @@ export default function SavingsDepositsSuite() {
                       title={exportData.title}
                       subtitle={exportData.subtitle}
                       summaryCards={exportData.summaryCards}
-                      inputRows={exportData.inputRows}
-                      resultRows={exportData.resultRows}
+                      inputRows={exportData.inputRows.map(r => [r.label, r.value])}
+                      resultRows={exportData.resultRows.map(r => [r.label, r.value])}
                       notes={exportData.notes}
-                      chartRef={chartRef}
+                      chartRef={compoundChartRef}
                     />
                   </div>
                 </div>
 
-                <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+                <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <Field label="Principal (₹)">
+                    <Field label={`Principal (${currencyMeta.symbol})`}>
                       <input
-                        type="text"
-                        aria-label="Principal"
+                        type="number"
+                        min={0}
+                        step="1"
                         inputMode="decimal"
                         value={compoundPrincipal}
-                        onChange={(e) => setCompoundPrincipal(e.target.value)}
-                        className={inputClass}
+                        onChange={(e) => setCompoundPrincipal(Number(e.target.value))}
+                        className={inputCls}
                       />
                     </Field>
-                    <FieldHint text="The amount on which compound interest will be calculated." />
+                    <div className="text-[11px] text-white/35 mt-1">
+                      The amount on which compound interest will be calculated.
+                    </div>
                   </div>
 
                   <div>
                     <Field label="Interest rate (%)">
                       <input
-                        type="text"
-                        aria-label="Annual nominal interest rate in percentage"
+                        type="number"
+                        min={0}
+                        step="0.01"
                         inputMode="decimal"
                         value={compoundRate}
-                        onChange={(e) => setCompoundRate(e.target.value)}
-                        className={inputClass}
+                        onChange={(e) => setCompoundRate(Number(e.target.value))}
+                        className={inputCls}
                       />
                     </Field>
-                    <FieldHint text="Annual nominal interest rate." />
+                    <div className="text-[11px] text-white/35 mt-1">
+                      Annual nominal interest rate.
+                    </div>
                   </div>
 
                   <div>
                     <Field label="Duration (years)">
                       <input
-                        type="text"
-                        aria-label="Duration in years for which the money is invested"
+                        type="number"
+                        min={0}
+                        step="1"
                         inputMode="decimal"
                         value={compoundYears}
-                        onChange={(e) => setCompoundYears(e.target.value)}
-                        className={inputClass}
+                        onChange={(e) => setCompoundYears(Number(e.target.value))}
+                        className={inputCls}
                       />
                     </Field>
-                    <FieldHint text="How long the investment stays active." />
+                    <div className="text-[11px] text-white/35 mt-1">
+                      How long the investment stays active.
+                    </div>
                   </div>
 
                   <div>
                     <Field label="Compounding frequency">
-                      <CustomSelect value={compoundFrequency}
+                      <CustomSelect
+                        value={compoundFrequency}
                         callBackTrigger={(e) => setCompoundFrequency(e)}
                         options={[
-                            { value: "1", label: "Annually (once a year)" },
-                            { value: "2", label: "Semi-annually (every 6 months)" },
-                            { value: "4", label: "Quarterly (every 3 months)" },
-                            { value: "12", label: "Monthly (every month)" },
-                        ]} />
+                          { value: "1", label: "Annually (once a year)" },
+                          { value: "2", label: "Semi-annually (every 6 months)" },
+                          { value: "4", label: "Quarterly (every 3 months)" },
+                          { value: "12", label: "Monthly (every month)" },
+                        ]}
+                      />
                     </Field>
-                    <FieldHint text="How often interest is added to the principal." />
+                    <div className="text-[11px] text-white/35 mt-1">
+                      How often interest is added to the principal.
+                    </div>
                   </div>
                 </div>
 
-                {compoundError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{compoundError}</div> : null}
-
-                <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                  <StatCard label="Principal" value={formatCurrency(compoundInputs.principal ?? 0)} icon="💵" />
-                  <StatCard label="Maturity value" value={compoundError ? "Fix inputs" : formatCurrency(compoundCalc.value)} icon="🏆" />
-                  <StatCard label="Compound gain" value={compoundError ? "Fix inputs" : formatCurrency(compoundCalc.interest)}  icon="✨" />
+                <div className="grid gap-3 sm:grid-cols-3 mt-5">
+                  <StatCard label="Principal" value={fmt(compoundPrincipal)} icon="💵" />
+                  <StatCard label="Maturity value" value={fmt(compoundCalc.value)} icon="🏆" />
+                  <StatCard label="Compound gain" value={fmt(compoundCalc.interest)} icon="✨" />
                 </div>
               </section>
 
-              <section ref={chartRef} className={shellClass}>
-                <div className="border-b border-white/10 p-4 sm:p-5">
+              <section ref={compoundChartRef} className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                <div className="border-b border-white/10 pb-4 mb-4">
                   <SectionHeader
                     title="Projection"
-                    subtitle="Shows the compounded value at each year."
+                    subtitle="Shows how the investment grows over the selected duration."
                     icon={BarChart3}
                   />
                 </div>
 
-                <div className="p-4 sm:p-5">
+                <div className="min-h-[260px]">
                   <FinanceChart
                     labels={compoundSeries.labels}
                     datasets={[
@@ -700,27 +1142,36 @@ export default function SavingsDepositsSuite() {
 
         {activeTab === "deposits" && (
           <div className="space-y-4">
+            {/* FD / RD sub-tabs */}
             <div className="flex flex-wrap gap-3 justify-center">
               {[
                 { id: "fd", label: "Fixed Deposit" },
                 { id: "rd", label: "Recurring Deposit" },
-              ].map((mode) => (
-                <button
-                  key={mode.id}
-                  type="button"
-                  onClick={() => setDepositMode(mode.id as DepositMode)}
-                  className={`tab-button ${depositMode === mode.id ? "tab-button-active" : ""}`}
-                >
-                  {mode.label}
-                </button>
-              ))}
+              ].map((mode) => {
+                const active = depositMode === (mode.id as DepositMode);
+                return (
+                  <button
+                    key={mode.id}
+                    type="button"
+                    onClick={() => setDepositMode(mode.id as DepositMode)}
+                    className={[
+                      "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
+                      active
+                        ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
+                        : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
+                    ].join(" ")}
+                  >
+                    {mode.id === "fd" ? "🏦" : "🗓️"} {mode.label}
+                  </button>
+                );
+              })}
             </div>
 
             {depositMode === "fd" ? (
               <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-                <section className={shellClass}>
-                  <div className="border-b border-white/10 p-4 sm:p-5">
-                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                  <div className="border-b border-white/10 pb-4 mb-4">
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                       <SectionHeader
                         title="Fixed deposit planner"
                         subtitle="Default compounding is quarterly. Change it if your product uses a different rule."
@@ -731,91 +1182,102 @@ export default function SavingsDepositsSuite() {
                         title={exportData.title}
                         subtitle={exportData.subtitle}
                         summaryCards={exportData.summaryCards}
-                        inputRows={exportData.inputRows}
-                        resultRows={exportData.resultRows}
+                        inputRows={exportData.inputRows.map(r => [r.label, r.value])}
+                        resultRows={exportData.resultRows.map(r => [r.label, r.value])}
                         notes={exportData.notes}
-                        chartRef={chartRef}
-                      />                  
+                        chartRef={fdChartRef}
+                      />
                     </div>
                   </div>
 
-                  <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+                  <div className="grid gap-5 sm:grid-cols-2">
                     <div>
-                      <Field label="Deposit amount (₹)">
+                      <Field label={`Deposit amount (${currencyMeta.symbol})`}>
                         <input
-                          type="text"
-                          aria-label="Deposit amount"
+                          type="number"
+                          min={0}
+                          step="1"
                           inputMode="decimal"
                           value={fdAmount}
-                          onChange={(e) => setFdAmount(e.target.value)}
-                          className={inputClass}
+                          onChange={(e) => setFdAmount(Number(e.target.value))}
+                          className={inputCls}
                         />
                       </Field>
-                      <FieldHint text="The one-time amount you deposit today." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        The one-time amount you deposit today.
+                      </div>
                     </div>
 
                     <div>
                       <Field label="Interest rate (%)">
                         <input
-                          type="text"
-                          aria-label="Annual interest rate in percentage"
+                          type="number"
+                          min={0}
+                          step="0.01"
                           inputMode="decimal"
                           value={fdRate}
-                          onChange={(e) => setFdRate(e.target.value)}
-                          className={inputClass}
+                          onChange={(e) => setFdRate(Number(e.target.value))}
+                          className={inputCls}
                         />
                       </Field>
-                      <FieldHint text="Annual FD rate." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        Annual FD rate.
+                      </div>
                     </div>
 
                     <div>
                       <Field label="Duration (years)">
                         <input
-                          type="text"
-                          aria-label="Duration in years for which the deposit is held"
+                          type="number"
+                          min={0}
+                          step="1"
                           inputMode="decimal"
                           value={fdYears}
-                          onChange={(e) => setFdYears(e.target.value)}
-                          className={inputClass}
+                          onChange={(e) => setFdYears(Number(e.target.value))}
+                          className={inputCls}
                         />
                       </Field>
-                      <FieldHint text="How long the deposit stays invested." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        How long the deposit stays invested.
+                      </div>
                     </div>
 
                     <div>
                       <Field label="Compounding frequency">
-                        <CustomSelect value={fdFrequency}
-                        callBackTrigger={(e) => setFdFrequency(e)}
-                        options={[
+                        <CustomSelect
+                          value={fdFrequency}
+                          callBackTrigger={(e) => setFdFrequency(e)}
+                          options={[
                             { value: "1", label: "Annually (once a year)" },
                             { value: "2", label: "Semi-annually (every 6 months)" },
                             { value: "4", label: "Quarterly (every 3 months)" },
                             { value: "12", label: "Monthly (every month)" },
-                        ]} />
+                          ]}
+                        />
                       </Field>
-                      <FieldHint text="Quarterly is the common default for bank-style FD calculations." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        Quarterly is the common default for bank-style FD calculations.
+                      </div>
                     </div>
                   </div>
 
-                  {fdError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{fdError}</div> : null}
-
-                  <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                    <StatCard label="Deposit" value={formatCurrency(fdInputs.amount ?? 0)} icon="💰" />
-                    <StatCard label="Maturity value" value={fdError ? "Fix inputs" : formatCurrency(fdCalc.value)} icon="💎" />
-                    <StatCard label="Interest earned" value={fdError ? "Fix inputs" : formatCurrency(fdCalc.interest)} icon="💹" />
+                  <div className="grid gap-3 sm:grid-cols-3 mt-5">
+                    <StatCard label="Deposit" value={fmt(fdAmount)} icon="💰" />
+                    <StatCard label="Maturity value" value={fmt(fdCalc.value)} icon="💎" />
+                    <StatCard label="Interest earned" value={fmt(fdCalc.interest)} icon="💹" />
                   </div>
                 </section>
 
-                <section ref={chartRef} className={shellClass}>
-                  <div className="border-b border-white/10 p-4 sm:p-5">
+                <section ref={fdChartRef} className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                  <div className="border-b border-white/10 pb-4 mb-4">
                     <SectionHeader
                       title="FD projection"
-                      subtitle="Shows the future value year by year."
+                      subtitle="Shows the projected value over the selected duration."
                       icon={BarChart3}
                     />
                   </div>
 
-                  <div className="p-4 sm:p-5">
+                  <div className="min-h-[260px]">
                     <FinanceChart
                       labels={fdSeries.labels}
                       datasets={[
@@ -831,9 +1293,9 @@ export default function SavingsDepositsSuite() {
               </div>
             ) : (
               <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-                <section className={shellClass}>
-                  <div className="border-b border-white/10 p-4 sm:p-5">
-                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+                <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                  <div className="border-b border-white/10 pb-4 mb-4">
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                       <SectionHeader
                         title="Recurring deposit planner"
                         subtitle="Choose the deposit timing assumption before reviewing the result."
@@ -844,80 +1306,93 @@ export default function SavingsDepositsSuite() {
                         title={exportData.title}
                         subtitle={exportData.subtitle}
                         summaryCards={exportData.summaryCards}
-                        inputRows={exportData.inputRows}
-                        resultRows={exportData.resultRows}
+                        inputRows={exportData.inputRows.map(r => [r.label, r.value])}
+                        resultRows={exportData.resultRows.map(r => [r.label, r.value])}
                         notes={exportData.notes}
-                        chartRef={chartRef}
-                      />                  
+                        chartRef={rdChartRef}
+                      />
                     </div>
                   </div>
-                  <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
+
+                  <div className="grid gap-5 sm:grid-cols-2">
                     <div>
-                      <Field label="Monthly deposit (₹)">
+                      <Field label={`Monthly deposit (${currencyMeta.symbol})`}>
                         <input
-                          type="text"
-                          aria-label="Monthly deposit amount"
+                          type="number"
+                          min={0}
+                          step="1"
                           inputMode="decimal"
                           value={rdAmount}
-                          onChange={(e) => setRdAmount(e.target.value)}
-                          className={inputClass}
+                          onChange={(e) => setRdAmount(Number(e.target.value))}
+                          className={inputCls}
                         />
                       </Field>
-                      <FieldHint text="The amount you deposit every month." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        The amount you deposit every month.
+                      </div>
                     </div>
 
                     <div>
                       <Field label="Interest rate (%)">
                         <input
-                          type="text"
-                          aria-label="Annual interest rate in percentage"
+                          type="number"
+                          min={0}
+                          step="0.01"
                           inputMode="decimal"
                           value={rdRate}
-                          onChange={(e) => setRdRate(e.target.value)}
-                          className={inputClass}
+                          onChange={(e) => setRdRate(Number(e.target.value))}
+                          className={inputCls}
                         />
                       </Field>
-                      <FieldHint text="Annual RD rate." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        Annual RD rate.
+                      </div>
                     </div>
 
                     <div>
                       <Field label="Term (months)">
                         <input
-                          type="text"
-                          aria-label="Duration in months for which the money is deposited"
-                          inputMode="decimal"
+                          type="number"
+                          min={1}
+                          max={600}
+                          step={1}
+                          inputMode="numeric"
                           value={rdMonths}
-                          onChange={(e) => setRdMonths(e.target.value)}
-                          className={inputClass}
+                          onChange={(e) => setRdMonths(Math.min(600, Math.max(1, Number(e.target.value))))}
+                          className={inputCls}
                         />
                       </Field>
-                      <FieldHint text="How many months you keep depositing." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        How many months you keep depositing.
+                      </div>
                     </div>
 
                     <div>
                       <Field label="Deposit timing">
-                        <CustomSelect value={rdConvention}
-                        callBackTrigger={(e) => setRdConvention(e as RdConvention)}
-                        options={[
+                        <CustomSelect
+                          value={rdConvention}
+                          callBackTrigger={(e) => setRdConvention(e as RdConvention)}
+                          options={[
                             { value: "end", label: "End of month" },
-                            { value: "beginning", label: "Beginning of month" }
-                        ]} />
+                            { value: "beginning", label: "Beginning of month" },
+                          ]}
+                        />
                       </Field>
-                      <FieldHint text="Use the default if you just want a quick estimate." />
+                      <div className="text-[11px] text-white/35 mt-1">
+                        Use the default if you just want a quick estimate.
+                      </div>
                     </div>
                   </div>
 
-                  {rdError ? <div className="px-4 pb-4 text-sm text-amber-200 sm:px-5">{rdError}</div> : null}
-
-                  <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                    <StatCard label="Total invested" value={formatCurrency((rdInputs.amount ?? 0) * (rdInputs.months ?? 0))} icon="🏦" />
-                    <StatCard label="Maturity value" value={rdError ? "Fix inputs" : formatCurrency(rdCalc.value)}  icon="💎" />
-                    <StatCard label="Interest earned" value={rdError ? "Fix inputs" : formatCurrency(rdCalc.interest)} icon="💹" />
+                  <div className="grid gap-3 sm:grid-cols-3 mt-5">
+                    <StatCard label="Total invested" value={fmt(rdCalc.totalInvested)} icon="🏦" />
+                    <StatCard label="Maturity value" value={fmt(rdCalc.value)} icon="💎" />
+                    <StatCard label="Interest earned" value={fmt(rdCalc.interest)} icon="💹" />
                   </div>
                 </section>
 
-                <section ref={chartRef} className={shellClass}>
-                  <div className="border-b border-white/10 p-4 sm:p-5">
+                <section ref={rdChartRef} className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+                  <div className="border-b border-white/10 pb-4 mb-4">
                     <SectionHeader
                       title="RD projection"
                       subtitle="Shows the maturity value month by month."
@@ -925,7 +1400,7 @@ export default function SavingsDepositsSuite() {
                     />
                   </div>
 
-                  <div className="p-4 sm:p-5">
+                  <div className="min-h-[260px]">
                     <FinanceChart
                       labels={rdSeries.labels}
                       datasets={[
@@ -943,6 +1418,11 @@ export default function SavingsDepositsSuite() {
           </div>
         )}
       </div>
+
+      {/* ── Footer disclaimer ── */}
+      <p className="text-center text-sm text-emerald-300 px-2">
+        <b>Note: </b>Estimates only, based on standard interest formulas. Actual bank products may differ — confirm exact figures with your institution.
+      </p>
     </div>
   );
 }
