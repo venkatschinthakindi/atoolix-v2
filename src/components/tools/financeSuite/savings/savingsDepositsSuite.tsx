@@ -21,7 +21,6 @@ const FinancePdfExport = dynamic(
   }
 );
 import dynamic from "next/dynamic";
-import { formatCurrency } from "@/utility/formatCurrencyUtility";
 
 /* ─────────────────────────────────────────────
    Types
@@ -306,10 +305,12 @@ function MethodologyNote() {
             <strong>Fixed Deposit (FD):</strong> Same as compound interest. Quarterly compounding is common but actual products may vary.
           </p>
           <p>
-            <strong>Recurring Deposit (RD):</strong> Uses a monthly-compounding annuity formula. Actual bank RD calculations may use different conventions.
+            <strong>Recurring deposit / monthly savings:</strong> Uses an annuity-style monthly compounding model. Actual financial products may use different calculation conventions.
           </p>
           <p className="text-white/40">
-            These are standard mathematical estimates. Actual financial products may include fees, taxes, or different compounding rules — confirm exact figures with your institution.
+            These are standard mathematical estimates. Actual financial products may
+            include fees, taxes, timing rules, or different compounding methods.
+            Confirm exact figures with your financial institution.
           </p>
         </div>
       )}
@@ -551,7 +552,7 @@ export default function SavingsAndDepositsCalculator() {
         subtitle: `${compoundFrequency}x yearly compounding`,
         summaryCards: [
           { label: "Principal", value: fmt(compoundPrincipal) },
-          { label: "Gain", value: fmt(compoundCalc.interest) },
+          { label: "Compound Interest", value: fmt(compoundCalc.interest) },
           { label: "Maturity", value: fmt(compoundCalc.value) },
         ],
         inputRows: [
@@ -598,7 +599,7 @@ export default function SavingsAndDepositsCalculator() {
     return {
       ...base,
       title: "Recurring Deposit / Monthly Savings (Estimate)",
-      subtitle: "Uses a standard monthly-compounding annuity model.",
+      subtitle: "Uses a standard monthly-compounding annuity model for estimation.",
       summaryCards: [
         { label: "Total Invested", value: fmt(rdCalc.totalInvested) },
         { label: "Interest", value: fmt(rdCalc.interest) },
@@ -673,12 +674,13 @@ export default function SavingsAndDepositsCalculator() {
 
       {/* Headline with interesting typography */}
       <div className="space-y-3">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-          Your money,{" "}
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+          See how your{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400">
-            projected forward
-          </span>
-        </h1>
+            savings grow
+          </span>{" "}
+          over time
+        </h2>
         <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-xl">
           See exactly how your savings grow over time — whether it's simple interest, 
           compound growth, or bank deposits. No accounts, no tracking, just calculations.
@@ -718,7 +720,9 @@ export default function SavingsAndDepositsCalculator() {
             </div>
             <div>
               <div className="text-sm font-semibold text-white/90">Global Currencies</div>
-              <div className="text-xs text-white/50 mt-0.5">Support for 9 major currencies</div>
+              <div className="text-xs text-white/50 mt-0.5">
+                Display results in 9 major currencies
+              </div>
             </div>
           </div>
         </div>
@@ -753,7 +757,7 @@ export default function SavingsAndDepositsCalculator() {
     </div>
 
     {/* Right: Interactive visual / Live preview */}
-    <div className="relative">
+    <div className="relative min-w-0">
       {/* Background glow */}
       <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 rounded-3xl blur-2xl" />
       
@@ -769,7 +773,7 @@ export default function SavingsAndDepositsCalculator() {
         </div>
 
         {/* Live stat cards */}
-        <div className="grid grid-cols-2 flex gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">🧮</span>
@@ -792,7 +796,7 @@ export default function SavingsAndDepositsCalculator() {
               {fmt(compoundCalc.value)}
             </div>
             <div className="text-[11px] text-emerald-400 mt-1">
-              +{fmt(compoundCalc.interest)} gain
+              +{fmt(compoundCalc.interest)} interest
             </div>
           </div>
 
@@ -842,10 +846,10 @@ export default function SavingsAndDepositsCalculator() {
             </div>
           </div>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-xs text-white/40">
+        <div className="sm:flex items-center gap-2 text-xs text-white/40">
         {/* ── Currency selector ── */}
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-2 pt-1">
+            <div className="sm:flex items-center gap-2 text-xs text-white/40">
               <span className="text-xs text-white/40">Currency</span>
               <CustomSelect
                 value={currency}
@@ -901,11 +905,11 @@ export default function SavingsAndDepositsCalculator() {
       </div>
 
       {/* ── Content ── */}
-      <div className="space-y-6">
+      <div className="w-full min-w-0 max-w-full space-y-6 overflow-hidden">
         {activeTab === "simple" && (
           <div className="space-y-4">
-            <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-              <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+            <div className="grid w-full min-w-0 max-w-full gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+              <section className="min-w-0 w-full max-w-full overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6">
                 <div className="border-b border-white/10 pb-4 mb-4">
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <SectionHeader
@@ -986,7 +990,7 @@ export default function SavingsAndDepositsCalculator() {
                 </div>
               </section>
 
-              <section ref={simpleChartRef} className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+              <section ref={simpleChartRef} className="min-w-0 w-full max-w-full overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6">
                 <div className="border-b border-white/10 pb-4 mb-4">
                   <SectionHeader
                     title="Projection"
@@ -995,7 +999,7 @@ export default function SavingsAndDepositsCalculator() {
                   />
                 </div>
 
-                <div className="min-h-[260px]">
+                <div className="w-full min-w-0 min-h-[260px] overflow-hidden">
                   <FinanceChart
                     labels={simpleSeries.labels}
                     datasets={[
@@ -1014,7 +1018,7 @@ export default function SavingsAndDepositsCalculator() {
 
         {activeTab === "compound" && (
           <div className="space-y-4">
-            <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+            <div className="grid w-full min-w-0 max-w-full gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
               <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
                 <div className="border-b border-white/10 pb-4 mb-4">
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -1110,7 +1114,11 @@ export default function SavingsAndDepositsCalculator() {
                 <div className="grid gap-3 sm:grid-cols-3 mt-5">
                   <StatCard label="Principal" value={fmt(compoundPrincipal)} icon="💵" />
                   <StatCard label="Maturity value" value={fmt(compoundCalc.value)} icon="🏆" />
-                  <StatCard label="Compound gain" value={fmt(compoundCalc.interest)} icon="✨" />
+                  <StatCard
+                    label="Compound interest"
+                    value={fmt(compoundCalc.interest)}
+                    icon="✨"
+                  />
                 </div>
               </section>
 
@@ -1123,7 +1131,7 @@ export default function SavingsAndDepositsCalculator() {
                   />
                 </div>
 
-                <div className="min-h-[260px]">
+                <div className="w-full min-w-0 min-h-[260px] overflow-hidden">
                   <FinanceChart
                     labels={compoundSeries.labels}
                     datasets={[
@@ -1168,13 +1176,13 @@ export default function SavingsAndDepositsCalculator() {
             </div>
 
             {depositMode === "fd" ? (
-              <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+              <div className="grid w-full min-w-0 max-w-full gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
                 <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
                   <div className="border-b border-white/10 pb-4 mb-4">
                     <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                       <SectionHeader
                         title="Fixed deposit planner"
-                        subtitle="Default compounding is quarterly. Change it if your product uses a different rule."
+                        subtitle="Choose the compounding frequency used for this estimate."
                         icon={ShieldCheck}
                       />
                       <FinancePdfExport
@@ -1256,8 +1264,8 @@ export default function SavingsAndDepositsCalculator() {
                         />
                       </Field>
                       <div className="text-[11px] text-white/35 mt-1">
-                        Quarterly is the common default for bank-style FD calculations.
-                      </div>
+                      Choose the frequency that best matches the deposit product you are estimating. Actual products may use different rules.
+                    </div>
                     </div>
                   </div>
 
@@ -1277,7 +1285,7 @@ export default function SavingsAndDepositsCalculator() {
                     />
                   </div>
 
-                  <div className="min-h-[260px]">
+                  <div className="w-full min-w-0 min-h-[260px] overflow-hidden">
                     <FinanceChart
                       labels={fdSeries.labels}
                       datasets={[
@@ -1292,7 +1300,7 @@ export default function SavingsAndDepositsCalculator() {
                 </section>
               </div>
             ) : (
-              <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+              <div className="grid w-full min-w-0 max-w-full gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
                 <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
                   <div className="border-b border-white/10 pb-4 mb-4">
                     <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -1400,7 +1408,7 @@ export default function SavingsAndDepositsCalculator() {
                     />
                   </div>
 
-                  <div className="min-h-[260px]">
+                  <div className="w-full min-w-0 min-h-[260px] overflow-hidden">
                     <FinanceChart
                       labels={rdSeries.labels}
                       datasets={[
@@ -1421,7 +1429,9 @@ export default function SavingsAndDepositsCalculator() {
 
       {/* ── Footer disclaimer ── */}
       <p className="text-center text-sm text-emerald-300 px-2">
-        <b>Note: </b>Estimates only, based on standard interest formulas. Actual bank products may differ — confirm exact figures with your institution.
+        <b>Note: </b>Estimates only, based on standard interest formulas. Actual
+        financial products may differ due to product terms, taxes, fees, or
+        calculation methods. Confirm exact figures with your financial institution.
       </p>
     </div>
   );
