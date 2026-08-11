@@ -520,7 +520,7 @@ function QuickStartStrip() {
       {steps.map((s, i) => (
         <div
           key={s.title}
-          className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 flex gap-3 items-start"
+          className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
         >
           <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
             {s.icon}
@@ -544,7 +544,7 @@ function QuickStartStrip() {
 function MethodologyNote() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+    <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -805,12 +805,6 @@ export default function EMICalculator({
         </div>
       </div>
 
-      {/* ── How this is calculated ── */}
-      <MethodologyNote />
-
-      {/* ── Quick start ── */}
-      <QuickStartStrip />
-
       {/* ── Loan type tabs ── */}
       <div className="flex gap-2 flex-wrap justify-center">
         {(["home", "personal", "car"] as LoanType[]).map((t) => (
@@ -832,7 +826,7 @@ export default function EMICalculator({
 
       {/* ── Validation banner ── */}
       {hasValidationErrors && (
-        <div className="rounded-2xl border border-orange-500/40 bg-orange-500/10 px-5 py-4 text-sm text-orange-100">
+        <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 px-5 py-4 text-sm text-orange-100">
           <div className="font-semibold text-white mb-2">
             ⚠️ Please check these before your numbers are fully accurate
           </div>
@@ -856,8 +850,11 @@ export default function EMICalculator({
         </div>
       )}
 
+      {/* ── Quick start ── */}
+      <QuickStartStrip />
+      
       {/* ── Loan details + live EMI result ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
         <SectionHeading
           action={
             <button type="button"
@@ -943,9 +940,12 @@ export default function EMICalculator({
           </div>
         </div>
       </div>
+      
+      {/* ── How this is calculated ── */}
+      <MethodologyNote />
 
       {/* ── Prepayment & advanced options ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
         <button type="button"
           onClick={() => setPrepayOpen(!prepayOpen)}
           aria-expanded={prepayOpen}
@@ -1152,7 +1152,7 @@ export default function EMICalculator({
       </div>
 
       {/* ── Results: Summary / Chart / Schedule tabs ── */}
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
         <div className="flex flex-wrap gap-2 mb-5">
           <TabButton
             active={resultTab === "summary"}

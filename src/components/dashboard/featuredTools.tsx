@@ -59,12 +59,12 @@ useEffect(() => {
 
   return (
     <>
-    <section className="page-section px-10" >
+    <section className="page-section px-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" >
       <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
-            <span className="section-title">
+            <span className="section-title text-2xl">
               🔥 Popular this week
             </span>
             <p className="section-copy">
@@ -116,61 +116,6 @@ useEffect(() => {
             </div>
           </div>
         </div>
-
-        {/* <div className="relative">
-              <div
-                  ref={scrollRef}
-                  className="tool-scroll"
-                >{canScrollLeft && (
-                  <button
-                      type="button"
-                      title="View Less"
-                      aria-label="View Less"
-                    onClick={() => scroll("left")}
-                    className="absolute left-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                  </button>
-                )}
-                {others.map((tool) => {
-                  return (
-                    <div
-                        key={tool.id}
-                        onClick={() => router.push(`/tools/${tool.id}`)}
-                        className="card-surface card-surface-sm w-[300px] transition-all duration-300 hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]"
-                      >
-                        <ToolCard label={tool.toolShortName} icon={tool.icon} description={tool.description}></ToolCard>
-                        <p
-                          className="mt-2 line-clamp-2 text-xs text-zinc-400"
-                          title={tool.title}
-                        >
-                          {tool.title}
-                        </p>
-                      </div>
-                  );
-                })}
-                <div>
-                <Link
-                  href="/tools"
-                  className="min-w-[150px] inline-flex items-center text-sm gap-2 text-indigo-400">
-                  View More →
-                </Link>
-            </div>
-          </div>
-          {canScrollRight && (
-            <button
-              type="button"
-              title="View More"
-              aria-label="View More"
-              onClick={() => scroll("right")}
-              className="absolute right-2 top-1/2 z-30 -translate-y-1/2 rounded-full bg-indigo-900/40 p-2 text-white backdrop-blur-md transition-all hover:bg-indigo-900/10"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          )}
-          <div className="tool-scroll-fade" />
-        </div> */}
-        
       </div>
     </section>
     <QuickAccessSection

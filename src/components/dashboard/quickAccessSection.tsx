@@ -30,16 +30,15 @@ export function QuickAccessSection({
 }: QuickAccessSectionProps) {
 
   return (
-    <section className="page-section pt-2 px-10">
-      <div className="surface-card-light-favorite">
-        <div className="">
+    <section className="page-section pt-2 px-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="">
           <span className="section-title text-2xl">{title}</span>
 
           <p className="section-copy mt-2 mb-2">
             {description}
           </p>
         </div>
-
+      <div className="surface-card-light-favorite">
         <div className="space-y-6">
           {groups.map((group) => (
             <QuickAccessGroupView
