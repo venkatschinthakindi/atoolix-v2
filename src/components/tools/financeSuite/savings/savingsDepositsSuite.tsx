@@ -56,6 +56,18 @@ const CURRENCIES: Record<
 };
 
 /* ─────────────────────────────────────────────
+   Input bounds (prevents runaway chart loops / bad input)
+───────────────────────────────────────────── */
+
+const MAX_YEARS = 100;
+const MAX_RD_MONTHS = 600;
+
+function clamp(value: number, min: number, max: number) {
+  if (!Number.isFinite(value)) return min;
+  return Math.min(max, Math.max(min, value));
+}
+
+/* ─────────────────────────────────────────────
    Small presentational building blocks (EXACT match to EMI)
 ───────────────────────────────────────────── */
 
@@ -247,7 +259,7 @@ function computeRD({
 function QuickStartStrip() {
   const steps = [
     { icon: "🧮", title: "Pick a calculator", body: "Simple, compound, FD, or RD — choose your investment type." },
-    { icon: "💰", title: "Enter your numbers", body: "Amount, rate, and duration — drag sliders or type exact values." },
+    { icon: "💰", title: "Enter your numbers", body: "Amount, rate, and duration — type in exact values." },
     { icon: "📊", title: "See projections", body: "View charts and export reports to plan your finances." },
   ];
   return (
@@ -394,7 +406,7 @@ export default function SavingsAndDepositsCalculator() {
       computeRD({
         monthlyDeposit: rdAmount,
         annualRatePct: rdRate,
-        months: Math.min(600, Math.max(1, rdMonths)),
+        months: clamp(rdMonths, 1, MAX_RD_MONTHS),
         convention: rdConvention,
       }),
     [rdAmount, rdRate, rdMonths, rdConvention]
@@ -410,7 +422,7 @@ export default function SavingsAndDepositsCalculator() {
   const simpleSeries = useMemo(() => {
     const labels: string[] = [];
     const data: number[] = [];
-    const years = Math.max(0, simpleYears);
+    const years = clamp(simpleYears, 0, MAX_YEARS);
 
     for (let y = 0; y <= Math.floor(years); y++) {
       const { value } = computeSimpleInterest(principal, simpleRate, y);
@@ -435,7 +447,7 @@ export default function SavingsAndDepositsCalculator() {
   const compoundSeries = useMemo(() => {
     const labels: string[] = [];
     const data: number[] = [];
-    const years = Math.max(0, compoundYears);
+    const years = clamp(compoundYears, 0, MAX_YEARS);
 
     for (let y = 0; y <= Math.floor(years); y++) {
       const { value } = computeCompoundInterest({
@@ -466,7 +478,7 @@ export default function SavingsAndDepositsCalculator() {
   const fdSeries = useMemo(() => {
     const labels: string[] = [];
     const data: number[] = [];
-    const years = Math.max(0, fdYears);
+    const years = clamp(fdYears, 0, MAX_YEARS);
 
     for (let y = 0; y <= Math.floor(years); y++) {
       const { value } = computeFD({
@@ -497,7 +509,7 @@ export default function SavingsAndDepositsCalculator() {
   const rdSeries = useMemo(() => {
     const labels: string[] = [];
     const data: number[] = [];
-    const months = Math.min(600, Math.max(1, Math.floor(rdMonths)));
+    const months = clamp(Math.floor(rdMonths), 1, MAX_RD_MONTHS);
     for (let m = 0; m <= months; m++) {
       const { value } = computeRD({
         monthlyDeposit: rdAmount,
@@ -608,7 +620,7 @@ export default function SavingsAndDepositsCalculator() {
       inputRows: [
         { label: "Monthly Deposit", value: fmt(rdAmount) },
         { label: "Rate", value: `${rdRate}%` },
-        { label: "Term", value: `${Math.min(600, Math.max(1, rdMonths))} months` },
+        { label: "Term", value: `${clamp(rdMonths, 1, MAX_RD_MONTHS)} months` },
         { label: "Timing", value: rdConvention },
       ],
       resultRows: [
@@ -654,224 +666,205 @@ export default function SavingsAndDepositsCalculator() {
     <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
       {/* ── Hero ── */}
       <section className="mb-5 px-5 py-6 sm:px-6 lg:px-8 rounded-3xl border border-white/10 bg-slate-950/60">
-        {/* ── COMPLETELY REIMAGINED HERO ── */}
-<div className="relative mb-8">
-  {/* Split layout: Content left, Visual right */}
-  <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
-    
-    {/* Left: Content */}
-    <div className="space-y-6">
-      {/* Badge with animation hint */}
-      <div className="inline-flex items-center gap-2">
-        <div className="relative">
-          <div className="absolute inset-0 bg-blue-400/30 blur-md rounded-full animate-pulse" />
-          <div className="relative inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/15 px-3 py-1.5 text-xs font-medium text-blue-200 backdrop-blur-sm">
-            <BarChart3 className="h-3.5 w-3.5" />
-            <span>Private finance workspace</span>
-          </div>
-        </div>
-      </div>
+        <div className="relative mb-8">
+          {/* Split layout: Content left, Visual right */}
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
 
-      {/* Headline with interesting typography */}
-      <div className="space-y-3">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-          See how your{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400">
-            savings grow
-          </span>{" "}
-          over time
-        </h2>
-        <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-xl">
-          See exactly how your savings grow over time — whether it's simple interest, 
-          compound growth, or bank deposits. No accounts, no tracking, just calculations.
-        </p>
-      </div>
-
-      {/* Interactive value props */}
-      <div className="grid sm:grid-cols-2 gap-3">
-        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10">
-          <div className="flex items-start gap-3">
-            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
-              🔒
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-white/90">100% Private</div>
-              <div className="text-xs text-white/50 mt-0.5">Calculations run locally in your browser</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-emerald-400/30 hover:bg-emerald-400/10">
-          <div className="flex items-start gap-3">
-            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 border border-emerald-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
-              📄
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-white/90">Export Reports</div>
-              <div className="text-xs text-white/50 mt-0.5">Download PDF summaries instantly</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-violet-400/30 hover:bg-violet-400/10">
-          <div className="flex items-start gap-3">
-            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-violet-600/20 border border-violet-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
-              🌍
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-white/90">Global Currencies</div>
-              <div className="text-xs text-white/50 mt-0.5">
-                Display results in 9 major currencies
+            {/* Left: Content */}
+            <div className="space-y-6">
+              {/* Badge with animation hint */}
+              <div className="inline-flex items-center gap-2">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-blue-400/30 blur-md rounded-full animate-pulse" />
+                  <div className="relative inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/15 px-3 py-1.5 text-xs font-medium text-blue-200 backdrop-blur-sm">
+                    <BarChart3 className="h-3.5 w-3.5" />
+                    <span>Private finance workspace</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
 
-        <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-amber-400/30 hover:bg-amber-400/10">
-          <div className="flex items-start gap-3">
-            <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/20 border border-amber-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
-              ⚡
-            </div>
-            <div>
-              <div className="text-sm font-semibold text-white/90">Instant Results</div>
-              <div className="text-xs text-white/50 mt-0.5">Real-time calculations as you type</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Currency + CTA */}
-      {/* <div className="flex flex-wrap items-center gap-3 pt-2">
-        <div className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-          <span className="text-xs text-white/50">Currency</span>
-          <CustomSelect
-            value={currency}
-            callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
-            options={Object.entries(CURRENCIES).map(([code, meta]) => ({
-              value: code,
-              label: meta.label,
-            }))}
-          />
-        </div>
-      </div> */}
-    </div>
-
-    {/* Right: Interactive visual / Live preview */}
-    <div className="relative min-w-0">
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 rounded-3xl blur-2xl" />
-      
-      {/* Main card */}
-      <div className="relative rounded-3xl border border-white/10 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-xs text-white/50 uppercase tracking-wide">Live preview</div>
-            <div className="text-sm font-semibold text-white/90">Your projections at a glance</div>
-          </div>
-          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-        </div>
-
-        {/* Live stat cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">🧮</span>
-              <span className="text-xs text-white/60">Simple</span>
-            </div>
-            <div className="text-lg sm:text-xl font-bold text-white">
-              {fmt(simpleCalc.value)}
-            </div>
-            <div className="text-[11px] text-emerald-400 mt-1">
-              +{fmt(simpleCalc.interest)} interest
-            </div>
-          </div>
-
-          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-violet-400/30">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">📈</span>
-              <span className="text-xs text-white/60">Compound</span>
-            </div>
-            <div className="text-lg sm:text-xl font-bold text-white">
-              {fmt(compoundCalc.value)}
-            </div>
-            <div className="text-[11px] text-emerald-400 mt-1">
-              +{fmt(compoundCalc.interest)} interest
-            </div>
-          </div>
-
-          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">🏦</span>
-              <span className="text-xs text-white/60">FD</span>
-            </div>
-            <div className="text-lg sm:text-xl font-bold text-white">
-              {fmt(fdCalc.value)}
-            </div>
-            <div className="text-[11px] text-emerald-400 mt-1">
-              +{fmt(fdCalc.interest)} earned
-            </div>
-          </div>
-
-          <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-emerald-400/30">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg">🗓️</span>
-              <span className="text-xs text-white/60">RD</span>
-            </div>
-            <div className="text-lg sm:text-xl font-bold text-white">
-              {fmt(rdCalc.value)}
-            </div>
-            <div className="text-[11px] text-emerald-400 mt-1">
-              +{fmt(rdCalc.interest)} earned
-            </div>
-          </div>
-        </div>
-
-        {/* Active calculator indicator */}
-        <div className="rounded-xl border border-dashed border-white/10 bg-white/5 p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-sm font-bold text-white">
-                {activeTab === "simple" ? "🧮" : activeTab === "compound" ? "📈" : "🏦"}
+              {/* Headline with interesting typography */}
+              <div className="space-y-3">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+                  See how your{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400">
+                    savings grow
+                  </span>{" "}
+                  over time
+                </h2>
+                <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-xl">
+                  See exactly how your savings grow over time — whether it's simple interest,
+                  compound growth, or bank deposits. No accounts, no tracking, just calculations.
+                </p>
               </div>
-              <div>
-                <div className="text-xs text-white/50">Currently viewing</div>
-                <div className="text-sm font-semibold text-white">
-                  {activeTab === "simple" ? "Simple Interest" : activeTab === "compound" ? "Compound Interest" : depositMode === "fd" ? "Fixed Deposit" : "Recurring Deposit"}
+
+              {/* Interactive value props */}
+              <div className="grid sm:grid-cols-2 gap-3">
+                <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10">
+                  <div className="flex items-start gap-3">
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+                      🔒
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white/90">100% Private</div>
+                      <div className="text-xs text-white/50 mt-0.5">Calculations run locally in your browser</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-emerald-400/30 hover:bg-emerald-400/10">
+                  <div className="flex items-start gap-3">
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 border border-emerald-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+                      📄
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white/90">Export Reports</div>
+                      <div className="text-xs text-white/50 mt-0.5">Download PDF summaries instantly</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-violet-400/30 hover:bg-violet-400/10">
+                  <div className="flex items-start gap-3">
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-violet-600/20 border border-violet-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+                      🌍
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white/90">Global Currencies</div>
+                      <div className="text-xs text-white/50 mt-0.5">
+                        Display results in 9 major currencies
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-amber-400/30 hover:bg-amber-400/10">
+                  <div className="flex items-start gap-3">
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/20 border border-amber-400/30 flex items-center justify-center text-lg group-hover:scale-110 transition">
+                      ⚡
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white/90">Instant Results</div>
+                      <div className="text-xs text-white/50 mt-0.5">Real-time calculations as you type</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="text-xs text-white/40">
-              {tabs.find(t => t.id === activeTab)?.label}
-            </div>
-          </div>
-        </div>
-        <div className="sm:flex items-center gap-2 text-xs text-white/40">
-        {/* ── Currency selector ── */}
-          <div className="text-center space-y-2">
-            <div className="sm:flex items-center gap-2 text-xs text-white/40">
-              <span className="text-xs text-white/40">Currency</span>
-              <CustomSelect
-                value={currency}
-                callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
-                options={Object.entries(CURRENCIES).map(([code, meta]) => ({
-                  value: code,
-                  label: meta.label,
-                }))}
-              />
-            </div>
-            <p className="text-[11px] text-white/35">
-              Currency affects display only — no exchange-rate conversion is applied.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-      </section>
 
-      
+            {/* Right: Interactive visual / Live preview */}
+            <div className="relative min-w-0">
+              {/* Background glow */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 rounded-3xl blur-2xl" />
+
+              {/* Main card */}
+              <div className="relative rounded-3xl border border-white/10 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 space-y-6">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs text-white/50 uppercase tracking-wide">Live preview</div>
+                    <div className="text-sm font-semibold text-white/90">Your projections at a glance</div>
+                  </div>
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                </div>
+
+                {/* Live stat cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">🧮</span>
+                      <span className="text-xs text-white/60">Simple</span>
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-white">
+                      {fmt(simpleCalc.value)}
+                    </div>
+                    <div className="text-[11px] text-emerald-400 mt-1">
+                      +{fmt(simpleCalc.interest)} interest
+                    </div>
+                  </div>
+
+                  <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-violet-400/30">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">📈</span>
+                      <span className="text-xs text-white/60">Compound</span>
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-white">
+                      {fmt(compoundCalc.value)}
+                    </div>
+                    <div className="text-[11px] text-emerald-400 mt-1">
+                      +{fmt(compoundCalc.interest)} interest
+                    </div>
+                  </div>
+
+                  <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">🏦</span>
+                      <span className="text-xs text-white/60">FD</span>
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-white">
+                      {fmt(fdCalc.value)}
+                    </div>
+                    <div className="text-[11px] text-emerald-400 mt-1">
+                      +{fmt(fdCalc.interest)} earned
+                    </div>
+                  </div>
+
+                  <div className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-emerald-400/30">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">🗓️</span>
+                      <span className="text-xs text-white/60">RD</span>
+                    </div>
+                    <div className="text-lg sm:text-xl font-bold text-white">
+                      {fmt(rdCalc.value)}
+                    </div>
+                    <div className="text-[11px] text-emerald-400 mt-1">
+                      +{fmt(rdCalc.interest)} earned
+                    </div>
+                  </div>
+                </div>
+
+                {/* Active calculator indicator */}
+                <div className="rounded-xl border border-dashed border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-sm font-bold text-white">
+                        {activeTab === "simple" ? "🧮" : activeTab === "compound" ? "📈" : "🏦"}
+                      </div>
+                      <div>
+                        <div className="text-xs text-white/50">Currently viewing</div>
+                        <div className="text-sm font-semibold text-white">
+                          {activeTab === "simple" ? "Simple Interest" : activeTab === "compound" ? "Compound Interest" : depositMode === "fd" ? "Fixed Deposit" : "Recurring Deposit"}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-xs text-white/40">
+                      {tabs.find(t => t.id === activeTab)?.label}
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Currency selector ── */}
+                <div className="text-center space-y-2">
+                  <div className="sm:flex items-center justify-center gap-2 text-xs text-white/40">
+                    <span className="text-xs text-white/40">Currency</span>
+                    <CustomSelect
+                      value={currency}
+                      callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
+                      options={Object.entries(CURRENCIES).map(([code, meta]) => ({
+                        value: code,
+                        label: meta.label,
+                      }))}
+                    />
+                  </div>
+                  <p className="text-[11px] text-white/35">
+                    Currency affects display only — no exchange-rate conversion is applied.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── Quick start ── */}
       <QuickStartStrip />
@@ -939,7 +932,7 @@ export default function SavingsAndDepositsCalculator() {
                         step="1"
                         inputMode="decimal"
                         value={principal}
-                        onChange={(e) => setPrincipal(Number(e.target.value))}
+                        onChange={(e) => setPrincipal(Math.max(0, Number(e.target.value)))}
                         className={inputCls}
                       />
                     </Field>
@@ -956,7 +949,7 @@ export default function SavingsAndDepositsCalculator() {
                         step="0.01"
                         inputMode="decimal"
                         value={simpleRate}
-                        onChange={(e) => setSimpleRate(Number(e.target.value))}
+                        onChange={(e) => setSimpleRate(Math.max(0, Number(e.target.value)))}
                         className={inputCls}
                       />
                     </Field>
@@ -966,14 +959,15 @@ export default function SavingsAndDepositsCalculator() {
                   </div>
 
                   <div>
-                    <Field label="Duration (years)">
+                    <Field label="Duration (years)" hint={`Max ${MAX_YEARS}`}>
                       <input
                         type="number"
                         min={0}
+                        max={MAX_YEARS}
                         step="1"
                         inputMode="decimal"
                         value={simpleYears}
-                        onChange={(e) => setSimpleYears(Number(e.target.value))}
+                        onChange={(e) => setSimpleYears(clamp(Number(e.target.value), 0, MAX_YEARS))}
                         className={inputCls}
                       />
                     </Field>
@@ -1049,7 +1043,7 @@ export default function SavingsAndDepositsCalculator() {
                         step="1"
                         inputMode="decimal"
                         value={compoundPrincipal}
-                        onChange={(e) => setCompoundPrincipal(Number(e.target.value))}
+                        onChange={(e) => setCompoundPrincipal(Math.max(0, Number(e.target.value)))}
                         className={inputCls}
                       />
                     </Field>
@@ -1066,7 +1060,7 @@ export default function SavingsAndDepositsCalculator() {
                         step="0.01"
                         inputMode="decimal"
                         value={compoundRate}
-                        onChange={(e) => setCompoundRate(Number(e.target.value))}
+                        onChange={(e) => setCompoundRate(Math.max(0, Number(e.target.value)))}
                         className={inputCls}
                       />
                     </Field>
@@ -1076,14 +1070,15 @@ export default function SavingsAndDepositsCalculator() {
                   </div>
 
                   <div>
-                    <Field label="Duration (years)">
+                    <Field label="Duration (years)" hint={`Max ${MAX_YEARS}`}>
                       <input
                         type="number"
                         min={0}
+                        max={MAX_YEARS}
                         step="1"
                         inputMode="decimal"
                         value={compoundYears}
-                        onChange={(e) => setCompoundYears(Number(e.target.value))}
+                        onChange={(e) => setCompoundYears(clamp(Number(e.target.value), 0, MAX_YEARS))}
                         className={inputCls}
                       />
                     </Field>
@@ -1207,7 +1202,7 @@ export default function SavingsAndDepositsCalculator() {
                           step="1"
                           inputMode="decimal"
                           value={fdAmount}
-                          onChange={(e) => setFdAmount(Number(e.target.value))}
+                          onChange={(e) => setFdAmount(Math.max(0, Number(e.target.value)))}
                           className={inputCls}
                         />
                       </Field>
@@ -1224,7 +1219,7 @@ export default function SavingsAndDepositsCalculator() {
                           step="0.01"
                           inputMode="decimal"
                           value={fdRate}
-                          onChange={(e) => setFdRate(Number(e.target.value))}
+                          onChange={(e) => setFdRate(Math.max(0, Number(e.target.value)))}
                           className={inputCls}
                         />
                       </Field>
@@ -1234,14 +1229,15 @@ export default function SavingsAndDepositsCalculator() {
                     </div>
 
                     <div>
-                      <Field label="Duration (years)">
+                      <Field label="Duration (years)" hint={`Max ${MAX_YEARS}`}>
                         <input
                           type="number"
                           min={0}
+                          max={MAX_YEARS}
                           step="1"
                           inputMode="decimal"
                           value={fdYears}
-                          onChange={(e) => setFdYears(Number(e.target.value))}
+                          onChange={(e) => setFdYears(clamp(Number(e.target.value), 0, MAX_YEARS))}
                           className={inputCls}
                         />
                       </Field>
@@ -1331,7 +1327,7 @@ export default function SavingsAndDepositsCalculator() {
                           step="1"
                           inputMode="decimal"
                           value={rdAmount}
-                          onChange={(e) => setRdAmount(Number(e.target.value))}
+                          onChange={(e) => setRdAmount(Math.max(0, Number(e.target.value)))}
                           className={inputCls}
                         />
                       </Field>
@@ -1348,7 +1344,7 @@ export default function SavingsAndDepositsCalculator() {
                           step="0.01"
                           inputMode="decimal"
                           value={rdRate}
-                          onChange={(e) => setRdRate(Number(e.target.value))}
+                          onChange={(e) => setRdRate(Math.max(0, Number(e.target.value)))}
                           className={inputCls}
                         />
                       </Field>
@@ -1358,15 +1354,15 @@ export default function SavingsAndDepositsCalculator() {
                     </div>
 
                     <div>
-                      <Field label="Term (months)">
+                      <Field label="Term (months)" hint={`Max ${MAX_RD_MONTHS}`}>
                         <input
                           type="number"
                           min={1}
-                          max={600}
+                          max={MAX_RD_MONTHS}
                           step={1}
                           inputMode="numeric"
                           value={rdMonths}
-                          onChange={(e) => setRdMonths(Math.min(600, Math.max(1, Number(e.target.value))))}
+                          onChange={(e) => setRdMonths(clamp(Number(e.target.value), 1, MAX_RD_MONTHS))}
                           className={inputCls}
                         />
                       </Field>
