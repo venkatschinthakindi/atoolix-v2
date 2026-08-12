@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type { ElementType } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Calculator,
   Percent,
@@ -181,16 +181,100 @@ function calculateFireMonthsToGoal(
   return Number.isFinite(months) && months >= 0 ? Math.ceil(months) : Number.POSITIVE_INFINITY;
 }
 
-function calculateSwpWithdrawal(corpus: number, annualReturn: number, years: number) {
+function calculateSwpWithdrawal(
+  corpus: number,
+  annualReturn: number,
+  years: number,
+  inflationRate: number
+) {
   const months = Math.max(1, Math.round(Math.max(0, years) * 12));
   const netCorpus = Math.max(0, corpus);
   const r = monthlyRate(annualReturn);
+  const annualInflation = Math.max(0, inflationRate) / 100;
 
   if (netCorpus <= 0) return 0;
-  if (Math.abs(r) < 1e-12) return netCorpus / months;
 
-  const denom = 1 - Math.pow(1 + r, -months);
-  return denom > 0 ? netCorpus * (r / denom) : 0;
+  // Zero-return case:
+  // withdrawals increase once every 12 months.
+  if (Math.abs(r) < 1e-12) {
+    let denominator = 0;
+
+    for (let month = 1; month <= months; month += 1) {
+      const yearIndex = Math.floor((month - 1) / 12);
+      denominator += Math.pow(1 + annualInflation, yearIndex);
+    }
+
+    return denominator > 0 ? netCorpus / denominator : 0;
+  }
+
+  // Solve for the initial monthly withdrawal when the withdrawal
+  // increases once per year with inflation.
+  //
+  // We use binary search because the annual step-up makes the
+  // closed-form constant-payment annuity formula inappropriate.
+  let low = 0;
+  let high = netCorpus;
+
+  for (let iteration = 0; iteration < 80; iteration += 1) {
+    const initialWithdrawal = (low + high) / 2;
+
+    let balance = netCorpus;
+    let withdrawal = initialWithdrawal;
+
+    for (let month = 1; month <= months; month += 1) {
+      balance = balance * (1 + r) - withdrawal;
+
+      if (balance <= 0) {
+        balance = 0;
+        break;
+      }
+
+      if (month % 12 === 0 && month < months) {
+        withdrawal *= 1 + annualInflation;
+      }
+    }
+
+    // If money remains, withdrawal can be higher.
+    // If money is exhausted, withdrawal is too high.
+    if (balance > 0) {
+      low = initialWithdrawal;
+    } else {
+      high = initialWithdrawal;
+    }
+  }
+
+  return (low + high) / 2;
+}
+
+/** Walks a corpus forward month-by-month under the same SWP assumptions
+ *  used elsewhere (shared `monthlyRate` helper, annual inflation step-up)
+ *  and returns how many months it takes to hit zero — or the full
+ *  horizon in months if it never does. Kept at module scope (like every
+ *  other calculation helper here) so it isn't re-created on every render. */
+function calculateSwpDepletionMonths(
+  corpus: number,
+  annualReturn: number,
+  years: number,
+  inflationRate: number,
+  initialWithdrawal: number
+) {
+  const r = monthlyRate(annualReturn);
+  const maxMonths = Math.max(1, Math.round(Math.max(0, years) * 12));
+
+  let balance = Math.max(0, corpus);
+  let withdrawal = Math.max(0, initialWithdrawal);
+
+  for (let month = 1; month <= maxMonths; month += 1) {
+    balance = balance * (1 + r) - withdrawal;
+
+    if (balance <= 0) return month;
+
+    if (month % 12 === 0) {
+      withdrawal *= 1 + Math.max(0, inflationRate) / 100;
+    }
+  }
+
+  return maxMonths;
 }
 
 function calculateGoalAchievement(projected: number, target: number) {
@@ -237,7 +321,10 @@ function buildSwpSeries(
 ) {
   const months = Math.max(0, Math.round(years * 12));
   const r = monthlyRate(annualReturn);
+  const inflationFactor = 1 + Math.max(0, inflationRate) / 100;
+
   const series: number[] = [];
+
   let balance = Math.max(0, corpus);
   let withdrawal = Math.max(0, initialWithdrawal);
 
@@ -245,8 +332,23 @@ function buildSwpSeries(
     balance = Math.max(0, balance * (1 + r) - withdrawal);
 
     if (month % 12 === 0 || month === months) {
-      withdrawal *= Math.pow(1 + inflationRate / 100, 1);
       series.push(balance);
+
+      // Increase withdrawal for the NEXT year only.
+      if (month < months) {
+        withdrawal *= inflationFactor;
+      }
+    }
+
+    if (balance <= 0) {
+      // Once depleted, remaining years are also zero.
+      // Keep the series length aligned with the requested horizon.
+      for (let remaining = month + 1; remaining <= months; remaining += 1) {
+        if (remaining % 12 === 0 || remaining === months) {
+          series.push(0);
+        }
+      }
+      break;
     }
   }
 
@@ -407,7 +509,7 @@ function StatCard({
     >
       <div className="text-xs text-white/60 mb-1">{label}</div>
       <div
-        className={`text-lg font-semibold ${
+        className={`text-lg font-semibold break-words ${
           tone === "positive" ? "text-emerald-300" : "text-white"
         }`}
       >
@@ -450,7 +552,7 @@ function QuickStartStrip() {
       {steps.map((s, i) => (
         <div
           key={s.title}
-          className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
+          className="rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
         >
           <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
             {s.icon}
@@ -474,7 +576,7 @@ function QuickStartStrip() {
 function MethodologyNote() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
+    <div className="rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -618,7 +720,7 @@ function LivePreviewStat({
         <Icon className="h-3.5 w-3.5" />
         {label}
       </div>
-      <div className="mt-1.5 text-lg font-semibold text-white break-all">{value}</div>
+      <div className="mt-1.5 text-lg font-semibold text-white break-words">{value}</div>
       <div className="mt-0.5 text-[11px] text-emerald-300">{note}</div>
     </div>
   );
@@ -627,7 +729,7 @@ function LivePreviewStat({
 /* ─────────────────────────────────────────────
    Main component
 ───────────────────────────────────────────── */
-export default function RetirementWealthSuite() {
+function RetirementWealthSuiteInner() {
   const chartRef = useRef<HTMLDivElement | null>(null);
 
   const searchParams = useSearchParams();
@@ -755,10 +857,19 @@ export default function RetirementWealthSuite() {
     [retirementSeries.length, retirementTarget]
   );
 
-  const retirementGoalAchievement = useMemo(
-    () => calculateGoalAchievement(retirementSeries.at(-1) ?? currentSavings, retirementTarget),
-    [retirementSeries, currentSavings, retirementTarget]
-  );
+  // Progress compares where your CURRENT contribution plan is actually
+  // projected to land at retirement (last point of retirementSeries —
+  // the same number the chart plots) against the target corpus. Comparing
+  // today's nominal currentSavings straight against a decades-inflated
+  // target (the previous behaviour) understated progress for almost every
+  // plan, since it ignored both future growth and ongoing contributions.
+  const retirementGoalAchievement = useMemo(() => {
+    const projectedAtRetirement =
+      retirementSeries.length > 0
+        ? retirementSeries[retirementSeries.length - 1]
+        : currentSavings;
+    return calculateGoalAchievement(projectedAtRetirement, retirementTarget);
+  }, [retirementSeries, retirementTarget, currentSavings]);
 
   const fireFutureExpense = useMemo(
     () => inflateValue(fireAnnualExpense, fireInflation, fireHorizonYears),
@@ -778,8 +889,13 @@ export default function RetirementWealthSuite() {
   const safeFireMonthsToGoal = Number.isFinite(fireMonthsToGoal) ? fireMonthsToGoal : Infinity;
 
   const fireProjectionYears = useMemo(() => {
-    if (!safeFireMonthsToGoal || safeFireMonthsToGoal <= 0) return 0;
-    return Math.min(Math.ceil(safeFireMonthsToGoal / 12), 50);
+    if (!Number.isFinite(safeFireMonthsToGoal)) return 0;
+
+    if (safeFireMonthsToGoal <= 0) {
+      return 1;
+    }
+
+    return Math.ceil(safeFireMonthsToGoal / 12);
   }, [safeFireMonthsToGoal]);
 
   const fireSeries = useMemo(
@@ -800,14 +916,42 @@ export default function RetirementWealthSuite() {
     [fireSeries.length, fireTarget]
   );
 
-  const fireGoalAchievement = useMemo(
-    () => calculateGoalAchievement(fireSeries.at(-1) ?? fireSavings, fireTarget),
-    [fireSeries, fireSavings, fireTarget]
-  );
+  // Same fix as retirement progress above: measure the projected
+  // portfolio value at the goal date, not today's nominal savings, against
+  // the target.
+  const fireGoalAchievement = useMemo(() => {
+    const projectedAtGoal =
+      fireSeries.length > 0 ? fireSeries[fireSeries.length - 1] : fireSavings;
+    return calculateGoalAchievement(projectedAtGoal, fireTarget);
+  }, [fireSeries, fireTarget, fireSavings]);
 
   const swpInitialWithdrawal = useMemo(
-    () => calculateSwpWithdrawal(swpCorpus, swpNetReturn, swpYears),
-    [swpCorpus, swpNetReturn, swpYears]
+    () =>
+      calculateSwpWithdrawal(
+        swpCorpus,
+        swpNetReturn,
+        swpYears,
+        swpInflationRate
+      ),
+    [swpCorpus, swpNetReturn, swpYears, swpInflationRate]
+  );
+
+  const swpDepletionMonths = useMemo(
+    () =>
+      calculateSwpDepletionMonths(
+        swpCorpus,
+        swpNetReturn,
+        swpYears,
+        swpInflationRate,
+        swpInitialWithdrawal
+      ),
+    [
+      swpCorpus,
+      swpNetReturn,
+      swpYears,
+      swpInflationRate,
+      swpInitialWithdrawal,
+    ]
   );
 
   const swpSeries = useMemo(
@@ -823,19 +967,21 @@ export default function RetirementWealthSuite() {
   const retirementWarn =
     retirementYears <= 0
       ? "Retirement age must be greater than current age."
-      : retirementMonthly <= 0 && retirementTarget > currentSavings
-        ? "You are already on track with the selected assumptions."
+      : retirementMonthly <= 0 && retirementTarget > 0
+        ? "Your current savings are projected to reach the target without additional monthly contributions under these assumptions."
         : null;
 
   const fireWarn =
-    !Number.isFinite(fireTarget) || fireTarget <= 0 || !Number.isFinite(safeFireMonthsToGoal)
+    !Number.isFinite(fireTarget) || fireTarget < 0 || !Number.isFinite(safeFireMonthsToGoal)
       ? "The selected savings plan cannot reach the FIRE target under current assumptions."
       : null;
 
   const swpWarn =
     swpInitialWithdrawal <= 0
       ? "Check the corpus, return, and duration. The current setup does not produce a usable monthly withdrawal."
-      : null;
+      : swpDepletionMonths < swpYears * 12
+        ? "The corpus is projected to run out before the planned withdrawal period."
+        : null;
 
   const handleAgeCommit = useCallback((v: number) => {
     const nextAge = clampInt(v, 18, 90);
@@ -1011,100 +1157,109 @@ export default function RetirementWealthSuite() {
   };
 
   /* ───── Render ───── */
-  return (
-    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
-      {/* ── Hero ── */}
-      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-8 lg:p-10 overflow-hidden">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-          {/* Left: pitch + features */}
-          <div className="space-y-6 font-mono">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 text-xs font-semibold text-blue-200">
-              <LineChart className="h-3.5 w-3.5" />
-              Private finance workspace
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold leading-[1.15] tracking-tight break-words">
-              Plan how your{" "}
-              <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
-                wealth grows
-              </span>{" "}
-              over time
-            </h1>
-
-            <p className="text-sm sm:text-base text-white/55 leading-relaxed max-w-md">
-              See exactly what it takes to retire, reach financial
-              independence, or draw down a corpus — no accounts, no
-              tracking, just calculations.
-            </p>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              {HERO_FEATURES.map((f) => (
-                <FeatureCard key={f.title} {...f} />
-              ))}
-            </div>
+ return (
+  <div className="w-full max-w-7xl mx-auto px-3 py-3 sm:px-4 sm:py-5 lg:px-6 lg:py-6 text-white space-y-5 sm:space-y-6">
+    {/* ── Hero ── */}
+    <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8 lg:p-10 overflow-hidden">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-center">
+        {/* Left: pitch + features */}
+        <div className="min-w-0 space-y-5 sm:space-y-6 font-mono">
+          <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 text-xs font-semibold text-blue-200">
+            <LineChart className="h-3.5 w-3.5 shrink-0" />
+            <span className="truncate">Private finance workspace</span>
           </div>
 
-          {/* Right: live preview */}
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <div className="text-[11px] font-mono font-semibold text-white/40 uppercase tracking-wide">
-                  Live preview
-                </div>
-                <div className="text-sm font-semibold text-white mt-0.5">
-                  Your projections at a glance
-                </div>
+          <h1 className="max-w-3xl text-2xl sm:text-3xl md:text-4xl lg:text-[2.6rem] font-bold leading-[1.15] tracking-tight break-words">
+            Plan how your{" "}
+            <span className="bg-gradient-to-r from-blue-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
+              wealth grows
+            </span>{" "}
+            over time
+          </h1>
+
+          <p className="max-w-xl text-sm sm:text-base text-white/55 leading-relaxed">
+            See exactly what it takes to retire, reach financial
+            independence, or draw down a corpus — no accounts, no tracking,
+            just calculations.
+          </p>
+
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+            {HERO_FEATURES.map((f) => (
+              <FeatureCard key={f.title} {...f} />
+            ))}
+          </div>
+        </div>
+
+        {/* Right: live preview */}
+        <div className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5 md:p-6">
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <div className="min-w-0">
+              <div className="text-[10px] sm:text-[11px] font-mono font-semibold text-white/40 uppercase tracking-wide">
+                Live preview
               </div>
-              <span className="relative flex h-2.5 w-2.5 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
-              </span>
-            </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <LivePreviewStat
-                icon={PiggyBank}
-                label="Retirement"
-                value={fmt(retirementTarget)}
-                note={`${yearsLabel(retirementYears)} to go`}
-              />
-              <LivePreviewStat
-                icon={Flame}
-                label="FIRE"
-                value={fmt(fireTarget)}
-                note={`${fireGoalAchievement.toFixed(0)}% funded`}
-              />
-              <LivePreviewStat
-                icon={Landmark}
-                label="SWP corpus"
-                value={fmt(swpCorpus)}
-                note={`${fmt(swpInitialWithdrawal)}/mo out`}
-              />
-              <LivePreviewStat
-                icon={TrendingUp}
-                label="Retirement progress"
-                value={`${retirementGoalAchievement.toFixed(0)}%`}
-                note="of target corpus"
-              />
-            </div>
-
-            <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <div className="min-w-0">
-                <div className="text-[11px] text-white/40 uppercase tracking-wide">
-                  Currently viewing
-                </div>
-                <div className="text-sm font-semibold text-white truncate">
-                  {activeModeLabel}
-                </div>
+              <div className="text-sm font-semibold text-white mt-0.5 truncate">
+                Your projections at a glance
               </div>
-              <span className="shrink-0 text-[11px] font-medium text-blue-300 bg-blue-400/10 border border-blue-400/30 rounded-full px-2.5 py-1">
-                {scenario.label} scenario
-              </span>
             </div>
 
-            <div className="mt-4 space-y-2">
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-xs text-white/40">Currency</span>
+            <span className="relative flex h-2.5 w-2.5 shrink-0 mt-1">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-3">
+            <LivePreviewStat
+              icon={PiggyBank}
+              label="Retirement"
+              value={fmt(retirementTarget)}
+              note={`${yearsLabel(retirementYears)} to go`}
+            />
+
+            <LivePreviewStat
+              icon={Flame}
+              label="FIRE"
+              value={fmt(fireTarget)}
+              note={`${fireGoalAchievement.toFixed(0)}% funded`}
+            />
+
+            <LivePreviewStat
+              icon={Landmark}
+              label="SWP corpus"
+              value={fmt(swpCorpus)}
+              note={`${fmt(swpInitialWithdrawal)}/mo out`}
+            />
+
+            <LivePreviewStat
+              icon={TrendingUp}
+              label="Retirement progress"
+              value={`${retirementGoalAchievement.toFixed(0)}%`}
+              note="of target corpus"
+            />
+          </div>
+
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+            <div className="min-w-0">
+              <div className="text-[10px] sm:text-[11px] text-white/40 uppercase tracking-wide">
+                Currently viewing
+              </div>
+
+              <div className="text-sm font-semibold text-white truncate">
+                {activeModeLabel}
+              </div>
+            </div>
+
+            <span className="self-start sm:self-auto shrink-0 text-[10px] sm:text-[11px] font-medium text-blue-300 bg-blue-400/10 border border-blue-400/30 rounded-full px-2.5 py-1">
+              {scenario.label} scenario
+            </span>
+          </div>
+
+          <div className="mt-4 space-y-2">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <span className="text-xs text-white/40">Currency</span>
+
+              <div className="w-full sm:w-auto">
                 <CustomSelect
                   value={currency}
                   callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
@@ -1114,618 +1269,760 @@ export default function RetirementWealthSuite() {
                   }))}
                 />
               </div>
-              <p className="text-center text-[11px] text-white/35 leading-snug">
-                Currency affects display only — no exchange-rate conversion is
-                applied.
-              </p>
             </div>
+
+            <p className="text-center text-[10px] sm:text-[11px] text-white/35 leading-snug">
+              Currency affects display only — no exchange-rate conversion is
+              applied.
+            </p>
           </div>
         </div>
       </div>
+    </div>
 
-      {/* ── Mode tabs ── */}
-      <div className="flex gap-2 flex-wrap justify-center">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => setActiveTab(tab.id)}
-            aria-pressed={activeTab === tab.id}
-            className={`px-5 py-2.5 rounded-full text-sm font-medium border transition ${
-              activeTab === tab.id
-                ? "border-blue-400/60 bg-blue-400/15 text-white"
-                : "border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
-            }`}
-          >
-            {tab.icon} {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* ── Quick start ── */}
-      <QuickStartStrip />
-
-      {/* ── Compare your plans ── */}
-      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
-        <SectionHeading
-          action={
-            <div className="flex flex-col items-start sm:items-end gap-1.5">
-              <div className="inline-flex rounded-full border border-white/10 bg-white/5 p-1 gap-1">
-                {(Object.keys(SCENARIOS) as ScenarioKey[]).map((key) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => applyScenario(key)}
-                    aria-pressed={selectedScenario === key}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition ${
-                      selectedScenario === key
-                        ? "bg-blue-400/20 text-white border border-blue-400/40"
-                        : "border border-transparent text-white/50 hover:text-white"
-                    }`}
-                  >
-                    {SCENARIOS[key].label}
-                  </button>
-                ))}
-              </div>
-              <span className="text-[11px] text-white/35">
-                Return {formatPercent(scenario.returnRate)} · Inflation {formatPercent(scenario.inflationRate)} · Tax drag {formatPercent(scenario.taxDrag)}
-              </span>
-            </div>
-          }
+    {/* ── Mode tabs ── */}
+    <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:justify-center sm:overflow-visible">
+      {tabs.map((tab) => (
+        <button
+          key={tab.id}
+          type="button"
+          onClick={() => setActiveTab(tab.id)}
+          aria-pressed={activeTab === tab.id}
+          className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2.5 rounded-full text-sm font-medium border transition ${
+            activeTab === tab.id
+              ? "border-blue-400/60 bg-blue-400/15 text-white"
+              : "border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+          }`}
         >
-          Compare Your Plans
-        </SectionHeading>
-        <p className="text-xs text-white/40 -mt-1 mb-5">
-          Every plan updates with the scenario above. Pick a card to open that
-          planner.
-        </p>
+          {tab.icon} {tab.label}
+        </button>
+      ))}
+    </div>
 
-        <div className="grid gap-3 sm:grid-cols-3">
-          {tabs.map((tab) => {
-            const summary = planSummaries[tab.id];
-            const Icon = summary.icon;
-            const active = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                aria-pressed={active}
-                className={`text-left rounded-2xl border p-4 transition ${
-                  active
-                    ? "border-blue-400/50 bg-blue-400/10"
-                    : "border-white/10 bg-white/5 hover:bg-white/10"
-                }`}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold text-white flex items-center gap-1.5">
-                    <Icon className="h-4 w-4 text-blue-300 shrink-0" />
-                    {tab.label}
-                  </span>
-                  {active && (
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 border border-blue-400/30 shrink-0">
-                      Viewing
-                    </span>
-                  )}
-                </div>
+    {/* ── Quick start ── */}
+    <QuickStartStrip />
 
-                <div className="space-y-2.5">
-                  <div>
-                    <div className="text-[11px] text-white/40">{summary.primaryLabel}</div>
-                    <div className="text-base font-semibold text-white break-all">{summary.primaryValue}</div>
-                  </div>
-                  <div>
-                    <div className="text-[11px] text-white/40">{summary.secondaryLabel}</div>
-                    <div className="text-sm text-white/70">{summary.secondaryValue}</div>
-                  </div>
-                </div>
+    {/* ── Compare your plans ── */}
+    <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+      <SectionHeading
+        action={
+          <div className="w-full sm:w-auto flex flex-col items-start sm:items-end gap-2">
+            <div className="w-full sm:w-auto flex overflow-x-auto rounded-full border border-white/10 bg-white/5 p-1 gap-1">
+              {(Object.keys(SCENARIOS) as ScenarioKey[]).map((key) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => applyScenario(key)}
+                  aria-pressed={selectedScenario === key}
+                  className={`shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition ${
+                    selectedScenario === key
+                      ? "bg-blue-400/20 text-white border border-blue-400/40"
+                      : "border border-transparent text-white/50 hover:text-white"
+                  }`}
+                >
+                  {SCENARIOS[key].label}
+                </button>
+              ))}
+            </div>
 
-                <div className="mt-3 text-xs font-medium text-blue-300">
-                  {active ? "Currently open" : "View plan →"}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+            <span className="text-[10px] sm:text-[11px] text-white/35 break-words">
+              Return {formatPercent(scenario.returnRate)} · Inflation{" "}
+              {formatPercent(scenario.inflationRate)} · Tax drag{" "}
+              {formatPercent(scenario.taxDrag)}
+            </span>
+          </div>
+        }
+      >
+        Compare Your Plans
+      </SectionHeading>
 
-      {/* ── How this is calculated ── */}
-      <MethodologyNote />
+      <p className="text-xs text-white/40 -mt-1 mb-5">
+        Every plan updates with the scenario above. Pick a card to open that
+        planner.
+      </p>
 
-      {/* ── Retirement tab ── */}
-      {activeTab === "retirement" && (
-        <div className="grid gap-6 xl:grid-cols-2">
-          <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
-            <SectionHeading
-              icon={PiggyBank}
-              action={
-                <FinancePdfExport
-                  filename="retirement-planner-report"
-                  title={exportData.title}
-                  subtitle={exportData.subtitle}
-                  summaryCards={exportData.summaryCards}
-                  inputRows={exportData.inputRows}
-                  resultRows={exportData.resultRows}
-                  notes={exportData.notes}
-                  chartRef={chartRef}
-                />
-              }
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">
+        {tabs.map((tab) => {
+          const summary = planSummaries[tab.id];
+          const Icon = summary.icon;
+          const active = activeTab === tab.id;
+
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => setActiveTab(tab.id)}
+              aria-pressed={active}
+              className={`min-w-0 text-left rounded-2xl border p-4 transition ${
+                active
+                  ? "border-blue-400/50 bg-blue-400/10"
+                  : "border-white/10 bg-white/5 hover:bg-white/10"
+              }`}
             >
-              Retirement Planner
-            </SectionHeading>
-            <p className="text-xs text-white/40 -mt-1 mb-5">
-              Set your age, savings and assumptions. Drag a slider or type an
-              exact value.
-            </p>
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <span className="min-w-0 text-sm font-semibold text-white flex items-center gap-1.5">
+                  <Icon className="h-4 w-4 text-blue-300 shrink-0" />
+                  <span className="truncate">{tab.label}</span>
+                </span>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Current age">
-                <NumberField
-                  ariaLabel="Current age"
-                  value={currentAge}
-                  onChange={setCurrentAge}
-                  onCommit={handleAgeCommit}
-                  min={18}
-                  max={90}
-                  integer
-                />
-              </Field>
-
-              <Field label="Retirement age">
-                <NumberField
-                  ariaLabel="Retirement age"
-                  value={retirementAge}
-                  onChange={setRetirementAge}
-                  onCommit={handleRetAgeCommit}
-                  min={currentAge + 1}
-                  max={100}
-                  integer
-                />
-              </Field>
-
-              <Field label={`Current savings (${currencyMeta.symbol})`}>
-                <NumberField
-                  ariaLabel="Current savings"
-                  value={currentSavings}
-                  onChange={setCurrentSavings}
-                  min={0}
-                  max={1e12}
-                />
-              </Field>
-
-              <Field label={`Monthly contribution (${currencyMeta.symbol})`}>
-                <NumberField
-                  ariaLabel="Monthly contribution"
-                  value={monthlyContribution}
-                  onChange={setMonthlyContribution}
-                  min={0}
-                  max={1e12}
-                />
-              </Field>
-
-              <Field label="Expected return" hint="0–25%">
-                <NumberField
-                  ariaLabel="Expected return"
-                  value={expectedReturn}
-                  onChange={setExpectedReturn}
-                  min={0}
-                  max={25}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label="Tax drag" hint="Estimated effective tax rate">
-                <NumberField
-                  ariaLabel="Tax drag"
-                  value={taxDrag}
-                  onChange={setTaxDrag}
-                  min={0}
-                  max={10}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label="Inflation rate">
-                <NumberField
-                  ariaLabel="Inflation rate"
-                  value={inflationRate}
-                  onChange={setInflationRate}
-                  min={0}
-                  max={30}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label={`Annual expense today (${currencyMeta.symbol})`}>
-                <NumberField
-                  ariaLabel="Annual expense today"
-                  value={annualNeed}
-                  onChange={setAnnualNeed}
-                  min={0}
-                  max={1e12}
-                />
-              </Field>
-
-              <Field label="Withdrawal rate" hint="e.g. the 4% rule">
-                <NumberField
-                  ariaLabel="Retirement withdrawal rate"
-                  value={retirementWithdrawalRate}
-                  onChange={setRetirementWithdrawalRate}
-                  min={0.1}
-                  max={10}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-3 mt-6">
-              <StatCard label="Retirement horizon" value={yearsLabel(retirementYears)} hint="Years left until retirement" />
-              <StatCard label="Target corpus" value={fmt(retirementTarget)} hint="Inflation-adjusted" accent />
-              <StatCard label="Required monthly savings" value={fmt(retirementMonthly)} hint="After tax drag" tone="positive" />
-            </div>
-
-            {retirementWarn && (
-              <div className="mt-4">
-                <WarningCallout text={retirementWarn} />
+                {active && (
+                  <span className="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 border border-blue-400/30">
+                    Viewing
+                  </span>
+                )}
               </div>
-            )}
+
+              <div className="space-y-2.5">
+                <div className="min-w-0">
+                  <div className="text-[11px] text-white/40">
+                    {summary.primaryLabel}
+                  </div>
+
+                  <div className="text-base font-semibold text-white break-words">
+                    {summary.primaryValue}
+                  </div>
+                </div>
+
+                <div className="min-w-0">
+                  <div className="text-[11px] text-white/40">
+                    {summary.secondaryLabel}
+                  </div>
+
+                  <div className="text-sm text-white/70 break-words">
+                    {summary.secondaryValue}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3 text-xs font-medium text-blue-300">
+                {active ? "Currently open" : "View plan →"}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+
+    {/* ── How this is calculated ── */}
+    <MethodologyNote />
+
+    {/* ── Retirement tab ── */}
+    {activeTab === "retirement" && (
+      <div className="grid min-w-0 gap-5 sm:gap-6 xl:grid-cols-2">
+        {/* Retirement inputs */}
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+          <SectionHeading
+            icon={PiggyBank}
+            action={
+              <FinancePdfExport
+                filename="retirement-planner-report"
+                title={exportData.title}
+                subtitle={exportData.subtitle}
+                summaryCards={exportData.summaryCards}
+                inputRows={exportData.inputRows}
+                resultRows={exportData.resultRows}
+                notes={exportData.notes}
+                chartRef={chartRef}
+              />
+            }
+          >
+            Retirement Planner
+          </SectionHeading>
+
+          <p className="text-xs text-white/40 -mt-1 mb-5">
+            Set your age, savings and assumptions. Drag a slider or type an
+            exact value.
+          </p>
+
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <Field label="Current age">
+              <NumberField
+                ariaLabel="Current age"
+                value={currentAge}
+                onChange={setCurrentAge}
+                onCommit={handleAgeCommit}
+                min={18}
+                max={90}
+                integer
+              />
+            </Field>
+
+            <Field label="Retirement age">
+              <NumberField
+                ariaLabel="Retirement age"
+                value={retirementAge}
+                onChange={setRetirementAge}
+                onCommit={handleRetAgeCommit}
+                min={currentAge + 1}
+                max={100}
+                integer
+              />
+            </Field>
+
+            <Field label={`Current savings (${currencyMeta.symbol})`}>
+              <NumberField
+                ariaLabel="Current savings"
+                value={currentSavings}
+                onChange={setCurrentSavings}
+                min={0}
+                max={1e12}
+              />
+            </Field>
+
+            <Field label={`Monthly contribution (${currencyMeta.symbol})`}>
+              <NumberField
+                ariaLabel="Monthly contribution"
+                value={monthlyContribution}
+                onChange={setMonthlyContribution}
+                min={0}
+                max={1e12}
+              />
+            </Field>
+
+            <Field label="Expected return" hint="0–25%">
+              <NumberField
+                ariaLabel="Expected return"
+                value={expectedReturn}
+                onChange={setExpectedReturn}
+                min={0}
+                max={25}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field label="Tax drag" hint="Estimated effective tax rate">
+              <NumberField
+                ariaLabel="Tax drag"
+                value={taxDrag}
+                onChange={setTaxDrag}
+                min={0}
+                max={10}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field label="Inflation rate">
+              <NumberField
+                ariaLabel="Inflation rate"
+                value={inflationRate}
+                onChange={setInflationRate}
+                min={0}
+                max={30}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field
+              label={`Annual expense today (${currencyMeta.symbol})`}
+            >
+              <NumberField
+                ariaLabel="Annual expense today"
+                value={annualNeed}
+                onChange={setAnnualNeed}
+                min={0}
+                max={1e12}
+              />
+            </Field>
+
+            <Field
+              label="Withdrawal rate"
+              hint="e.g. the 4% rule"
+            >
+              <NumberField
+                ariaLabel="Retirement withdrawal rate"
+                value={retirementWithdrawalRate}
+                onChange={setRetirementWithdrawalRate}
+                min={0.1}
+                max={10}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
           </div>
 
-          <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
-            <SectionHeading icon={BarChart3}>Retirement Projection</SectionHeading>
-            <p className="text-xs text-white/40 -mt-1 mb-5">
-              Projected corpus growth compared against the target corpus.
-            </p>
-            <div ref={chartRef}>
-              {retirementSeries.length > 0 ? (
+          <div className="grid gap-3 grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 mt-5 sm:mt-6">
+            <StatCard
+              label="Retirement horizon"
+              value={yearsLabel(retirementYears)}
+              hint="Years left until retirement"
+            />
+
+            <StatCard
+              label="Target corpus"
+              value={fmt(retirementTarget)}
+              hint="Inflation-adjusted"
+              accent
+            />
+
+            <StatCard
+              label="Required monthly savings"
+              value={fmt(retirementMonthly)}
+              hint="After tax drag"
+              tone="positive"
+            />
+          </div>
+
+          {retirementWarn && (
+            <div className="mt-4">
+              <WarningCallout text={retirementWarn} />
+            </div>
+          )}
+        </div>
+
+        {/* Retirement chart */}
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+          <SectionHeading icon={BarChart3}>
+            Retirement Projection
+          </SectionHeading>
+
+          <p className="text-xs text-white/40 -mt-1 mb-5">
+            Projected corpus growth compared against the target corpus.
+          </p>
+
+          <div
+            ref={chartRef}
+            className="min-w-0 w-full overflow-hidden"
+          >
+            {retirementSeries.length > 0 ? (
+              <div className="w-full min-w-0">
                 <FinanceChart
                   labels={retirementLabels}
                   datasets={[
-                    { label: "Projected corpus", data: retirementSeries, color: "rgba(59,130,246,0.85)" },
-                    { label: "Target corpus", data: retirementTargetSeries, color: "rgba(239,68,68,0.85)" },
+                    {
+                      label: "Projected corpus",
+                      data: retirementSeries,
+                      color: "rgba(59,130,246,0.85)",
+                    },
+                    {
+                      label: "Target corpus",
+                      data: retirementTargetSeries,
+                      color: "rgba(239,68,68,0.85)",
+                    },
                   ]}
                 />
-              ) : (
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
-                  No chart data available for the current retirement horizon.
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── FIRE tab ── */}
-      {activeTab === "fire" && (
-        <div className="grid gap-6 xl:grid-cols-2">
-          <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
-            <SectionHeading
-              icon={Calculator}
-              action={
-                <FinancePdfExport
-                  filename="fire-report"
-                  title={exportData.title}
-                  subtitle={exportData.subtitle}
-                  summaryCards={exportData.summaryCards}
-                  inputRows={exportData.inputRows}
-                  resultRows={exportData.resultRows}
-                  notes={exportData.notes}
-                  chartRef={chartRef}
-                />
-              }
-            >
-              FIRE Calculator
-            </SectionHeading>
-            <p className="text-xs text-white/40 -mt-1 mb-5">
-              Target uses inflation-adjusted spending at the selected FIRE date.
-            </p>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={`Current savings (${currencyMeta.symbol})`}>
-                <NumberField
-                  ariaLabel="Current savings"
-                  value={fireSavings}
-                  onChange={setFireSavings}
-                  min={0}
-                  max={1e12}
-                />
-              </Field>
-
-              <Field label={`Monthly savings (${currencyMeta.symbol})`}>
-                <NumberField
-                  ariaLabel="Monthly savings"
-                  value={fireContribution}
-                  onChange={setFireContribution}
-                  min={0}
-                  max={1e12}
-                />
-              </Field>
-
-              <Field label="Expected return" hint="0–25%">
-                <NumberField
-                  ariaLabel="Expected return"
-                  value={fireReturn}
-                  onChange={setFireReturn}
-                  min={0}
-                  max={25}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label="Tax drag" hint="Estimated effective tax rate">
-                <NumberField
-                  ariaLabel="Tax drag"
-                  value={fireTaxDrag}
-                  onChange={setFireTaxDrag}
-                  min={0}
-                  max={10}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label={`Annual expense today (${currencyMeta.symbol})`}>
-                <NumberField
-                  ariaLabel="Annual expense today"
-                  value={fireAnnualExpense}
-                  onChange={setFireAnnualExpense}
-                  min={0}
-                  max={1e12}
-                />
-              </Field>
-
-              <Field label="FIRE horizon" hint="1–60 years">
-                <NumberField
-                  ariaLabel="FIRE horizon"
-                  value={fireHorizonYears}
-                  onChange={setFireHorizonYears}
-                  min={1}
-                  max={60}
-                  integer
-                  suffix="yrs"
-                />
-              </Field>
-
-              <Field label="Withdrawal rate">
-                <NumberField
-                  ariaLabel="Withdrawal rate"
-                  value={fireWithdrawalRate}
-                  onChange={setFireWithdrawalRate}
-                  min={0.1}
-                  max={10}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label="Inflation rate">
-                <NumberField
-                  ariaLabel="Inflation rate"
-                  value={fireInflation}
-                  onChange={setFireInflation}
-                  min={0}
-                  max={30}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-3 mt-6">
-              <StatCard
-                label="FIRE target"
-                value={!Number.isFinite(fireTarget) || fireTarget <= 0 ? "Invalid" : fmt(fireTarget)}
-                hint="Inflation-adjusted expense"
-                accent
-              />
-              <StatCard
-                label="Years to goal"
-                value={
-                  !Number.isFinite(safeFireMonthsToGoal)
-                    ? "Not Reachable"
-                    : safeFireMonthsToGoal <= 0
-                    ? "Already Reached"
-                    : `${Math.ceil(safeFireMonthsToGoal / 12)} years`
-                }
-                hint="Closed-form timeline"
-              />
-              <StatCard
-                label="Current progress"
-                value={`${fireGoalAchievement.toFixed(0)}%`}
-                hint="Projected corpus vs target"
-                tone="positive"
-              />
-            </div>
-
-            {fireWarn && (
-              <div className="mt-4">
-                <WarningCallout text={fireWarn} />
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
+                No chart data available for the current retirement horizon.
               </div>
             )}
+          </div>
+        </div>
+      </div>
+    )}
 
-            <div className="mt-4">
-              <InfoCallout
-                title="Model note"
-                text="The FIRE target is based on the selected horizon and an estimated tax drag rather than a full tax engine."
+    {/* ── FIRE tab ── */}
+    {activeTab === "fire" && (
+      <div className="grid min-w-0 gap-5 sm:gap-6 xl:grid-cols-2">
+        {/* FIRE inputs */}
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+          <SectionHeading
+            icon={Calculator}
+            action={
+              <FinancePdfExport
+                filename="fire-report"
+                title={exportData.title}
+                subtitle={exportData.subtitle}
+                summaryCards={exportData.summaryCards}
+                inputRows={exportData.inputRows}
+                resultRows={exportData.resultRows}
+                notes={exportData.notes}
+                chartRef={chartRef}
               />
-            </div>
+            }
+          >
+            FIRE Calculator
+          </SectionHeading>
+
+          <p className="text-xs text-white/40 -mt-1 mb-5">
+            Target uses inflation-adjusted spending at the selected FIRE date.
+          </p>
+
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <Field label={`Current savings (${currencyMeta.symbol})`}>
+              <NumberField
+                ariaLabel="Current savings"
+                value={fireSavings}
+                onChange={setFireSavings}
+                min={0}
+                max={1e12}
+              />
+            </Field>
+
+            <Field label={`Monthly savings (${currencyMeta.symbol})`}>
+              <NumberField
+                ariaLabel="Monthly savings"
+                value={fireContribution}
+                onChange={setFireContribution}
+                min={0}
+                max={1e12}
+              />
+            </Field>
+
+            <Field label="Expected return" hint="0–25%">
+              <NumberField
+                ariaLabel="Expected return"
+                value={fireReturn}
+                onChange={setFireReturn}
+                min={0}
+                max={25}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field label="Tax drag" hint="Estimated effective tax rate">
+              <NumberField
+                ariaLabel="Tax drag"
+                value={fireTaxDrag}
+                onChange={setFireTaxDrag}
+                min={0}
+                max={10}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field label={`Annual expense today (${currencyMeta.symbol})`}>
+              <NumberField
+                ariaLabel="Annual expense today"
+                value={fireAnnualExpense}
+                onChange={setFireAnnualExpense}
+                min={0}
+                max={1e12}
+              />
+            </Field>
+
+            <Field label="FIRE horizon" hint="1–60 years">
+              <NumberField
+                ariaLabel="FIRE horizon"
+                value={fireHorizonYears}
+                onChange={setFireHorizonYears}
+                min={1}
+                max={60}
+                integer
+                suffix="yrs"
+              />
+            </Field>
+
+            <Field label="Withdrawal rate">
+              <NumberField
+                ariaLabel="Withdrawal rate"
+                value={fireWithdrawalRate}
+                onChange={setFireWithdrawalRate}
+                min={0.1}
+                max={10}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field label="Inflation rate">
+              <NumberField
+                ariaLabel="Inflation rate"
+                value={fireInflation}
+                onChange={setFireInflation}
+                min={0}
+                max={30}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
           </div>
 
-          <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
-            <SectionHeading icon={BarChart3}>FIRE Projection</SectionHeading>
-            <p className="text-xs text-white/40 -mt-1 mb-5">
-              Portfolio growth compared against the FIRE target.
-            </p>
-            <div ref={chartRef}>
-              {fireSeries.length > 0 ? (
+          <div className="grid gap-3 grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 mt-5 sm:mt-6">
+            <StatCard
+              label="FIRE target"
+              value={
+                !Number.isFinite(fireTarget) || fireTarget <= 0
+                  ? "Invalid"
+                  : fmt(fireTarget)
+              }
+              hint="Inflation-adjusted expense"
+              accent
+            />
+
+            <StatCard
+              label="Years to goal"
+              value={
+                !Number.isFinite(safeFireMonthsToGoal)
+                  ? "Not Reachable"
+                  : safeFireMonthsToGoal <= 0
+                  ? "Already Reached"
+                  : `${Math.ceil(safeFireMonthsToGoal / 12)} years`
+              }
+              hint="Closed-form timeline"
+            />
+
+            <StatCard
+              label="Current progress"
+              value={`${fireGoalAchievement.toFixed(0)}%`}
+              hint="Projected corpus vs target"
+              tone="positive"
+            />
+          </div>
+
+          {fireWarn && (
+            <div className="mt-4">
+              <WarningCallout text={fireWarn} />
+            </div>
+          )}
+
+          <div className="mt-4">
+            <InfoCallout
+              title="Model note"
+              text="The FIRE target is based on the selected horizon and an estimated tax drag rather than a full tax engine."
+            />
+          </div>
+        </div>
+
+        {/* FIRE chart */}
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+          <SectionHeading icon={BarChart3}>
+            FIRE Projection
+          </SectionHeading>
+
+          <p className="text-xs text-white/40 -mt-1 mb-5">
+            Portfolio growth compared against the FIRE target.
+          </p>
+
+          <div
+            ref={chartRef}
+            className="min-w-0 w-full overflow-hidden"
+          >
+            {fireSeries.length > 0 ? (
+              <div className="w-full min-w-0">
                 <FinanceChart
                   labels={fireLabels}
                   datasets={[
-                    { label: "Estimated portfolio value", data: fireSeries, color: "rgba(34,197,94,0.85)" },
-                    { label: "FIRE target", data: fireTargetSeries, color: "rgba(239,68,68,0.85)" },
+                    {
+                      label: "Estimated portfolio value",
+                      data: fireSeries,
+                      color: "rgba(34,197,94,0.85)",
+                    },
+                    {
+                      label: "FIRE target",
+                      data: fireTargetSeries,
+                      color: "rgba(239,68,68,0.85)",
+                    },
                   ]}
                 />
-              ) : (
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
-                  {!Number.isFinite(safeFireMonthsToGoal)
-                    ? "The selected savings plan cannot reach the FIRE target under current assumptions."
-                    : "No chart data available for the current FIRE timeline."}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── SWP tab ── */}
-      {activeTab === "swp" && (
-        <div className="grid gap-6 xl:grid-cols-2">
-          <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
-            <SectionHeading
-              icon={Percent}
-              action={
-                <FinancePdfExport
-                  filename="swp-planner-report"
-                  title={exportData.title}
-                  subtitle={exportData.subtitle}
-                  summaryCards={exportData.summaryCards}
-                  inputRows={exportData.inputRows}
-                  resultRows={exportData.resultRows}
-                  notes={exportData.notes}
-                  chartRef={chartRef}
-                />
-              }
-            >
-              SWP Planner
-            </SectionHeading>
-            <p className="text-xs text-white/40 -mt-1 mb-5">
-              Initial withdrawal is shown here; inflation applies yearly in the
-              projection.
-            </p>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={`Corpus available (${currencyMeta.symbol})`}>
-                <NumberField
-                  ariaLabel="Corpus available"
-                  value={swpCorpus}
-                  onChange={setSwpCorpus}
-                  min={0}
-                  max={1e12}
-                />
-              </Field>
-
-              <Field label="Expected return" hint="0–25%">
-                <NumberField
-                  ariaLabel="Expected return"
-                  value={swpReturn}
-                  onChange={setSwpReturn}
-                  min={0}
-                  max={25}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label="Withdrawal period" hint="1–100 years">
-                <NumberField
-                  ariaLabel="Withdrawal period"
-                  value={swpYears}
-                  onChange={setSwpYears}
-                  min={1}
-                  max={100}
-                  integer
-                  suffix="yrs"
-                />
-              </Field>
-
-              <Field label="Inflation rate">
-                <NumberField
-                  ariaLabel="Inflation rate"
-                  value={swpInflationRate}
-                  onChange={setSwpInflationRate}
-                  min={0}
-                  max={30}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-
-              <Field label="Tax drag" hint="Estimated effective tax rate">
-                <NumberField
-                  ariaLabel="Tax drag"
-                  value={swpTaxDrag}
-                  onChange={setSwpTaxDrag}
-                  min={0}
-                  max={10}
-                  step={0.1}
-                  suffix="%"
-                />
-              </Field>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-3 mt-6">
-              <StatCard label="Corpus" value={fmt(swpCorpus)} />
-              <StatCard
-                label="Initial monthly SWP"
-                value={
-                  !Number.isFinite(swpInitialWithdrawal) || swpInitialWithdrawal <= 0
-                    ? "Invalid"
-                    : fmt(swpInitialWithdrawal)
-                }
-                hint="Before annual inflation step"
-                accent
-              />
-              <StatCard label="Planned horizon" value={yearsLabel(swpYears)} />
-            </div>
-
-            {swpWarn && (
-              <div className="mt-4">
-                <WarningCallout text={swpWarn} />
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
+                {!Number.isFinite(safeFireMonthsToGoal)
+                  ? "The selected savings plan cannot reach the FIRE target under current assumptions."
+                  : "No chart data available for the current FIRE timeline."}
               </div>
             )}
-
-            <div className="mt-4">
-              <InfoCallout
-                title="Model note"
-                text="This SWP model applies a simplified tax drag to return and increases withdrawals once per year for readability."
-              />
-            </div>
-          </div>
-
-          <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
-            <SectionHeading icon={BarChart3}>SWP Balance Forecast</SectionHeading>
-            <p className="text-xs text-white/40 -mt-1 mb-5">
-              Remaining balance after withdrawals, growth, inflation, and tax
-              drag.
-            </p>
-            <div ref={chartRef}>
-              {swpSeries.length > 0 ? (
-                <FinanceChart
-                  labels={swpLabels}
-                  datasets={[{ label: "Remaining balance", data: swpSeries, color: "rgba(245,158,11,0.85)" }]}
-                />
-              ) : (
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
-                  No data
-                </div>
-              )}
-            </div>
           </div>
         </div>
-      )}
+      </div>
+    )}
 
-      {/* ── Footer disclaimer ── */}
-      <p className="text-center text-sm text-emerald-300 px-2">
-        <b>Note: </b>Estimates only, based on standard compounding assumptions
-        with a simplified tax-drag and inflation model. Actual returns, taxes,
-        and inflation will vary by market and currency — treat these figures
-        as planning estimates, not financial advice.
-      </p>
+    {/* ── SWP tab ── */}
+    {activeTab === "swp" && (
+      <div className="grid min-w-0 gap-5 sm:gap-6 xl:grid-cols-2">
+        {/* SWP inputs */}
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+          <SectionHeading
+            icon={Percent}
+            action={
+              <FinancePdfExport
+                filename="swp-planner-report"
+                title={exportData.title}
+                subtitle={exportData.subtitle}
+                summaryCards={exportData.summaryCards}
+                inputRows={exportData.inputRows}
+                resultRows={exportData.resultRows}
+                notes={exportData.notes}
+                chartRef={chartRef}
+              />
+            }
+          >
+            SWP Planner
+          </SectionHeading>
+
+          <p className="text-xs text-white/40 -mt-1 mb-5">
+            Initial withdrawal is shown here; inflation applies yearly in the
+            projection.
+          </p>
+
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+            <Field label={`Corpus available (${currencyMeta.symbol})`}>
+              <NumberField
+                ariaLabel="Corpus available"
+                value={swpCorpus}
+                onChange={setSwpCorpus}
+                min={0}
+                max={1e12}
+              />
+            </Field>
+
+            <Field label="Expected return" hint="0–25%">
+              <NumberField
+                ariaLabel="Expected return"
+                value={swpReturn}
+                onChange={setSwpReturn}
+                min={0}
+                max={25}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field label="Withdrawal period" hint="1–100 years">
+              <NumberField
+                ariaLabel="Withdrawal period"
+                value={swpYears}
+                onChange={setSwpYears}
+                min={1}
+                max={100}
+                integer
+                suffix="yrs"
+              />
+            </Field>
+
+            <Field label="Inflation rate">
+              <NumberField
+                ariaLabel="Inflation rate"
+                value={swpInflationRate}
+                onChange={setSwpInflationRate}
+                min={0}
+                max={30}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+
+            <Field label="Tax drag" hint="Estimated effective tax rate">
+              <NumberField
+                ariaLabel="Tax drag"
+                value={swpTaxDrag}
+                onChange={setSwpTaxDrag}
+                min={0}
+                max={10}
+                step={0.1}
+                suffix="%"
+              />
+            </Field>
+          </div>
+
+          <div className="grid gap-3 grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 mt-5 sm:mt-6">
+            <StatCard
+              label="Corpus"
+              value={fmt(swpCorpus)}
+            />
+
+            <StatCard
+              label="Initial monthly SWP"
+              value={
+                !Number.isFinite(swpInitialWithdrawal) ||
+                swpInitialWithdrawal <= 0
+                  ? "Invalid"
+                  : fmt(swpInitialWithdrawal)
+              }
+              hint="Before annual inflation step"
+              accent
+            />
+
+            <StatCard
+              label="Planned horizon"
+              value={yearsLabel(swpYears)}
+            />
+          </div>
+
+          {swpWarn && (
+            <div className="mt-4">
+              <WarningCallout text={swpWarn} />
+            </div>
+          )}
+
+          <div className="mt-4">
+            <InfoCallout
+              title="Model note"
+              text="This SWP model applies a simplified tax drag to return and increases withdrawals once per year for readability."
+            />
+          </div>
+        </div>
+
+        {/* SWP chart */}
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+          <SectionHeading icon={BarChart3}>
+            SWP Balance Forecast
+          </SectionHeading>
+
+          <p className="text-xs text-white/40 -mt-1 mb-5">
+            Remaining balance after withdrawals, growth, inflation, and tax
+            drag.
+          </p>
+
+          <div
+            ref={chartRef}
+            className="min-w-0 w-full overflow-hidden"
+          >
+            {swpSeries.length > 0 ? (
+              <div className="w-full min-w-0">
+                <FinanceChart
+                  labels={swpLabels}
+                  datasets={[
+                    {
+                      label: "Remaining balance",
+                      data: swpSeries,
+                      color: "rgba(245,158,11,0.85)",
+                    },
+                  ]}
+                />
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
+                No data
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* ── Footer disclaimer ── */}
+    <p className="max-w-4xl mx-auto text-center text-xs sm:text-sm text-emerald-300 px-3 sm:px-4 leading-relaxed">
+      <b>Note: </b>
+      Estimates only, based on standard compounding assumptions with a
+      simplified tax-drag and inflation model. Actual returns, taxes, and
+      inflation will vary by market and currency — treat these figures as
+      planning estimates, not financial advice.
+    </p>
+  </div>
+);
+}
+
+/* useSearchParams() opts the whole subtree into client-side rendering and,
+ * per Next.js's app-router rules, must be read inside a <Suspense> boundary
+ * or the page fails to statically render / throws a build-time error
+ * ("useSearchParams() should be wrapped in a suspense boundary"). The
+ * previous default export read it directly, so any route rendering this
+ * component without its own external <Suspense> wrapper was one Next.js
+ * upgrade away from breaking. Wrapping it here makes the component safe
+ * to drop into a page regardless of how the parent renders it. */
+export default function RetirementWealthSuite() {
+  return (
+    <Suspense fallback={<SuiteLoadingFallback />}>
+      <RetirementWealthSuiteInner />
+    </Suspense>
+  );
+}
+
+function SuiteLoadingFallback() {
+  return (
+    <div className="w-full max-w-7xl mx-auto px-3 py-3 sm:px-4 sm:py-5 lg:px-6 lg:py-6 text-white">
+      <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8 animate-pulse">
+        <div className="h-4 w-40 rounded bg-white/10" />
+        <div className="mt-4 h-8 w-2/3 rounded bg-white/10" />
+        <div className="mt-3 h-4 w-1/2 rounded bg-white/10" />
+      </div>
     </div>
   );
 }
