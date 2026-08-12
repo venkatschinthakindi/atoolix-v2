@@ -2,7 +2,6 @@
 import { notFound } from "next/navigation";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
-import ToolSeoContent from "@/app/tools/[...toolId]/ToolSeoContent";
 import { ToolRegistryEntry } from "@/data/tools";
 import { serverConfig } from "@/config/server";
 import ToolRendererClient from "@/components/tools/toolRendererClient";
@@ -11,6 +10,11 @@ import { Footer } from "@/app/footer/footer";
 import { ToolHeaderFavorite } from "@/components/favorites/toolHeaderFavorite";
 import { FloatingButton } from "@/components/ui/floatingButton";
 import BackButton from "@/components/ui/backButton";
+import dynamic from "next/dynamic";
+const ToolSeoContent = dynamic(
+  () => import("@/app/tools/[...toolId]/ToolSeoContent").then((mod) => mod.default),
+  { loading: () => null }
+);
 
 export async function generateMetadata({
   params,
