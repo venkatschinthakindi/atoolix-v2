@@ -9,20 +9,24 @@ import {
   TrendingUp,
   BarChart3,
   AlertTriangle,
+  TriangleAlert,
   Info,
   ArrowDownCircle,
   ArrowUpCircle,
   Trash2,
-  SlidersHorizontal,
-  ShieldCheck,
 } from "lucide-react";
 
 import { Field } from "@/components/ui/Field";
-import { formatCurrency } from "@/utility/formatCurrencyUtility";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { ExplainerPanel, TabKey } from "@/sharedUI/explainerPanel";
 import CustomSelect from "@/components/ui/customSelect";
 import { useSearchParams } from "next/navigation";
+
+// NOTE: this component calls useSearchParams(). In the App Router, any
+// route that renders it must wrap it in a <Suspense> boundary (e.g. in
+// page.tsx: `<Suspense fallback={...}><InvestmentReturnsSuite /></Suspense>`)
+// or Next.js will fail the build / throw at runtime for statically
+// rendered routes.
 
 const FinanceChart = dynamic(
   () => import("@/components/tools/financeSuite/financeChart").then((m) => m.FinanceChart),
@@ -40,13 +44,50 @@ const FinancePdfExport = dynamic(
   }
 );
 
+// ---------------------------------------------------------------------------
+// Currency
+// ---------------------------------------------------------------------------
+// This tool only swaps the currency *symbol* and keeps Indian-style digit
+// grouping (e.g. ₹5,00,000 -> $5,00,000). It does NOT convert amounts. This
+// is intentional and called out to the user in the UI (see the warning
+// banner in the hero section).
+
+const CURRENCIES = {
+  INR: { code: "INR", symbol: "₹", label: "₹ INR — Indian Rupee" },
+  USD: { code: "USD", symbol: "$", label: "$ USD — US Dollar" },
+  EUR: { code: "EUR", symbol: "€", label: "€ EUR — Euro" },
+  GBP: { code: "GBP", symbol: "£", label: "£ GBP — British Pound" },
+  JPY: { code: "JPY", symbol: "¥", label: "¥ JPY — Japanese Yen" },
+  AUD: { code: "AUD", symbol: "A$", label: "A$ AUD — Australian Dollar" },
+  CAD: { code: "CAD", symbol: "C$", label: "C$ CAD — Canadian Dollar" },
+  SGD: { code: "SGD", symbol: "S$", label: "S$ SGD — Singapore Dollar" },
+  AED: { code: "AED", symbol: "د.إ", label: "د.إ AED — UAE Dirham" },
+} as const;
+
+type CurrencyCode = keyof typeof CURRENCIES;
+
+function formatCurrency(value: number, currency: CurrencyCode = "INR") {
+  if (!Number.isFinite(value)) return "—";
+  const symbol = CURRENCIES[currency].symbol;
+  const sign = value < 0 ? "-" : "";
+  const grouped = Math.abs(Math.round(value)).toLocaleString("en-IN");
+  return `${sign}${symbol}${grouped}`;
+}
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
 type CashFlow = {
   id: string;
   amount: number | "";
   date: string;
 };
 
-type XirrStatus = "idle" | "invalid" | "no-solution" | "ok";
+// Numeric form fields can be transiently empty while the user retypes them.
+type NumField = number | "";
+
+type XirrStatus = "idle" | "invalid" | "same-date" | "no-solution" | "ok";
 
 const tabs: { id: TabKey; label: string; icon: string }[] = [
   { id: "sip", label: "SIP Growth", icon: "🚀" },
@@ -85,6 +126,10 @@ const EXPLAINERS: any = {
   },
 };
 
+// ---------------------------------------------------------------------------
+// Small helpers
+// ---------------------------------------------------------------------------
+
 function uid() {
   return `cf_${Math.random().toString(36).slice(2)}_${Date.now().toString(36)}`;
 }
@@ -93,10 +138,29 @@ function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function safeNumber(value: string): number | "" {
+// Lets a field go empty (so the user can delete-then-retype) instead of
+// collapsing to 0 the instant the box is cleared.
+function parseNumericInput(value: string): NumField {
   if (value.trim() === "") return "";
   const n = Number(value);
   return Number.isFinite(n) ? n : "";
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function clampField(value: NumField, min: number, max: number): NumField {
+  if (value === "") return value;
+  return clamp(value, min, max);
+}
+
+// Converts a possibly-empty field into a real number for calculations,
+// clamped into a safe range so a stray invalid state can never blow up a
+// loop (e.g. someone entering a few million "years").
+function toCalcNumber(value: NumField, fallback: number, min: number, max: number) {
+  const n = value === "" ? fallback : value;
+  return clamp(n, min, max);
 }
 
 function formatPercent(value: number) {
@@ -104,13 +168,55 @@ function formatPercent(value: number) {
   return `${value.toFixed(2)}%`;
 }
 
+// Per-field limits: keeps huge inputs from creating runaway loops, and
+// gives every numeric field an enforced (not just cosmetic) min/max.
+const LIMITS = {
+  sipAmount: { min: 0, max: 10_000_000 },
+  sipRate: { min: 0, max: 50 },
+  sipYears: { min: 1, max: 100 },
+  sipStepUp: { min: 0, max: 100 },
+  lumpAmount: { min: 0, max: 100_000_000 },
+  lumpRate: { min: 0, max: 50 },
+  lumpYears: { min: 1, max: 100 },
+  cagrStart: { min: 1, max: 100_000_000 },
+  cagrEnd: { min: 0, max: 100_000_000 },
+  cagrYears: { min: 1, max: 100 },
+} as const;
+
+// Builds onChange/onBlur handlers for a numeric field: onChange stays
+// permissive (so typing "-" or an empty box works), onBlur clamps into
+// range and optionally rounds to a whole number (used for "years" fields
+// so they can never drift out of sync with month-based calculations).
+function numberFieldHandlers(
+  setter: React.Dispatch<React.SetStateAction<NumField>>,
+  { min, max, integer = false }: { min: number; max: number; integer?: boolean }
+) {
+  return {
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(parseNumericInput(e.target.value));
+    },
+    onBlur: () => {
+      setter((current) => {
+        if (current === "") return current;
+        let next = clamp(current, min, max);
+        if (integer) next = Math.round(next);
+        return next;
+      });
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Finance math
+// ---------------------------------------------------------------------------
+
 function calculateSIPValue(
   monthly: number,
   annualRate: number,
   years: number,
   stepUpPercent: number
 ) {
-  const months = Math.max(0, Math.floor(years * 12));
+  const months = Math.max(0, Math.round(years * 12));
   const monthlyRate = annualRate / 100 / 12;
 
   let balance = 0;
@@ -149,7 +255,10 @@ function buildSipSeries(
   years: number,
   stepUpPercent: number
 ) {
-  const months = Math.max(0, Math.floor(years * 12));
+  // years is always a whole number by the time it reaches here (enforced
+  // via step=1 + onBlur rounding), so month count and the yearly chart
+  // labels built from `years` stay in sync.
+  const months = Math.max(0, Math.round(years) * 12);
   const monthlyRate = annualRate / 100 / 12;
 
   const series: number[] = [];
@@ -174,7 +283,8 @@ function buildLumpSeries(
   frequency: number
 ) {
   const series: number[] = [];
-  for (let year = 1; year <= years; year += 1) {
+  const wholeYears = Math.round(years);
+  for (let year = 1; year <= wholeYears; year += 1) {
     const periodic = rate / 100 / frequency;
     series.push(amount * Math.pow(1 + periodic, frequency * year));
   }
@@ -204,15 +314,14 @@ function xnpv(rate: number, cashflows: CashFlow[]) {
 }
 
 function xirrNewton(cashflows: CashFlow[], guess = 0.1) {
-  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
   let rate = guess;
 
   for (let i = 0; i < 100; i += 1) {
-    const f = xnpv(rate, sorted);
+    const f = xnpv(rate, cashflows);
     if (!Number.isFinite(f)) return NaN;
 
     const h = 1e-7;
-    const fp = xnpv(rate + h, sorted);
+    const fp = xnpv(rate + h, cashflows);
     const derivative = (fp - f) / h;
 
     if (!Number.isFinite(derivative) || Math.abs(derivative) < 1e-12) return NaN;
@@ -227,18 +336,17 @@ function xirrNewton(cashflows: CashFlow[], guess = 0.1) {
 }
 
 function xirrBisection(cashflows: CashFlow[]) {
-  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
   let low = -0.9999999999;
   let high = 10;
 
-  let fLow = xnpv(low, sorted);
-  let fHigh = xnpv(high, sorted);
+  let fLow = xnpv(low, cashflows);
+  let fHigh = xnpv(high, cashflows);
 
   if (!Number.isFinite(fLow) || !Number.isFinite(fHigh)) return NaN;
 
   for (let i = 0; i < 50 && fLow * fHigh > 0; i += 1) {
     high *= 2;
-    fHigh = xnpv(high, sorted);
+    fHigh = xnpv(high, cashflows);
     if (!Number.isFinite(fHigh)) return NaN;
   }
 
@@ -246,7 +354,7 @@ function xirrBisection(cashflows: CashFlow[]) {
 
   for (let i = 0; i < 120; i += 1) {
     const mid = (low + high) / 2;
-    const fMid = xnpv(mid, sorted);
+    const fMid = xnpv(mid, cashflows);
 
     if (!Number.isFinite(fMid)) return NaN;
     if (Math.abs(fMid) < 1e-12) return mid;
@@ -265,7 +373,42 @@ function xirrBisection(cashflows: CashFlow[]) {
   return (low + high) / 2;
 }
 
-function xirr(cashflows: CashFlow[], guess = 0.1) {
+// Cash-flow sets with unusual sign patterns (e.g. invest, partial payout,
+// invest again) can mathematically have more than one rate that zeroes the
+// NPV, or none at all. There's no way to guarantee "the one true answer" in
+// that case — but trying several starting points and keeping only the ones
+// that actually verify (|NPV| ~ 0) makes single-root cases far more
+// reliable than one fixed guess, and picking the smallest-magnitude root
+// among verified candidates matches the conventional XIRR convention.
+function solveXirr(cashflows: CashFlow[]) {
+  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
+  const seeds = [0.1, 0.3, -0.3, 0.5, -0.5, 1, 2, -0.9];
+
+  const verified: number[] = [];
+  for (const seed of seeds) {
+    const candidate = xirrNewton(sorted, seed);
+    if (!Number.isFinite(candidate) || candidate <= -0.999999) continue;
+    const check = xnpv(candidate, sorted);
+    if (Number.isFinite(check) && Math.abs(check) < 1e-4) {
+      verified.push(candidate);
+    }
+  }
+
+  if (verified.length) {
+    verified.sort((a, b) => Math.abs(a) - Math.abs(b));
+    return verified[0];
+  }
+
+  const bisected = xirrBisection(sorted);
+  if (Number.isFinite(bisected)) {
+    const check = xnpv(bisected, sorted);
+    if (Number.isFinite(check) && Math.abs(check) < 1e-4) return bisected;
+  }
+
+  return NaN;
+}
+
+function xirr(cashflows: CashFlow[]) {
   const valid = cashflows.filter(
     (f) => typeof f.amount === "number" && Number.isFinite(f.amount) && !!f.date
   );
@@ -275,26 +418,19 @@ function xirr(cashflows: CashFlow[], guess = 0.1) {
   const hasNeg = valid.some((f) => (f.amount as number) < 0);
   if (!hasPos || !hasNeg) return NaN;
 
-  const sorted = [...valid].sort((a, b) => utcDay(a.date) - utcDay(b.date));
-
-  const newton = xirrNewton(sorted, guess);
-  if (Number.isFinite(newton)) return newton;
-
-  return xirrBisection(sorted);
+  return solveXirr(valid);
 }
 
-const shellClass =
-  "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
+// ---------------------------------------------------------------------------
+// Presentational bits
+// ---------------------------------------------------------------------------
+
 const premiumShellClass =
   "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 
-// Fixed: was "px-8  p-3  text-white" — the stray px-8 wasted horizontal
-// space on every plain number input with no visible reason (no icon sits
-// in that padding), and the doubled whitespace was leftover cruft.
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none transition focus:border-blue-400/40";
 
-// Fixed: was "p-2 sm:p-2" (identical at both breakpoints, and cramped).
 const cardClass = "rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4";
 
 type BadgeColor = "blue" | "green" | "purple";
@@ -312,38 +448,6 @@ function Badge({ color, children }: { color: BadgeColor; children: React.ReactNo
   );
 }
 
-// Icon-chip StatCard, matching the pattern used across the other tools
-// (icon in a bordered chip, label/value stacked beside it) instead of raw
-// emoji — emoji render inconsistently across OS/browser font sets, which
-// reads as sloppy at a glance even though the data underneath is fine.
-function StatCard({
-  label,
-  value,
-  icon: Icon,
-}: {
-  label: string;
-  value: string;
-  icon: React.ComponentType<{ className?: string }>;
-}) {
-  return (
-    <div className={cardClass}>
-      <div className="flex items-center gap-3">
-        <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-blue-200">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-[0.14em] text-white/45">{label}</p>
-          <p className="mt-0.5 truncate text-sm font-semibold text-white">{value}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// "gradient" tone gives a headline number (Future Value, CAGR, XIRR) the
-// same hero treatment used for the compression-result percentage elsewhere
-// — the number people actually came here for should look like a result,
-// not just another form field echo.
 function ResultBox({
   label,
   value,
@@ -401,12 +505,14 @@ function isFlowValid(flow: CashFlow) {
 const FlowRow = memo(function FlowRow({
   flow,
   index,
+  currency,
   onChange,
   onRemove,
   canRemove,
 }: {
   flow: CashFlow;
   index: number;
+  currency: CurrencyCode;
   onChange: (index: number, field: keyof Omit<CashFlow, "id">, value: string) => void;
   onRemove: (index: number) => void;
   canRemove: boolean;
@@ -416,6 +522,7 @@ const FlowRow = memo(function FlowRow({
     typeof flow.amount === "number" && Number.isFinite(flow.amount) && flow.amount < 0;
   const isPositive =
     typeof flow.amount === "number" && Number.isFinite(flow.amount) && flow.amount > 0;
+  const symbol = CURRENCIES[currency].symbol;
 
   return (
     <div
@@ -427,7 +534,7 @@ const FlowRow = memo(function FlowRow({
       ].join(" ")}
     >
       <div>
-        <Field label="Amount (₹)">
+        <Field label={`Amount (${symbol})`}>
           <div
             className={[
               "flex overflow-hidden rounded-xl border bg-black/20",
@@ -451,7 +558,7 @@ const FlowRow = memo(function FlowRow({
               ) : isPositive ? (
                 <ArrowUpCircle className="h-4 w-4" />
               ) : (
-                <span className="text-xs font-medium">₹</span>
+                <span className="text-xs font-medium">{symbol}</span>
               )}
             </div>
 
@@ -530,6 +637,10 @@ function XirrSignLegend() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Main component
+// ---------------------------------------------------------------------------
+
 export default function InvestmentReturnsSuite() {
   const searchParams = useSearchParams();
 
@@ -543,22 +654,24 @@ export default function InvestmentReturnsSuite() {
     return "sip";
   };
   const [activeTab, setActiveTab] = useState<TabKey>(() => getInitialActiveTab());
+  const [currency, setCurrency] = useState<CurrencyCode>("INR");
 
   const chartRef = useRef<HTMLDivElement | null>(null);
+  const performanceRef = useRef<HTMLDivElement | null>(null);
 
-  const [sipAmount, setSipAmount] = useState(5000);
-  const [sipRate, setSipRate] = useState(12);
-  const [sipYears, setSipYears] = useState(10);
-  const [sipStepUp, setSipStepUp] = useState(5);
+  const [sipAmount, setSipAmount] = useState<NumField>(5000);
+  const [sipRate, setSipRate] = useState<NumField>(12);
+  const [sipYears, setSipYears] = useState<NumField>(10);
+  const [sipStepUp, setSipStepUp] = useState<NumField>(5);
 
-  const [lumpAmount, setLumpAmount] = useState(100000);
-  const [lumpRate, setLumpRate] = useState(8);
-  const [lumpYears, setLumpYears] = useState(5);
+  const [lumpAmount, setLumpAmount] = useState<NumField>(100000);
+  const [lumpRate, setLumpRate] = useState<NumField>(8);
+  const [lumpYears, setLumpYears] = useState<NumField>(5);
   const [lumpFrequency, setLumpFrequency] = useState(4);
 
-  const [cagrStart, setCagrStart] = useState(100000);
-  const [cagrEnd, setCagrEnd] = useState(180000);
-  const [cagrYears, setCagrYears] = useState(5);
+  const [cagrStart, setCagrStart] = useState<NumField>(100000);
+  const [cagrEnd, setCagrEnd] = useState<NumField>(180000);
+  const [cagrYears, setCagrYears] = useState<NumField>(5);
 
   const [xirrFlows, setXirrFlows] = useState<CashFlow[]>([
     { id: uid(), amount: -100000, date: "2024-06-01" },
@@ -566,25 +679,56 @@ export default function InvestmentReturnsSuite() {
     { id: uid(), amount: 780000, date: "2028-06-01" },
   ]);
 
+  // Field handlers (parse permissively on change, clamp + round on blur).
+  const sipAmountField = numberFieldHandlers(setSipAmount, LIMITS.sipAmount);
+  const sipRateField = numberFieldHandlers(setSipRate, LIMITS.sipRate);
+  const sipYearsField = numberFieldHandlers(setSipYears, { ...LIMITS.sipYears, integer: true });
+  const sipStepUpField = numberFieldHandlers(setSipStepUp, LIMITS.sipStepUp);
+
+  const lumpAmountField = numberFieldHandlers(setLumpAmount, LIMITS.lumpAmount);
+  const lumpRateField = numberFieldHandlers(setLumpRate, LIMITS.lumpRate);
+  const lumpYearsField = numberFieldHandlers(setLumpYears, { ...LIMITS.lumpYears, integer: true });
+
+  const cagrStartField = numberFieldHandlers(setCagrStart, LIMITS.cagrStart);
+  const cagrEndField = numberFieldHandlers(setCagrEnd, LIMITS.cagrEnd);
+  const cagrYearsField = numberFieldHandlers(setCagrYears, { ...LIMITS.cagrYears, integer: true });
+
+  // Calc-safe numbers: empty fields fall back to a sane default and every
+  // value is clamped again as a last line of defence against runaway loops.
+  const sipAmountN = toCalcNumber(sipAmount, 0, LIMITS.sipAmount.min, LIMITS.sipAmount.max);
+  const sipRateN = toCalcNumber(sipRate, 0, LIMITS.sipRate.min, LIMITS.sipRate.max);
+  const sipYearsN = Math.round(toCalcNumber(sipYears, 1, LIMITS.sipYears.min, LIMITS.sipYears.max));
+  const sipStepUpN = toCalcNumber(sipStepUp, 0, LIMITS.sipStepUp.min, LIMITS.sipStepUp.max);
+
+  const lumpAmountN = toCalcNumber(lumpAmount, 0, LIMITS.lumpAmount.min, LIMITS.lumpAmount.max);
+  const lumpRateN = toCalcNumber(lumpRate, 0, LIMITS.lumpRate.min, LIMITS.lumpRate.max);
+  const lumpYearsN = Math.round(toCalcNumber(lumpYears, 1, LIMITS.lumpYears.min, LIMITS.lumpYears.max));
+
+  const cagrStartN = toCalcNumber(cagrStart, 0, LIMITS.cagrStart.min, LIMITS.cagrStart.max);
+  const cagrEndN = toCalcNumber(cagrEnd, 0, LIMITS.cagrEnd.min, LIMITS.cagrEnd.max);
+  const cagrYearsN = Math.round(toCalcNumber(cagrYears, 1, LIMITS.cagrYears.min, LIMITS.cagrYears.max));
+
   const sipResult = useMemo(
-    () => calculateSIPValue(sipAmount, sipRate, sipYears, sipStepUp),
-    [sipAmount, sipRate, sipYears, sipStepUp]
+    () => calculateSIPValue(sipAmountN, sipRateN, sipYearsN, sipStepUpN),
+    [sipAmountN, sipRateN, sipYearsN, sipStepUpN]
   );
 
   const sipBasicResult = useMemo(
-    () => calculateSIPValue(sipAmount, sipRate, sipYears, 0),
-    [sipAmount, sipRate, sipYears]
+    () => calculateSIPValue(sipAmountN, sipRateN, sipYearsN, 0),
+    [sipAmountN, sipRateN, sipYearsN]
   );
 
   const lumpResult = useMemo(
-    () => calculateCompoundValue(lumpAmount, lumpRate, lumpYears, lumpFrequency),
-    [lumpAmount, lumpRate, lumpYears, lumpFrequency]
+    () => calculateCompoundValue(lumpAmountN, lumpRateN, lumpYearsN, lumpFrequency),
+    [lumpAmountN, lumpRateN, lumpYearsN, lumpFrequency]
   );
 
   const cagrResult = useMemo(() => {
-    if (cagrStart <= 0 || cagrYears <= 0 || cagrEnd < 0) return NaN;
-    return Math.pow(cagrEnd / cagrStart, 1 / cagrYears) - 1;
-  }, [cagrStart, cagrEnd, cagrYears]);
+    if (cagrStartN <= 0 || cagrYearsN <= 0 || cagrEndN < 0) return NaN;
+    return Math.pow(cagrEndN / cagrStartN, 1 / cagrYearsN) - 1;
+  }, [cagrStartN, cagrEndN, cagrYearsN]);
+
+  const cagrIsValid = Number.isFinite(cagrResult);
 
   const xirrMeta = useMemo(() => {
     const validFlows = xirrFlows.filter(
@@ -596,6 +740,9 @@ export default function InvestmentReturnsSuite() {
     if (validFlows.length < 2) return { status: "invalid" as XirrStatus, value: NaN };
     if (!hasPos || !hasNeg) return { status: "invalid" as XirrStatus, value: NaN };
 
+    const distinctDays = new Set(validFlows.map((f) => utcDay(f.date)));
+    if (distinctDays.size < 2) return { status: "same-date" as XirrStatus, value: NaN };
+
     const rate = xirr(validFlows);
     if (Number.isFinite(rate)) return { status: "ok" as XirrStatus, value: rate };
 
@@ -603,28 +750,28 @@ export default function InvestmentReturnsSuite() {
   }, [xirrFlows]);
 
   const sipLabels = useMemo(
-    () => Array.from({ length: sipYears }, (_, i) => `Year ${i + 1}`),
-    [sipYears]
+    () => Array.from({ length: sipYearsN }, (_, i) => `Year ${i + 1}`),
+    [sipYearsN]
   );
 
   const lumpLabels = useMemo(
-    () => Array.from({ length: lumpYears }, (_, i) => `Year ${i + 1}`),
-    [lumpYears]
+    () => Array.from({ length: lumpYearsN }, (_, i) => `Year ${i + 1}`),
+    [lumpYearsN]
   );
 
   const sipSeries = useMemo(
-    () => buildSipSeries(sipAmount, sipRate, sipYears, 0),
-    [sipAmount, sipRate, sipYears]
+    () => buildSipSeries(sipAmountN, sipRateN, sipYearsN, 0),
+    [sipAmountN, sipRateN, sipYearsN]
   );
 
   const stepUpSipSeries = useMemo(
-    () => buildSipSeries(sipAmount, sipRate, sipYears, sipStepUp),
-    [sipAmount, sipRate, sipYears, sipStepUp]
+    () => buildSipSeries(sipAmountN, sipRateN, sipYearsN, sipStepUpN),
+    [sipAmountN, sipRateN, sipYearsN, sipStepUpN]
   );
 
   const lumpSeries = useMemo(
-    () => buildLumpSeries(lumpAmount, lumpRate, lumpYears, lumpFrequency),
-    [lumpAmount, lumpRate, lumpYears, lumpFrequency]
+    () => buildLumpSeries(lumpAmountN, lumpRateN, lumpYearsN, lumpFrequency),
+    [lumpAmountN, lumpRateN, lumpYearsN, lumpFrequency]
   );
 
   const updateFlow = useCallback(
@@ -635,7 +782,7 @@ export default function InvestmentReturnsSuite() {
         if (!target) return current;
         next[index] = {
           ...target,
-          [field]: field === "amount" ? safeNumber(value) : value,
+          [field]: field === "amount" ? parseNumericInput(value) : value,
         };
         return next;
       });
@@ -685,30 +832,30 @@ export default function InvestmentReturnsSuite() {
         summaryCards: [
           {
             label: "Future Value",
-            value: formatCurrency(sipResult.futureValue),
+            value: formatCurrency(sipResult.futureValue, currency),
             tone: "positive" as const,
           },
           {
             label: "Total Invested",
-            value: formatCurrency(sipResult.invested),
+            value: formatCurrency(sipResult.invested, currency),
             tone: "neutral" as const,
           },
           {
             label: "Wealth Gain",
-            value: formatCurrency(sipResult.gain),
+            value: formatCurrency(sipResult.gain, currency),
             tone: "accent" as const,
           },
         ],
         inputRows: [
-          ["Monthly SIP amount", formatCurrency(sipAmount)],
-          ["Expected annual return", formatPercent(sipRate)],
-          ["Investment horizon", `${sipYears} years`],
-          ["Annual Step-up rate", formatPercent(sipStepUp)],
+          ["Monthly SIP amount", formatCurrency(sipAmountN, currency)],
+          ["Expected annual return", formatPercent(sipRateN)],
+          ["Investment horizon", `${sipYearsN} years`],
+          ["Annual Step-up rate", formatPercent(sipStepUpN)],
         ],
         resultRows: [
-          ["Future value", formatCurrency(sipResult.futureValue)],
-          ["Total invested", formatCurrency(sipResult.invested)],
-          ["Gain", formatCurrency(sipResult.gain)],
+          ["Future value", formatCurrency(sipResult.futureValue, currency)],
+          ["Total invested", formatCurrency(sipResult.invested, currency)],
+          ["Gain", formatCurrency(sipResult.gain, currency)],
         ],
         notes: [
           "Contributions are assumed at the end of each month.",
@@ -724,29 +871,29 @@ export default function InvestmentReturnsSuite() {
         summaryCards: [
           {
             label: "Future Value",
-            value: formatCurrency(lumpResult),
+            value: formatCurrency(lumpResult, currency),
             tone: "positive" as const,
           },
           {
             label: "Invested Amount",
-            value: formatCurrency(lumpAmount),
+            value: formatCurrency(lumpAmountN, currency),
             tone: "neutral" as const,
           },
           {
             label: "Gain",
-            value: formatCurrency(lumpResult - lumpAmount),
+            value: formatCurrency(lumpResult - lumpAmountN, currency),
             tone: "accent" as const,
           },
         ],
         inputRows: [
-          ["Investment amount", formatCurrency(lumpAmount)],
-          ["Annual rate", formatPercent(lumpRate)],
-          ["Horizon", `${lumpYears} years`],
+          ["Investment amount", formatCurrency(lumpAmountN, currency)],
+          ["Annual rate", formatPercent(lumpRateN)],
+          ["Horizon", `${lumpYearsN} years`],
           ["Compounding", `${lumpFrequency}x per year`],
         ],
         resultRows: [
-          ["Future value", formatCurrency(lumpResult)],
-          ["Gain", formatCurrency(lumpResult - lumpAmount)],
+          ["Future value", formatCurrency(lumpResult, currency)],
+          ["Gain", formatCurrency(lumpResult - lumpAmountN, currency)],
         ],
         notes: ["Compounding frequency affects returns slightly."],
       };
@@ -758,19 +905,19 @@ export default function InvestmentReturnsSuite() {
       summaryCards: [
         {
           label: "CAGR",
-          value: formatPercent(cagrResult * 100),
+          value: cagrIsValid ? formatPercent(cagrResult * 100) : "—",
           tone: "positive" as const,
         },
         { label: "XIRR", value: xirrValueText, tone: "accent" as const },
       ],
       inputRows: [
-        ["CAGR start", formatCurrency(cagrStart)],
-        ["CAGR end", formatCurrency(cagrEnd)],
-        ["CAGR years", `${cagrYears}`],
+        ["CAGR start", formatCurrency(cagrStartN, currency)],
+        ["CAGR end", formatCurrency(cagrEndN, currency)],
+        ["CAGR years", `${cagrYearsN}`],
         ["XIRR rows", `${xirrFlows.length}`],
       ],
       resultRows: [
-        ["CAGR", formatPercent(cagrResult * 100)],
+        ["CAGR", cagrIsValid ? formatPercent(cagrResult * 100) : "—"],
         ["XIRR", xirrValueText],
       ],
       notes: [
@@ -780,23 +927,27 @@ export default function InvestmentReturnsSuite() {
     };
   }, [
     activeTab,
+    currency,
     sipResult,
-    sipAmount,
-    sipRate,
-    sipYears,
-    sipStepUp,
+    sipAmountN,
+    sipRateN,
+    sipYearsN,
+    sipStepUpN,
     lumpResult,
-    lumpAmount,
-    lumpRate,
-    lumpYears,
+    lumpAmountN,
+    lumpRateN,
+    lumpYearsN,
     lumpFrequency,
     cagrResult,
-    cagrStart,
-    cagrEnd,
-    cagrYears,
+    cagrIsValid,
+    cagrStartN,
+    cagrEndN,
+    cagrYearsN,
     xirrValueText,
     xirrFlows.length,
   ]);
+
+  const symbol = CURRENCIES[currency].symbol;
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 px-3 py-3 text-white">
@@ -808,8 +959,6 @@ export default function InvestmentReturnsSuite() {
                 <BarChart3 className="h-3.5 w-3.5" />
                 Private finance workspace
               </div>
-              {/* Fixed: was a <p>, which is a real heading/SEO bug for the
-                  page's main title. */}
               <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
                 Investment returns with{" "}
                 <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
@@ -826,55 +975,64 @@ export default function InvestmentReturnsSuite() {
                 <Badge color="purple">📊 Live Charts</Badge>
               </div>
             </div>
-              
+
             <div className="min-w-0 rounded-3xl border border-white/10 bg-black/20 p-4 backdrop-blur">
                 <div className="text-lg font-semibold text-white">Quick Overview</div>
-          
+
                 <div className="mt-6 space-y-4">
                   <div className="min-w-0 flex items-start justify-between gap-3">
                     <span className="shrink-0 text-slate-400">Mode</span>
-                    <span
-                      className={
-                        "min-w-0 break-words text-right text-emerald-300"
-                        }
-                      >
+                    <span className="min-w-0 break-words text-right text-emerald-300">
                       {tabs.find((t) => t.id === activeTab)?.label ?? "SIP"}
                     </span>
                   </div>
                   <div className="min-w-0 flex items-start justify-between gap-3">
                     <span className="shrink-0 text-slate-400">SIP value</span>
-                    <span
-                      className={
-                        "min-w-0 break-words text-right text-emerald-300"
-                        }
-                      >
-                      {formatCurrency(sipResult.futureValue)}
+                    <span className="min-w-0 break-words text-right text-emerald-300">
+                      {formatCurrency(sipResult.futureValue, currency)}
                     </span>
                   </div>
                   <div className="min-w-0 flex items-start justify-between gap-3">
                     <span className="shrink-0 text-slate-400">Lump sum</span>
-                    <span
-                      className={
-                        "min-w-0 break-words text-right text-emerald-300"
-                        }
-                      >
-                      {formatCurrency(lumpResult)}
+                    <span className="min-w-0 break-words text-right text-emerald-300">
+                      {formatCurrency(lumpResult, currency)}
                     </span>
                   </div>
                   <div className="min-w-0 flex items-start justify-between gap-3">
                     <span className="shrink-0 text-slate-400">XIRR</span>
-                    <span
-                      className={
-                        "min-w-0 break-words text-right text-emerald-300"
-                        }
-                      >
+                    <span className="min-w-0 break-words text-right text-emerald-300">
                       {xirrValueText}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-4 space-y-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <span className="text-xs text-white/40">Currency</span>
+
+                    <div className="w-full sm:w-auto">
+                      <CustomSelect
+                        value={currency}
+                        callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
+                        options={Object.entries(CURRENCIES).map(([code, meta]) => ({
+                          value: code,
+                          label: meta.label,
+                        }))}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-[10px] sm:text-[11px] text-yellow-200 leading-snug flex items-start gap-1.5">
+                    <TriangleAlert className="mt-0.5 h-3 w-3 shrink-0" />
+                    <span>
+                      Switching currency only changes the symbol and number
+                      formatting — it does <b>not</b> convert your amounts. ₹5,00,000
+                      becomes $5,00,000, not an equivalent dollar value.
                     </span>
                   </div>
                 </div>
               </div>
           </div>
-          
         </div>
       </section>
 
@@ -929,18 +1087,20 @@ export default function InvestmentReturnsSuite() {
 
               <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
                 <div>
-                  <Field label="Monthly SIP amount (₹)">
+                  <Field label={`Monthly SIP amount (${symbol})`}>
                     <input
                       type="number"
-                      aria-label="Monthly SIP amount in rupees"
+                      aria-label="Monthly SIP amount"
                       value={sipAmount}
-                      onChange={(e) => setSipAmount(Number(e.target.value))}
-                      min={0}
+                      onChange={sipAmountField.onChange}
+                      onBlur={sipAmountField.onBlur}
+                      min={LIMITS.sipAmount.min}
+                      max={LIMITS.sipAmount.max}
                       inputMode="numeric"
                       className={inputClass}
                     />
                   </Field>
-                  <FieldHint text="How much you invest each month. Even ₹500/month adds up significantly over time." />
+                  <FieldHint text={`How much you invest each month. Even ${symbol}500/month adds up significantly over time.`} />
                 </div>
 
                 <div>
@@ -949,8 +1109,10 @@ export default function InvestmentReturnsSuite() {
                       type="number"
                       aria-label="Expected annual return in percentage"
                       value={sipRate}
-                      onChange={(e) => setSipRate(Number(e.target.value))}
-                      min={0}
+                      onChange={sipRateField.onChange}
+                      onBlur={sipRateField.onBlur}
+                      min={LIMITS.sipRate.min}
+                      max={LIMITS.sipRate.max}
                       step={0.1}
                       inputMode="decimal"
                       className={inputClass}
@@ -965,13 +1127,16 @@ export default function InvestmentReturnsSuite() {
                       type="number"
                       aria-label="Investment horizon in years"
                       value={sipYears}
-                      onChange={(e) => setSipYears(Number(e.target.value))}
-                      min={1}
+                      onChange={sipYearsField.onChange}
+                      onBlur={sipYearsField.onBlur}
+                      min={LIMITS.sipYears.min}
+                      max={LIMITS.sipYears.max}
+                      step={1}
                       inputMode="numeric"
                       className={inputClass}
                     />
                   </Field>
-                  <FieldHint text="How long you plan to stay invested. Longer horizons benefit far more from compounding." />
+                  <FieldHint text={`How long you plan to stay invested (whole years, up to ${LIMITS.sipYears.max}). Longer horizons benefit far more from compounding.`} />
                 </div>
 
                 <div>
@@ -980,8 +1145,10 @@ export default function InvestmentReturnsSuite() {
                       type="number"
                       aria-label="Annual step-up rate in percentage"
                       value={sipStepUp}
-                      onChange={(e) => setSipStepUp(Number(e.target.value))}
-                      min={0}
+                      onChange={sipStepUpField.onChange}
+                      onBlur={sipStepUpField.onBlur}
+                      min={LIMITS.sipStepUp.min}
+                      max={LIMITS.sipStepUp.max}
                       step={0.1}
                       inputMode="decimal"
                       className={inputClass}
@@ -992,9 +1159,9 @@ export default function InvestmentReturnsSuite() {
               </div>
 
               <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                <ResultBox label="Total invested" value={formatCurrency(sipResult.invested)} tone="neutral" />
-                <ResultBox label="Future value (with step-up)" value={formatCurrency(sipResult.futureValue)} tone="gradient" />
-                <ResultBox label="Wealth gain" value={formatCurrency(sipResult.gain)} tone="positive" />
+                <ResultBox label="Total invested" value={formatCurrency(sipResult.invested, currency)} tone="neutral" />
+                <ResultBox label="Future value (with step-up)" value={formatCurrency(sipResult.futureValue, currency)} tone="gradient" />
+                <ResultBox label="Wealth gain" value={formatCurrency(sipResult.gain, currency)} tone="positive" />
               </div>
             </section>
 
@@ -1017,7 +1184,7 @@ export default function InvestmentReturnsSuite() {
                       color: "rgba(34,197,94,0.8)",
                     },
                     {
-                      label: `Step-up SIP (+${sipStepUp}%/yr)`,
+                      label: `Step-up SIP (+${sipStepUpN}%/yr)`,
                       data: stepUpSipSeries,
                       color: "rgba(59,130,246,0.8)",
                     },
@@ -1025,13 +1192,13 @@ export default function InvestmentReturnsSuite() {
                 />
               </div>
 
-              {sipStepUp > 0 && (
+              {sipStepUpN > 0 && (
                 <div className="p-4 sm:p-5 text-sm text-white/60">
                   Step-up adds{" "}
                   <span className="font-semibold text-white">
-                    {formatCurrency(sipResult.futureValue - sipBasicResult.futureValue)}
+                    {formatCurrency(sipResult.futureValue - sipBasicResult.futureValue, currency)}
                   </span>{" "}
-                  extra over {sipYears} years compared to a flat SIP.
+                  extra over {sipYearsN} years compared to a flat SIP.
                 </div>
               )}
             </section>
@@ -1067,13 +1234,15 @@ export default function InvestmentReturnsSuite() {
               </div>
               <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
                 <div>
-                  <Field label="Investment amount (₹)">
+                  <Field label={`Investment amount (${symbol})`}>
                     <input
                       type="number"
-                      aria-label="Investment amount in ₹"
+                      aria-label="Investment amount"
                       value={lumpAmount}
-                      onChange={(e) => setLumpAmount(Number(e.target.value))}
-                      min={0}
+                      onChange={lumpAmountField.onChange}
+                      onBlur={lumpAmountField.onBlur}
+                      min={LIMITS.lumpAmount.min}
+                      max={LIMITS.lumpAmount.max}
                       inputMode="numeric"
                       className={inputClass}
                     />
@@ -1087,8 +1256,10 @@ export default function InvestmentReturnsSuite() {
                       type="number"
                       aria-label="Expected annual return in percentage"
                       value={lumpRate}
-                      onChange={(e) => setLumpRate(Number(e.target.value))}
-                      min={0}
+                      onChange={lumpRateField.onChange}
+                      onBlur={lumpRateField.onBlur}
+                      min={LIMITS.lumpRate.min}
+                      max={LIMITS.lumpRate.max}
                       step={0.1}
                       inputMode="decimal"
                       className={inputClass}
@@ -1103,13 +1274,16 @@ export default function InvestmentReturnsSuite() {
                       type="number"
                       aria-label="Investment horizon in years"
                       value={lumpYears}
-                      onChange={(e) => setLumpYears(Number(e.target.value))}
-                      min={1}
+                      onChange={lumpYearsField.onChange}
+                      onBlur={lumpYearsField.onBlur}
+                      min={LIMITS.lumpYears.min}
+                      max={LIMITS.lumpYears.max}
+                      step={1}
                       inputMode="numeric"
                       className={inputClass}
                     />
                   </Field>
-                  <FieldHint text="How many years you'll stay invested before withdrawing." />
+                  <FieldHint text={`How many whole years you'll stay invested before withdrawing (up to ${LIMITS.lumpYears.max}).`} />
                 </div>
 
                 <div>
@@ -1128,9 +1302,9 @@ export default function InvestmentReturnsSuite() {
               </div>
 
               <div className="grid gap-3 p-4 pt-0 sm:grid-cols-3 sm:p-5 sm:pt-0">
-                <ResultBox label="Invested amount" value={formatCurrency(lumpAmount)} tone="neutral" />
-                <ResultBox label="Future value" value={formatCurrency(lumpResult)} tone="gradient" />
-                <ResultBox label="Compound gain" value={formatCurrency(lumpResult - lumpAmount)} tone="positive" />
+                <ResultBox label="Invested amount" value={formatCurrency(lumpAmountN, currency)} tone="neutral" />
+                <ResultBox label="Future value" value={formatCurrency(lumpResult, currency)} tone="gradient" />
+                <ResultBox label="Compound gain" value={formatCurrency(lumpResult - lumpAmountN, currency)} tone="positive" />
               </div>
             </section>
 
@@ -1164,7 +1338,11 @@ export default function InvestmentReturnsSuite() {
         <div className="space-y-5">
           <ExplainerPanel tabKey="performance" explainers={EXPLAINERS} />
 
-          <div className="grid gap-5 xl:grid-cols-2">
+          {/* This tab has no chart component, but FinancePdfExport still
+              expects a chartRef. Pointing it at the results wrapper below
+              keeps the ref non-null so a PDF export from this tab doesn't
+              crash trying to capture a missing chart element. */}
+          <div ref={performanceRef} className="grid gap-5 xl:grid-cols-2">
             <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
 
@@ -1183,20 +1361,22 @@ export default function InvestmentReturnsSuite() {
                     inputRows={exportData.inputRows}
                     resultRows={exportData.resultRows}
                     notes={exportData.notes}
-                    chartRef={chartRef}
+                    chartRef={performanceRef}
                   />
                 </div>
               </div>
 
               <div className="grid gap-5 p-4 sm:grid-cols-2 sm:p-5">
                 <div>
-                  <Field label="Opening value (₹)">
+                  <Field label={`Opening value (${symbol})`}>
                     <input
                       type="number"
                       aria-label="What the investment was worth at the start of the period."
                       value={cagrStart}
-                      onChange={(e) => setCagrStart(Number(e.target.value))}
-                      min={1}
+                      onChange={cagrStartField.onChange}
+                      onBlur={cagrStartField.onBlur}
+                      min={LIMITS.cagrStart.min}
+                      max={LIMITS.cagrStart.max}
                       inputMode="numeric"
                       className={inputClass}
                     />
@@ -1205,13 +1385,15 @@ export default function InvestmentReturnsSuite() {
                 </div>
 
                 <div>
-                  <Field label="Ending value (₹)">
+                  <Field label={`Ending value (${symbol})`}>
                     <input
                       type="number"
                       aria-label="What the investment is worth at the end of the period."
                       value={cagrEnd}
-                      onChange={(e) => setCagrEnd(Number(e.target.value))}
-                      min={0}
+                      onChange={cagrEndField.onChange}
+                      onBlur={cagrEndField.onBlur}
+                      min={LIMITS.cagrEnd.min}
+                      max={LIMITS.cagrEnd.max}
                       inputMode="numeric"
                       className={inputClass}
                     />
@@ -1225,29 +1407,28 @@ export default function InvestmentReturnsSuite() {
                       type="number"
                       aria-label="Number of years between the opening and ending values."
                       value={cagrYears}
-                      onChange={(e) => setCagrYears(Number(e.target.value))}
-                      min={1}
+                      onChange={cagrYearsField.onChange}
+                      onBlur={cagrYearsField.onBlur}
+                      min={LIMITS.cagrYears.min}
+                      max={LIMITS.cagrYears.max}
+                      step={1}
                       inputMode="numeric"
                       className={inputClass}
                     />
                   </Field>
-                  <FieldHint text="Number of years between the opening and ending values." />
+                  <FieldHint text={`Number of whole years between the opening and ending values (up to ${LIMITS.cagrYears.max}).`} />
                 </div>
               </div>
 
               <div className="p-4 pt-0 sm:p-5 sm:pt-0">
                 <ResultBox
                   label="Compound annual growth rate (CAGR)"
-                  value={
-                    cagrStart > 0 && cagrYears > 0
-                      ? formatPercent(cagrResult * 100)
-                      : "Enter valid values above"
-                  }
-                  tone={cagrStart > 0 && cagrYears > 0 ? "gradient" : "neutral"}
+                  value={cagrIsValid ? formatPercent(cagrResult * 100) : "Enter valid values above"}
+                  tone={cagrIsValid ? "gradient" : "neutral"}
                 />
-                {Number.isFinite(cagrResult) && (
+                {cagrIsValid && (
                   <p className="mt-3 text-xs text-white/45">
-                    ₹{cagrStart.toLocaleString("en-IN")} grew to ₹{cagrEnd.toLocaleString("en-IN")} in {cagrYears} year{cagrYears !== 1 ? "s" : ""} — equivalent to a steady {formatPercent(cagrResult * 100)} every year.
+                    {formatCurrency(cagrStartN, currency)} grew to {formatCurrency(cagrEndN, currency)} in {cagrYearsN} year{cagrYearsN !== 1 ? "s" : ""} — equivalent to a steady {formatPercent(cagrResult * 100)} every year.
                   </p>
                 )}
               </div>
@@ -1301,6 +1482,7 @@ export default function InvestmentReturnsSuite() {
                       key={flow.id}
                       flow={flow}
                       index={index}
+                      currency={currency}
                       onChange={updateFlow}
                       onRemove={removeFlow}
                       canRemove={xirrFlows.length > 2}
@@ -1324,10 +1506,17 @@ export default function InvestmentReturnsSuite() {
                   </div>
                 )}
 
+                {xirrMeta.status === "same-date" && (
+                  <div className="flex items-start gap-2 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-sm text-amber-100">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                    All cash flows fall on the same date, so there's no time period to annualise a return over. Add at least one flow on a different date.
+                  </div>
+                )}
+
                 {xirrMeta.status === "no-solution" && (
                   <div className="flex items-start gap-2 rounded-xl border border-amber-400/20 bg-amber-500/10 p-3 text-sm text-amber-100">
                     <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-                    No stable XIRR solution found for this cash flow set. Try adjusting dates or amounts — payouts should exceed total investments for a positive rate.
+                    No stable XIRR solution found for this cash flow set. XIRR depends on both the amounts and their exact timing — try adjusting the dates or amounts.
                   </div>
                 )}
 
