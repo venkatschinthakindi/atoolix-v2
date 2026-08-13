@@ -109,7 +109,13 @@ function yearsLabel(years: number) {
 }
 
 function annualNetReturn(annualReturn: number, taxDrag: number) {
-  return Math.max(0, clampNum(annualReturn, 0, 25) - clampNum(taxDrag, 0, 10));
+  // Deliberately NOT floored at 0 — a portfolio can genuinely have a
+  // negative net return once tax/fee drag exceeds the nominal return
+  // (e.g. 1% return, 5% drag → -4%), and clamping that to 0% understated
+  // risk for exactly the plans that most need to see it. monthlyRate()
+  // stays well-defined here since drag is capped at 10%, so the worst
+  // case is -10%, i.e. (1 + rate) = 0.9 — still positive.
+  return clampNum(annualReturn, 0, 25) - clampNum(taxDrag, 0, 10);
 }
 
 function monthlyRate(annualReturn: number) {
@@ -261,8 +267,24 @@ function calculateSwpDepletionMonths(
   const r = monthlyRate(annualReturn);
   const maxMonths = Math.max(1, Math.round(Math.max(0, years) * 12));
 
-  let balance = Math.max(0, corpus);
-  let withdrawal = Math.max(0, initialWithdrawal);
+  const balance0 = Math.max(0, corpus);
+  const withdrawal0 = Math.max(0, initialWithdrawal);
+
+  // A corpus that's already zero (or negligible) is depleted at month 0,
+  // not month 1 — the loop below only checks balance AFTER applying a
+  // month of growth-then-withdrawal, so it previously reported 1 month
+  // even when there was never anything to draw down.
+  if (balance0 <= 0) return 0;
+
+  // With no withdrawal at all, the balance only shrinks if the net return
+  // itself is negative, and even then it decays asymptotically toward
+  // zero without actually crossing it within any realistic horizon — so
+  // it never truly "depletes." Short-circuit to the full horizon instead
+  // of running the loop to no effect.
+  if (withdrawal0 <= 0) return maxMonths;
+
+  let balance = balance0;
+  let withdrawal = withdrawal0;
 
   for (let month = 1; month <= maxMonths; month += 1) {
     balance = balance * (1 + r) - withdrawal;
@@ -456,11 +478,20 @@ function NumberField({
         const raw = e.target.value;
         setText(raw);
         // Allow transient states — empty, a lone "-", a trailing "." —
-        // while mid-edit. Only push a live value upstream once it
-        // actually parses, and don't clamp yet.
+        // while mid-edit, and don't clamp the DRAFT text (the person can
+        // still freely retype a middle digit, select-all, etc). But the
+        // value pushed upstream for live calculations is clamped on every
+        // keystroke, not just on commit — otherwise briefly typing "100"
+        // into a 0–25% field would drive the projection off a 100% return
+        // for as long as the field stayed unfocused-but-uncommitted.
         if (raw === "" || raw === "-") return;
+        // Also hold off pushing a fractional value upstream for an
+        // integer-only field (e.g. "20.5" years) until it's actually
+        // committed — the draft stays visible, it just doesn't feed a
+        // fractional number into the calculations meanwhile.
+        if (integer && raw.includes(".")) return;
         const n = Number(raw);
-        if (Number.isFinite(n)) onChange(n);
+        if (Number.isFinite(n)) onChange(clamp(n));
       }}
       onBlur={(e) => commit(e.target.value)}
       onKeyDown={(e) => {
@@ -600,12 +631,21 @@ function MethodologyNote() {
             horizon, stepping the withdrawal up once a year for inflation.
           </p>
           <p>
+            The FIRE target and &quot;projected funding&quot; figures are
+            both anchored to the FIRE horizon you set below. &quot;Years to
+            reach FIRE&quot; is calculated separately: because living costs
+            keep rising with inflation the longer you take to get there, it
+            solves month-by-month for the point where your growing portfolio
+            first overtakes your growing target — so it can land before or
+            after your chosen horizon.
+          </p>
+          <p>
             This model doesn&apos;t account for market volatility, sequence-
             of-returns risk, taxes on withdrawals, or country-specific
-            retirement rules. Tax drag is a simplified flat estimate, not a
-            full tax engine. Treat these numbers as directional planning
-            estimates, not financial advice — figures will vary by market,
-            currency and jurisdiction.
+            retirement rules. Tax drag is a simplified flat percentage-point
+            deduction from your return, not a full tax engine. Treat these
+            numbers as directional planning estimates, not financial advice —
+            figures will vary by market, currency and jurisdiction.
           </p>
         </div>
       )}
@@ -667,8 +707,8 @@ const HERO_FEATURES: {
   },
   {
     icon: Globe,
-    title: "Global Currencies",
-    body: "Display results in 9 major currencies",
+    title: "Multi-Currency Display",
+    body: "Format results in 9 major currencies",
     tone: "border-blue-400/30 bg-gradient-to-br from-blue-400/20 to-violet-400/20 text-blue-200",
   },
   {
@@ -742,6 +782,17 @@ function RetirementWealthSuiteInner() {
   };
   const [activeTab, setActiveTab] = useState<TabKey>(() => getInitialActiveTab());
 
+  // Keep the active tab in sync if the ?category= query param changes
+  // after the initial render (e.g. a link elsewhere on the site swaps
+  // it while this component stays mounted). Previously this was only
+  // read once via useState's lazy initializer.
+  useEffect(() => {
+    const type = searchParams.get("category")?.toLowerCase();
+    if (type === "retirement" || type === "fire" || type === "swp") {
+      setActiveTab(type);
+    }
+  }, [searchParams]);
+
   /* Currency — lets users worldwide see amounts in their own currency */
   const [currency, setCurrency] = useState<CurrencyCode>("INR");
   const currencyMeta = CURRENCIES[currency];
@@ -785,6 +836,11 @@ function RetirementWealthSuiteInner() {
   const scenario = SCENARIOS[selectedScenario];
   const retirementYears = useMemo(() => clampInt(retirementAge - currentAge, 0, 60), [currentAge, retirementAge]);
 
+  // Scenario presets only drive return / inflation / tax-drag assumptions.
+  // Withdrawal rate is left as an independent, per-planner decision (it's
+  // a personal spending choice, not a market assumption) — the scenario
+  // chip in the UI only ever advertises return/inflation/tax-drag, so this
+  // keeps behaviour matching what's promised on screen.
   const applyScenario = useCallback((key: ScenarioKey) => {
     const s = SCENARIOS[key];
     setSelectedScenario(key);
@@ -793,7 +849,6 @@ function RetirementWealthSuiteInner() {
     setTaxDrag(s.taxDrag);
     setFireReturn(s.returnRate);
     setFireTaxDrag(s.taxDrag);
-    setFireWithdrawalRate(s.withdrawalRate);
     setSwpReturn(s.returnRate);
     setSwpInflationRate(s.inflationRate);
     setFireInflation(s.inflationRate);
@@ -871,6 +926,21 @@ function RetirementWealthSuiteInner() {
     return calculateGoalAchievement(projectedAtRetirement, retirementTarget);
   }, [retirementSeries, retirementTarget, currentSavings]);
 
+  /* ── FIRE ──
+     Two numbers used to describe FIRE cannot both be anchored to the same
+     moving horizon without becoming circular: the target corpus depends on
+     how many years of inflation you apply, and "years to reach it" is the
+     very thing being solved for. So they're deliberately decoupled here:
+
+     1. "FIRE target" / "Projected funding" are anchored to fireHorizonYears
+        — the horizon you explicitly chose. This is what the chart plots.
+     2. "Years to reach FIRE" is solved independently and self-consistently:
+        it walks the portfolio forward month by month against a target that
+        itself keeps inflating, and reports the first month the portfolio
+        overtakes it. That answer can land before or after fireHorizonYears
+        — which is expected, since it's answering a different question
+        ("when, exactly, will costs and savings cross?") than the
+        horizon-based target is. */
   const fireFutureExpense = useMemo(
     () => inflateValue(fireAnnualExpense, fireInflation, fireHorizonYears),
     [fireAnnualExpense, fireInflation, fireHorizonYears]
@@ -881,29 +951,9 @@ function RetirementWealthSuiteInner() {
     [fireFutureExpense, fireWithdrawalRate]
   );
 
-  const fireMonthsToGoal = useMemo(
-    () => calculateFireMonthsToGoal(fireSavings, fireContribution, fireEffectiveReturn, fireTarget),
-    [fireSavings, fireContribution, fireEffectiveReturn, fireTarget]
-  );
-
-  const safeFireMonthsToGoal = Number.isFinite(fireMonthsToGoal) ? fireMonthsToGoal : Infinity;
-
-  const fireProjectionYears = useMemo(() => {
-    if (!Number.isFinite(safeFireMonthsToGoal)) return 0;
-
-    if (safeFireMonthsToGoal <= 0) {
-      return 1;
-    }
-
-    return Math.ceil(safeFireMonthsToGoal / 12);
-  }, [safeFireMonthsToGoal]);
-
   const fireSeries = useMemo(
-    () =>
-      fireProjectionYears <= 0
-        ? []
-        : buildGrowthSeries(fireSavings, fireContribution, fireEffectiveReturn, fireProjectionYears),
-    [fireSavings, fireContribution, fireEffectiveReturn, fireProjectionYears]
+    () => buildGrowthSeries(fireSavings, fireContribution, fireEffectiveReturn, fireHorizonYears),
+    [fireSavings, fireContribution, fireEffectiveReturn, fireHorizonYears]
   );
 
   const fireLabels = useMemo(
@@ -916,14 +966,46 @@ function RetirementWealthSuiteInner() {
     [fireSeries.length, fireTarget]
   );
 
-  // Same fix as retirement progress above: measure the projected
-  // portfolio value at the goal date, not today's nominal savings, against
-  // the target.
+  // "Projected funding": projected portfolio value AT YOUR CHOSEN HORIZON
+  // versus the target AT THAT SAME HORIZON — an apples-to-apples number,
+  // unlike comparing today's nominal savings to a decades-inflated target.
   const fireGoalAchievement = useMemo(() => {
-    const projectedAtGoal =
+    const projectedAtHorizon =
       fireSeries.length > 0 ? fireSeries[fireSeries.length - 1] : fireSavings;
-    return calculateGoalAchievement(projectedAtGoal, fireTarget);
+    return calculateGoalAchievement(projectedAtHorizon, fireTarget);
   }, [fireSeries, fireTarget, fireSavings]);
+
+  // Self-consistent "years to reach FIRE": simulate the portfolio and the
+  // (inflation-growing) target side by side, month by month, and report
+  // the first crossing point. Capped at 100 years so a plan that never
+  // catches up terminates instead of looping indefinitely.
+  const fireMonthsToGoal = useMemo(() => {
+    const r = monthlyRate(fireEffectiveReturn);
+    const pmt = Math.max(0, fireContribution);
+    const maxMonths = 100 * 12;
+
+    const targetAtYears = (years: number) =>
+      calculateFireTarget(inflateValue(fireAnnualExpense, fireInflation, years), fireWithdrawalRate);
+
+    let balance = Math.max(0, fireSavings);
+    if (balance >= targetAtYears(0)) return 0;
+
+    for (let month = 1; month <= maxMonths; month += 1) {
+      balance = balance * (1 + r) + pmt;
+      if (balance >= targetAtYears(month / 12)) return month;
+    }
+
+    return Number.POSITIVE_INFINITY;
+  }, [fireSavings, fireContribution, fireEffectiveReturn, fireAnnualExpense, fireInflation, fireWithdrawalRate]);
+
+  const safeFireMonthsToGoal = Number.isFinite(fireMonthsToGoal) ? fireMonthsToGoal : Infinity;
+
+  const fireWarn =
+    !Number.isFinite(fireTarget) || fireTarget < 0
+      ? "The FIRE target could not be calculated under current assumptions."
+      : !Number.isFinite(safeFireMonthsToGoal)
+        ? "At this savings rate, the portfolio never catches up with inflation-adjusted costs within 100 years — increase contributions, return, or reduce planned expenses."
+        : null;
 
   const swpInitialWithdrawal = useMemo(
     () =>
@@ -936,23 +1018,19 @@ function RetirementWealthSuiteInner() {
     [swpCorpus, swpNetReturn, swpYears, swpInflationRate]
   );
 
-  const swpDepletionMonths = useMemo(
-    () =>
-      calculateSwpDepletionMonths(
-        swpCorpus,
-        swpNetReturn,
-        swpYears,
-        swpInflationRate,
-        swpInitialWithdrawal
-      ),
-    [
+  // Returns { depleted, months } rather than overloading a single number
+  // with two meanings ("ran out early" vs "lasted the full horizon").
+  const swpDepletion = useMemo(() => {
+    const months = calculateSwpDepletionMonths(
       swpCorpus,
       swpNetReturn,
       swpYears,
       swpInflationRate,
-      swpInitialWithdrawal,
-    ]
-  );
+      swpInitialWithdrawal
+    );
+    const horizonMonths = Math.max(1, Math.round(swpYears * 12));
+    return { months, depleted: months < horizonMonths };
+  }, [swpCorpus, swpNetReturn, swpYears, swpInflationRate, swpInitialWithdrawal]);
 
   const swpSeries = useMemo(
     () => buildSwpSeries(swpCorpus, swpNetReturn, swpYears, swpInflationRate, swpInitialWithdrawal),
@@ -971,15 +1049,16 @@ function RetirementWealthSuiteInner() {
         ? "Your current savings are projected to reach the target without additional monthly contributions under these assumptions."
         : null;
 
-  const fireWarn =
-    !Number.isFinite(fireTarget) || fireTarget < 0 || !Number.isFinite(safeFireMonthsToGoal)
-      ? "The selected savings plan cannot reach the FIRE target under current assumptions."
-      : null;
-
+  // swpDepletion.depleted is already defined as "ran out strictly before
+  // the horizon" (months < horizonMonths), so reaching zero exactly on the
+  // final month — the intended, self-consistent outcome of the binary
+  // search above — does not count as depleted. That definition is the
+  // tolerance; stacking an extra fudge factor on top of it here would just
+  // hide a real one-month-early shortfall instead of floating-point noise.
   const swpWarn =
     swpInitialWithdrawal <= 0
       ? "Check the corpus, return, and duration. The current setup does not produce a usable monthly withdrawal."
-      : swpDepletionMonths < swpYears * 12
+      : swpDepletion.depleted
         ? "The corpus is projected to run out before the planned withdrawal period."
         : null;
 
@@ -1031,13 +1110,13 @@ function RetirementWealthSuiteInner() {
         title: "FIRE Calculator Report",
         subtitle: "FIRE (Financial Independence, Retire Early) projection and savings summary",
         summaryCards: [
-          { label: "FIRE target", value: fmt(fireTarget), tone: "positive" as const },
+          { label: "FIRE target (at your horizon)", value: fmt(fireTarget), tone: "positive" as const },
           {
-            label: "Years to goal",
-            value: !Number.isFinite(safeFireMonthsToGoal) ? "Not Reachable" : `${Math.ceil(safeFireMonthsToGoal / 12)} years`,
+            label: "Years to reach FIRE",
+            value: !Number.isFinite(safeFireMonthsToGoal) ? "Not reachable within 100 years" : `${Math.ceil(safeFireMonthsToGoal / 12)} years`,
             tone: "accent" as const,
           },
-          { label: "Current progress", value: `${fireGoalAchievement.toFixed(0)}%`, tone: "neutral" as const },
+          { label: "Projected funding at horizon", value: `${fireGoalAchievement.toFixed(0)}%`, tone: "neutral" as const },
         ],
         inputRows: [
           ["Current savings", fmt(fireSavings)],
@@ -1050,12 +1129,13 @@ function RetirementWealthSuiteInner() {
           ["FIRE horizon", yearsLabel(fireHorizonYears)],
         ],
         resultRows: [
-          ["FIRE target", fmt(fireTarget)],
-          ["Years to goal", !Number.isFinite(safeFireMonthsToGoal) ? "Not Reachable" : `${Math.ceil(safeFireMonthsToGoal / 12)} years`],
-          ["Current progress", `${fireGoalAchievement.toFixed(0)}%`],
+          ["FIRE target (at your horizon)", fmt(fireTarget)],
+          ["Years to reach FIRE", !Number.isFinite(safeFireMonthsToGoal) ? "Not reachable within 100 years" : `${Math.ceil(safeFireMonthsToGoal / 12)} years`],
+          ["Projected funding at horizon", `${fireGoalAchievement.toFixed(0)}%`],
         ],
         notes: [
-          "Portfolio growth compared against the FIRE target.",
+          "FIRE target and projected funding are both anchored to your chosen FIRE horizon.",
+          "Years to reach FIRE is solved independently against a target that keeps inflating, so it can differ from your chosen horizon.",
           "The FIRE target is based on the selected horizon and an estimated tax drag rather than a full tax engine.",
         ],
       };
@@ -1140,7 +1220,7 @@ function RetirementWealthSuiteInner() {
       icon: Flame,
       primaryLabel: "FIRE target",
       primaryValue: fmt(fireTarget),
-      secondaryLabel: "Time to goal",
+      secondaryLabel: "Years to reach FIRE",
       secondaryValue: !Number.isFinite(safeFireMonthsToGoal)
         ? "Not reachable"
         : safeFireMonthsToGoal <= 0
@@ -1151,8 +1231,13 @@ function RetirementWealthSuiteInner() {
       icon: Landmark,
       primaryLabel: "Monthly withdrawal",
       primaryValue: fmt(swpInitialWithdrawal),
-      secondaryLabel: "Corpus lasts",
-      secondaryValue: yearsLabel(swpYears),
+      secondaryLabel: "Projected duration",
+      // yearsLabel(swpYears) here would just echo the input horizon back,
+      // whether or not the corpus actually survives it. Use the simulated
+      // depletion result instead so a shortfall is visible at a glance.
+      secondaryValue: swpDepletion.depleted
+        ? `${Math.floor(swpDepletion.months / 12)}y ${swpDepletion.months % 12}m (of ${swpYears}y planned)`
+        : yearsLabel(swpYears),
     },
   };
 
@@ -1271,10 +1356,14 @@ function RetirementWealthSuiteInner() {
               </div>
             </div>
 
-            <p className="text-center text-[10px] sm:text-[11px] text-white/35 leading-snug">
-              Currency affects display only — no exchange-rate conversion is
-              applied.
-            </p>
+            <div className="rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-[10px] sm:text-[11px] text-yellow-200 leading-snug flex items-start gap-1.5">
+              <TriangleAlert className="mt-0.5 h-3 w-3 shrink-0" />
+              <span>
+                Switching currency only changes the symbol and number
+                formatting — it does <b>not</b> convert your amounts. ₹5,00,000
+                becomes $5,00,000, not an equivalent dollar value.
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -1337,8 +1426,9 @@ function RetirementWealthSuiteInner() {
       </SectionHeading>
 
       <p className="text-xs text-white/40 -mt-1 mb-5">
-        Every plan updates with the scenario above. Pick a card to open that
-        planner.
+        Return, inflation and tax-drag assumptions below update from the
+        scenario above. Withdrawal rate is a personal spending choice, so
+        it stays independent per planner.
       </p>
 
       <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">
@@ -1479,7 +1569,7 @@ function RetirementWealthSuiteInner() {
               />
             </Field>
 
-            <Field label="Expected return" hint="0–25%">
+            <Field label="Expected return (nominal)" hint="0–25%">
               <NumberField
                 ariaLabel="Expected return"
                 value={expectedReturn}
@@ -1491,7 +1581,7 @@ function RetirementWealthSuiteInner() {
               />
             </Field>
 
-            <Field label="Tax drag" hint="Estimated effective tax rate">
+            <Field label="Tax / fee drag" hint="Percentage points deducted from return">
               <NumberField
                 ariaLabel="Tax drag"
                 value={taxDrag}
@@ -1560,7 +1650,7 @@ function RetirementWealthSuiteInner() {
             <StatCard
               label="Required monthly savings"
               value={fmt(retirementMonthly)}
-              hint="After tax drag"
+              hint="What you'd need to hit the target — not your input above"
               tone="positive"
             />
           </div>
@@ -1579,7 +1669,11 @@ function RetirementWealthSuiteInner() {
           </SectionHeading>
 
           <p className="text-xs text-white/40 -mt-1 mb-5">
-            Projected corpus growth compared against the target corpus.
+            Projected corpus growth compared against the target corpus. This
+            chart plots your actual <em>monthly contribution</em> input
+            above — not the <em>required monthly savings</em> figure, which
+            is what you&apos;d need to contribute instead to hit the target
+            exactly.
           </p>
 
           <div
@@ -1638,7 +1732,8 @@ function RetirementWealthSuiteInner() {
           </SectionHeading>
 
           <p className="text-xs text-white/40 -mt-1 mb-5">
-            Target uses inflation-adjusted spending at the selected FIRE date.
+            Target and chart use inflation-adjusted spending at your chosen
+            FIRE horizon below.
           </p>
 
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
@@ -1662,7 +1757,7 @@ function RetirementWealthSuiteInner() {
               />
             </Field>
 
-            <Field label="Expected return" hint="0–25%">
+            <Field label="Expected return (nominal)" hint="0–25%">
               <NumberField
                 ariaLabel="Expected return"
                 value={fireReturn}
@@ -1674,7 +1769,7 @@ function RetirementWealthSuiteInner() {
               />
             </Field>
 
-            <Field label="Tax drag" hint="Estimated effective tax rate">
+            <Field label="Tax / fee drag" hint="Percentage points deducted from return">
               <NumberField
                 ariaLabel="Tax drag"
                 value={fireTaxDrag}
@@ -1741,26 +1836,26 @@ function RetirementWealthSuiteInner() {
                   ? "Invalid"
                   : fmt(fireTarget)
               }
-              hint="Inflation-adjusted expense"
+              hint="At your FIRE horizon, inflation-adjusted"
               accent
             />
 
             <StatCard
-              label="Years to goal"
+              label="Years to reach FIRE"
               value={
                 !Number.isFinite(safeFireMonthsToGoal)
-                  ? "Not Reachable"
+                  ? "Not reachable"
                   : safeFireMonthsToGoal <= 0
-                  ? "Already Reached"
+                  ? "Already reached"
                   : `${Math.ceil(safeFireMonthsToGoal / 12)} years`
               }
-              hint="Closed-form timeline"
+              hint="Solved against costs that keep rising — may differ from horizon"
             />
 
             <StatCard
-              label="Current progress"
+              label="Projected funding at horizon"
               value={`${fireGoalAchievement.toFixed(0)}%`}
-              hint="Projected corpus vs target"
+              hint="Projected corpus vs target, both at your horizon"
               tone="positive"
             />
           </div>
@@ -1771,10 +1866,21 @@ function RetirementWealthSuiteInner() {
             </div>
           )}
 
+          {!fireWarn &&
+            Number.isFinite(safeFireMonthsToGoal) &&
+            Math.abs(Math.round(safeFireMonthsToGoal / 12) - fireHorizonYears) >= 2 && (
+              <div className="mt-4">
+                <InfoCallout
+                  title="Two different numbers, on purpose"
+                  text={`Your FIRE horizon is set to ${fireHorizonYears} years, but at this savings rate the crossover with rising costs is projected around year ${Math.ceil(safeFireMonthsToGoal / 12)}. The target and chart above use your ${fireHorizonYears}-year horizon; "Years to reach FIRE" is the independent, inflation-aware estimate.`}
+                />
+              </div>
+            )}
+
           <div className="mt-4">
             <InfoCallout
               title="Model note"
-              text="The FIRE target is based on the selected horizon and an estimated tax drag rather than a full tax engine."
+              text="FIRE target and projected funding are anchored to your chosen horizon above. Years to reach FIRE is solved separately against a target that keeps inflating, so it isn't a full tax engine and can land before or after that horizon."
             />
           </div>
         </div>
@@ -1786,7 +1892,8 @@ function RetirementWealthSuiteInner() {
           </SectionHeading>
 
           <p className="text-xs text-white/40 -mt-1 mb-5">
-            Portfolio growth compared against the FIRE target.
+            Portfolio growth through your chosen horizon, compared against
+            the FIRE target at that horizon.
           </p>
 
           <div
@@ -1813,9 +1920,7 @@ function RetirementWealthSuiteInner() {
               </div>
             ) : (
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
-                {!Number.isFinite(safeFireMonthsToGoal)
-                  ? "The selected savings plan cannot reach the FIRE target under current assumptions."
-                  : "No chart data available for the current FIRE timeline."}
+                No chart data available for the current FIRE horizon.
               </div>
             )}
           </div>
@@ -1862,7 +1967,7 @@ function RetirementWealthSuiteInner() {
               />
             </Field>
 
-            <Field label="Expected return" hint="0–25%">
+            <Field label="Expected return (nominal)" hint="0–25%">
               <NumberField
                 ariaLabel="Expected return"
                 value={swpReturn}
@@ -1898,7 +2003,7 @@ function RetirementWealthSuiteInner() {
               />
             </Field>
 
-            <Field label="Tax drag" hint="Estimated effective tax rate">
+            <Field label="Tax / fee drag" hint="Percentage points deducted from return">
               <NumberField
                 ariaLabel="Tax drag"
                 value={swpTaxDrag}
