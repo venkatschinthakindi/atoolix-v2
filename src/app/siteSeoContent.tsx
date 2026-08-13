@@ -1,67 +1,24 @@
-import type { Metadata } from "next";
 import { serverConfig } from "@/config/server";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
 
-const TITLE = "Free Online Tools – PDF, Privacy, Image, Calculator & Finance Tools";
-const DESCRIPTION =
-  "Free online PDF tools, image converters and compressors, calculators, EMI and finance tools. Fast, secure, no signup required.";
+// Confirmed: page.tsx does
+//   import { HomePageSeo, metadata as homeMetadata } from "./siteSeoContent";
+//   export const metadata = homeMetadata;
+// so this IS correctly picked up by Next's metadata resolution. Page-level
+// metadata replaces layout.tsx's per top-level key (title/description/
+// openGraph/twitter/alternates/robots), so this file's values are what
+// actually ship for "/". Fields NOT set here (icons, manifest, viewport,
+// appleWebApp) correctly fall through to layout.tsx — leave those there,
+// don't duplicate them here.
 
-export const metadata: Metadata = {
-  title: {
-    default: TITLE,
-    template: `%s | ${serverConfig.siteName}`,
-  },
-  description: DESCRIPTION,
-  applicationName: serverConfig.siteName,
-  alternates: {
-    canonical: serverConfig.siteUrl,
-  },
-  authors: [{ name: serverConfig.siteName, url: serverConfig.siteUrl }],
-  creator: serverConfig.siteName,
-  publisher: serverConfig.siteName,
-  openGraph: {
-    title: TITLE,
-    description: DESCRIPTION,
-    url: serverConfig.siteUrl,
-    siteName: serverConfig.siteName,
-    type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: `${serverConfig.siteUrl}/logo.png`,
-        width: 1200,
-        height: 630,
-        alt: `${serverConfig.siteName} - Free Online Tools`,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: TITLE,
-    description: DESCRIPTION,
-    images: [
-      {
-        url: `${serverConfig.siteUrl}/logo.png`,
-        width: 1200,
-        height: 630,
-        alt: `${serverConfig.siteName} - Free Online Tools`,
-      },
-    ],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-};
+// Kept under ~60 chars so it doesn't get truncated in the SERP.
+// The homepage uses `default`, so — unlike child routes — the `%s | siteName`
+// template does NOT get appended here. Brand name is included manually.
+const TITLE = `Free Online PDF, Image, Finance & QR Code Tools | ${siteName}`;
+const DESCRIPTION =
+  "Free online tools for PDF, images, finance, math, QR codes and time zones. Process files in your browser with no signup or software installation.";
 
 const quickLinks = [
   { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" },
@@ -69,7 +26,7 @@ const quickLinks = [
   { href: "/tools/image/compress-image", label: "Image Compressor" },
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
-  { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },  
+  { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
   { href: "/tools/calculator", label: "Percentage Calculator" },
   { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
   { href: "/tools/calculator/retirement-calculator?category=retirement", label: "Retirement Calculator" },
@@ -96,15 +53,15 @@ const categories = [
       { href: "/tools/calculator/fd-calculator?category=compound", label: "Compound Interest" },
       { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
       { href: "/tools/calculator/retirement-calculator", label: "Retirement Planning" },
-      { href: "/tools/calculator/roi-calculator", label: "Investment Returns" }      
+      { href: "/tools/calculator/roi-calculator", label: "Investment Returns" },
     ],
   },
   {
     title: "Privacy & Security Tools",
     description:
-      "Privacy & Security Tools - Check your file for privacy and security risks before you share it.",
+      "Inspect files for hidden metadata and potential privacy information before sharing them.",
     items: [
-      { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" }
+      { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" },
     ],
   },
   {
@@ -115,6 +72,17 @@ const categories = [
       { href: "/tools/calculator?category=percentage", label: "Percentage Calculator" },
       { href: "/tools/calculator?category=equation", label: "Equation Solver" },
       { href: "/tools/converter", label: "Unit Conversion" },
+    ],
+  },
+  {
+    title: "QR Code Tools",
+    description:
+      "Create and scan QR codes for links, text, contact details, Wi-Fi, and other common uses.",
+    items: [
+      {
+        href: "/tools/qrcode/qr-code-generator",
+        label: "QR Code Generator & Scanner",
+      },
     ],
   },
   {
@@ -144,10 +112,11 @@ const categories = [
     description:
       "Convert time between UTC, GMT, IST, PST, EST, CET, JST, and hundreds of other time zones instantly. Compare multiple cities and plan meetings across different regions.",
     items: [
-      { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter" }
+      { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter" },
     ],
   },
 ];
+
 const recentlyUpdated = [
   { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter" },
   { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" },
@@ -160,9 +129,57 @@ const recentlyUpdated = [
 
 import Link from "next/link";
 
+// Structured data: kept additive-only, doesn't touch layout/UI. Uses @id
+// references so WebSite + Organization dedupe cleanly if other pages/layout
+// also emit an Organization node with the same @id.
+function buildJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: siteName,
+        url: siteUrl,
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/logo.png`,
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        url: siteUrl,
+        name: siteName,
+        description: DESCRIPTION,
+        publisher: { "@id": `${siteUrl}/#organization` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${siteUrl}/#popular-tools`,
+        name: "Popular tools",
+        itemListElement: quickLinks.map((link, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${siteUrl}${link.href}`,
+          name: link.label,
+        })),
+      },
+    ],
+  };
+}
+
 export async function HomePageSeo() {
+  const jsonLd = buildJsonLd();
+
   return (
     <>
+      {/* Structured data: static/internal content only, safe as-is */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="text-white">
@@ -175,9 +192,10 @@ export async function HomePageSeo() {
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
-              Access free browser-based tools for PDF editing, image conversion and compression, passport size photo
-              creation, signature resizing, finance calculations, and mathematical problem solving. Everything runs
-              directly in your browser without software installation or registration, helping keep your files private.
+              Use free browser-based tools for PDF files, image conversion and compression,
+              finance calculations, math, QR codes, time zones, and more. Your files are
+              processed directly in your browser, with no software installation or
+              registration required.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -204,7 +222,8 @@ export async function HomePageSeo() {
           </div>
 
           <aside className="rounded-3xl border border-white/10 bg-white/10 p-5 shadow-2xl backdrop-blur-sm sm:p-6">
-            <span className="text-lg font-semibold text-white">Popular tools</span>
+            {/* was a <span> styled like a heading — now a real heading node */}
+            <h2 className="text-lg font-semibold text-white">Popular tools</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {quickLinks.map((link) => (
                 <Link
@@ -224,9 +243,26 @@ export async function HomePageSeo() {
       </section>
 
       <section className="border-slate-200 text-white">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Browser-Based and Privacy-Friendly
+            </h2>
+
+            <p className="mt-4 text-base leading-7">
+              Many Atoolix file tools process your files directly in your browser.
+              This means the file can stay on your device instead of being uploaded
+              to a remote server. No software installation or account is required
+              for these tools.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl pt-4">
-            <span className="text-2xl font-semibold sm:text-3xl">Browse Free Online Tool Categories</span>
+            <h2 className="text-2xl font-semibold sm:text-3xl">Browse Free Online Tool Categories</h2>
             <p className="mt-3 text-base">
               Find the tool you need without installing software. Each category is built for quick access, clear input,
               and useful output.
@@ -239,7 +275,7 @@ export async function HomePageSeo() {
                 key={group.title}
                 className="rounded-3xl border border-slate-200 p-6 shadow-sm transition hover:shadow-md"
               >
-                <span className="text-xl font-semibold">{group.title}</span>
+                <h3 className="text-xl font-semibold">{group.title}</h3>
                 <p className="mt-3 text-sm leading-6">{group.description}</p>
                 <ul className="mt-4 space-y-2 text-sm">
                   {group.items.map((item) => (
@@ -263,7 +299,7 @@ export async function HomePageSeo() {
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2">
             <div>
-              <span className="text-2xl font-semibold tracking-tight sm:text-3xl">Why people use this site</span>
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Why people use this site</h2>
               <p className="mt-4 text-base">
                 The site is built for students, job seekers, creators, and professionals who need quick browser tools for
                 documents, calculations, and image preparation.
@@ -271,13 +307,17 @@ export async function HomePageSeo() {
             </div>
 
             <div>
-              <span className="text-2xl font-semibold tracking-tight sm:text-3xl">Common use cases</span>
+              {/* was a <span> styled like a heading — now a real heading node */}
+              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Common use cases</h2>
               <ul className="mt-4 space-y-3 text-base">
-                <li>Compress a passport photo to the required size.</li>
-                <li>Reduce signature file size for upload forms.</li>
-                <li>Solve percentage and equation problems quickly.</li>
-                <li>Use finance calculators for interest and deposit planning.</li>
-                <li>Convert or compress images before uploading.</li>
+                <li>Resize and compress photos to meet online application requirements.</li>
+                <li>Reduce signature images to a required file size or dimensions.</li>
+                <li>Check files for hidden metadata before sharing them.</li>
+                <li>Convert and compress images before uploading or publishing them.</li>
+                <li>Merge, split, and compress PDF documents in your browser.</li>
+                <li>Calculate interest, investment returns, and retirement projections.</li>
+                <li>Compare time zones when planning meetings across countries.</li>
+                <li>Create QR codes for links, contact details, and other information.</li>
               </ul>
             </div>
           </div>
@@ -287,7 +327,8 @@ export async function HomePageSeo() {
       <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="text-2xl font-semibold tracking-tight sm:text-3xl">About our tools</span>
+            {/* was a <span> styled like a heading — now a real heading node */}
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">About our tools</h2>
             <p className="mt-4 text-base leading-7">
               Our browser-based tools are designed to help users complete common tasks quickly with a simple interface and
               clear results. We focus on practical utilities such as PDF processing, image conversion, finance planning,
@@ -305,7 +346,8 @@ export async function HomePageSeo() {
       <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <span className="text-xl font-semibold">Explore Tool Categories</span>
+            {/* was a <span> styled like a heading — now a real heading node */}
+            <h2 className="text-xl font-semibold">Explore Tool Categories</h2>
             <div className="flex flex-wrap gap-3">
               {quickLinks.map((link) => (
                 <Link
@@ -324,7 +366,8 @@ export async function HomePageSeo() {
       <section className="border-slate-200 text-white">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-            <span className="text-xl font-semibold">Recently updated</span>
+            {/* was a <span> styled like a heading — now a real heading node */}
+            <h2 className="text-xl font-semibold">Recently updated</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-white/75">
               {recentlyUpdated.map((item) => (
                 <li key={item.href}>
@@ -341,5 +384,5 @@ export async function HomePageSeo() {
         </div>
       </section>
     </>
-  )
+  );
 }

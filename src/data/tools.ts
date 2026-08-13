@@ -1,4 +1,7 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+// FIX #1: hard fallback so a missing env var can never silently produce
+// canonical URLs like "undefined/tools/...". Keep this in sync with the
+// production domain.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://atoolix.com";
 
 
 type CategoryInfo = {
@@ -1321,7 +1324,12 @@ function getDefaultCompressorRegistry() {
     comingSoon: false,
     preload: false,
     defaultProps: {
-      title: "Compress WEBP images instantly",
+      // FIX #5: this default was hardcoded as "Compress WEBP images instantly",
+      // which is factually wrong for the 4 tools that inherit it without
+      // overriding (Passport Photo Resizer, Signature Resizer,
+      // Compress-to-50KB, Compress-to-100KB — none of them are WEBP-specific).
+      // Made generic so it's accurate everywhere it's used by default.
+      title: "Compress your image instantly",
       allowedFormats: [
         "jpg",
         "jpeg",
@@ -1337,6 +1345,12 @@ function getDefaultCompressorRegistry() {
 }
 
 
+// FIX #3 + #4: applicationType/applicationCategory were declared as
+// string-literal TYPES ("WebApplication" / "Utilities") rather than typed
+// params with defaults — TypeScript was enforcing an exact literal match,
+// not providing a fallback value. It only worked because every call site
+// happened to pass the same literal. Now properly typed with real defaults.
+// `alternates` is now typed instead of `any`.
 function getDefaultIamgeToPdfConverterRegistry(
   toolShortName: string = "",
   title: string = "Image to PDF Converter | JPG, PNG, WEBP to PDF",
@@ -1353,11 +1367,16 @@ function getDefaultIamgeToPdfConverterRegistry(
     "merge images to pdf",
     "create pdf from images"
   ],
-  alternates: any = {
-    canonical: `${siteUrl}/tools/image-to-pdf`
+  // FIX #2: was `${siteUrl}/tools/image-to-pdf` (missing the "/image/"
+  // segment) — didn't match the real route /tools/image/image-to-pdf.
+  // Not live today only because every current call site passes an explicit
+  // `alternates` argument that overrides this default.
+  alternates: { canonical: string } = {
+    canonical: `${siteUrl}/tools/image/image-to-pdf`
   },
-  applicationType: "WebApplication",
-  applicationCategory: "Utilities") {
+  applicationType: string = "WebApplication",
+  applicationCategory: string = "Utilities"
+) {
   return {
     //loader: () => import("@/components/tools/pdf/image-to-pdf/ImageToPDF"),
     title: title,

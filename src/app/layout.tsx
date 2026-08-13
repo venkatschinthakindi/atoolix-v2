@@ -28,6 +28,12 @@ const DESCRIPTION =
   "Free online PDF tools, image converters and compressors, calculators, EMI and finance tools. Fast, secure, no signup required.";
 
 export const metadata: Metadata = {
+  // metadataBase is normally set once in the root layout, not here — but if
+    // it ISN'T set anywhere in your app, Next falls back to localhost when
+    // resolving any relative metadata URL and logs a build warning. Since every
+    // URL below is already absolute (via siteUrl) this isn't breaking anything
+    // today, but confirm metadataBase exists in app/layout.tsx as a safety net.
+  metadataBase: new URL(serverConfig.siteUrl),
   title: {
     default: TITLE,
     template: `%s | ${serverConfig.siteName}`,
