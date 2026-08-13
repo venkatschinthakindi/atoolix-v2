@@ -29,6 +29,10 @@ const routes = [
   // privacysecurity
   "tools/privacysecurity/file-analyzer",
 
+  //Math 
+  "tools/calculator",
+  "tools/converter",
+  
   // Calculator Tools
   "tools/calculator/emi-calculator",
   "tools/calculator/roi-calculator",
