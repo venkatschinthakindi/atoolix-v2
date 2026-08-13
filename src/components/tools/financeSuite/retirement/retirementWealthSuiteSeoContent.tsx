@@ -1,168 +1,167 @@
-import Link from "next/link";
 import { serverConfig } from "@/config/server";
 
-const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
-const canonicalPath = "/tools/retirement-calculator";
+const TOOL_PATH = "/tools/calculator/retirement-calculator";
+const TOOL_URL = `${serverConfig.siteUrl}${TOOL_PATH}`;
 
 const faqItems = [
   {
     q: "How much retirement corpus do I need?",
-    a: "The retirement corpus you need depends on your annual retirement expenses, expected inflation, retirement duration, investment returns, taxes, and withdrawal strategy. A common planning shortcut is annual expenses multiplied by 25, which corresponds to a 4% withdrawal rate. This is a planning guideline rather than a guarantee.",
+    a: "The retirement corpus you need depends on your annual expenses, expected inflation, life expectancy, portfolio returns, and withdrawal rate. A common planning shortcut is annual retirement expenses multiplied by 25, based on a 4% withdrawal rate. Some investors use a more conservative withdrawal rate and therefore target a larger corpus.",
   },
   {
     q: "What is the 4% withdrawal rule?",
-    a: "The 4% withdrawal rule is a retirement planning guideline suggesting that a person may start by withdrawing about 4% of their retirement portfolio in the first year and adjust withdrawals for inflation over time. It is not a guaranteed safe rate because portfolio returns, inflation, taxes, asset allocation, and retirement duration can vary.",
+    a: "The 4% withdrawal rule is a retirement planning guideline suggesting that an initial withdrawal of about 4% of a portfolio may be sustainable over a long retirement under certain historical assumptions. It is not a guarantee, and the appropriate withdrawal rate depends on portfolio allocation, market returns, inflation, taxes, retirement duration, and spending flexibility.",
   },
   {
     q: "What is FIRE?",
-    a: "FIRE stands for Financial Independence, Retire Early. It is a financial planning approach focused on building enough invested assets to eventually cover living expenses without depending on active employment income.",
+    a: "FIRE stands for Financial Independence, Retire Early. It is a financial planning approach focused on building enough invested assets to eventually cover living expenses without depending entirely on active employment income.",
   },
   {
     q: "What is Lean FIRE?",
-    a: "Lean FIRE focuses on reaching financial independence with relatively low annual spending and a smaller target corpus. It generally suits people who are comfortable maintaining a simpler lifestyle and keeping recurring expenses low.",
+    a: "Lean FIRE focuses on achieving financial independence with relatively low annual spending and a smaller target corpus. It generally requires maintaining a simple lifestyle and keeping recurring expenses under control.",
   },
   {
     q: "What is Fat FIRE?",
-    a: "Fat FIRE focuses on building a larger financial independence corpus that can support a higher level of spending, greater lifestyle flexibility, travel, or other discretionary expenses during retirement.",
+    a: "Fat FIRE focuses on building a larger portfolio that can support a higher level of spending in financial independence or retirement. The required corpus depends on the lifestyle and annual expenses you want to maintain.",
   },
   {
     q: "What is Coast FIRE?",
-    a: "Coast FIRE means having accumulated enough invested assets that, under your assumed long-term growth rate, the existing portfolio may grow to the required retirement corpus without additional contributions. It depends heavily on the assumptions used.",
+    a: "Coast FIRE means having enough invested assets that, assuming a suitable long-term growth rate, the existing portfolio could potentially grow to the required retirement corpus without additional contributions. It is a planning concept rather than a guaranteed outcome.",
   },
   {
     q: "How is retirement corpus calculated?",
-    a: "A simple retirement corpus formula is annual retirement expenses divided by the chosen withdrawal rate. For example, annual expenses of ₹6,00,000 divided by 4% gives an estimated corpus of ₹1.5 crore. A complete retirement plan should also account for inflation, healthcare costs, taxes, investment returns, and retirement duration.",
+    a: "A simple retirement corpus estimate is annual retirement expenses divided by the chosen withdrawal rate. For example, ₹6,00,000 of annual expenses at a 4% withdrawal rate gives an estimated corpus of ₹1.5 crore. Future expenses should be adjusted for inflation before calculating the required retirement corpus.",
   },
   {
     q: "How does inflation affect retirement planning?",
-    a: "Inflation increases the future cost of living, so today's expenses may not be sufficient for planning a retirement that begins many years from now. Inflation-adjusted calculations help estimate the amount you may need to maintain a similar lifestyle in the future.",
+    a: "Inflation increases the future cost of living, so retirement planning should account for the purchasing power of money over time. Ignoring inflation can significantly underestimate the corpus required, particularly when retirement is decades away.",
   },
   {
     q: "What is a safe withdrawal rate?",
-    a: "A safe withdrawal rate is a planning percentage used to estimate how much of a retirement portfolio can potentially be withdrawn each year while aiming for long-term sustainability. The appropriate rate depends on portfolio allocation, market conditions, inflation, taxes, and retirement duration.",
+    a: "A safe withdrawal rate is a planning percentage used to estimate how much of a retirement portfolio can be withdrawn each year while aiming for long-term sustainability. The appropriate rate depends on portfolio allocation, retirement duration, market conditions, inflation, taxes, and spending flexibility.",
   },
   {
     q: "How much monthly income can my retirement corpus generate?",
-    a: "Monthly retirement income depends on the portfolio size, withdrawal amount, investment returns, inflation, taxes, and withdrawal period. A systematic withdrawal plan, or SWP, can be used to withdraw a chosen amount regularly while the remaining portfolio stays invested.",
+    a: "Monthly retirement income depends on your corpus, withdrawal amount, expected portfolio return, withdrawal period, inflation, taxes, and investment strategy. A systematic withdrawal plan can be used to withdraw a regular amount while the remaining portfolio stays invested.",
   },
   {
     q: "Can I retire early?",
-    a: "Early retirement may be possible when your invested assets can reasonably support your expected expenses for the required retirement period. A FIRE plan usually focuses on savings rate, investment growth, future expenses, and the target financial independence corpus.",
+    a: "Early retirement may be possible when savings and investments are sufficient to support your expected expenses for the remainder of your planned retirement. The earlier you retire, the more important it becomes to account for inflation, longer retirement periods, market volatility, and sequence of returns risk.",
   },
   {
     q: "What age should I start retirement planning?",
-    a: "Starting early gives your investments more time to compound. Even relatively small recurring investments can become meaningful over a 20- or 30-year period, although the required amount depends on your target corpus, inflation, investment returns, and retirement age.",
+    a: "Starting retirement planning early gives investments more time to compound and provides more flexibility to adjust savings if assumptions change. Even relatively small regular investments can become meaningful over a long investment horizon.",
   },
   {
     q: "What return rate should I assume for retirement planning?",
-    a: "Use a return assumption that is consistent with your investment strategy and risk tolerance rather than relying on an optimistic number. Conservative, base-case, and lower-return scenarios can provide a more useful view of how sensitive your retirement plan is to investment performance.",
+    a: "Use an assumption that is consistent with your asset allocation and risk tolerance rather than relying on an optimistic return. Equity-heavy portfolios may have higher long-term growth potential but also greater volatility, while conservative portfolios generally warrant lower return assumptions.",
   },
   {
     q: "How long will my retirement corpus last?",
-    a: "Portfolio longevity depends on withdrawals, investment returns, inflation, taxes, fees, and retirement duration. Poor investment returns early in retirement can have a particularly large impact when withdrawals are already being made.",
+    a: "Corpus longevity depends on the starting portfolio, withdrawal amount, investment returns, inflation, taxes, and retirement duration. A retirement calculator provides an estimate based on assumptions, not a guarantee of future portfolio performance.",
   },
   {
     q: "What happens if inflation is higher than expected?",
-    a: "Higher-than-expected inflation increases future expenses and may require a larger retirement corpus or lower withdrawals. Reviewing your retirement assumptions regularly can help identify whether your target needs to be increased.",
+    a: "Higher-than-expected inflation increases future expenses and can require a larger retirement corpus or lower withdrawals. Reviewing retirement assumptions regularly and maintaining a margin of safety can help address this risk.",
   },
   {
     q: "Should I include pensions in retirement planning?",
-    a: "Yes. A reliable pension or other recurring retirement income can reduce the amount that needs to be withdrawn from your investment corpus. It is still sensible to maintain a buffer for healthcare, emergencies, inflation, and unexpected expenses.",
+    a: "Yes. A reliable pension or other recurring retirement income can reduce the amount that needs to be withdrawn from your investment portfolio. It is still useful to maintain a buffer for healthcare, unexpected expenses, and changes in income.",
   },
   {
     q: "Can I use SIPs for retirement planning?",
-    a: "Yes. SIPs can help build retirement wealth through regular investments. A retirement plan can combine a target corpus with a monthly investment amount and an assumed long-term return to estimate whether the goal is achievable.",
+    a: "Yes. SIPs can help build retirement wealth through regular investments over time. A SIP or investment returns calculator can estimate how monthly contributions may grow toward a target retirement corpus based on the selected assumptions.",
   },
   {
     q: "How much should I save every month for retirement?",
-    a: "The required monthly investment depends on your current age, retirement age, existing investments, target corpus, inflation, and expected investment return. A retirement or SIP calculator can help translate the long-term target into a monthly savings amount.",
+    a: "The required monthly investment depends on your current savings, years until retirement, target corpus, expected return, inflation, and existing investments. A retirement planning calculator can help translate a long-term corpus target into an estimated monthly savings requirement.",
   },
   {
     q: "How much money is needed to retire in India?",
-    a: "There is no single retirement corpus that applies to everyone in India. The amount depends on location, household size, lifestyle, healthcare costs, housing, family responsibilities, inflation, and retirement duration. Personal expenses are a better starting point than a generic corpus number.",
+    a: "There is no universal retirement corpus for India. The amount depends on location, household size, lifestyle, healthcare costs, inflation, retirement age, and expected retirement duration. A personalized calculation is more useful than a single generic number.",
   },
   {
     q: "Is SWP better than FD income?",
-    a: "SWP and fixed deposits serve different purposes. An FD can provide relatively predictable interest income, while an SWP from an investment portfolio can provide flexible withdrawals with the possibility of continued portfolio growth. Neither approach is universally better because risk, return, taxation, and liquidity differ.",
+    a: "SWP and fixed deposits have different characteristics. An SWP can provide flexible withdrawals from an invested portfolio with potential for long-term growth, while an FD generally provides more predictable interest income. The appropriate choice depends on risk tolerance, liquidity needs, taxes, and income requirements.",
   },
   {
     q: "What is sequence of returns risk?",
-    a: "Sequence of returns risk is the risk that poor investment returns occur early in retirement while withdrawals are being made. Two portfolios with similar long-term average returns can have very different outcomes if their returns occur in a different sequence.",
+    a: "Sequence of returns risk is the risk that poor investment returns occur early in retirement while withdrawals are being made. This can reduce portfolio longevity more severely than experiencing the same returns later, which makes withdrawal planning and portfolio diversification important.",
   },
   {
     q: "Can I retire at 40?",
-    a: "Retiring at 40 may be possible for some people, but it usually requires a high savings rate, substantial invested assets, controlled expenses, and a plan that can support several decades of retirement. Longer retirement periods make inflation and portfolio sustainability especially important.",
+    a: "Retiring at 40 may be achievable for some people, but it usually requires a high savings rate, substantial invested assets, and a portfolio capable of supporting a potentially very long retirement. Inflation, healthcare costs, taxes, and market volatility should be included in the plan.",
   },
   {
     q: "Can I retire at 50?",
-    a: "Retiring at 50 can be achievable depending on your expenses, savings, investments, expected returns, and retirement duration. The shorter accumulation period and longer potential retirement period should both be included when estimating the required corpus.",
+    a: "Retiring at 50 can be more achievable than retiring at 40 because there may be more time to accumulate assets and a shorter retirement horizon. The plan should still account for inflation, healthcare, taxes, market volatility, and portfolio sustainability.",
   },
   {
     q: "How does FIRE work?",
-    a: "FIRE works by increasing the gap between income and expenses, investing the surplus, and building enough assets to eventually fund living expenses. The target is commonly expressed as a FIRE number based on annual spending and an assumed withdrawal rate.",
+    a: "FIRE works by increasing the gap between income and spending, investing the surplus, and building enough assets that investment income and withdrawals can eventually support living expenses. The required FIRE number depends primarily on annual spending and the withdrawal rate used.",
   },
   {
     q: "Is this retirement calculator free?",
-    a: "Yes. The retirement calculator is free to use and is designed to provide quick retirement planning estimates without requiring an account.",
+    a: "Yes. The retirement calculator is free to use and does not require a sign-up to perform retirement planning calculations.",
   },
   {
     q: "Does the retirement calculator work on mobile?",
-    a: "Yes. The page is designed to be responsive so retirement planning content and calculator controls can be used on phones, tablets, and desktop screens.",
+    a: "Yes. The calculator page is designed to work across mobile, tablet, and desktop screen sizes so users can perform retirement planning calculations on different devices.",
   },
   {
     q: "Can I export retirement calculations as PDF?",
-    a: "If PDF export is available in the main retirement calculator interface, you can use it to save or share your calculated retirement projection. The SEO content page itself remains static and lightweight.",
+    a: "If the calculator interface provides PDF export, you can use that feature to save or share the calculated retirement projection. The educational content on this page is separate from the calculator's interactive output.",
   },
   {
     q: "What is the difference between FIRE and traditional retirement?",
-    a: "Traditional retirement planning generally targets financial independence around a conventional retirement age, while FIRE focuses on reaching financial independence earlier. FIRE usually requires a higher savings rate and a longer period of portfolio sustainability.",
+    a: "Traditional retirement generally focuses on leaving employment around a conventional retirement age, while FIRE focuses on achieving financial independence earlier by building a sufficiently large investment portfolio and controlling spending.",
   },
   {
-    q: "How often should I review my retirement plan?",
-    a: "Review your retirement assumptions at least annually and after major changes to income, expenses, investments, family responsibilities, or retirement timing. Regular reviews can help keep your target corpus realistic.",
+    q: "How often should retirement plans be reviewed?",
+    a: "A retirement plan should generally be reviewed at least annually and whenever there is a significant change in income, expenses, family circumstances, investment strategy, or retirement timing.",
   },
   {
     q: "Can retirement planning help achieve financial independence?",
-    a: "Yes. Retirement planning and financial independence use many of the same principles: controlling expenses, building investments, estimating future needs, and ensuring that invested assets can support your desired lifestyle.",
+    a: "Yes. Retirement planning and financial independence use many of the same principles: estimating future expenses, building investable assets, managing risk, and creating a sustainable withdrawal strategy. FIRE applies these principles with an emphasis on reaching financial independence earlier.",
   },
 ];
 
 const howToSteps = [
   {
-    title: "Estimate your retirement expenses",
-    desc: "Start with your current annual spending and consider future lifestyle goals, healthcare, family responsibilities, and inflation.",
+    title: "Estimate your annual expenses",
+    desc: "Start with current yearly spending and account for future lifestyle goals, healthcare costs, and inflation.",
   },
   {
-    title: "Set your retirement assumptions",
-    desc: "Choose a realistic retirement age, investment return assumption, inflation rate, retirement duration, and withdrawal rate.",
+    title: "Choose a withdrawal rate",
+    desc: "Select a planning withdrawal rate that reflects your portfolio, retirement duration, and desired margin of safety.",
   },
   {
-    title: "Calculate your target corpus",
-    desc: "Use your inflation-adjusted retirement expenses and withdrawal assumptions to estimate the portfolio required for retirement.",
+    title: "Calculate your retirement corpus",
+    desc: "Use annual retirement expenses and your withdrawal rate to estimate the portfolio required to support your planned spending.",
   },
   {
     title: "Compare retirement scenarios",
-    desc: "Test traditional retirement and FIRE scenarios such as Lean FIRE, Coast FIRE, and Fat FIRE.",
+    desc: "Compare traditional retirement and FIRE scenarios to understand how different retirement ages and spending levels affect the target.",
   },
   {
-    title: "Estimate monthly savings",
-    desc: "Use regular investments such as SIPs to estimate the amount required to build the target retirement corpus.",
+    title: "Plan your monthly savings",
+    desc: "Estimate the regular investment required to build the target corpus over your remaining investment horizon.",
   },
   {
     title: "Review the plan regularly",
-    desc: "Update your assumptions as your income, expenses, investments, retirement date, and financial goals change.",
+    desc: "Update inflation, return, savings, and withdrawal assumptions as your financial circumstances change.",
   },
 ];
 
 const coreFeatures = [
   {
     title: "Retirement Corpus Calculator",
-    desc: "Estimate the retirement corpus required based on expenses, inflation, withdrawal assumptions, and retirement goals.",
+    desc: "Estimate the corpus required to support retirement expenses using your selected assumptions.",
     icon: "🏦",
   },
   {
     title: "FIRE Planning",
-    desc: "Understand your financial independence target and explore early-retirement scenarios.",
+    desc: "Explore financial independence and early retirement targets based on your spending needs.",
     icon: "🔥",
   },
   {
@@ -176,23 +175,23 @@ const coreFeatures = [
     icon: "📈",
   },
   {
-    title: "Withdrawal Rate",
-    desc: "Explore how different withdrawal assumptions affect the corpus required for retirement.",
+    title: "Withdrawal Rate Planning",
+    desc: "Compare how different withdrawal rates affect the required retirement corpus.",
     icon: "🧮",
   },
   {
-    title: "Retirement Risk Planning",
-    desc: "Understand sequence of returns risk, inflation risk, and other factors that can affect portfolio sustainability.",
+    title: "Retirement Risk Awareness",
+    desc: "Consider inflation, healthcare costs, market volatility, and sequence of returns risk.",
     icon: "⚠️",
   },
   {
     title: "Asset Allocation Education",
-    desc: "Learn why investment allocation and risk management matter during accumulation and retirement.",
+    desc: "Understand how portfolio allocation can affect long-term growth and retirement risk.",
     icon: "📊",
   },
   {
-    title: "Responsive Experience",
-    desc: "Use the retirement planning experience across mobile, tablet, and desktop screens.",
+    title: "Responsive Design",
+    desc: "Use the retirement planning tool comfortably across mobile, tablet, and desktop devices.",
     icon: "⚡",
   },
 ];
@@ -205,7 +204,7 @@ const audiences = [
   },
   {
     title: "Early Retirement Seekers",
-    desc: "Explore FIRE, Lean FIRE, Coast FIRE, and Fat FIRE scenarios.",
+    desc: "Explore FIRE, Lean FIRE, Coast FIRE, and Fat FIRE planning scenarios.",
     icon: "🔥",
   },
   {
@@ -215,17 +214,17 @@ const audiences = [
   },
   {
     title: "Pre-Retirees",
-    desc: "Review corpus requirements, withdrawal rates, inflation, and retirement income.",
+    desc: "Review corpus requirements, withdrawal rates, and potential retirement income.",
     icon: "🏖️",
   },
   {
     title: "Financial Planners",
-    desc: "Use the educational content to explain retirement planning concepts and assumptions.",
+    desc: "Use the calculator as an educational tool when discussing retirement assumptions.",
     icon: "📒",
   },
   {
     title: "Mobile Users",
-    desc: "Access retirement planning information and calculations from phones and tablets.",
+    desc: "Access retirement planning calculations from phones and tablets.",
     icon: "📲",
   },
 ];
@@ -233,54 +232,54 @@ const audiences = [
 const retirementEducation = [
   {
     title: "What Is Retirement Planning?",
-    body: "Retirement planning is the process of estimating future expenses, deciding when you want financial independence, and building enough invested wealth to support your desired lifestyle after active employment.",
+    body: "Retirement planning involves estimating future expenses, selecting appropriate investment and savings assumptions, and building enough assets to support your desired lifestyle after regular employment ends.",
   },
   {
     title: "What Is a Retirement Corpus?",
-    body: "A retirement corpus is the pool of invested assets intended to support your expenses after retirement. The required amount depends on future spending, inflation, investment returns, taxes, withdrawals, and retirement duration.",
+    body: "A retirement corpus is the investment portfolio or pool of assets intended to fund living expenses during retirement through withdrawals and other income sources.",
   },
   {
     title: "What Is FIRE?",
-    body: "FIRE means Financial Independence, Retire Early. The objective is to build enough invested wealth that employment becomes optional because the portfolio can potentially support ongoing expenses.",
+    body: "FIRE means Financial Independence, Retire Early. The goal is to build enough invested wealth that employment becomes optional before a traditional retirement age.",
   },
   {
     title: "Understanding SWP",
-    body: "A Systematic Withdrawal Plan allows regular withdrawals from an investment portfolio. During retirement, the withdrawal amount needs to be considered alongside portfolio returns, inflation, taxes, and the expected duration of retirement.",
+    body: "A Systematic Withdrawal Plan allows an investor to withdraw a specified amount from an investment portfolio at regular intervals while the remaining balance stays invested.",
   },
   {
     title: "How Inflation Changes the Goal",
-    body: "Future expenses can be substantially higher than today's expenses. Inflation-adjusted planning helps prevent an apparently adequate retirement target from becoming too small over a long investment horizon.",
+    body: "Inflation reduces purchasing power over time. If retirement is many years away, today's expenses may need to be significantly higher in the future to maintain a similar lifestyle.",
   },
   {
-    title: "Safe Withdrawal Rate Explained",
-    body: "A withdrawal rate is a planning assumption used to estimate how much of a portfolio can be withdrawn each year. Lower withdrawal assumptions generally require a larger starting corpus.",
+    title: "Withdrawal Rate Explained",
+    body: "A withdrawal rate represents the percentage of a retirement portfolio withdrawn during a period. Lower withdrawal rates generally require a larger starting corpus but can provide a greater margin of safety.",
   },
   {
     title: "Sequence of Returns Risk",
-    body: "Poor investment returns early in retirement can have a greater impact because withdrawals are occurring while the portfolio is falling. This makes portfolio sustainability important when planning retirement income.",
+    body: "Poor market returns early in retirement can have a larger impact when withdrawals are occurring at the same time. This makes portfolio construction, cash reserves, and withdrawal flexibility important considerations.",
   },
   {
-    title: "Asset Allocation Strategy",
-    body: "Asset allocation affects both potential growth and investment risk. Many investors use a higher growth allocation during accumulation and gradually increase portfolio stability as retirement approaches.",
+    title: "Asset Allocation",
+    body: "Asset allocation determines how investments are distributed across asset classes. The appropriate mix depends on time horizon, risk tolerance, withdrawal needs, and financial goals.",
   },
 ];
 
 const retirementMistakes = [
-  "Starting too late and relying on unrealistic future returns.",
-  "Ignoring inflation when estimating future retirement expenses.",
+  "Starting retirement planning too late.",
+  "Ignoring inflation when estimating future expenses.",
+  "Using an overly optimistic return assumption.",
+  "Ignoring healthcare, emergencies, and family obligations.",
   "Using an aggressive withdrawal rate without considering retirement duration.",
-  "Forgetting healthcare, emergency expenses, taxes, and family responsibilities.",
-  "Depending on a single asset class without considering diversification.",
-  "Assuming investment returns will be identical every year.",
+  "Relying on one asset class without considering diversification and risk.",
 ];
 
 const retirementStrategies = [
-  "Start investing early to give compounding more time to work.",
-  "Increase savings as income grows instead of allowing lifestyle inflation to consume the increase.",
-  "Use conservative, base-case, and lower-return scenarios when testing your plan.",
-  "Maintain an emergency fund separately from long-term retirement assets.",
-  "Review asset allocation as retirement approaches.",
-  "Recalculate the retirement target after major changes in income, expenses, or retirement timing.",
+  "Start investing early and increase contributions as income grows.",
+  "Use realistic return and inflation assumptions.",
+  "Build a diversified portfolio appropriate for your risk tolerance.",
+  "Maintain a liquidity buffer for near-term retirement expenses.",
+  "Review the retirement target after major financial changes.",
+  "Test conservative, base-case, and adverse scenarios before relying on a target.",
 ];
 
 const relatedTools = [
@@ -301,7 +300,7 @@ const relatedTools = [
     href: "/tools/calculator/roi-calculator?category=sip",
   },
   {
-    name: "Lumpsum Returns",
+    name: "Lump Sum Returns",
     href: "/tools/calculator/roi-calculator?category=lump",
   },
   {
@@ -326,17 +325,34 @@ const relatedTools = [
   },
 ];
 
-/*
- * Structured data intentionally stays limited to schemas that directly
- * describe visible content on this page.
- */
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Retirement Calculator and FIRE Planning Guide",
+  description:
+    "Learn about retirement corpus planning, FIRE, SWP income, inflation, withdrawal rates, and retirement planning.",
+  author: {
+    "@type": "Organization",
+    name: serverConfig.siteName,
+    url: serverConfig.siteUrl,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: serverConfig.siteName,
+    url: serverConfig.siteUrl,
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": TOOL_URL,
+  },
+};
 
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Use the Retirement Calculator",
+  name: "How to Plan Your Retirement",
   description:
-    "Steps for estimating retirement expenses, retirement corpus, FIRE targets, and monthly savings requirements.",
+    "Steps for estimating retirement expenses, choosing a withdrawal rate, calculating a target corpus, and reviewing the plan.",
   step: howToSteps.map((step, index) => ({
     "@type": "HowToStep",
     position: index + 1,
@@ -353,19 +369,19 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: siteUrl,
+      item: serverConfig.siteUrl,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Tools",
-      item: `${siteUrl}/tools`,
+      item: `${serverConfig.siteUrl}/tools`,
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "Retirement Calculator",
-      item: `${siteUrl}${canonicalPath}`,
+      item: TOOL_URL,
     },
   ],
 };
@@ -383,17 +399,42 @@ const faqSchema = {
   })),
 };
 
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Retirement Planning Topics",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Retirement Corpus Planning",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "FIRE Planning",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "SWP Retirement Income",
+    },
+    {
+      "@type": "ListItem",
+      position: 4,
+      name: "Safe Withdrawal Rate",
+    },
+    {
+      "@type": "ListItem",
+      position: 5,
+      name: "Inflation-Adjusted Retirement Planning",
+    },
+  ],
+};
+
 export default function RetirementCalculatorSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
-      {/* Structured data describes visible content; canonical belongs in page metadata. */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
-        }}
-      />
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -408,6 +449,28 @@ export default function RetirementCalculatorSeoContent() {
         }}
       />
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(itemListSchema),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleSchema),
+        }}
+      />
+
+      {/* Hero / Primary Intent */}
       <section
         aria-labelledby="hero-heading"
         className="space-y-4"
@@ -420,26 +483,21 @@ export default function RetirementCalculatorSeoContent() {
           id="hero-heading"
           className="text-3xl font-bold tracking-tight sm:text-4xl"
         >
-          Retirement Calculator for Corpus Planning, FIRE, SWP and
-          Inflation-Adjusted Retirement Goals
+          Retirement Calculator for FIRE Planning, Retirement Corpus, SWP
+          Income, Inflation, and Financial Independence
         </h2>
 
         <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
           Use this retirement calculator to estimate your retirement corpus,
-          financial independence target, retirement income, and long-term
-          savings requirements. You can use retirement planning assumptions
-          such as inflation, investment returns, withdrawal rates, and
-          retirement age to understand how much you may need for the future.
-        </p>
-
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
-          The calculator can also help you explore FIRE planning, including
-          Lean FIRE, Coast FIRE, and Fat FIRE, while giving you a practical
-          way to think about SIP-based savings and systematic withdrawals
-          during retirement.
+          FIRE number, retirement income, SWP withdrawals, inflation-adjusted
+          expenses, and withdrawal requirements. Whether you are planning
+          traditional retirement or exploring Lean FIRE, Coast FIRE, or Fat
+          FIRE, the calculator helps turn your retirement goal into measurable
+          planning assumptions.
         </p>
       </section>
 
+      {/* Features */}
       <section
         aria-labelledby="features-heading"
         className="space-y-4"
@@ -457,12 +515,7 @@ export default function RetirementCalculatorSeoContent() {
               key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-5"
             >
-              <div
-                className="text-2xl"
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
+              <div className="text-2xl">{item.icon}</div>
 
               <h3 className="mt-3 text-sm font-semibold">
                 {item.title}
@@ -476,6 +529,7 @@ export default function RetirementCalculatorSeoContent() {
         </div>
       </section>
 
+      {/* How To */}
       <section
         aria-labelledby="howto-heading"
         className="space-y-4"
@@ -484,7 +538,7 @@ export default function RetirementCalculatorSeoContent() {
           id="howto-heading"
           className="text-2xl font-semibold tracking-tight"
         >
-          How to Use the Retirement Calculator
+          How to Plan Your Retirement
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -513,6 +567,7 @@ export default function RetirementCalculatorSeoContent() {
         </div>
       </section>
 
+      {/* Audience */}
       <section
         aria-labelledby="who-heading"
         className="space-y-4"
@@ -530,12 +585,7 @@ export default function RetirementCalculatorSeoContent() {
               key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-5"
             >
-              <div
-                className="text-2xl"
-                aria-hidden="true"
-              >
-                {item.icon}
-              </div>
+              <div className="text-2xl">{item.icon}</div>
 
               <h3 className="mt-3 text-sm font-semibold">
                 {item.title}
@@ -549,6 +599,7 @@ export default function RetirementCalculatorSeoContent() {
         </div>
       </section>
 
+      {/* Formula */}
       <section
         aria-labelledby="formula-heading"
         className="space-y-4"
@@ -568,18 +619,17 @@ export default function RetirementCalculatorSeoContent() {
 
             <p className="mt-2 text-xs leading-6 text-white/65">
               Future retirement expenses can be estimated by increasing
-              current expenses according to an assumed inflation rate for
-              the years remaining until retirement.
+              current expenses using an assumed inflation rate over the
+              remaining years until retirement.
             </p>
 
             <p className="mt-3 text-xs leading-6 text-white/65">
-              Retirement Corpus = Annual Retirement Expenses ÷ Withdrawal
-              Rate
+              Retirement Corpus = Annual Retirement Expenses ÷ Withdrawal Rate
             </p>
 
             <p className="mt-3 text-xs leading-6 text-white/65">
-              For example, annual retirement expenses of ₹12,00,000 with a
-              4% withdrawal assumption produce a simple planning estimate of:
+              Example: if annual retirement expenses are ₹12,00,000 and the
+              selected withdrawal rate is 4%:
             </p>
 
             <p className="mt-3 font-medium text-white">
@@ -593,17 +643,17 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-3 text-xs leading-6 text-white/65">
-              A commonly used FIRE planning shortcut is:
+              FIRE Number ≈ Annual Expenses × 25
             </p>
 
             <p className="mt-3 text-xs leading-6 text-white/65">
-              FIRE Number = Annual Expenses × 25
+              A 25× multiple corresponds to a 4% withdrawal-rate assumption.
+              It should be treated as a planning shortcut rather than a
+              guaranteed retirement target.
             </p>
 
             <p className="mt-3 text-xs leading-6 text-white/65">
-              This corresponds to a 4% withdrawal assumption. It should be
-              treated as a planning guideline rather than a guaranteed
-              retirement rule.
+              Example: with annual expenses of ₹12 lakh:
             </p>
 
             <p className="mt-3 font-medium text-white">
@@ -613,12 +663,13 @@ export default function RetirementCalculatorSeoContent() {
         </div>
       </section>
 
+      {/* Education */}
       <section
-        aria-labelledby="education-heading"
+        aria-labelledby="edu-heading"
         className="space-y-6"
       >
         <h2
-          id="education-heading"
+          id="edu-heading"
           className="text-2xl font-semibold tracking-tight"
         >
           Retirement Planning Education
@@ -642,6 +693,7 @@ export default function RetirementCalculatorSeoContent() {
         </div>
       </section>
 
+      {/* FIRE */}
       <section
         aria-labelledby="fire-heading"
         className="space-y-4"
@@ -650,20 +702,19 @@ export default function RetirementCalculatorSeoContent() {
           id="fire-heading"
           className="text-2xl font-semibold tracking-tight"
         >
-          FIRE, Lean FIRE, Coast FIRE and Fat FIRE
+          FIRE, Lean FIRE, Coast FIRE, and Fat FIRE
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <h3 className="text-sm font-semibold">
-              FIRE Number
+              FIRE Number Explained
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              Your FIRE number is the approximate portfolio value you are
-              targeting before financial independence. A common starting
-              point is annual spending multiplied by 25, although the
-              appropriate target depends on your assumptions.
+              The FIRE number is the portfolio value needed to support your
+              planned expenses without depending on active employment income.
+              A common starting estimate is annual expenses multiplied by 25.
             </p>
           </article>
 
@@ -673,9 +724,9 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              Lean FIRE targets financial independence with lower annual
-              spending, while Fat FIRE targets a larger portfolio capable
-              of supporting a higher level of spending and flexibility.
+              Lean FIRE targets a lower-expense lifestyle and therefore a
+              smaller corpus. Fat FIRE targets a larger corpus that supports
+              greater spending flexibility.
             </p>
           </article>
 
@@ -685,21 +736,22 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              Coast FIRE focuses on reaching an invested portfolio size that
-              may grow toward the eventual retirement target without
-              requiring continued contributions, assuming the chosen growth
-              assumptions are achieved.
+              Coast FIRE describes a situation where existing investments may
+              be sufficient to grow toward a future retirement target without
+              additional contributions, assuming the expected long-term
+              returns materialize.
             </p>
           </article>
         </div>
       </section>
 
+      {/* Comparison */}
       <section
-        aria-labelledby="comparison-heading"
+        aria-labelledby="compare-heading"
         className="space-y-4"
       >
         <h2
-          id="comparison-heading"
+          id="compare-heading"
           className="text-2xl font-semibold tracking-tight"
         >
           Retirement Calculator vs FIRE Calculator
@@ -712,10 +764,9 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              A retirement calculator generally focuses on the corpus needed
-              to support expenses after retirement, including inflation,
-              retirement age, investment returns, withdrawal assumptions,
-              and retirement duration.
+              A retirement calculator focuses on future expenses, retirement
+              age, inflation, corpus requirements, withdrawal rates, and
+              potential retirement income.
             </p>
           </article>
 
@@ -725,14 +776,15 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              A FIRE calculator focuses on achieving financial independence
-              earlier by connecting annual spending, savings, investments,
-              portfolio growth, and the target FIRE number.
+              A FIRE calculator focuses on reaching financial independence
+              earlier by connecting annual spending, savings, investment
+              growth, and the required FIRE number.
             </p>
           </article>
         </div>
       </section>
 
+      {/* Corpus */}
       <section
         aria-labelledby="corpus-heading"
         className="space-y-4"
@@ -746,28 +798,28 @@ export default function RetirementCalculatorSeoContent() {
 
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
           <p className="text-xs leading-6 text-white/65">
-            The retirement corpus required depends on annual expenses,
-            retirement age, expected retirement duration, inflation,
-            investment returns, taxes, and withdrawal strategy. A common
-            planning approach starts with annual expenses divided by a chosen
-            withdrawal rate.
+            The required retirement corpus depends on annual expenses,
+            retirement age, life expectancy, inflation, investment returns,
+            taxes, and withdrawal rate. A common planning estimate uses annual
+            expenses multiplied by 25, corresponding to a 4% withdrawal-rate
+            assumption.
           </p>
 
           <p className="mt-3 text-xs leading-6 text-white/65">
-            For example, annual retirement expenses of ₹12 lakh would produce
-            a ₹3 crore planning estimate at a 4% withdrawal assumption.
-            Some investors may choose a lower withdrawal assumption and
-            therefore target a larger corpus.
+            For example, annual retirement expenses of ₹12 lakh correspond to
+            approximately ₹3 crore at a 4% withdrawal rate. A lower withdrawal
+            rate would require a larger starting corpus.
           </p>
 
           <p className="mt-3 text-xs leading-6 text-white/65">
-            A calculator becomes more useful when it considers future
-            inflation-adjusted expenses rather than simply multiplying
-            today's spending by a fixed number.
+            A retirement calculator can provide a more personalized estimate
+            by incorporating future expenses, inflation, retirement duration,
+            expected returns, and withdrawal assumptions.
           </p>
         </div>
       </section>
 
+      {/* Corpus Table */}
       <section
         aria-labelledby="expense-corpus-heading"
         className="space-y-4"
@@ -776,14 +828,13 @@ export default function RetirementCalculatorSeoContent() {
           id="expense-corpus-heading"
           className="text-2xl font-semibold tracking-tight"
         >
-          Retirement Corpus Required for Different Monthly Expenses
+          Retirement Corpus for Different Monthly Expenses
         </h2>
 
         <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
           <table className="w-full text-left text-sm">
             <caption className="sr-only">
-              Example retirement corpus estimates using a 4% withdrawal
-              assumption
+              Estimated retirement corpus at a 4% withdrawal rate
             </caption>
 
             <thead className="border-b border-white/10">
@@ -795,39 +846,48 @@ export default function RetirementCalculatorSeoContent() {
                   Annual Expense
                 </th>
                 <th scope="col" className="p-4">
-                  Corpus at 4% Withdrawal
+                  Corpus at 4% Withdrawal Rate
                 </th>
               </tr>
             </thead>
 
             <tbody>
-              {[
-                ["₹25,000", "₹3 lakh", "₹75 lakh"],
-                ["₹50,000", "₹6 lakh", "₹1.5 crore"],
-                ["₹1,00,000", "₹12 lakh", "₹3 crore"],
-                ["₹2,00,000", "₹24 lakh", "₹6 crore"],
-              ].map(([monthly, annual, corpus]) => (
-                <tr
-                  key={monthly}
-                  className="border-b border-white/5 last:border-0"
-                >
-                  <td className="p-4">{monthly}</td>
-                  <td className="p-4">{annual}</td>
-                  <td className="p-4">{corpus}</td>
-                </tr>
-              ))}
+              <tr className="border-b border-white/5">
+                <td className="p-4">₹25,000</td>
+                <td className="p-4">₹3 lakh</td>
+                <td className="p-4">₹75 lakh</td>
+              </tr>
+
+              <tr className="border-b border-white/5">
+                <td className="p-4">₹50,000</td>
+                <td className="p-4">₹6 lakh</td>
+                <td className="p-4">₹1.5 crore</td>
+              </tr>
+
+              <tr className="border-b border-white/5">
+                <td className="p-4">₹1,00,000</td>
+                <td className="p-4">₹12 lakh</td>
+                <td className="p-4">₹3 crore</td>
+              </tr>
+
+              <tr>
+                <td className="p-4">₹2,00,000</td>
+                <td className="p-4">₹24 lakh</td>
+                <td className="p-4">₹6 crore</td>
+              </tr>
             </tbody>
           </table>
         </div>
 
         <p className="text-xs leading-6 text-white/65">
-          These are simple mathematical examples using a 4% withdrawal
+          These figures are simple illustrations using a 4% withdrawal-rate
           assumption. They do not account for taxes, inflation after
-          retirement, healthcare costs, investment fees, or changes in
+          retirement, healthcare costs, portfolio volatility, or changes in
           spending.
         </p>
       </section>
 
+      {/* Age */}
       <section
         aria-labelledby="age-heading"
         className="space-y-4"
@@ -846,10 +906,10 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              Investors in their 20s and 30s generally have a longer
-              accumulation period. Starting early can give investments more
-              time to compound, while regular contributions can help build
-              long-term retirement wealth.
+              Investors with longer horizons have more time for regular
+              contributions and compounding. Starting early can reduce the
+              amount that needs to be invested later, although investment
+              choices should still match individual risk tolerance.
             </p>
           </article>
 
@@ -859,15 +919,15 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              As retirement approaches, investors may need to increase
-              savings, review debt, reassess asset allocation, and test
-              whether their projected corpus is sufficient for their expected
-              retirement expenses.
+              As retirement approaches, investors may focus more closely on
+              increasing savings, reducing debt, reviewing asset allocation,
+              and building a realistic liquidity and withdrawal strategy.
             </p>
           </article>
         </div>
       </section>
 
+      {/* Factors */}
       <section
         aria-labelledby="factors-heading"
         className="space-y-4"
@@ -887,7 +947,7 @@ export default function RetirementCalculatorSeoContent() {
             },
             {
               title: "Healthcare Costs",
-              desc: "Healthcare expenses can become an important part of retirement spending and should not be overlooked.",
+              desc: "Healthcare expenses can materially affect retirement budgets and should be included in planning.",
             },
             {
               title: "Life Expectancy",
@@ -895,15 +955,15 @@ export default function RetirementCalculatorSeoContent() {
             },
             {
               title: "Investment Returns",
-              desc: "Portfolio growth affects how much capital is required before retirement and how long the corpus may last.",
+              desc: "Expected portfolio growth affects how much capital may be required before retirement.",
             },
             {
               title: "Withdrawal Rate",
-              desc: "A lower withdrawal assumption generally increases the corpus required but may provide a larger planning margin.",
+              desc: "A lower withdrawal rate generally requires a larger initial corpus but may provide a greater margin of safety.",
             },
             {
               title: "Lifestyle",
-              desc: "Housing, travel, family support, hobbies, and discretionary spending can significantly change retirement requirements.",
+              desc: "Housing, travel, family support, healthcare, and discretionary spending can materially change retirement needs.",
             },
           ].map((item) => (
             <article
@@ -922,6 +982,7 @@ export default function RetirementCalculatorSeoContent() {
         </div>
       </section>
 
+      {/* Mistakes */}
       <section
         aria-labelledby="mistakes-heading"
         className="space-y-4"
@@ -960,6 +1021,7 @@ export default function RetirementCalculatorSeoContent() {
         </div>
       </section>
 
+      {/* Allocation */}
       <section
         aria-labelledby="allocation-heading"
         className="space-y-4"
@@ -978,11 +1040,10 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              Asset allocation affects both portfolio growth potential and
-              investment risk. During accumulation, investors may accept
-              greater volatility for long-term growth, while approaching
-              retirement often increases the importance of portfolio
-              stability and liquidity.
+              Asset allocation can change the risk and growth characteristics
+              of a retirement portfolio. The appropriate mix of equity, debt,
+              and other assets depends on time horizon, risk tolerance, and
+              withdrawal requirements.
             </p>
           </article>
 
@@ -992,15 +1053,16 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              Poor market returns early in retirement can have a larger
-              impact when withdrawals are occurring at the same time. This
-              is why retirement planning should consider portfolio
-              sustainability rather than relying only on average returns.
+              Poor returns early in retirement can have a larger effect when
+              withdrawals are occurring simultaneously. Maintaining an
+              appropriate liquidity buffer and flexible withdrawal strategy
+              can help manage this risk.
             </p>
           </article>
         </div>
       </section>
 
+      {/* India */}
       <section
         aria-labelledby="india-heading"
         className="space-y-4"
@@ -1019,10 +1081,10 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              There is no universal retirement corpus for India. Your target
-              depends on location, household expenses, housing, healthcare,
-              family responsibilities, lifestyle, inflation, investment
-              returns, and retirement duration.
+              The required amount depends on location, household size,
+              lifestyle, healthcare expenses, retirement age, inflation, and
+              the length of retirement. A personalized calculation is more
+              useful than relying on a single national estimate.
             </p>
           </article>
 
@@ -1032,73 +1094,15 @@ export default function RetirementCalculatorSeoContent() {
             </h3>
 
             <p className="mt-2 text-xs leading-6 text-white/65">
-              Long retirement horizons make inflation particularly important.
-              Future expenses should be estimated rather than assuming that
-              today's monthly budget will remain unchanged for decades.
+              Long retirement horizons make inflation an important planning
+              variable. Future expenses should be estimated rather than
+              assuming today's spending will remain unchanged.
             </p>
           </article>
         </div>
       </section>
 
-      <section
-        aria-labelledby="related-planning-heading"
-        className="space-y-4"
-      >
-        <h2
-          id="related-planning-heading"
-          className="text-2xl font-semibold tracking-tight"
-        >
-          Related Retirement Planning Topics
-        </h2>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold">
-              FIRE Number
-            </h3>
-
-            <p className="mt-2 text-xs leading-6 text-white/65">
-              Estimate the portfolio size required to support financial
-              independence using annual spending and a chosen withdrawal
-              assumption.
-            </p>
-          </article>
-
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold">
-              SWP Income
-            </h3>
-
-            <p className="mt-2 text-xs leading-6 text-white/65">
-              Understand how regular withdrawals can provide retirement
-              income while the remaining portfolio stays invested.
-            </p>
-          </article>
-
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold">
-              SIP Retirement Planning
-            </h3>
-
-            <p className="mt-2 text-xs leading-6 text-white/65">
-              Estimate how regular monthly investments can contribute toward
-              a long-term retirement corpus.
-            </p>
-          </article>
-
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold">
-              Compound Growth
-            </h3>
-
-            <p className="mt-2 text-xs leading-6 text-white/65">
-              Understand how investment returns can compound over long
-              periods and why starting early can affect retirement planning.
-            </p>
-          </article>
-        </div>
-      </section>
-
+      {/* Related Tools */}
       <section
         aria-labelledby="related-heading"
         className="space-y-4"
@@ -1112,17 +1116,18 @@ export default function RetirementCalculatorSeoContent() {
 
         <div className="flex flex-wrap gap-3">
           {relatedTools.map((tool) => (
-            <Link
+            <a
               key={tool.name}
               href={tool.href}
               className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
             >
               {tool.name}
-            </Link>
+            </a>
           ))}
         </div>
       </section>
 
+      {/* FAQ */}
       <section
         aria-labelledby="faq-heading"
         className="space-y-4"
@@ -1131,7 +1136,7 @@ export default function RetirementCalculatorSeoContent() {
           id="faq-heading"
           className="text-2xl font-semibold tracking-tight"
         >
-          Frequently Asked Questions About Retirement Planning
+          Frequently Asked Questions
         </h2>
 
         <div className="space-y-4">
@@ -1147,8 +1152,8 @@ export default function RetirementCalculatorSeoContent() {
                   </span>
 
                   <span
-                    className="shrink-0 text-lg text-blue-400"
                     aria-hidden="true"
+                    className="shrink-0 text-lg text-blue-400"
                   >
                     <svg
                       className="h-5 w-5"
@@ -1166,19 +1171,10 @@ export default function RetirementCalculatorSeoContent() {
                   </span>
                 </summary>
 
-                <div className="border-t border-dashed border-white/5 p-5">
-                  <div className="mt-1 flex items-start gap-3">
-                    <span
-                      className="shrink-0 text-lg text-blue-400"
-                      aria-hidden="true"
-                    >
-                      💡
-                    </span>
-
-                    <p className="text-xs leading-relaxed text-white/60">
-                      {item.a}
-                    </p>
-                  </div>
+                <div className="border-t border-dashed border-white/5 p-5 pt-4">
+                  <p className="text-xs leading-relaxed text-white/60">
+                    {item.a}
+                  </p>
                 </div>
               </details>
             </div>
