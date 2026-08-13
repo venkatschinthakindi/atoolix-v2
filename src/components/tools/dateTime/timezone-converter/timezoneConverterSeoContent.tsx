@@ -1,146 +1,189 @@
 import { serverConfig } from "@/config/server";
+
 const siteUrl = serverConfig.siteUrl;
+
 const canonicalPath = "/tools/datetime/timezone-converter";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-// FIX: the live page linked to "/tools/meeting-time-finder", which does not
-// exist — the real route is "/tools/datetime/meeting-time-finder". That was
-// a dead internal link on a live page. Defined once here so both the intro
-// paragraph and the Related Tools list can never drift apart again.
 const meetingTimeFinderPath = "/tools/datetime/meeting-time-finder";
 
-type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string; icon: string };
-type DstFact = { title: string; desc: string };
+type FaqItem = {
+  q: string;
+  a: string;
+};
+
+type StepItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type DstFact = {
+  title: string;
+  desc: string;
+};
 
 const faqItems: FaqItem[] = [
   {
-    q: "What does this timezone converter do?",
-    a: "It converts one source date and time into up to 10 other time zones side by side, showing local time, UTC offset, abbreviation, and day difference for each.",
+    q: "What is a timezone converter?",
+    a: "A timezone converter converts a date and time from one time zone into the corresponding local time in other time zones. This converter lets you compare up to 10 zones at once and shows the local time, UTC offset, abbreviation, and day difference.",
   },
   {
-    q: "How is this different from a meeting scheduler?",
-    a: "This tool is for fast, one-off conversions — enter a time once and see it everywhere instantly. If you need to find a time slot where several people's working hours overlap, use the Meeting Time Finder instead.",
+    q: "How do I convert time between time zones?",
+    a: "Select the source time zone, enter the date and time, then add the time zones you want to compare. The converter calculates the corresponding local time for each zone automatically.",
   },
   {
-    q: "Does it handle daylight saving time?",
-    a: "Yes. Offsets are calculated from the real UTC offset at the selected instant — not a fixed year-round number — so the conversion is automatically correct whether or not a DST transition falls between now and your selected date. The tool also flags source times that are invalid or ambiguous because they fall inside a DST transition.",
+    q: "Can I convert IST to EST, PST, GMT, or UTC?",
+    a: "Yes. You can convert India Standard Time (IST) to US Eastern Time, Pacific Time, GMT, UTC, CET, CST, and many other time zones. Select IST as the source zone and add the destination zones you need.",
   },
-  {
-    q: "Can I convert IST to UTC, EST, or GMT?",
-    a: "Yes. Pick any source zone and add target zones such as UTC, EST, PST, GMT, CET, and more from the quick-add list or the search box.",
-  },
-  {
-    q: "Can I search by city or country instead of picking from a long list?",
-    a: "Yes. Type a city or country name in the search box and matching zones appear instantly, ranked by relevance.",
-  },
-  {
-    q: "Can I copy the converted times?",
-    a: "Yes. Copy a single row's details or copy every zone at once as plain text, ready to paste into an email or message.",
-  },
-  {
-    q: "Can I share this exact comparison with someone else?",
-    a: "Yes. Copy a share link that encodes your source zone, date, time, and target zones — anyone who opens it sees the same comparison.",
-  },
-  {
-    q: "Does it support 12-hour and 24-hour formats?",
-    a: "Yes. Toggle between 12-hour AM/PM and 24-hour display at any time.",
-  },
-  {
-    q: "Can I reorder the zones I'm comparing?",
-    a: "Yes. Move any row up or down, or click a zone's time to make it the new source zone.",
-  },
-  {
-    q: "Is this free and does it work on mobile?",
-    a: "Yes. It's free to use and the layout adapts to a card view on phones and tablets.",
-  },
-  {
-    q: "Does it show if a converted time falls on a different day?",
-    a: "Yes. Each row shows whether the result lands on the same day, the next day, or the previous day relative to your source time.",
-  },
-  {
-    q: "Does my data get sent to a server?",
-    a: "No. All conversions happen locally in your browser.",
-  },
-];
-
-// Pair-specific FAQs matching terms already in this page's own meta
-// keywords ("EST to IST", "PST to IST", "GMT to IST") plus the highest
-// search-volume IST pairs not yet covered. Phrased for pure conversion
-// intent — "what is X in IST" — rather than meeting-overlap intent, since
-// that's the Meeting Time Finder page's job. Offsets are fixed math (IST
-// has no DST) so these answers don't go stale across DST transitions.
-const conversionPairFaqs: FaqItem[] = [
   {
     q: "How do I convert EST to IST?",
-    a: "Add 10 hours 30 minutes to EST (US Eastern Standard Time) to get IST, or 9 hours 30 minutes if the US is currently on EDT (Eastern Daylight Time, roughly March–November). Enter your EST time as the source above to get the exact IST equivalent for any date.",
+    a: "Enter the date and time with US Eastern Time as the source and IST as the target. The exact difference depends on whether the US is observing Eastern Standard Time or Eastern Daylight Time, so the converter uses the selected date to calculate the correct result.",
   },
   {
     q: "How do I convert PST to IST?",
-    a: "Add 13 hours 30 minutes to PST (US Pacific Standard Time) to get IST, or 12 hours 30 minutes if the US is currently on PDT (Pacific Daylight Time). Use the converter above with PST as the source zone to get the exact result for any date.",
+    a: "Select US Pacific Time as the source and IST as the target. The converter automatically accounts for Pacific Standard Time or Pacific Daylight Time based on the selected date.",
   },
   {
     q: "How do I convert GMT to IST?",
-    a: "Add 5 hours 30 minutes to GMT to get IST, or 4 hours 30 minutes if the UK is currently on BST (British Summer Time, roughly late March–late October). IST does not observe daylight saving, so only the UK side of this conversion shifts during the year.",
+    a: "GMT is 5 hours 30 minutes behind IST. When the UK observes British Summer Time, the difference changes to 4 hours 30 minutes. Select the actual date in the converter to get the correct result.",
   },
   {
     q: "How do I convert UTC to IST?",
-    a: "Add 5 hours 30 minutes to UTC to get IST. This offset is fixed year-round since neither UTC nor IST observes daylight saving time.",
+    a: "IST is 5 hours 30 minutes ahead of UTC throughout the year. Select UTC as the source zone and IST as the target to see the converted local time.",
   },
   {
-    q: "How do I convert CST to IST?",
-    a: "Add 11 hours 30 minutes to CST (US Central Standard Time) to get IST, or 10 hours 30 minutes during CDT (Central Daylight Time).",
+    q: "Does the timezone converter handle daylight saving time?",
+    a: "Yes. The conversion uses the applicable UTC offset for the selected date and time rather than assuming a fixed year-round offset. This accounts for daylight saving time changes in zones such as the US, UK, Europe, and Australia.",
   },
   {
-    q: "How do I convert CET to IST?",
-    a: "Add 4 hours 30 minutes to CET (Central European Time) to get IST, or 3 hours 30 minutes during CEST (Central European Summer Time).",
+    q: "Can I search for a time zone by city or country?",
+    a: "Yes. Search for a city or country to find matching time zones instead of manually browsing a long list of zones.",
   },
   {
-    q: "What is the current time in IST right now?",
-    a: "Use the 'Use current time in source zone' option above with IST selected to see the live current time in India, along with the equivalent time in any other zone you add.",
+    q: "How many time zones can I compare?",
+    a: "You can compare up to 10 target time zones with the selected source time, making it useful for international teams, travel, events, and global communication.",
+  },
+  {
+    q: "Can I copy the converted times?",
+    a: "Yes. You can copy an individual conversion or copy the complete comparison as text for use in email, chat, documents, or other applications.",
+  },
+  {
+    q: "Can I share a timezone conversion?",
+    a: "Yes. You can create a shareable link containing the selected source zone, date, time, and target zones so another person can open the same comparison.",
+  },
+  {
+    q: "Does it support 12-hour and 24-hour time?",
+    a: "Yes. You can switch between 12-hour AM/PM and 24-hour time formats.",
+  },
+  {
+    q: "Does the converter show the date difference?",
+    a: "Yes. Each result indicates whether the converted time is on the same day, the previous day, or the next day relative to the source time.",
+  },
+  {
+    q: "Is the timezone converter free?",
+    a: "Yes. The timezone converter is free to use and works directly in your browser.",
+  },
+  {
+    q: "Does my timezone conversion data leave my browser?",
+    a: "No. The conversion calculations run locally in your browser.",
+  },
+];
+
+const conversionPairFaqs: FaqItem[] = [
+  {
+    q: "What is the time difference between IST and EST?",
+    a: "IST is 10 hours 30 minutes ahead of Eastern Standard Time (EST). When the US observes Eastern Daylight Time (EDT), IST is 9 hours 30 minutes ahead. The exact difference depends on the date.",
+  },
+  {
+    q: "What is the time difference between IST and PST?",
+    a: "IST is 13 hours 30 minutes ahead of Pacific Standard Time (PST). During Pacific Daylight Time (PDT), IST is 12 hours 30 minutes ahead. Use the selected date for the exact conversion.",
+  },
+  {
+    q: "What is the time difference between IST and CST?",
+    a: "IST is 11 hours 30 minutes ahead of US Central Standard Time (CST). During Central Daylight Time (CDT), IST is 10 hours 30 minutes ahead.",
+  },
+  {
+    q: "What is the time difference between IST and GMT?",
+    a: "IST is 5 hours 30 minutes ahead of GMT. When the UK observes British Summer Time (BST), the difference is 4 hours 30 minutes.",
+  },
+  {
+    q: "What is the time difference between IST and CET?",
+    a: "IST is 4 hours 30 minutes ahead of Central European Time (CET). During Central European Summer Time (CEST), IST is 3 hours 30 minutes ahead.",
+  },
+  {
+    q: "What is the time difference between IST and Singapore time?",
+    a: "Singapore Standard Time (SGT) is 2 hours 30 minutes ahead of IST. Neither India nor Singapore observes daylight saving time, so this difference remains constant.",
+  },
+  {
+    q: "What is the time difference between IST and Japan time?",
+    a: "Japan Standard Time (JST) is 3 hours 30 minutes ahead of IST. Neither India nor Japan observes daylight saving time.",
+  },
+  {
+    q: "What is the time difference between IST and Dubai?",
+    a: "Gulf Standard Time (GST) in Dubai is 1 hour 30 minutes behind IST. Neither India nor the UAE observes daylight saving time, so this difference remains constant.",
+  },
+  {
+    q: "What is the time difference between IST and Sydney?",
+    a: "Sydney uses Australian Eastern Standard Time (AEST) or Australian Eastern Daylight Time (AEDT), depending on the date. Sydney is normally 4 hours 30 minutes or 5 hours 30 minutes ahead of IST.",
   },
 ];
 
 const howToSteps: StepItem[] = [
   {
-    title: "Pick the source zone",
-    desc: "Choose the time zone your original time is in. Your browser's zone is detected automatically.",
+    title: "Select the source time zone",
+    desc: "Choose the time zone your original date and time belongs to. Your browser's time zone can be detected automatically.",
     icon: "🕒",
   },
   {
-    title: "Enter date and time",
-    desc: "Set the exact source date and time you want converted.",
+    title: "Enter the date and time",
+    desc: "Enter the exact date and time you want to convert.",
     icon: "📅",
   },
   {
-    title: "Add target zones",
-    desc: "Search by city or country, or use quick-add buttons, to compare up to 10 zones at once.",
+    title: "Add target time zones",
+    desc: "Search by city or country, or use the quick-add options to compare multiple destinations.",
     icon: "🌍",
   },
   {
-    title: "Read the results",
-    desc: "See converted local time, UTC offset, abbreviation, and day difference for every zone instantly.",
-    icon: "👀",
+    title: "Compare local times",
+    desc: "View the corresponding local time, UTC offset, abbreviation, and day difference for every selected zone.",
+    icon: "🔄",
   },
   {
-    title: "Copy or share",
-    desc: "Copy a single row, copy everything, or share a link that preserves your exact comparison.",
+    title: "Copy or share the result",
+    desc: "Copy the conversion or share the exact comparison using a generated link.",
     icon: "🔗",
   },
 ];
 
 const supportedUseCases = [
-  { useCase: "Quick call scheduling", note: "Check what time it is somewhere else before you dial in." },
-  { useCase: "Travel planning", note: "See local arrival and departure times before you book a flight." },
-  { useCase: "Cross-border deadlines", note: "Confirm submission or filing deadlines in the correct local zone." },
-  { useCase: "Remote check-ins", note: "Glance at a teammate's local time before messaging them." },
-  { useCase: "Event announcements", note: "Convert a single event time into every region your audience is in." },
-  { useCase: "Personal reminders", note: "Confirm a friend or family member's local time across zones." },
+  {
+    useCase: "International calls",
+    note: "Check the local time for another country before making a call.",
+  },
+  {
+    useCase: "Travel planning",
+    note: "Convert departure, arrival, and connection times between local time zones.",
+  },
+  {
+    useCase: "Remote work",
+    note: "Check a teammate's local time before sending a message or scheduling a call.",
+  },
+  {
+    useCase: "Global events",
+    note: "Convert one event time into several regions before publishing the schedule.",
+  },
+  {
+    useCase: "International deadlines",
+    note: "Verify a deadline or submission time in the correct local time zone.",
+  },
+  {
+    useCase: "Personal communication",
+    note: "Find a convenient local time for friends and family in other countries.",
+  },
 ];
 
-// Expanded to match this page's own meta-keywords list more fully
-// (previously only 6 pairs; keywords already reference EST/PST/GMT/IST but
-// the visible grid didn't cover CST, CET, SGT, JST, AEST, or GST).
 const popularPairs = [
   { from: "IST", to: "UTC" },
   { from: "IST", to: "EST" },
@@ -150,51 +193,69 @@ const popularPairs = [
   { from: "IST", to: "CET" },
   { from: "IST", to: "SGT" },
   { from: "IST", to: "JST" },
-  { from: "UTC", to: "EST" },
+  { from: "IST", to: "GST" },
+  { from: "IST", to: "AEST" },
+  { from: "UTC", to: "IST" },
+  { from: "EST", to: "IST" },
 ];
 
-// New: DST is named explicitly in the meta description and keywords
-// ("daylight saving time (DST) changes", "daylight saving time converter",
-// "DST converter") but previously only got one line inside a single FAQ
-// answer. This gives it dedicated, skimmable on-page content so the page
-// can actually compete for DST-specific queries instead of just claiming
-// the feature in metadata.
 const dstFacts: DstFact[] = [
   {
-    title: "Why time differences change during the year",
-    desc: "Many countries move their clocks forward in spring and back in autumn. When only one side of a conversion observes DST, the gap between two zones shifts by an hour twice a year — even though neither zone's 'base' offset changed.",
+    title: "Why time zone differences change",
+    desc: "Some regions move their clocks forward or backward during the year. When only one of two zones changes its clock, the time difference between them can change by one hour.",
   },
   {
-    title: "Not every zone observes DST",
-    desc: "India (IST), Japan (JST), Singapore (SGT), and the UAE (GST) never change their clocks. The US, UK, and most of Europe do. That's why an IST-to-EST gap changes across the year, but an IST-to-JST gap never does.",
+    title: "India does not observe daylight saving time",
+    desc: "India Standard Time (IST) remains UTC+5:30 throughout the year. This makes IST a useful reference when comparing India with regions such as the US, UK, Europe, and Australia.",
   },
   {
-    title: "Northern vs. Southern Hemisphere DST",
-    desc: "The US and Europe move clocks forward in March and back in November. Australia and New Zealand do the opposite — forward in October, back in April — because their seasons are reversed. This converter accounts for each zone's own DST calendar automatically.",
+    title: "Different countries use different DST schedules",
+    desc: "The US, Europe, and Australia do not all change their clocks on the same dates. The converter uses the selected date so the result reflects the applicable offset for each zone.",
   },
   {
-    title: "Invalid and ambiguous times",
-    desc: "When clocks spring forward, one hour is skipped entirely (an 'invalid' time that never occurred). When clocks fall back, one hour happens twice (an 'ambiguous' time). This tool detects both and flags them instead of silently guessing.",
+    title: "DST can create missing or repeated times",
+    desc: "When clocks move forward, some local times do not occur. When clocks move backward, some local times occur twice. The converter can flag invalid or ambiguous source times instead of silently treating them as ordinary times.",
   },
 ];
 
 const tips = [
-  "Double-check the source date when converting near a DST changeover — the tool will warn you if the time is invalid or ambiguous.",
-  "Use city names in search when you want a more intuitive comparison than raw UTC offsets.",
-  "Check the day-difference badge — an overlapping hour can still land on a different calendar day.",
-  "Use 24-hour mode when sharing with international contacts to avoid AM/PM mix-ups.",
-  "Copy the share link instead of retyping times when sending the comparison to someone else.",
-  "Need to find a slot that works for everyone's working hours instead of a single conversion? Use the Meeting Time Finder.",
+  "Always select the correct source time zone before converting.",
+  "Choose the actual date when converting between regions that observe daylight saving time.",
+  "Check the day-difference indicator when converting late-night or early-morning times.",
+  "Use city-based search when you are unsure which IANA time zone represents a location.",
+  "Use 24-hour time when sharing international schedules to reduce AM/PM confusion.",
+  "For an exact meeting slot that must fit everyone's working hours, use the Meeting Time Finder instead of a basic conversion.",
 ];
 
 const relatedTools = [
-  { name: "Meeting Time Finder", href: meetingTimeFinderPath },
-  { name: "Unit Converter", href: "/tools/converter" },
-  { name: "Calculator", href: "/tools/calculator" },
-  { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
-  { name: "ROI Calculator", href: "/tools/calculator/roi-calculator" },
-  { name: "PDF Tools", href: "/tools/pdf" },
-  { name: "Image Tools", href: "/tools/image" },
+  {
+    name: "Meeting Time Finder",
+    href: meetingTimeFinderPath,
+  },
+  {
+    name: "Unit Converter",
+    href: "/tools/converter",
+  },
+  {
+    name: "Calculator",
+    href: "/tools/calculator",
+  },
+  {
+    name: "EMI Calculator",
+    href: "/tools/calculator/emi-calculator",
+  },
+  {
+    name: "ROI Calculator",
+    href: "/tools/calculator/roi-calculator",
+  },
+  {
+    name: "PDF Tools",
+    href: "/tools/pdf",
+  },
+  {
+    name: "Image Tools",
+    href: "/tools/image",
+  },
 ];
 
 const faqJsonLd = {
@@ -213,8 +274,9 @@ const faqJsonLd = {
 const howToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Convert a Time Across Multiple Time Zones",
-  description: "Convert one source time into multiple time zones with local time, offset, and day difference.",
+  name: "How to Convert Time Between Time Zones",
+  description:
+    "Convert a date and time from one time zone into multiple other time zones.",
   totalTime: "PT1M",
   step: howToSteps.map((step, index) => ({
     "@type": "HowToStep",
@@ -228,16 +290,31 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-    { "@type": "ListItem", position: 2, name: "Date & Time Tools", item: `${siteUrl}/tools/datetime` },
-    { "@type": "ListItem", position: 3, name: "Timezone Converter", item: canonicalUrl },
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Tools",
+      item: `${siteUrl}/tools`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Date & Time Tools",
+      item: `${siteUrl}/tools/datetime`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Timezone Converter",
+      item: canonicalUrl,
+    },
   ],
 };
 
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Related Tools",
+  name: "Related Atoolix Tools",
   itemListElement: relatedTools.map((tool, index) => ({
     "@type": "ListItem",
     position: index + 1,
@@ -268,11 +345,17 @@ function SectionHeading({
 }) {
   return (
     <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">
+      <h2
+        id={id}
+        className="text-xl font-bold tracking-tight sm:text-2xl"
+      >
         {title}
       </h2>
+
       {description ? (
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">{description}</p>
+        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          {description}
+        </p>
       ) : null}
     </div>
   );
@@ -288,37 +371,47 @@ export default function TimezoneConverterSeoContent() {
 
       <section aria-labelledby="intro-heading" className="space-y-3">
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Free Instant Timezone Converter
+          Free Online Time Zone Converter
         </p>
+
         <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          Timezone Converter – Instantly Convert Time Across Multiple Zones
+          Time Zone Converter – Convert Time Between Time Zones
         </h2>
+
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Enter a time once and see it converted across up to 10 time zones instantly — no
-          scheduling logic, just a fast, accurate lookup that automatically accounts for
-          daylight saving time. Compare local time, UTC offset, and day differences for
-          zones like IST, UTC, GMT, EST, and PST, copy the results, or share a link. Need to
-          find a slot that fits everyone's working hours instead? Try the{" "}
-          <a href={meetingTimeFinderPath} className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
-            Meeting Time Finder
-          </a>.
+          Convert a date and time from one time zone to another instantly.
+          Select a source time, add up to 10 target time zones, and compare
+          local times, UTC offsets, abbreviations, and day differences in one
+          view. Convert between IST, UTC, GMT, EST, PST, CST, CET, and other
+          time zones while automatically accounting for daylight saving time.
+          The conversion runs in your browser, so there is no need to upload
+          your data.
         </p>
       </section>
 
       <section aria-labelledby="use-cases-heading" className="space-y-4">
         <SectionHeading
           id="use-cases-heading"
-          title="Common Use Cases"
-          description="A quick converter is useful whenever you need a single time translated, not a scheduled overlap."
+          title="What Can You Use a Time Zone Converter For?"
+          description="Convert a single date and time whenever you need to know the corresponding local time somewhere else."
         />
+
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {supportedUseCases.map((item) => (
-            <article key={item.useCase} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{item.useCase}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{item.note}</p>
+            <article
+              key={item.useCase}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {item.useCase}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.note}
+              </p>
             </article>
           ))}
         </div>
@@ -327,16 +420,23 @@ export default function TimezoneConverterSeoContent() {
       <section aria-labelledby="pairs-heading" className="space-y-4">
         <SectionHeading
           id="pairs-heading"
-          title="Popular Timezone Conversions"
-          description="Some of the most commonly searched timezone pairs."
+          title="Popular Time Zone Conversions"
+          description="Common conversions people use when comparing international times."
         />
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {popularPairs.map((pair) => (
             <div
               key={`${pair.from}-${pair.to}`}
               className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
             >
-              {pair.from} to {pair.to}
+              <span className="font-medium">
+                {pair.from} to {pair.to}
+              </span>
+
+              <p className="mt-1 text-xs text-white/50">
+                Convert {pair.from} time to {pair.to} time
+              </p>
             </div>
           ))}
         </div>
@@ -345,39 +445,86 @@ export default function TimezoneConverterSeoContent() {
       <section aria-labelledby="how-heading" className="space-y-4">
         <SectionHeading
           id="how-heading"
-          title="How the Converter Works"
-          description="Enter a source time, pick your target zones, and compare the same instant everywhere."
+          title="How to Use the Time Zone Converter"
+          description="Convert time between time zones in a few simple steps."
         />
+
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
-          {howToSteps.map((step) => (
-            <article key={step.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-lg" aria-hidden="true">{step.icon}</div>
-              <h3 className="mt-2 text-sm font-semibold">{step.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{step.desc}</p>
+          {howToSteps.map((step, index) => (
+            <article
+              key={step.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-lg" aria-hidden="true">
+                  {step.icon}
+                </span>
+
+                <span className="text-xs font-semibold text-white/50">
+                  Step {index + 1}
+                </span>
+              </div>
+
+              <h3 className="mt-2 text-sm font-semibold">
+                {step.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {step.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      {/*
-        New section. DST is claimed explicitly in this page's meta
-        description and keywords but previously had no dedicated on-page
-        content — a real gap against competitors (timeanddate.com,
-        worldtimebuddy.com) who have full DST explainers. This also targets
-        "DST converter" / "daylight saving time converter" head terms
-        directly rather than relying on a single FAQ line.
-      */}
       <section aria-labelledby="dst-heading" className="space-y-4">
         <SectionHeading
           id="dst-heading"
-          title="How This Converter Handles Daylight Saving Time"
-          description="Every conversion is calculated from each zone's real, current UTC offset — not a fixed number — so results stay accurate through DST transitions."
+          title="Time Zone Converter and Daylight Saving Time"
+          description="The correct time difference can change during the year when one of the selected time zones observes daylight saving time."
         />
+
         <div className="grid gap-3 md:grid-cols-2">
           {dstFacts.map((item) => (
-            <article key={item.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{item.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{item.desc}</p>
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {item.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="conversion-guide-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="conversion-guide-heading"
+          title="Common IST Time Zone Conversions"
+          description="India Standard Time (IST) is fixed at UTC+5:30. Differences with regions that observe daylight saving time depend on the selected date."
+        />
+
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {conversionPairFaqs.slice(0, 6).map((item) => (
+            <article
+              key={item.q}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {item.q}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.a}
+              </p>
             </article>
           ))}
         </div>
@@ -386,40 +533,46 @@ export default function TimezoneConverterSeoContent() {
       <section aria-labelledby="tips-heading" className="space-y-4">
         <SectionHeading
           id="tips-heading"
-          title="Conversion Tips"
-          description="Quick tips to avoid the most common mistakes."
+          title="Time Zone Conversion Tips"
+          description="Avoid common mistakes when converting times internationally."
         />
+
         <ul className="grid gap-3 md:grid-cols-2">
           {tips.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </li>
           ))}
         </ul>
       </section>
 
-      {/*
-        New section: pair-specific conversion FAQs matching this page's own
-        meta keywords (EST to IST, PST to IST, GMT to IST) which previously
-        had zero dedicated content despite being explicitly targeted in
-        <head>. Kept separate from the general FAQ so each section stays
-        topically tight.
-      */}
-      <section aria-labelledby="pair-faq-heading" className="space-y-4">
+      <section
+        aria-labelledby="pair-faq-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="pair-faq-heading"
-          title="Common Time Zone Conversions Explained"
-          description="Fixed offset math for the most searched conversion pairs. For the exact converted time on a specific date, use the converter above."
+          title="Time Zone Conversion Questions"
+          description="Common questions about converting IST and other international time zones."
         />
+
         <div className="space-y-3">
           {conversionPairFaqs.map((item) => (
             <details
               key={item.q}
               className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
             >
-              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">{item.q}</summary>
+              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
+                {item.q}
+              </summary>
+
               <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">{item.a}</p>
+                <p className="text-sm leading-6 text-white/70">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
@@ -430,29 +583,59 @@ export default function TimezoneConverterSeoContent() {
         <SectionHeading
           id="faq-heading"
           title="Frequently Asked Questions"
-          description="Answers to the most common timezone converter questions."
+          description="Answers to common questions about converting times between time zones."
         />
+
         <div className="space-y-3">
           {faqItems.map((item) => (
             <details
               key={item.q}
               className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
             >
-              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">{item.q}</summary>
+              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
+                {item.q}
+              </summary>
+
               <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">{item.a}</p>
+                <p className="text-sm leading-6 text-white/70">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="cta-heading" className="space-y-4">
+      <section
+        aria-labelledby="meeting-heading"
+        className="space-y-4"
+      >
         <SectionHeading
-          id="cta-heading"
-          title="Need to Schedule a Meeting Instead?"
-          description="This tool is built for fast, single conversions. If you need to find a time slot where several people's working hours overlap — with templates, CSV export, and calendar invites — the Meeting Time Finder is the better fit."
+          id="meeting-heading"
+          title="Need to Find a Meeting Time?"
+          description="The Timezone Converter is best for converting one time between locations. If you need to find a meeting slot that fits several people's working hours, use the Meeting Time Finder."
         />
+
+        <div className="flex flex-wrap gap-2.5">
+          <a
+            href={meetingTimeFinderPath}
+            className="inline-flex items-center rounded-full border border-cyan-400/20 bg-cyan-500/10 px-3 py-1.5 text-xs font-medium text-cyan-300 transition hover:border-cyan-400/40 hover:bg-cyan-500/20"
+          >
+            Meeting Time Finder
+          </a>
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="related-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="related-heading"
+          title="More Free Online Tools"
+          description="Explore other Atoolix tools for everyday conversions, calculations, files, and productivity."
+        />
+
         <div className="flex flex-wrap gap-2.5">
           {relatedTools.map((tool) => (
             <a
