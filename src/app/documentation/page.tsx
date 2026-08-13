@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
-const updatedAt = new Date("2026-07-28T00:00:00Z");
+const updatedAt = new Date("2026-08-13T00:00:00Z");
 const description = `${siteName} is a browser-based utility site for PDFs, images, passport photos, signatures,
           finance calculations, and everyday math tasks. The goal is to make common jobs fast, private,
           and easy to understand`;
@@ -38,7 +38,7 @@ const quickLinks = [
   { href: "/tools/pdf/merge-pdf", label: "PDF Merge", desc: "Combine multiple PDF files into one." },
   { href: "/tools/pdf/split-pdf", label: "PDF Split", desc: "Extract selected pages from a PDF." },
   { href: "/tools/calculator/emi-calculator", label: "EMI Calculator", desc: "Calculate percentages instantly." },
-  { href: "/tools/calculator/roi-calculator", label: "ROI Calculator", desc: "SIP ROI CAGR XIRR calculator." },
+  { href: "/tools/calculator/roi-calculator", label: "ROI Calculator", desc: "Calculate return on investment for financial analysis." },
 ];
 
 const sections = [
@@ -49,6 +49,7 @@ const sections = [
   { id: "supported-formats", title: "Supported Formats" },
   { id: "pdf-tools", title: "PDF Tools" },
   { id: "image-tools", title: "Image Tools" },
+  { id: "privacy-security-tools", title: "Privacy & Security Tools" },
   { id: "passport-photo-tools", title: "Passport Photo Tools" },
   { id: "signature-tools", title: "Signature Tools" },
   { id: "finance-tools", title: "Finance Calculators" },
@@ -66,8 +67,8 @@ const toolGroups = [
     icon: "📄",
     title: "PDF Tools",
     description:
-      "Merge PDF files, split pages, compress documents for email, and convert files online without installing software.",
-    supports: ["PDF"],
+  "Merge PDF files, split pages, compress documents for sharing, and create PDF documents from supported images.",
+    supports: ["PDF", "JPG", "JPEG", "PNG", "WebP"],
     items: [
       {
         name: "PDF Merge Tool",
@@ -94,12 +95,72 @@ const toolGroups = [
         related: ["/tools/pdf/merge-pdf", "/tools/pdf/split-pdf"],
       },
       {
-        name: "PDF Convert Tool",
+        name: "Image to PDF",
         href: "/tools/image/image-to-pdf",
-        description: "Convert supported document formats into PDF for easy sharing and printing.",
-        useCases: ["Standardize documents", "Prepare forms", "Archive files"],
-        tips: "Check whether your source file is text-based or image-based.",
-        related: ["/tools/pdf/compress-pdf"],
+        description:
+          "Convert supported images into PDF documents for sharing, printing, and online forms.",
+        useCases: [
+          "Create PDFs from images",
+          "Prepare scanned documents",
+          "Create printable files",
+        ],
+        tips: "Check image order and orientation before creating the PDF.",
+        related: [
+          "/tools/image/jpg-to-pdf",
+          "/tools/image/png-to-pdf",
+          "/tools/image/webp-to-pdf",
+        ],
+      },
+      {
+        name: "JPG to PDF",
+        href: "/tools/image/jpg-to-pdf",
+        description:
+          "Convert JPG images into PDF documents for forms, printing, and sharing.",
+        useCases: [
+          "Convert photos to PDF",
+          "Prepare documents for upload",
+          "Create printable files",
+        ],
+        tips: "Use clear, correctly oriented JPG images for the best result.",
+        related: [
+          "/tools/image/image-to-pdf",
+          "/tools/image/png-to-pdf",
+          "/tools/image/webp-to-pdf",
+        ],
+      },
+      {
+        name: "PNG to PDF",
+        href: "/tools/image/png-to-pdf",
+        description:
+          "Convert PNG images into PDF documents for forms, sharing, and printing.",
+        useCases: [
+          "Convert screenshots to PDF",
+          "Prepare graphics for documents",
+          "Create printable files",
+        ],
+        tips: "Check the image dimensions and orientation before conversion.",
+        related: [
+          "/tools/image/image-to-pdf",
+          "/tools/image/jpg-to-pdf",
+          "/tools/image/webp-to-pdf",
+        ],
+      },
+      {
+        name: "WebP to PDF",
+        href: "/tools/image/webp-to-pdf",
+        description:
+          "Convert WebP images into PDF documents for sharing, printing, and online submissions.",
+        useCases: [
+          "Convert web images to PDF",
+          "Prepare files for upload",
+          "Create printable documents",
+        ],
+        tips: "Use the original WebP image when possible to preserve image quality.",
+        related: [
+          "/tools/image/image-to-pdf",
+          "/tools/image/jpg-to-pdf",
+          "/tools/image/png-to-pdf",
+        ],
       },
     ],
   },
@@ -142,6 +203,33 @@ const toolGroups = [
         useCases: ["Improve page speed", "Modernize image assets"],
         tips: "WebP is useful for optimized website delivery.",
         related: ["/tools/image/compress-image"],
+      },
+    ],
+  },
+  {
+    id: "privacy-security-tools",
+    icon: "🔐",
+    title: "Privacy & Security Tools",
+    description:
+      "Inspect files for metadata and other properties before sharing them online.",
+    supports: ["Images", "PDF", "File Metadata"],
+    items: [
+      {
+        name: "File Analyzer",
+        href: "/tools/privacysecurity/file-analyzer",
+        description:
+          "Inspect file properties and available metadata to understand what information a file may contain.",
+        useCases: [
+          "Check image metadata",
+          "Inspect PDF properties",
+          "Review files before sharing",
+        ],
+        tips:
+          "Review metadata such as camera, device, location, and document properties when available before sharing sensitive files.",
+        related: [
+          "/tools/image/compress-image",
+          "/tools/image/passport-photo-resizer",
+        ],
       },
     ],
   },
@@ -200,17 +288,32 @@ const toolGroups = [
       {
         name: "FD Calculator",
         href: "/tools/calculator/fd-calculator",
-        description: "Estimate recurring deposit growth for monthly savings plans.",
-        useCases: ["Monthly savings", "Goal planning", "Deposit estimates"],
-        tips: "Test different monthly contribution amounts.",
-        related: ["/tools/calculator/emi-calculator"],
+        description:
+          "Estimate fixed deposit maturity amount and interest based on deposit amount, interest rate, and tenure.",
+        useCases: [
+          "FD maturity planning",
+          "Interest estimation",
+          "Compare deposit rates",
+        ],
+        tips:
+          "Compare different deposit amounts, interest rates, and tenures to understand potential maturity values.",
+        related: [
+          "/tools/calculator/roi-calculator",
+          "/tools/calculator/retirement-calculator",
+        ],
       },
       {
-        name: "ROI Calculator",
+        name: "SIP & ROI Calculator",
         href: "/tools/calculator/roi-calculator",
-        description: "Calculate return on investment for financial analysis.",
-        useCases: ["Investment evaluation", "Profitability checks"],
-        tips: "Consider both initial investment and long-term returns.",
+        description:
+          "Calculate SIP returns and evaluate investments using return, CAGR, and XIRR estimates.",
+        useCases: [
+          "SIP planning",
+          "Investment evaluation",
+          "Compare investment returns",
+        ],
+        tips:
+          "Compare different investment amounts, durations, and expected returns rather than relying on a single assumption.",
         related: ["/tools/calculator/emi-calculator", "/tools/calculator/fd-calculator"],
       },
       {
@@ -228,18 +331,38 @@ const toolGroups = [
     icon: "📅",
     title: "Date and Time Tools",
     description:
-      "Convert and calculate dates, times, and time zones for various applications and tasks.",
-    supports: ["Numbers"],
+      "Convert time zones and find suitable meeting times across different locations.",
+    supports: ["Date", "Time", "Time Zones"],
     items: [
       {
         name: "Time Zone Converter",
         href: "/tools/datetime/timezone-converter",
-        description: "Convert between time zones for accurate dates and times.",
-        useCases: ["Travel planning", "Event scheduling", "Timezone conversions"],
-        tips: "Pick the right source and destination time zones.",
-        related: ["/tools/calculator/emi-calculator"],
-      }
-    ]
+        description:
+          "Convert dates and times between time zones for travel, work, and event scheduling.",
+        useCases: [
+          "Travel planning",
+          "Event scheduling",
+          "Working across time zones",
+        ],
+        tips:
+          "Check the selected date as well as the source and destination time zones, especially around daylight-saving changes.",
+        related: ["/tools/datetime/meeting-time-finder"],
+      },
+      {
+        name: "Meeting Time Finder",
+        href: "/tools/datetime/meeting-time-finder",
+        description:
+          "Find practical meeting times for people working across different time zones.",
+        useCases: [
+          "Global team meetings",
+          "Client scheduling",
+          "Remote team coordination",
+        ],
+        tips:
+          "Add all participant locations and check the local time for each person before choosing a meeting slot.",
+        related: ["/tools/datetime/timezone-converter"],
+      },
+    ],
   },
   {
     id: "math-tools",
@@ -247,7 +370,7 @@ const toolGroups = [
     title: "Math Tools",
     description:
       "Solve everyday percentage, ratio, and conversion problems with simple input and clear output.",
-    supports: ["Numbers"],
+    supports: ["Numbers", "Units", "Percentages"],
     items: [
       {
         name: "Percentage Calculator",
@@ -280,7 +403,11 @@ const toolGroups = [
         description: "Generate custom QR codes for URLs, WiFi, contacts, and more — plus scan any QR code instantly.",
         useCases: ["Share WiFi access", "Save contact cards", "Link menus and flyers"],
         tips: "Use higher error correction when adding a logo so the code stays scannable.",
-        related: ["/tools/timezone-converter", "/tools/converter"],
+        related: [
+          "/tools/datetime/meeting-time-finder",
+          "/tools/privacysecurity/file-analyzer",
+          "/tools/image/compress-image"
+        ],
       }
     ]
   }
@@ -338,7 +465,7 @@ export default function DocumentationPage() {
         </h1>
 
         <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
-          Learn how to use every tool on the site, what each tool is for, and when to choose one tool over another.
+          Learn what our tools do, how they work, and which tool to choose for common tasks.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3 text-xs text-zinc-300">
@@ -348,25 +475,14 @@ export default function DocumentationPage() {
           <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">No install needed</span>
         </div>
       </section>
-      <section className="mb-2">
-        <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-300">
-          Documentation Center • Last updated: {lastUpdated}
-        </p>
-        <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-          {siteName} Documentation
-        </h2>
-        <p className="mt-2 text-base leading-7 text-zinc-300">
-          Learn how to use every tool on the site, what each tool is for, and when to choose one tool
-          over another. Use the table of contents to jump directly to the topic you need.
-        </p>
-      </section>
 
       <section id="overview" className="scroll-mt-24 py-2">
         <h2 className="text-3xl font-semibold text-white">Overview</h2>
         <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-          {siteName} is a browser-based utility site for PDFs, images, passport photos, signatures,
-          finance calculations, and everyday math tasks. The goal is to make common jobs fast, private,
-          and easy to understand.
+          {siteName} is a browser-based utility site for PDFs, images, passport photos,
+          signatures, privacy and security checks, finance calculations, date and time
+          tasks, QR codes, and everyday math. The goal is to make common jobs fast,
+          private, and easy to understand.
         </p>
       </section>
 
