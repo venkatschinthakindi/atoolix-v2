@@ -1,205 +1,279 @@
+import Link from "next/link";
 import { serverConfig } from "@/config/server";
 
 export default function InvestmentReturnsSeoContent() {
   const faqItems = [
-  {
-    q: "How do I calculate SIP returns online?",
-    a: "Enter your monthly SIP amount, the expected annual return rate, the number of years you plan to stay invested, and an optional annual step-up percentage. The calculator compounds your contributions month by month and shows your total invested amount, future portfolio value, and net wealth gain — instantly, with no sign-up needed.",
-  },
-  {
-    q: "What is the difference between basic SIP and step-up SIP?",
-    a: "A basic SIP invests the same fixed amount every month throughout the tenure. A step-up SIP increases that monthly contribution by a fixed percentage each year — typically 5–10% to match salary growth. Over a 15–20 year horizon, even a 5% annual step-up can add 40–60% more to your final corpus compared to a flat SIP at the same return rate.",
-  },
-  {
-    q: "How do lump sum returns work in this calculator?",
-    a: "Enter your one-time investment amount, the expected annual return rate, your investment horizon in years, and the compounding frequency (annually, semi-annually, quarterly, or monthly). The calculator applies the standard compound interest formula A = P(1 + r/n)^(nt) and shows the projected future value alongside your compound gain.",
-  },
-  {
-    q: "What is CAGR and when should I use it?",
-    a: "CAGR (Compound Annual Growth Rate) is the steady annualised rate at which an investment would have grown from its opening value to its ending value over a fixed period, assuming growth compounds each year. Use it to compare different funds, stocks, or asset classes over the same period — for example, to benchmark a mutual fund against a fixed deposit or an index. It does not account for the timing of cash flows.",
-  },
-  {
-    q: "What is XIRR and how is it different from CAGR?",
-    a: "XIRR (Extended Internal Rate of Return) calculates your annualised return across multiple cash flows that happen on different dates — making it the correct metric for SIP portfolios where you invest each month, possibly redeem partly, and hold the rest. CAGR assumes one start and one end value; XIRR handles every transaction with its exact date. Most AMC portals and brokers like Zerodha and Groww use XIRR as the headline return figure.",
-  },
-  {
-    q: "How do I enter cash flows to calculate XIRR?",
-    a: "Enter each SIP instalment or top-up as a negative amount (money leaving your account) with its investment date. Enter each partial or full redemption as a positive amount with its redemption date. If you want to check current performance, add your present portfolio value as a positive amount with today's date. The calculator finds the annual rate that makes the net present value of all those dated flows equal to zero.",
-  },
-  {
-    q: "What compounding frequency should I choose for lump sum?",
-    a: "For Indian bank fixed deposits, choose quarterly — that is the standard RBI-mandated compounding frequency for most FDs. For mutual funds, choose monthly or daily since NAV-based growth is effectively continuous. For government bonds or NSC, use annually. More frequent compounding produces marginally higher returns for the same nominal rate.",
-  },
-  {
-    q: "Is this investment calculator free and private?",
-    a: "Yes on both counts. The tool is completely free with no sign-up required. All calculations — SIP projections, lump sum compounding, CAGR, and XIRR — run entirely inside your browser using JavaScript. No investment amounts, dates, or personal data are sent to any server. Close the tab and the data is gone.",
-  },
-  {
-    q: "Does the calculator work on mobile?",
-    a: "Yes. The layout is fully responsive and designed for mobile-first use — inputs stack cleanly on small screens, charts resize to fit, and the tab navigation is thumb-friendly. The PDF export also works on mobile browsers.",
-  },
-  {
-    q: "What is a realistic expected return rate for SIP in India?",
-    a: "Historical data suggests large-cap equity mutual funds in India have delivered roughly 10–12% CAGR over 10+ year periods. Mid-cap and small-cap funds have returned 12–16% with higher short-term volatility. Debt funds typically return 6–8%, and hybrid funds fall in the 8–11% range. These are historical averages — actual future returns are not guaranteed and depend on market conditions.",
-  },
-];
+    {
+      q: "How do I calculate investment returns online?",
+      a: "Choose the calculator that matches your scenario, then enter your investment amount, expected return rate, investment period, and any additional contribution or cash-flow details supported by that calculator. The results show the projected value, invested amount, gain, or annualized return depending on the calculation you select.",
+    },
+    {
+      q: "How does the SIP return calculator work?",
+      a: "Enter your recurring monthly investment, expected annual return rate, and investment period. The calculator projects how your recurring contributions may grow over time and shows total contributions, estimated future value, and wealth gain.",
+    },
+    {
+      q: "What is a step-up SIP or increasing-contribution investment?",
+      a: "A step-up SIP increases the recurring investment by a chosen percentage or amount over time instead of keeping every contribution fixed. This calculator lets you model increasing contributions so you can compare a regular recurring investment with a gradually increasing investment strategy.",
+    },
+    {
+      q: "How do I calculate lump sum investment returns?",
+      a: "Enter the initial investment, expected annual return rate, investment period, and applicable compounding frequency. The calculator estimates the future value and compound gain of a one-time investment using the selected assumptions.",
+    },
+    {
+      q: "What is the difference between CAGR and XIRR?",
+      a: "CAGR measures the annualized growth rate between a starting value and an ending value over a fixed period. XIRR is designed for multiple cash flows occurring on different dates, making it more appropriate when investments, withdrawals, top-ups, or redemptions happen at different times. CAGR uses beginning and ending values, while XIRR accounts for the timing of individual cash flows.",
+    },
+    {
+      q: "When should I use XIRR instead of CAGR?",
+      a: "Use XIRR when your investment history contains multiple dated cash flows, such as recurring contributions, additional investments, withdrawals, partial redemptions, or other transactions occurring on different dates. Use CAGR when you are comparing a beginning value with an ending value over a defined period and there are no intermediate cash flows that need to be considered.",
+    },
+    {
+      q: "How do I enter cash flows for an XIRR calculation?",
+      a: "Enter money invested as negative cash flows and money received or the current portfolio value as positive cash flows, together with their respective dates. Include each transaction date when the timing of the cash flow matters. The calculator then determines the annualized return associated with those dated cash flows.",
+    },
+    {
+      q: "Can I compare SIP and lump sum investments?",
+      a: "Yes. You can use the calculator to compare recurring investment growth with one-time investment growth under selected assumptions. Comparing scenarios can help you understand differences in contribution timing, invested capital, projected value, and compounding over the same investment horizon.",
+    },
+    {
+      q: "Can I change the investment amount over time?",
+      a: "Yes, where supported by the selected investment scenario, you can model changing contributions such as an annual step-up. This is useful for testing scenarios where the amount invested increases as income, savings capacity, or investment plans change.",
+    },
+    {
+      q: "Can I use different compounding frequencies for lump sum calculations?",
+      a: "Yes. Where the lump sum calculation supports compounding frequency, you can select the frequency that matches the assumption you want to model. The selected frequency affects how often the assumed return is compounded during the investment period.",
+    },
+    {
+      q: "Does the calculator support dated or irregular cash flows?",
+      a: "Yes, the XIRR calculation is designed for cash flows that occur on different dates. This makes it useful for scenarios involving recurring investments, additional contributions, withdrawals, partial redemptions, or a current portfolio value recorded on a specific date.",
+    },
+    {
+      q: "Can I compare different investment scenarios?",
+      a: "Yes. You can compare scenarios such as regular SIP versus step-up SIP, recurring contributions versus lump sum investment, or different return and time-period assumptions. The comparison views help you see how changes in inputs affect projected growth.",
+    },
+    {
+      q: "Can I export my investment calculation?",
+      a: "Yes. The calculator includes PDF export so you can save the calculated investment projection and use the generated report for personal reference or comparison.",
+    },
+    {
+      q: "Is this investment returns calculator free?",
+      a: "Yes. The investment calculator is available to use online without requiring a paid subscription for the calculation itself.",
+    },
+    {
+      q: "Does the investment calculator work on mobile devices?",
+      a: "Yes. The interface is responsive and designed to work across mobile phones, tablets, laptops, and desktop screens. Charts, inputs, results, and the supporting calculation content adapt to different screen sizes.",
+    },
+    {
+      q: "Are the projected investment returns guaranteed?",
+      a: "No. Calculated future values are projections based on the assumptions you enter. Actual investment performance can differ because market returns, fees, taxes, contribution timing, and other factors may affect real-world results. Use the calculator for scenario analysis rather than as a guarantee of future returns.",
+    },
+  ];
 
   const howToSteps = [
     {
-      title: "Choose a Calculator Tab",
-      desc: "Select SIP Growth, Lump Sum Returns, or CAGR & XIRR depending on the return you want to calculate.",
+      title: "Choose the Investment Calculation",
+      desc: "Select SIP Growth, Lump Sum Returns, or CAGR & XIRR based on whether you are modeling recurring contributions, a one-time investment, or annualized performance.",
       icon: "🧭",
     },
     {
-      title: "Enter Your Values",
-      desc: "Fill in the investment amount, rate of return, time period, and any step-up or compounding details.",
+      title: "Enter Your Investment Details",
+      desc: "Enter the investment amount, expected return rate, investment period, and any applicable contribution, step-up, compounding, or cash-flow information.",
       icon: "🧮",
     },
     {
-      title: "Review Results",
-      desc: "See future value, invested amount, wealth gain, CAGR, or XIRR depending on the selected calculator.",
+      title: "Model Your Scenario",
+      desc: "Adjust recurring contributions, annual increases, cash-flow dates, or other available inputs to represent the investment scenario you want to analyze.",
+      icon: "⚙️",
+    },
+    {
+      title: "Review Growth and Returns",
+      desc: "Review projected value, total invested amount, wealth gain, CAGR, XIRR, charts, or other results provided by the selected calculator.",
       icon: "📊",
     },
     {
-      title: "Compare Scenarios",
-      desc: "Use the comparison charts to understand how SIP, step-up SIP, and lump sum growth differ over time.",
-      icon: "📈",
-    },
-    {
-      title: "Export and Share",
-      desc: "Download the output as PDF when you want to save or share your investment projection.",
+      title: "Compare or Export",
+      desc: "Compare alternative investment assumptions and use the PDF export when you want to save or share the calculated projection.",
       icon: "⬇️",
     },
   ];
 
   const coreFeatures = [
     {
-      title: "SIP Growth Calculator",
-      desc: "Calculate monthly SIP future value, total invested amount, and wealth gain.",
+      title: "SIP Return Calculator",
+      desc: "Project the future value, total contributions, and estimated gain from recurring monthly investments.",
       icon: "💹",
     },
     {
-      title: "Step-Up SIP",
-      desc: "Compare regular SIP with annual step-up SIP to model increasing investments.",
+      title: "Step-Up SIP Calculator",
+      desc: "Model recurring investments that increase over time and compare them with a regular fixed-contribution SIP.",
       icon: "📈",
     },
     {
-      title: "Lump Sum Returns",
-      desc: "Estimate long-term returns for one-time investments using compounding formulas.",
+      title: "Lump Sum Investment Calculator",
+      desc: "Estimate the future value and compound gain of a one-time investment using your selected assumptions.",
       icon: "💰",
     },
     {
       title: "CAGR Calculator",
-      desc: "Measure the annual growth rate between starting and ending values.",
+      desc: "Calculate the annualized growth rate between an initial investment value and a final value over a defined period.",
       icon: "📉",
     },
     {
       title: "XIRR Calculator",
-      desc: "Calculate annualized returns for cash flows on different dates.",
+      desc: "Calculate annualized investment returns when contributions, withdrawals, or other cash flows occur on different dates.",
       icon: "🗓️",
     },
     {
-      title: "Comparison Chart",
-      desc: "Visualize investment growth with responsive chart views.",
+      title: "Recurring Contribution Scenarios",
+      desc: "Analyze how regular contributions can affect invested capital and projected portfolio growth over time.",
+      icon: "🔁",
+    },
+    {
+      title: "Changing Contribution Scenarios",
+      desc: "Test increasing contributions with step-up assumptions to model changing investment capacity.",
+      icon: "⬆️",
+    },
+    {
+      title: "Dated Cash-Flow Analysis",
+      desc: "Use individual transaction dates for XIRR scenarios involving irregular contributions or withdrawals.",
+      icon: "📅",
+    },
+    {
+      title: "Investment Comparison",
+      desc: "Compare alternative investment scenarios and see how different assumptions change projected outcomes.",
+      icon: "⚖️",
+    },
+    {
+      title: "Growth Charts",
+      desc: "Visualize projected investment growth and compare changes across supported chart views.",
       icon: "📊",
     },
     {
       title: "PDF Export",
-      desc: "Generate a downloadable report for your investment calculations.",
+      desc: "Export your investment calculation as a PDF report for personal reference or scenario comparison.",
       icon: "🖨️",
     },
     {
-      title: "Fast and Responsive UI",
-      desc: "Designed for smooth use on mobile, tablet, and desktop screens.",
+      title: "Responsive Calculator",
+      desc: "Use the investment calculator across mobile, tablet, laptop, and desktop screens.",
       icon: "⚡",
     },
   ];
 
   const audiences = [
     {
-      title: "SIP Investors",
-      desc: "Plan monthly investments and understand future value growth.",
-      icon: "🏦",
+      title: "Recurring Investors",
+      desc: "Estimate how regular monthly or periodic contributions may grow over an investment horizon.",
+      icon: "🔁",
     },
     {
       title: "Lump Sum Investors",
-      desc: "Estimate returns on one-time investments over a chosen tenure.",
-      icon: "💼",
+      desc: "Model the potential growth of a one-time investment using a selected return and time period.",
+      icon: "💰",
     },
     {
-      title: "Financial Planners",
-      desc: "Compare returns, growth patterns, and annualized performance.",
+      title: "Portfolio Trackers",
+      desc: "Use dated cash flows and XIRR to analyze investment performance when transactions occur at different times.",
       icon: "📊",
     },
     {
-      title: "Long-Term Savers",
-      desc: "Track compounding and compounding frequency impact over time.",
-      icon: "🪙",
-    },
-    {
-      title: "Mobile Users",
-      desc: "Use a responsive calculator that stays easy to read and fast to load.",
-      icon: "📲",
+      title: "Long-Term Planners",
+      desc: "Compare different contribution amounts, investment periods, and return assumptions before making financial decisions.",
+      icon: "🧭",
     },
     {
       title: "Working Professionals",
-      desc: "Check investment performance before making saving or portfolio decisions.",
+      desc: "Model recurring investments and increasing contributions as savings capacity changes over time.",
       icon: "👔",
+    },
+    {
+      title: "Financial Planning Users",
+      desc: "Explore multiple return scenarios and compare projected investment outcomes using consistent assumptions.",
+      icon: "📈",
     },
   ];
 
   const relatedTools = [
-    { name: 'Home Loan EMI', href: '/tools/calculator/emi-calculator?category=home' },
-    { name: 'Car Loan EMI', href: '/tools/calculator/emi-calculator?category=car' },
-    { name: 'Personal Loan EMI', href: '/tools/calculator/emi-calculator?category=personal' },
+    {
+      name: "Home Loan EMI",
+      href: "/tools/calculator/emi-calculator?category=home",
+    },
+    {
+      name: "Car Loan EMI",
+      href: "/tools/calculator/emi-calculator?category=car",
+    },
+    {
+      name: "Personal Loan EMI",
+      href: "/tools/calculator/emi-calculator?category=personal",
+    },
+    {
+      name: "Simple Interest",
+      href: "/tools/calculator/fd-calculator?category=simple",
+    },
+    {
+      name: "Compound Interest",
+      href: "/tools/calculator/fd-calculator?category=compound",
+    },
+    {
+      name: "Fixed Deposit",
+      href: "/tools/calculator/fd-calculator?category=fd",
+    },
+    {
+      name: "Recurring Deposit",
+      href: "/tools/calculator/fd-calculator?category=rd",
+    },
+    {
+      name: "Retirement Calculator",
+      href: "/tools/calculator/retirement-calculator?category=retirement",
+    },
+    {
+      name: "FIRE Calculator",
+      href: "/tools/calculator/retirement-calculator?category=fire",
+    },
+    {
+      name: "SWP Calculator",
+      href: "/tools/calculator/retirement-calculator?category=swp",
+    },
+  ];
 
-    { name: 'Simple Interest', href: '/tools/calculator/fd-calculator?category=simple' },
-    { name: 'Compound Interest', href: '/tools/calculator/fd-calculator?category=compound' },
-    { name: 'Fixed Deposit', href: '/tools/calculator/fd-calculator?category=fd' },
-    { name: 'Recurring Deposit', href: '/tools/calculator/fd-calculator?category=rd' },
-
-    { name: 'Retirement Calculator', href: '/tools/calculator/retirement-calculator?category=retirement' },
-    { name: 'FIRE Calculator', href: '/tools/calculator/retirement-calculator?category=fire' },
-    { name: 'SWP Calculator', href: '/tools/calculator/retirement-calculator?category=swp' }
-  ]
-
-
-const howToSchema = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to Use the Investment Returns Calculator",
-  step: howToSteps.map((step, index) => ({
-    "@type": "HowToStep",
-    position: index + 1,
-    name: step.title,
-    text: step.desc,
-  })),
-};
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Use the Investment Returns Calculator",
+    description:
+      "Calculate and compare SIP, step-up SIP, lump sum, CAGR, and XIRR investment scenarios.",
+    step: howToSteps.map((step, index) => ({
+      "@type": "HowToStep",
+      position: index + 1,
+      name: step.title,
+      text: step.desc,
+    })),
+  };
 
   const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: serverConfig.siteUrl,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Tools",
-      item: `${serverConfig.siteUrl}/tools`,
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      name: "Investment Returns Calculator",
-      item: `${serverConfig.siteUrl}/tools/investment-returns-calculator`,
-    },
-  ],
-};
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: serverConfig.siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Tools",
+        item: `${serverConfig.siteUrl}/tools`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Investment Returns Calculator",
+        item: `${serverConfig.siteUrl}/tools/investment-returns-calculator`,
+      },
+    ],
+  };
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -207,63 +281,96 @@ const howToSchema = {
     mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
     })),
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
+    <div className="mx-auto max-w-6xl space-y-4 p-4 text-white">
+      {/* FAQ structured data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
       />
+
+      {/* HowTo structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-            __html: JSON.stringify(howToSchema),
+          __html: JSON.stringify(howToSchema),
         }}
-        />
+      />
 
-        <script
+      {/* Breadcrumb structured data */}
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-            __html: JSON.stringify(breadcrumbSchema),
+          __html: JSON.stringify(breadcrumbSchema),
         }}
-        />
+      />
 
+      {/* Introduction */}
       <section aria-labelledby="intro-heading">
         <div className="flex gap-3">
-          <span className="text-2xl">📈</span>
-        <h2
-          id="intro-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Investment Returns Calculator for SIP Growth, Lump Sum Returns, CAGR, and XIRR
-        </h2>
+          <span className="text-2xl" aria-hidden="true">
+            📈
+          </span>
+
+          <h2
+            id="intro-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Investment Returns Calculator for SIP, Step-Up SIP, Lump Sum, CAGR &amp; XIRR
+          </h2>
         </div>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Calculate investment returns online with a fast, responsive, and SEO-friendly
-          calculator built for SIP growth, step-up SIP planning, lump sum return
-          estimation, CAGR analysis, and XIRR tracking. The tool helps users compare
-          investment scenarios clearly and understand how their money may grow over time.
+          Calculate investment returns online for recurring investments,
+          SIP growth, step-up contributions, lump sum investments, CAGR, and
+          XIRR. Enter your own investment amount, return assumption, time
+          period, contribution pattern, or dated cash flows to explore
+          different investment scenarios and understand how your assumptions
+          can affect projected results.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Whether you want to estimate monthly SIP future value, test annual step-up
-          contributions, project one-time lump sum returns, or measure annualized returns
-          using CAGR and XIRR, this calculator gives you a clean and practical financial
-          planning experience.
+          Use the calculator to estimate future investment value, total
+          contributions, wealth gain, annualized returns, and growth over
+          time. You can compare regular SIP and increasing-contribution
+          scenarios, evaluate one-time investments, or use dated cash flows
+          when calculating XIRR for investments with transactions occurring
+          on different dates.
+        </p>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+          The calculator is designed for global users and lets you work with
+          your own currency, investment assumptions, dates, contribution
+          amounts, and return expectations. Results are projections based on
+          the values you enter and should not be treated as guaranteed future
+          investment performance.
         </p>
       </section>
 
+      {/* Core features */}
       <section aria-labelledby="features-heading">
         <div className="flex gap-3">
-          <span className="text-2xl">✨</span>
-        <h2
-          id="features-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Key Features of the Investment Returns Calculator
-        </h2></div>
+          <span className="text-2xl" aria-hidden="true">
+            ✨
+          </span>
+
+          <h2
+            id="features-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Investment Calculator Features and Scenarios
+          </h2>
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item, i) => (
             <div
@@ -271,10 +378,21 @@ const howToSchema = {
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="mb-1 text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -282,16 +400,21 @@ const howToSchema = {
         </div>
       </section>
 
+      {/* How to use */}
       <section aria-labelledby="workflow-heading">
         <div className="flex gap-3">
-          <span className="text-2xl">🪜</span>
-        <h2
-          id="workflow-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          How to Use the Investment Calculator
-        </h2>
+          <span className="text-2xl" aria-hidden="true">
+            🪜
+          </span>
+
+          <h2
+            id="workflow-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            How to Use the Investment Returns Calculator
+          </h2>
         </div>
+
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
             <div
@@ -302,10 +425,22 @@ const howToSchema = {
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black shadow-lg">
                   {i + 1}
                 </span>
-                <span className="flex-shrink-0 text-2xl">{step.icon}</span>
+
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {step.icon}
+                </span>
+
                 <div className="flex-1">
-                  <p className="mb-1 text-sm font-semibold text-white">{step.title}</p>
-                  <p className="text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="mb-1 text-sm font-semibold text-white">
+                    {step.title}
+                  </p>
+
+                  <p className="text-xs leading-relaxed text-white/60">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -313,16 +448,180 @@ const howToSchema = {
         </div>
       </section>
 
+      {/* Scenario section */}
+      <section aria-labelledby="scenario-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">
+            🎯
+          </span>
+
+          <h2
+            id="scenario-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Investment Return Scenarios You Can Model
+          </h2>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-blue-300">
+              Recurring Investment Scenarios
+            </h3>
+
+            <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+              <li>• Fixed monthly SIP or recurring contributions</li>
+              <li>• Increasing contributions with a step-up percentage</li>
+              <li>• Different investment periods and return assumptions</li>
+              <li>• Comparison of contribution levels and projected growth</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-violet-300">
+              Lump Sum Scenarios
+            </h3>
+
+            <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+              <li>• One-time investment growth</li>
+              <li>• Different compounding assumptions</li>
+              <li>• Different investment horizons</li>
+              <li>• Comparison of projected future values</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-emerald-300">
+              Dated Cash-Flow Scenarios
+            </h3>
+
+            <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+              <li>• Recurring investments on different dates</li>
+              <li>• Additional contributions or top-ups</li>
+              <li>• Withdrawals and partial redemptions</li>
+              <li>• Current portfolio value as a dated cash flow</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-amber-300">
+              Return Comparison Scenarios
+            </h3>
+
+            <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+              <li>• CAGR versus XIRR analysis</li>
+              <li>• SIP versus lump sum growth</li>
+              <li>• Regular versus step-up contributions</li>
+              <li>• Alternative return and time-period assumptions</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* CAGR vs XIRR */}
+      <section aria-labelledby="return-method-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">
+            📐
+          </span>
+
+          <h2
+            id="return-method-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            CAGR vs XIRR: Which Return Calculation Should You Use?
+          </h2>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-blue-300">
+              CAGR
+            </h3>
+
+            <p className="text-xs leading-relaxed text-white/60">
+              CAGR is useful when you want to measure the annualized growth
+              between an initial value and a final value over a defined
+              period. It is particularly useful for comparing investments
+              where there are no intermediate cash flows that need separate
+              timing treatment.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-violet-300">
+              XIRR
+            </h3>
+
+            <p className="text-xs leading-relaxed text-white/60">
+              XIRR is designed for multiple cash flows occurring on different
+              dates. It is useful for recurring investments, additional
+              contributions, withdrawals, partial redemptions, and portfolio
+              values where the exact timing of each transaction matters.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SIP vs lump sum */}
+      <section aria-labelledby="sip-lumpsum-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">
+            ⚖️
+          </span>
+
+          <h2
+            id="sip-lumpsum-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            SIP vs Lump Sum Investment
+          </h2>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-blue-300">
+              Recurring Investment
+            </h3>
+
+            <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+              <li>• Invest a chosen amount regularly</li>
+              <li>• Useful when capital becomes available gradually</li>
+              <li>• Can model fixed or increasing contributions</li>
+              <li>• Useful for testing contribution-based growth</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="mb-3 text-sm font-semibold text-violet-300">
+              Lump Sum Investment
+            </h3>
+
+            <ul className="space-y-2 text-xs leading-relaxed text-white/60">
+              <li>• Invest a larger amount at one time</li>
+              <li>• Useful when capital is already available</li>
+              <li>• Lets you model compounding over a selected period</li>
+              <li>• Useful for comparing one-time and recurring scenarios</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Audience */}
       <section aria-labelledby="audience-heading">
         <div className="flex gap-3">
-          <span className="text-2xl">👥</span>
-        <h2
-          id="audience-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >          
-          Who Should Use This Tool
-        </h2>
+          <span className="text-2xl" aria-hidden="true">
+            👥
+          </span>
+
+          <h2
+            id="audience-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Who Can Use This Investment Calculator?
+          </h2>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item, i) => (
             <div
@@ -330,10 +629,21 @@ const howToSchema = {
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="mb-1 text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -341,66 +651,71 @@ const howToSchema = {
         </div>
       </section>
 
-<section>
-  <div className="flex gap-3">
-    <span className="text-2xl">⚖️</span>
-  <h2 className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl">    
-    SIP vs Lump Sum Investment
-  </h2>
-</div>
-  <div className="grid gap-4 md:grid-cols-2">
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-      <h3 className="mb-3 text-sm font-semibold text-blue-300">
-        Choose SIP When
-      </h3>
+      {/* Assumptions */}
+      <section aria-labelledby="assumptions-heading">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">
+            ℹ️
+          </span>
 
-      <ul className="space-y-2 text-xs leading-relaxed text-white/60">
-        <li>• Investing from monthly income</li>
-        <li>• Prefer rupee cost averaging</li>
-        <li>• Building long-term investing habits</li>
-        <li>• Want lower timing risk</li>
-      </ul>
-    </div>
+          <h2
+            id="assumptions-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Understanding Investment Calculator Results
+          </h2>
+        </div>
 
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-      <h3 className="mb-3 text-sm font-semibold text-violet-300">
-        Choose Lump Sum When
-      </h3>
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <p className="text-sm leading-relaxed text-white/65">
+            Investment calculations are scenario estimates based on the
+            values and assumptions you enter. A projected future value is not
+            a promise of actual returns. Real-world results can differ because
+            investment performance may vary over time and may also be affected
+            by fees, taxes, market conditions, contribution timing, withdrawals,
+            and other factors.
+          </p>
 
-      <ul className="space-y-2 text-xs leading-relaxed text-white/60">
-        <li>• Investing bonus or inheritance</li>
-        <li>• Have a long investment horizon</li>
-        <li>• Want maximum compounding time</li>
-        <li>• Prefer one-time investing</li>
-      </ul>
-    </div>
-  </div>
-</section>
+          <p className="mt-4 text-sm leading-relaxed text-white/65">
+            For recurring investments, the timing and amount of each
+            contribution can affect the result. For XIRR, transaction dates
+            are particularly important because the calculation considers when
+            each cash flow occurs. Use consistent assumptions when comparing
+            two scenarios so the resulting comparison is meaningful.
+          </p>
+        </div>
+      </section>
 
+      {/* Related tools */}
       <section aria-labelledby="related-tools-heading">
         <div className="flex gap-3">
-          <span className="text-2xl">🧰</span>
-        <h2
-          id="related-tools-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >          
-          Related Finance Tools
-        </h2>
+          <span className="text-2xl" aria-hidden="true">
+            🧰
+          </span>
+
+          <h2
+            id="related-tools-heading"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Related Finance Calculators
+          </h2>
         </div>
+
         <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
               href={tool.href}
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
             >
               <span aria-hidden="true">🔗</span>
               {tool.name}
-            </a>
+            </Link>
           ))}
         </div>
       </section>
 
+      {/* FAQ */}
       <section aria-labelledby="faq-heading">
         <h2
           id="faq-heading"
@@ -408,29 +723,31 @@ const howToSchema = {
         >
           Frequently Asked Questions
         </h2>
-        {/* Interactive UI: SSR-friendly collapsible FAQ panels using native details/summary */}
+
         <div className="space-y-4">
           {faqItems.map((item, i) => (
             <div
               key={i}
-              className="group rounded-2xl border border-white/10 bg-white/5 overflow-hidden  duration-300"
+              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5 duration-300"
             >
-              {/* Native details/summary for SSR-friendly collapsible */}
               <details className="w-full">
-                <summary className="list-none p-5 flex items-center justify-between gap-4 hover:bg-white/10   cursor-pointer">
-                  <div className="flex items-center gap-3 flex-1">
-                    <span className="text-white font-semibold text-sm">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
+                  <div className="flex flex-1 items-center gap-3">
+                    <span className="text-sm font-semibold text-white">
                       {item.q}
                     </span>
                   </div>
 
-                  {/* Animated SVG Chevron - SSR friendly */}
-                  <span className="text-blue-400 text-lg flex-shrink-0 -transform duration-300">
+                  <span
+                    className="flex-shrink-0 text-blue-400"
+                    aria-hidden="true"
+                  >
                     <svg
-                      className="w-5 h-5 transform -transform duration-300 open:rotate-180"
+                      className="h-5 w-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"
@@ -442,10 +759,16 @@ const howToSchema = {
                   </span>
                 </summary>
 
-                <div className="p-5 pt-0 border-t border-white/5 border-dashed">
-                  <div className="flex items-start gap-3 mt-4">
-                    <span className="text-blue-400 text-lg flex-shrink-0">💡</span>
-                    <p className="text-white/60 text-xs leading-relaxed">
+                <div className="border-t border-dashed border-white/5 p-5 pt-0">
+                  <div className="mt-4 flex items-start gap-3">
+                    <span
+                      className="flex-shrink-0 text-lg text-blue-400"
+                      aria-hidden="true"
+                    >
+                      💡
+                    </span>
+
+                    <p className="text-xs leading-relaxed text-white/60">
                       {item.a}
                     </p>
                   </div>

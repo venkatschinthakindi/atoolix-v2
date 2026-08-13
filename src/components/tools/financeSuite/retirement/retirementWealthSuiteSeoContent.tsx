@@ -1,16 +1,4 @@
 import { serverConfig } from "@/config/server";
-import type { Metadata } from "next";
-
-// export const metadata: Metadata = {
-//   title:
-// "Retirement Calculator | FIRE Number, Retirement Corpus & SWP Planner",
-//   description:
-// "Free retirement calculator for India. Calculate retirement corpus, FIRE number, SWP income, inflation-adjusted expenses, safe withdrawal rates, and monthly retirement income.",
-//   alternates: {
-//     canonical: `${serverConfig.siteUrl}/tools/retirement-calculator`,
-//   },
-// };
-
 const faqItems = [
   {
     q: "How much retirement corpus do I need?",
