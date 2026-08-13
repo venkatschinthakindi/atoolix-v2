@@ -103,7 +103,6 @@ export async function Footer() {
         </h2>
 
         <ul className="space-y-3 text-sm">
-          <li><Link href="/sitemap.xml" className={footerLink}>Sitemap</Link></li>
           <li><Link href="/documentation" className={footerLink}>FAQ</Link></li>
           <li><Link href="/tools" className={footerLink}>All Tools</Link></li>
         </ul>
