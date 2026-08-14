@@ -1,223 +1,291 @@
+import Link from "next/link";
+
 export default function JpgToPdfSeoContent() {
   const faqItems = [
     {
-      q: "How do I convert JPG and JPEG documents online?",
-      a: "Upload one or more JPG or JPEG files, reorder them if needed, choose your document settings such as page size, orientation, and margin, then generate and download the output instantly in your browser.",
+      id: "how-convert",
+      q: "How do I convert JPG and JPEG images to PDF?",
+      a: "Add one or more JPG or JPEG images, arrange them in the order you want, choose your PDF page settings, preview the result, and download the generated PDF.",
     },
     {
-      q: "Can I convert multiple JPG and JPEG files into one document?",
-      a: "Yes. You can upload multiple JPG and JPEG files and combine them into a single document in the exact order you want.",
+      id: "multiple-images",
+      q: "Can I convert multiple JPG images into one PDF?",
+      a: "Yes. You can add multiple JPG or JPEG images and combine them into a single PDF in the order you choose.",
     },
     {
-      q: "Is this JPG and JPEG converter private?",
-      a: "Yes. Your files remain on your device during conversion and are not uploaded to a server.",
+      id: "jpeg-support",
+      q: "Does this JPG to PDF converter support JPEG files?",
+      a: "Yes. JPG and JPEG are both supported input formats, so you can convert either file extension to PDF.",
     },
     {
-      q: "What file formats are supported?",
-      a: "The tool supports JPG and JPEG files, along with other browser-supported image types allowed in your configuration.",
+      id: "free",
+      q: "Is the JPG to PDF converter free to use?",
+      a: "Yes. You can use the JPG to PDF converter without creating an account or installing desktop software.",
     },
     {
-      q: "Can I reorder files before creating the document?",
-      a: "Yes. You can drag and drop files to change their order before generating the final document.",
+      id: "privacy",
+      q: "Are my JPG images uploaded to a server?",
+      a: "The conversion is performed directly in your browser. The selected images do not need to be sent to a remote conversion server for the PDF generation process.",
     },
     {
-      q: "Can I choose page size and orientation?",
-      a: "Yes. You can select page size, orientation, and margin settings to control how the output looks.",
+      id: "reorder",
+      q: "Can I reorder JPG images before converting them to PDF?",
+      a: "Yes. You can drag and drop the images to change their order before generating the PDF.",
     },
     {
-      q: "Does this tool work on mobile devices?",
-      a: "Yes. The interface is fully responsive and works on mobile, tablet, laptop, and desktop screens.",
+      id: "page-size",
+      q: "Can I choose the PDF page size?",
+      a: "Yes. You can select from the page sizes supported by the converter, including common document sizes such as A4 when available.",
     },
     {
-      q: "Do I need to sign up to use this tool?",
-      a: "No. You can use the converter directly without creating an account.",
+      id: "orientation",
+      q: "Can I choose portrait or landscape orientation?",
+      a: "Yes. You can select portrait or landscape orientation to better match the shape and purpose of your images.",
     },
     {
-      q: "Can I preview the document before downloading?",
-      a: "Yes. You can preview the output first and then download it once you are satisfied with the result.",
+      id: "margins",
+      q: "Can I change the PDF margins?",
+      a: "Yes. Supported margin settings let you control the spacing between the image and the edges of the PDF page.",
     },
     {
-      q: "Will the image quality be reduced?",
-      a: "The tool is designed to preserve image quality as much as possible while fitting files cleanly into the selected document layout.",
+      id: "quality",
+      q: "Will converting JPG to PDF reduce image quality?",
+      a: "The final appearance depends on the original image resolution and the selected PDF layout. The converter places the images into the PDF according to your chosen page settings.",
     },
     {
-      q: "Can I convert photos from my phone into a document?",
-      a: "Yes. You can upload JPG or JPEG images stored on your phone and convert them directly from your mobile browser.",
+      id: "mobile",
+      q: "Can I convert JPG to PDF on my phone?",
+      a: "Yes. The responsive interface works on modern mobile browsers, so you can select JPG or JPEG images stored on your phone and create a PDF.",
     },
     {
-      q: "Can I create one file per page?",
-      a: "Yes. Files are placed into the document according to your selected layout and page settings, allowing each image to appear neatly on its own page when appropriate.",
+      id: "one-page",
+      q: "Can I put each JPG image on a separate PDF page?",
+      a: "Yes. The converter can place images into the PDF according to its supported page and layout settings, including workflows where each image appears on its own page.",
     },
     {
-      q: "Is there a limit to the number of JPG or JPEG files I can convert?",
-      a: "The practical limit depends on your browser and available device memory. Most modern devices can comfortably convert multiple JPG and JPEG files into a single document.",
+      id: "file-limit",
+      q: "Is there a limit to how many JPG files I can convert?",
+      a: "The practical limit depends on your browser, device memory, image dimensions, and the total size of the selected files. Large image collections may require more available device memory.",
     },
   ];
 
   const howToSteps = [
     {
-      title: "Upload Your Files",
-      desc: "Add one or more JPG or JPEG files using drag and drop or the file picker.",
+      id: "upload",
+      title: "Upload JPG or JPEG Images",
+      desc: "Select one or more JPG or JPEG files using the file picker or drag-and-drop area.",
       icon: "📤",
     },
     {
-      title: "Reorder Files",
-      desc: "Arrange the files in the exact order you want them to appear in the document.",
+      id: "reorder",
+      title: "Arrange the Images",
+      desc: "Drag and drop your images into the exact order you want them to appear in the PDF.",
       icon: "↕️",
     },
     {
-      title: "Choose Document Settings",
-      desc: "Select page size, orientation, and margin to control the final layout.",
+      id: "settings",
+      title: "Choose PDF Settings",
+      desc: "Select the available page size, orientation, and margin options for your PDF layout.",
       icon: "⚙️",
     },
     {
+      id: "preview",
       title: "Generate and Preview",
-      desc: "Create the document instantly and review the output before downloading.",
+      desc: "Create the PDF and review the result before saving it to your device.",
       icon: "👁️",
     },
     {
-      title: "Download Securely",
-      desc: "Save the final file to your device. Processing stays local for privacy and speed.",
+      id: "download",
+      title: "Download the PDF",
+      desc: "Save the finished PDF directly to your device after checking the final result.",
       icon: "⬇️",
     },
   ];
 
   const coreFeatures = [
     {
-      title: "JPG and JPEG Conversion",
-      desc: "Convert JPG and JPEG files into a clean document online.",
+      id: "jpg-jpeg",
+      title: "JPG and JPEG to PDF",
+      desc: "Convert common JPG and JPEG image files into PDF documents directly in your browser.",
       icon: "🖼️",
     },
     {
-      title: "Multiple File Support",
-      desc: "Combine several JPG and JPEG files into one document in a chosen order.",
+      id: "multiple",
+      title: "Multiple Image Support",
+      desc: "Combine multiple JPG or JPEG images into a single PDF instead of creating separate files.",
       icon: "📚",
     },
     {
-      title: "Drag and Drop Reordering",
-      desc: "Move files into the correct sequence before export.",
+      id: "reordering",
+      title: "Drag-and-Drop Reordering",
+      desc: "Arrange images in the correct sequence before generating the final PDF.",
       icon: "🖱️",
     },
     {
-      title: "Page Size Controls",
-      desc: "Select A4, Letter, or other supported page sizes.",
+      id: "page-size",
+      title: "Page Size Options",
+      desc: "Choose from the page sizes supported by the converter for a better document layout.",
       icon: "📄",
     },
     {
-      title: "Orientation Controls",
-      desc: "Switch between portrait and landscape layouts.",
-      icon: "🔁",
+      id: "orientation",
+      title: "Portrait or Landscape",
+      desc: "Choose an orientation that fits documents, screenshots, scans, and landscape photos.",
+      icon: "🔄",
     },
     {
-      title: "Margin Settings",
-      desc: "Adjust margins for a tighter or more spacious layout.",
+      id: "margins",
+      title: "Margin Controls",
+      desc: "Adjust supported margins to control the spacing around images on each PDF page.",
       icon: "📏",
     },
     {
-      title: "Local Browser Processing",
-      desc: "Generate files directly in the browser without uploading anything.",
+      id: "local",
+      title: "Browser-Based Processing",
+      desc: "PDF generation takes place directly in your browser without requiring a remote conversion upload.",
       icon: "🔒",
     },
     {
-      title: "Preview and Download",
-      desc: "Review the output before saving it to your device.",
+      id: "preview",
+      title: "Preview Before Download",
+      desc: "Review the generated PDF before saving the final file to your device.",
       icon: "✅",
     },
   ];
 
   const audiences = [
     {
-      title: "Designers",
-      desc: "Convert JPG and JPEG assets into printable documents.",
-      icon: "🎨",
-    },
-    {
+      id: "students",
       title: "Students",
-      desc: "Turn study images, notes, or screenshots into one document.",
+      desc: "Combine assignment photos, handwritten notes, screenshots, or scanned pages into one PDF.",
       icon: "🎓",
     },
     {
-      title: "Office Users",
-      desc: "Combine image files into a professional document for sharing.",
+      id: "office",
+      title: "Office and Business Users",
+      desc: "Turn receipts, invoices, scanned documents, and image attachments into organized PDF files.",
       icon: "💼",
     },
     {
-      title: "Content Creators",
-      desc: "Package image exports into a neat document archive.",
-      icon: "🧩",
+      id: "photographers",
+      title: "Photographers and Designers",
+      desc: "Package selected JPG images into a convenient PDF for review, printing, or sharing.",
+      icon: "🎨",
     },
     {
+      id: "mobile",
       title: "Mobile Users",
-      desc: "Use a fast responsive tool directly on phones and tablets.",
+      desc: "Convert photos stored on your phone without needing a separate desktop application.",
       icon: "📱",
     },
     {
-      title: "Privacy-Focused Users",
-      desc: "Keep conversion local and avoid server uploads.",
+      id: "personal",
+      title: "Everyday Users",
+      desc: "Combine screenshots, travel documents, receipts, forms, and other images into one PDF.",
+      icon: "📁",
+    },
+    {
+      id: "privacy",
+      title: "Privacy-Conscious Users",
+      desc: "Use browser-based processing when you prefer your selected images to stay on your device.",
       icon: "🛡️",
     },
   ];
 
   const relatedTools = [
-    { name: "PDF Merger", href: "/tools/pdf/merge-pdf" },
-    { name: "PDF Splitter", href: "/tools/pdf/split-pdf" },
-    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf" },
-    { name: "PDF Compressor", href: "/tools/pdf/compress-pdf" },
-    { name: "Image to PDF Converter", href: "/tools/image/image-to-pdf" }
+    {
+      id: "image-to-pdf",
+      name: "Image to PDF Converter",
+      href: "/tools/image/image-to-pdf",
+      desc: "Convert supported image formats into PDF documents.",
+    },
+    {
+      id: "webp-to-pdf",
+      name: "WebP to PDF",
+      href: "/tools/image/webp-to-pdf",
+      desc: "Convert WebP images into PDF files.",
+    },
+    {
+      id: "merge-pdf",
+      name: "PDF Merger",
+      href: "/tools/pdf/merge-pdf",
+      desc: "Combine multiple PDF files into one document.",
+    },
+    {
+      id: "split-pdf",
+      name: "PDF Splitter",
+      href: "/tools/pdf/split-pdf",
+      desc: "Split an existing PDF into separate files or pages.",
+    },
+    {
+      id: "compress-pdf",
+      name: "PDF Compressor",
+      href: "/tools/pdf/compress-pdf",
+      desc: "Reduce PDF file size for easier storage and sharing.",
+    },
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4 p-4 text-white sm:space-y-5 sm:p-5 lg:space-y-6 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-5 p-4 text-white sm:space-y-6 sm:p-5 lg:space-y-7 lg:p-6">
+      {/* Introduction */}
       <section aria-labelledby="intro-heading">
         <div className="flex gap-3">
-          <span className="text-2xl">🪄</span>
-        <h2
-          id="intro-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          
-          JPG and JPEG Converter – Convert JPG & JPEG Files Online for Free
-        </h2>
+          <span aria-hidden="true" className="text-2xl">
+            🪄
+          </span>
+
+          <h2
+            id="intro-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            JPG to PDF Converter – Convert JPG & JPEG Images to PDF Online
+          </h2>
         </div>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/65 sm:text-base">
-          Convert JPG and JPEG files online using a browser-based tool that processes files on your device. Built for speed, flexibility, and ease of use.
-          Upload multiple files, reorder them, choose page size and orientation,
-          adjust margins, and generate a clean document without uploading files to a
-          server.
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          Convert JPG and JPEG images to PDF online with a fast, browser-based
+          JPG to PDF converter. Add multiple images, arrange them in the order
+          you want, choose supported page settings, preview the result, and
+          download the finished PDF.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          This tool is designed for users who want a fast JPG and JPEG converter
-          with advanced controls and a simple workflow. Whether you are preparing
-          documents, creating archives, or combining image files into one shareable
-          document, the experience stays responsive, secure, and easy to use on desktop
-          and mobile devices.
+          The tool is designed for common tasks such as combining scanned
+          pages, screenshots, receipts, assignments, forms, and photos into a
+          single PDF. The responsive interface works across desktop, tablet,
+          and mobile browsers.
         </p>
       </section>
 
+      {/* What is JPG to PDF */}
       <section aria-labelledby="what-is-heading">
         <div className="flex gap-3">
-          📘 
-        <h2
-          id="what-is-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          What Is a JPG and JPEG Converter?
-        </h2>
+          <span aria-hidden="true" className="text-2xl">
+            📘
+          </span>
+
+          <h2
+            id="what-is-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            What Is a JPG to PDF Converter?
+          </h2>
         </div>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          A JPG and JPEG converter is an online tool that transforms one or more
-          JPG or JPEG files into a document. It is useful when you want to store
-          images in a more shareable, printable, or organized format.
+          A JPG to PDF converter turns one or more JPG or JPEG image files into
+          a PDF document. This is useful when images need to be grouped into a
+          single file that is easier to print, share, archive, or submit.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          With this converter, you can control how the final output looks by choosing
-          layout options such as page size, orientation, and margin. That makes it
-          more than a simple file converter and turns it into a practical
-          JPG and JPEG workspace.
+          Instead of converting each image separately, you can add multiple
+          files, arrange their order, and create one PDF with the page settings
+          supported by the converter.
         </p>
       </section>
 
+      {/* Supported formats */}
       <section
         aria-labelledby="formats-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
@@ -226,10 +294,10 @@ export default function JpgToPdfSeoContent() {
           id="formats-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Supported File Formats
+          Supported Image Formats
         </h2>
 
-        <div className="grid gap-4 sm:grid-cols-1">
+        <div className="grid gap-4 sm:grid-cols-2">
           <div className="rounded-xl border border-white/10 p-5">
             <h3 className="mb-3 font-semibold text-white">
               Supported Input Formats
@@ -241,37 +309,53 @@ export default function JpgToPdfSeoContent() {
             </ul>
           </div>
 
-          <p className="mb-5 text-sm leading-relaxed text-white/65 sm:text-base">
-            The converter accepts the most common JPEG image formats used on phones,
-            cameras, screenshots, and graphic design software, then combines them
-            into a standard document that can be viewed, printed, or shared
-            almost anywhere.
-          </p>
+          <div className="rounded-xl border border-white/10 p-5">
+            <h3 className="mb-3 font-semibold text-white">
+              Output Format
+            </h3>
+
+            <p className="text-sm leading-relaxed text-white/70">
+              The converter generates a PDF containing the selected JPG or
+              JPEG images according to the chosen page and layout settings.
+            </p>
+          </div>
         </div>
       </section>
 
+      {/* Features */}
       <section aria-labelledby="features-heading">
         <div className="flex gap-3">
-          ✨ 
-        <h2
-          id="features-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Key Features of the JPG and JPEG Tool
-        </h2>
+          <span aria-hidden="true" className="text-2xl">
+            ✨
+          </span>
+
+          <h2
+            id="features-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            JPG to PDF Converter Features
+          </h2>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {coreFeatures.map((item, i) => (
+          {coreFeatures.map((item) => (
             <div
-              key={i}
+              key={item.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  aria-hidden="true"
+                  className="flex-shrink-0 text-2xl"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
                   <h3 className="mb-1 text-sm font-semibold text-white">
                     {item.title}
                   </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {item.desc}
                   </p>
@@ -282,31 +366,47 @@ export default function JpgToPdfSeoContent() {
         </div>
       </section>
 
+      {/* How to */}
       <section aria-labelledby="workflow-heading">
         <div className="flex gap-3">
-          🪜 
-        <h2
-          id="workflow-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          How to Use the JPG and JPEG Converter
-        </h2>
+          <span aria-hidden="true" className="text-2xl">
+            🪜
+          </span>
+
+          <h2
+            id="workflow-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            How to Convert JPG to PDF
+          </h2>
         </div>
+
         <div className="grid gap-4 md:grid-cols-2">
-          {howToSteps.map((step, i) => (
+          {howToSteps.map((step, index) => (
             <div
-              key={i}
+              key={step.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black shadow-lg">
-                  {i + 1}
+                <span
+                  aria-hidden="true"
+                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black shadow-lg"
+                >
+                  {index + 1}
                 </span>
-                <span className="flex-shrink-0 text-2xl">{step.icon}</span>
+
+                <span
+                  aria-hidden="true"
+                  className="flex-shrink-0 text-2xl"
+                >
+                  {step.icon}
+                </span>
+
                 <div className="flex-1">
-                  <p className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-white">
                     {step.title}
-                  </p>
+                  </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {step.desc}
                   </p>
@@ -317,28 +417,66 @@ export default function JpgToPdfSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="audience-heading">
-        <div className="flex gap-3">
-          👥 
+      {/* Use cases */}
+      <section aria-labelledby="usecases-heading">
         <h2
-          id="audience-heading"
+          id="usecases-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Who Should Use This Tool?
+          Common Uses for JPG to PDF Conversion
         </h2>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+            <li>• Combine scanned document pages into one PDF.</li>
+            <li>• Turn screenshots into a shareable PDF.</li>
+            <li>• Combine assignment or study images for submission.</li>
+            <li>• Organize receipts, invoices, and expense images.</li>
+          </ul>
+
+          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+            <li>• Create a PDF from travel or identity document images.</li>
+            <li>• Package multiple photos into a printable document.</li>
+            <li>• Send several images as one PDF attachment.</li>
+            <li>• Create simple image-based portfolios or archives.</li>
+          </ul>
         </div>
+      </section>
+
+      {/* Audience */}
+      <section aria-labelledby="audience-heading">
+        <div className="flex gap-3">
+          <span aria-hidden="true" className="text-2xl">
+            👥
+          </span>
+
+          <h2
+            id="audience-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Who Can Use a JPG to PDF Converter?
+          </h2>
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((item, i) => (
+          {audiences.map((item) => (
             <div
-              key={i}
+              key={item.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  aria-hidden="true"
+                  className="flex-shrink-0 text-2xl"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
                   <h3 className="mb-1 text-sm font-semibold text-white">
                     {item.title}
                   </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {item.desc}
                   </p>
@@ -349,208 +487,234 @@ export default function JpgToPdfSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="usecases-heading">
-        <h2
-          id="usecases-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Common Ways People Use a JPG and JPEG Converter
-        </h2>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <ul className="space-y-3 text-sm text-white/70">
-            <li>• Combine scanned documents into one file.</li>
-            <li>• Convert screenshots into a shareable document.</li>
-            <li>• Merge assignment photos for online submission.</li>
-            <li>• Archive receipts and invoices.</li>
-          </ul>
-
-          <ul className="space-y-3 text-sm text-white/70">
-            <li>• Store passport and ID copies.</li>
-            <li>• Create printable photo documents.</li>
-            <li>• Send multiple images as one attachment.</li>
-            <li>• Organize product or portfolio images.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section aria-labelledby="why-use-heading">
-        <h2
-          id="why-use-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Why Use This JPG and JPEG Converter Online?
-        </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Whether you're creating a document from scanned pages, combining travel
-          receipts, preparing school assignments, or sharing multiple images with
-          colleagues, this tool lets you generate a professional file in just a few
-          steps. Built-in controls for page size, orientation, margins, and image
-          order help produce cleaner documents without requiring additional software.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          The local-only workflow makes it a strong choice for users who need a
-          private document workspace. It is also optimized for responsive use, so
-          it works well across laptops, tablets, and mobile screens.
-        </p>
-      </section>
-
-      <section aria-labelledby="how-it-works-heading">
-        <h2
-          id="how-it-works-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          How the Conversion Process Works
-        </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          When you upload JPG or JPEG files, the tool reads them directly in your browser and
-          prepares them for document generation. You can then reorder the files, choose
-          output settings, and export the final file in a few clicks.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          The result is a smooth conversion flow that feels fast and predictable.
-          Because the workflow stays local, it is better suited for
-          privacy-conscious users and frequent document tasks.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Each selected image becomes part of the output in the order you choose.
-          Depending on your settings, images are scaled to fit the selected page
-          size while maintaining a clean and readable layout.
-        </p>
-      </section>
-
+      {/* Page settings */}
       <section aria-labelledby="settings-heading">
         <h2
           id="settings-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Customize Page Size, Orientation & Margins
+          Customize PDF Page Size, Orientation and Margins
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Page size, orientation, and margin settings help you control how the file
-          appears after conversion. A4 is ideal for standard documents, while
-          Letter can be useful for office-style layouts.
+          Page settings help you control how your JPG images are positioned
+          inside the generated PDF. Choose from the page sizes supported by
+          the converter, then select portrait or landscape orientation based
+          on the shape of your images.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Orientation and margins also matter when images need to be displayed
-          cleanly on the page. With these settings, you can create a file that feels
-          polished instead of compressed or awkwardly spaced.
+          Margin controls can add more space around an image or allow the
+          image to use more of the available page area. The final appearance
+          depends on the original image dimensions and the selected PDF
+          settings.
         </p>
       </section>
 
+      {/* Why convert */}
+      <section aria-labelledby="why-convert-heading">
+        <h2
+          id="why-convert-heading"
+          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+        >
+          Why Convert JPG Images to PDF?
+        </h2>
+
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          JPG images are convenient for storing and sharing individual
+          pictures, but multiple images can be difficult to organize as
+          separate attachments. Converting them to one PDF keeps related
+          images together in a single document.
+        </p>
+
+        <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/70">
+          <li>• Keep multiple images together in one file.</li>
+          <li>• Make image collections easier to print and share.</li>
+          <li>• Organize scanned pages and document images.</li>
+          <li>• Create a single attachment from several JPG files.</li>
+          <li>• Keep images in a defined page order.</li>
+        </ul>
+      </section>
+
+      {/* Tips */}
       <section aria-labelledby="tips-heading">
         <h2
           id="tips-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Tips for Better Results
+          Tips for Better JPG to PDF Results
         </h2>
 
         <ul className="space-y-3 text-sm leading-relaxed text-white/70">
-          <li>• Arrange files before generating the output.</li>
-          <li>• Use portrait orientation for documents.</li>
-          <li>• Choose landscape for wide photos.</li>
-          <li>• Reduce margins if you want larger images.</li>
-          <li>• Use high-resolution JPG or JPEG files for the best print quality.</li>
+          <li>
+            • Arrange the images before generating the PDF so the page order is
+            correct.
+          </li>
+          <li>
+            • Use portrait orientation for document-style pages when it fits
+            the source images.
+          </li>
+          <li>
+            • Use landscape orientation for wide photographs and screenshots.
+          </li>
+          <li>
+            • Choose appropriate margins when you need more or less space
+            around the images.
+          </li>
+          <li>
+            • Start with clear, sufficiently high-resolution JPG images when
+            print quality matters.
+          </li>
+          <li>
+            • For large image collections, keep an eye on available browser
+            memory and device resources.
+          </li>
         </ul>
       </section>
 
-      <section aria-labelledby="why-pdf-heading">
+      {/* How processing works */}
+      <section aria-labelledby="how-it-works-heading">
         <h2
-          id="why-pdf-heading"
+          id="how-it-works-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Why Convert JPG and JPEG Files into a Document?
+          How JPG to PDF Conversion Works
         </h2>
 
-        <ul className="space-y-3 text-sm leading-relaxed text-white/70">
-          <li>• Keep multiple images together in a single file.</li>
-          <li>• Make files easier to email and share.</li>
-          <li>• Print documents with consistent page layouts.</li>
-          <li>• Organize photos, receipts, notes, or scanned pages.</li>
-          <li>• Create professional documents from image collections.</li>
-        </ul>
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          When you select JPG or JPEG images, the converter reads the selected
+          files in your browser and prepares them for PDF generation. You can
+          then arrange the images and choose the available page settings
+          before creating the final document.
+        </p>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+          Each selected image is added to the generated PDF according to its
+          position in your image list and the selected layout settings. The
+          images are fitted to the available PDF page area based on the
+          converter's supported sizing behavior.
+        </p>
       </section>
 
-      <section aria-labelledby="privacy-heading">
+      {/* Privacy */}
+      <section
+        aria-labelledby="privacy-heading"
+        className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
+      >
         <h2
           id="privacy-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Privacy and Security
+          Privacy and Browser-Based Processing
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          All conversion happens in your browser, which means your uploaded files
-          remain local during processing. This is important for users handling
-          personal images, internal documents, or private content.
+          JPG to PDF conversion is performed directly in your browser. The
+          selected images do not need to be sent to a remote conversion server
+          for the PDF generation process.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Because everything is processed on your device, there is no need to create an account or wait for server-side processing.
-          The result is a faster and more private file conversion experience.
+          This browser-based workflow can be useful when working with personal
+          photos, receipts, scanned documents, screenshots, or other files
+          that you prefer to process locally on your device.
+        </p>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+          You can use the converter without creating an account or installing
+          additional desktop conversion software.
         </p>
       </section>
 
-      <section aria-labelledby="benefits-heading">
+      {/* Mobile */}
+      <section aria-labelledby="mobile-heading">
         <h2
-          id="benefits-heading"
+          id="mobile-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Benefits of Converting JPG and JPEG Files
+          Convert JPG to PDF on Mobile
         </h2>
-        <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-          <li>Convert JPG and JPEG files into a single document quickly.</li>
-          <li>Keep file processing local for better privacy.</li>
-          <li>Reorder images before creating the final file.</li>
-          <li>Control layout with page size, orientation, and margins.</li>
-          <li>Use the tool comfortably on mobile and desktop devices.</li>
-        </ul>
+
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          You can use the converter from a modern mobile browser to turn photos
+          stored on your phone into PDF documents. This is useful for quickly
+          combining receipts, scanned pages, screenshots, assignments, forms,
+          or other JPG images without moving them to a computer first.
+        </p>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+          The responsive interface is designed to work across phones, tablets,
+          laptops, and desktop screens.
+        </p>
       </section>
 
+      {/* FAQ */}
       <section aria-labelledby="faq-heading">
         <h2
           id="faq-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Frequently Asked Questions
+          Frequently Asked Questions About JPG to PDF Conversion
         </h2>
+
         <div className="space-y-4">
-          {faqItems.map((item, i) => (
+          {faqItems.map((item) => (
             <details
-              key={i}
+              key={item.id}
               className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                <span className="text-sm font-semibold text-white">{item.q}</span>
-                <span className="text-lg text-blue-400">+</span>
+                <span className="text-sm font-semibold text-white">
+                  {item.q}
+                </span>
+
+                <span
+                  aria-hidden="true"
+                  className="text-lg text-blue-400 transition-transform duration-200 group-open:rotate-45"
+                >
+                  +
+                </span>
               </summary>
-              <div className="border-t border-dashed border-white/10 p-5 pt-0">
-                <p className="text-xs leading-relaxed text-white/60">{item.a}</p>
+
+              <div className="border-t border-dashed border-white/10 p-5 pt-4">
+                <p className="text-xs leading-relaxed text-white/60 sm:text-sm">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
+      {/* Related tools */}
       <section aria-labelledby="related-tools-heading">
         <h2
           id="related-tools-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Related Tools
+          Related PDF and Image Tools
         </h2>
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.id}
               href={tool.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
+              className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
-              {tool.name}
-            </a>
+              <span className="block text-sm font-semibold text-white group-hover:text-blue-300">
+                {tool.name}
+              </span>
+
+              <span className="mt-1 block text-xs leading-relaxed text-white/55">
+                {tool.desc}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
 
+      {/* Conclusion */}
       <section
         aria-labelledby="conclusion-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
@@ -559,20 +723,21 @@ export default function JpgToPdfSeoContent() {
           id="conclusion-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Conclusion
+          JPG to PDF Converter
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          The JPG and JPEG Converter makes it easy to convert JPG and JPEG files
-          into a single document directly in your browser. Whether you're preparing
-          scanned documents, combining screenshots, organizing receipts, or creating
-          printable files, the tool offers flexible page settings, image reordering,
-          and instant output generation without requiring uploads to external servers.
+          A JPG to PDF converter provides a simple way to combine JPG and JPEG
+          images into a single, organized PDF. You can upload multiple images,
+          arrange their order, select supported page settings, preview the
+          result, and download the finished document.
         </p>
 
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          With support for multiple files, customizable layouts, responsive design,
-          and local browser processing, it provides a fast and privacy-focused way to
-          create professional documents on desktop, tablet, and mobile devices.
+          Whether you are preparing scanned documents, combining screenshots,
+          organizing receipts, creating assignments, or packaging photos,
+          browser-based JPG to PDF conversion provides a convenient workflow
+          across desktop and mobile devices.
         </p>
       </section>
     </div>

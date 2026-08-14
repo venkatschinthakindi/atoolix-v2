@@ -1,219 +1,277 @@
+import Link from "next/link";
+
 export default function WebpToPdfSeoContent() {
   const faqItems = [
     {
       q: "How do I convert WebP files to PDF online?",
-      a: "Upload one or more WebP images, reorder them if needed, choose your PDF settings such as page size, orientation, and margin, then generate and download the PDF instantly in your browser.",
+      a: "Upload one or more WebP images, reorder them if needed, choose your PDF settings such as page size, orientation, and margins, then generate and download the PDF directly in your browser.",
     },
     {
       q: "Can I convert multiple WebP images into one PDF?",
-      a: "Yes. You can upload multiple WebP files and combine them into a single PDF document in the exact order you want.",
+      a: "Yes. You can add multiple WebP files and combine them into a single PDF document in the order you choose.",
     },
     {
       q: "Is this WebP to PDF converter private?",
-      a: "Yes. Your files remain on your device during conversion and are not uploaded to a server.",
+      a: "Yes. The conversion is performed in your browser, so the selected WebP files remain on your device during processing and are not uploaded to a remote conversion server.",
     },
     {
       q: "What image formats are supported?",
-      a: "The tool supports WebP files, along with other browser-supported image types allowed in your configuration.",
+      a: "This converter is designed for WebP input. Other image formats are supported only if they are enabled by the tool configuration.",
     },
     {
-      q: "Can I reorder images before creating the PDF?",
-      a: "Yes. You can drag and drop images to change their order before generating the final PDF.",
+      q: "Can I reorder WebP images before creating the PDF?",
+      a: "Yes. You can drag and drop the images to arrange them in the order you want before generating the PDF.",
     },
     {
-      q: "Can I choose page size and orientation?",
-      a: "Yes. You can select page size, orientation, and margin settings to control how the PDF output looks.",
+      q: "Can I choose the PDF page size and orientation?",
+      a: "Yes. You can choose from the page sizes and orientation options available in the converter, along with supported margin settings.",
     },
     {
-      q: "Does this tool work on mobile devices?",
-      a: "Yes. The interface is fully responsive and works on mobile, tablet, laptop, and desktop screens.",
+      q: "Does the WebP to PDF converter work on mobile devices?",
+      a: "Yes. The responsive interface is designed to work on phones, tablets, laptops, and desktop computers.",
     },
     {
-      q: "Do I need to sign up to use this tool?",
-      a: "No. You can use the converter directly without creating an account.",
+      q: "Do I need to create an account?",
+      a: "No. You can use the converter without creating an account or signing in.",
     },
     {
-      q: "Can I preview the PDF before downloading?",
-      a: "Yes. You can preview the PDF first and then download it once you are satisfied with the output.",
+      q: "Can I preview the PDF before downloading it?",
+      a: "Yes, when PDF preview is available in the converter, you can review the generated document before saving it to your device.",
     },
     {
-      q: "Will the image quality be reduced?",
-      a: "The tool is designed to preserve image quality as much as possible while fitting images cleanly into the selected PDF page layout.",
+      q: "Will converting WebP to PDF reduce image quality?",
+      a: "The converter is designed to place WebP images cleanly within the selected PDF layout. The final appearance can depend on the original image resolution and the selected page settings.",
     },
     {
-      q: "Can I convert WebP files from my phone into a PDF?",
-      a: "Yes. You can upload WebP images stored on your phone and convert them into a PDF directly from your mobile browser.",
+      q: "Can I convert WebP images from my phone to PDF?",
+      a: "Yes. You can select WebP images stored on your phone and create a PDF directly from a supported mobile browser.",
     },
     {
-      q: "Can I create one PDF with one WebP per page?",
-      a: "Yes. Images are placed into the PDF according to your selected layout and page settings, allowing each image to appear neatly on its own page when appropriate.",
+      q: "Can I put one WebP image on each PDF page?",
+      a: "Yes. Images are added to the PDF according to the selected page and layout settings, allowing each image to appear on its own page when the configured layout supports that arrangement.",
     },
     {
       q: "Is there a limit to the number of WebP files I can convert?",
-      a: "The practical limit depends on your browser and available device memory. Most modern devices can comfortably convert multiple WebP files into a single PDF.",
+      a: "The practical limit depends on your browser, device memory, image dimensions, and the total size of the selected files. Large image collections may require more device resources.",
     },
   ];
 
   const howToSteps = [
     {
+      id: "upload",
       title: "Upload Your WebP Files",
       desc: "Add one or more WebP images using drag and drop or the file picker.",
       icon: "📤",
     },
     {
-      title: "Reorder Files",
-      desc: "Arrange the images in the exact order you want them to appear in the PDF.",
+      id: "reorder",
+      title: "Reorder Your Images",
+      desc: "Arrange the WebP files in the exact order you want them to appear in the PDF.",
       icon: "↕️",
     },
     {
+      id: "settings",
       title: "Choose PDF Settings",
-      desc: "Select page size, orientation, and margin to control the final document layout.",
+      desc: "Select the available page size, orientation, and margin options for the document.",
       icon: "⚙️",
     },
     {
+      id: "preview",
       title: "Generate and Preview",
-      desc: "Create the PDF instantly and review the output before downloading.",
+      desc: "Create the PDF and review the result before downloading it when preview is available.",
       icon: "👁️",
     },
     {
-      title: "Download Securely",
-      desc: "Save the final PDF to your device. Processing stays local for privacy and speed.",
+      id: "download",
+      title: "Download the PDF",
+      desc: "Save the generated PDF directly to your device after the conversion is complete.",
       icon: "⬇️",
     },
   ];
 
   const coreFeatures = [
     {
+      id: "webp-conversion",
       title: "WebP to PDF Conversion",
-      desc: "Convert WebP images into a clean PDF document online.",
+      desc: "Convert WebP images into a PDF document directly in your browser.",
       icon: "🖼️",
     },
     {
-      title: "Multiple WebP Support",
-      desc: "Combine several WebP files into one PDF in a chosen order.",
+      id: "multiple-webp",
+      title: "Multiple WebP Files",
+      desc: "Combine multiple WebP images into a single PDF in your chosen order.",
       icon: "📚",
     },
     {
+      id: "reordering",
       title: "Drag and Drop Reordering",
-      desc: "Move images into the correct sequence before export.",
+      desc: "Arrange images into the correct sequence before creating the PDF.",
       icon: "🖱️",
     },
     {
+      id: "page-size",
       title: "Page Size Controls",
-      desc: "Select A4, Letter, or other supported page sizes.",
+      desc: "Choose from the page sizes supported by the converter, such as A4 or Letter when available.",
       icon: "📄",
     },
     {
+      id: "orientation",
       title: "Orientation Controls",
-      desc: "Switch between portrait and landscape layouts.",
+      desc: "Use portrait or landscape orientation when supported by the selected PDF settings.",
       icon: "🔁",
     },
     {
+      id: "margins",
       title: "Margin Settings",
-      desc: "Adjust margins for a tighter or more spacious PDF layout.",
+      desc: "Adjust supported margins to control the spacing around images on the PDF page.",
       icon: "📏",
     },
     {
+      id: "local-processing",
       title: "Local Browser Processing",
-      desc: "Generate PDFs directly in the browser without uploading files.",
+      desc: "Generate the PDF in your browser without uploading the selected WebP files.",
       icon: "🔒",
     },
     {
+      id: "preview-download",
       title: "Preview and Download",
-      desc: "Review the PDF output before saving it to your device.",
+      desc: "Review the generated document and save the PDF to your device.",
       icon: "✅",
     },
   ];
 
   const audiences = [
     {
+      id: "designers",
       title: "Designers",
-      desc: "Convert WebP mockups and design assets into printable PDFs.",
+      desc: "Turn WebP mockups, graphics, and design assets into shareable PDF documents.",
       icon: "🎨",
     },
     {
+      id: "students",
       title: "Students",
-      desc: "Turn study images, notes, or screenshots into one document.",
+      desc: "Combine screenshots, diagrams, notes, or study images into one document.",
       icon: "🎓",
     },
     {
+      id: "office-users",
       title: "Office Users",
-      desc: "Combine WebP files into a professional PDF for sharing.",
+      desc: "Combine WebP images into a PDF that is easier to share, print, or archive.",
       icon: "💼",
     },
     {
+      id: "content-creators",
       title: "Content Creators",
-      desc: "Package WebP exports into a neat PDF archive.",
+      desc: "Package WebP graphics and digital assets into an organized PDF.",
       icon: "🧩",
     },
     {
+      id: "mobile-users",
       title: "Mobile Users",
-      desc: "Use a fast responsive tool directly on phones and tablets.",
+      desc: "Convert WebP images directly from a phone or tablet using a responsive browser tool.",
       icon: "📱",
     },
     {
+      id: "privacy-users",
       title: "Privacy-Focused Users",
-      desc: "Keep WebP conversion local and avoid server uploads.",
+      desc: "Process WebP files locally when you want to avoid uploading images to a conversion server.",
       icon: "🛡️",
     },
   ];
 
   const relatedTools = [
-    { name: "PDF Merger", href: "/tools/pdf/merge-pdf" },
-    { name: "PDF Splitter", href: "/tools/pdf/split-pdf" },
-    { name: "PDF Compressor", href: "/tools/pdf/compress-pdf" },
-    { name: "Image to PDF", href: "/tools/image/image-to-pdf" }
+    {
+      name: "Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      desc: "Convert supported image files into PDF documents.",
+    },
+    {
+      name: "JPG to PDF",
+      href: "/tools/image/jpg-to-pdf",
+      desc: "Convert JPG and JPEG images into PDF files.",
+    },
+    {
+      name: "PDF Merger",
+      href: "/tools/pdf/merge-pdf",
+      desc: "Combine multiple PDF files into one document.",
+    },
+    {
+      name: "PDF Splitter",
+      href: "/tools/pdf/split-pdf",
+      desc: "Split PDF documents into smaller files or selected pages.",
+    },
+    {
+      name: "PDF Compressor",
+      href: "/tools/pdf/compress-pdf",
+      desc: "Reduce PDF file size for easier storage and sharing.",
+    },
   ];
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-4 text-white sm:space-y-5 sm:p-5 lg:space-y-6 lg:p-6">
       <section aria-labelledby="intro-heading">
         <div className="flex gap-3">
-          <span className="text-2xl">🪄</span>
-        <h2
-          id="intro-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          
-          WebP to PDF Converter – Convert WebP Files to PDF Online for Free
-        </h2>
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            🪄
+          </span>
+
+          <h2
+            id="intro-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            WebP to PDF Converter – Convert WebP Files to PDF Online for Free
+          </h2>
         </div>
 
         <p className="mt-3 text-sm leading-relaxed text-white/65 sm:text-base">
-          Convert WebP images to PDF online using a browser-based tool that processes files on your device. Built for speed, flexibility, and ease of use.
-          Upload multiple files, reorder them, choose page size and orientation,
-          adjust margins, and generate a clean PDF without uploading files to a
-          server.
+          Convert WebP images to PDF online with a browser-based tool that
+          processes files directly on your device. Upload multiple WebP files,
+          reorder them, choose available page settings, adjust supported
+          margins, and generate a PDF without uploading the selected images to a
+          remote conversion server.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          This tool is designed for users who want a fast WebP to PDF converter
-          with advanced controls and a simple workflow. Whether you are preparing
-          documents, creating archives, or combining image files into one shareable
-          PDF, the experience stays responsive, secure, and easy to use on desktop
-          and mobile devices.
+          WebP is commonly used for websites and digital graphics because it can
+          provide smaller image files while retaining good visual quality. PDF,
+          however, is often more convenient when images need to be printed,
+          submitted, archived, emailed as one attachment, or shared as a
+          multi-page document.
         </p>
       </section>
 
       <section aria-labelledby="what-is-heading">
         <div className="flex gap-3">
-          📘 
-        <h2
-          id="what-is-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          What Is a WebP to PDF Converter?
-        </h2>
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            📘
+          </span>
+
+          <h2
+            id="what-is-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            What Is a WebP to PDF Converter?
+          </h2>
         </div>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          A WebP to PDF converter is an online tool that transforms one or more
-          WebP image files into a PDF document. It is useful when you want to store
-          images in a more shareable, printable, or organized format.
+          A WebP to PDF converter transforms one or more WebP image files into
+          a PDF document. This can be useful when WebP images need to be
+          collected into a format that is easier to print, share, submit, or
+          archive.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          With this converter, you can control how the final PDF looks by choosing
-          layout options such as page size, orientation, and margin. That makes it
-          more than a simple file converter and turns it into a practical
-          WebP-to-PDF workspace.
+          Instead of converting each image separately, a multi-file workflow
+          lets you arrange several WebP images and create a single PDF in the
+          order you choose. Available page size, orientation, and margin
+          controls can then be used to adjust the document layout.
         </p>
       </section>
 
@@ -225,13 +283,13 @@ export default function WebpToPdfSeoContent() {
           id="formats-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Supported Image Formats
+          Supported Image Format
         </h2>
 
-        <div className="grid gap-4 sm:grid-cols-1">
+        <div className="grid gap-4">
           <div className="rounded-xl border border-white/10 p-5">
             <h3 className="mb-3 font-semibold text-white">
-              Supported Input Formats
+              Supported Input
             </h3>
 
             <ul className="space-y-2 text-sm text-white/70">
@@ -239,36 +297,51 @@ export default function WebpToPdfSeoContent() {
             </ul>
           </div>
 
-          <p className="mb-5 text-sm leading-relaxed text-white/65 sm:text-base">
-            The converter accepts WebP images commonly used for compressed web graphics,
-            screenshots, and digital assets, then combines them into a standard PDF
-            document that can be viewed, printed, or shared almost anywhere.
+          <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+            WebP is widely used for web graphics, screenshots, digital
+            illustrations, and other online assets. Converting these images to
+            PDF can make them easier to collect into a document for viewing,
+            printing, sharing, or archiving.
           </p>
         </div>
       </section>
 
       <section aria-labelledby="features-heading">
         <div className="flex gap-3">
-          ✨ 
-        <h2
-          id="features-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Key Features of the WebP to PDF Tool
-        </h2>
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            ✨
+          </span>
+
+          <h2
+            id="features-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Key Features of the WebP to PDF Tool
+          </h2>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {coreFeatures.map((item, i) => (
+          {coreFeatures.map((item) => (
             <div
-              key={i}
+              key={item.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
                   <h3 className="mb-1 text-sm font-semibold text-white">
                     {item.title}
                   </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {item.desc}
                   </p>
@@ -281,29 +354,47 @@ export default function WebpToPdfSeoContent() {
 
       <section aria-labelledby="workflow-heading">
         <div className="flex gap-3">
-          🪜 
-        <h2
-          id="workflow-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          How to Use the WebP to PDF Converter
-        </h2>
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            🪜
+          </span>
+
+          <h2
+            id="workflow-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            How to Use the WebP to PDF Converter
+          </h2>
         </div>
+
         <div className="grid gap-4 md:grid-cols-2">
-          {howToSteps.map((step, i) => (
+          {howToSteps.map((step, index) => (
             <div
-              key={i}
+              key={step.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black shadow-lg">
-                  {i + 1}
+                <span
+                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black shadow-lg"
+                  aria-hidden="true"
+                >
+                  {index + 1}
                 </span>
-                <span className="flex-shrink-0 text-2xl">{step.icon}</span>
+
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {step.icon}
+                </span>
+
                 <div className="flex-1">
-                  <p className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-white">
                     {step.title}
-                  </p>
+                  </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {step.desc}
                   </p>
@@ -316,26 +407,40 @@ export default function WebpToPdfSeoContent() {
 
       <section aria-labelledby="audience-heading">
         <div className="flex gap-3">
-          👥 
-        <h2
-          id="audience-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Who Should Use This Tool?
-        </h2>
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            👥
+          </span>
+
+          <h2
+            id="audience-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Who Can Use This Tool?
+          </h2>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((item, i) => (
+          {audiences.map((item) => (
             <div
-              key={i}
+              key={item.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
                   <h3 className="mb-1 text-sm font-semibold text-white">
                     {item.title}
                   </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {item.desc}
                   </p>
@@ -351,45 +456,49 @@ export default function WebpToPdfSeoContent() {
           id="usecases-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Common Ways People Use a WebP to PDF Converter
+          Common Ways to Use a WebP to PDF Converter
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
           <ul className="space-y-3 text-sm text-white/70">
-            <li>• Combine screenshots into one PDF.</li>
-            <li>• Convert design mockups into a shareable document.</li>
-            <li>• Merge assignment images for online submission.</li>
-            <li>• Archive receipts and invoices.</li>
+            <li>• Combine WebP screenshots into one PDF.</li>
+            <li>• Turn WebP design assets into a shareable document.</li>
+            <li>• Prepare image-based assignments for submission.</li>
+            <li>• Archive receipts, invoices, and other image records.</li>
           </ul>
 
           <ul className="space-y-3 text-sm text-white/70">
-            <li>• Store passport and ID copies.</li>
-            <li>• Create printable image documents.</li>
-            <li>• Send multiple WebPs as one PDF attachment.</li>
-            <li>• Organize product or portfolio images.</li>
+            <li>• Store image copies as an organized document.</li>
+            <li>• Create printable documents from WebP graphics.</li>
+            <li>• Send multiple WebP images as one PDF attachment.</li>
+            <li>• Organize product, portfolio, or project images.</li>
           </ul>
         </div>
       </section>
 
-      <section aria-labelledby="why-use-heading">
+      <section aria-labelledby="why-webp-heading">
         <h2
-          id="why-use-heading"
+          id="why-webp-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Why Use This WebP to PDF Converter Online?
+          Why Convert WebP Images to PDF?
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Whether you're creating a document from screenshots, combining travel
-          receipts, preparing school assignments, or sharing multiple WebPs with
-          colleagues, this tool lets you generate a professional PDF in just a few
-          steps. Built-in controls for page size, orientation, margins, and image
-          order help produce cleaner documents without requiring additional software.
+          WebP works well for websites and digital delivery, but PDF is often
+          a more practical format for documents, printing, submissions, and
+          multi-image sharing. Converting WebP files to PDF lets you collect
+          related images into one document instead of sending or managing
+          separate image files.
         </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          The local-only workflow makes it a strong choice for users who need a
-          private document workspace. It is also optimized for responsive use, so
-          it works well across laptops, tablets, and mobile screens.
-        </p>
+
+        <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/70">
+          <li>• Keep multiple WebP images together in one document.</li>
+          <li>• Make image collections easier to email and share.</li>
+          <li>• Prepare WebP graphics for consistent page-based printing.</li>
+          <li>• Organize screenshots, notes, receipts, or design assets.</li>
+          <li>• Create a portable document from a collection of WebP images.</li>
+        </ul>
       </section>
 
       <section aria-labelledby="how-it-works-heading">
@@ -397,22 +506,21 @@ export default function WebpToPdfSeoContent() {
           id="how-it-works-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          How the Conversion Process Works
+          How WebP to PDF Conversion Works
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          When you upload WebP files, the tool reads them directly in your browser and
-          prepares them for PDF generation. You can then reorder the files, choose
-          output settings, and export the final document in a few clicks.
+          When you select WebP files, the converter reads the images in your
+          browser and prepares them for PDF generation. You can then arrange
+          the files, choose the available output settings, and generate the
+          final document.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          The result is a smooth conversion flow that feels fast and predictable.
-          Because the workflow stays local, it is better suited for
-          privacy-conscious users and frequent document tasks.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Each selected image becomes part of the PDF in the order you choose.
-          Depending on your settings, images are scaled to fit the selected page
-          size while maintaining a clean and readable layout.
+          Each selected WebP image is added to the PDF according to the order
+          you choose. Depending on the configured page and layout settings,
+          images can be scaled to fit the selected PDF page while maintaining a
+          clean presentation.
         </p>
       </section>
 
@@ -421,17 +529,21 @@ export default function WebpToPdfSeoContent() {
           id="settings-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Customize Page Size, Orientation & Margins
+          Customize PDF Page Size, Orientation & Margins
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Page size, orientation, and margin settings help you control how the PDF
-          appears after conversion. A4 is ideal for standard documents, while
-          Letter can be useful for office-style layouts.
+          Page size, orientation, and margin controls affect how WebP images
+          are positioned within the generated PDF. A4 can be useful for
+          standard document layouts, while Letter can be useful for common
+          office-style documents when those options are available.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Orientation and margins also matter when images need to be displayed
-          cleanly on the page. With these settings, you can create a PDF that feels
-          polished instead of compressed or awkwardly spaced.
+          Portrait orientation generally works well for document-style images,
+          while landscape can be useful for wide graphics. Margins can also
+          provide more or less space around the image depending on the desired
+          layout.
         </p>
       </section>
 
@@ -440,32 +552,16 @@ export default function WebpToPdfSeoContent() {
           id="tips-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Tips for Better PDF Results
+          Tips for Better WebP to PDF Results
         </h2>
 
         <ul className="space-y-3 text-sm leading-relaxed text-white/70">
-          <li>• Arrange images before generating the PDF.</li>
-          <li>• Use portrait orientation for documents.</li>
-          <li>• Choose landscape for wide graphics.</li>
-          <li>• Reduce margins if you want larger images.</li>
-          <li>• Use high-resolution WebP files for the best print quality.</li>
-        </ul>
-      </section>
-
-      <section aria-labelledby="why-pdf-heading">
-        <h2
-          id="why-pdf-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Why Convert WebP Files into a PDF?
-        </h2>
-
-        <ul className="space-y-3 text-sm leading-relaxed text-white/70">
-          <li>• Keep multiple WebP images together in a single document.</li>
-          <li>• Make files easier to email and share.</li>
-          <li>• Print documents with consistent page layouts.</li>
-          <li>• Organize screenshots, notes, or design assets.</li>
-          <li>• Create professional documents from image collections.</li>
+          <li>• Arrange WebP images before generating the PDF.</li>
+          <li>• Use portrait orientation for document-style images.</li>
+          <li>• Choose landscape for wide graphics when appropriate.</li>
+          <li>• Adjust margins when you need more or less space around images.</li>
+          <li>• Start with sufficiently high-resolution WebP images for better print results.</li>
+          <li>• For large collections, convert smaller batches if your device has limited memory.</li>
         </ul>
       </section>
 
@@ -476,31 +572,19 @@ export default function WebpToPdfSeoContent() {
         >
           Privacy and Security
         </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          All conversion happens in your browser, which means your uploaded files
-          remain local during processing. This is important for users handling
-          personal images, internal documents, or private content.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Because everything is processed on your device, there is no need to create an account or wait for server-side processing.
-          The result is a faster and more private file conversion experience.
-        </p>
-      </section>
 
-      <section aria-labelledby="benefits-heading">
-        <h2
-          id="benefits-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Benefits of Converting WebP Files to PDF
-        </h2>
-        <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-          <li>Convert WebP images into a single PDF quickly.</li>
-          <li>Keep file processing local for better privacy.</li>
-          <li>Reorder images before creating the final document.</li>
-          <li>Control PDF layout with page size, orientation, and margins.</li>
-          <li>Use the tool comfortably on mobile and desktop devices.</li>
-        </ul>
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          The conversion is performed directly in your browser, so the WebP
+          files selected for conversion remain on your device during the
+          conversion process and are not uploaded to a remote conversion
+          server.
+        </p>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+          This local workflow can be useful when working with personal images,
+          internal documents, screenshots, design assets, or other files that
+          you do not want to send to an online file-processing service.
+        </p>
       </section>
 
       <section aria-labelledby="faq-heading">
@@ -510,18 +594,30 @@ export default function WebpToPdfSeoContent() {
         >
           Frequently Asked Questions
         </h2>
+
         <div className="space-y-4">
-          {faqItems.map((item, i) => (
+          {faqItems.map((item) => (
             <details
-              key={i}
+              key={item.q}
               className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                <span className="text-sm font-semibold text-white">{item.q}</span>
-                <span className="text-lg text-blue-400">+</span>
+                <span className="text-sm font-semibold text-white">
+                  {item.q}
+                </span>
+
+                <span
+                  className="text-lg text-blue-400 transition-transform duration-200 group-open:rotate-45"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
               </summary>
-              <div className="border-t border-dashed border-white/10 p-5 pt-0">
-                <p className="text-xs leading-relaxed text-white/60">{item.a}</p>
+
+              <div className="border-t border-dashed border-white/10 p-5 pt-4">
+                <p className="text-xs leading-relaxed text-white/60">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
@@ -535,15 +631,22 @@ export default function WebpToPdfSeoContent() {
         >
           Related Tools
         </h2>
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
               href={tool.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10"
             >
-              {tool.name}
-            </a>
+              <span className="block text-sm font-semibold text-white">
+                {tool.name}
+              </span>
+
+              <span className="mt-1 block text-xs leading-relaxed text-white/55">
+                {tool.desc}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
@@ -558,18 +661,20 @@ export default function WebpToPdfSeoContent() {
         >
           Conclusion
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          The WebP to PDF Converter makes it easy to convert WebP images into a single PDF
-          directly in your browser. Whether you're preparing screenshots, combining
-          design files, organizing receipts, or creating printable files, the tool
-          offers flexible page settings, image reordering, and instant PDF generation
-          without requiring uploads to external servers.
+          The WebP to PDF Converter provides a straightforward way to turn
+          WebP images into a single PDF directly in your browser. You can
+          combine multiple images, arrange their order, adjust available page
+          settings, and create a document that is easier to share, print, or
+          archive.
         </p>
 
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          With support for multiple WebP files, customizable layouts, responsive design,
-          and local browser processing, it provides a fast and privacy-focused way to
-          create professional PDF documents on desktop, tablet, and mobile devices.
+          With support for multiple WebP files, configurable PDF layouts,
+          responsive design, and local browser processing, the tool provides a
+          convenient option for creating PDF documents from WebP images on
+          desktop, tablet, and mobile devices.
         </p>
       </section>
     </div>

@@ -1,222 +1,272 @@
+import Link from "next/link";
+
 export default function PngToPdfSeoContent() {
   const faqItems = [
     {
       q: "How do I convert PNG files to PDF online?",
-      a: "Upload one or more PNG images, reorder them if needed, choose your PDF settings such as page size, orientation, and margin, then generate and download the PDF instantly in your browser.",
+      a: "Upload one or more PNG images, arrange them in the order you want, choose the available PDF settings such as page size, orientation, and margins, then generate and download the PDF directly in your browser.",
     },
     {
       q: "Can I convert multiple PNG images into one PDF?",
-      a: "Yes. You can upload multiple PNG files and combine them into a single PDF document in the exact order you want.",
+      a: "Yes. You can select multiple PNG files and combine them into a single PDF in the order you choose.",
     },
     {
       q: "Is this PNG to PDF converter private?",
-      a: "Yes. Your files remain on your device during conversion and are not uploaded to a server.",
+      a: "Yes. The conversion is performed locally in your browser, so the selected PNG files do not need to be uploaded to a remote conversion server.",
     },
     {
       q: "What image formats are supported?",
-      a: "The tool supports PNG files, along with other browser-supported image types allowed in your configuration.",
+      a: "This tool is designed specifically for PNG input. Other image formats are supported only when they are explicitly enabled by the converter configuration.",
     },
     {
-      q: "Can I reorder images before creating the PDF?",
-      a: "Yes. You can drag and drop images to change their order before generating the final PDF.",
+      q: "Can I reorder PNG images before creating the PDF?",
+      a: "Yes. You can drag and drop the selected images to change their order before generating the PDF.",
     },
     {
-      q: "Can I choose page size and orientation?",
-      a: "Yes. You can select page size, orientation, and margin settings to control how the PDF output looks.",
+      q: "Can I choose the PDF page size and orientation?",
+      a: "Yes. You can use the available page size, orientation, and margin controls to adjust the PDF layout before exporting it.",
     },
     {
-      q: "Does this tool work on mobile devices?",
-      a: "Yes. The interface is fully responsive and works on mobile, tablet, laptop, and desktop screens.",
+      q: "Does the PNG to PDF converter work on mobile devices?",
+      a: "Yes. The responsive interface is designed to work on modern phones, tablets, laptops, and desktop computers.",
     },
     {
-      q: "Do I need to sign up to use this tool?",
-      a: "No. You can use the converter directly without creating an account.",
+      q: "Do I need to create an account?",
+      a: "No. The converter can be used directly without creating an account or signing in.",
     },
     {
-      q: "Can I preview the PDF before downloading?",
-      a: "Yes. You can preview the PDF first and then download it once you are satisfied with the output.",
+      q: "Can I preview the PDF before downloading it?",
+      a: "Yes. You can review the generated PDF before saving the final document to your device.",
     },
     {
-      q: "Will the image quality be reduced?",
-      a: "The tool is designed to preserve image quality as much as possible while fitting images cleanly into the selected PDF page layout.",
+      q: "Will converting PNG to PDF reduce image quality?",
+      a: "The converter is designed to maintain image quality while fitting each image into the selected PDF page layout. The final appearance can also depend on the original PNG resolution and selected page settings.",
     },
     {
-      q: "Can I convert PNG files from my phone into a PDF?",
-      a: "Yes. You can upload PNG images stored on your phone and convert them into a PDF directly from your mobile browser.",
+      q: "Can I convert PNG files from my phone to PDF?",
+      a: "Yes. You can select PNG images stored on your phone and create a PDF directly from a supported mobile browser.",
     },
     {
-      q: "Can I create one PDF with one PNG per page?",
-      a: "Yes. Images are placed into the PDF according to your selected layout and page settings, allowing each image to appear neatly on its own page when appropriate.",
+      q: "Can I put one PNG image on each PDF page?",
+      a: "Yes. Each selected image can be placed into the PDF according to the converter's page and layout settings, allowing one image to appear on its own page when the selected configuration supports that layout.",
     },
     {
-      q: "Is there a limit to the number of PNG files I can convert?",
-      a: "The practical limit depends on your browser and available device memory. Most modern devices can comfortably convert multiple PNG files into a single PDF.",
+      q: "Is there a limit to how many PNG files I can convert?",
+      a: "The practical limit depends on the browser, image dimensions, total file size, and available device memory. Very large or numerous PNG files may require more memory during local PDF generation.",
     },
   ];
 
   const howToSteps = [
     {
+      id: "upload",
       title: "Upload Your PNG Files",
       desc: "Add one or more PNG images using drag and drop or the file picker.",
       icon: "📤",
     },
     {
-      title: "Reorder Files",
-      desc: "Arrange the images in the exact order you want them to appear in the PDF.",
+      id: "reorder",
+      title: "Arrange the Images",
+      desc: "Drag and drop the images into the exact order you want them to appear in the PDF.",
       icon: "↕️",
     },
     {
+      id: "settings",
       title: "Choose PDF Settings",
-      desc: "Select page size, orientation, and margin to control the final document layout.",
+      desc: "Select the available page size, orientation, and margin options for the document.",
       icon: "⚙️",
     },
     {
+      id: "preview",
       title: "Generate and Preview",
-      desc: "Create the PDF instantly and review the output before downloading.",
+      desc: "Create the PDF and review the result before saving the final document.",
       icon: "👁️",
     },
     {
-      title: "Download Securely",
-      desc: "Save the final PDF to your device. Processing stays local for privacy and speed.",
+      id: "download",
+      title: "Download the PDF",
+      desc: "Save the generated PDF directly to your device after reviewing the output.",
       icon: "⬇️",
     },
   ];
 
   const coreFeatures = [
     {
+      id: "png-pdf",
       title: "PNG to PDF Conversion",
-      desc: "Convert PNG images into a clean PDF document online.",
+      desc: "Convert PNG images into a standard PDF document directly in your browser.",
       icon: "🖼️",
     },
     {
+      id: "multiple-files",
       title: "Multiple PNG Support",
-      desc: "Combine several PNG files into one PDF in a chosen order.",
+      desc: "Combine multiple PNG images into a single PDF in your chosen order.",
       icon: "📚",
     },
     {
-      title: "Drag and Drop Reordering",
-      desc: "Move images into the correct sequence before export.",
+      id: "reordering",
+      title: "Image Reordering",
+      desc: "Arrange images before export so the PDF pages follow the intended sequence.",
       icon: "🖱️",
     },
     {
+      id: "page-size",
       title: "Page Size Controls",
-      desc: "Select A4, Letter, or other supported page sizes.",
+      desc: "Choose from the page sizes supported by the converter for your document layout.",
       icon: "📄",
     },
     {
+      id: "orientation",
       title: "Orientation Controls",
-      desc: "Switch between portrait and landscape layouts.",
+      desc: "Use portrait or landscape orientation when supported by the selected PDF settings.",
       icon: "🔁",
     },
     {
+      id: "margins",
       title: "Margin Settings",
-      desc: "Adjust margins for a tighter or more spacious PDF layout.",
+      desc: "Adjust available margin options to control spacing around images.",
       icon: "📏",
     },
     {
+      id: "local-processing",
       title: "Local Browser Processing",
-      desc: "Generate PDFs directly in the browser without uploading files.",
+      desc: "Generate the PDF locally in your browser without sending the selected files to a remote conversion server.",
       icon: "🔒",
     },
     {
+      id: "preview-download",
       title: "Preview and Download",
-      desc: "Review the PDF output before saving it to your device.",
+      desc: "Review the generated document before saving the PDF to your device.",
       icon: "✅",
     },
   ];
 
   const audiences = [
     {
-      title: "Designers",
-      desc: "Convert PNG mockups and design assets into printable PDFs.",
-      icon: "🎨",
-    },
-    {
+      id: "students",
       title: "Students",
-      desc: "Turn study images, notes, or screenshots into one document.",
+      desc: "Combine screenshots, notes, diagrams, and assignment images into one PDF.",
       icon: "🎓",
     },
     {
+      id: "office-users",
       title: "Office Users",
-      desc: "Combine PNG files into a professional PDF for sharing.",
+      desc: "Turn multiple PNG files into a single document that is easier to share and organize.",
       icon: "💼",
     },
     {
-      title: "Content Creators",
-      desc: "Package PNG exports into a neat PDF archive.",
-      icon: "🧩",
+      id: "designers",
+      title: "Designers",
+      desc: "Package PNG mockups, graphics, and design assets into a printable or shareable PDF.",
+      icon: "🎨",
     },
     {
+      id: "mobile-users",
       title: "Mobile Users",
-      desc: "Use a fast responsive tool directly on phones and tablets.",
+      desc: "Create PDFs from PNG images directly from a phone or tablet browser.",
       icon: "📱",
-    },
-    {
-      title: "Privacy-Focused Users",
-      desc: "Keep PNG conversion local and avoid server uploads.",
-      icon: "🛡️",
     },
   ];
 
   const relatedTools = [
-    { name: "PDF Merger", href: "/tools/pdf/merge-pdf" },
-    { name: "PDF Splitter", href: "/tools/pdf/split-pdf" },
-    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf" },
-    { name: "PDF Compressor", href: "/tools/pdf/compress-pdf" },
-    { name: "Image to PDF", href: "/tools/image/image-to-pdf" }
+    {
+      name: "Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      desc: "Convert supported image files into PDF documents.",
+    },
+    {
+      name: "WebP to PDF",
+      href: "/tools/image/webp-to-pdf",
+      desc: "Convert WebP images into PDF files.",
+    },
+    {
+      name: "PDF Merger",
+      href: "/tools/pdf/merge-pdf",
+      desc: "Combine multiple PDF documents into one file.",
+    },
+    {
+      name: "PDF Splitter",
+      href: "/tools/pdf/split-pdf",
+      desc: "Split PDF documents into separate files or pages.",
+    },
+    {
+      name: "PDF Compressor",
+      href: "/tools/pdf/compress-pdf",
+      desc: "Reduce PDF file size for easier storage and sharing.",
+    },
   ];
 
   return (
     <div className="mx-auto max-w-6xl space-y-4 p-4 text-white sm:space-y-5 sm:p-5 lg:space-y-6 lg:p-6">
+      {/* Introduction */}
       <section aria-labelledby="intro-heading">
-        <div className="flex gap-3">
-          <span className="text-2xl">🪄</span>
-        <h2
-          id="intro-heading"
-          className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          
-          PNG to PDF Converter – Convert PNG Files to PDF Online for Free
-        </h2>
-</div>
-        <p className="mt-3 text-sm leading-relaxed text-white/65 sm:text-base">
-          Convert PNG images to PDF online using a browser-based tool that processes files on your device. Built for speed, flexibility, and ease of use.
-          Upload multiple files, reorder them, choose page size and orientation,
-          adjust margins, and generate a clean PDF without uploading files to a
-          server.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          This tool is designed for users who want a fast PNG to PDF converter
-          with advanced controls and a simple workflow. Whether you are preparing
-          documents, creating archives, or combining image files into one shareable
-          PDF, the experience stays responsive, secure, and easy to use on desktop
-          and mobile devices.
-        </p>
-      </section>
+        <div className="flex items-start gap-3">
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            🪄
+          </span>
 
-      <section aria-labelledby="what-is-heading">
-        <div className="flex gap-3">
-          📘 
-        <h2
-          id="what-is-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          What Is a PNG to PDF Converter?
-        </h2>
+          <div>
+            <h2
+              id="intro-heading"
+              className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            >
+              PNG to PDF Converter – Convert PNG Files to PDF Online for Free
+            </h2>
+
+            <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+              Convert PNG images to PDF online with a browser-based tool that
+              processes selected files directly on your device. Upload multiple
+              PNG files, arrange their order, choose the available page settings,
+              and generate a PDF without sending the images to a remote
+              conversion server.
+            </p>
+
+            <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+              The converter is useful for combining screenshots, notes, design
+              graphics, receipts, and other PNG images into a single document.
+              Its responsive interface is designed for convenient use on desktop,
+              tablet, and mobile devices.
+            </p>
+          </div>
         </div>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          A PNG to PDF converter is an online tool that transforms one or more
-          PNG image files into a PDF document. It is useful when you want to store
-          images in a more shareable, printable, or organized format.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          With this converter, you can control how the final PDF looks by choosing
-          layout options such as page size, orientation, and margin. That makes it
-          more than a simple file converter and turns it into a practical
-          PNG-to-PDF workspace.
-        </p>
       </section>
 
+      {/* What is PNG to PDF */}
+      <section aria-labelledby="what-is-heading">
+        <div className="flex items-start gap-3">
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            📘
+          </span>
+
+          <div>
+            <h2
+              id="what-is-heading"
+              className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            >
+              What Is a PNG to PDF Converter?
+            </h2>
+
+            <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+              A PNG to PDF converter transforms one or more PNG image files into
+              a PDF document. PDF is useful when images need to be shared,
+              printed, archived, or organized as pages within a single file.
+            </p>
+
+            <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+              Instead of handling each PNG separately, you can combine multiple
+              images, arrange their order, and control available PDF layout
+              settings before creating the final document.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Supported formats */}
       <section
         aria-labelledby="formats-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
@@ -225,50 +275,64 @@ export default function PngToPdfSeoContent() {
           id="formats-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Supported Image Formats
+          Supported Image Format
         </h2>
 
-        <div className="grid gap-4 sm:grid-cols-1">
-          <div className="rounded-xl border border-white/10 p-5">
-            <h3 className="mb-3 font-semibold text-white">
-              Supported Input Formats
-            </h3>
+        <div className="rounded-xl border border-white/10 p-5">
+          <h3 className="mb-3 font-semibold text-white">
+            PNG Input
+          </h3>
 
-            <ul className="space-y-2 text-sm text-white/70">
-              <li>✓ PNG</li>
-            </ul>
-          </div>
+          <ul className="space-y-2 text-sm text-white/70">
+            <li>✓ PNG</li>
+          </ul>
 
-          <p className="mb-5 text-sm leading-relaxed text-white/65 sm:text-base">
-            The converter accepts PNG images commonly used for screenshots, design files,
-            transparent graphics, and digital assets, then combines them into a standard PDF
-            document that can be viewed, printed, or shared almost anywhere.
+          <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+            PNG is commonly used for screenshots, transparent graphics,
+            interface images, diagrams, illustrations, and other digital assets.
+            The converter turns selected PNG files into a PDF that can be
+            viewed, printed, stored, or shared.
           </p>
         </div>
       </section>
 
+      {/* Features */}
       <section aria-labelledby="features-heading">
-        <div className="flex gap-3">
-          ✨ 
-        <h2
-          id="features-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Key Features of the PNG to PDF Tool
-        </h2>
+        <div className="flex items-start gap-3">
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            ✨
+          </span>
+
+          <h2
+            id="features-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Key Features of the PNG to PDF Converter
+          </h2>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {coreFeatures.map((item, i) => (
+          {coreFeatures.map((item) => (
             <div
-              key={i}
+              key={item.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
                   <h3 className="mb-1 text-sm font-semibold text-white">
                     {item.title}
                   </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {item.desc}
                   </p>
@@ -279,31 +343,47 @@ export default function PngToPdfSeoContent() {
         </div>
       </section>
 
+      {/* How to use */}
       <section aria-labelledby="workflow-heading">
-        <div className="flex gap-3">
-          🪜 
-        <h2
-          id="workflow-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          How to Use the PNG to PDF Converter
-        </h2>
+        <div className="flex items-start gap-3">
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            🪜
+          </span>
+
+          <h2
+            id="workflow-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            How to Convert PNG to PDF
+          </h2>
         </div>
+
         <div className="grid gap-4 md:grid-cols-2">
-          {howToSteps.map((step, i) => (
+          {howToSteps.map((step, index) => (
             <div
-              key={i}
+              key={step.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black shadow-lg">
-                  {i + 1}
+                  {index + 1}
                 </span>
-                <span className="flex-shrink-0 text-2xl">{step.icon}</span>
+
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {step.icon}
+                </span>
+
                 <div className="flex-1">
-                  <p className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-white">
                     {step.title}
-                  </p>
+                  </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {step.desc}
                   </p>
@@ -314,28 +394,43 @@ export default function PngToPdfSeoContent() {
         </div>
       </section>
 
+      {/* Who should use it */}
       <section aria-labelledby="audience-heading">
-        <div className="flex gap-3">
-          👥 
-        <h2
-          id="audience-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Who Should Use This Tool?
-        </h2>
+        <div className="flex items-start gap-3">
+          <span
+            className="text-2xl"
+            aria-hidden="true"
+          >
+            👥
+          </span>
+
+          <h2
+            id="audience-heading"
+            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          >
+            Who Can Use This PNG to PDF Converter?
+          </h2>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((item, i) => (
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {audiences.map((item) => (
             <div
-              key={i}
+              key={item.id}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
                   <h3 className="mb-1 text-sm font-semibold text-white">
                     {item.title}
                   </h3>
+
                   <p className="text-xs leading-relaxed text-white/60">
                     {item.desc}
                   </p>
@@ -346,163 +441,170 @@ export default function PngToPdfSeoContent() {
         </div>
       </section>
 
+      {/* Use cases */}
       <section aria-labelledby="usecases-heading">
         <h2
           id="usecases-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Common Ways People Use a PNG to PDF Converter
+          Common Uses for PNG to PDF Conversion
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <ul className="space-y-3 text-sm text-white/70">
+          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
             <li>• Combine screenshots into one PDF.</li>
-            <li>• Convert design mockups into a shareable document.</li>
-            <li>• Merge assignment images for online submission.</li>
+            <li>• Turn design mockups into a shareable document.</li>
+            <li>• Combine assignment images for submission.</li>
             <li>• Archive receipts and invoices.</li>
           </ul>
 
-          <ul className="space-y-3 text-sm text-white/70">
-            <li>• Store passport and ID copies.</li>
-            <li>• Create printable image documents.</li>
-            <li>• Send multiple PNGs as one PDF attachment.</li>
-            <li>• Organize product or portfolio images.</li>
+          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+            <li>• Organize scanned or photographed documents.</li>
+            <li>• Create printable image-based documents.</li>
+            <li>• Send multiple PNG files as one PDF attachment.</li>
+            <li>• Package product, portfolio, or project images.</li>
           </ul>
         </div>
       </section>
 
-      <section aria-labelledby="why-use-heading">
-        <h2
-          id="why-use-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Why Use This PNG to PDF Converter Online?
-        </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Whether you're creating a document from screenshots, combining travel
-          receipts, preparing school assignments, or sharing multiple PNGs with
-          colleagues, this tool lets you generate a professional PDF in just a few
-          steps. Built-in controls for page size, orientation, margins, and image
-          order help produce cleaner documents without requiring additional software.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          The local-only workflow makes it a strong choice for users who need a
-          private document workspace. It is also optimized for responsive use, so
-          it works well across laptops, tablets, and mobile screens.
-        </p>
-      </section>
-
-      <section aria-labelledby="how-it-works-heading">
-        <h2
-          id="how-it-works-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          How the Conversion Process Works
-        </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          When you upload PNG files, the tool reads them directly in your browser and
-          prepares them for PDF generation. You can then reorder the files, choose
-          output settings, and export the final document in a few clicks.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          The result is a smooth conversion flow that feels fast and predictable.
-          Because the workflow stays local, it is better suited for
-          privacy-conscious users and frequent document tasks.
-        </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Each selected image becomes part of the PDF in the order you choose.
-          Depending on your settings, images are scaled to fit the selected page
-          size while maintaining a clean and readable layout.
-        </p>
-      </section>
-
+      {/* Settings */}
       <section aria-labelledby="settings-heading">
         <h2
           id="settings-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Customize Page Size, Orientation & Margins
+          Customize PDF Page Size, Orientation & Margins
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Page size, orientation, and margin settings help you control how the PDF
-          appears after conversion. A4 is ideal for standard documents, while
-          Letter can be useful for office-style layouts.
+          Available page size, orientation, and margin controls help determine
+          how PNG images are positioned in the final PDF. A4 can be useful for
+          standard documents, while Letter can be useful for common office
+          layouts when those page sizes are available in the converter.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Orientation and margins also matter when images need to be displayed
-          cleanly on the page. With these settings, you can create a PDF that feels
-          polished instead of compressed or awkwardly spaced.
+          Portrait orientation generally works well for document-style images,
+          while landscape can be useful for wide screenshots, diagrams, and
+          graphics. Margin settings can also help control the amount of space
+          around each image.
         </p>
       </section>
 
+      {/* How it works */}
+      <section aria-labelledby="how-it-works-heading">
+        <h2
+          id="how-it-works-heading"
+          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+        >
+          How PNG to PDF Conversion Works
+        </h2>
+
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          When PNG files are selected, the browser reads the images locally and
+          prepares them for PDF generation. You can then arrange the images and
+          select the available document settings before creating the PDF.
+        </p>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+          Each selected image is added to the PDF according to its position in
+          the chosen order. Images are scaled to fit the selected page layout,
+          with the final appearance depending on the original image dimensions
+          and the PDF settings you choose.
+        </p>
+
+        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+          Because processing takes place in the browser, the selected image
+          files do not need to be transferred to a remote conversion server.
+        </p>
+      </section>
+
+      {/* Tips */}
       <section aria-labelledby="tips-heading">
         <h2
           id="tips-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Tips for Better PDF Results
+          Tips for Better PNG to PDF Results
         </h2>
 
         <ul className="space-y-3 text-sm leading-relaxed text-white/70">
           <li>• Arrange images before generating the PDF.</li>
-          <li>• Use portrait orientation for documents.</li>
-          <li>• Choose landscape for wide graphics.</li>
-          <li>• Reduce margins if you want larger images.</li>
-          <li>• Use high-resolution PNG files for the best print quality.</li>
+          <li>• Use portrait orientation for document-style images.</li>
+          <li>• Use landscape for wide screenshots and graphics.</li>
+          <li>• Adjust margins when you need more or less space around images.</li>
+          <li>• Use sufficiently high-resolution PNG files for better print results.</li>
+          <li>• Convert very large batches in smaller groups if your device has limited memory.</li>
         </ul>
       </section>
 
+      {/* Why PDF */}
       <section aria-labelledby="why-pdf-heading">
         <h2
           id="why-pdf-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Why Convert PNG Files into a PDF?
+          Why Convert PNG Images to PDF?
         </h2>
 
-        <ul className="space-y-3 text-sm leading-relaxed text-white/70">
-          <li>• Keep multiple PNG images together in a single document.</li>
-          <li>• Make files easier to email and share.</li>
-          <li>• Print documents with consistent page layouts.</li>
-          <li>• Organize screenshots, notes, or design assets.</li>
-          <li>• Create professional documents from image collections.</li>
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          PDF is a convenient format for keeping multiple images together in a
+          structured document. Instead of sharing many separate PNG files, you
+          can combine them into one file that is easier to store, print, email,
+          and organize.
+        </p>
+
+        <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/70">
+          <li>• Keep multiple PNG images together in one document.</li>
+          <li>• Create a consistent page-based layout for printing.</li>
+          <li>• Make image collections easier to share and archive.</li>
+          <li>• Organize screenshots, notes, receipts, and design assets.</li>
         </ul>
       </section>
 
+      {/* Privacy */}
       <section aria-labelledby="privacy-heading">
         <h2
           id="privacy-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Privacy and Security
+          Privacy and Local Processing
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          All conversion happens in your browser, which means your uploaded files
-          remain local during processing. This is important for users handling
-          personal images, internal documents, or private content.
+          The PNG to PDF conversion is performed directly in your browser.
+          Selected files remain on your device during the conversion process and
+          do not need to be uploaded to a remote conversion server.
         </p>
+
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Because everything is processed on your device, there is no need to create an account or wait for server-side processing.
-          The result is a faster and more private file conversion experience.
+          This local workflow can be useful when working with screenshots,
+          personal images, internal documents, receipts, or other files that you
+          prefer to keep on your own device. No account is required to use the
+          converter.
         </p>
       </section>
 
+      {/* Benefits */}
       <section aria-labelledby="benefits-heading">
         <h2
           id="benefits-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Benefits of Converting PNG Files to PDF
+          Benefits of Using a PNG to PDF Converter
         </h2>
+
         <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-          <li>Convert PNG images into a single PDF quickly.</li>
-          <li>Keep file processing local for better privacy.</li>
-          <li>Reorder images before creating the final document.</li>
-          <li>Control PDF layout with page size, orientation, and margins.</li>
-          <li>Use the tool comfortably on mobile and desktop devices.</li>
+          <li>Convert multiple PNG images into a single PDF.</li>
+          <li>Keep images in the order you choose.</li>
+          <li>Control available page size, orientation, and margin settings.</li>
+          <li>Preview the generated document before downloading it.</li>
+          <li>Process files locally without sending them to a remote converter.</li>
+          <li>Use the tool from desktop and mobile browsers.</li>
         </ul>
       </section>
 
+      {/* FAQ */}
       <section aria-labelledby="faq-heading">
         <h2
           id="faq-heading"
@@ -510,44 +612,65 @@ export default function PngToPdfSeoContent() {
         >
           Frequently Asked Questions
         </h2>
+
         <div className="space-y-4">
-          {faqItems.map((item, i) => (
+          {faqItems.map((item) => (
             <details
-              key={i}
+              key={item.q}
               className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                <span className="text-sm font-semibold text-white">{item.q}</span>
-                <span className="text-lg text-blue-400">+</span>
+                <span className="text-sm font-semibold text-white">
+                  {item.q}
+                </span>
+
+                <span
+                  className="text-lg text-blue-400 transition-transform duration-200 group-open:rotate-45"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
               </summary>
-              <div className="border-t border-dashed border-white/10 p-5 pt-0">
-                <p className="text-xs leading-relaxed text-white/60">{item.a}</p>
+
+              <div className="border-t border-dashed border-white/10 p-5">
+                <p className="text-xs leading-relaxed text-white/60 sm:text-sm">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
+      {/* Related tools */}
       <section aria-labelledby="related-tools-heading">
         <h2
           id="related-tools-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Related Tools
+          Related PDF and Image Tools
         </h2>
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
               href={tool.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10"
             >
-              {tool.name}
-            </a>
+              <h3 className="text-sm font-semibold text-white">
+                {tool.name}
+              </h3>
+
+              <p className="mt-1 text-xs leading-relaxed text-white/60">
+                {tool.desc}
+              </p>
+            </Link>
           ))}
         </div>
       </section>
 
+      {/* Conclusion */}
       <section
         aria-labelledby="conclusion-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
@@ -556,20 +679,21 @@ export default function PngToPdfSeoContent() {
           id="conclusion-heading"
           className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
         >
-          Conclusion
+          PNG to PDF Converter
         </h2>
+
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          The PNG to PDF Converter makes it easy to convert PNG images into a single PDF
-          directly in your browser. Whether you're preparing screenshots, combining
-          design files, organizing receipts, or creating printable files, the tool
-          offers flexible page settings, image reordering, and instant PDF generation
-          without requiring uploads to external servers.
+          A PNG to PDF converter provides a simple way to combine PNG images into
+          an organized PDF document. You can upload multiple images, arrange
+          their order, customize the available page settings, preview the
+          result, and download the finished PDF.
         </p>
 
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          With support for multiple PNG files, customizable layouts, responsive design,
-          and local browser processing, it provides a fast and privacy-focused way to
-          create professional PDF documents on desktop, tablet, and mobile devices.
+          With local browser processing, responsive design, multiple-image
+          support, and flexible PDF layout controls, this tool provides a
+          convenient way to create PDF documents from PNG files without sending
+          the selected images to a remote conversion server.
         </p>
       </section>
     </div>
