@@ -1,486 +1,730 @@
-import type { Metadata } from "next";
-import { serverConfig } from "@/config/server";
+import Link from "next/link";
 
-const siteName = serverConfig.siteName;
-const siteUrl = serverConfig.siteUrl;
-const canonicalPath = "/tools/compress-images-with-preview";
-const canonicalUrl = `${siteUrl}${canonicalPath}`;
+export default function CompressImageSeoContent() {
+  const PAGE_URL = "https://www.atoolix.com/tools/image/compress-image";
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
-//   description:
-//     "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
-//   keywords: [
-//     "image compressor",
-//     "free image compressor",
-//     "compress images online",
-//     "compress images online free",
-//     "compress image",
-//     "compress photo",
-//     "compress photos",
-//     "compress pictures",
-//     "compress jpg",
-//     "compress jpeg",
-//     "compress png",
-//     "compress webp",
-//     "jpg compressor",
-//     "jpeg compressor",
-//     "png compressor",
-//     "webp compressor",
-//     "reduce image size",
-//     "image size reducer",
-//     "shrink image",
-//     "image optimizer",
-//     "online image optimizer",
-//     "optimize images",
-//     "photo compressor",
-//     "picture compressor",
-//     "quality based image compression",
-//     "browser image compressor",
-//     "preview image before download",
-//     "image quality control",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "Compress Images with Preview",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
-//     description:
-//       "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP",
-//     description:
-//       "Compress JPG, JPEG, PNG, and WebP images online for free. Reduce image file size with adjustable quality, preview results, and download optimized images directly in your browser.",
-//   },
-// };
+  const faqItems = [
+    {
+      q: "How do I compress an image online?",
+      a: "Upload your image, choose the available compression quality setting, review the result, and download the compressed image. Processing happens directly in your browser.",
+    },
+    {
+      q: "Can I control the image quality while compressing?",
+      a: "Yes. Use the quality control to choose the balance between image quality and file size. Higher quality generally preserves more visual detail, while lower quality can produce a smaller file.",
+    },
+    {
+      q: "Does lower image quality make the file smaller?",
+      a: "In general, yes. For supported lossy image formats, lowering the compression quality can reduce the resulting file size, while higher quality usually produces a larger file with more preserved visual detail.",
+    },
+    {
+      q: "Can I compress images without uploading them?",
+      a: "Yes. Image compression is performed locally in your browser, so the selected image does not need to be uploaded to an external server for processing.",
+    },
+    {
+      q: "Is this image compressor free?",
+      a: "Yes. You can compress images online for free without creating an account or installing desktop software.",
+    },
+    {
+      q: "Can I reduce the file size of a JPG or JPEG image?",
+      a: "Yes. JPG and JPEG images can be compressed by adjusting the available quality setting and exporting the smaller result.",
+    },
+    {
+      q: "Can I compress PNG images?",
+      a: "Yes, if PNG is supported by the current compressor configuration. The available compression behavior depends on the image format and processing method.",
+    },
+    {
+      q: "Can I compress WEBP images?",
+      a: "Yes, if WEBP is enabled by the current compressor. You can process supported WEBP images directly in your browser.",
+    },
+    {
+      q: "Will image compression reduce image quality?",
+      a: "Compression can reduce visual quality depending on the format and selected quality setting. The quality control lets you choose a suitable balance between file size and visual fidelity.",
+    },
+    {
+      q: "What quality setting should I use?",
+      a: "For everyday web use, start with a moderate-to-high quality setting and compare the output size and appearance. Choose a higher setting when preserving visual detail is more important than minimizing file size.",
+    },
+    {
+      q: "Can I preview the compressed image before downloading?",
+      a: "If preview is available in the current compressor interface, you can review the processed image before downloading it. This helps you check the visual result before replacing or sharing the original.",
+    },
+    {
+      q: "Can I compress large image files?",
+      a: "Yes, supported image files can be compressed in the browser, subject to the available memory and processing capabilities of your device and browser.",
+    },
+    {
+      q: "Does the original image get modified?",
+      a: "No. The compressor processes a copy of the selected image in the browser. Your original file remains on your device.",
+    },
+    {
+      q: "Can I use the image compressor on mobile?",
+      a: "Yes. The responsive interface is designed to work on smartphones, tablets, laptops, and desktop computers.",
+    },
+    {
+      q: "Do I need to install software?",
+      a: "No. The image compressor runs in your web browser, so there is no desktop application or additional software to install.",
+    },
+  ];
 
-type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string; icon: string };
-type FeatureItem = { title: string; desc: string; icon: string };
+  const howToSteps = [
+    {
+      title: "Upload an Image",
+      desc: "Choose a supported image from your device or drag and drop it into the compressor.",
+      icon: "📤",
+    },
+    {
+      title: "Choose Compression Quality",
+      desc: "Adjust the available quality control to balance visual quality and output file size.",
+      icon: "🎚️",
+    },
+    {
+      title: "Process the Image",
+      desc: "Compress the image directly in your browser without sending the file to an external server.",
+      icon: "⚡",
+    },
+    {
+      title: "Review the Result",
+      desc: "Check the compressed image and compare the result with the original where the interface provides preview information.",
+      icon: "👀",
+    },
+    {
+      title: "Download the Compressed Image",
+      desc: "Save the processed image to your device when the result meets your size and quality requirements.",
+      icon: "⬇️",
+    },
+  ];
 
-const faqItems: FaqItem[] = [
-  { q: "What does this image compressor do?", a: "It compresses JPG, JPEG, PNG, and WebP images in your browser and lets you preview the result before downloading." },
-  { q: "Can I control the compression quality?", a: "Yes. You can adjust quality to balance file size and visual clarity." },
-  { q: "Can I preview the compressed image first?", a: "Yes. You can review the result before downloading it." },
-  { q: "Which formats are supported?", a: "The compressor supports JPG, JPEG, PNG, and WebP." },
-  { q: "Is this tool free?", a: "Yes. You can use it without a paid subscription." },
-  { q: "Will compression change image dimensions?", a: "Compression usually reduces file size, while dimensions stay the same unless you resize the image separately." },
-  { q: "What is the best quality setting?", a: "A mid-range quality setting is usually the best balance for most web images. Higher settings preserve more detail, while lower settings reduce file size more aggressively." },
-  { q: "Can I compress images without losing quality?", a: "Compression can reduce visible quality if pushed too far, but good settings help keep the difference minimal for normal viewing." },
-  { q: "Which image format is best for websites?", a: "WebP is often a strong choice for websites, while JPG works well for photos and PNG works well for graphics or transparency." },
-  { q: "Can I compress images on my phone?", a: "Yes. The tool is responsive and works on mobile devices." },
-  { q: "Can I compress screenshots?", a: "Yes. PNG or WebP often work well for screenshots depending on the content." },
-  { q: "Can I compress transparent PNG images?", a: "Yes. PNG supports transparency, and the compressor can handle PNG files." },
-  { q: "How much can image compression reduce file size?", a: "There is no fixed compression ratio for every image. Large photographs often shrink significantly, while logos, screenshots, or already compressed images may only reduce slightly. Testing different quality settings helps you find the best balance between file size and image quality." },
-];
+  const qualityOptions = [
+    {
+      title: "Higher Quality",
+      desc: "Preserve more visual detail when image appearance is more important than the smallest possible file size.",
+      icon: "✨",
+    },
+    {
+      title: "Balanced Quality",
+      desc: "Choose a practical middle ground between image quality and file size for everyday web and document use.",
+      icon: "⚖️",
+    },
+    {
+      title: "Lower Quality",
+      desc: "Prioritize a smaller output file when reducing storage or transfer size matters more than maximum visual fidelity.",
+      icon: "📉",
+    },
+  ];
 
-const howToSteps: StepItem[] = [
-  { title: "Upload your image", desc: "Choose a JPG, JPEG, PNG, or WebP file from your device.", icon: "📁" },
-  { title: "Preview the image", desc: "See the selected file before compression.", icon: "🖼️" },
-  { title: "Adjust quality", desc: "Set the compression level based on your file size goal.", icon: "🎚️" },
-  { title: "Compress and review", desc: "Generate the optimized version and check the result.", icon: "🔍" },
-  { title: "Download the output", desc: "Save the compressed image to your device.", icon: "⬇️" },
-];
+  const coreFeatures = [
+    {
+      title: "Adjustable Compression Quality",
+      desc: "Control the image quality during compression to find the right balance between visual detail and file size.",
+      icon: "🎚️",
+    },
+    {
+      title: "Smaller Image File Sizes",
+      desc: "Reduce image file size for easier sharing, storage, uploads, websites, and documents.",
+      icon: "📉",
+    },
+    {
+      title: "Browser-Based Processing",
+      desc: "Process supported images directly in your browser without requiring a server-side upload.",
+      icon: "🌐",
+    },
+    {
+      title: "Privacy-Focused Workflow",
+      desc: "Your original image stays on your device while compression is performed locally in the browser.",
+      icon: "🔒",
+    },
+    {
+      title: "Quality vs File Size Control",
+      desc: "Choose a compression level based on whether you need better visual quality or a smaller output file.",
+      icon: "⚖️",
+    },
+    {
+      title: "Fast Image Compression",
+      desc: "Compress supported images directly in the browser without installing desktop software.",
+      icon: "⚡",
+    },
+    {
+      title: "Mobile-Friendly",
+      desc: "Use the compressor from smartphones, tablets, laptops, and desktop browsers.",
+      icon: "📱",
+    },
+    {
+      title: "Download the Result",
+      desc: "Save the compressed image directly to your device after processing.",
+      icon: "💾",
+    },
+  ];
 
-const coreFeatures: FeatureItem[] = [
-  { title: "Browser-Based Compression", desc: "Compress images directly in the browser without installing software.", icon: "🌐" },
-  { title: "Live Preview", desc: "Preview the image before and after compression.", icon: "👀" },
-  { title: "Quality Control", desc: "Adjust the compression level to balance quality and file size.", icon: "🎛️" },
-  { title: "Supported Formats", desc: "Works with JPG, JPEG, PNG, and WebP image files.", icon: "🖼️" },
-  { title: "Fast Compression", desc: "A simple flow helps users compress images quickly.", icon: "⚡" },
-  { title: "Privacy Friendly", desc: "Browser-based processing reduces the need for file uploads.", icon: "🔒" },
-  { title: "Responsive Layout", desc: "Works smoothly on desktop and mobile devices.", icon: "📱" },
-  { title: "Instant Download", desc: "Save the optimized image immediately after compression.", icon: "⬇️" },
-];
+  const formats = [
+    {
+      title: "JPG / JPEG",
+      desc: "Useful for photographs and web images where reducing file size is important.",
+      icon: "📷",
+    },
+    {
+      title: "PNG",
+      desc: "Useful for graphics and images where PNG support is enabled by the compressor.",
+      icon: "🖼️",
+    },
+    {
+      title: "WEBP",
+      desc: "A modern web image format supported when enabled by the current compressor.",
+      icon: "🌐",
+    },
+    {
+      title: "Other Supported Formats",
+      desc: "The available formats depend on the current image compressor implementation.",
+      icon: "📁",
+    },
+  ];
 
-const supportedFormats = [
-  { format: "JPG", bestFor: "Photographs", transparency: "No", compression: "High", websites: "Yes" },
-  { format: "JPEG", bestFor: "Digital photos", transparency: "No", compression: "High", websites: "Yes" },
-  { format: "PNG", bestFor: "Graphics and screenshots", transparency: "Yes", compression: "Medium", websites: "Yes" },
-  { format: "WebP", bestFor: "Modern web images", transparency: "Yes", compression: "Very High", websites: "Yes" },
-];
+  const audiences = [
+    {
+      title: "Website Owners",
+      desc: "Reduce image file sizes to make web assets easier to manage and transfer.",
+      icon: "🌐",
+    },
+    {
+      title: "Content Creators",
+      desc: "Shrink photos before publishing them to websites, blogs, social platforms, or content systems.",
+      icon: "📣",
+    },
+    {
+      title: "Online Sellers",
+      desc: "Reduce product-image sizes while keeping enough visual quality for listings and catalogs.",
+      icon: "🛍️",
+    },
+    {
+      title: "Students",
+      desc: "Compress images before adding them to assignments, presentations, and documents.",
+      icon: "🎓",
+    },
+    {
+      title: "Professionals",
+      desc: "Reduce attachment and document image sizes when sharing files with colleagues or clients.",
+      icon: "💼",
+    },
+    {
+      title: "Mobile Users",
+      desc: "Compress photos directly from a phone or tablet without installing another application.",
+      icon: "📲",
+    },
+  ];
 
-const qualityGuide = [
-  { range: "90–100%", result: "Maximum quality", use: "When quality matters most" },
-  { range: "70–90%", result: "Best balance", use: "Most web images" },
-  { range: "50–70%", result: "Smaller files", use: "When file size matters more" },
-  { range: "Below 50%", result: "Heavy compression", use: "Only when a very small file is required" },
-];
+  const relatedTools = [
+    {
+      name: "Resize Image",
+      href: "/tools/image/resize-image",
+      icon: "📐",
+    },
+    {
+      name: "JPG to PNG",
+      href: "/tools/image/jpg-to-png",
+      icon: "🔄",
+    },
+    {
+      name: "PNG to JPG",
+      href: "/tools/image/png-to-jpg",
+      icon: "🔄",
+    },
+    {
+      name: "WEBP to PNG",
+      href: "/tools/image/webp-to-png",
+      icon: "🧩",
+    },
+    {
+      name: "Background Remover",
+      href: "/tools/image/background-remover",
+      icon: "✂️",
+    },
+    {
+      name: "Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      icon: "📄",
+    },
+  ];
 
-const whenToCompress = [
-  "Before uploading to websites.",
-  "Before emailing images.",
-  "Before posting to social media.",
-  "Before submitting online forms.",
-  "Before cloud backup.",
-];
+  const softwareAppSchema = {
+    "@type": "SoftwareApplication",
+    name: "Image Compressor - Atoolix",
+    applicationCategory: "MultimediaApplication",
+    operatingSystem: "Any (Web-based)",
+    url: PAGE_URL,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Compress supported image files",
+      "Adjust image compression quality",
+      "Balance image quality and file size",
+      "Reduce image file size",
+      "Browser-based image processing",
+      "No external server upload required",
+      "Mobile and desktop support",
+      "Download compressed images",
+    ],
+  };
 
-const whenNotToCompress = [
-  "Medical images.",
-  "Printed marketing materials.",
-  "High-resolution photography.",
-  "Images that need later editing.",
-];
+  const breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.atoolix.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Image Tools",
+        item: "https://www.atoolix.com/tools/image",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Image Compressor",
+        item: PAGE_URL,
+      },
+    ],
+  };
 
-const commonUses = [
-  "Website images.",
-  "Blog images.",
-  "Product photos.",
-  "Email attachments.",
-  "Online forms.",
-  "Social media.",
-  "Presentations.",
-  "Documentation.",
-];
+  const jsonLdGraph = {
+    "@context": "https://schema.org",
+    "@graph": [softwareAppSchema, breadcrumbSchema],
+  };
 
-const devices = [
-  "Windows",
-  "macOS",
-  "Android",
-  "iPhone",
-];
+  const jsonLdString = JSON.stringify(jsonLdGraph).replace(/</g, "\\u003c");
 
-const relatedTools = [
-  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
-  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
-  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
-  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
-];
-
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqItems.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
-  })),
-};
-
-const howToJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to Compress JPG, JPEG, PNG, and WebP Images",
-  description: "Compress JPG, JPEG, PNG, and WebP images online with preview and adjustable quality.",
-  totalTime: "PT1M",
-  step: howToSteps.map((step, index) => ({
-    "@type": "HowToStep",
-    position: index + 1,
-    name: step.title,
-    text: step.desc,
-  })),
-};
-
-const searchActionJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": siteUrl,
-  url: siteUrl,
-  name: siteName,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
-};
-
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-    { "@type": "ListItem", position: 2, name: "Compress Images with Preview", item: canonicalUrl },
-  ],
-};
-
-const itemListJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Related Image Tools",
-  itemListElement: relatedTools.map((tool, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: tool.name,
-    url: `${siteUrl}${tool.href}`,
-  })),
-};
-
-function JsonLd({ data }: { data: unknown }) {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
-}
-
-function SectionHeading({ id, title, description }: { id: string; title: string; description?: string }) {
   return (
-    <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">{title}</h2>
-      {description ? <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">{description}</p> : null}
-    </div>
-  );
-}
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString }}
+      />
 
-export default function CompressImagesWithPreviewSeoContent() {
-  return (
-    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
-      <JsonLd data={faqJsonLd} />
-      <JsonLd data={howToJsonLd} />
-      <JsonLd data={searchActionJsonLd} />
-      <JsonLd data={breadcrumbJsonLd} />
-      <JsonLd data={itemListJsonLd} />
+      {/* ===================== INTRO ===================== */}
+      <section aria-labelledby="intro-heading" className="space-y-4">
+        <div className="flex items-start gap-3">
+          <span aria-hidden="true" className="text-2xl">
+            📉
+          </span>
 
-      <section aria-labelledby="intro-heading" className="space-y-3">
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Free Browser-Based Image Compressor
+          <h2
+            id="intro-heading"
+            className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
+          >
+            Compress Images Online – Reduce File Size With Quality Control
+          </h2>
+        </div>
+
+        <p className="max-w-4xl text-sm leading-relaxed text-white/70 sm:text-base">
+          Compress images online for free and reduce image file size while
+          controlling the balance between quality and compression. Upload a
+          supported image, adjust the available quality setting, process it
+          directly in your browser, and download the compressed result.
         </p>
-        <h2 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-          Free Image Compressor – Compress Images Online JPG, JPEG, PNG & WebP
+
+        <p className="max-w-4xl text-sm leading-relaxed text-white/60 sm:text-base">
+          Whether you need to{" "}
+          <strong className="text-white">reduce JPG file size</strong>,
+          prepare smaller images for a website, shrink photos before sharing,
+          or optimize images for documents, the compressor provides a simple
+          browser-based workflow without requiring software installation.
+        </p>
+      </section>
+
+      {/* ===================== WHAT IS IMAGE COMPRESSION ===================== */}
+      <section aria-labelledby="definition-heading" className="space-y-3">
+        <h2
+          id="definition-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          What Is Image Compression?
         </h2>
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Compress large JPG, JPEG, PNG, and WebP images online without installing software. Reduce image file size using adjustable compression quality, preview the optimized result, and download it instantly.
-        </p>
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          Smaller images are easier to upload, share, store, and use on websites while maintaining good visual quality.
-        </p>
-      </section>
 
-      <section aria-labelledby="browser-heading" className="space-y-4">
-        <SectionHeading id="browser-heading" title="Why Browser-Based Compression?" description="Your image is processed directly in your browser." />
-        <div className="grid gap-3 md:grid-cols-2">
-          {[
-            ["No Software Installation", "You can start compressing right away."],
-            ["No Waiting for Uploads", "The workflow stays fast and simple."],
-            ["Works on Multiple Devices", "Use it on Windows, macOS, Android, and iPhone."],
-            ["Preview Before Download", "Review the result before saving it."],
-          ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="why-compress-heading" className="space-y-4">
-        <SectionHeading id="why-compress-heading" title="Why Compress Images?" description="Compression helps reduce file size and make images easier to use." />
-        <div className="grid gap-3 md:grid-cols-2">
-          {[
-            ["Reduce Image Size", "Compression makes files smaller."],
-            ["Save Storage Space", "Optimized images take up less room."],
-            ["Meet Upload Limits", "Smaller files fit more easily into form limits."],
-            ["Share Faster", "Reduced files upload and send more quickly."],
-          ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="how-compression-works-heading" className="space-y-4">
-        <SectionHeading id="how-compression-works-heading" title="How Image Compression Works" description="Compression reduces file size by using more efficient encoding or removing some image data." />
-        <p className="text-sm leading-7 text-white/70">
-          Lossy compression reduces some image detail to make the file much smaller. Lossless compression keeps all visible image data but usually gives a larger result.
+        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+          Image compression reduces the amount of data required to store or
+          transfer an image. Depending on the image format and compression
+          settings, this can produce a substantially smaller file while
+          maintaining an appropriate level of visual quality.
         </p>
-        <p className="text-sm leading-7 text-white/70">
-          The right compression level depends on the image content, format, dimensions, and how the final file will be used.
+
+        <p className="text-sm leading-relaxed text-white/60 sm:text-base">
+          The right compression level depends on how the image will be used.
+          A website thumbnail may prioritize a smaller file, while a
+          presentation, product image, or design asset may require more
+          visual detail.
         </p>
       </section>
 
-      <section aria-labelledby="quality-heading" className="space-y-4">
-        <SectionHeading id="quality-heading" title="Recommended Image Quality Settings" description="Start with a balanced setting and adjust based on the result." />
-        <div className="grid gap-3 md:grid-cols-2">
-          {qualityGuide.map((item) => (
-            <article key={item.range} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{item.range}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{item.result}</p>
-              <p className="mt-1 text-xs text-white/45">{item.use}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* ===================== QUALITY CONTROL ===================== */}
+      <section
+        aria-labelledby="quality-heading"
+        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
+      >
+        <h2
+          id="quality-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Control Image Quality While Compressing
+        </h2>
 
-      <section aria-labelledby="format-heading" className="space-y-4">
-        <SectionHeading id="format-heading" title="Supported Image Formats" description="The compressor supports the four common image formats used on the web." />
-        <div className="overflow-hidden rounded-2xl border border-white/10">
-          <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Format</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Best For</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Transparency</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Compression</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Websites</th>
-              </tr>
-            </thead>
-            <tbody>
-              {supportedFormats.map((item) => (
-                <tr key={item.format} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{item.format}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.bestFor}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.transparency}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.compression}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.websites}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section aria-labelledby="compare-heading" className="space-y-4">
-        <SectionHeading id="compare-heading" title="JPG vs PNG vs WebP" description="Pick the format that matches the image type and compression goal." />
-        <div className="grid gap-3 md:grid-cols-3">
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4"><h3 className="text-sm font-semibold">JPG</h3><p className="mt-1.5 text-sm leading-6 text-white/70">Best for photos.</p></div>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4"><h3 className="text-sm font-semibold">PNG</h3><p className="mt-1.5 text-sm leading-6 text-white/70">Best for graphics and transparency.</p></div>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4"><h3 className="text-sm font-semibold">WebP</h3><p className="mt-1.5 text-sm leading-6 text-white/70">Best for modern web compression.</p></div>
-        </div>
-      </section>
-
-      <section aria-labelledby="resize-heading" className="space-y-4">
-        <SectionHeading id="resize-heading" title="Compression vs Resizing" description="Compression changes file size. Resizing changes dimensions." />
-        <p className="text-sm leading-7 text-white/70">
-          If a file is still too large after compression, resizing it first can help reduce the final size more effectively.
+        <p className="mt-3 max-w-4xl text-sm leading-relaxed text-white/70 sm:text-base">
+          The quality control lets you choose how aggressively the image
+          should be compressed. In general, higher quality keeps more visual
+          detail and may produce a larger file, while lower quality can create
+          a smaller file with more visible compression.
         </p>
-      </section>
 
-      <section aria-labelledby="when-compress-heading" className="space-y-4">
-        <SectionHeading id="when-compress-heading" title="When Should You Compress Images?" description="Use compression before publishing or sharing images." />
-        <ul className="grid gap-3 md:grid-cols-2">
-          {whenToCompress.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          {qualityOptions.map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-start gap-3">
+                <span aria-hidden="true" className="text-2xl">
+                  {item.icon}
+                </span>
 
-      <section aria-labelledby="uses-heading" className="space-y-4">
-        <SectionHeading id="uses-heading" title="Common Uses" description="These are the most common everyday compression use cases." />
-        <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-          {commonUses.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
 
-      <section aria-labelledby="not-compress-heading" className="space-y-4">
-        <SectionHeading id="not-compress-heading" title="When You Should Avoid Heavy Compression" description="Some images need more detail and should not be compressed too aggressively." />
-        <ul className="grid gap-3 md:grid-cols-2">
-          {whenNotToCompress.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="size-heading" className="space-y-4">
-        <SectionHeading id="size-heading" title="How Much Can Image Compression Reduce File Size?" description="Results depend on the file, quality setting, and image content." />
-        <p className="text-sm leading-7 text-white/70">
-          Compression results vary depending on the image format, dimensions, quality setting, and amount of detail. Large photographs usually compress more than graphics or screenshots. Already optimized images may only shrink slightly.
-        </p>
-        <p className="text-sm leading-7 text-white/70">
-          There is no fixed compression ratio for every image. Testing different quality settings helps you find the best balance between file size and image quality.
-        </p>
-      </section>
-
-      <section aria-labelledby="steps-heading" className="space-y-4">
-        <SectionHeading id="steps-heading" title="How to Compress Images" description="A simple compression workflow keeps the page focused." />
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {howToSteps.map((step, index) => (
-            <article key={step.title} className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/10">
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">{index + 1}</div>
-                <span className="text-xl">{step.icon}</span>
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
-              <h3 className="mt-3 text-sm font-semibold sm:text-[0.95rem]">{step.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{step.desc}</p>
-            </article>
+            </div>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="benefits-heading" className="space-y-4">
-        <SectionHeading id="benefits-heading" title="Core Features" description="These features keep the page useful for compression-focused visitors." />
+      {/* ===================== WHY COMPRESS ===================== */}
+      <section aria-labelledby="why-heading" className="space-y-4">
+        <h2
+          id="why-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Why Compress an Image?
+        </h2>
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {coreFeatures.map((feature) => (
-            <article key={feature.title} className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/10">
-              <div className="text-xl">{feature.icon}</div>
-              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">{feature.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{feature.desc}</p>
-            </article>
+          {[
+            {
+              title: "Smaller Uploads",
+              desc: "Reduce image size before uploading files to websites and online services.",
+              icon: "⬆️",
+            },
+            {
+              title: "Easier Sharing",
+              desc: "Create smaller images that are easier to attach and send.",
+              icon: "📤",
+            },
+            {
+              title: "Less Storage",
+              desc: "Use less storage space when keeping large collections of images.",
+              icon: "💾",
+            },
+            {
+              title: "Web-Friendly Images",
+              desc: "Prepare smaller image assets for websites and online content.",
+              icon: "🌐",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+            >
+              <span aria-hidden="true" className="text-2xl">
+                {item.icon}
+              </span>
+
+              <h3 className="mt-3 text-sm font-semibold text-white">
+                {item.title}
+              </h3>
+
+              <p className="mt-1 text-xs leading-relaxed text-white/60">
+                {item.desc}
+              </p>
+            </div>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="audience-heading" className="space-y-4">
-        <SectionHeading id="audience-heading" title="Who Uses Image Compression?" description="These users commonly need to reduce image size." />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {["Developers", "Bloggers", "Students", "Businesses", "Photographers", "Designers"].map((item) => (
-            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</div>
-          ))}
-        </div>
-      </section>
+      {/* ===================== HOW IT WORKS ===================== */}
+      <section aria-labelledby="workflow-heading" className="space-y-4">
+        <h2
+          id="workflow-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          How to Compress an Image Online
+        </h2>
 
-      <section aria-labelledby="device-heading" className="space-y-4">
-        <SectionHeading id="device-heading" title="Works on Common Devices" description="Use the compressor on the devices people use every day." />
-        <div className="flex flex-wrap gap-2.5">
-          {devices.map((item) => (
-            <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium">{item}</span>
-          ))}
-        </div>
-      </section>
+        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+          Compressing an image takes only a few steps. Choose the image,
+          select the desired quality level, process it, review the result, and
+          download the smaller file.
+        </p>
 
-      <section aria-labelledby="faq-heading" className="space-y-4">
-        <SectionHeading id="faq-heading" title="Frequently Asked Questions" description="Short answers help visitors quickly understand compression behavior." />
-        <div className="space-y-3">
-          {faqItems.map((item) => (
-            <details key={item.q} className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
-              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">{item.q}</summary>
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">{item.a}</p>
+        <div className="grid gap-4 md:grid-cols-2">
+          {howToSteps.map((step, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30"
+            >
+              <div className="flex items-start gap-3">
+                <span
+                  aria-hidden="true"
+                  className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black"
+                >
+                  {i + 1}
+                </span>
+
+                <span aria-hidden="true" className="text-2xl">
+                  {step.icon}
+                </span>
+
+                <div>
+                  <h3 className="text-sm font-semibold text-white">
+                    {step.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {step.desc}
+                  </p>
+                </div>
               </div>
-            </details>
+            </div>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="cta-heading" className="space-y-4">
-        <SectionHeading
-          id="cta-heading"
-          title="Start Compressing Your Images"
-          description="This tool is designed for everyday image optimization directly in your browser. Whether you're preparing images for websites, documents, forms, or sharing online, you can quickly reduce file size while reviewing the result before downloading."
-        />
-        <div></div>
+      {/* ===================== CORE FEATURES ===================== */}
+      <section
+        aria-labelledby="features-heading"
+        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
+      >
+        <h2
+          id="features-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Image Compressor Features
+        </h2>
+
+        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {coreFeatures.map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-start gap-3">
+                <span aria-hidden="true" className="text-2xl">
+                  {item.icon}
+                </span>
+
+                <div>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section aria-labelledby="releated-tools" className="space-y-4">
-        <SectionHeading id="releated-tools" title="Releated Tools"/>
-        <div className="flex flex-wrap gap-2.5">
+      {/* ===================== FORMATS ===================== */}
+      <section aria-labelledby="formats-heading">
+        <h2
+          id="formats-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Supported Image Formats
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          The compressor works with the image formats enabled by the current
+          implementation. Format-specific compression behavior can vary
+          depending on the source image and browser processing capabilities.
+        </p>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {formats.map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+            >
+              <span aria-hidden="true" className="text-2xl">
+                {item.icon}
+              </span>
+
+              <h3 className="mt-3 text-sm font-semibold text-white">
+                {item.title}
+              </h3>
+
+              <p className="mt-1 text-xs leading-relaxed text-white/60">
+                {item.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ===================== QUALITY GUIDANCE ===================== */}
+      <section aria-labelledby="quality-guide-heading">
+        <h2
+          id="quality-guide-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Choosing the Right Compression Quality
+        </h2>
+
+        <div className="mt-4 space-y-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          <p>
+            <strong className="text-white">For websites:</strong> use a
+            moderate quality setting when you want smaller images while still
+            retaining good visual appearance.
+          </p>
+
+          <p>
+            <strong className="text-white">For product photos:</strong> use a
+            higher quality setting when fine details, edges, and product
+            appearance are important.
+          </p>
+
+          <p>
+            <strong className="text-white">For sharing:</strong> use a lower or
+            moderate setting when reducing attachment size is more important
+            than preserving maximum image detail.
+          </p>
+
+          <p>
+            <strong className="text-white">For documents:</strong> choose a
+            practical balance so images remain readable while avoiding
+            unnecessarily large files.
+          </p>
+        </div>
+      </section>
+
+      {/* ===================== PRIVACY ===================== */}
+      <section
+        aria-labelledby="privacy-heading"
+        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
+      >
+        <h2
+          id="privacy-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Private, Browser-Based Image Compression
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          Image compression is designed to happen directly in your browser.
+          Your original image does not need to be uploaded to an external
+          server for the compression workflow.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          This makes the tool useful when you want to reduce image size while
+          keeping files on your own device instead of sending them to a
+          third-party image processing service.
+        </p>
+      </section>
+
+      {/* ===================== AUDIENCE ===================== */}
+      <section aria-labelledby="audience-heading">
+        <h2
+          id="audience-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Who Can Use an Image Compressor?
+        </h2>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {audiences.map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-start gap-3">
+                <span aria-hidden="true" className="text-2xl">
+                  {item.icon}
+                </span>
+
+                <div>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ===================== RELATED TOOLS ===================== */}
+      <section aria-labelledby="related-tools-heading">
+        <h2
+          id="related-tools-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Related Image Tools
+        </h2>
+
+        <div className="mt-4 flex flex-wrap gap-3">
           {relatedTools.map((tool) => (
-            <a
+            <Link
               key={tool.href}
               href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
+              aria-label={tool.name}
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
             >
+              <span aria-hidden="true">{tool.icon}</span>
               {tool.name}
-            </a>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ===================== FAQ ===================== */}
+      <section aria-labelledby="faq-heading">
+        <h2
+          id="faq-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Frequently Asked Questions
+        </h2>
+
+        <div className="mt-4 space-y-4">
+          {faqItems.map((item) => (
+            <details
+              key={item.q}
+              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+            >
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+                {item.q}
+              </summary>
+
+              <div className="border-t border-white/10 px-4 py-4">
+                <p className="text-sm leading-relaxed text-white/65">
+                  {item.a}
+                </p>
+              </div>
+            </details>
           ))}
         </div>
       </section>
