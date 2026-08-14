@@ -1,227 +1,266 @@
-import type { Metadata } from "next";
+import Link from "next/link";
 import { serverConfig } from "@/config/server";
 
 const siteName = serverConfig.siteName;
-const siteUrl = serverConfig.siteUrl;
+const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
+
 const canonicalPath = "/tools/webp-compressor";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Free WebP Compressor Online – Compress WebP Images with Preview",
-//   description:
-//     "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
-//   keywords: [
-//     "webp compressor",
-//     "compress webp",
-//     "compress webp online",
-//     "free webp compressor",
-//     "reduce webp file size",
-//     "webp optimizer",
-//     "online webp optimizer",
-//     "compress webp with preview",
-//     "browser webp compressor",
-//     "webp quality control",
-//     "compress web images",
-//     "optimize webp",
-//     "webp image compressor",
-//     "small webp files",
-//     "webp transparency",
-//     "modern image format",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "WebP Compressor with Preview",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Free WebP Compressor Online – Compress WebP Images with Preview",
-//     description:
-//       "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Free WebP Compressor Online – Compress WebP Images with Preview",
-//     description:
-//       "Compress WebP images online for free with adjustable quality, preview, and instant download. Built for modern web images, transparency, and smaller file sizes in your browser.",
-//   },
-// };
+type FaqItem = {
+  q: string;
+  a: string;
+};
 
-type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string; icon: string };
-type FeatureItem = { title: string; desc: string; icon: string };
+type StepItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type FeatureItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
 
 const faqItems: FaqItem[] = [
   {
-    q: "What is this WebP compressor for?",
-    a: "It reduces WebP file size with quality control and preview so images are easier to publish and share on the web.",
+    q: "What does this WebP compressor do?",
+    a: "It reduces the file size of WebP images while giving you control over compression quality and letting you preview the result before downloading.",
   },
   {
-    q: "Why use WebP instead of older formats?",
-    a: "WebP is designed for the web and often produces smaller files while preserving good visual quality.",
+    q: "How do I compress a WebP image?",
+    a: "Choose a WebP file, preview it, adjust the compression quality, generate the optimized result, compare it with the original, and download the smaller WebP file.",
+  },
+  {
+    q: "Can I reduce the size of a WebP file without changing its format?",
+    a: "Yes. The tool is designed to compress WebP images while keeping the output in WebP format, so you do not need to convert the image first.",
+  },
+  {
+    q: "Can I control WebP compression quality?",
+    a: "Yes. The quality control lets you choose a practical balance between file size and visual detail.",
+  },
+  {
+    q: "Can I preview a compressed WebP before downloading?",
+    a: "Yes. You can review the optimized image before saving the resulting WebP file.",
   },
   {
     q: "Does WebP support transparency?",
-    a: "Yes. WebP supports transparency, which makes it useful for graphics and web assets.",
+    a: "Yes. The WebP format supports transparency, making it useful for transparent graphics, icons, interface assets, and other web images.",
   },
   {
-    q: "Can I preview before downloading?",
-    a: "Yes. You can preview the compressed result before saving it.",
+    q: "Is WebP good for websites?",
+    a: "WebP is designed for efficient web image delivery and can provide smaller image files while maintaining useful visual quality.",
   },
   {
-    q: "Is this tool free?",
-    a: "Yes. You can use it without a paid plan.",
+    q: "Can I use this WebP compressor on mobile?",
+    a: "Yes. The page is responsive and can be used on supported modern browsers on phones, tablets, laptops, and desktop computers.",
   },
   {
-    q: "Can I control compression quality?",
-    a: "Yes. The quality slider lets you choose the balance between file size and visual detail.",
+    q: "Why does the compressed WebP size vary between images?",
+    a: "Compression results depend on factors such as image dimensions, visual detail, source encoding, transparency, and the quality setting used.",
   },
   {
-    q: "Does this work in modern browsers?",
-    a: "Yes. WebP is supported in major modern browsers, and the tool is built for browser use.",
+    q: "Can I compress WebP images for faster websites?",
+    a: "Yes. Reducing unnecessary image bytes can help make web assets lighter, particularly when images represent a significant part of a page's transferred data.",
   },
   {
-    q: "Can I use this on mobile?",
-    a: "Yes. The page is responsive and works on phones and tablets.",
+    q: "Is this WebP compressor free?",
+    a: "Yes. The tool is available to use without requiring a paid plan.",
   },
   {
-    q: "Is WebP better for websites?",
-    a: "Often yes, because it can reduce file size and help pages load faster.",
-  },
-  {
-    q: "Can WebP be lossy or lossless?",
-    a: "Yes. WebP supports both lossy and lossless compression modes.",
-  },
-  {
-    q: "Can I use WebP for transparent graphics?",
-    a: "Yes. WebP works well for transparent web graphics and design assets.",
-  },
-  {
-    q: "Why is file size still different across images?",
-    a: "Compression results depend on image detail, dimensions, and the quality setting you choose.",
+    q: "What types of images are suitable for WebP compression?",
+    a: "WebP compression can be useful for website images, product visuals, blog graphics, app assets, marketing images, icons, illustrations, and other digital graphics.",
   },
 ];
 
 const howToSteps: StepItem[] = [
-  { title: "Choose a WebP file", desc: "Select a WebP image from your device.", icon: "📁" },
-  { title: "Preview the image", desc: "Check the file before compression.", icon: "🖼️" },
-  { title: "Adjust quality", desc: "Choose the file size and clarity balance you want.", icon: "🎚️" },
-  { title: "Compress and compare", desc: "Generate the optimized file and review the result.", icon: "🔍" },
-  { title: "Download instantly", desc: "Save the compressed WebP to your device.", icon: "⬇️" },
+  {
+    title: "Choose a WebP file",
+    desc: "Select a WebP image from your device.",
+    icon: "📁",
+  },
+  {
+    title: "Preview the image",
+    desc: "Check the source image before changing its compression settings.",
+    icon: "🖼️",
+  },
+  {
+    title: "Adjust compression quality",
+    desc: "Choose a quality level that balances visual detail and file size.",
+    icon: "🎚️",
+  },
+  {
+    title: "Compress and compare",
+    desc: "Generate the optimized WebP and review the result before saving it.",
+    icon: "🔍",
+  },
+  {
+    title: "Download the WebP",
+    desc: "Save the optimized image directly to your device.",
+    icon: "⬇️",
+  },
 ];
 
 const coreFeatures: FeatureItem[] = [
   {
-    title: "Modern Web Focus",
-    desc: "Built for a format designed to help websites load more efficiently.",
-    icon: "🌐",
+    title: "WebP-Focused Compression",
+    desc: "A dedicated workflow for reducing the size of WebP images without unnecessary format conversion.",
+    icon: "🖼️",
   },
   {
     title: "Quality Control",
-    desc: "Tune compression to keep images sharp enough for real use.",
+    desc: "Adjust compression to find a practical balance between image quality and file size.",
     icon: "🎛️",
   },
   {
     title: "Preview Before Download",
-    desc: "Review the optimized result before saving it.",
+    desc: "Review the compressed result before saving the optimized WebP.",
     icon: "👀",
   },
   {
-    title: "Browser Processing",
-    desc: "Keep the workflow simple and fast directly in the browser.",
-    icon: "⚡",
+    title: "Browser-Based Workflow",
+    desc: "Work with your image through the browser without installing desktop image-compression software.",
+    icon: "🌐",
   },
   {
     title: "Transparency Support",
-    desc: "WebP works well for images that need transparent backgrounds.",
+    desc: "WebP supports transparent images, making the format useful for graphics and interface assets.",
     icon: "🔲",
   },
   {
     title: "Smaller Web Assets",
-    desc: "Reduce file size for pages, apps, and digital products.",
+    desc: "Reduce unnecessary image bytes for websites, applications, digital products, and content.",
     icon: "📉",
   },
   {
-    title: "Mobile Friendly",
-    desc: "Use the compressor on desktop or mobile.",
-    icon: "📱",
+    title: "Fast Export",
+    desc: "Move from compression to a downloadable WebP without an unnecessary multi-step workflow.",
+    icon: "⚡",
   },
   {
-    title: "Built for Web Delivery",
-    desc: "Ideal when image weight matters for performance and loading speed.",
-    icon: "🚀",
+    title: "Mobile Friendly",
+    desc: "Use the compressor across common desktop, tablet, and mobile browsing environments.",
+    icon: "📱",
   },
 ];
 
 const qualityGuide = [
-  { range: "90–100%", reduction: "5–15% smaller", use: "When fidelity matters most" },
-  { range: "75–90%", reduction: "25–50% smaller", use: "Best default for web images" },
-  { range: "60–75%", reduction: "50–75% smaller", use: "When speed and file size matter more" },
-  { range: "Below 60%", reduction: "Maximum compression", use: "For strict size limits or temporary sharing" },
+  {
+    range: "90–100%",
+    reduction: "Lower compression",
+    use: "Best when preserving visual detail is the priority",
+  },
+  {
+    range: "75–90%",
+    reduction: "Balanced compression",
+    use: "Good starting point for many web images",
+  },
+  {
+    range: "60–75%",
+    reduction: "Stronger compression",
+    use: "Useful when reducing image weight is more important",
+  },
+  {
+    range: "Below 60%",
+    reduction: "Higher compression",
+    use: "Use when strict file-size limits matter more than maximum detail",
+  },
 ];
 
 const whenToCompress = [
-  "Before uploading assets to a website.",
-  "Before using images in a web app or dashboard.",
-  "Before sharing graphics in email or chat.",
-  "Before optimizing product images or blog visuals.",
-  "Before reducing image weight for mobile delivery.",
+  "Before uploading WebP images to a website.",
+  "Before adding large images to blogs or documentation.",
+  "Before publishing product images on an ecommerce site.",
+  "Before adding graphics to web applications or dashboards.",
+  "Before sending WebP images through email or messaging.",
+  "Before optimizing image-heavy pages for mobile users.",
 ];
 
 const whenNotToCompress = [
-  "Images that still need heavy editing later.",
-  "Files that must preserve every detail for print.",
-  "Assets that are already tiny.",
-  "Images where the original should remain untouched.",
+  "When the source image is already small enough for its intended use.",
+  "When the image needs maximum visual fidelity for a particular workflow.",
+  "When you are still performing significant editing on the original.",
+  "When the original file must remain completely unchanged.",
 ];
 
 const commonUses = [
-  "Website images.",
-  "Blog visuals.",
-  "App UI assets.",
-  "Product photos.",
-  "Marketing banners.",
-  "Transparent graphics.",
-  "Icons and illustrations.",
-  "Documentation assets.",
+  "Website images",
+  "Blog graphics",
+  "Product images",
+  "App UI assets",
+  "Marketing visuals",
+  "Transparent graphics",
+  "Icons and illustrations",
+  "Documentation images",
 ];
 
 const audience = [
   "Developers",
-  "Designers",
+  "Web designers",
+  "UI/UX designers",
   "Marketers",
   "Bloggers",
   "Ecommerce teams",
   "Product teams",
+  "Website owners",
+  "Content creators",
   "Students",
   "Teachers",
-  "Content creators",
-  "Website owners",
+  "Digital publishers",
 ];
 
-const devices = ["Windows", "macOS", "Android", "iPhone"];
+const devices = [
+  "Windows",
+  "macOS",
+  "Linux",
+  "Android",
+  "iPhone",
+  "iPad",
+];
 
 const relatedTools = [
-  { name: "Compress Image", href: "/tools/image/compress-image" },
-  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
-  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
-  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
-  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
+  {
+    name: "Compress Image",
+    href: "/tools/image/compress-image",
+  },
+  {
+    name: "Compress JPG",
+    href: "/tools/image/compress-jpg",
+  },
+  {
+    name: "Compress PNG",
+    href: "/tools/image/compress-png",
+  },
+  {
+    name: "Compress Image to 20 KB",
+    href: "/tools/image/compress-image-to-20kb",
+  },
+  {
+    name: "Compress Image to 50 KB",
+    href: "/tools/image/compress-image-to-50kb",
+  },
+  {
+    name: "Compress Image to 100 KB",
+    href: "/tools/image/compress-image-to-100kb",
+  },
+  {
+    name: "WebP to JPG",
+    href: "/tools/image/webp-to-jpg",
+  },
+  {
+    name: "WebP to PNG",
+    href: "/tools/image/webp-to-png",
+  },
+  {
+    name: "JPG to WebP",
+    href: "/tools/image/jpg-to-webp",
+  },
+  {
+    name: "PNG to WebP",
+    href: "/tools/image/png-to-webp",
+  },
 ];
 
 const faqJsonLd = {
@@ -230,7 +269,10 @@ const faqJsonLd = {
   mainEntity: faqItems.map((item) => ({
     "@type": "Question",
     name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
   })),
 };
 
@@ -238,7 +280,8 @@ const howToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to Compress WebP Images",
-  description: "Compress WebP images online with preview and adjustable quality.",
+  description:
+    "Compress WebP images online with adjustable quality, preview, and download controls.",
   totalTime: "PT1M",
   step: howToSteps.map((step, index) => ({
     "@type": "HowToStep",
@@ -252,15 +295,25 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-    { "@type": "ListItem", position: 2, name: "WebP Compressor with Preview", item: canonicalUrl },
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Tools",
+      item: `${siteUrl}/tools`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "WebP Compressor",
+      item: canonicalUrl,
+    },
   ],
 };
 
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Related Image Tools",
+  name: "Related Image Compression and Conversion Tools",
   itemListElement: relatedTools.map((tool, index) => ({
     "@type": "ListItem",
     position: index + 1,
@@ -270,16 +323,39 @@ const itemListJsonLd = {
 };
 
 function JsonLd({ data }: { data: unknown }) {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
 }
 
-function SectionHeading({ id, title, description }: { id: string; title: string; description?: string }) {
+function SectionHeading({
+  id,
+  title,
+  description,
+}: {
+  id: string;
+  title: string;
+  description?: string;
+}) {
   return (
     <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">
+      <h2
+        id={id}
+        className="text-xl font-bold tracking-tight sm:text-2xl"
+      >
         {title}
       </h2>
-      {description ? <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">{description}</p> : null}
+
+      {description ? (
+        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          {description}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -294,119 +370,276 @@ export default function WebpCompressorSeoContent() {
 
       <section aria-labelledby="intro-heading" className="space-y-3">
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Modern Web Image Compression
+          WebP Image Compressor
         </p>
-        <h2 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
+
+        <h2
+          id="intro-heading"
+          className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
+        >
           Free WebP Compressor Online – Compress WebP Images with Preview
         </h2>
+
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Compress WebP images online with quality control, preview, and instant download. Built for modern web images, this tool helps you reduce file size while keeping images useful for pages, apps, and digital products.
+          Compress WebP images online with adjustable quality, preview, and
+          instant download. Reduce WebP file size for websites, apps, blogs,
+          ecommerce pages, documentation, and other digital content while
+          keeping control over the visual result.
         </p>
+
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          WebP is a modern format made for the web, so the value here is not just shrinking files. It is about delivering smaller images that still look strong in real-world use, especially when performance, transparency, and efficient loading matter.
+          WebP is designed for efficient image delivery on the web. Compressing
+          an existing WebP can help remove unnecessary image weight when a file
+          is larger than needed for its intended use, without requiring you to
+          convert it to another format first.
         </p>
+
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          If you are optimizing site assets, product images, app visuals, or marketing graphics, this page gives you a focused workflow for producing smaller WebP files without extra conversion steps.
+          Whether you are a developer optimizing website assets, a designer
+          preparing graphics, a blogger reducing page weight, or an ecommerce
+          team optimizing product images, this focused WebP compressor provides
+          a simple workflow for reducing image size and reviewing the result
+          before download.
         </p>
       </section>
 
-      <section aria-labelledby="why-webp-heading" className="space-y-4">
-        <SectionHeading id="why-webp-heading" title="Why Use WebP Images?" description="WebP is designed for modern web delivery and efficient image compression." />
+      <section
+        aria-labelledby="why-webp-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="why-webp-heading"
+          title="Why Use WebP Images?"
+          description="WebP is a modern image format designed to support efficient web delivery while retaining useful visual quality."
+        />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
-            ["Smaller file sizes", "WebP often reduces image weight compared with older formats."],
-            ["Good web performance", "Smaller assets can help pages and apps load faster."],
-            ["Transparency support", "WebP can handle transparent images for UI and design work."],
-            ["Flexible compression", "WebP supports both lossy and lossless use cases."],
+            [
+              "Efficient image delivery",
+              "WebP is commonly used when websites and applications need efficient image assets.",
+            ],
+            [
+              "Flexible compression",
+              "WebP supports both lossy and lossless encoding, depending on how an image is produced.",
+            ],
+            [
+              "Transparency support",
+              "WebP can represent transparent images for graphics, icons, and interface assets.",
+            ],
+            [
+              "Suitable for modern websites",
+              "WebP is widely used for images delivered through websites, applications, and digital products.",
+            ],
           ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="why-specific-heading" className="space-y-4">
-        <SectionHeading id="why-specific-heading" title="Why Use a Dedicated WebP Compressor?" description="A focused WebP page feels more useful than a generic image tool." />
+      <section
+        aria-labelledby="why-specific-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="why-specific-heading"
+          title="Why Use a Dedicated WebP Compressor?"
+          description="A focused tool matches users who already know they need to reduce the size of a WebP file."
+        />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
-            ["Built for modern assets", "WebP is often used where speed and efficiency matter most."],
-            ["Better intent match", "People searching for WebP usually want a lighter web-ready file."],
-            ["Cleaner file filtering", "The page stays focused on WebP instead of mixing every image format."],
-            ["More relevant optimization", "The emphasis is on web delivery, not broad image editing."],
+            [
+              "Direct WebP workflow",
+              "Start with a WebP file and optimize it without adding an unnecessary conversion step.",
+            ],
+            [
+              "Better search intent match",
+              "The page is specifically designed for people looking to compress, optimize, or reduce WebP image size.",
+            ],
+            [
+              "Quality control",
+              "Choose a practical compression level instead of relying on a single fixed optimization setting.",
+            ],
+            [
+              "Preview before saving",
+              "Review the generated image before downloading so you can decide whether the result is suitable.",
+            ],
           ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
       <section aria-labelledby="trust-heading" className="space-y-4">
-        <SectionHeading id="trust-heading" title="How Your WebP Files Are Processed" description="The workflow is designed for speed, control, and convenience." />
+        <SectionHeading
+          id="trust-heading"
+          title="How Your WebP Files Are Processed"
+          description="The workflow is designed around a simple browser-based compression experience."
+        />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
-            ["Runs in the browser", "The compression workflow stays inside your browser experience."],
-            ["Preview first", "Check the result before downloading the file."],
-            ["Fast output", "Move from source file to optimized file quickly."],
-            ["Simple control", "Adjust compression without unnecessary complexity."],
+            [
+              "Browser-based workflow",
+              "The tool is designed to work through your browser without requiring separate desktop image-compression software.",
+            ],
+            [
+              "Preview before download",
+              "Check the generated WebP before deciding whether to save it.",
+            ],
+            [
+              "No format switching",
+              "The page focuses on compressing WebP rather than forcing an unrelated format conversion.",
+            ],
+            [
+              "Adjustable compression",
+              "Use the available quality control to choose the balance that fits your image and purpose.",
+            ],
           ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="quality-heading" className="space-y-4">
-        <SectionHeading id="quality-heading" title="Recommended Compression Levels" description="Use this guide to pick the best setting for web delivery." />
+      <section
+        aria-labelledby="quality-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="quality-heading"
+          title="Recommended WebP Compression Levels"
+          description="Use the quality setting as a starting point and always preview the result because compression behavior varies by image."
+        />
+
         <div className="overflow-hidden rounded-2xl border border-white/10">
           <table className="min-w-full text-left text-xs sm:text-sm">
             <thead className="bg-white/10">
               <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Quality</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Typical Reduction</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Best For</th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Quality
+                </th>
+
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Compression Approach
+                </th>
+
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Best For
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {qualityGuide.map((item) => (
-                <tr key={item.range} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{item.range}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.reduction}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.use}</td>
+                <tr
+                  key={item.range}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {item.range}
+                  </td>
+
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {item.reduction}
+                  </td>
+
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {item.use}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        <p className="text-xs leading-6 text-white/55 sm:text-sm">
+          There is no universal compression percentage that applies to every
+          WebP image. Final file size depends on the source image, dimensions,
+          visual complexity, transparency, encoding characteristics, and
+          selected quality.
+        </p>
       </section>
 
-      <section aria-labelledby="comparison-heading" className="space-y-4">
-        <SectionHeading id="comparison-heading" title="What This Tool Gives You" description="These are the core features people expect when optimizing WebP images." />
+      <section
+        aria-labelledby="comparison-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="comparison-heading"
+          title="WebP Compressor Features"
+          description="The workflow focuses on the features users need when reducing WebP image size."
+        />
+
         <div className="overflow-hidden rounded-2xl border border-white/10">
           <table className="min-w-full text-left text-xs sm:text-sm">
             <thead className="bg-white/10">
               <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Feature</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Included</th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Feature
+                </th>
+
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Included
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {[
+                ["WebP compression", "✅"],
+                ["Quality control", "✅"],
                 ["Preview before download", "✅"],
-                ["Quality slider", "✅"],
-                ["Browser processing", "✅"],
+                ["Browser-based workflow", "✅"],
                 ["Instant download", "✅"],
-                ["Mobile friendly", "✅"],
+                ["Mobile-friendly interface", "✅"],
+                ["No format conversion required", "✅"],
                 ["Free to use", "✅"],
               ].map(([feature, value]) => (
-                <tr key={feature} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{feature}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{value}</td>
+                <tr
+                  key={feature}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {feature}
+                  </td>
+
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {value}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -415,39 +648,84 @@ export default function WebpCompressorSeoContent() {
       </section>
 
       <section aria-labelledby="steps-heading" className="space-y-4">
-        <SectionHeading id="steps-heading" title="How to Compress WebP Images" description="A short workflow keeps the page easy to understand." />
+        <SectionHeading
+          id="steps-heading"
+          title="How to Compress WebP Images"
+          description="Follow these steps to reduce WebP file size and review the result before downloading."
+        />
+
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {howToSteps.map((step, index) => (
-            <article key={step.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <article
+              key={step.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">{index + 1}</div>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                  {index + 1}
+                </div>
+
                 <span className="text-xl">{step.icon}</span>
               </div>
-              <h3 className="mt-3 text-sm font-semibold sm:text-[0.95rem]">{step.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{step.desc}</p>
+
+              <h3 className="mt-3 text-sm font-semibold sm:text-[0.95rem]">
+                {step.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {step.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="benefits-heading" className="space-y-4">
-        <SectionHeading id="benefits-heading" title="Core Advantages" description="These benefits explain why a WebP-specific tool matters." />
+      <section
+        aria-labelledby="benefits-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="benefits-heading"
+          title="WebP Compressor Benefits"
+          description="Practical benefits for people who need smaller WebP files for websites and digital workflows."
+        />
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((feature) => (
-            <article key={feature.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <article
+              key={feature.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
               <div className="text-xl">{feature.icon}</div>
-              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">{feature.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{feature.desc}</p>
+
+              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">
+                {feature.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {feature.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="audience-heading" className="space-y-4">
-        <SectionHeading id="audience-heading" title="Perfect For" description="These users commonly work with WebP files." />
+      <section
+        aria-labelledby="audience-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="audience-heading"
+          title="Who Can Use a WebP Compressor?"
+          description="WebP compression is useful across development, design, publishing, ecommerce, marketing, and everyday digital workflows."
+        />
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {audience.map((item) => (
-            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <div
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </div>
           ))}
@@ -455,10 +733,18 @@ export default function WebpCompressorSeoContent() {
       </section>
 
       <section aria-labelledby="uses-heading" className="space-y-4">
-        <SectionHeading id="uses-heading" title="Common WebP Use Cases" description="WebP is especially useful when image efficiency matters." />
+        <SectionHeading
+          id="uses-heading"
+          title="Common WebP Compression Use Cases"
+          description="WebP compression can help wherever image file size affects publishing, storage, transfer, or page performance."
+        />
+
         <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
           {commonUses.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </li>
           ))}
@@ -466,10 +752,18 @@ export default function WebpCompressorSeoContent() {
       </section>
 
       <section aria-labelledby="when-heading" className="space-y-4">
-        <SectionHeading id="when-heading" title="When to Compress WebP Images" description="Use compression when you want leaner files for the web." />
+        <SectionHeading
+          id="when-heading"
+          title="When Should You Compress WebP Images?"
+          description="Compression is most useful when the current image is larger than necessary for its intended destination."
+        />
+
         <ul className="grid gap-3 md:grid-cols-2">
           {whenToCompress.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </li>
           ))}
@@ -477,50 +771,135 @@ export default function WebpCompressorSeoContent() {
       </section>
 
       <section aria-labelledby="avoid-heading" className="space-y-4">
-        <SectionHeading id="avoid-heading" title="When to Avoid Heavy Compression" description="Some images should stay closer to the original quality." />
+        <SectionHeading
+          id="avoid-heading"
+          title="When to Avoid Heavy WebP Compression"
+          description="The smallest possible file is not always the best result. Use the preview to make a practical quality decision."
+        />
+
         <ul className="grid gap-3 md:grid-cols-2">
           {whenNotToCompress.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="devices-heading" className="space-y-4">
-        <SectionHeading id="devices-heading" title="Compress WebP Images on Windows, Mac, Android, and iPhone" description="The tool works across common devices and screen sizes." />
+      <section
+        aria-labelledby="performance-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="performance-heading"
+          title="Why Reduce WebP File Size for Websites?"
+          description="Image bytes can contribute significantly to the amount of data a page needs to transfer."
+        />
+
+        <div className="grid gap-3 md:grid-cols-2">
+          {[
+            [
+              "Improve asset efficiency",
+              "Smaller images require fewer bytes to transfer when the optimized file is appropriate for its destination.",
+            ],
+            [
+              "Support mobile delivery",
+              "Reducing unnecessary image weight can be particularly useful for visitors on mobile connections.",
+            ],
+            [
+              "Optimize content-heavy pages",
+              "Blogs, product pages, documentation, and galleries can contain many image assets.",
+            ],
+            [
+              "Keep visual quality practical",
+              "Preview-based compression lets you judge the result instead of optimizing only for the smallest possible file.",
+            ],
+          ].map(([title, desc]) => (
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="devices-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="devices-heading"
+          title="Compress WebP Images on Windows, Mac, Linux, Android, and iPhone"
+          description="Use the browser-based workflow across common desktop and mobile devices."
+        />
+
         <div className="flex flex-wrap gap-2.5">
           {devices.map((item) => (
-            <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium">
+            <span
+              key={item}
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium"
+            >
               {item}
             </span>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="related-heading" className="space-y-4">
-        <SectionHeading id="related-heading" title="Related Searches and Tools" description="Useful next steps for users working with image files." />
+      <section
+        aria-labelledby="related-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="related-heading"
+          title="Related Image Compression and Conversion Tools"
+          description="Continue with another image optimization or format-conversion workflow when your task requires it."
+        />
+
         <div className="flex flex-wrap gap-2.5">
           {relatedTools.map((tool) => (
-            <a
+            <Link
               key={tool.href}
               href={tool.href}
               className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
             >
               {tool.name}
-            </a>
+            </Link>
           ))}
         </div>
       </section>
 
       <section aria-labelledby="faq-heading" className="space-y-4">
-        <SectionHeading id="faq-heading" title="Frequently Asked Questions" description="These questions reflect common WebP compression intent." />
+        <SectionHeading
+          id="faq-heading"
+          title="Frequently Asked Questions About WebP Compression"
+          description="Answers to common questions about reducing WebP image size, quality, transparency, and web usage."
+        />
+
         <div className="space-y-3">
           {faqItems.map((item) => (
-            <details key={item.q} className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
-              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">{item.q}</summary>
+            <details
+              key={item.q}
+              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+            >
+              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
+                {item.q}
+              </summary>
+
               <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">{item.a}</p>
+                <p className="text-sm leading-6 text-white/70">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
@@ -531,7 +910,7 @@ export default function WebpCompressorSeoContent() {
         <SectionHeading
           id="cta-heading"
           title="Start Compressing Your WebP Images"
-          description="This page is built to help users create smaller WebP files with a focused workflow and useful preview controls."
+          description="Reduce WebP file size, adjust compression quality, preview the result, and download the optimized image when it meets your needs."
         />
       </section>
     </div>
