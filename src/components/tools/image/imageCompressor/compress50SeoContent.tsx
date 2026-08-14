@@ -1,181 +1,186 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { serverConfig } from "@/config/server";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
-const canonicalPath = "/tools/image-compressor-50kb";
+
+/**
+ * IMPORTANT:
+ * This must exactly match the real route, sitemap URL,
+ * internal links, and page canonical.
+ */
+const canonicalPath = "/tools/image/compress-image-to-50kb";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Compress JPG, JPEG, WebP & PNG to 50 KB Online",
-//   description:
-//     "Compress JPG, JPEG, WebP, and PNG images to a target size of 50 KB with preview, transparency support, and instant download. Ideal for uploads, forms, email, and websites.",
-//   keywords: [
-//     "compress image to 50kb",
-//     "jpg compressor 50kb",
-//     "jpeg compressor 50kb",
-//     "webp compressor 50kb",
-//     "png compressor 50kb",
-//     "compress jpg to target size",
-//     "compress png to target size",
-//     "image size reducer",
-//     "compress image online",
-//     "target file size compressor",
-//     "reduce image size to kb",
-//     "browser image compressor",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "Image Compressor to 50 KB",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Compress JPG, JPEG, WebP & PNG to 50 KB Online",
-//     description:
-//       "Compress JPG, JPEG, WebP, and PNG images to a target size of 50 KB with preview, transparency support, and instant download. Ideal for uploads, forms, email, and websites.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Compress JPG, JPEG, WebP & PNG to 50 KB Online",
-//     description:
-//       "Compress JPG, JPEG, WebP, and PNG images to a target size of 50 KB with preview, transparency support, and instant download.",
-//   },
-// };
+type FaqItem = {
+  q: string;
+  a: string;
+};
 
-type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string; icon: string };
-type FeatureItem = { title: string; desc: string; icon: string };
+type StepItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type FeatureItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
 
 const faqItems: FaqItem[] = [
   {
     q: "What does this image compressor do?",
-    a: "It reduces JPG, JPEG, WebP, and PNG files to a target size such as 50 KB while keeping the result visually clear.",
+    a: "It compresses JPG, JPEG, PNG, and WebP images toward a target file size such as 50 KB. You can also control image width and height and optionally keep the original aspect ratio.",
   },
   {
-    q: "Why use a target size instead of a quality slider?",
-    a: "A target size gives you a predictable output, which is helpful when a form, website, or email requires a specific file size limit.",
+    q: "Can I compress an image to 50 KB?",
+    a: "Yes. Set the target size to 50 KB and the tool will optimize the image toward that file-size goal. Depending on the image, format, dimensions, and compression limits, the final size may vary slightly.",
   },
   {
-    q: "Does it support PNG transparency?",
-    a: "Yes. PNG transparency is preserved when possible.",
+    q: "Can I set the image width and height?",
+    a: "Yes. You can specify the desired width and height when resizing the image. This can help reduce dimensions as well as file size.",
   },
   {
-    q: "Is this tool free?",
-    a: "Yes. You can use it without a paid plan.",
+    q: "Can I lock the aspect ratio?",
+    a: "Yes. When the aspect ratio lock is enabled, changing the width or height keeps the image proportions consistent and helps prevent unwanted stretching or distortion.",
   },
   {
-    q: "Can I preview the result before downloading?",
-    a: "Yes. You can compare the output before saving it.",
-  },
-  {
-    q: "Will it always hit exactly 50 KB?",
-    a: "The tool aims to reach the target size as closely as possible. In some cases, a tiny difference may remain due to format limits.",
-  },
-  {
-    q: "Can I use it on mobile?",
-    a: "Yes. The page is responsive and works on phones and tablets.",
+    q: "Can I control image quality while compressing?",
+    a: "Yes. Quality can be adjusted when supported by the selected output format. Lower quality can reduce file size, while higher quality generally preserves more visual detail.",
   },
   {
     q: "Does compression change image dimensions?",
-    a: "Not unless you allow resizing. File size and dimensions are separate controls.",
+    a: "Not necessarily. You can keep the original dimensions or use the width and height controls to resize the image. File size and image dimensions are separate controls.",
+  },
+  {
+    q: "Does it support PNG transparency?",
+    a: "Yes. PNG images with transparency can be processed, although the final result depends on the selected output format and compression settings.",
+  },
+  {
+    q: "Which image formats are supported?",
+    a: "The tool supports common image formats including JPG, JPEG, PNG, and WebP.",
+  },
+  {
+    q: "Will it always produce exactly 50 KB?",
+    a: "The compressor aims for the selected target size, but an exact byte-for-byte result cannot always be guaranteed because image formats, dimensions, quality settings, and encoding characteristics affect the final file size.",
+  },
+  {
+    q: "Can I preview the compressed image before downloading?",
+    a: "Yes. You can preview the processed image before downloading it so you can check the visual result and file size.",
+  },
+  {
+    q: "Is this image compressor free?",
+    a: "Yes. You can use the tool without a paid plan.",
+  },
+  {
+    q: "Can I use this image compressor on mobile?",
+    a: "Yes. The interface is responsive and designed to work on phones, tablets, laptops, and desktop browsers.",
   },
 ];
 
 const howToSteps: StepItem[] = [
   {
-    title: "Upload an image",
-    desc: "Choose a JPG, JPEG, WebP, or PNG from your device.",
+    title: "Upload your image",
+    desc: "Choose a JPG, JPEG, PNG, or WebP image from your device.",
     icon: "📁",
   },
   {
     title: "Set the target size",
-    desc: "Enter 50 KB or any other file-size target you need.",
+    desc: "Choose a target such as 50 KB and adjust the file-size goal to match the upload requirement.",
     icon: "🎯",
   },
   {
+    title: "Adjust dimensions",
+    desc: "Set the desired width and height. Lock the aspect ratio when you want to preserve the original proportions.",
+    icon: "📐",
+  },
+  {
+    title: "Adjust quality",
+    desc: "Fine-tune compression quality when you need to balance visual detail and file size.",
+    icon: "⚙️",
+  },
+  {
     title: "Preview the result",
-    desc: "Check the compressed image before downloading.",
+    desc: "Check the processed image, dimensions, and resulting file size before downloading.",
     icon: "👀",
   },
   {
-    title: "Download instantly",
-    desc: "Save the optimized file once it meets your target.",
+    title: "Download the image",
+    desc: "Save the optimized image once the result meets your requirements.",
     icon: "⬇️",
   },
 ];
 
 const coreFeatures: FeatureItem[] = [
   {
-    title: "Target Size Control",
-    desc: "Set an exact KB goal instead of guessing with quality percentages.",
+    title: "50 KB Target Size",
+    desc: "Set a specific file-size goal when a website, form, or application requires a small image.",
     icon: "🎯",
   },
   {
-    title: "Multiple Formats",
-    desc: "Works with JPG, JPEG, WebP, and PNG files.",
+    title: "Width Control",
+    desc: "Specify the output image width when smaller dimensions are needed.",
+    icon: "↔️",
+  },
+  {
+    title: "Height Control",
+    desc: "Set the output image height independently or together with the width.",
+    icon: "↕️",
+  },
+  {
+    title: "Lock Aspect Ratio",
+    desc: "Keep the original image proportions while changing width or height.",
+    icon: "🔒",
+  },
+  {
+    title: "Quality Control",
+    desc: "Adjust compression quality to balance visual detail and output file size.",
+    icon: "🎚️",
+  },
+  {
+    title: "Multiple Image Formats",
+    desc: "Process JPG, JPEG, PNG, and WebP images for common upload and web workflows.",
     icon: "🧩",
   },
   {
-    title: "Transparency Support",
-    desc: "Keeps transparent areas intact for PNG images.",
-    icon: "🔲",
-  },
-  {
-    title: "Preview First",
-    desc: "See the compressed result before you download it.",
+    title: "Preview Before Download",
+    desc: "Review the processed image and resulting file size before saving it.",
     icon: "👀",
   },
   {
-    title: "Fast Browser Workflow",
-    desc: "A simple upload, compress, preview, and download flow.",
-    icon: "⚡",
-  },
-  {
-    title: "Responsive Design",
-    desc: "Works smoothly on desktop and mobile devices.",
+    title: "Responsive Workflow",
+    desc: "Use the image compressor from phones, tablets, laptops, and desktop browsers.",
     icon: "📱",
   },
 ];
 
 const useCases = [
   {
-    title: "Job applications",
-    desc: "Submit photos or documents that must stay under a fixed size limit.",
+    title: "Government and official forms",
+    desc: "Prepare images when an application portal requires a small maximum file size.",
   },
   {
-    title: "Government forms",
-    desc: "Meet strict upload requirements without trial and error.",
+    title: "Job applications",
+    desc: "Optimize profile or document images for recruitment portals with upload limits.",
+  },
+  {
+    title: "Exam and admission forms",
+    desc: "Reduce photos and signatures when educational portals impose strict image-size requirements.",
+  },
+  {
+    title: "Passport-style photos",
+    desc: "Combine file-size control with width and height adjustments when a portal specifies image dimensions.",
   },
   {
     title: "Website uploads",
-    desc: "Keep pages lighter and reduce load time for media-heavy layouts.",
+    desc: "Create smaller images for websites, dashboards, directories, and content systems.",
   },
   {
     title: "Email attachments",
-    desc: "Make images easier to send and receive.",
-  },
-  {
-    title: "Profile photos",
-    desc: "Create compact images for portals, dashboards, and directories.",
-  },
-  {
-    title: "Product listings",
-    desc: "Optimize catalog images while keeping them sharp enough to display well.",
+    desc: "Reduce image file sizes when you need smaller attachments without manually editing the original.",
   },
 ];
 
@@ -183,44 +188,75 @@ const formatGuidance = [
   {
     format: "JPG / JPEG",
     bestFor: "Photographs, portraits, and colorful images without transparency.",
-    note: "Usually the easiest format to bring down to 50 KB.",
+    note: "Usually a practical choice for reducing photographs to a small target size.",
   },
   {
     format: "WebP",
-    bestFor: "Modern web images where smaller size matters.",
-    note: "Often gives better compression than JPG at similar visual quality.",
+    bestFor: "Modern websites and applications where efficient image delivery matters.",
+    note: "Often provides efficient compression while maintaining good visual quality.",
   },
   {
     format: "PNG",
-    bestFor: "Logos, icons, screenshots, and images with transparency.",
-    note: "Best when edges and transparency matter more than file size.",
+    bestFor: "Logos, signatures, icons, screenshots, and transparent graphics.",
+    note: "Useful when transparency or sharp edges are more important than aggressive compression.",
+  },
+];
+
+const resizingGuidance = [
+  {
+    option: "Target size",
+    effect: "Controls the desired output file size in KB or another supported unit.",
+    bestFor: "Forms and portals with strict upload limits.",
+  },
+  {
+    option: "Width",
+    effect: "Changes the output image width.",
+    bestFor: "Specific website or application dimension requirements.",
+  },
+  {
+    option: "Height",
+    effect: "Changes the output image height.",
+    bestFor: "Applications that specify a required image height.",
+  },
+  {
+    option: "Lock aspect ratio",
+    effect: "Keeps the original width-to-height proportions while resizing.",
+    bestFor: "Preventing stretched or distorted images.",
   },
 ];
 
 const relatedTools = [
-  { name: "Compress Image", href: "/tools/image/compress-image" },
-  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
-  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
-  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
-  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
-];
-
-const qualityGuide = [
   {
-    range: "Keep dimensions",
-    reduction: "Best when the image is already close to 50 KB.",
-    use: "Forms and uploads where resizing is not allowed.",
+    name: "Compress Image",
+    href: "/tools/image/compress-image",
   },
   {
-    range: "Small resize allowed",
-    reduction: "Better chance of reaching 50 KB with a clean result.",
-    use: "Photos and screenshots that can safely shrink a little.",
+    name: "Compress JPG",
+    href: "/tools/image/compress-jpg",
   },
   {
-    range: "Aggressive compression",
-    reduction: "Use only when file size matters more than detail.",
-    use: "Tight upload limits and low-bandwidth delivery.",
+    name: "Compress PNG",
+    href: "/tools/image/compress-png",
+  },
+  {
+    name: "Compress WebP",
+    href: "/tools/image/compress-webp",
+  },
+  {
+    name: "Compress Image to 20 KB",
+    href: "/tools/image/compress-image-to-20kb",
+  },
+  {
+    name: "Compress Image to 100 KB",
+    href: "/tools/image/compress-image-to-100kb",
+  },
+  {
+    name: "Passport Photo Resizer",
+    href: "/tools/image/passport-photo-resizer",
+  },
+  {
+    name: "Resize Signature for Upload",
+    href: "/tools/image/resize-signature-for-upload",
   },
 ];
 
@@ -230,16 +266,19 @@ const faqJsonLd = {
   mainEntity: faqItems.map((item) => ({
     "@type": "Question",
     name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
   })),
 };
 
 const howToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Compress Images to 50 KB",
+  name: "How to Compress an Image to 50 KB",
   description:
-    "Compress JPG, JPEG, WebP, and PNG images to a target file size with preview and download support.",
+    "Compress JPG, JPEG, PNG, and WebP images toward a 50 KB target while optionally adjusting width, height, aspect ratio, and quality.",
   totalTime: "PT1M",
   step: howToSteps.map((step, index) => ({
     "@type": "HowToStep",
@@ -253,7 +292,12 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Tools",
+      item: `${siteUrl}/tools`,
+    },
     {
       "@type": "ListItem",
       position: 2,
@@ -273,6 +317,20 @@ const itemListJsonLd = {
     name: tool.name,
     url: `${siteUrl}${tool.href}`,
   })),
+};
+
+const webPageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: `Compress Image to 50 KB Online | ${siteName}`,
+  description:
+    "Compress JPG, JPEG, PNG, and WebP images toward a 50 KB target with controls for width, height, aspect ratio, and image quality.",
+  url: canonicalUrl,
+  isPartOf: {
+    "@type": "WebSite",
+    name: siteName,
+    url: siteUrl,
+  },
 };
 
 function JsonLd({ data }: { data: unknown }) {
@@ -297,9 +355,13 @@ function SectionHeading({
 }) {
   return (
     <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">
+      <h2
+        id={id}
+        className="text-xl font-bold tracking-tight sm:text-2xl"
+      >
         {title}
       </h2>
+
       {description ? (
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
           {description}
@@ -316,109 +378,211 @@ export default function ImageCompressor50SeoContent() {
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
+      <JsonLd data={webPageJsonLd} />
 
-      <section aria-labelledby="intro-heading" className="space-y-3">
+      <section
+        aria-labelledby="intro-heading"
+        className="space-y-3"
+      >
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Target Size Image Compressor
+          50 KB Image Compressor
         </p>
+
         <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          Compress JPG, JPEG, WebP & PNG to 50 KB
+          Compress JPG, JPEG, WebP &amp; PNG to 50 KB
         </h2>
+
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Reduce image file size to a specific KB target without guessing quality
-          settings. This tool is built for uploads, forms, email attachments, and
-          lightweight web use.
+          Compress an image toward a 50 KB target when a website, application,
+          form, or upload portal requires a small file size. Choose your target
+          size and optionally adjust the image width, height, aspect ratio, and
+          compression quality.
         </p>
+
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          Use it when a platform asks for a file under a fixed limit like 50 KB.
-          It keeps the workflow simple: upload, set the target, preview, and
-          download.
+          The workflow is simple: upload an image, set the target size, adjust
+          dimensions if needed, preview the result, and download the optimized
+          file.
         </p>
+
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          JPG/JPEG, WebP, and PNG are all supported, so users can stay on the
-          format they already have instead of converting unnecessarily.
+          JPG/JPEG, WebP, and PNG are supported, making the tool useful for
+          photographs, signatures, profile images, screenshots, logos, and other
+          common image uploads.
         </p>
       </section>
 
-      <section aria-labelledby="why-heading" className="space-y-4">
+      <section
+        aria-labelledby="why-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="why-heading"
-          title="Why Use a Target Size Compressor?"
-          description="A size-based tool is better when the limit is fixed and the result needs to be predictable."
+          title="Why Use a 50 KB Image Compressor?"
+          description="A target-size compressor is useful when the upload requirement is defined by file size rather than a simple quality percentage."
         />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
             [
-              "Hit upload limits",
-              "Useful when a form, portal, or app requires a file under 50 KB.",
+              "Meet strict upload limits",
+              "Useful when a form, portal, application, or website requires an image below a specific size.",
             ],
             [
-              "Avoid guesswork",
-              "You do not need to trial-and-error quality percentages to reach a size limit.",
+              "Control image dimensions",
+              "Resize the image by setting width and height instead of relying only on compression.",
             ],
             [
-              "Keep the workflow fast",
-              "One goal, one target, and one download path makes the process easier.",
+              "Preserve proportions",
+              "Lock the aspect ratio when resizing so the image does not become stretched or distorted.",
             ],
             [
-              "Protect the right format",
-              "JPEG for photos, WebP for modern web use, PNG for transparency and sharp graphics.",
+              "Balance quality and size",
+              "Use quality controls when you need to reduce file size while retaining as much visual detail as possible.",
             ],
           ].map(([title, desc]) => (
             <article
               key={title}
               className="rounded-xl border border-white/10 bg-white/5 p-4"
             >
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="usecase-heading" className="space-y-4">
+      <section
+        aria-labelledby="usecase-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="usecase-heading"
-          title="Real-World Use Cases"
-          description="These are the situations where a 50 KB target is actually useful."
+          title="Common Use Cases"
+          description="A 50 KB target is especially useful for platforms that impose strict image upload limits."
         />
+
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {useCases.map((item) => (
             <article
               key={item.title}
               className="rounded-xl border border-white/10 bg-white/5 p-4"
             >
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{item.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{item.desc}</p>
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {item.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="format-heading" className="space-y-4">
+      <section
+        aria-labelledby="controls-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="controls-heading"
+          title="Image Compression and Resize Controls"
+          description="Use the controls that match the upload requirement instead of relying on compression alone."
+        />
+
+        <div className="overflow-x-auto rounded-2xl border border-white/10">
+          <table className="min-w-full text-left text-xs sm:text-sm">
+            <thead className="bg-white/10">
+              <tr>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Option
+                </th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  What It Does
+                </th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Useful For
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {resizingGuidance.map((item) => (
+                <tr
+                  key={item.option}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-2.5 font-medium sm:px-4">
+                    {item.option}
+                  </td>
+
+                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                    {item.effect}
+                  </td>
+
+                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                    {item.bestFor}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="format-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="format-heading"
-          title="Which Format to Use"
-          description="Pick the format that matches the image type and the job it needs to do."
+          title="Which Image Format Should You Use?"
+          description="The best output format depends on whether you need photographs, transparency, sharp graphics, or efficient web delivery."
         />
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+
+        <div className="overflow-x-auto rounded-2xl border border-white/10">
           <table className="min-w-full text-left text-xs sm:text-sm">
             <thead className="bg-white/10">
               <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Format</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Best For</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Notes</th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Format
+                </th>
+
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Best For
+                </th>
+
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Notes
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {formatGuidance.map((item) => (
-                <tr key={item.format} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{item.format}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.bestFor}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.note}</td>
+                <tr
+                  key={item.format}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-2.5 font-medium sm:px-4">
+                    {item.format}
+                  </td>
+
+                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                    {item.bestFor}
+                  </td>
+
+                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                    {item.note}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -426,50 +590,28 @@ export default function ImageCompressor50SeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="quality-heading" className="space-y-4">
-        <SectionHeading
-          id="quality-heading"
-          title="Size-First Compression Options"
-          description="These options are useful when the file size matters more than a quality slider."
-        />
-        <div className="overflow-hidden rounded-2xl border border-white/10">
-          <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Mode</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Effect</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Best For</th>
-              </tr>
-            </thead>
-            <tbody>
-              {qualityGuide.map((item) => (
-                <tr key={item.range} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{item.range}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.reduction}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.use}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section aria-labelledby="features-heading" className="space-y-4">
+      <section
+        aria-labelledby="features-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="features-heading"
-          title="What Users Get"
-          description="The page should make it obvious that this is the right tool."
+          title="Image Compressor Features"
+          description="The combination of target size, dimensions, aspect-ratio control, and quality settings gives you more control than a basic compression slider."
         />
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/20 hover:bg-white/[0.07]"
             >
               <div className="text-xl">{feature.icon}</div>
+
               <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">
                 {feature.title}
               </h3>
+
               <p className="mt-1.5 text-sm leading-6 text-white/70">
                 {feature.desc}
               </p>
@@ -478,13 +620,17 @@ export default function ImageCompressor50SeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="steps-heading" className="space-y-4">
+      <section
+        aria-labelledby="steps-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="steps-heading"
-          title="How to Compress to 50 KB"
-          description="Keep the instructions short so the page feels easy to use."
+          title="How to Compress an Image to 50 KB"
+          description="Follow these steps to reduce the image toward the required file size while controlling its dimensions."
         />
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
@@ -494,11 +640,14 @@ export default function ImageCompressor50SeoContent() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
                   {index + 1}
                 </div>
+
                 <span className="text-xl">{step.icon}</span>
               </div>
+
               <h3 className="mt-3 text-sm font-semibold sm:text-[0.95rem]">
                 {step.title}
               </h3>
+
               <p className="mt-1.5 text-sm leading-6 text-white/70">
                 {step.desc}
               </p>
@@ -507,55 +656,125 @@ export default function ImageCompressor50SeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="support-heading" className="space-y-4">
+      <section
+        aria-labelledby="quality-heading"
+        className="space-y-4"
+      >
         <SectionHeading
-          id="support-heading"
-          title="Format Support"
-          description="These are the common file types users expect from a size compressor."
+          id="quality-heading"
+          title="How Quality, Dimensions, and File Size Work Together"
+          description="Getting an image to a small target size can require a combination of compression and resizing."
         />
-        <div className="grid gap-3 md:grid-cols-2">
+
+        <div className="grid gap-3 md:grid-cols-3">
           {[
-            ["JPG / JPEG", "Best for photos and images without transparency."],
-            ["WebP", "Great for modern web images with smaller output sizes."],
-            ["PNG", "Best for logos, icons, screenshots, and transparent graphics."],
-            ["Target size output", "Designed to reach a specific KB goal like 50 KB."],
-          ].map(([title, desc]) => (
+            {
+              title: "Quality",
+              desc: "Lower compression quality generally reduces file size but can introduce more visible artifacts.",
+            },
+            {
+              title: "Dimensions",
+              desc: "Reducing width and height removes pixels from the image and can significantly reduce the resulting file size.",
+            },
+            {
+              title: "Target size",
+              desc: "The target provides the file-size goal, while quality and dimensions help determine how the image reaches that goal.",
+            },
+          ].map((item) => (
             <article
-              key={title}
+              key={item.title}
               className="rounded-xl border border-white/10 bg-white/5 p-4"
             >
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {item.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="related-heading" className="space-y-4">
+      <section
+        aria-labelledby="support-heading"
+        className="space-y-4"
+      >
         <SectionHeading
-          id="related-heading"
-          title="Related Tools"
-          description="Useful next steps for users who also need editing or conversion."
+          id="support-heading"
+          title="Supported Image Types"
+          description="Use common image formats without needing a separate conversion tool first."
         />
-        <div className="flex flex-wrap gap-2.5">
-          {relatedTools.map((tool) => (
-            <a
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
+
+        <div className="grid gap-3 md:grid-cols-2">
+          {[
+            [
+              "JPG / JPEG",
+              "Best suited to photographs, portraits, and colorful images without transparency.",
+            ],
+            [
+              "WebP",
+              "Useful for modern websites and applications where efficient image delivery matters.",
+            ],
+            [
+              "PNG",
+              "Useful for signatures, logos, icons, screenshots, and images requiring transparency.",
+            ],
+            [
+              "50 KB target",
+              "Designed for situations where an upload requires a small file size such as 50 KB.",
+            ],
+          ].map(([title, desc]) => (
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
             >
-              {tool.name}
-            </a>
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
+            </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="faq-heading" className="space-y-4">
+      <section
+        aria-labelledby="related-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="related-heading"
+          title="Related Image Tools"
+          description="Explore other Atoolix image tools when you need a different target size, format, or resizing workflow."
+        />
+
+        <div className="flex flex-wrap gap-2.5">
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
+              href={tool.href}
+              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
+            >
+              {tool.name}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="faq-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="faq-heading"
           title="Frequently Asked Questions"
-          description="Use direct answers so the page feels helpful and specific."
+          description="Answers to common questions about compressing images to 50 KB and controlling their dimensions."
         />
+
         <div className="space-y-3">
           {faqItems.map((item) => (
             <details
@@ -565,20 +784,34 @@ export default function ImageCompressor50SeoContent() {
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
+
               <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">{item.a}</p>
+                <p className="text-sm leading-6 text-white/70">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="cta-heading" className="space-y-4">
-        <SectionHeading
+      <section
+        aria-labelledby="cta-heading"
+        className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6"
+      >
+        <h2
           id="cta-heading"
-          title="Start Compressing Images"
-          description="A simple target-size workflow makes it easy to get the file under 50 KB."
-        />
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Compress Your Image to 50 KB
+        </h2>
+
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          Use a 50 KB target when an upload portal has a strict file-size
+          requirement. Adjust width, height, aspect ratio, and quality when
+          additional control is needed, then preview and download the optimized
+          image.
+        </p>
       </section>
     </div>
   );
