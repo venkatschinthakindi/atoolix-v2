@@ -1,204 +1,355 @@
+import Link from "next/link";
+
 export default function BackgroundRemoverSeoContent() {
+  // ---------------------------------------------------------------------
+  // SINGLE SOURCE OF TRUTH FOR THIS ROUTE'S URL
+  // ---------------------------------------------------------------------
+  // Keep this value synchronized with:
+  // - alternates.canonical
+  // - og:url
+  // - sitemap.xml
+  // - any route-level metadata
+  //
+  // No query parameters, trailing-slash mismatch, or alternate host.
+  // ---------------------------------------------------------------------
+  const PAGE_URL = "https://www.atoolix.com/tools/image/background-remover";
+
   const faqItems = [
     {
       q: "What does this background remover do?",
-      a: "It automatically detects the subject in your photo and removes the background, letting you replace it with transparency, a solid color, a custom image, or a blurred version of the original.",
+      a: "This browser-based background remover uses an on-device AI model to detect the main subject in an image and remove the original background. You can then keep it transparent, replace it with a solid color, add your own background image, or blur the original background.",
     },
     {
-      q: "Is this background remover free?",
-      a: "Yes. You can remove backgrounds and export the result without any account, watermark, or payment.",
+      q: "Can I remove the background from a photo online?",
+      a: "Yes. Upload a supported image and the background can be removed directly in your browser without installing desktop software.",
     },
     {
-      q: "Does it upload my photos to a server?",
-      a: "No. Background removal runs entirely in your browser using an on-device AI model, so your images never leave your device.",
+      q: "Is this AI background remover free?",
+      a: "Yes. You can remove image backgrounds and export the result without creating an account or adding a watermark.",
+    },
+    {
+      q: "Does the background remover upload my photos?",
+      a: "No. Background removal runs locally in your browser using an on-device AI model, so the image itself does not need to be uploaded to an external server.",
     },
     {
       q: "Can I make the background transparent?",
-      a: "Yes. Transparent is the default background mode, and PNG or WEBP export preserves the transparency.",
+      a: "Yes. Transparent is one of the available background modes. PNG and WEBP exports can preserve transparency.",
     },
     {
-      q: "Can I change the background to white, black, or another color?",
-      a: "Yes. Choose from preset colors like white, black, and gray, or pick any custom color with the color picker.",
+      q: "Can I replace the background with a solid color?",
+      a: "Yes. You can choose a solid background color using available presets or a custom color picker, depending on the options provided by the tool.",
     },
     {
       q: "Can I use my own image as the new background?",
-      a: "Yes. Upload any image and it will be placed behind your subject automatically, scaled to fit.",
+      a: "Yes. You can upload a custom background image and place it behind the detected subject.",
     },
     {
-      q: "Can I blur the background instead of replacing it?",
-      a: "Yes. Blur mode keeps your original background but softens it, similar to a portrait-mode photo, with an adjustable blur strength.",
+      q: "Can I blur the original background?",
+      a: "Yes. Blur mode keeps the original background while applying adjustable blur so the main subject stands out more clearly.",
+    },
+    {
+      q: "What background options are available?",
+      a: "The available background modes are transparent, solid color, custom image, and blurred original background.",
     },
     {
       q: "What image formats can I upload?",
-      a: "JPG, JPEG, PNG, WEBP, BMP, GIF, and AVIF are supported for upload.",
+      a: "The tool supports JPG, JPEG, PNG, WEBP, BMP, GIF, and AVIF image uploads.",
     },
     {
-      q: "What formats can I export as?",
-      a: "You can export as PNG, WEBP, or JPEG. Note that JPEG does not support transparency, so a transparent background will be filled with white in JPEG exports.",
+      q: "What formats can I export?",
+      a: "You can export the processed image as PNG, WEBP, or JPEG.",
     },
     {
-      q: "Will exporting as JPEG lose my transparent background?",
-      a: "Yes. JPEG cannot store transparency, so if you export in JPEG with a transparent background selected, the tool automatically fills it with white instead of producing a broken file.",
+      q: "Does JPEG support transparent backgrounds?",
+      a: "No. JPEG does not support transparency. If a transparent background is selected while exporting as JPEG, the transparent area is filled with white.",
     },
     {
-      q: "Is this tool mobile friendly?",
-      a: "Yes. The layout is responsive and works smoothly on mobile, tablet, and desktop devices.",
+      q: "Which export format should I use for transparency?",
+      a: "Use PNG or WEBP when you need to preserve a transparent background. JPEG is better suited to images that use a solid or filled background.",
     },
     {
-      q: "Do I need to sign up to use it?",
-      a: "No. You can remove backgrounds directly without registration.",
+      q: "Can I copy the result to my clipboard?",
+      a: "Yes. The processed image can also be copied directly to your clipboard for use in compatible documents, presentations, editors, and other applications.",
+    },
+    {
+      q: "Can I remove backgrounds on mobile?",
+      a: "Yes. The responsive interface works on smartphones, tablets, laptops, and desktop browsers.",
+    },
+    {
+      q: "Do I need to install software?",
+      a: "No. The background remover runs in your web browser and does not require desktop software installation.",
+    },
+    {
+      q: "Do I need an account?",
+      a: "No. You can use the background removal workflow without registering for an account.",
     },
   ];
 
   const howToSteps = [
     {
-      title: "Upload your photo",
-      desc: "Drag and drop or choose a JPG, PNG, WEBP, or other supported image.",
+      title: "Upload Your Image",
+      desc: "Drag and drop or select a supported JPG, JPEG, PNG, WEBP, BMP, GIF, or AVIF image.",
       icon: "🖼️",
     },
     {
-      title: "Review the original",
-      desc: "Check the preview, file size, and dimensions before processing.",
+      title: "Review the Original",
+      desc: "Check the image preview, dimensions, and file information before processing.",
       icon: "👀",
     },
     {
-      title: "Choose a background",
-      desc: "Pick transparent, a solid color, a custom image, or a blurred original.",
-      icon: "🎨",
-    },
-    {
-      title: "Remove the background",
-      desc: "Run the on-device AI model to cut out the subject automatically.",
+      title: "Remove the Background",
+      desc: "Run the on-device AI model to detect the main subject and separate it from the original background.",
       icon: "✂️",
     },
     {
-      title: "Download or copy",
-      desc: "Export as PNG, WEBP, or JPEG, or copy the result straight to your clipboard.",
+      title: "Choose a Background",
+      desc: "Keep it transparent, use a solid color, add a custom image, or blur the original background.",
+      icon: "🎨",
+    },
+    {
+      title: "Preview and Export",
+      desc: "Review the result, then export it as PNG, WEBP, or JPEG or copy it to your clipboard.",
       icon: "⬇️",
+    },
+  ];
+
+  const backgroundModes = [
+    {
+      title: "Transparent Background",
+      desc: "Remove the original background completely and keep the subject on a transparent canvas for cutouts, products, logos, and design assets.",
+      icon: "🪟",
+    },
+    {
+      title: "Solid Color Background",
+      desc: "Replace the removed background with a selected color, such as white, black, gray, or another custom color.",
+      icon: "🎨",
+    },
+    {
+      title: "Custom Image Background",
+      desc: "Upload your own image and place it behind the extracted subject for creative compositions, product scenes, thumbnails, and social graphics.",
+      icon: "🖼️",
+    },
+    {
+      title: "Blur Original Background",
+      desc: "Keep the original scene while softening the background with adjustable blur to create a portrait-style effect.",
+      icon: "🌫️",
+    },
+  ];
+
+  const exportFormats = [
+    {
+      title: "PNG",
+      desc: "Ideal when you need a transparent background or lossless image output.",
+      icon: "🟦",
+    },
+    {
+      title: "WEBP",
+      desc: "A modern web-friendly format that can preserve transparency while keeping file sizes efficient.",
+      icon: "🌐",
+    },
+    {
+      title: "JPEG",
+      desc: "Useful for standard photographic output when transparency is not required. Transparent areas are filled with white.",
+      icon: "🟨",
     },
   ];
 
   const coreFeatures = [
     {
-      title: "On-Device Processing",
-      desc: "Background removal runs locally in the browser — no photo is ever uploaded to a server.",
-      icon: "🔒",
+      title: "On-Device AI Background Removal",
+      desc: "Detect and separate the main subject using an AI model that runs locally in the browser.",
+      icon: "🤖",
     },
     {
-      title: "Transparent Backgrounds",
-      desc: "Export with a true transparent background in PNG or WEBP for logos, products, and cutouts.",
+      title: "Transparent Background",
+      desc: "Remove the background and preserve transparency for cutouts, products, logos, and design assets.",
       icon: "🪟",
     },
     {
-      title: "Solid Color Backgrounds",
-      desc: "Swap in white, black, or any custom color using presets or a full color picker.",
+      title: "Solid Color Replacement",
+      desc: "Replace the original background with a preset or custom solid color.",
       icon: "🎨",
     },
     {
-      title: "Custom Background Images",
-      desc: "Upload your own image and place it behind the subject automatically.",
+      title: "Custom Image Background",
+      desc: "Upload your own image and place it behind the extracted subject.",
       icon: "🖼️",
     },
     {
-      title: "Blur Background Mode",
-      desc: "Keep the original scene but soften it with adjustable blur strength, portrait-mode style.",
+      title: "Blur Original Background",
+      desc: "Keep the original background while applying adjustable blur to emphasize the subject.",
       icon: "🌫️",
     },
     {
-      title: "Multiple Export Formats",
-      desc: "Save results as PNG, WEBP, or JPEG depending on where you'll use the image.",
+      title: "PNG, WEBP and JPEG Export",
+      desc: "Choose the output format based on whether you need transparency, web delivery, or standard photographic output.",
       icon: "💾",
     },
     {
-      title: "Copy to Clipboard",
-      desc: "Copy the finished image directly and paste it into documents, slides, or design tools.",
+      title: "Clipboard Copy",
+      desc: "Copy the processed image directly to your clipboard for use in compatible applications.",
       icon: "📋",
     },
     {
-      title: "Responsive Design",
-      desc: "Works well on phones, tablets, laptops, and desktops.",
+      title: "Responsive Browser Experience",
+      desc: "Use the background remover across phones, tablets, laptops, and desktop browsers.",
       icon: "📱",
     },
+  ];
+
+  const features = [
+    { icon: "🤖", label: "AI-powered background removal" },
+    { icon: "🔒", label: "Local browser processing" },
+    { icon: "🪟", label: "Transparent background mode" },
+    { icon: "🎨", label: "Solid and custom colors" },
+    { icon: "🖼️", label: "Custom image backgrounds" },
+    { icon: "🌫️", label: "Adjustable original-background blur" },
+    { icon: "🟦", label: "PNG export" },
+    { icon: "🌐", label: "WEBP export" },
+    { icon: "🟨", label: "JPEG export" },
+    { icon: "📋", label: "Copy to clipboard" },
+    { icon: "📱", label: "Mobile-friendly interface" },
+    { icon: "☁️", label: "No image upload required" },
   ];
 
   const audiences = [
     {
       title: "Online Sellers",
-      desc: "Create clean, consistent product photos with transparent or white backgrounds.",
+      desc: "Create clean product images with transparent or plain backgrounds for online stores and marketplaces.",
       icon: "🛍️",
     },
     {
       title: "Designers",
-      desc: "Cut out subjects for logos, mockups, and composites without design software.",
+      desc: "Create subject cutouts for mockups, posters, thumbnails, presentations, and visual compositions.",
       icon: "🎨",
     },
     {
       title: "Job Seekers",
-      desc: "Prepare professional profile and passport-style photos with a plain background.",
+      desc: "Prepare professional-looking profile or application photos with a clean background.",
       icon: "💼",
     },
     {
       title: "Social Media Creators",
-      desc: "Swap backgrounds for thumbnails, posts, and profile pictures in seconds.",
+      desc: "Replace or blur backgrounds for profile images, posts, thumbnails, and social graphics.",
       icon: "📣",
     },
     {
       title: "Students",
-      desc: "Prepare clean images for projects, presentations, and assignments.",
+      desc: "Prepare clean visual assets for assignments, presentations, projects, and educational content.",
       icon: "🎓",
     },
     {
       title: "Mobile Users",
-      desc: "Remove backgrounds on the go from any phone or tablet browser.",
+      desc: "Remove and replace image backgrounds directly from a phone or tablet browser.",
       icon: "📲",
     },
   ];
 
   const relatedTools = [
-    { name: "Image Compressor", href: "/tools/image/compress-image" },
-    { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-    { name: "JPG to PNG Converter", href: "/tools/image/jpg-to-png" },
-    { name: "PNG to JPG Converter", href: "/tools/image/png-to-jpg" },
-    { name: "WebP to PNG Converter", href: "/tools/image/webp-to-png" },
-    { name: "Resize Signature for Upload", href: "/tools/image/resize-signature-for-upload" },
+    {
+      name: "Image Compressor",
+      href: "/tools/image/compress-image",
+    },
+    {
+      name: "Passport Photo Resizer",
+      href: "/tools/image/passport-photo-resizer",
+    },
+    {
+      name: "JPG to PNG Converter",
+      href: "/tools/image/jpg-to-png",
+    },
+    {
+      name: "PNG to JPG Converter",
+      href: "/tools/image/png-to-jpg",
+    },
+    {
+      name: "WebP to PNG Converter",
+      href: "/tools/image/webp-to-png",
+    },
+    {
+      name: "Resize Signature for Upload",
+      href: "/tools/image/resize-signature-for-upload",
+    },
   ];
 
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.q,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.a,
-      },
-    })),
+  // ---------------------------------------------------------------------
+  // Structured data
+  // ---------------------------------------------------------------------
+  // FAQPage schema is intentionally omitted from this production version.
+  // The FAQ remains visible and useful to users, but the page does not
+  // depend on FAQ rich-result eligibility.
+  //
+  // SoftwareApplication describes the actual browser-based application.
+  // No fabricated ratings/reviews are included.
+  // ---------------------------------------------------------------------
+
+  const softwareAppSchema = {
+    "@type": "SoftwareApplication",
+    name: "Background Remover - Atoolix",
+    applicationCategory: "MultimediaApplication",
+    operatingSystem: "Any (Web-based)",
+    url: PAGE_URL,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "AI-powered image background removal",
+      "On-device browser processing",
+      "Transparent background",
+      "Solid color background replacement",
+      "Custom image background replacement",
+      "Blur original background",
+      "PNG export",
+      "WEBP export",
+      "JPEG export",
+      "Copy processed image to clipboard",
+      "Mobile and desktop browser support",
+    ],
   };
 
-  const privacyJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Privacy Policy",
-    description:
-      "Privacy policy for browser-based background removal.",
+  const breadcrumbSchema = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.atoolix.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Image Tools",
+        item: "https://www.atoolix.com/tools/image",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Background Remover",
+        item: PAGE_URL,
+      },
+    ],
   };
+
+  const jsonLdGraph = {
+    "@context": "https://schema.org",
+    "@graph": [softwareAppSchema, breadcrumbSchema],
+  };
+
+  const jsonLdString = JSON.stringify(jsonLdGraph).replace(/</g, "\\u003c");
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(privacyJsonLd).replace(/</g, "\\u003c"),
+          __html: jsonLdString,
         }}
       />
 
+      {/* ===================== INTRO ===================== */}
       <section aria-labelledby="intro-heading" className="space-y-4">
         <h2
           id="intro-heading"
@@ -208,89 +359,101 @@ export default function BackgroundRemoverSeoContent() {
         </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
-          Remove the background from any photo for free with this browser-based background
-          remover. Replace it with transparency, a solid color, a custom image, or a blurred
-          version of the original — all processed locally, with nothing ever uploaded to a
-          server.
+          Remove the background from a photo online with this free browser-based
+          background remover. An on-device AI model detects the main subject and
+          separates it from the original background so you can create a
+          transparent cutout, replace the background with a solid color, add
+          your own image, or blur the original background.
         </p>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
-          Built for online sellers, designers, job seekers, social media creators, students, and
-          mobile users who want a clean, reliable background removal workflow.
+          The complete workflow runs directly in your browser. You can preview
+          the result, choose an output format, and export as{" "}
+          <b className="text-white">PNG, WEBP, or JPEG</b> without installing
+          desktop software or creating an account.
         </p>
       </section>
 
+      {/* ===================== WHAT IS IT ===================== */}
       <section aria-labelledby="definition-heading">
-        <h2 id="definition-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          What Is a Background Remover?
+        <h2
+          id="definition-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          What Is an AI Background Remover?
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          A background remover is an online tool that uses AI to detect the main subject in a
-          photo and separate it from everything behind it, so you can drop in a new background
-          or leave it transparent.
+          An AI background remover detects the primary subject in an image and
+          separates it from the surrounding background. This makes it easier to
+          create transparent cutouts, replace backgrounds, or soften distracting
+          scenery without manually tracing the subject.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          It helps simplify photo editing for product listings, profile pictures, design assets,
-          and any image that needs a clean, distraction-free background.
+          It can be useful for product photos, profile pictures, social media
+          graphics, presentations, thumbnails, design assets, and other images
+          that need a cleaner background.
         </p>
       </section>
 
+      {/* ===================== WHY USE ===================== */}
       <section aria-labelledby="why-use-heading">
-        <h2 id="why-use-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="why-use-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           Why Use an Online Background Remover?
         </h2>
+
         <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <p>Manually cutting out a subject in design software takes time and practice.</p>
-          <p>This tool automates the cutout with an AI model that runs in your browser.</p>
-          <p>You can preview, adjust the background, and export without installing anything.</p>
+          <p>
+            Manual background removal can require selection tools, masking,
+            editing software, and repeated adjustments.
+          </p>
+          <p>
+            This tool automates subject separation with an AI model that runs
+            directly in your browser.
+          </p>
+          <p>
+            After removing the background, you can immediately choose how the
+            image should look and export the result in a suitable format.
+          </p>
         </div>
       </section>
 
-      <section aria-labelledby="benefits-heading">
-        <h2 id="benefits-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Benefits of Using This Background Remover
+      {/* ===================== BACKGROUND MODES ===================== */}
+      <section aria-labelledby="background-modes-heading">
+        <h2
+          id="background-modes-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Choose How to Replace the Image Background
         </h2>
-        <div className="mt-3 space-y-2 text-sm text-white/70">
-          <p>• Saves time compared with manual masking or cutout tools.</p>
-          <p>• Processes images locally, so your photos stay private.</p>
-          <p>• Supports transparent, colored, custom, and blurred backgrounds.</p>
-          <p>• Great for product photos, portraits, logos, and social content.</p>
-          <p>• Easy to use on mobile and desktop devices.</p>
-        </div>
-      </section>
 
-      <section aria-labelledby="usecases-heading">
-        <h2 id="usecases-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Common Background Removal Use Cases
-        </h2>
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <li>Create transparent product photos for online stores and marketplaces.</li>
-          <li>Prepare a white or plain-colored background for a passport or ID photo.</li>
-          <li>Cut out a subject to place on a new background for a poster or thumbnail.</li>
-          <li>Clean up a profile picture by replacing a cluttered background.</li>
-          <li>Blur a busy background to make the subject stand out.</li>
-        </ul>
-      </section>
-
-      <section aria-labelledby="how-it-works-heading" className="space-y-4">
-        <h2 id="how-it-works-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          How This Background Remover Works
-        </h2>
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
-          The tool is designed to keep the process simple, fast, and easy to understand.
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+          After the original background is removed, choose the background style
+          that fits your use case. You can keep the subject transparent, use a
+          solid color, add your own image, or blur the original background.
         </p>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {howToSteps.map((step, i) => (
-            <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {backgroundModes.map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
               <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
-                  {i + 1}
-                </span>
-                <span className="text-2xl">{step.icon}</span>
+                <span className="text-2xl">{item.icon}</span>
+
                 <div>
-                  <p className="text-sm font-semibold text-white">{step.title}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -298,13 +461,174 @@ export default function BackgroundRemoverSeoContent() {
         </div>
       </section>
 
+      {/* ===================== EXPORT FORMATS ===================== */}
+      <section aria-labelledby="export-heading">
+        <h2
+          id="export-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Export as PNG, WEBP, or JPEG
+        </h2>
+
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+          Choose the output format based on how you plan to use the processed
+          image. PNG and WEBP can preserve transparency, while JPEG is suitable
+          when a filled background is required.
+        </p>
+
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          {exportFormats.map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">{item.icon}</span>
+
+                <div>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-4 text-xs leading-relaxed text-white/55">
+          <b className="text-white/80">Transparency note:</b> JPEG does not
+          support transparent pixels. When exporting a transparent result as
+          JPEG, transparent areas are filled with white.
+        </p>
+      </section>
+
+      {/* ===================== BENEFITS ===================== */}
+      <section aria-labelledby="benefits-heading">
+        <h2
+          id="benefits-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Benefits of Using This Background Remover
+        </h2>
+
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <p>
+            • Automatically separates the main subject without manual cutout
+            work.
+          </p>
+          <p>
+            • Keeps processing local in the browser for a privacy-focused
+            workflow.
+          </p>
+          <p>
+            • Supports transparent, solid-color, custom-image, and blurred
+            background modes.
+          </p>
+          <p>
+            • Lets you choose PNG, WEBP, or JPEG output depending on your needs.
+          </p>
+          <p>
+            • Works across desktop and mobile browsers without requiring
+            dedicated editing software.
+          </p>
+        </div>
+      </section>
+
+      {/* ===================== USE CASES ===================== */}
+      <section aria-labelledby="usecases-heading">
+        <h2
+          id="usecases-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Common Background Removal Use Cases
+        </h2>
+
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <li>
+            Create transparent product images for online stores and
+            marketplaces.
+          </li>
+          <li>
+            Replace a photo background with white or another plain color.
+          </li>
+          <li>
+            Cut out a subject and place it over a custom image for posters,
+            thumbnails, or social graphics.
+          </li>
+          <li>
+            Clean up a profile image by replacing a distracting background.
+          </li>
+          <li>
+            Blur the original background to make the subject stand out.
+          </li>
+          <li>
+            Prepare transparent design assets for presentations, websites, and
+            creative projects.
+          </li>
+        </ul>
+      </section>
+
+      {/* ===================== HOW IT WORKS ===================== */}
+      <section
+        aria-labelledby="how-it-works-heading"
+        className="space-y-4"
+      >
+        <h2
+          id="how-it-works-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          How to Remove an Image Background
+        </h2>
+
+        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+          The workflow is designed to take you from an original image to a
+          finished background replacement in a few steps.
+        </p>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {howToSteps.map((step, i) => (
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-start gap-3">
+                <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
+                  {i + 1}
+                </span>
+
+                <span className="text-2xl">{step.icon}</span>
+
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    {step.title}
+                  </p>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {step.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ===================== CORE FEATURES ===================== */}
       <section
         aria-labelledby="features-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
       >
-        <h2 id="features-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Core Features
+        <h2
+          id="features-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Background Remover Features
         </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item, i) => (
             <div
@@ -313,9 +637,15 @@ export default function BackgroundRemoverSeoContent() {
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -323,10 +653,37 @@ export default function BackgroundRemoverSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="audience-heading">
-        <h2 id="audience-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Who Should Use This Tool?
+      {/* ===================== FEATURE SUMMARY ===================== */}
+      <section aria-labelledby="feature-summary-heading">
+        <h2
+          id="feature-summary-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Key Background Removal Features
         </h2>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          {features.map((feature, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <span aria-hidden="true">{feature.icon}</span>
+              {feature.label}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* ===================== AUDIENCE ===================== */}
+      <section aria-labelledby="audience-heading">
+        <h2
+          id="audience-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Who Should Use This Background Remover?
+        </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item, i) => (
             <div
@@ -335,9 +692,15 @@ export default function BackgroundRemoverSeoContent() {
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -345,55 +708,75 @@ export default function BackgroundRemoverSeoContent() {
         </div>
       </section>
 
+      {/* ===================== PRIVACY ===================== */}
       <section aria-labelledby="privacy-heading">
-        <h2 id="privacy-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Privacy Policy
+        <h2
+          id="privacy-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Privacy and Local Image Processing
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          This background remover is browser-based, which means photos are processed locally on
-          your device during background removal. We do not require account registration to use
-          the tool.
+          Background removal is designed to run locally in your browser using
+          an on-device AI model. The image itself does not need to be uploaded
+          to an external processing server.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          If analytics or error monitoring are enabled, they should be used only to improve
-          performance and reliability, and they should not include your image contents.
+          No account is required to use the background-removal workflow. Any
+          analytics or error-monitoring systems used by the site should not
+          transmit the user's image contents.
         </p>
       </section>
 
+      {/* ===================== FAQ ===================== */}
       <section aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="faq-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           Frequently Asked Questions
         </h2>
+
         <div className="mt-4 space-y-4">
           {faqItems.map((item, i) => (
             <details
               key={i}
               className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white transition hover:bg-white/10">
                 {item.q}
               </summary>
+
               <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">{item.a}</p>
+                <p className="text-sm leading-relaxed text-white/65">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
+      {/* ===================== RELATED TOOLS ===================== */}
       <section aria-labelledby="related-tools-heading">
-        <h2 id="related-tools-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Related Tools
+        <h2
+          id="related-tools-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Related Image Tools
         </h2>
+
         <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
               href={tool.href}
               className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
             >
               {tool.name}
-            </a>
+            </Link>
           ))}
         </div>
       </section>
