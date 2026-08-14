@@ -1,62 +1,68 @@
+import Link from "next/link";
+
 export default function JpgToWebpSeoContent() {
   const faqItems = [
     {
       q: "What is a JPG to WebP converter?",
-      a: "A JPG to WebP converter is a browser-based tool that changes JPG images into WebP format quickly and accurately without installing software.",
+      a: "A JPG to WebP converter changes JPG or JPEG images into WebP format. WebP is a modern image format that can provide efficient compression and is widely supported by modern browsers and web platforms.",
     },
     {
       q: "Why should I convert JPG to WebP?",
-      a: "WebP often provides smaller file sizes than JPG while maintaining strong visual quality, which helps improve website performance.",
+      a: "JPG to WebP conversion can reduce image file size while maintaining useful visual quality, depending on the WebP encoding settings. Smaller images can be helpful for websites, applications, blogs, stores, and other digital experiences.",
     },
     {
       q: "Does converting JPG to WebP reduce quality?",
-      a: "WebP uses compression, so some quality changes can happen depending on the settings, but it usually keeps a strong balance between quality and file size.",
+      a: "It can, depending on the WebP encoding mode and quality settings. WebP supports both lossy and lossless compression. A lossy conversion may reduce file size while introducing some visual differences, so the result should be checked when image quality is important.",
     },
     {
       q: "Is WebP better than JPG for websites?",
-      a: "WebP is often better for websites because it can reduce file size and help pages load faster while still looking sharp.",
+      a: "WebP can be a strong choice for websites because it can provide efficient image compression and is supported by modern browsers. Whether it is better depends on the image, required quality, file size, browser support requirements, and your delivery workflow.",
     },
     {
-      q: "Is this converter browser-based?",
-      a: "Yes. The conversion runs directly in your browser, so files are processed locally without needing to upload them to a server.",
+      q: "Can I convert JPEG files to WebP?",
+      a: "Yes. JPG and JPEG are common file extensions for the JPEG image format, so JPG and JPEG images can both be converted to WebP.",
+    },
+    {
+      q: "Will WebP always be smaller than JPG?",
+      a: "No. WebP can often produce smaller files, but the final size depends on the source image, encoding settings, quality level, and image content. A conversion should be evaluated based on both file size and visual quality.",
+    },
+    {
+      q: "Is this JPG to WebP converter browser-based?",
+      a: "Yes. The converter is designed to run through your browser. When the conversion is performed locally, the image can be processed on your device without uploading it to a conversion server.",
     },
     {
       q: "Is this JPG to WebP converter mobile friendly?",
-      a: "Yes. The layout is responsive and works smoothly on mobile, tablet, laptop, and desktop devices.",
+      a: "Yes. The responsive interface is designed to work across modern phones, tablets, laptops, and desktop browsers.",
     },
     {
-      q: "Do I need to sign up to use it?",
-      a: "No. Users can usually access the converter directly without registration.",
+      q: "Do I need to install software or create an account?",
+      a: "No. You can convert JPG or JPEG images through the browser without installing dedicated desktop conversion software or creating an account.",
     },
     {
-      q: "Can I use it for website optimization?",
-      a: "Yes. JPG to WebP conversion is commonly used to reduce image size and improve loading speed for websites and apps.",
-    },
-    {
-      q: "Is this tool suitable for designers and everyday users?",
-      a: "Yes. It is useful for designers, developers, students, marketers, and anyone who needs a simple JPG to WebP conversion workflow.",
+      q: "Can JPG to WebP conversion improve website performance?",
+      a: "It can help when the resulting WebP files are smaller than the original images and are delivered efficiently. Smaller image downloads can reduce page weight and may improve loading performance, especially on slower connections.",
     },
   ];
 
   const howToSteps = [
     {
-      title: "Upload your JPG",
-      desc: "Choose a JPG file from your device.",
+      title: "Choose a JPG or JPEG",
+      desc: "Select the JPG or JPEG image you want to convert from your device.",
       icon: "🖼️",
     },
     {
-      title: "Convert in the browser",
-      desc: "The file is processed locally in the browser for a fast workflow.",
+      title: "Convert to WebP",
+      desc: "The converter processes the image and creates a WebP version through the browser.",
       icon: "⚡",
     },
     {
       title: "Download the WebP",
-      desc: "Save the converted WebP file to your device instantly.",
+      desc: "Save the converted WebP image directly to your device after processing.",
       icon: "⬇️",
     },
     {
-      title: "Use it on the web",
-      desc: "Use the WebP file for websites, apps, and modern image delivery.",
+      title: "Use it for web delivery",
+      desc: "Use the WebP file for websites, applications, blogs, stores, previews, or other digital workflows.",
       icon: "🌐",
     },
   ];
@@ -64,86 +70,123 @@ export default function JpgToWebpSeoContent() {
   const coreFeatures = [
     {
       title: "Browser-Based Conversion",
-      desc: "Convert images locally in the browser without upload-heavy workflows.",
+      desc: "Convert JPG and JPEG images through a modern web browser without dedicated desktop conversion software.",
       icon: "🌐",
     },
     {
-      title: "JPG Support",
-      desc: "Accept JPG files for fast and simple WebP conversion.",
+      title: "JPG and JPEG Support",
+      desc: "Work with common .jpg and .jpeg image files for convenient WebP conversion.",
       icon: "🧾",
     },
     {
-      title: "Web Performance Focused",
-      desc: "WebP is ideal for smaller image files and faster loading.",
+      title: "Web-Friendly Output",
+      desc: "Create WebP images for modern websites, applications, blogs, stores, and digital assets.",
       icon: "🚀",
     },
     {
-      title: "Privacy Friendly",
-      desc: "Local browser processing reduces the need to send files to a server.",
+      title: "Efficient Image Format",
+      desc: "WebP supports modern compression approaches that can provide efficient image delivery.",
+      icon: "📦",
+    },
+    {
+      title: "Local Processing",
+      desc: "When browser-local processing is used, image conversion can happen directly on your device.",
       icon: "🔒",
     },
     {
-      title: "Responsive Design",
-      desc: "Works well on phones, tablets, laptops, and desktops.",
+      title: "Mobile Friendly",
+      desc: "Use the converter across phones, tablets, laptops, and desktop browsers.",
       icon: "📱",
     },
     {
+      title: "No Dedicated Software",
+      desc: "Convert images through the browser without installing a separate image-conversion application.",
+      icon: "💻",
+    },
+    {
       title: "Simple Download",
-      desc: "Download the converted WebP immediately after processing.",
+      desc: "Download the converted WebP file directly after processing finishes.",
       icon: "💾",
-    },
-    {
-      title: "SEO-Friendly Layout",
-      desc: "Semantic sections help search engines understand the tool page.",
-      icon: "📑",
-    },
-    {
-      title: "Clean User Experience",
-      desc: "A clear layout makes the conversion flow easy to scan and use.",
-      icon: "✨",
     },
   ];
 
   const audiences = [
     {
       title: "Developers",
-      desc: "Use WebP to improve web performance and image delivery.",
+      desc: "Prepare WebP assets for websites, applications, interfaces, and modern image delivery.",
       icon: "👨‍💻",
     },
     {
       title: "Designers",
-      desc: "Create modern web-ready image assets with smaller file sizes.",
+      desc: "Create web-ready image assets while balancing visual quality and file size.",
       icon: "🎨",
     },
     {
-      title: "Students",
-      desc: "Convert images for projects, assignments, and presentations.",
-      icon: "🎓",
+      title: "Blog Owners",
+      desc: "Convert article and content images into a format suitable for modern web publishing.",
+      icon: "📝",
     },
     {
-      title: "Office Users",
-      desc: "Quickly convert image files for documents and sharing.",
-      icon: "💼",
+      title: "E-commerce Users",
+      desc: "Prepare product and promotional images for online stores and digital catalogs.",
+      icon: "🛒",
     },
     {
       title: "Marketers",
-      desc: "Prepare optimized graphics for campaigns and websites.",
+      desc: "Prepare campaign graphics and website assets with efficient image delivery in mind.",
       icon: "📣",
     },
     {
-      title: "Mobile Users",
-      desc: "Run fast conversions on the go from any device.",
-      icon: "📲",
+      title: "Students and Office Users",
+      desc: "Convert images for presentations, documents, projects, sharing, and digital workflows.",
+      icon: "🎓",
     },
   ];
 
   const relatedTools = [
-    { name: "SVG to PNG Converter", href: "/tools/image/svg-to-png" },
-    { name: "WebP to PNG Converter", href: "/tools/image/webp-to-png" },
-    { name: "PNG to JPG Converter", href: "/tools/image/png-to-jpg" },
-    { name: "Image Compressor", href: "/tools/image/compress-image" },
-    { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-    { name: "Resize Signature for Upload", href: "/tools/image/resize-signature-for-upload" },
+    {
+      name: "JPG to PNG Converter",
+      href: "/tools/image/jpg-to-png",
+    },
+    {
+      name: "WebP to JPG Converter",
+      href: "/tools/image/webp-to-jpg",
+    },
+    {
+      name: "WebP to JPEG Converter",
+      href: "/tools/image/webp-to-jpeg",
+    },
+    {
+      name: "PNG to WebP Converter",
+      href: "/tools/image/png-to-webp",
+    },
+    {
+      name: "WebP to PNG Converter",
+      href: "/tools/image/webp-to-png",
+    },
+    {
+      name: "Image Compressor",
+      href: "/tools/image/compress-image",
+    },
+  ];
+
+  const moreImageTools = [
+    {
+      name: "Compress JPG",
+      href: "/tools/image/compress-jpg",
+    },
+    {
+      name: "Compress WebP",
+      href: "/tools/image/compress-webp",
+    },
+    {
+      name: "Compress Image to 100KB",
+      href: "/tools/image/compress-image-to-100kb",
+    },
+    {
+      name: "Background Remover",
+      href: "/tools/image/background-remover",
+    },
   ];
 
   const faqJsonLd = {
@@ -159,13 +202,6 @@ export default function JpgToWebpSeoContent() {
     })),
   };
 
-  const privacyJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Privacy Policy",
-    description: "Privacy policy for browser-based JPG to WebP conversion.",
-  };
-
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
       <script
@@ -174,151 +210,477 @@ export default function JpgToWebpSeoContent() {
           __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(privacyJsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
 
-      <section aria-labelledby="intro-heading" className="space-y-4">
+      {/* Introduction */}
+
+      <section
+        aria-labelledby="intro-heading"
+        className="space-y-4"
+      >
         <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          JPG to WebP Converter – Convert Images Instantly in Your Browser
+          JPG to WebP Converter – Convert Images Online
         </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
-          Convert JPG images to WebP instantly with this free browser-based converter.
-          It is designed for fast, private, and simple image format conversion without
-          extra software or complicated steps.
+          Convert JPG and JPEG images to WebP online directly in your browser.
+          This free JPG to WebP converter provides a simple way to change image
+          formats without installing dedicated software or creating an account.
         </p>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
-          Built for developers, designers, students, office users, marketers, and mobile
-          users who want a clean and reliable JPG to WebP workflow.
+          WebP is a modern image format designed for efficient image delivery
+          and can provide smaller files than JPG in many situations. The actual
+          result depends on the source image and WebP encoding settings.
         </p>
       </section>
+
+      {/* Definition */}
 
       <section aria-labelledby="definition-heading">
-        <h2 id="definition-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="definition-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           What Is a JPG to WebP Converter?
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          A JPG to WebP converter is an online tool that changes JPG images into WebP format
-          so they can be used in workflows that benefit from smaller file sizes and better
-          modern web delivery.
+          A JPG to WebP converter changes an image stored in JPG or JPEG format
+          into WebP. WebP is a modern image format that supports both lossy and
+          lossless compression and is widely used for web images and digital
+          applications.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          It helps simplify image conversion for websites, apps, blog content, and digital
-          asset optimization.
+          Converting JPG images to WebP can be useful when you want to optimize
+          image delivery, reduce download size, or prepare assets for modern
+          websites, applications, blogs, online stores, and content platforms.
         </p>
       </section>
 
-      <section aria-labelledby="why-use-heading">
-        <h2 id="why-use-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Why Use an Online JPG to WebP Converter?
+      {/* JPG vs WebP */}
+
+      <section aria-labelledby="jpg-vs-webp-heading">
+        <h2
+          id="jpg-vs-webp-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          JPG vs WebP: Which Format Should You Use?
         </h2>
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <p>WebP often gives you smaller files than JPG.</p>
-          <p>This tool gives you a fast browser-based conversion flow.</p>
-          <p>You can convert without installing desktop software.</p>
+
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+          <table className="w-full min-w-[700px] text-left text-sm">
+            <thead className="border-b border-white/10">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-semibold text-white"
+                >
+                  JPG / JPEG
+                </th>
+
+                <th
+                  scope="col"
+                  className="px-4 py-3 font-semibold text-white"
+                >
+                  WebP
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="text-white/70">
+              <tr className="border-b border-white/10">
+                <td className="px-4 py-3">
+                  Widely used photographic image format
+                </td>
+
+                <td className="px-4 py-3">
+                  Modern format designed for efficient web image delivery
+                </td>
+              </tr>
+
+              <tr className="border-b border-white/10">
+                <td className="px-4 py-3">
+                  Primarily associated with lossy compression
+                </td>
+
+                <td className="px-4 py-3">
+                  Supports both lossy and lossless compression
+                </td>
+              </tr>
+
+              <tr className="border-b border-white/10">
+                <td className="px-4 py-3">
+                  Often compact for photographs
+                </td>
+
+                <td className="px-4 py-3">
+                  Can provide smaller files depending on image and settings
+                </td>
+              </tr>
+
+              <tr className="border-b border-white/10">
+                <td className="px-4 py-3">
+                  Very broad legacy compatibility
+                </td>
+
+                <td className="px-4 py-3">
+                  Broad support across modern browsers and platforms
+                </td>
+              </tr>
+
+              <tr>
+                <td className="px-4 py-3">
+                  Common source format for photos
+                </td>
+
+                <td className="px-4 py-3">
+                  Common choice for modern web image delivery
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/60 sm:text-base">
+          WebP is not automatically the best choice for every image. The right
+          format depends on your source image, target platform, required
+          quality, file size goals, browser requirements, and image-delivery
+          workflow.
+        </p>
       </section>
 
-      <section aria-labelledby="benefits-heading">
-        <h2 id="benefits-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Benefits of Using This Converter
-        </h2>
-        <div className="mt-3 space-y-2 text-sm text-white/70">
-          <p>• Saves time compared with manual file handling.</p>
-          <p>• Supports browser-based local processing.</p>
-          <p>• Great for web-friendly, lightweight image output.</p>
-          <p>• Useful for websites, apps, previews, and assets.</p>
-          <p>• Easy to use on mobile and desktop devices.</p>
-        </div>
-      </section>
+      {/* Why convert */}
 
-      <section aria-labelledby="usecases-heading">
-        <h2 id="usecases-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Common JPG to WebP Use Cases
+      <section aria-labelledby="why-convert-heading">
+        <h2
+          id="why-convert-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Why Convert JPG to WebP?
         </h2>
+
         <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <li>Convert JPG photos into WebP for faster websites.</li>
-          <li>Turn JPG banners into WebP for better performance.</li>
-          <li>Prepare WebP images for blogs and online stores.</li>
-          <li>Use WebP when you want smaller image files.</li>
-          <li>Save images in a format widely used on modern web platforms.</li>
+          <li>
+            • You want to reduce image download size where WebP produces a
+            smaller result.
+          </li>
+
+          <li>
+            • You are preparing images for a modern website or web application.
+          </li>
+
+          <li>
+            • You want an image format designed for efficient web delivery.
+          </li>
+
+          <li>
+            • You are optimizing blog, store, portfolio, or marketing images.
+          </li>
+
+          <li>
+            • You want to modernize an existing JPG-based image library.
+          </li>
         </ul>
       </section>
 
-      <section aria-labelledby="how-it-works-heading" className="space-y-4">
-        <h2 id="how-it-works-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          How This JPG to WebP Converter Works
+      {/* When to keep JPG */}
+
+      <section aria-labelledby="keep-jpg-heading">
+        <h2
+          id="keep-jpg-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          When Should You Keep JPG Instead?
         </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          Converting every JPG image to WebP is not automatically necessary.
+          JPG can remain the better choice when compatibility, existing
+          workflows, or the resulting file size makes it more appropriate.
+        </p>
+
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <li>
+            • Your existing platform specifically requires JPG or JPEG.
+          </li>
+
+          <li>
+            • The JPG is already smaller than the WebP result at an acceptable
+            quality level.
+          </li>
+
+          <li>
+            • You need maximum compatibility with older software or workflows.
+          </li>
+
+          <li>
+            • You do not have a practical need to change the image format.
+          </li>
+
+          <li>
+            • Your image-delivery system already handles JPG efficiently.
+          </li>
+        </ul>
+      </section>
+
+      {/* Quality */}
+
+      <section aria-labelledby="quality-heading">
+        <h2
+          id="quality-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Does JPG to WebP Conversion Reduce Quality?
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          It can, depending on the WebP compression mode and quality settings.
+          WebP supports both lossy and lossless compression, so the visual
+          result depends on how the image is encoded.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          A lossy WebP conversion can reduce file size while introducing some
+          visual differences. A lossless WebP workflow preserves image data
+          differently and may produce larger files. For important images,
+          compare the output visually and check the resulting file size before
+          publishing.
+        </p>
+      </section>
+
+      {/* Performance */}
+
+      <section aria-labelledby="performance-heading">
+        <h2
+          id="performance-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Can JPG to WebP Conversion Improve Website Performance?
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          It can help when the WebP version is smaller than the original JPG
+          while maintaining acceptable visual quality. Smaller image files
+          require less data to download, which can be especially useful for
+          image-heavy pages and visitors using slower connections.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          Image conversion is only one part of web performance. Responsive
+          images, appropriate dimensions, caching, lazy loading, compression,
+          and efficient delivery also affect how quickly images reach users.
+        </p>
+      </section>
+
+      {/* Benefits */}
+
+      <section aria-labelledby="benefits-heading">
+        <h2
+          id="benefits-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Why Use This JPG to WebP Converter?
+        </h2>
+
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <li>
+            • Convert JPG and JPEG images to WebP with a simple workflow.
+          </li>
+
+          <li>
+            • Prepare images for modern websites and applications.
+          </li>
+
+          <li>
+            • Avoid installing dedicated desktop conversion software.
+          </li>
+
+          <li>
+            • Use the converter across modern mobile and desktop browsers.
+          </li>
+
+          <li>
+            • Create WebP output that can be evaluated for size and visual
+            quality before publishing.
+          </li>
+
+          <li>
+            • Use browser-local processing when supported by the conversion
+            implementation.
+          </li>
+        </ul>
+      </section>
+
+      {/* Use cases */}
+
+      <section aria-labelledby="usecases-heading">
+        <h2
+          id="usecases-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Common JPG to WebP Use Cases
+        </h2>
+
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <li>
+            Convert JPG photographs for modern website image delivery.
+          </li>
+
+          <li>
+            Convert blog images into WebP for content publishing workflows.
+          </li>
+
+          <li>
+            Prepare product images for online stores and e-commerce websites.
+          </li>
+
+          <li>
+            Convert banners and promotional graphics for web pages.
+          </li>
+
+          <li>
+            Prepare portfolio images for more efficient web delivery.
+          </li>
+
+          <li>
+            Modernize existing JPG assets used across a website or application.
+          </li>
+
+          <li>
+            Compare WebP output against the original JPG for file-size
+            optimization.
+          </li>
+        </ul>
+      </section>
+
+      {/* How it works */}
+
+      <section
+        aria-labelledby="how-it-works-heading"
+        className="space-y-4"
+      >
+        <h2
+          id="how-it-works-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          How to Convert JPG to WebP
+        </h2>
+
         <p className="text-sm leading-relaxed text-white/70 sm:text-base">
-          The converter is designed to keep the process simple, fast, and easy to understand.
+          Convert a JPG or JPEG image to WebP in a few straightforward steps.
         </p>
 
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
-            <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div
+              key={step.title}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+            >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {i + 1}
                 </span>
-                <span className="text-2xl">{step.icon}</span>
+
+                <span
+                  className="text-2xl"
+                  aria-hidden="true"
+                >
+                  {step.icon}
+                </span>
+
                 <div>
-                  <p className="text-sm font-semibold text-white">{step.title}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="text-sm font-semibold text-white">
+                    {step.title}
+                  </p>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </section>
+
+      {/* Features */}
 
       <section
         aria-labelledby="features-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
       >
-        <h2 id="features-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Core Features
+        <h2
+          id="features-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          JPG to WebP Converter Features
         </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {coreFeatures.map((item, i) => (
+          {coreFeatures.map((item) => (
             <div
-              key={i}
+              key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl">{item.icon}</span>
+                <span
+                  className="text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </section>
+
+      {/* Audience */}
 
       <section aria-labelledby="audience-heading">
-        <h2 id="audience-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Who Should Use This Tool?
+        <h2
+          id="audience-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Who Can Use This JPG to WebP Converter?
         </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((item, i) => (
+          {audiences.map((item) => (
             <div
-              key={i}
+              key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl">{item.icon}</span>
+                <span
+                  className="text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -326,55 +688,119 @@ export default function JpgToWebpSeoContent() {
         </div>
       </section>
 
+      {/* Privacy */}
+
       <section aria-labelledby="privacy-heading">
-        <h2 id="privacy-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Privacy Policy
+        <h2
+          id="privacy-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Privacy and Browser-Based Processing
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          This JPG to WebP converter is browser-based, which means files are processed locally
-          on your device during conversion. We do not require account registration to use the
-          converter.
+          This converter is designed around browser-based image processing.
+          When conversion is performed locally in your browser, the image can
+          be processed on your device without sending the image itself to a
+          conversion server.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          If analytics or error monitoring are enabled, they should be used only to improve
-          performance and reliability, and they should not include your image contents.
+          Local processing can be useful when working with personal,
+          confidential, or sensitive images. Analytics and error-monitoring
+          systems should be configured so that image contents and
+          image-derived personal data are not transmitted.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          For Atoolix&apos;s complete legal information, see the{" "}
+          <Link
+            href="/privacy"
+            className="text-blue-300 underline decoration-blue-300/40 underline-offset-4 hover:text-blue-200"
+          >
+            Privacy Policy
+          </Link>
+          .
         </p>
       </section>
 
+      {/* FAQ */}
+
       <section aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="faq-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           Frequently Asked Questions
         </h2>
+
         <div className="mt-4 space-y-4">
-          {faqItems.map((item, i) => (
+          {faqItems.map((item) => (
             <details
-              key={i}
+              key={item.q}
               className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
             >
               <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
                 {item.q}
               </summary>
+
               <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">{item.a}</p>
+                <p className="text-sm leading-relaxed text-white/65">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
+      {/* Related conversion tools */}
+
       <section aria-labelledby="related-tools-heading">
-        <h2 id="related-tools-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Related Tools
+        <h2
+          id="related-tools-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Related Image Conversion Tools
         </h2>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          Explore related Atoolix tools for converting JPG, PNG, WebP, and
+          other common image formats.
+        </p>
+
         <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
               href={tool.href}
               className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
             >
               {tool.name}
-            </a>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* More image tools */}
+
+      <section aria-labelledby="more-image-tools-heading">
+        <h2
+          id="more-image-tools-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          More Image Optimization Tools
+        </h2>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          {moreImageTools.map((tool) => (
+            <Link
+              key={tool.href}
+              href={tool.href}
+              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
+            >
+              {tool.name}
+            </Link>
           ))}
         </div>
       </section>
