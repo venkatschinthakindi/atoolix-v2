@@ -260,9 +260,9 @@ const relatedTools = [
   { name: "Calculator", href: "/tools/calculator" },
   { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
   { name: "ROI Calculator", href: "/tools/calculator/roi-calculator" },
-  { name: "PDF Tools", href: "/tools/pdf" },
-  { name: "Image Tools", href: "/tools/image" },
-  { name: "Finance Tools", href: "/tools/finance" },
+  { name: "PDF Tools", href: "/pdf" },
+  { name: "Image Tools", href: "/image" },
+  { name: "Finance Tools", href: "/finance" },
 ];
 
 /*

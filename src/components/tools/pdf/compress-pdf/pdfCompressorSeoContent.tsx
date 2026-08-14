@@ -315,7 +315,7 @@ export default function PdfCompressorSeoContent() {
     },
     {
       name: "PDF Tools",
-      href: "/tools/pdf",
+      href: "/pdf",
       desc: "Explore additional browser-based PDF tools for common document tasks.",
     },
   ];
@@ -1064,7 +1064,7 @@ export default function PdfCompressorSeoContent() {
 
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
-              href="/tools/pdf"
+              href="/pdf"
               className="rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/15"
             >
               Explore PDF Tools

@@ -3,7 +3,7 @@ import { serverConfig } from "@/config/server";
 
 export default function SavingsDepositsSeoContent() {
   const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
-  const canonicalUrl = `${siteUrl}/tools/savings-deposits-calculator`;
+  const canonicalUrl = `${siteUrl}/tools/calculator/fd-calculator`;
 
   const faqItems = [
     {

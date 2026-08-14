@@ -12,7 +12,7 @@ export default function BackgroundRemoverSeoContent() {
   //
   // No query parameters, trailing-slash mismatch, or alternate host.
   // ---------------------------------------------------------------------
-  const PAGE_URL = "https://www.atoolix.com/tools/image/background-remover";
+  const PAGE_URL = "https://atoolix.com/tools/image/background-remover";
 
   const faqItems = [
     {
@@ -316,13 +316,13 @@ export default function BackgroundRemoverSeoContent() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.atoolix.com/",
+        item: "https://atoolix.com/",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Image Tools",
-        item: "https://www.atoolix.com/tools/image",
+        item: "https://atoolix.com/image",
       },
       {
         "@type": "ListItem",

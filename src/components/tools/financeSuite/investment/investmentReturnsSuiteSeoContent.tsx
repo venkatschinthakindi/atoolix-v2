@@ -270,7 +270,7 @@ export default function InvestmentReturnsSeoContent() {
         "@type": "ListItem",
         position: 3,
         name: "Investment Returns Calculator",
-        item: `${serverConfig.siteUrl}/tools/investment-returns-calculator`,
+        item: `${serverConfig.siteUrl}/tools/calculator/roi-calculator`,
       },
     ],
   };

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { serverConfig } from "@/config/server";
 
 const siteUrl = serverConfig.siteUrl;
-const canonicalPath = "/tools/qr-code";
+const canonicalPath = "/tools/qrcode/qr-code-generator";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
 type FaqItem = {
@@ -288,11 +288,11 @@ const tips = [
 const relatedTools = [
   {
     name: "Timezone Converter",
-    href: "/tools/timezone-converter",
+    href: "/tools/datetime/timezone-converter",
   },
   {
     name: "Meeting Time Finder",
-    href: "/tools/meeting-time-finder",
+    href: "/tools/datetime/meeting-time-finder",
   },
   {
     name: "Unit Converter",

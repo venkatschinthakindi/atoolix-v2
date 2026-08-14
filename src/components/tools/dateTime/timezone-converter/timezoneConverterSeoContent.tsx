@@ -250,11 +250,11 @@ const relatedTools = [
   },
   {
     name: "PDF Tools",
-    href: "/tools/pdf",
+    href: "/pdf",
   },
   {
     name: "Image Tools",
-    href: "/tools/image",
+    href: "/image",
   },
 ];
 

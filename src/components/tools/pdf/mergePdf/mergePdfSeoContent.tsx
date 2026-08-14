@@ -10,7 +10,7 @@ export default function MergePdfSeoContent() {
   // - sitemap <loc>
   // - internal canonical references
   // ---------------------------------------------------------------------
-  const PAGE_URL = "https://www.atoolix.com/tools/pdf/merge-pdf";
+  const PAGE_URL = "https://atoolix.com/tools/pdf/merge-pdf";
 
   // ---------------------------------------------------------------------
   // FAQ CONTENT
@@ -192,13 +192,13 @@ export default function MergePdfSeoContent() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.atoolix.com/",
+        item: "https://atoolix.com/",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "PDF Tools",
-        item: "https://www.atoolix.com/tools/pdf",
+        item: "https://atoolix.com/pdf",
       },
       {
         "@type": "ListItem",

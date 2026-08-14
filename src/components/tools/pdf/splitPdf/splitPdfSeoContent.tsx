@@ -4,7 +4,7 @@ export default function SplitPdfSeoContent() {
   // ---------------------------------------------------------------------
   // SINGLE SOURCE OF TRUTH FOR THIS ROUTE'S URL
   // ---------------------------------------------------------------------
-  const PAGE_URL = "https://www.atoolix.com/tools/pdf/split-pdf";
+  const PAGE_URL = "https://atoolix.com/tools/pdf/split-pdf";
 
   // ---------------------------------------------------------------------
   // FAQ
@@ -156,13 +156,13 @@ export default function SplitPdfSeoContent() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.atoolix.com/",
+        item: "https://atoolix.com/",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "PDF Tools",
-        item: "https://www.atoolix.com/tools/pdf",
+        item: "https://atoolix.com/pdf",
       },
       {
         "@type": "ListItem",
