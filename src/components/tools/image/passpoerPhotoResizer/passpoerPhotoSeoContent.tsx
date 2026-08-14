@@ -1,229 +1,376 @@
-import type { Metadata } from "next";
+import Link from "next/link";
 import { serverConfig } from "@/config/server";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
-const canonicalPath = "/tools/passport-photo-resizer";
+
+const canonicalPath = "/tools/image/passport-photo-resizer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
-//   description:
-//     "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
-//   keywords: [
-//     "passport photo resizer",
-//     "passport size photo resizer",
-//     "passport photo resize online",
-//     "resize passport photo online",
-//     "passport photo size converter",
-//     "passport size photo maker",
-//     "passport size photo editor online",
-//     "passport photo resize to 10kb",
-//     "passport photo resize to 20kb",
-//     "passport photo resize to 30kb",
-//     "passport photo resize to 50kb",
-//     "passport photo resize to 100kb",
-//     "passport photo resize to 150kb",
-//     "passport photo resize to 200kb",
-//     "passport photo resize to 200x200",
-//     "passport photo resize to 300x300",
-//     "passport photo resize for visa",
-//     "passport photo for online application",
-//     "passport photo dimensions online",
-//     "passport photo file size",
-//     "passport photo crop online",
-//     "resize image to kb",
-//     "resize image to exact dimensions",
-//     "passport photo online free",
-//     "passport photo jpg",
-//     "passport photo jpeg",
-//     "passport photo png",
-//     "passport photo webp",
-//     "passport size photo online",
-//     "passport photo cropper",
-//     "resize image in inches",
-//     "resize image in cm",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "Passport Photo Resizer",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
-//     description:
-//       "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions",
-//     description:
-//       "Resize passport size photos online for free. Set exact width, height, file size in KB, crop to passport ratio, preview instantly, and download optimized JPG, JPEG, PNG, or WebP images for passport, visa, OCI, and government applications.",
-//   },
-// };
+type FaqItem = {
+  q: string;
+  a: string;
+};
 
-type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string; icon: string };
-type FeatureItem = { title: string; desc: string; icon: string };
+type StepItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type FeatureItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
 
 const faqItems: FaqItem[] = [
-  { q: "What does this passport photo resizer do?", a: "It resizes passport photos to exact dimensions and target file size in KB, while supporting JPG, JPEG, PNG, and WebP." },
-  { q: "How do I resize a passport photo to 20 KB?", a: "Upload your photo, set the required dimensions, choose a lower target KB, and adjust quality until the file matches the required size as closely as possible." },
-  { q: "How do I resize a passport photo to 50 KB or 100 KB?", a: "Use the target KB control, preview the result, and fine-tune compression until the file reaches the required range." },
-  { q: "Can I resize a passport photo to 200x200 pixels?", a: "Yes. You can enter exact width and height values such as 200x200, 300x300, or custom dimensions." },
-  { q: "Which formats are supported?", a: "The resizer supports JPG, JPEG, PNG, and WebP." },
-  { q: "Can I crop to passport ratio?", a: "Yes. You can crop the image to the correct passport aspect ratio before resizing or compressing it." },
-  { q: "Is this tool free?", a: "Yes. You can use it without a paid subscription." },
-  { q: "Can I preview the result before downloading?", a: "Yes. You can preview the resized passport photo before saving it." },
-  { q: "Will resizing affect image quality?", a: "Resizing can slightly change quality depending on how much you reduce the image, but the tool is designed to keep the photo clear and usable." },
-  { q: "Can I use this on mobile?", a: "Yes. The tool is responsive and works on phones and tablets." },
-  { q: "Does the tool keep my photos private?", a: "Browser-based processing helps keep image handling on your device." },
-  { q: "Can I resize passport photos for visa applications?", a: "Yes. You can set the dimensions and KB required for passport, visa, OCI, and other government uploads." },
-  { q: "Can I resize multiple passport photos?", a: "You can process one photo at a time in the interface and repeat the same settings for multiple files." },
-  { q: "What dimensions are required for passport photos?", a: "Requirements vary by country and application type, so the best approach is to enter the exact dimensions requested by the form." },
+  {
+    q: "What does this image resizer do?",
+    a: "It lets you resize images by width and height, maintain or change the aspect ratio, and control the final file size using KB or MB targets.",
+  },
+  {
+    q: "Can I resize an image by width and height?",
+    a: "Yes. You can enter an exact width, height, or both dimensions to create the output size you need.",
+  },
+  {
+    q: "Can I resize an image while maintaining its aspect ratio?",
+    a: "Yes. When aspect-ratio locking is enabled, changing one dimension automatically keeps the image proportions consistent and helps prevent stretching or distortion.",
+  },
+  {
+    q: "Can I change the aspect ratio?",
+    a: "Yes. You can use the available aspect-ratio controls to resize the image to the proportions required for your intended use.",
+  },
+  {
+    q: "Can I resize an image to a specific file size in KB?",
+    a: "Yes. You can set a target file size in KB and adjust the output settings to reduce the image toward the required size.",
+  },
+  {
+    q: "Can I resize an image to a specific file size in MB?",
+    a: "Yes. You can use an MB target when the required upload or storage limit is specified in megabytes.",
+  },
+  {
+    q: "Does resizing also reduce image file size?",
+    a: "Reducing image dimensions can reduce file size, but dimensions and file size are different controls. You can also use the target KB or MB option when you need a specific file-size limit.",
+  },
+  {
+    q: "Can I resize and compress an image at the same time?",
+    a: "Yes. You can change the image dimensions and use the target file-size controls to create a smaller output suitable for uploads, websites, forms, or sharing.",
+  },
+  {
+    q: "Can I enter custom width and height values?",
+    a: "Yes. You can enter custom pixel dimensions instead of relying only on preset sizes.",
+  },
+  {
+    q: "Can I resize images without stretching them?",
+    a: "Yes. Use the aspect-ratio option when you want the original proportions preserved while changing the image dimensions.",
+  },
+  {
+    q: "Which image formats are supported?",
+    a: "The image resizer supports JPG, JPEG, PNG, and WebP files.",
+  },
+  {
+    q: "Can I preview the resized image before downloading?",
+    a: "Yes. You can review the resized output before saving it to your device.",
+  },
+  {
+    q: "Can I control image quality?",
+    a: "Yes. Quality controls can be adjusted to balance visual clarity and the final file size when creating the output.",
+  },
+  {
+    q: "Is this image resizer free?",
+    a: "Yes. The tool can be used without installing desktop software or creating an account.",
+  },
+  {
+    q: "Can I resize images on mobile?",
+    a: "Yes. The responsive interface works on smartphones, tablets, laptops, and desktop computers.",
+  },
+  {
+    q: "Are my images uploaded to a server?",
+    a: "If processing is performed locally in the browser, your selected images remain on your device instead of being uploaded for processing.",
+  },
+  {
+    q: "What is the difference between resizing and compression?",
+    a: "Resizing changes the image dimensions, while compression changes how efficiently the image is encoded and can reduce its file size. Using both together gives you more control over the final image.",
+  },
 ];
 
 const howToSteps: StepItem[] = [
-  { title: "Upload your photo", desc: "Choose a JPG, JPEG, PNG, or WebP file from your device.", icon: "📁" },
-  { title: "Preview the image", desc: "Check the face framing and composition before resizing.", icon: "🖼️" },
-  { title: "Set dimensions", desc: "Enter exact width and height values for the required passport size.", icon: "📐" },
-  { title: "Set target KB", desc: "Adjust compression to match the required file size range.", icon: "🎚️" },
-  { title: "Download the result", desc: "Save the resized passport photo instantly.", icon: "⬇️" },
+  {
+    title: "Upload your image",
+    desc: "Choose a supported JPG, JPEG, PNG, or WebP image from your device.",
+    icon: "📁",
+  },
+  {
+    title: "Choose the resize method",
+    desc: "Set the width, height, aspect ratio, or custom dimensions required for your output.",
+    icon: "📐",
+  },
+  {
+    title: "Control the aspect ratio",
+    desc: "Keep the original proportions or choose the required aspect ratio for the resized image.",
+    icon: "🔗",
+  },
+  {
+    title: "Set a target file size",
+    desc: "Use a target in KB or MB when your upload, website, form, or storage requirement has a file-size limit.",
+    icon: "🎯",
+  },
+  {
+    title: "Adjust quality and preview",
+    desc: "Fine-tune quality when needed and review the resulting dimensions and file size.",
+    icon: "🎚️",
+  },
+  {
+    title: "Download the resized image",
+    desc: "Save the final image to your device once the dimensions and file size meet your requirements.",
+    icon: "⬇️",
+  },
 ];
 
 const coreFeatures: FeatureItem[] = [
-  { title: "Exact Dimension Control", desc: "Resize passport photos to custom width and height values.", icon: "📐" },
-  { title: "Target KB Control", desc: "Reduce file size to a required KB limit with adjustable compression.", icon: "🎚️" },
-  { title: "Live Preview", desc: "Preview the passport photo before downloading.", icon: "👀" },
-  { title: "Format Support", desc: "Works with JPG, JPEG, PNG, and WebP files.", icon: "🖼️" },
-  { title: "Crop for Passport Ratio", desc: "Crop the image to passport-style proportions.", icon: "✂️" },
-  { title: "Browser-Based", desc: "Process images in the browser without installing software.", icon: "🌐" },
-  { title: "Responsive Design", desc: "Use it smoothly on desktop and mobile devices.", icon: "📱" },
-  { title: "Instant Download", desc: "Download the optimized passport photo immediately.", icon: "⬇️" },
+  {
+    title: "Exact Width Control",
+    desc: "Set a precise output width in pixels for websites, forms, documents, social media, and other uses.",
+    icon: "↔️",
+  },
+  {
+    title: "Exact Height Control",
+    desc: "Enter a specific output height when an application or upload form requires fixed dimensions.",
+    icon: "↕️",
+  },
+  {
+    title: "Aspect Ratio Control",
+    desc: "Preserve the original proportions or resize to the aspect ratio required for your final image.",
+    icon: "🔗",
+  },
+  {
+    title: "Custom Dimensions",
+    desc: "Use your own width and height instead of being restricted to predefined image sizes.",
+    icon: "📐",
+  },
+  {
+    title: "Target Size in KB",
+    desc: "Reduce the output toward a specific kilobyte target when an upload has a KB limit.",
+    icon: "KB",
+  },
+  {
+    title: "Target Size in MB",
+    desc: "Set a megabyte target when larger image uploads or storage systems specify their limit in MB.",
+    icon: "MB",
+  },
+  {
+    title: "Quality Control",
+    desc: "Adjust image quality to balance visual clarity with the final file size.",
+    icon: "🎚️",
+  },
+  {
+    title: "Resize and Compress",
+    desc: "Combine dimension changes with file-size control when you need a smaller, upload-ready image.",
+    icon: "⚡",
+  },
+  {
+    title: "Live Preview",
+    desc: "Review the resulting image and its output characteristics before downloading.",
+    icon: "👀",
+  },
+  {
+    title: "Multiple Image Formats",
+    desc: "Resize common JPG, JPEG, PNG, and WebP images.",
+    icon: "🖼️",
+  },
+  {
+    title: "Browser-Based Processing",
+    desc: "Process supported images directly in the browser without requiring desktop software.",
+    icon: "🌐",
+  },
+  {
+    title: "Mobile Friendly",
+    desc: "Resize images from smartphones, tablets, laptops, and desktop browsers.",
+    icon: "📱",
+  },
 ];
 
-const supportedFormats = [
-  { format: "JPG", bestFor: "Passport uploads", transparency: "No", compression: "High", websites: "Yes" },
-  { format: "JPEG", bestFor: "Official photo files", transparency: "No", compression: "High", websites: "Yes" },
-  { format: "PNG", bestFor: "Clear source images", transparency: "Yes", compression: "Medium", websites: "Yes" },
-  { format: "WebP", bestFor: "Modern web uploads", transparency: "Yes", compression: "Very High", websites: "Yes" },
+const resizeMethods = [
+  {
+    title: "Resize by Width",
+    desc: "Enter the exact width you need and let the image height follow the selected aspect-ratio behavior.",
+    example: "1200 px wide",
+    icon: "↔️",
+  },
+  {
+    title: "Resize by Height",
+    desc: "Set the required height when the destination requires a specific vertical dimension.",
+    example: "800 px high",
+    icon: "↕️",
+  },
+  {
+    title: "Width + Height",
+    desc: "Enter both dimensions when the destination requires an exact pixel size.",
+    example: "800 × 600 px",
+    icon: "📐",
+  },
+  {
+    title: "Maintain Aspect Ratio",
+    desc: "Lock the original proportions while changing dimensions to avoid unwanted stretching.",
+    example: "Keep original ratio",
+    icon: "🔗",
+  },
+  {
+    title: "Custom Aspect Ratio",
+    desc: "Resize to the proportions needed for a particular layout, platform, form, or design.",
+    example: "16:9, 4:3, 1:1",
+    icon: "▣",
+  },
+  {
+    title: "Target File Size",
+    desc: "Work toward a KB or MB limit when dimensions alone are not enough to satisfy an upload requirement.",
+    example: "100 KB / 2 MB",
+    icon: "🎯",
+  },
 ];
 
-const qualityGuide = [
-  { range: "90–100%", result: "Maximum clarity", use: "Use when file size limits are generous" },
-  { range: "75–90%", result: "Best balance", use: "Good for most passport uploads" },
-  { range: "60–75%", result: "Smaller file", use: "Use when the portal requires lower KB" },
-  { range: "Below 60%", result: "Heavy compression", use: "Use only when the upload limit is very strict" },
+const commonTargetSizes = [
+  "20 KB",
+  "50 KB",
+  "100 KB",
+  "200 KB",
+  "500 KB",
+  "1 MB",
+  "2 MB",
+  "5 MB",
 ];
 
-const commonRequirements = [
-  { label: "Width", value: "Depends on country and application" },
-  { label: "Height", value: "Depends on country and application" },
-  { label: "Background", value: "Plain white or light" },
-  { label: "File size", value: "Often 20 KB to 500 KB" },
-  { label: "Format", value: "JPG or JPEG is commonly accepted" },
-  { label: "Face position", value: "Centered and clearly visible" },
-];
-
-const countryCards = [
-  { country: "India", note: "Use the exact size requested by the application or portal." },
-  { country: "USA", note: "Commonly uses 2 x 2 inch passport photos." },
-  { country: "Canada", note: "Requirements may differ by application type and document portal." },
-  { country: "UK", note: "Often uses 45 mm x 35 mm photo sizes." },
-  { country: "Australia", note: "Follow the size and background rules shown in the form." },
-  { country: "UAE", note: "Enter the exact dimensions required by the visa or ID system." },
-];
-
-const popularSizes = [
-  "2 x 2 inch",
-  "35 x 45 mm",
-  "45 x 35 mm",
-  "200 x 200 px",
-  "300 x 300 px",
-  "413 x 531 px",
-  "600 x 600 px",
+const commonDimensions = [
+  "200 × 200 px",
+  "300 × 300 px",
+  "400 × 400 px",
+  "600 × 600 px",
+  "800 × 600 px",
+  "1280 × 720 px",
+  "1920 × 1080 px",
   "Custom dimensions",
 ];
 
-const fileSizeTargets = [
-  "10 KB",
-  "20 KB",
-  "30 KB",
-  "50 KB",
-  "100 KB",
-  "150 KB",
-  "200 KB",
-  "300 KB",
-  "500 KB",
+const aspectRatios = [
+  {
+    ratio: "1:1",
+    use: "Square profile images, thumbnails, product images, and social content.",
+  },
+  {
+    ratio: "4:3",
+    use: "Traditional photos, presentations, and common display layouts.",
+  },
+  {
+    ratio: "3:2",
+    use: "Photography and standard camera image proportions.",
+  },
+  {
+    ratio: "16:9",
+    use: "Web banners, videos, presentations, and widescreen layouts.",
+  },
+  {
+    ratio: "9:16",
+    use: "Vertical mobile content, stories, and portrait-oriented designs.",
+  },
+  {
+    ratio: "Custom",
+    use: "Any destination that requires a specific width-to-height relationship.",
+  },
 ];
 
-const tips = [
-  "Use a high-resolution original photo.",
-  "Keep the face centered in the frame.",
-  "Avoid shadows and uneven lighting.",
-  "Use a plain background whenever possible.",
-  "Do not over-compress the image.",
-  "Check the file size before submitting the form.",
-];
-
-const mistakes = [
-  "Using a blurry source photo.",
-  "Choosing the wrong aspect ratio.",
-  "Compressing too aggressively.",
-  "Leaving the background cluttered.",
-  "Submitting the wrong file format.",
-  "Ignoring the requested dimensions or KB limit.",
-];
-
-const whenToResize = [
-  "Before passport application upload.",
-  "Before visa application upload.",
-  "Before ID card submission.",
-  "Before OCI or permit applications.",
-  "Before form uploads with KB limits.",
-];
-
-const whenNotToResize = [
-  "If the image is already within the exact requirement.",
-  "If the photo is too blurry to begin with.",
-  "If the source image needs editing first.",
-  "If facial details are not clearly visible.",
+const supportedFormats = [
+  {
+    format: "JPG",
+    bestFor: "Photographs and general-purpose images",
+    transparency: "No",
+  },
+  {
+    format: "JPEG",
+    bestFor: "Digital photographs",
+    transparency: "No",
+  },
+  {
+    format: "PNG",
+    bestFor: "Graphics, screenshots, and transparency",
+    transparency: "Yes",
+  },
+  {
+    format: "WebP",
+    bestFor: "Modern web images and efficient delivery",
+    transparency: "Yes",
+  },
 ];
 
 const commonUses = [
-  "Passport application.",
-  "Visa application.",
-  "Government forms.",
-  "Identity uploads.",
-  "OCI applications.",
-  "Student applications.",
-  "Job portals.",
-  "Travel documents.",
+  "Website image resizing",
+  "Blog images",
+  "Product images",
+  "Social media images",
+  "Profile pictures",
+  "Online forms",
+  "Email attachments",
+  "Marketplace uploads",
+  "Job portal uploads",
+  "Presentation images",
+  "Document images",
+  "Mobile images",
 ];
 
-const devices = ["Windows", "macOS", "Android", "iPhone"];
+const audiences = [
+  {
+    title: "Website Owners",
+    desc: "Resize large images to suitable dimensions and file sizes before publishing pages.",
+    icon: "🌐",
+  },
+  {
+    title: "Developers",
+    desc: "Prepare images that match exact pixel dimensions and upload constraints.",
+    icon: "💻",
+  },
+  {
+    title: "Online Sellers",
+    desc: "Create product images that fit marketplace dimensions and file-size limits.",
+    icon: "🛍️",
+  },
+  {
+    title: "Students",
+    desc: "Resize images for assignments, portals, presentations, and online submissions.",
+    icon: "🎓",
+  },
+  {
+    title: "Designers",
+    desc: "Create correctly proportioned assets for layouts, thumbnails, and digital content.",
+    icon: "🎨",
+  },
+  {
+    title: "Everyday Users",
+    desc: "Quickly resize and reduce images before sharing, uploading, or storing them.",
+    icon: "👤",
+  },
+];
 
 const relatedTools = [
-  { name: "Compress Image", href: "/tools/image/compress-image" },
-  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
-  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
-  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
-  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
+  {
+    name: "Compress Image",
+    href: "/tools/image/compress-image",
+  },
+  {
+    name: "Compress JPG",
+    href: "/tools/image/compress-jpg",
+  },
+  {
+    name: "Resize Signature for Upload",
+    href: "/tools/image/resize-signature-for-upload",
+  },
+  {
+    name: "JPG to PNG",
+    href: "/tools/image/jpg-to-png",
+  },
+  {
+    name: "PNG to JPG",
+    href: "/tools/image/png-to-jpg",
+  },
 ];
 
 const faqJsonLd = {
@@ -232,43 +379,66 @@ const faqJsonLd = {
   mainEntity: faqItems.map((item) => ({
     "@type": "Question",
     name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
   })),
 };
 
-const howToJsonLd = {
+const softwareApplicationJsonLd = {
   "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to Resize a Passport Photo to Exact KB and Dimensions",
-  description: "Resize a passport photo online with preview, exact dimensions, and target KB control.",
-  totalTime: "PT1M",
-  step: howToSteps.map((step, index) => ({
-    "@type": "HowToStep",
-    position: index + 1,
-    name: step.title,
-    text: step.desc,
-  })),
-};
-
-const searchActionJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": siteUrl,
-  url: siteUrl,
-  name: siteName,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/search?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
+  "@type": "SoftwareApplication",
+  name: `Image Resizer - ${siteName}`,
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Any",
+  url: canonicalUrl,
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
   },
+  featureList: [
+    "Resize images by width",
+    "Resize images by height",
+    "Set exact width and height",
+    "Maintain aspect ratio",
+    "Custom aspect ratio control",
+    "Target file size in KB",
+    "Target file size in MB",
+    "Image quality control",
+    "Resize and compress images",
+    "Live preview",
+    "JPG support",
+    "JPEG support",
+    "PNG support",
+    "WebP support",
+    "Browser-based processing",
+  ],
 };
 
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-    { "@type": "ListItem", position: 2, name: "Passport Photo Resizer", item: canonicalUrl },
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Image Tools",
+      item: `${siteUrl}/tools/image`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Resize Image",
+      item: canonicalUrl,
+    },
   ],
 };
 
@@ -285,324 +455,590 @@ const itemListJsonLd = {
 };
 
 function JsonLd({ data }: { data: unknown }) {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
 }
 
-function SectionHeading({ id, title, description }: { id: string; title: string; description?: string }) {
+function SectionHeading({
+  id,
+  title,
+  description,
+}: {
+  id: string;
+  title: string;
+  description?: string;
+}) {
   return (
     <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">{title}</h2>
-      {description ? <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">{description}</p> : null}
+      <h2
+        id={id}
+        className="text-xl font-bold tracking-tight sm:text-2xl"
+      >
+        {title}
+      </h2>
+
+      {description ? (
+        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          {description}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-export default function PassportPhotoResizerSeoContent() {
+export default function ResizeImageSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
-      <JsonLd data={faqJsonLd} />
-      <JsonLd data={howToJsonLd} />
-      <JsonLd data={searchActionJsonLd} />
+      <JsonLd data={softwareApplicationJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
+      <JsonLd data={faqJsonLd} />
 
+      {/* INTRO */}
       <section aria-labelledby="intro-heading" className="space-y-3">
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Free Browser-Based Passport Photo Resizer
+          Free Browser-Based Image Resizer
         </p>
-        <h1 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-          Free Passport Photo Resizer Online – Resize Passport Size Photo to Exact KB & Dimensions
+
+        <h1
+          id="intro-heading"
+          className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
+        >
+          Free Image Resizer Online – Resize Images by Width, Height, Aspect Ratio & File Size
         </h1>
+
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Resize passport size photos online for free with exact width, height, and file size control. Upload a JPG, JPEG, PNG, or WebP image, crop it to passport ratio, preview the output instantly, and download an optimized photo that is ready for passport, visa, OCI, or government applications. The tool is designed for users who need a practical passport size photo maker with precise pixel and KB controls in the same workflow. You can start with a preset size, enter a custom dimension, or target a specific file size such as 20 KB, 50 KB, 100 KB, or 200 KB depending on the portal requirements.
+          Resize images online for free with precise control over width, height,
+          aspect ratio, and final file size. Set custom pixel dimensions,
+          preserve the original proportions, choose a different aspect ratio,
+          or target a specific file size in KB or MB.
         </p>
+
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          Smaller and correctly sized images are easier to upload, faster to submit, and less likely to be rejected by online forms. This page focuses on the most common search intents, including passport photo resize online, passport size photo resizer, passport photo size converter, and resize passport photo to exact KB.
+          Use the image resizer to prepare JPG, JPEG, PNG, and WebP images for
+          websites, online forms, social media, marketplaces, documents,
+          presentations, email attachments, and other upload requirements.
+          Preview the result, adjust quality when needed, and download the
+          resized image when it meets your requirements.
         </p>
       </section>
 
-      <section aria-labelledby="browser-heading" className="space-y-4">
-        <SectionHeading id="browser-heading" title="Why Browser-Based Resizing?" description="Your photo is processed directly in your browser." />
+      {/* WHY RESIZE */}
+      <section
+        aria-labelledby="why-resize-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="why-resize-heading"
+          title="Why Resize an Image?"
+          description="Different websites, applications, devices, and upload forms often require specific image dimensions or file-size limits."
+        />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
-            ["No Software Installation", "You can start resizing right away."],
-            ["Exact Size Control", "Set both dimensions and KB targets from the UI."],
-            ["Works on Multiple Devices", "Use it on Windows, macOS, Android, and iPhone."],
-            ["Preview Before Download", "Check the result before saving it."],
+            [
+              "Match Exact Dimensions",
+              "Set a precise width and height when a website or application requires fixed pixel dimensions.",
+            ],
+            [
+              "Maintain Image Proportions",
+              "Keep the original aspect ratio when you want to resize without stretching or squashing the image.",
+            ],
+            [
+              "Meet File Size Limits",
+              "Use KB or MB targets when an upload form limits the maximum image size.",
+            ],
+            [
+              "Prepare Images Faster",
+              "Resize and reduce images in one browser-based workflow instead of using desktop editing software.",
+            ],
           ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="why-resize-heading" className="space-y-4">
-        <SectionHeading id="why-resize-heading" title="Why Resize Passport Photos?" description="Passport uploads often require strict file size and dimension rules." />
-        <div className="grid gap-3 md:grid-cols-2">
-          {[
-            ["Meet Upload Limits", "Many portals require a specific KB range."],
-            ["Match Exact Dimensions", "Some applications require a fixed width and height."],
-            ["Avoid Rejection", "Correct sizing helps reduce upload errors."],
-            ["Save Time", "One tool handles crop, size, and download."],
-          ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* RESIZE METHODS */}
+      <section
+        aria-labelledby="resize-methods-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="resize-methods-heading"
+          title="Ways to Resize an Image"
+          description="Choose the resize method that matches the requirement of your destination."
+        />
 
-      <section aria-labelledby="requirements-heading" className="space-y-4">
-        <SectionHeading id="requirements-heading" title="Common Passport Photo Requirements" description="Passport requirements vary by country and application, but the basics are often similar." />
-        <div className="overflow-hidden rounded-2xl border border-white/10">
-          <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Requirement</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Typical Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {commonRequirements.map((row) => (
-                <tr key={row.label} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{row.label}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{row.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {resizeMethods.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-2xl" aria-hidden="true">
+                  {item.icon}
+                </span>
 
-      <section aria-labelledby="country-heading" className="space-y-4">
-        <SectionHeading id="country-heading" title="Passport Photo Requirements by Country" description="Use the exact requirement from your application form, then resize the image to match it." />
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {countryCards.map((item) => (
-            <article key={item.country} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{item.country}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{item.note}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+                <div>
+                  <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                    {item.title}
+                  </h3>
 
-      <section aria-labelledby="sizes-heading" className="space-y-4">
-        <SectionHeading id="sizes-heading" title="Popular Passport Photo Sizes" description="These are some of the most common size searches people type into Google." />
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-          {popularSizes.map((item) => (
-            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</div>
-          ))}
-        </div>
-      </section>
+                  <p className="mt-1.5 text-sm leading-6 text-white/70">
+                    {item.desc}
+                  </p>
 
-      <section aria-labelledby="filesize-heading" className="space-y-4">
-        <SectionHeading id="filesize-heading" title="Common File Size Targets" description="Use target KB values to make your passport photo fit the upload limit." />
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {fileSizeTargets.map((item) => (
-            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</div>
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="how-compression-works-heading" className="space-y-4">
-        <SectionHeading id="how-compression-works-heading" title="How Passport Photo Resizing Works" description="Resize the image by adjusting dimensions, aspect ratio, and compression." />
-        <p className="text-sm leading-7 text-white/70">
-          The tool changes the image dimensions to match the required passport format and then adjusts compression to reach the target KB size.
-        </p>
-        <p className="text-sm leading-7 text-white/70">
-          Exact results depend on the source image, face crop, format, and the final upload requirement.
-        </p>
-      </section>
-
-      <section aria-labelledby="quality-heading" className="space-y-4">
-        <SectionHeading id="quality-heading" title="Recommended Size Settings" description="Start with a balanced setting and adjust based on the upload requirement." />
-        <div className="grid gap-3 md:grid-cols-2">
-          {qualityGuide.map((item) => (
-            <article key={item.range} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{item.range}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{item.result}</p>
-              <p className="mt-1 text-xs text-white/45">{item.use}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="format-heading" className="space-y-4">
-        <SectionHeading id="format-heading" title="Supported Image Formats" description="The resizer supports the four common web image formats." />
-        <div className="overflow-hidden rounded-2xl border border-white/10">
-          <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Format</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Best For</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Transparency</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Compression</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Web Uploads</th>
-              </tr>
-            </thead>
-            <tbody>
-              {supportedFormats.map((item) => (
-                <tr key={item.format} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{item.format}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.bestFor}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.transparency}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.compression}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.websites}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section aria-labelledby="compare-heading" className="space-y-4">
-        <SectionHeading id="compare-heading" title="Dimension Control vs KB Control" description="Use both controls together for the best upload result." />
-        <div className="grid gap-3 md:grid-cols-2">
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <h3 className="text-sm font-semibold">Exact Dimensions</h3>
-            <p className="mt-1.5 text-sm leading-6 text-white/70">Use this to match the required width and height for the form or application.</p>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <h3 className="text-sm font-semibold">Target KB Size</h3>
-            <p className="mt-1.5 text-sm leading-6 text-white/70">Use this to stay within the file size limit required by the upload portal.</p>
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="tips-heading" className="space-y-4">
-        <SectionHeading id="tips-heading" title="Tips for Better Passport Photos" description="These best practices help produce a cleaner final image." />
-        <ul className="grid gap-3 md:grid-cols-2">
-          {tips.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="mistakes-heading" className="space-y-4">
-        <SectionHeading id="mistakes-heading" title="Common Passport Photo Mistakes" description="Avoid these issues to reduce the chance of rejection." />
-        <ul className="grid gap-3 md:grid-cols-2">
-          {mistakes.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="when-compress-heading" className="space-y-4">
-        <SectionHeading id="when-compress-heading" title="When Should You Resize?" description="Use resizing before upload or official submission." />
-        <ul className="grid gap-3 md:grid-cols-2">
-          {whenToResize.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="uses-heading" className="space-y-4">
-        <SectionHeading id="uses-heading" title="Common Uses" description="Passport photo resizing is useful across many document workflows." />
-        <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-          {commonUses.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="not-compress-heading" className="space-y-4">
-        <SectionHeading id="not-compress-heading" title="When You Should Avoid Heavy Resizing" description="Some photos need careful handling to stay acceptable." />
-        <ul className="grid gap-3 md:grid-cols-2">
-          {whenNotToResize.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section aria-labelledby="size-heading" className="space-y-4">
-        <SectionHeading id="size-heading" title="How Much Can File Size Change?" description="The final size depends on the source image and chosen settings." />
-        <p className="text-sm leading-7 text-white/70">
-          A clean source image usually gives better results when you resize to a target KB. Highly detailed photos, noisy images, and already compressed files may behave differently.
-        </p>
-        <p className="text-sm leading-7 text-white/70">
-          Testing a few settings helps you reach a practical balance between clarity and upload limits.
-        </p>
-      </section>
-
-      <section aria-labelledby="steps-heading" className="space-y-4">
-        <SectionHeading id="steps-heading" title="How to Resize a Passport Photo" description="A simple workflow keeps the page easy to use." />
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {howToSteps.map((step, index) => (
-            <article key={step.title} className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/10">
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">{index + 1}</div>
-                <span className="text-xl">{step.icon}</span>
+                  <p className="mt-2 text-xs font-medium text-white/45">
+                    Example: {item.example}
+                  </p>
+                </div>
               </div>
-              <h3 className="mt-3 text-sm font-semibold sm:text-[0.95rem]">{step.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{step.desc}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="benefits-heading" className="space-y-4">
-        <SectionHeading id="benefits-heading" title="Core Features" description="These features make the page useful for passport photo users." />
+      {/* DIMENSIONS */}
+      <section
+        aria-labelledby="dimensions-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="dimensions-heading"
+          title="Common Image Dimensions"
+          description="Use a preset dimension as a starting point or enter your own custom width and height."
+        />
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {commonDimensions.map((size) => (
+            <div
+              key={size}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm"
+            >
+              {size}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ASPECT RATIO */}
+      <section
+        aria-labelledby="aspect-ratio-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="aspect-ratio-heading"
+          title="Resize Images by Aspect Ratio"
+          description="Aspect ratio controls help you choose the relationship between image width and height."
+        />
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {aspectRatios.map((item) => (
+            <article
+              key={item.ratio}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-sm font-semibold">
+                  {item.ratio}
+                </h3>
+
+                <code className="rounded bg-white/10 px-2 py-1 text-xs text-white/70">
+                  {item.ratio}
+                </code>
+              </div>
+
+              <p className="mt-2 text-sm leading-6 text-white/70">
+                {item.use}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* FILE SIZE */}
+      <section
+        aria-labelledby="file-size-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="file-size-heading"
+          title="Resize Images to a Target File Size"
+          description="When an upload has a maximum size, use a KB or MB target instead of guessing the compression level."
+        />
+
+        <p className="text-sm leading-7 text-white/70">
+          Image dimensions and file size are separate requirements. A smaller
+          width and height can reduce the file size, while compression and
+          quality settings provide additional control. Use the target-size
+          option when you need the output to fit a specific KB or MB limit.
+        </p>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {commonTargetSizes.map((size) => (
+            <div
+              key={size}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm"
+            >
+              {size}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* DIMENSIONS VS FILE SIZE */}
+      <section
+        aria-labelledby="dimensions-vs-size-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="dimensions-vs-size-heading"
+          title="Image Dimensions vs File Size"
+          description="Understanding the difference helps you choose the right control."
+        />
+
+        <div className="grid gap-3 md:grid-cols-2">
+          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <h3 className="text-sm font-semibold">
+              Width and Height
+            </h3>
+            <p className="mt-1.5 text-sm leading-6 text-white/70">
+              Width and height determine how large the image is in pixels.
+              Reducing dimensions can make an image smaller while keeping its
+              proportions when aspect ratio is locked.
+            </p>
+          </article>
+
+          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <h3 className="text-sm font-semibold">
+              KB and MB Target
+            </h3>
+            <p className="mt-1.5 text-sm leading-6 text-white/70">
+              KB and MB describe the amount of storage the output file uses.
+              Target-size controls are useful when an upload portal specifies
+              a maximum file size.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section
+        aria-labelledby="how-it-works-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="how-it-works-heading"
+          title="How to Resize an Image Online"
+          description="Resize, preview, and download an image in a few simple steps."
+        />
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {howToSteps.map((step, index) => (
+            <article
+              key={step.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
+                  {index + 1}
+                </div>
+
+                <span className="text-xl" aria-hidden="true">
+                  {step.icon}
+                </span>
+              </div>
+
+              <h3 className="mt-3 text-sm font-semibold">
+                {step.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {step.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section
+        aria-labelledby="features-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="features-heading"
+          title="Image Resizer Features"
+          description="Precise controls for dimensions, proportions, file size, and output quality."
+        />
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((feature) => (
-            <article key={feature.title} className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/10">
-              <div className="text-xl">{feature.icon}</div>
-              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">{feature.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{feature.desc}</p>
+            <article
+              key={feature.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="text-xl" aria-hidden="true">
+                {feature.icon}
+              </div>
+
+              <h3 className="mt-2.5 text-sm font-semibold">
+                {feature.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {feature.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="audience-heading" className="space-y-4">
-        <SectionHeading id="audience-heading" title="Who Uses Passport Photo Resizing?" description="These users commonly need exact photo sizing and KB control." />
+      {/* FORMATS */}
+      <section
+        aria-labelledby="formats-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="formats-heading"
+          title="Supported Image Formats"
+          description="Resize common image formats used for websites, applications, and everyday sharing."
+        />
+
+        <div className="overflow-hidden rounded-2xl border border-white/10">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left text-xs sm:text-sm">
+              <thead className="bg-white/10">
+                <tr>
+                  <th className="px-3 py-2.5 font-semibold sm:px-4">
+                    Format
+                  </th>
+                  <th className="px-3 py-2.5 font-semibold sm:px-4">
+                    Best For
+                  </th>
+                  <th className="px-3 py-2.5 font-semibold sm:px-4">
+                    Transparency
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {supportedFormats.map((item) => (
+                  <tr
+                    key={item.format}
+                    className="border-t border-white/10"
+                  >
+                    <td className="px-3 py-2.5 font-medium sm:px-4">
+                      {item.format}
+                    </td>
+                    <td className="px-3 py-2.5 sm:px-4">
+                      {item.bestFor}
+                    </td>
+                    <td className="px-3 py-2.5 sm:px-4">
+                      {item.transparency}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* RESIZE + COMPRESS */}
+      <section
+        aria-labelledby="resize-compress-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="resize-compress-heading"
+          title="Resize and Compress Images Together"
+          description="Use dimensions when you need a specific image size and target KB or MB when you also need to satisfy a file-size limit."
+        />
+
+        <div className="grid gap-3 md:grid-cols-3">
+          {[
+            [
+              "1. Set Dimensions",
+              "Choose the required width and height or resize using the selected aspect ratio.",
+            ],
+            [
+              "2. Set Target Size",
+              "Use KB or MB when the destination specifies a file-size limit.",
+            ],
+            [
+              "3. Review Quality",
+              "Preview the result and adjust quality if necessary before downloading.",
+            ],
+          ].map(([title, desc], index) => (
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <div className="text-xs font-semibold text-white/40">
+                STEP {index + 1}
+              </div>
+
+              <h3 className="mt-2 text-sm font-semibold">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* COMMON USES */}
+      <section
+        aria-labelledby="uses-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="uses-heading"
+          title="Common Uses for an Online Image Resizer"
+          description="Resize images before uploading, publishing, sharing, or storing them."
+        />
+
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {commonUses.map((item) => (
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* AUDIENCE */}
+      <section
+        aria-labelledby="audience-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="audience-heading"
+          title="Who Uses an Image Resizer?"
+          description="Useful for anyone who needs precise image dimensions or a smaller upload-ready file."
+        />
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {["Applicants", "Students", "Travelers", "Businesses", "Government users", "Freelancers"].map((item) => (
-            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">{item}</div>
+          {audiences.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <div className="flex items-start gap-3">
+                <span className="text-2xl" aria-hidden="true">
+                  {item.icon}
+                </span>
+
+                <div>
+                  <h3 className="text-sm font-semibold">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1.5 text-sm leading-6 text-white/70">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="device-heading" className="space-y-4">
-        <SectionHeading id="device-heading" title="Works on Common Devices" description="Use the resizer on the devices people use every day." />
-        <div className="flex flex-wrap gap-2.5">
-          {devices.map((item) => (
-            <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium">{item}</span>
-          ))}
-        </div>
+      {/* PRIVACY */}
+      <section
+        aria-labelledby="privacy-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="privacy-heading"
+          title="Browser-Based Image Resizing"
+          description="A convenient workflow without requiring image-editing software."
+        />
+
+        <p className="text-sm leading-7 text-white/70">
+          When image processing is performed locally in the browser, the
+          selected image can be handled directly on your device instead of
+          being uploaded to a remote processing server. This can make resizing
+          convenient for personal photos, documents, screenshots, and other
+          files that you prefer to keep on your device.
+        </p>
       </section>
 
-      <section aria-labelledby="faq-heading" className="space-y-4">
-        <SectionHeading id="faq-heading" title="Frequently Asked Questions" description="Short answers help visitors understand resize behavior quickly." />
+      {/* FAQ */}
+      <section
+        aria-labelledby="faq-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="faq-heading"
+          title="Frequently Asked Questions"
+          description="Answers to common questions about image dimensions, aspect ratios, quality, and file-size targets."
+        />
+
         <div className="space-y-3">
           {faqItems.map((item) => (
-            <details key={item.q} className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
-              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">{item.q}</summary>
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">{item.a}</p>
+            <details
+              key={item.q}
+              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+            >
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold">
+                {item.q}
+              </summary>
+
+              <div className="border-t border-white/10 px-4 py-4">
+                <p className="text-sm leading-6 text-white/70">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="cta-heading" className="space-y-4">
+      {/* RELATED TOOLS */}
+      <section
+        aria-labelledby="related-tools-heading"
+        className="space-y-4"
+      >
         <SectionHeading
-          id="cta-heading"
-          title="Start Resizing Your Passport Photo"
-          description="This tool is built for quick passport-style resizing with exact dimensions, target KB control, and a clear preview before download. Use the related tools below to crop, convert, or resize with alternative units like inches and cm when needed."
+          id="related-tools-heading"
+          title="Related Image Tools"
+          description="Continue with another image workflow when you need compression, format conversion, or specialized resizing."
         />
+
         <div className="flex flex-wrap gap-2.5">
           {relatedTools.map((tool) => (
-            <a
+            <Link
               key={tool.href}
               href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
+              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-500/10 hover:text-white"
             >
               {tool.name}
-            </a>
+            </Link>
           ))}
         </div>
       </section>
