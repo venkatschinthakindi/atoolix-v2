@@ -4,7 +4,7 @@ import { serverConfig } from "@/config/server";
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
 
-const canonicalPath = "/tools/webp-compressor";
+const canonicalPath = "/tools/image/compress-webp";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
 type FaqItem = {
