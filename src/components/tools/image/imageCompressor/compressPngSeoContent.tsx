@@ -1,205 +1,199 @@
-import type { Metadata } from "next";
+import Link from "next/link";
 import { serverConfig } from "@/config/server";
 
 const siteName = serverConfig.siteName;
-const siteUrl = serverConfig.siteUrl;
-const canonicalPath = "/tools/png-compressor";
+const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
+
+const canonicalPath = "/tools/image/compress-png";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
-// export const metadata: Metadata = {
-//   metadataBase: new URL(siteUrl),
-//   title: "Free PNG Compressor Online – Compress PNG Images with Transparency",
-//   description:
-//     "Compress PNG images online for free while preserving transparency and crisp detail. Reduce PNG file size for logos, screenshots, icons, and graphics with preview and instant download.",
-//   keywords: [
-//     "png compressor",
-//     "compress png",
-//     "compress png online",
-//     "free png compressor",
-//     "reduce png file size",
-//     "png size reducer",
-//     "optimize png",
-//     "png optimizer",
-//     "compress png with transparency",
-//     "compress transparent png",
-//     "compress png screenshots",
-//     "compress png logos",
-//     "compress png icons",
-//     "compress png for website",
-//     "compress png for email",
-//     "browser png compressor",
-//     "preview png compression",
-//     "lossless png compressor",
-//   ],
-//   alternates: {
-//     canonical: canonicalUrl,
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//     googleBot: {
-//       index: true,
-//       follow: true,
-//       "max-image-preview": "large",
-//       "max-snippet": -1,
-//       "max-video-preview": -1,
-//     },
-//   },
-//   applicationName: "PNG Compressor with Preview",
-//   category: "Utilities",
-//   openGraph: {
-//     title: "Free PNG Compressor Online – Compress PNG Images with Transparency",
-//     description:
-//       "Compress PNG images online for free while preserving transparency and crisp detail. Reduce PNG file size for logos, screenshots, icons, and graphics with preview and instant download.",
-//     url: canonicalUrl,
-//     siteName,
-//     type: "website",
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Free PNG Compressor Online – Compress PNG Images with Transparency",
-//     description:
-//       "Compress PNG images online for free while preserving transparency and crisp detail. Reduce PNG file size for logos, screenshots, icons, and graphics with preview and instant download.",
-//   },
-// };
+type FaqItem = {
+  q: string;
+  a: string;
+};
 
-type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string; icon: string };
-type FeatureItem = { title: string; desc: string; icon: string };
+type StepItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type FeatureItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
 
 const faqItems: FaqItem[] = [
   {
     q: "What does this PNG compressor do?",
-    a: "It reduces PNG file size while preserving transparency and the sharp detail PNG is known for.",
+    a: "It reduces the file size of PNG images using compression controls while keeping the PNG format and allowing you to preview the result before downloading it.",
   },
   {
-    q: "Why use a PNG compressor?",
-    a: "PNG files are often used for logos, screenshots, icons, and graphics, and compression helps make them easier to upload, share, and load.",
+    q: "Why compress a PNG image?",
+    a: "Compressing PNG files can make them easier to upload, share, store, and use on websites while reducing the amount of storage or transfer space they require.",
   },
   {
-    q: "Does PNG compression keep transparency?",
-    a: "Yes. The tool is designed to preserve transparent backgrounds and alpha channel areas.",
+    q: "Can I compress PNG images with transparency?",
+    a: "Yes. PNG images with transparent areas can be processed, making the tool useful for logos, icons, overlays, and other graphics that use transparency.",
   },
   {
-    q: "Is this tool free?",
-    a: "Yes. You can use it without a paid plan.",
+    q: "Is this PNG compressor free?",
+    a: "Yes. The PNG compressor is available to use without a paid plan.",
   },
   {
-    q: "Can I preview the result first?",
-    a: "Yes. You can preview the compressed PNG before downloading it.",
+    q: "Can I preview a compressed PNG before downloading it?",
+    a: "Yes. You can preview the processed image before downloading the compressed PNG.",
   },
   {
-    q: "Will PNG compression reduce quality?",
-    a: "It may if you compress too aggressively, but the goal is to keep the visual difference minimal for practical use.",
+    q: "Will PNG compression reduce image quality?",
+    a: "The result depends on the compression settings and the source image. More aggressive compression can affect visual detail, so previewing the result helps you choose a suitable balance.",
   },
   {
-    q: "What kinds of PNG files work best?",
-    a: "Logos, icons, UI graphics, screenshots, diagrams, and transparent images usually work very well.",
+    q: "What PNG files are good candidates for compression?",
+    a: "Logos, icons, screenshots, diagrams, UI graphics, illustrations, documentation images, and other PNG assets are common candidates for compression.",
   },
   {
-    q: "Can I use it on mobile?",
-    a: "Yes. The page is responsive and works on phones and tablets.",
+    q: "Can I compress PNG images on my phone?",
+    a: "Yes. The page is responsive and can be used on modern Android phones, iPhones, tablets, and desktop browsers.",
   },
   {
-    q: "Does compression change dimensions?",
-    a: "No. Compression reduces file size, while dimensions stay the same unless you resize separately.",
+    q: "Does PNG compression change image dimensions?",
+    a: "Compression is intended to reduce file size rather than resize the image. If you need different dimensions, use a dedicated image resizing tool.",
   },
   {
-    q: "Can I compress PNG for websites?",
-    a: "Yes. Smaller PNGs are useful for page speed, design assets, and web graphics.",
+    q: "Can I compress PNG images for a website?",
+    a: "Yes. Smaller PNG assets can be useful for website graphics, screenshots, icons, documentation, and other web content.",
   },
   {
-    q: "Can I compress PNG for email?",
-    a: "Yes. Smaller files are easier to send as attachments.",
+    q: "Can I compress PNG images for email?",
+    a: "Yes. Reducing PNG file size can make image attachments easier to send when attachment-size limits are a concern.",
   },
   {
-    q: "Does this tool remove transparency?",
-    a: "No. The goal is to keep PNG transparency intact while reducing file size.",
+    q: "Does the tool convert PNG to another format?",
+    a: "No. This page is focused on PNG compression. If you need to change the image format, use one of the image conversion tools available on Atoolix.",
   },
 ];
 
 const howToSteps: StepItem[] = [
-  { title: "Choose a PNG file", desc: "Select a PNG image from your device.", icon: "📁" },
-  { title: "Preview the graphic", desc: "Check the image before compression.", icon: "🖼️" },
-  { title: "Adjust compression", desc: "Tune the settings for your file size goal.", icon: "🎚️" },
-  { title: "Compress and compare", desc: "See the optimized result before downloading.", icon: "🔍" },
-  { title: "Download instantly", desc: "Save the compressed PNG to your device.", icon: "⬇️" },
+  {
+    title: "Choose a PNG file",
+    desc: "Select a PNG image from your computer, phone, or tablet.",
+    icon: "📁",
+  },
+  {
+    title: "Preview the image",
+    desc: "Review the selected PNG before applying compression.",
+    icon: "🖼️",
+  },
+  {
+    title: "Adjust compression",
+    desc: "Choose a suitable compression level for your file and intended use.",
+    icon: "🎚️",
+  },
+  {
+    title: "Compare the result",
+    desc: "Preview the compressed image and check the resulting file size.",
+    icon: "🔍",
+  },
+  {
+    title: "Download the PNG",
+    desc: "Save the compressed PNG to your device when the result looks right.",
+    icon: "⬇️",
+  },
 ];
 
 const coreFeatures: FeatureItem[] = [
   {
-    title: "Transparency Preserved",
-    desc: "Keeps transparent backgrounds and alpha channels intact.",
+    title: "PNG-Focused Compression",
+    desc: "Designed specifically for reducing PNG file sizes without requiring a format change.",
+    icon: "🖼️",
+  },
+  {
+    title: "Transparency Support",
+    desc: "Suitable for PNG graphics that contain transparent backgrounds or alpha areas.",
     icon: "🔲",
   },
   {
-    title: "Built for Graphics",
-    desc: "Ideal for logos, icons, screenshots, and UI visuals.",
-    icon: "🎨",
-  },
-  {
     title: "Preview Before Download",
-    desc: "Review the result before saving the file.",
+    desc: "Review the processed image before saving the final file.",
     icon: "👀",
   },
   {
-    title: "Browser Processing",
-    desc: "Compress images directly in the browser for a smoother workflow.",
+    title: "Compression Controls",
+    desc: "Adjust compression to find a practical balance between file size and visual quality.",
+    icon: "🎚️",
+  },
+  {
+    title: "Browser-Based Workflow",
+    desc: "Process your image directly through the browser-based tool.",
     icon: "🌐",
   },
   {
     title: "Fast Export",
-    desc: "Download the optimized PNG immediately.",
+    desc: "Download the resulting PNG when processing is complete.",
     icon: "⚡",
   },
   {
-    title: "Quality-Friendly Compression",
-    desc: "Reduce file size while keeping edges and text clear.",
-    icon: "🎛️",
+    title: "Graphics Friendly",
+    desc: "Useful for logos, icons, screenshots, diagrams, and interface graphics.",
+    icon: "🎨",
   },
   {
     title: "Mobile Ready",
-    desc: "Works on desktop and mobile devices.",
+    desc: "Works across modern desktop, tablet, and mobile browsers.",
     icon: "📱",
-  },
-  {
-    title: "Made for PNG Use Cases",
-    desc: "Best for transparent visuals and pixel-perfect assets.",
-    icon: "🧩",
   },
 ];
 
 const qualityGuide = [
-  { range: "90–100%", reduction: "5–15% smaller", use: "When quality and pixel precision matter most" },
-  { range: "75–90%", reduction: "20–40% smaller", use: "Best default for most PNG graphics" },
-  { range: "60–75%", reduction: "40–70% smaller", use: "When you want lighter files for web use" },
-  { range: "Below 60%", reduction: "Maximum compression", use: "Only when file size matters more than detail" },
+  {
+    range: "90–100%",
+    reduction: "Usually smaller",
+    use: "When preserving visual detail is the priority",
+  },
+  {
+    range: "75–90%",
+    reduction: "Moderate reduction",
+    use: "A practical starting point for many graphics",
+  },
+  {
+    range: "60–75%",
+    reduction: "Higher reduction",
+    use: "When reducing file size is more important",
+  },
+  {
+    range: "Below 60%",
+    reduction: "More aggressive",
+    use: "When minimizing file size takes priority over detail",
+  },
 ];
 
 const whenToCompress = [
-  "Before uploading logos to websites.",
-  "Before adding screenshots to blogs or docs.",
-  "Before sending UI graphics by email.",
-  "Before publishing icons or interface assets.",
-  "Before storing transparent design files in bulk.",
+  "Before uploading PNG logos or graphics to a website.",
+  "Before adding screenshots to articles, documentation, or tutorials.",
+  "Before sending large PNG attachments by email or messaging.",
+  "Before publishing icons and interface graphics.",
+  "Before storing large collections of PNG assets.",
+  "When a website or service has a PNG file-size limit.",
 ];
 
 const whenNotToCompress = [
-  "Images that are already tiny.",
-  "Files that must stay perfectly unchanged for editing.",
-  "Print assets where you want maximum detail control.",
-  "Graphics where the source file should remain untouched.",
+  "When the PNG is already small enough for its intended use.",
+  "When you need to preserve the original file separately for editing.",
+  "When maximum visual fidelity is more important than file size.",
+  "When the image is being prepared as a source asset for future editing.",
 ];
 
 const commonUses = [
-  "Logos.",
-  "Screenshots.",
-  "Icons.",
-  "UI graphics.",
-  "Illustrations.",
-  "Diagrams.",
-  "Transparent overlays.",
-  "Documentation images.",
+  "Logos",
+  "Screenshots",
+  "Icons",
+  "UI graphics",
+  "Illustrations",
+  "Diagrams",
+  "Transparent overlays",
+  "Documentation images",
 ];
 
 const audience = [
@@ -215,15 +209,55 @@ const audience = [
   "Support teams",
 ];
 
-const devices = ["Windows", "macOS", "Android", "iPhone"];
+const devices = [
+  "Windows",
+  "macOS",
+  "Android",
+  "iPhone",
+  "iPad",
+];
 
 const relatedTools = [
-  { name: "Compress Image", href: "/tools/image/compress-image" },
-  { name: "Compress JPG", href: "/tools/image/compress-jpg" },
-  { name: "Compress Image to Custom Size", href: "/tools/image/compress-image-to-100kb" },
-  { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-  { name: "Signature Photo Resizer", href: "/tools/image/resize-signature-for-upload" },
-  { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
+  {
+    name: "Compress Image",
+    href: "/tools/image/compress-image",
+  },
+  {
+    name: "Compress JPG",
+    href: "/tools/image/compress-jpg",
+  },
+  {
+    name: "Compress WebP",
+    href: "/tools/image/compress-webp",
+  },
+  {
+    name: "Compress Image to 20 KB",
+    href: "/tools/image/compress-image-to-20kb",
+  },
+  {
+    name: "Compress Image to 50 KB",
+    href: "/tools/image/compress-image-to-50kb",
+  },
+  {
+    name: "Compress Image to 100 KB",
+    href: "/tools/image/compress-image-to-100kb",
+  },
+  {
+    name: "Passport Photo Resizer",
+    href: "/tools/image/passport-photo-resizer",
+  },
+  {
+    name: "Signature Photo Resizer",
+    href: "/tools/image/resize-signature-for-upload",
+  },
+  {
+    name: "PNG to JPG",
+    href: "/tools/image/png-to-jpg",
+  },
+  {
+    name: "PNG to WebP",
+    href: "/tools/image/png-to-webp",
+  },
 ];
 
 const faqJsonLd = {
@@ -232,15 +266,19 @@ const faqJsonLd = {
   mainEntity: faqItems.map((item) => ({
     "@type": "Question",
     name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
   })),
 };
 
 const howToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Compress PNG Images",
-  description: "Compress PNG images online with preview and transparency support.",
+  name: "How to Compress a PNG Image",
+  description:
+    "Learn how to compress a PNG image online, review the result, and download the optimized PNG.",
   totalTime: "PT1M",
   step: howToSteps.map((step, index) => ({
     "@type": "HowToStep",
@@ -254,8 +292,24 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-    { "@type": "ListItem", position: 2, name: "PNG Compressor with Preview", item: canonicalUrl },
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Tools",
+      item: `${siteUrl}/tools`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Image Tools",
+      item: `${siteUrl}/image`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "PNG Compressor",
+      item: canonicalUrl,
+    },
   ],
 };
 
@@ -272,16 +326,39 @@ const itemListJsonLd = {
 };
 
 function JsonLd({ data }: { data: unknown }) {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
 }
 
-function SectionHeading({ id, title, description }: { id: string; title: string; description?: string }) {
+function SectionHeading({
+  id,
+  title,
+  description,
+}: {
+  id: string;
+  title: string;
+  description?: string;
+}) {
   return (
     <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">
+      <h2
+        id={id}
+        className="text-xl font-bold tracking-tight sm:text-2xl"
+      >
         {title}
       </h2>
-      {description ? <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">{description}</p> : null}
+
+      {description ? (
+        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          {description}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -294,121 +371,278 @@ export default function PngCompressorSeoContent() {
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
 
-      <section aria-labelledby="intro-heading" className="space-y-3">
+      <section
+        aria-labelledby="intro-heading"
+        className="space-y-3"
+      >
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          PNG Transparency Compressor
+          PNG Compression Tool
         </p>
-        <h2 id="intro-heading" className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-          Free PNG Compressor Online – Compress PNG Images with Transparency
+
+        <h2
+          id="intro-heading"
+          className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
+        >
+          Free PNG Compressor Online – Reduce PNG File Size
         </h2>
+
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Compress PNG images online without losing the properties that make PNG useful in the first place. Keep transparent backgrounds, sharp edges, and clean graphic detail while reducing file size with preview and download controls.
+          Compress PNG images online when you need a smaller file for a
+          website, upload, email, document, or design workflow. Adjust the
+          compression settings, preview the result, and download the
+          optimized PNG when it meets your needs.
         </p>
+
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          PNG is the format people often choose for logos, screenshots, icons, UI assets, and illustrations. This tool is intentionally focused on PNG so users can optimize graphics without switching to a different format or dealing with unnecessary complexity.
+          PNG is commonly used for logos, screenshots, icons, interface
+          graphics, diagrams, illustrations, and images that need
+          transparency. A dedicated PNG compressor makes it easier to
+          optimize those files while keeping them in PNG format.
         </p>
+
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          If you need a smaller PNG for a website, document, email, or design workflow, this page gives you a direct way to reduce file size while keeping transparency and visual clarity intact.
+          If you are trying to reduce PNG size without unnecessarily changing
+          the image format, this tool provides a focused workflow for
+          compression, preview, comparison, and download.
         </p>
       </section>
 
-      <section aria-labelledby="why-png-heading" className="space-y-4">
-        <SectionHeading id="why-png-heading" title="Why Compress PNG Images?" description="PNG compression helps make graphics lighter without breaking the visual qualities people expect." />
+      <section
+        aria-labelledby="why-png-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="why-png-heading"
+          title="Why Compress PNG Images?"
+          description="Reducing PNG file size can make graphics easier to upload, share, store, and deliver."
+        />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
-            ["Preserve transparency", "PNG is often used because it supports transparent backgrounds."],
-            ["Reduce page weight", "Smaller PNG files help websites and apps load faster."],
-            ["Make graphics easier to share", "Compressed files are simpler to send in email or chat."],
-            ["Save storage space", "Smaller graphics take less room on your device or server."],
+            [
+              "Reduce file size",
+              "Smaller PNG files require less storage and can be easier to transfer.",
+            ],
+            [
+              "Improve upload workflows",
+              "A smaller image can be easier to upload when a service has file-size limits.",
+            ],
+            [
+              "Make graphics easier to share",
+              "Compressed files can be more convenient for email, messaging, and document sharing.",
+            ],
+            [
+              "Optimize web graphics",
+              "Reducing unnecessary image weight can help keep website assets lighter.",
+            ],
           ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="why-specific-heading" className="space-y-4">
-        <SectionHeading id="why-specific-heading" title="Why Use a Dedicated PNG Compressor?" description="A focused PNG tool feels more relevant than a general image utility." />
+      <section
+        aria-labelledby="why-specific-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="why-specific-heading"
+          title="Why Use a Dedicated PNG Compressor?"
+          description="A PNG-specific workflow keeps the task focused on reducing PNG file size without introducing unnecessary format changes."
+        />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
-            ["Built for transparency", "The page is centered on preserving alpha channels and transparent areas."],
-            ["Better for graphics", "PNG is strongest for logos, icons, screenshots, and sharp UI elements."],
-            ["Cleaner file filtering", "Users can focus on PNG files instead of mixed-format uploads."],
-            ["Less confusion", "The tool is easy to understand because it solves one clear job."],
+            [
+              "PNG-focused workflow",
+              "The tool is designed around the needs of PNG files rather than a mixed-format workflow.",
+            ],
+            [
+              "Useful for transparent graphics",
+              "PNG is commonly used for logos, icons, overlays, and graphics containing transparent areas.",
+            ],
+            [
+              "Simple file selection",
+              "You can focus specifically on PNG images instead of choosing between multiple unrelated formats.",
+            ],
+            [
+              "Preview before saving",
+              "Review the processed image before deciding whether the compression level is suitable.",
+            ],
           ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="trust-heading" className="space-y-4">
-        <SectionHeading id="trust-heading" title="How Your PNG Files Are Processed" description="The workflow is designed for speed, privacy, and predictable output." />
+      <section
+        aria-labelledby="trust-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="trust-heading"
+          title="How Your PNG Files Are Processed"
+          description="The tool provides a browser-based workflow for selecting, compressing, previewing, and downloading PNG images."
+        />
+
         <div className="grid gap-3 md:grid-cols-2">
           {[
-            ["Runs in the browser", "The compression workflow stays inside the browser experience."],
-            ["No extra conversion step", "Users can optimize PNGs without changing format goals."],
-            ["Instant preview", "Check the result before downloading the file."],
-            ["Better control", "You can decide how small the file should be without guessing."],
+            [
+              "Browser-based workflow",
+              "The image compression experience runs through your web browser.",
+            ],
+            [
+              "PNG stays PNG",
+              "The purpose of this tool is to reduce PNG file size without requiring a format conversion.",
+            ],
+            [
+              "Preview before download",
+              "Check the processed result before saving the final file.",
+            ],
+            [
+              "Compression control",
+              "Choose a suitable balance between file size and visual detail for your use case.",
+            ],
           ].map(([title, desc]) => (
-            <article key={title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">{title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{desc}</p>
+            <article
+              key={title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                {title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="quality-heading" className="space-y-4">
-        <SectionHeading id="quality-heading" title="Recommended Compression Levels" description="Use this guide to choose the best balance of size and clarity." />
+      <section
+        aria-labelledby="quality-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="quality-heading"
+          title="Recommended PNG Compression Levels"
+          description="Use the preview to choose a practical balance between image quality and file size."
+        />
+
         <div className="overflow-hidden rounded-2xl border border-white/10">
           <table className="min-w-full text-left text-xs sm:text-sm">
             <thead className="bg-white/10">
               <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Quality</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Typical Reduction</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Best For</th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Quality
+                </th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Expected Effect
+                </th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Best For
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {qualityGuide.map((item) => (
-                <tr key={item.range} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{item.range}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.reduction}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{item.use}</td>
+                <tr
+                  key={item.range}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {item.range}
+                  </td>
+
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {item.reduction}
+                  </td>
+
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {item.use}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        <p className="text-xs leading-6 text-white/55">
+          Actual file-size reduction varies by image content, dimensions,
+          transparency, and compression characteristics. Preview the output
+          rather than relying on a fixed percentage of reduction.
+        </p>
       </section>
 
-      <section aria-labelledby="comparison-heading" className="space-y-4">
-        <SectionHeading id="comparison-heading" title="What This Tool Gives You" description="These are the features users expect from a strong PNG compressor." />
+      <section
+        aria-labelledby="comparison-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="comparison-heading"
+          title="PNG Compressor Features"
+          description="The workflow focuses on the controls and output options commonly needed when optimizing PNG graphics."
+        />
+
         <div className="overflow-hidden rounded-2xl border border-white/10">
           <table className="min-w-full text-left text-xs sm:text-sm">
             <thead className="bg-white/10">
               <tr>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Feature</th>
-                <th className="px-3 py-2.5 font-semibold sm:px-4">Included</th>
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Feature
+                </th>
+
+                <th className="px-3 py-2.5 font-semibold sm:px-4">
+                  Available
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {[
-                ["Transparency preserved", "✅"],
-                ["Preview before download", "✅"],
-                ["Compression controls", "✅"],
-                ["Browser processing", "✅"],
-                ["Instant download", "✅"],
-                ["Mobile friendly", "✅"],
+                ["PNG-focused compression", "Yes"],
+                ["Transparency-friendly workflow", "Yes"],
+                ["Preview before download", "Yes"],
+                ["Compression controls", "Yes"],
+                ["Browser-based processing", "Yes"],
+                ["Download optimized PNG", "Yes"],
+                ["Mobile-friendly interface", "Yes"],
               ].map(([feature, value]) => (
-                <tr key={feature} className="border-t border-white/10">
-                  <td className="px-3 py-2.5 sm:px-4">{feature}</td>
-                  <td className="px-3 py-2.5 sm:px-4">{value}</td>
+                <tr
+                  key={feature}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {feature}
+                  </td>
+
+                  <td className="px-3 py-2.5 sm:px-4">
+                    {value}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -416,124 +650,256 @@ export default function PngCompressorSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="steps-heading" className="space-y-4">
-        <SectionHeading id="steps-heading" title="How to Compress PNG Images" description="A short workflow keeps the page easy to scan and use." />
+      <section
+        aria-labelledby="steps-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="steps-heading"
+          title="How to Compress a PNG Image"
+          description="Follow these steps to reduce PNG file size and check the result before downloading."
+        />
+
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {howToSteps.map((step, index) => (
-            <article key={step.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <article
+              key={step.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">{index + 1}</div>
-                <span className="text-xl">{step.icon}</span>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                  {index + 1}
+                </div>
+
+                <span
+                  className="text-xl"
+                  aria-hidden="true"
+                >
+                  {step.icon}
+                </span>
               </div>
-              <h3 className="mt-3 text-sm font-semibold sm:text-[0.95rem]">{step.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{step.desc}</p>
+
+              <h3 className="mt-3 text-sm font-semibold sm:text-[0.95rem]">
+                {step.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {step.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="benefits-heading" className="space-y-4">
-        <SectionHeading id="benefits-heading" title="Core Advantages" description="These benefits explain why a PNG-specific tool matters." />
+      <section
+        aria-labelledby="benefits-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="benefits-heading"
+          title="PNG Compressor Benefits"
+          description="Useful capabilities for people working with PNG graphics, documents, websites, and digital content."
+        />
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((feature) => (
-            <article key={feature.title} className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-xl">{feature.icon}</div>
-              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">{feature.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">{feature.desc}</p>
+            <article
+              key={feature.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <div
+                className="text-xl"
+                aria-hidden="true"
+              >
+                {feature.icon}
+              </div>
+
+              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">
+                {feature.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {feature.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="audience-heading" className="space-y-4">
-        <SectionHeading id="audience-heading" title="Perfect For" description="These users commonly work with PNG files." />
+      <section
+        aria-labelledby="audience-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="audience-heading"
+          title="Who Can Use a PNG Compressor?"
+          description="PNG compression can be useful across design, development, publishing, education, and everyday file-sharing workflows."
+        />
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {audience.map((item) => (
-            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <div
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </div>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="uses-heading" className="space-y-4">
-        <SectionHeading id="uses-heading" title="Common PNG Use Cases" description="PNG is especially useful when precision and transparency matter." />
+      <section
+        aria-labelledby="uses-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="uses-heading"
+          title="Common PNG Compression Use Cases"
+          description="PNG is especially common for graphics where sharp edges, transparency, or lossless-style image characteristics are important."
+        />
+
         <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
           {commonUses.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="when-heading" className="space-y-4">
-        <SectionHeading id="when-heading" title="When to Compress PNG Images" description="Use compression when you want smaller files without changing the visual purpose of the graphic." />
+      <section
+        aria-labelledby="when-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="when-heading"
+          title="When to Compress PNG Images"
+          description="Compression is useful when the file is larger than necessary for its intended destination."
+        />
+
         <ul className="grid gap-3 md:grid-cols-2">
           {whenToCompress.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="avoid-heading" className="space-y-4">
-        <SectionHeading id="avoid-heading" title="When to Avoid Heavy Compression" description="Some graphics should stay as close to the original as possible." />
+      <section
+        aria-labelledby="avoid-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="avoid-heading"
+          title="When to Avoid Heavy PNG Compression"
+          description="More compression is not always better. Keep the original source when maximum fidelity or future editing flexibility matters."
+        />
+
         <ul className="grid gap-3 md:grid-cols-2">
           {whenNotToCompress.map((item) => (
-            <li key={item} className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm">
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+            >
               {item}
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="devices-heading" className="space-y-4">
-        <SectionHeading id="devices-heading" title="Compress PNG Images on Windows, Mac, Android, and iPhone" description="The tool works across the devices people already use every day." />
+      <section
+        aria-labelledby="devices-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="devices-heading"
+          title="Compress PNG Images on Windows, Mac, Android, iPhone, and iPad"
+          description="Use the browser-based workflow on the devices you already use for work, study, design, and everyday file management."
+        />
+
         <div className="flex flex-wrap gap-2.5">
           {devices.map((item) => (
-            <span key={item} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium">
+            <span
+              key={item}
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium"
+            >
               {item}
             </span>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="related-heading" className="space-y-4">
-        <SectionHeading id="related-heading" title="Related Searches and Tools" description="Helpful next steps for users working with image files." />
-        <div className="flex flex-wrap gap-2.5">
+      <section
+        aria-labelledby="related-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="related-heading"
+          title="Related Image Compression and Conversion Tools"
+          description="Explore other Atoolix image tools when your file-size, target-size, resizing, or format-conversion requirements are different."
+        />
+
+        <nav
+          aria-label="Related image tools"
+          className="flex flex-wrap gap-2.5"
+        >
           {relatedTools.map((tool) => (
-            <a
+            <Link
               key={tool.href}
               href={tool.href}
               className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
             >
               {tool.name}
-            </a>
+            </Link>
           ))}
-        </div>
+        </nav>
       </section>
 
-      <section aria-labelledby="faq-heading" className="space-y-4">
-        <SectionHeading id="faq-heading" title="Frequently Asked Questions" description="These questions align with real PNG compression intent." />
+      <section
+        aria-labelledby="faq-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="faq-heading"
+          title="Frequently Asked Questions About PNG Compression"
+          description="Answers to common questions about reducing PNG file size, quality, transparency, devices, and use cases."
+        />
+
         <div className="space-y-3">
           {faqItems.map((item) => (
-            <details key={item.q} className="overflow-hidden rounded-xl border border-white/10 bg-white/5">
-              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">{item.q}</summary>
+            <details
+              key={item.q}
+              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+            >
+              <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
+                {item.q}
+              </summary>
+
               <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">{item.a}</p>
+                <p className="text-sm leading-6 text-white/70">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="cta-heading" className="space-y-4">
+      <section
+        aria-labelledby="cta-heading"
+        className="space-y-4"
+      >
         <SectionHeading
           id="cta-heading"
-          title="Start Compressing Your PNG Files"
-          description="This page is designed to help users reduce PNG size while keeping transparency and crisp visual quality."
+          title="Start Compressing Your PNG"
+          description="Choose a PNG, adjust the compression level, preview the result, and download the optimized file when it meets your needs."
         />
       </section>
     </div>
