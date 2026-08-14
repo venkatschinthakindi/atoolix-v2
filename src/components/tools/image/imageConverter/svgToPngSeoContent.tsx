@@ -1,40 +1,66 @@
+import Link from "next/link";
+
 export default function SvgToPngSeoContent() {
   const faqItems = [
     {
       q: "What is an SVG to PNG converter?",
-      a: "An SVG to PNG converter is a browser-based tool that rasterizes SVG vector graphics into PNG images quickly and accurately without installing software.",
+      a: "An SVG to PNG converter rasterizes SVG vector graphics into PNG images so they can be used as fixed-resolution raster assets without requiring desktop conversion software.",
     },
     {
       q: "Why should I convert SVG to PNG?",
-      a: "PNG is widely supported and is useful when you need a fixed-resolution image for websites, apps, sharing, or platforms that do not support SVG well.",
+      a: "PNG is widely supported and is useful when you need a fixed-resolution image for websites, apps, documents, presentations, sharing, or platforms that do not support SVG well.",
     },
     {
       q: "What is the difference between SVG and PNG?",
-      a: "SVG is a vector format built from mathematical shapes and paths, while PNG is a raster format made of pixels with a fixed resolution.",
+      a: "SVG is a vector format built from mathematical shapes and paths, while PNG is a raster format made of pixels. SVG can scale without the same resolution limits, while PNG is exported at a specific pixel size.",
     },
     {
       q: "Does converting SVG to PNG keep transparency?",
-      a: "Yes. PNG supports transparency, so it is a good choice when your SVG includes transparent areas or layered graphics.",
+      a: "PNG supports transparency, so transparent areas in an SVG can be preserved when the SVG and conversion workflow support transparent PNG output.",
     },
     {
       q: "Does converting SVG to PNG reduce quality?",
-      a: "SVG is resolution-independent, so converting it to PNG creates a pixel-based image at the chosen size. PNG preserves quality well, but the output is limited to the selected resolution.",
+      a: "SVG is resolution-independent, so converting it to PNG creates a pixel-based image at the selected dimensions. PNG preserves raster image quality well, but the final image is limited to the chosen resolution.",
     },
     {
-      q: "Can I choose the output size?",
-      a: "Yes. SVG to PNG converters often let you set width and height so you can export the raster image at the resolution you need.",
+      q: "Can I choose the PNG output size?",
+      a: "SVG to PNG converters can let you set the output width and height so the raster image is created at the dimensions required for your workflow.",
     },
     {
-      q: "Is this converter browser-based?",
-      a: "Yes. The conversion runs directly in your browser, so files are processed locally without needing to upload them to a server.",
+      q: "Should I convert SVG to PNG or JPG?",
+      a: "Choose PNG when you need transparency, lossless raster output, or graphics such as logos and icons. JPG can be more suitable when you need a smaller compressed image and do not need transparency.",
+    },
+    {
+      q: "Is PNG better than SVG?",
+      a: "Neither format is universally better. SVG is usually better for scalable vector graphics, while PNG is useful when a fixed-resolution raster image is required for a website, app, document, or other workflow.",
+    },
+    {
+      q: "Is this SVG to PNG converter browser-based?",
+      a: "Yes. When browser-based local processing is supported by the conversion workflow, the SVG can be processed directly on your device without requiring a server upload.",
     },
     {
       q: "Is this SVG to PNG converter mobile friendly?",
-      a: "Yes. The layout is responsive and works smoothly on mobile, tablet, laptop, and desktop devices.",
+      a: "Yes. The responsive layout is designed to work across mobile phones, tablets, laptops, and desktop devices.",
     },
     {
-      q: "Is this tool suitable for designers and developers?",
-      a: "Yes. It is useful for designers, developers, students, marketers, and anyone who needs a simple SVG to PNG workflow.",
+      q: "Can I convert SVG logos and icons to PNG?",
+      a: "Yes. Converting SVG logos, icons, illustrations, and other vector graphics to PNG is useful when a fixed-size raster asset is required.",
+    },
+    {
+      q: "Can complex SVG files always be converted perfectly?",
+      a: "Not necessarily. Results can vary when an SVG depends on unsupported fonts, external resources, advanced filters, embedded assets, scripts, or other features that are not fully supported by the browser rendering workflow.",
+    },
+    {
+      q: "Do I need to install software to convert SVG to PNG?",
+      a: "No. A browser-based SVG to PNG converter can provide the conversion workflow directly in a web browser without requiring dedicated desktop conversion software.",
+    },
+    {
+      q: "Do I need an account to use the converter?",
+      a: "No account is required when the converter is provided as an open browser-based tool. The actual availability of account-related features depends on the Atoolix application.",
+    },
+    {
+      q: "Is SVG to PNG useful for designers and developers?",
+      a: "Yes. Designers, developers, students, marketers, office users, and other creators can use SVG to PNG conversion when they need fixed-size raster graphics.",
     },
   ];
 
@@ -45,18 +71,18 @@ export default function SvgToPngSeoContent() {
       icon: "🧩",
     },
     {
-      title: "Rasterize in the browser",
-      desc: "The vector graphic is converted into a pixel-based PNG locally.",
+      title: "Rasterize the SVG",
+      desc: "The vector graphic is rendered into a pixel-based PNG at the selected output dimensions.",
       icon: "⚡",
     },
     {
       title: "Download the PNG",
-      desc: "Save the converted PNG image to your device instantly.",
+      desc: "Save the converted PNG image to your device after processing is complete.",
       icon: "⬇️",
     },
     {
-      title: "Use it anywhere",
-      desc: "Use the PNG for web, app, print, sharing, or editing workflows.",
+      title: "Use the PNG",
+      desc: "Use the raster image for websites, apps, documents, presentations, sharing, or editing workflows.",
       icon: "📋",
     },
   ];
@@ -69,84 +95,120 @@ export default function SvgToPngSeoContent() {
     },
     {
       title: "Custom Dimensions",
-      desc: "Export the PNG at the width and height you need.",
+      desc: "Export the PNG at the width and height required by your workflow when supported by the converter.",
       icon: "📐",
     },
     {
       title: "Transparency Support",
-      desc: "Keep transparent areas when converting to PNG.",
+      desc: "Preserve transparent areas when the SVG and PNG conversion workflow support transparency.",
       icon: "🔍",
     },
     {
       title: "Browser-Based Conversion",
-      desc: "Process files locally without upload-heavy workflows.",
+      desc: "Use the conversion workflow directly in your browser without installing desktop software.",
       icon: "🌐",
     },
     {
       title: "Responsive Design",
-      desc: "Works well on phones, tablets, laptops, and desktops.",
+      desc: "Use the tool across phones, tablets, laptops, and desktop devices.",
       icon: "📱",
     },
     {
-      title: "Simple Download",
-      desc: "Download the converted PNG immediately after processing.",
+      title: "PNG Export",
+      desc: "Create a fixed-resolution PNG asset that can be used across common digital workflows.",
       icon: "💾",
     },
     {
-      title: "SEO-Friendly Layout",
-      desc: "Semantic sections help search engines understand the tool page.",
-      icon: "📑",
+      title: "Simple Workflow",
+      desc: "Upload, convert, and download without an unnecessarily complicated process.",
+      icon: "✨",
     },
     {
-      title: "Clean User Experience",
-      desc: "A clear layout makes the conversion flow easy to scan and use.",
-      icon: "✨",
+      title: "Broad Compatibility",
+      desc: "Create PNG files for platforms and applications where SVG support is limited or unavailable.",
+      icon: "🔗",
     },
   ];
 
   const audiences = [
     {
       title: "Designers",
-      desc: "Export logos, icons, and illustrations into PNG for broader use.",
+      desc: "Export logos, icons, illustrations, and artwork into PNG for broader use.",
       icon: "🎨",
     },
     {
       title: "Developers",
-      desc: "Create fixed-size raster assets for interfaces and apps.",
+      desc: "Create fixed-size raster assets for interfaces, applications, and websites.",
       icon: "👨‍💻",
     },
     {
       title: "Students",
-      desc: "Convert SVG graphics for assignments, slides, and projects.",
+      desc: "Convert SVG graphics for assignments, slides, reports, and projects.",
       icon: "🎓",
     },
     {
       title: "Office Users",
-      desc: "Turn SVG files into PNG images for documents and sharing.",
+      desc: "Turn SVG files into PNG images for documents, presentations, and sharing.",
       icon: "💼",
     },
     {
       title: "Marketers",
-      desc: "Prepare graphics for campaigns, presentations, and social content.",
+      desc: "Prepare logos and graphics for campaigns, presentations, social content, and digital assets.",
       icon: "📣",
     },
     {
       title: "Mobile Users",
-      desc: "Run fast conversions on the go from any device.",
+      desc: "Convert SVG files from phones and tablets when a PNG asset is needed.",
       icon: "📲",
     },
   ];
 
-
   const relatedTools = [
-    { name: "SVG to JPG Converter", href: "/tools/image/svg-to-jpg" },
-    { name: "WebP to PNG Converter", href: "/tools/image/webp-to-png" },
-    { name: "PNG to JPG Converter", href: "/tools/image/png-to-jpg" },
-    { name: "JPG to WebP Converter", href: "/tools/image/jpg-to-webp" },
-    { name: "Image Compressor", href: "/tools/image/compress-image" },
-    { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-    { name: "Resize Signature for Upload", href: "/tools/image/resize-signature-for-upload" },
+    {
+      name: "SVG to JPG Converter",
+      href: "/tools/image/svg-to-jpg",
+    },
+    {
+      name: "WebP to PNG Converter",
+      href: "/tools/image/webp-to-png",
+    },
+    {
+      name: "PNG to JPG Converter",
+      href: "/tools/image/png-to-jpg",
+    },
+    {
+      name: "JPG to WebP Converter",
+      href: "/tools/image/jpg-to-webp",
+    },
+    {
+      name: "Image Compressor",
+      href: "/tools/image/compress-image",
+    },
+    {
+      name: "Passport Photo Resizer",
+      href: "/tools/image/passport-photo-resizer",
+    },
+    {
+      name: "Resize Signature for Upload",
+      href: "/tools/image/resize-signature-for-upload",
+    },
   ];
+
+  /*
+   * Keep canonical URL ownership inside your existing Next.js metadata system.
+   *
+   * If NEXT_PUBLIC_SITE_URL is already used by your Atoolix SEO architecture,
+   * this lets page-specific structured data identify the page without creating
+   * a second canonical implementation.
+   *
+   * Example production value:
+   * NEXT_PUBLIC_SITE_URL=https://atoolix.com
+   */
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+
+  const pageUrl = siteUrl
+    ? `${siteUrl}/tools/image/svg-to-png`
+    : undefined;
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -161,119 +223,320 @@ export default function SvgToPngSeoContent() {
     })),
   };
 
-  const privacyJsonLd = {
+  const webPageJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Privacy Policy",
-    description: "Privacy policy for browser-based SVG to PNG conversion.",
+    name: "SVG to PNG Converter",
+    description:
+      "Convert SVG vector graphics to PNG images in your browser with a simple SVG to PNG conversion workflow.",
+    ...(pageUrl ? { url: pageUrl } : {}),
   };
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+      {/* FAQ structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
         }}
       />
+
+      {/* Page-specific structured data.
+          Canonical URL itself remains owned by the existing metadata system. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(privacyJsonLd).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(webPageJsonLd).replace(/</g, "\\u003c"),
         }}
       />
 
+      {/* Introduction */}
       <section aria-labelledby="intro-heading" className="space-y-4">
         <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          SVG to PNG Converter – Convert Vector Graphics to PNG Instantly
+          SVG to PNG Converter – Convert Vector Graphics to PNG
         </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
-          Convert SVG vector graphics to PNG instantly with this free browser-based converter.
-          It is designed for fast, private, and simple raster image conversion without extra
-          software or complicated steps.
+          Convert SVG vector graphics to PNG images directly in your browser.
+          Create fixed-resolution PNG files for websites, apps, documents,
+          presentations, sharing, and other workflows without installing
+          dedicated desktop conversion software.
         </p>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
-          Built for designers, developers, students, office users, marketers, and mobile users
-          who want a clean and reliable SVG to PNG workflow.
+          Built for designers, developers, students, office users, marketers,
+          and mobile users who need a straightforward SVG to PNG workflow.
         </p>
       </section>
 
+      {/* Definition */}
       <section aria-labelledby="definition-heading">
-        <h2 id="definition-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="definition-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           What Is an SVG to PNG Converter?
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          An SVG to PNG converter is an online tool that rasterizes SVG files into PNG images
-          so they can be used in workflows that need a fixed resolution, broader compatibility,
-          or pixel-based output.
+          An SVG to PNG converter rasterizes SVG files into PNG images so they
+          can be used in workflows that require a fixed resolution, pixel-based
+          output, or broader compatibility with applications and platforms.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          SVG is a vector format made from paths and shapes, while PNG is a raster format made
-          of pixels with strong support for transparency and wide platform compatibility.
+          SVG is a vector format based on shapes and paths, while PNG is a
+          raster format made from pixels. SVG can scale without the same
+          resolution limits, while PNG is created at a specific pixel size.
         </p>
       </section>
 
-      <section aria-labelledby="why-use-heading">
-        <h2 id="why-use-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Why Use an Online SVG to PNG Converter?
+      {/* SVG vs PNG */}
+      <section aria-labelledby="comparison-heading">
+        <h2
+          id="comparison-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          SVG vs PNG: What Is the Difference?
         </h2>
+
         <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <p>PNG is useful when you need a fixed-size image instead of a scalable vector.</p>
-          <p>This tool gives you a fast browser-based rasterization flow.</p>
-          <p>You can convert without installing desktop software.</p>
+          <p>
+            SVG is generally suited to logos, icons, illustrations, diagrams,
+            and other graphics that need to remain scalable.
+          </p>
+
+          <p>
+            PNG is useful when a fixed-size raster image is required for a
+            website, application, document, presentation, upload, or editing
+            workflow.
+          </p>
+
+          <p>
+            PNG also supports transparency, making it a practical raster format
+            for logos, icons, interface assets, and graphics with transparent
+            backgrounds.
+          </p>
         </div>
       </section>
 
+      {/* Why use */}
+      <section aria-labelledby="why-use-heading">
+        <h2
+          id="why-use-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Why Convert SVG to PNG?
+        </h2>
+
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <p>
+            PNG is useful when you need a fixed-size image instead of a
+            scalable vector graphic.
+          </p>
+
+          <p>
+            A PNG export can be easier to use in applications and workflows
+            where SVG support is limited.
+          </p>
+
+          <p>
+            PNG is also useful when you need transparent raster graphics for
+            websites, apps, documents, presentations, and digital assets.
+          </p>
+
+          <p>
+            A browser-based converter can provide the conversion workflow
+            without requiring dedicated desktop software.
+          </p>
+        </div>
+      </section>
+
+      {/* Transparency */}
+      <section aria-labelledby="transparency-heading">
+        <h2
+          id="transparency-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          SVG Transparency and PNG Backgrounds
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          One important advantage of PNG over JPG is transparency support. If
+          the source SVG contains transparent areas and the conversion workflow
+          supports transparent PNG output, those areas can remain transparent
+          in the resulting image.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          This makes SVG to PNG conversion especially useful for logos, icons,
+          interface graphics, overlays, and other assets that should not have
+          an automatically added solid background.
+        </p>
+      </section>
+
+      {/* Quality */}
+      <section aria-labelledby="quality-heading">
+        <h2
+          id="quality-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          SVG to PNG Quality and Resolution
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          SVG graphics are resolution-independent, but PNG images are made from
+          pixels. When an SVG is converted to PNG, the output is therefore
+          created at a specific width and height.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          Larger pixel dimensions can preserve more detail when the image needs
+          to be displayed at a larger size. However, unnecessarily large
+          dimensions can increase file size, so the best output size depends on
+          the intended use.
+        </p>
+      </section>
+
+      {/* JPG vs PNG */}
+      <section aria-labelledby="jpg-png-heading">
+        <h2
+          id="jpg-png-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Should You Convert SVG to PNG or JPG?
+        </h2>
+
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <p>
+            Choose PNG when transparency, lossless raster output, logos, icons,
+            or interface graphics are important.
+          </p>
+
+          <p>
+            Choose JPG when you need a compressed raster image and do not need
+            transparency, particularly for photographic or compatibility-focused
+            workflows.
+          </p>
+
+          <p>
+            For vector graphics that need to remain scalable, keeping the
+            original SVG may be preferable to converting to either raster
+            format.
+          </p>
+        </div>
+      </section>
+
+      {/* Benefits */}
       <section aria-labelledby="benefits-heading">
-        <h2 id="benefits-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="benefits-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           Benefits of Using This Converter
         </h2>
-        <div className="mt-3 space-y-2 text-sm text-white/70">
-          <p>• Saves time compared with manual export workflows.</p>
-          <p>• Supports browser-based local processing.</p>
-          <p>• Great for transparent, pixel-based PNG output.</p>
-          <p>• Useful for web assets, app UI, screenshots, and documents.</p>
-          <p>• Easy to use on mobile and desktop devices.</p>
-        </div>
-      </section>
 
-      <section aria-labelledby="usecases-heading">
-        <h2 id="usecases-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Common SVG to PNG Use Cases
-        </h2>
         <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <li>Convert SVG logos into PNG for broader compatibility.</li>
-          <li>Turn SVG icons into PNG for app interfaces and documents.</li>
-          <li>Export illustrations as PNG for slides and social sharing.</li>
-          <li>Use PNG when a platform does not support SVG well.</li>
-          <li>Create fixed-resolution image assets from vector graphics.</li>
+          <li>
+            • Creates fixed-resolution PNG assets from SVG vector graphics.
+          </li>
+          <li>
+            • Supports workflows where PNG is more practical than SVG.
+          </li>
+          <li>
+            • Useful for transparent raster graphics when transparency is
+            supported.
+          </li>
+          <li>
+            • Helps prepare graphics for websites, apps, documents, and
+            presentations.
+          </li>
+          <li>
+            • Can be used across mobile and desktop devices.
+          </li>
         </ul>
       </section>
 
-      <section aria-labelledby="how-it-works-heading" className="space-y-4">
-        <h2 id="how-it-works-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          How This SVG to PNG Converter Works
+      {/* Use cases */}
+      <section aria-labelledby="usecases-heading">
+        <h2
+          id="usecases-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Common SVG to PNG Use Cases
         </h2>
+
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <li>
+            Convert SVG logos into PNG for websites, documents, and sharing.
+          </li>
+          <li>
+            Turn SVG icons into PNG for application interfaces and digital
+            assets.
+          </li>
+          <li>
+            Export vector illustrations as PNG for presentations and social
+            content.
+          </li>
+          <li>
+            Create transparent PNG assets from compatible SVG graphics.
+          </li>
+          <li>
+            Use PNG when a platform or application does not support SVG well.
+          </li>
+          <li>
+            Create fixed-resolution raster assets from scalable vector artwork.
+          </li>
+        </ul>
+      </section>
+
+      {/* How to */}
+      <section
+        aria-labelledby="how-it-works-heading"
+        className="space-y-4"
+      >
+        <h2
+          id="how-it-works-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          How to Convert SVG to PNG
+        </h2>
+
         <p className="text-sm leading-relaxed text-white/70 sm:text-base">
-          The converter is designed to keep the process simple, fast, and easy to understand.
+          The conversion workflow is designed to be straightforward: provide
+          the SVG, rasterize it into PNG, and download the resulting image.
         </p>
 
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
-            <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div
+              key={step.title}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+            >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {i + 1}
                 </span>
-                <span className="text-2xl">{step.icon}</span>
+
+                <span
+                  aria-hidden="true"
+                  className="text-2xl"
+                >
+                  {step.icon}
+                </span>
+
                 <div>
-                  <p className="text-sm font-semibold text-white">{step.title}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="text-sm font-semibold text-white">
+                    {step.title}
+                  </p>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -281,24 +544,40 @@ export default function SvgToPngSeoContent() {
         </div>
       </section>
 
+      {/* Features */}
       <section
         aria-labelledby="features-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
       >
-        <h2 id="features-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Core Features
+        <h2
+          id="features-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          SVG to PNG Converter Features
         </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {coreFeatures.map((item, i) => (
+          {coreFeatures.map((item) => (
             <div
-              key={i}
+              key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl">{item.icon}</span>
+                <span
+                  aria-hidden="true"
+                  className="text-2xl"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -306,21 +585,37 @@ export default function SvgToPngSeoContent() {
         </div>
       </section>
 
+      {/* Audience */}
       <section aria-labelledby="audience-heading">
-        <h2 id="audience-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="audience-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           Who Should Use This Tool?
         </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {audiences.map((item, i) => (
+          {audiences.map((item) => (
             <div
-              key={i}
+              key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl">{item.icon}</span>
+                <span
+                  aria-hidden="true"
+                  className="text-2xl"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -328,55 +623,99 @@ export default function SvgToPngSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="privacy-heading">
-        <h2 id="privacy-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Privacy Policy
+      {/* Compatibility */}
+      <section aria-labelledby="compatibility-heading">
+        <h2
+          id="compatibility-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          SVG Compatibility Notes
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          This SVG to PNG converter is browser-based, which means files are processed locally
-          on your device during conversion. We do not require account registration to use the
-          converter.
+          Most standard SVG graphics can be rasterized into PNG, but complex
+          SVG files may produce different results depending on their contents
+          and the browser rendering environment.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          If analytics or error monitoring are enabled, they should be used only to improve
-          performance and reliability, and they should not include your image contents.
+          SVGs that rely on external resources, unavailable fonts, advanced
+          filters, embedded assets, scripts, or other specialized features may
+          require additional testing after conversion.
         </p>
       </section>
 
+      {/* Privacy */}
+      <section aria-labelledby="privacy-heading">
+        <h2
+          id="privacy-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Privacy and Browser-Based Processing
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          This SVG to PNG converter is designed for browser-based processing.
+          When the conversion is performed locally by the browser, the SVG can
+          be processed on your device without requiring a server-side file
+          upload.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          We do not require account registration solely to perform the
+          conversion. If analytics or error monitoring are enabled, they should
+          be used to improve performance and reliability without collecting
+          image contents.
+        </p>
+      </section>
+
+      {/* FAQ */}
       <section aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="faq-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           Frequently Asked Questions
         </h2>
+
         <div className="mt-4 space-y-4">
-          {faqItems.map((item, i) => (
+          {faqItems.map((item) => (
             <details
-              key={i}
+              key={item.q}
               className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
             >
               <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
                 {item.q}
               </summary>
+
               <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">{item.a}</p>
+                <p className="text-sm leading-relaxed text-white/65">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
+      {/* Related tools */}
       <section aria-labelledby="related-tools-heading">
-        <h2 id="related-tools-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Related Tools
+        <h2
+          id="related-tools-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Related Image Tools
         </h2>
+
         <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
               href={tool.href}
               className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
             >
               {tool.name}
-            </a>
+            </Link>
           ))}
         </div>
       </section>

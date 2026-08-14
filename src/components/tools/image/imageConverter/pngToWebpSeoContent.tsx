@@ -1,62 +1,68 @@
+import Link from "next/link";
+
 export default function PngToWebpSeoContent() {
   const faqItems = [
     {
       q: "What is a PNG to WebP converter?",
-      a: "A PNG to WebP converter is a browser-based tool that changes PNG images into WebP format quickly and accurately without installing software.",
+      a: "A PNG to WebP converter changes PNG images into WebP format for workflows that can benefit from smaller files and modern web delivery. This browser-based tool lets you convert PNG images without installing desktop software.",
     },
     {
       q: "Why should I convert PNG to WebP?",
-      a: "WebP often provides smaller file sizes than PNG while maintaining strong visual quality, which helps improve website performance.",
+      a: "WebP can produce smaller image files than PNG while maintaining good visual quality. This can make WebP useful for websites, apps, blogs, and other workflows where image size and loading performance matter.",
     },
     {
       q: "Does converting PNG to WebP keep transparency?",
-      a: "Yes. WebP can preserve transparency, so it is a strong format choice for images that need transparent backgrounds.",
+      a: "Yes. WebP supports transparency, so transparent PNG images can retain transparent backgrounds when converted to WebP, provided the conversion implementation preserves the alpha channel.",
     },
     {
       q: "Does converting PNG to WebP reduce quality?",
-      a: "WebP uses compression, so some quality changes can happen depending on the settings, but it usually keeps a strong balance between quality and file size.",
+      a: "It depends on the WebP encoding settings. Lossy WebP can reduce file size with some visual changes, while lossless WebP can preserve image information but may produce larger files.",
+    },
+    {
+      q: "Is WebP better than PNG?",
+      a: "Neither format is always better. WebP is often useful when smaller files and web delivery are priorities, while PNG remains useful for lossless graphics, editing workflows, and images where PNG compatibility is required.",
     },
     {
       q: "Is this converter browser-based?",
-      a: "Yes. The conversion runs directly in your browser, so files are processed locally without needing to upload them to a server.",
+      a: "Yes. The conversion runs directly in your browser, so files can be processed locally without uploading the image to a conversion server.",
     },
     {
       q: "Is this PNG to WebP converter mobile friendly?",
-      a: "Yes. The layout is responsive and works smoothly on mobile, tablet, laptop, and desktop devices.",
+      a: "Yes. The responsive interface is designed to work across phones, tablets, laptops, and desktop devices.",
     },
     {
       q: "Do I need to sign up to use it?",
-      a: "No. Users can usually access the converter directly without registration.",
+      a: "No. The converter does not require account registration to perform the image conversion.",
     },
     {
-      q: "Can I use it for website optimization?",
-      a: "Yes. PNG to WebP conversion is commonly used to reduce image size and improve loading speed for websites and apps.",
+      q: "Can I use PNG to WebP conversion for website optimization?",
+      a: "Yes. Converting suitable PNG images to WebP can reduce image file sizes and help improve image delivery performance on websites and applications.",
     },
     {
-      q: "Is this tool suitable for designers and developers?",
-      a: "Yes. It is useful for designers, developers, students, marketers, and anyone who needs a simple PNG to WebP conversion workflow.",
+      q: "Can I convert transparent PNG images to WebP?",
+      a: "Yes. WebP supports transparency, making it suitable for many logos, icons, graphics, and other PNG assets that use transparent backgrounds.",
     },
   ];
 
   const howToSteps = [
     {
       title: "Upload your PNG",
-      desc: "Choose a PNG file from your device.",
+      desc: "Choose a PNG image from your device.",
       icon: "🖼️",
     },
     {
       title: "Convert in the browser",
-      desc: "The file is processed locally in the browser for a fast workflow.",
+      desc: "The image is processed locally in your browser for a simple conversion workflow.",
       icon: "⚡",
     },
     {
       title: "Download the WebP",
-      desc: "Save the converted WebP file to your device instantly.",
+      desc: "Save the converted WebP image to your device.",
       icon: "⬇️",
     },
     {
       title: "Use it on the web",
-      desc: "Use the WebP file for websites, apps, and modern image delivery.",
+      desc: "Use the WebP file for websites, apps, blogs, and digital assets.",
       icon: "🌐",
     },
   ];
@@ -64,42 +70,42 @@ export default function PngToWebpSeoContent() {
   const coreFeatures = [
     {
       title: "Browser-Based Conversion",
-      desc: "Convert images locally in the browser without upload-heavy workflows.",
+      desc: "Convert PNG images locally in the browser without an upload-dependent workflow.",
       icon: "🌐",
     },
     {
       title: "PNG Support",
-      desc: "Accept PNG files, including transparent and design assets.",
+      desc: "Convert PNG images including many graphics and transparent assets.",
       icon: "🧾",
     },
     {
-      title: "Web Performance Focused",
-      desc: "WebP is ideal for smaller image files and faster loading.",
+      title: "WebP Output",
+      desc: "Create WebP images for modern web and application workflows.",
       icon: "🚀",
     },
     {
+      title: "Transparency Support",
+      desc: "WebP can preserve transparent backgrounds when the source and conversion settings support alpha.",
+      icon: "◻️",
+    },
+    {
       title: "Privacy Friendly",
-      desc: "Local browser processing reduces the need to send files to a server.",
+      desc: "Local browser processing reduces the need to send image files to a server.",
       icon: "🔒",
     },
     {
       title: "Responsive Design",
-      desc: "Works well on phones, tablets, laptops, and desktops.",
+      desc: "Works across phones, tablets, laptops, and desktop devices.",
       icon: "📱",
     },
     {
       title: "Simple Download",
-      desc: "Download the converted WebP immediately after processing.",
+      desc: "Download the converted WebP file after processing.",
       icon: "💾",
     },
     {
-      title: "SEO-Friendly Layout",
-      desc: "Semantic sections help search engines understand the tool page.",
-      icon: "📑",
-    },
-    {
       title: "Clean User Experience",
-      desc: "A clear layout makes the conversion flow easy to scan and use.",
+      desc: "A focused layout keeps the conversion process easy to understand and use.",
       icon: "✨",
     },
   ];
@@ -107,44 +113,46 @@ export default function PngToWebpSeoContent() {
   const audiences = [
     {
       title: "Developers",
-      desc: "Use WebP to improve web performance and image delivery.",
+      desc: "Prepare smaller web-ready image assets for websites and applications.",
       icon: "👨‍💻",
     },
     {
       title: "Designers",
-      desc: "Create modern web-ready image assets with smaller file sizes.",
+      desc: "Convert graphics and transparent assets for modern web workflows.",
       icon: "🎨",
     },
     {
       title: "Students",
-      desc: "Convert images for projects, assignments, and presentations.",
+      desc: "Convert images for projects, assignments, websites, and presentations.",
       icon: "🎓",
     },
     {
       title: "Office Users",
-      desc: "Quickly convert image files for documents and sharing.",
+      desc: "Quickly convert PNG images for digital documents and sharing.",
       icon: "💼",
     },
     {
       title: "Marketers",
-      desc: "Prepare optimized graphics for campaigns and websites.",
+      desc: "Prepare lighter image assets for websites, campaigns, and landing pages.",
       icon: "📣",
     },
     {
       title: "Mobile Users",
-      desc: "Run fast conversions on the go from any device.",
+      desc: "Convert PNG images from phones and tablets without installing desktop software.",
       icon: "📲",
     },
   ];
 
   const relatedTools = [
-    { name: "SVG to PNG Converter", href: "/tools/image/svg-to-png" },
+    { name: "JPG to WebP Converter", href: "/tools/image/jpg-to-webp" },
     { name: "WebP to PNG Converter", href: "/tools/image/webp-to-png" },
     { name: "PNG to JPG Converter", href: "/tools/image/png-to-jpg" },
-    { name: "JPG to WebP Converter", href: "/tools/image/jpg-to-webp" },
     { name: "Image Compressor", href: "/tools/image/compress-image" },
-    { name: "Passport Photo Resizer", href: "/tools/image/passport-photo-resizer" },
-    { name: "Resize Signature for Upload", href: "/tools/image/resize-signature-for-upload" },
+    { name: "SVG to PNG Converter", href: "/tools/image/svg-to-png" },
+    {
+      name: "Compress PNG",
+      href: "/tools/image/compress-png",
+    },
   ];
 
   const faqJsonLd = {
@@ -160,119 +168,269 @@ export default function PngToWebpSeoContent() {
     })),
   };
 
-  const privacyJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: "Privacy Policy",
-    description: "Privacy policy for browser-based PNG to WebP conversion.",
-  };
-
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+      {/* FAQ structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(privacyJsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
 
+      {/* Introduction */}
       <section aria-labelledby="intro-heading" className="space-y-4">
         <h2
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          PNG to WebP Converter – Convert Images Instantly in Your Browser
+          PNG to WebP Converter – Convert PNG Images Online
         </h2>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
-          Convert PNG images to WebP instantly with this free browser-based converter.
-          It is designed for fast, private, and simple image format conversion without
-          extra software or complicated steps.
+          Convert PNG images to WebP online directly in your browser. This free PNG to
+          WebP converter provides a simple way to create web-ready images without
+          installing desktop software or creating an account.
         </p>
 
         <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
-          Built for developers, designers, students, office users, marketers, and mobile
-          users who want a clean and reliable PNG to WebP workflow.
+          WebP can provide smaller image files while supporting transparency, making it
+          useful for websites, apps, blogs, online stores, and other digital workflows.
         </p>
       </section>
 
+      {/* Definition */}
       <section aria-labelledby="definition-heading">
-        <h2 id="definition-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="definition-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           What Is a PNG to WebP Converter?
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          A PNG to WebP converter is an online tool that changes PNG images into WebP format
-          so they can be used in workflows that benefit from smaller file sizes, transparency
-          support, and modern web delivery.
+          A PNG to WebP converter changes PNG images into WebP format. WebP is a modern
+          image format designed to provide efficient compression while supporting
+          features such as transparency.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          It helps simplify image conversion for websites, apps, blog content, and digital
-          asset optimization.
+          Converting PNG to WebP can be useful when you want to reduce image file sizes
+          for websites, applications, blogs, online stores, and other digital content.
         </p>
       </section>
 
+      {/* PNG vs WebP */}
+      <section aria-labelledby="comparison-heading">
+        <h2
+          id="comparison-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          PNG vs WebP: Which Format Should You Use?
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          PNG and WebP both support transparency, but they serve different purposes.
+          WebP is often attractive for web delivery because it can provide smaller files,
+          while PNG remains useful when lossless PNG encoding or established PNG workflows
+          are required.
+        </p>
+
+        <div className="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/5">
+                  <th className="px-4 py-3 font-semibold text-white">Feature</th>
+                  <th className="px-4 py-3 font-semibold text-white">PNG</th>
+                  <th className="px-4 py-3 font-semibold text-white">WebP</th>
+                </tr>
+              </thead>
+
+              <tbody className="text-white/70">
+                <tr className="border-b border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Compression</td>
+                  <td className="px-4 py-3">Lossless</td>
+                  <td className="px-4 py-3">
+                    Lossy or lossless, depending on encoding
+                  </td>
+                </tr>
+
+                <tr className="border-b border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Transparency</td>
+                  <td className="px-4 py-3">Supported</td>
+                  <td className="px-4 py-3">Supported</td>
+                </tr>
+
+                <tr className="border-b border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Typical file size</td>
+                  <td className="px-4 py-3">Often larger</td>
+                  <td className="px-4 py-3">Often smaller</td>
+                </tr>
+
+                <tr className="border-b border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Best suited for</td>
+                  <td className="px-4 py-3">
+                    Graphics, editing, and lossless workflows
+                  </td>
+                  <td className="px-4 py-3">
+                    Web delivery and optimized digital assets
+                  </td>
+                </tr>
+
+                <tr>
+                  <td className="px-4 py-3 font-medium text-white">
+                    Web performance
+                  </td>
+                  <td className="px-4 py-3">Can produce larger assets</td>
+                  <td className="px-4 py-3">
+                    Often useful for reducing image payload size
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Why convert */}
       <section aria-labelledby="why-use-heading">
-        <h2 id="why-use-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Why Use an Online PNG to WebP Converter?
+        <h2
+          id="why-use-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Why Convert PNG to WebP?
         </h2>
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <p>WebP often gives you smaller files than PNG while keeping strong visual quality.</p>
-          <p>This tool gives you a fast browser-based conversion flow.</p>
-          <p>You can convert without installing desktop software.</p>
-        </div>
-      </section>
 
-      <section aria-labelledby="benefits-heading">
-        <h2 id="benefits-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Benefits of Using This Converter
-        </h2>
-        <div className="mt-3 space-y-2 text-sm text-white/70">
-          <p>• Saves time compared with manual file handling.</p>
-          <p>• Supports browser-based local processing.</p>
-          <p>• Great for web-friendly, lightweight image output.</p>
-          <p>• Useful for websites, apps, previews, and assets.</p>
-          <p>• Easy to use on mobile and desktop devices.</p>
-        </div>
-      </section>
-
-      <section aria-labelledby="usecases-heading">
-        <h2 id="usecases-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Common PNG to WebP Use Cases
-        </h2>
         <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
-          <li>Convert PNG images into WebP for faster websites.</li>
-          <li>Turn PNG banners into WebP for better performance.</li>
-          <li>Prepare WebP images for blogs and online stores.</li>
-          <li>Use WebP when you want smaller image files and transparency support.</li>
-          <li>Save images in a format widely used on modern web platforms.</li>
+          <li>
+            WebP can create smaller image files than PNG for many types of images.
+          </li>
+          <li>
+            Smaller images can reduce the amount of data needed to load a web page.
+          </li>
+          <li>
+            WebP supports transparency, making it suitable for many PNG graphics.
+          </li>
+          <li>
+            WebP can be useful for websites, apps, blogs, and online stores.
+          </li>
+          <li>
+            Browser-based conversion avoids the need for desktop image-conversion
+            software.
+          </li>
         </ul>
       </section>
 
-      <section aria-labelledby="how-it-works-heading" className="space-y-4">
-        <h2 id="how-it-works-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          How This PNG to WebP Converter Works
+      {/* When to keep PNG */}
+      <section aria-labelledby="keep-png-heading">
+        <h2
+          id="keep-png-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          When Should You Keep PNG Instead?
         </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          PNG is still an excellent format. You may want to keep an image as PNG when
+          you specifically need PNG output, are working in a PNG-based editing workflow,
+          or want predictable lossless PNG encoding.
+        </p>
+
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <li>Use PNG when a workflow specifically requires PNG files.</li>
+          <li>
+            Keep PNG when preserving the original lossless PNG representation matters.
+          </li>
+          <li>
+            PNG can be a good choice for graphics, screenshots, and editing workflows
+            where PNG is already supported.
+          </li>
+          <li>
+            Keep the original PNG as your source file when converting an asset to WebP
+            for web delivery.
+          </li>
+        </ul>
+      </section>
+
+      {/* Transparency */}
+      <section aria-labelledby="transparency-heading">
+        <h2
+          id="transparency-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          PNG to WebP and Transparent Backgrounds
+        </h2>
+
+        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+          One important advantage of WebP is its ability to support transparency.
+          This means PNG images containing transparent backgrounds can be suitable
+          candidates for WebP conversion.
+        </p>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+          Transparency is particularly useful for logos, icons, interface graphics,
+          product images, and other assets that need to appear over different
+          backgrounds.
+        </p>
+      </section>
+
+      {/* Use cases */}
+      <section aria-labelledby="usecases-heading">
+        <h2
+          id="usecases-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Common PNG to WebP Use Cases
+        </h2>
+
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+          <li>Convert PNG graphics into WebP for website delivery.</li>
+          <li>Convert transparent PNG assets into WebP for modern web projects.</li>
+          <li>Prepare smaller image files for blogs and online stores.</li>
+          <li>Optimize suitable PNG assets for websites and applications.</li>
+          <li>Use WebP when reducing image payload size is a priority.</li>
+          <li>Prepare web-ready graphics without installing conversion software.</li>
+        </ul>
+      </section>
+
+      {/* How it works */}
+      <section
+        aria-labelledby="how-it-works-heading"
+        className="space-y-4"
+      >
+        <h2
+          id="how-it-works-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          How to Convert PNG to WebP
+        </h2>
+
         <p className="text-sm leading-relaxed text-white/70 sm:text-base">
-          The converter is designed to keep the process simple, fast, and easy to understand.
+          Converting a PNG image to WebP only takes a few simple steps.
         </p>
 
         <div className="grid gap-4 md:grid-cols-2">
           {howToSteps.map((step, i) => (
-            <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div
+              key={i}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+            >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {i + 1}
                 </span>
+
                 <span className="text-2xl">{step.icon}</span>
+
                 <div>
-                  <p className="text-sm font-semibold text-white">{step.title}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="text-sm font-semibold text-white">
+                    {step.title}
+                  </p>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -280,13 +438,18 @@ export default function PngToWebpSeoContent() {
         </div>
       </section>
 
+      {/* Features */}
       <section
         aria-labelledby="features-heading"
         className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
       >
-        <h2 id="features-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Core Features
+        <h2
+          id="features-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          JPG to WebP Converter Features
         </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((item, i) => (
             <div
@@ -295,9 +458,15 @@ export default function PngToWebpSeoContent() {
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -305,10 +474,15 @@ export default function PngToWebpSeoContent() {
         </div>
       </section>
 
+      {/* Audience */}
       <section aria-labelledby="audience-heading">
-        <h2 id="audience-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Who Should Use This Tool?
+        <h2
+          id="audience-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Who Can Use This PNG to WebP Converter?
         </h2>
+
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item, i) => (
             <div
@@ -317,9 +491,15 @@ export default function PngToWebpSeoContent() {
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
+
                 <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <h3 className="text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </div>
@@ -327,25 +507,48 @@ export default function PngToWebpSeoContent() {
         </div>
       </section>
 
+      {/* Privacy */}
       <section aria-labelledby="privacy-heading">
-        <h2 id="privacy-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Privacy Policy
+        <h2
+          id="privacy-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Privacy and Browser-Based Processing
         </h2>
+
         <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-          This PNG to WebP converter is browser-based, which means files are processed locally
-          on your device during conversion. We do not require account registration to use the
-          converter.
+          This PNG to WebP converter is designed to process images locally in your
+          browser. When conversion is performed entirely on your device, the image
+          does not need to be uploaded to a conversion server.
         </p>
+
         <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          If analytics or error monitoring are enabled, they should be used only to improve
-          performance and reliability, and they should not include your image contents.
+          The converter does not require account registration. If analytics or error
+          monitoring are enabled on the site, they should not include the contents of
+          the images being converted.
+        </p>
+
+        <p className="mt-3 text-sm text-white/60">
+          Read the full{" "}
+          <Link
+            href="/privacy"
+            className="text-blue-300 underline decoration-blue-300/40 underline-offset-4 transition hover:text-blue-200"
+          >
+            Privacy Policy
+          </Link>
+          .
         </p>
       </section>
 
+      {/* FAQ */}
       <section aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
+        <h2
+          id="faq-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
           Frequently Asked Questions
         </h2>
+
         <div className="mt-4 space-y-4">
           {faqItems.map((item, i) => (
             <details
@@ -355,27 +558,40 @@ export default function PngToWebpSeoContent() {
               <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
                 {item.q}
               </summary>
+
               <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">{item.a}</p>
+                <p className="text-sm leading-relaxed text-white/65">
+                  {item.a}
+                </p>
               </div>
             </details>
           ))}
         </div>
       </section>
 
+      {/* Related tools */}
       <section aria-labelledby="related-tools-heading">
-        <h2 id="related-tools-heading" className="text-xl font-bold tracking-tight sm:text-2xl">
-          Related Tools
+        <h2
+          id="related-tools-heading"
+          className="text-xl font-bold tracking-tight sm:text-2xl"
+        >
+          Related Image Conversion Tools
         </h2>
+
+        <p className="mt-2 text-sm leading-relaxed text-white/60">
+          Explore other image conversion and optimization tools for common web and
+          digital workflows.
+        </p>
+
         <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <a
-              key={i}
+          {relatedTools.map((tool) => (
+            <Link
+              key={tool.href}
               href={tool.href}
               className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
             >
               {tool.name}
-            </a>
+            </Link>
           ))}
         </div>
       </section>
