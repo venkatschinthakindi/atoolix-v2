@@ -3,8 +3,6 @@ import { serverConfig } from "@/config/server";
 
 const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
 
-// This must match the actual App Router route for this page.
-// It also matches the URL currently present in your sitemap.
 const canonicalPath = "/tools/privacysecurity/file-analyzer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
@@ -26,271 +24,263 @@ type FeatureItem = {
 
 const faqItems: FaqItem[] = [
   {
-    q: "What does File Checkup actually check?",
-    a: "File Checkup analyzes supported files for privacy, security, and quality issues. Depending on the file type, it can inspect metadata such as GPS location and author information, check for embedded content such as PDF JavaScript or attachments, validate text-based formats, compare the file signature with its extension, and summarize findings in a health score.",
+    q: "What is File Checkup?",
+    a: "File Checkup is a file privacy and security checker that scans files for hidden metadata, privacy-sensitive information, embedded content, file-type inconsistencies, and supported format problems. After scanning, it shows the findings and provides one-click cleaning actions where a safe fix is available.",
   },
   {
-    q: "Which file types are supported?",
-    a: "PDF, JPG, PNG, WebP, GIF, TXT, JSON, CSV, XML, and SVG files receive deeper file-type-specific checks. Other file types can still receive baseline checks such as extension, size, content type, and file hash.",
+    q: "What files can File Checkup analyze?",
+    a: "File Checkup is designed for commonly used files such as PDF documents, JPG and JPEG photos, PNG, WebP and GIF images, TXT, JSON, CSV, XML, SVG, HTML and other supported file formats. The depth of analysis depends on the file type.",
+  },
+  {
+    q: "Can I check a file before uploading it online?",
+    a: "Yes. File Checkup can be used before uploading a file to a website, sending it by email, sharing it with another person, publishing it online, or storing it in a shared location. The scan helps identify hidden information that may not be visible when you open the file normally.",
+  },
+  {
+    q: "Can File Checkup remove hidden metadata?",
+    a: "For supported file types, File Checkup can remove supported privacy-sensitive metadata and create a separate cleaned copy. Examples can include EXIF, GPS, author, copyright, and supported document metadata.",
+  },
+  {
+    q: "Can I fix privacy issues with one click?",
+    a: "Yes, where a supported safe cleaning operation is available, File Checkup can apply the available privacy fixes in one action and create a cleaned copy for download. Findings that cannot be safely modified automatically are shown separately for review.",
+  },
+  {
+    q: "Does File Checkup remove GPS location from photos?",
+    a: "Supported image cleaning can remove EXIF and GPS metadata from images, helping prevent location information stored inside a photo from being shared with the cleaned copy.",
+  },
+  {
+    q: "Can it remove author information from PDFs?",
+    a: "Supported PDF cleaning can remove available document metadata such as title, author, subject, and keywords from a separate cleaned copy.",
+  },
+  {
+    q: "Can it detect hidden information in files?",
+    a: "Yes. Depending on the file type, File Checkup can inspect metadata, embedded content, scripts, attachments, file signatures, encoding, and structural information that may not be obvious from the normal file view.",
+  },
+  {
+    q: "Can it check HTML files?",
+    a: "Supported HTML files can be inspected for file identity and applicable content or security indicators. The exact checks depend on the capabilities implemented for HTML analysis.",
+  },
+  {
+    q: "Can it check TXT, JSON, CSV and XML files?",
+    a: "Yes, supported text-based formats can receive format-specific checks. For example, JSON can be checked for syntax errors, CSV for inconsistent column counts, XML for well-formedness, and text files for encoding-related problems.",
+  },
+  {
+    q: "Can it check SVG files?",
+    a: "Supported SVG analysis can inspect the file for embedded script elements and other applicable structural or content indicators.",
+  },
+  {
+    q: "Can it detect PDF JavaScript?",
+    a: "Supported PDF analysis can identify embedded JavaScript and report it as a security finding. Detection does not automatically mean the file is malicious, so the finding should be reviewed before opening or sharing the document.",
+  },
+  {
+    q: "Can it detect files whose extension does not match their contents?",
+    a: "Yes. File Checkup can compare the detected file signature with the filename extension for supported formats and flag a mismatch when the contents do not appear to match the extension.",
+  },
+  {
+    q: "Does File Checkup modify my original file?",
+    a: "No. Cleaning operations create a separate processed copy. Your original file remains unchanged.",
   },
   {
     q: "Is my file uploaded to a server?",
-    a: "No. File analysis is designed to run locally in your browser. Your selected file is processed on your device rather than uploaded to an Atoolix server.",
+    a: "File analysis is designed to run locally in your browser when supported by the current implementation. The file-processing behavior shown by the tool should be used as the source of truth for how a particular analysis is performed.",
   },
   {
-    q: "What kind of metadata can it find in a PDF?",
-    a: "Depending on the PDF, File Checkup can inspect fields such as title, author, subject, keywords, creator, producer, page count, encryption status, embedded JavaScript, and embedded file attachments.",
+    q: "Do I need an account?",
+    a: "No account is required for the available File Checkup analysis and cleaning workflow.",
   },
   {
-    q: "What kind of metadata can it find in a photo?",
-    a: "Supported image analysis can reveal EXIF information such as GPS coordinates, camera make and model, author or copyright fields, image dimensions, and resolution when that information exists in the file.",
+    q: "What is the health or privacy score?",
+    a: "The score summarizes the findings detected during the scan and helps you quickly identify whether a file contains issues that deserve attention. Individual findings provide the detail behind the score.",
   },
   {
-    q: "Can it remove GPS location data from my photos?",
-    a: "Yes. For supported images, the metadata removal fix creates a cleaned copy with EXIF, GPS, and related author metadata removed before you download it.",
+    q: "Can File Checkup remove every security problem?",
+    a: "No. Some findings can be safely cleaned automatically, while others require review rather than automatic modification. File Checkup distinguishes between information it can remove and findings that should be investigated before the file is opened or shared.",
   },
   {
-    q: "Can it strip metadata from a PDF before I send it?",
-    a: "Yes. Supported PDF metadata fields such as title, author, subject, and keywords can be removed with the available cleaning function, producing a separate copy for download.",
-  },
-  {
-    q: "Does it check text files like JSON or CSV for problems?",
-    a: "Yes. JSON files can be checked for syntax problems, CSV files for inconsistent column counts, XML for well-formedness, text files for encoding validity, and SVG files for embedded script elements.",
-  },
-  {
-    q: "Will it tell me if a PDF has hidden JavaScript?",
-    a: "Yes. Supported PDF analysis checks for embedded JavaScript and flags it in the security findings so you can review the document before sharing or opening it.",
-  },
-  {
-    q: "What is a health score?",
-    a: "The health score is a summary of the findings detected during analysis. More serious findings have a greater effect on the overall score, giving you a quick way to identify files that need attention.",
-  },
-  {
-    q: "Does it work on file types it doesn't deeply analyze yet, like DOCX or ZIP?",
-    a: "Yes, supported baseline checks can still provide information such as the file extension, detected content type, file size, and hash even when a dedicated deep analyzer is not available for that format.",
-  },
-  {
-    q: "Will it flag a file if the extension doesn't match its real content?",
-    a: "Yes. The analyzer can compare the file signature detected from its contents with the filename extension and flag a mismatch when the two do not agree.",
-  },
-  {
-    q: "Do I need an account to use this?",
-    a: "No. File Checkup does not require an account or sign-in to perform its available analysis and cleaning functions.",
-  },
-  {
-    q: "Is there a file size limit?",
-    a: "Processing is performed on your device, so practical limits depend on your browser, available memory, device performance, and the file itself. Larger files may take longer to analyze.",
-  },
-  {
-    q: "Does checking a file change the original?",
-    a: "No. The original file is not modified. Cleaning operations create a separate processed copy that you can download.",
-  },
-  {
-    q: "Can I use this before uploading a resume, PDF, or photo somewhere public?",
-    a: "Yes. Running a check before sharing can help you identify information such as author metadata, GPS tags, embedded content, or structural issues that you may not have noticed.",
-  },
-  {
-    q: "Is this tool free to use?",
-    a: "Yes. File Checkup is free to use, with no account required.",
+    q: "Is File Checkup free?",
+    a: "Yes. File Checkup is free to use for the available file analysis and cleaning features.",
   },
 ];
 
 const howToSteps: StepItem[] = [
   {
-    title: "Drop your file",
-    desc: "Drag a supported file into the tool or select one from your device. The file is processed locally in your browser.",
+    title: "Select any supported file",
+    desc: "Drop a file into File Checkup or choose one from your device. The tool identifies the file and determines which checks apply.",
     icon: "📂",
   },
   {
-    title: "Detect the file",
-    desc: "The analyzer examines the file contents and identifies its actual type rather than relying only on the filename extension.",
+    title: "Scan for hidden information",
+    desc: "The analyzer checks applicable metadata, privacy information, embedded content, file identity, structure, and security indicators.",
     icon: "🔍",
   },
   {
-    title: "Run the checks",
-    desc: "Privacy, metadata, security, structure, and quality checks run locally according to the detected file type.",
+    title: "Review the findings",
+    desc: "See the detected issues in one report, including privacy-sensitive metadata, security findings, and file problems.",
     icon: "🛡️",
   },
   {
-    title: "Review the report",
-    desc: "Review the health score and the individual findings so you can understand what needs attention.",
-    icon: "📊",
+    title: "Fix supported issues",
+    desc: "Use the available one-click cleaning action to remove supported privacy metadata and create a cleaned copy.",
+    icon: "✨",
   },
   {
-    title: "Fix and download",
-    desc: "Where a cleaning action is available, create a separate cleaned copy and download it without changing your original file.",
-    icon: "✅",
-  },
-];
-
-const analyzerFeatures: FeatureItem[] = [
-  {
-    name: "File identity",
-    desc: "Checks detected file type, extension, size, and hash information.",
-  },
-  {
-    name: "Metadata analysis",
-    desc: "Surfaces available document, image, author, camera, and related metadata.",
-  },
-  {
-    name: "Privacy analysis",
-    desc: "Highlights potentially identifying information such as GPS coordinates and author details.",
-  },
-  {
-    name: "Security analysis",
-    desc: "Checks supported formats for embedded JavaScript, attachments, and other flagged content.",
-  },
-  {
-    name: "Quality checks",
-    desc: "Identifies supported encoding, structural, and format-related problems.",
-  },
-  {
-    name: "Health score",
-    desc: "Summarizes detected findings according to their relative severity.",
+    title: "Download the clean copy",
+    desc: "Download the processed file while keeping your original file unchanged.",
+    icon: "⬇️",
   },
 ];
 
-const pdfFeatures: FeatureItem[] = [
+const scanFeatures: FeatureItem[] = [
   {
-    name: "Document metadata",
-    desc: "Inspect title, author, subject, keywords, creator, and producer fields.",
+    name: "Hidden metadata",
+    desc: "Find metadata that may not be visible when you normally open the file.",
   },
   {
-    name: "Encryption check",
-    desc: "Shows whether the PDF is encrypted or protected.",
+    name: "Privacy information",
+    desc: "Identify information such as GPS coordinates, author details, copyright fields, and document properties.",
   },
   {
-    name: "Embedded JavaScript",
-    desc: "Flags JavaScript embedded within supported PDF documents.",
+    name: "Embedded content",
+    desc: "Inspect supported files for attachments, scripts, and other embedded content.",
   },
   {
-    name: "Embedded attachments",
-    desc: "Checks for files embedded inside the PDF.",
+    name: "File type mismatch",
+    desc: "Compare the filename extension with the detected file signature where supported.",
   },
   {
-    name: "Page analysis",
-    desc: "Reports page count and supported page-level characteristics.",
+    name: "Format and structure",
+    desc: "Check supported text and document formats for common structural or validation problems.",
   },
   {
-    name: "Metadata cleaning",
-    desc: "Remove supported document metadata and download a separate cleaned copy.",
-  },
-];
-
-const imageFeatures: FeatureItem[] = [
-  {
-    name: "GPS location",
-    desc: "Reveals GPS coordinates when location metadata is present in the image.",
-  },
-  {
-    name: "Camera details",
-    desc: "Shows available camera make, model, and related EXIF information.",
-  },
-  {
-    name: "Author and copyright",
-    desc: "Surfaces author, copyright, and related metadata when present.",
-  },
-  {
-    name: "Dimensions and resolution",
-    desc: "Reports image dimensions and resolution information.",
-  },
-  {
-    name: "Metadata cleaning",
-    desc: "Create a cleaned image copy with supported EXIF, GPS, and author metadata removed.",
+    name: "Security indicators",
+    desc: "Highlight supported content that may deserve additional review before the file is opened or shared.",
   },
 ];
 
-const textFeatures: FeatureItem[] = [
+const privacyFindings: FeatureItem[] = [
   {
-    name: "Encoding check",
-    desc: "Checks whether supported text content uses valid character encoding.",
+    name: "GPS coordinates",
+    desc: "Detect location information stored inside supported image metadata.",
   },
   {
-    name: "JSON validation",
-    desc: "Detects JSON syntax problems that can break downstream processing.",
+    name: "Author information",
+    desc: "Find document or image author fields that may identify the creator.",
   },
   {
-    name: "CSV consistency",
-    desc: "Checks for rows with inconsistent column counts.",
+    name: "Camera information",
+    desc: "Identify camera manufacturer, model, and related EXIF information when available.",
   },
   {
-    name: "XML well-formedness",
-    desc: "Checks whether XML markup is properly structured and closed.",
+    name: "Copyright metadata",
+    desc: "Find copyright and related ownership fields stored in supported files.",
   },
   {
-    name: "SVG script detection",
-    desc: "Flags embedded script elements in supported SVG files.",
-  },
-];
-
-const privacyFeatures: FeatureItem[] = [
-  {
-    name: "Browser-based processing",
-    desc: "File analysis is performed locally in your browser.",
+    name: "Document properties",
+    desc: "Inspect supported PDF metadata such as title, subject, creator, and producer.",
   },
   {
-    name: "No file upload",
-    desc: "The selected file is processed on your device rather than uploaded for analysis.",
-  },
-  {
-    name: "No account required",
-    desc: "Use the available file checking features without creating an account.",
-  },
-  {
-    name: "Local-first workflow",
-    desc: "Your original file remains on your device while you review and clean it.",
+    name: "Embedded information",
+    desc: "Identify supported attachments, scripts, and other embedded file content.",
   },
 ];
 
-const supportedUseCases = [
+const oneClickFixes: FeatureItem[] = [
   {
-    useCase: "Sharing a resume",
-    note: "Check for author or document metadata that may reveal information from earlier editing.",
+    name: "Remove image metadata",
+    desc: "Create a cleaned image copy with supported EXIF, GPS, author, and related metadata removed.",
   },
   {
-    useCase: "Posting photos online",
-    note: "Check for GPS coordinates and other EXIF information before publishing an image.",
+    name: "Remove PDF metadata",
+    desc: "Clean supported PDF document properties such as title, author, subject, and keywords.",
   },
   {
-    useCase: "Sending a client PDF",
-    note: "Review document metadata and embedded content before sharing the file.",
+    name: "Clean before sharing",
+    desc: "Create a separate cleaned copy so you can share the processed file instead of the original.",
   },
   {
-    useCase: "Publishing a dataset",
-    note: "Validate supported CSV or JSON files before handing them to another person or system.",
+    name: "Keep the original",
+    desc: "Cleaning does not overwrite the original file.",
   },
   {
-    useCase: "Reviewing a downloaded file",
-    note: "Inspect supported files for embedded content and file-type inconsistencies before opening them.",
+    name: "Review non-fixable findings",
+    desc: "Issues that cannot safely be automatically removed remain visible so you can make an informed decision.",
   },
   {
-    useCase: "Cleaning older files",
-    note: "Find metadata and supported hidden information that accumulated during previous edits.",
+    name: "Verify after cleaning",
+    desc: "Run the cleaned copy through the analyzer again when you want to confirm what remains.",
+  },
+];
+
+const supportedFormats = [
+  {
+    name: "PDF",
+    desc: "Metadata, document properties, encryption indicators, JavaScript, attachments, and applicable PDF checks.",
+  },
+  {
+    name: "Images",
+    desc: "JPG, JPEG, PNG, WebP, GIF and supported image metadata such as EXIF and GPS.",
+  },
+  {
+    name: "Text",
+    desc: "TXT and other supported plain-text files for applicable encoding and file checks.",
+  },
+  {
+    name: "JSON",
+    desc: "JSON syntax and applicable file validation.",
+  },
+  {
+    name: "CSV",
+    desc: "CSV structure and inconsistent column-count checks.",
+  },
+  {
+    name: "XML",
+    desc: "XML well-formedness and applicable structural checks.",
+  },
+  {
+    name: "SVG",
+    desc: "SVG structure and supported embedded-script detection.",
+  },
+  {
+    name: "HTML",
+    desc: "Applicable HTML file and content checks supported by the analyzer.",
+  },
+];
+
+const useCases = [
+  {
+    title: "Before sending a resume",
+    desc: "Check whether your document contains author, creator, or other metadata from previous editing.",
+  },
+  {
+    title: "Before posting a photo",
+    desc: "Check for GPS coordinates and camera metadata before publishing the image.",
+  },
+  {
+    title: "Before sharing a PDF",
+    desc: "Review document properties and supported embedded content before sending the file.",
+  },
+  {
+    title: "Before uploading a file",
+    desc: "Scan files before placing them on websites, portals, cloud storage, or public repositories.",
+  },
+  {
+    title: "Before publishing HTML or SVG",
+    desc: "Inspect supported web-oriented files for applicable embedded content and structural issues.",
+  },
+  {
+    title: "Before sharing datasets",
+    desc: "Validate supported JSON and CSV files before passing them to another person or system.",
   },
 ];
 
 const bestPractices = [
-  "Run a check on files before sharing them publicly or sending them to someone outside your organization.",
-  "Check photos for GPS and other EXIF information before posting them online.",
-  "Treat an extension mismatch as a reason to investigate the file before opening it.",
-  "Review security findings before opening supported PDFs from unfamiliar sources.",
-  "Run the analyzer again after applying a cleaning fix when you want to verify the resulting file.",
-  "Keep the original file separately when its metadata or original structure may still be needed.",
+  "Check files before uploading them to public websites or third-party services.",
+  "Remove GPS and other sensitive image metadata before publishing photos.",
+  "Review document author and creator metadata before sharing PDFs.",
+  "Investigate extension mismatches before opening unexpected files.",
+  "Treat embedded scripts and attachments as findings that deserve review.",
+  "After cleaning a file, scan the cleaned copy again if you need verification.",
 ];
 
-const tips = [
-  "Start with the health score for a quick overview, then inspect individual findings for details.",
-  "Photos captured by phones and cameras can contain location and camera metadata, so check them before sharing.",
-  "PDF files can retain author and producer information from the software used to create or edit them.",
-  "A renamed file can have an extension that does not match its actual contents, so check unexpected downloads.",
-  "Use validation on supported JSON, CSV, XML, and SVG files before passing them into another workflow.",
-  "Bookmark File Checkup if you regularly publish, upload, or share files.",
-];
-
-/**
- * These URLs intentionally match the current Atoolix sitemap / route structure.
- * Do not replace them with shorter aliases unless those aliases are actual canonical routes.
- */
 const relatedTools = [
   {
     name: "PDF Tools",
@@ -334,9 +324,9 @@ const faqJsonLd = {
 const howToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Check a File for Privacy and Security Risks",
+  name: "How to Check and Clean a File Before Sharing",
   description:
-    "Check a supported file for metadata, privacy information, security findings, and format issues in your browser.",
+    "Scan a supported file for hidden metadata, privacy information, embedded content, and security indicators, then clean supported issues.",
   totalTime: "PT1M",
   step: howToSteps.map((step, index) => ({
     "@type": "HowToStep",
@@ -359,7 +349,7 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       position: 2,
-      name: "File Checkup",
+      name: "File Privacy & Security Checker",
       item: canonicalUrl,
     },
   ],
@@ -439,134 +429,181 @@ function FeatureGrid({ items }: { items: FeatureItem[] }) {
 export default function FileCheckupSeoContent() {
   return (
     <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      {/* Existing structured-data architecture retained. */}
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
 
-      {/* Primary search intent */}
-      <section
-        aria-labelledby="intro-heading"
-        className="space-y-3"
-      >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Free File Privacy &amp; Security Checker
+      {/* HERO / PRIMARY SEARCH INTENT */}
+      <section aria-labelledby="intro-heading" className="space-y-4">
+        <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[11px] font-semibold text-cyan-300">
+          Free File Privacy & Security Checker
         </p>
 
-        <h2
+        <h1
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          File Checkup – Scan Files for Hidden Metadata, Privacy Risks, and Security Issues
-        </h2>
+          File Privacy & Security Checker – Find and Remove Hidden Information
+        </h1>
 
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Check a PDF, photo, or supported text file for hidden metadata,
-          privacy information, embedded content, file-type mismatches, and
-          format issues. Review the findings in a clear report and use
-          available cleaning actions to create a separate cleaned copy.
-          Analysis runs locally in your browser, so your selected file is
-          processed on your device rather than uploaded to an Atoolix server.
+        <p className="max-w-4xl text-sm leading-7 text-white/75 sm:text-base">
+          Scan files for hidden metadata, privacy-sensitive information,
+          embedded content, file-type mismatches, and supported security or
+          format issues. File Checkup helps you find information that may not
+          be visible when you normally open a file, then provides one-click
+          cleaning for supported privacy issues.
+        </p>
+
+        <p className="max-w-4xl text-sm leading-7 text-white/70">
+          Check commonly used files including PDFs, photos, text files, JSON,
+          CSV, XML, SVG, HTML, and other supported formats. Review the findings,
+          fix supported issues, and download a separate cleaned copy without
+          modifying your original file.
         </p>
       </section>
 
+      {/* SIMPLE WORKFLOW */}
       <section
-        aria-labelledby="analyzer-heading"
-        className="space-y-4"
+        aria-labelledby="workflow-heading"
+        className="mt-10 space-y-4"
       >
         <SectionHeading
-          id="analyzer-heading"
-          title="What File Checkup Checks"
-          description="One workflow combines file identity, metadata, privacy, security, and supported quality checks."
-        />
-        <FeatureGrid items={analyzerFeatures} />
-      </section>
-
-      <section
-        aria-labelledby="pdf-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="pdf-heading"
-          title="PDF Checks"
-          description="Inspect supported PDF metadata, document properties, and embedded content before sharing."
-        />
-        <FeatureGrid items={pdfFeatures} />
-      </section>
-
-      <section
-        aria-labelledby="image-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="image-heading"
-          title="Image Checks"
-          description="Find potentially sensitive EXIF and image metadata before a photo leaves your device."
-        />
-        <FeatureGrid items={imageFeatures} />
-      </section>
-
-      <section
-        aria-labelledby="text-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="text-heading"
-          title="Text File Checks"
-          description="Validate supported JSON, CSV, XML, and SVG files for common structural and content problems."
-        />
-        <FeatureGrid items={textFeatures} />
-      </section>
-
-      <section
-        aria-labelledby="privacy-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="privacy-heading"
-          title="Privacy & Security"
-          description="The file-analysis workflow is designed around local, browser-based processing."
-        />
-        <FeatureGrid items={privacyFeatures} />
-      </section>
-
-      <section
-        aria-labelledby="use-cases-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="use-cases-heading"
-          title="Common Use Cases"
-          description="A quick file check can reveal information or issues that are easy to miss during normal editing."
+          id="workflow-heading"
+          title="Scan, Find, Fix, Download"
+          description="File Checkup turns file privacy checking into a simple workflow."
         />
 
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {supportedUseCases.map((item) => (
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            ["1", "Scan", "Select your file and run the privacy and security checks."],
+            ["2", "Find", "See hidden metadata, embedded content, and other detected findings."],
+            ["3", "Fix", "Apply supported privacy cleaning actions with one click."],
+            ["4", "Download", "Download a separate cleaned copy while keeping the original."],
+          ].map(([number, title, desc]) => (
             <article
-              key={item.useCase}
+              key={number}
               className="rounded-xl border border-white/10 bg-white/5 p-4"
             >
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
-                {item.useCase}
-              </h3>
+              <div className="text-xs font-bold text-cyan-300">
+                STEP {number}
+              </div>
+
+              <h3 className="mt-2 text-base font-semibold">{title}</h3>
 
               <p className="mt-1.5 text-sm leading-6 text-white/70">
-                {item.note}
+                {desc}
               </p>
             </article>
           ))}
         </div>
       </section>
 
+      {/* WHAT IT FINDS */}
+      <section
+        aria-labelledby="find-heading"
+        className="mt-10 space-y-4"
+      >
+        <SectionHeading
+          id="find-heading"
+          title="What File Checkup Can Find"
+          description="The analyzer looks beyond the filename and normal visible content to inspect applicable file information."
+        />
+
+        <FeatureGrid items={scanFeatures} />
+      </section>
+
+      {/* PRIVACY FINDINGS */}
+      <section
+        aria-labelledby="privacy-findings-heading"
+        className="mt-10 space-y-4"
+      >
+        <SectionHeading
+          id="privacy-findings-heading"
+          title="Privacy Information You May Not See"
+          description="Files can retain information from the device, software, or workflow used to create them."
+        />
+
+        <FeatureGrid items={privacyFindings} />
+      </section>
+
+      {/* ONE CLICK CLEANING */}
+      <section
+        aria-labelledby="fix-heading"
+        className="mt-10 space-y-4"
+      >
+        <SectionHeading
+          id="fix-heading"
+          title="Fix Supported Privacy Issues With One Click"
+          description="When a safe cleaning operation is available, File Checkup creates a separate cleaned copy instead of changing your original."
+        />
+
+        <FeatureGrid items={oneClickFixes} />
+      </section>
+
+      {/* SUPPORTED FILES */}
+      <section
+        aria-labelledby="formats-heading"
+        className="mt-10 space-y-4"
+      >
+        <SectionHeading
+          id="formats-heading"
+          title="Supported File Types"
+          description="The exact checks depend on the format. Deep analysis is provided only where the analyzer supports that file type."
+        />
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {supportedFormats.map((format) => (
+            <article
+              key={format.name}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold">{format.name}</h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {format.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* USE CASES */}
+      <section
+        aria-labelledby="use-cases-heading"
+        className="mt-10 space-y-4"
+      >
+        <SectionHeading
+          id="use-cases-heading"
+          title="When Should You Check a File?"
+          description="Use a privacy and security scan whenever a file is about to leave your device or enter a new workflow."
+        />
+
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {useCases.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold">{item.title}</h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
       <section
         aria-labelledby="how-heading"
-        className="space-y-4"
+        className="mt-10 space-y-4"
       >
         <SectionHeading
           id="how-heading"
           title="How File Checkup Works"
-          description="Check a file, review the findings, and create a cleaned copy when a supported fix is available."
+          description="A simple five-step workflow for checking and cleaning supported files."
         />
 
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
@@ -575,10 +612,7 @@ export default function FileCheckupSeoContent() {
               key={step.title}
               className="rounded-xl border border-white/10 bg-white/5 p-4"
             >
-              <div
-                className="text-lg"
-                aria-hidden="true"
-              >
+              <div className="text-lg" aria-hidden="true">
                 {step.icon}
               </div>
 
@@ -594,21 +628,22 @@ export default function FileCheckupSeoContent() {
         </div>
       </section>
 
+      {/* BEST PRACTICES */}
       <section
         aria-labelledby="best-practices-heading"
-        className="space-y-4"
+        className="mt-10 space-y-4"
       >
         <SectionHeading
           id="best-practices-heading"
-          title="Best Practices Before Sharing a File"
-          description="Simple checks that can reduce accidental exposure of metadata or embedded content."
+          title="Best Practices Before Sharing Files"
+          description="A few simple habits can reduce accidental exposure of metadata and embedded information."
         />
 
         <ul className="grid gap-3 md:grid-cols-2">
           {bestPractices.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6"
             >
               {item}
             </li>
@@ -616,55 +651,15 @@ export default function FileCheckupSeoContent() {
         </ul>
       </section>
 
-      <section
-        aria-labelledby="tips-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="tips-heading"
-          title="Tips & Tricks"
-          description="A few practical ways to get more value from a file check."
-        />
-
-        <ul className="grid gap-3 md:grid-cols-2">
-          {tips.map((item) => (
-            <li
-              key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section
-        aria-labelledby="why-heading"
-        className="space-y-3"
-      >
-        <SectionHeading
-          id="why-heading"
-          title="Why Use File Checkup?"
-        />
-
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Files can contain information that is not obvious from what you see
-          on screen. A photo may contain GPS coordinates, a document may retain
-          author information, and a supported PDF may contain embedded
-          content. File Checkup brings these findings together in one
-          browser-based workflow so you can review the file before sharing it
-          and clean supported metadata when necessary.
-        </p>
-      </section>
-
+      {/* FAQ */}
       <section
         aria-labelledby="faq-heading"
-        className="space-y-4"
+        className="mt-10 space-y-4"
       >
         <SectionHeading
           id="faq-heading"
           title="Frequently Asked Questions"
-          description="Answers to common questions about checking files for metadata, privacy, security, and format issues."
+          description="Common questions about checking, cleaning, and sharing files safely."
         />
 
         <div className="space-y-3">
@@ -687,14 +682,15 @@ export default function FileCheckupSeoContent() {
         </div>
       </section>
 
+      {/* FINAL CTA */}
       <section
         aria-labelledby="cta-heading"
-        className="space-y-4"
+        className="mt-10 space-y-4"
       >
         <SectionHeading
           id="cta-heading"
-          title="Explore More Free Tools"
-          description="Continue with other Atoolix tools for PDFs, images, QR codes, conversions, calculations, and time-zone planning."
+          title="Check Your File Before You Share It"
+          description="Scan for hidden information, review the findings, fix supported privacy issues, and download a cleaned copy."
         />
 
         <nav

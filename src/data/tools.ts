@@ -112,29 +112,54 @@ export function getCachedTools(): ToolRegistryEntry[] {
 }
 
 export const tools: ToolRegistryEntry[] = [
-  {
+    {
     id: "privacysecurity/file-analyzer",
     archived: false,
     // loader: () => import("@/components/tools/fileAnalyzer/FileAnalyzer"),
-    title: "File Privacy Checker & Analyzer – Check Your File Before Sharing",
-    toolShortName: "File Analyzer",
-    onPageTitle: "Check Your File for Privacy & Security Issues Before You Share It",
+    title: "File Privacy & Security Checker – Find & Remove Hidden Metadata",
+    toolShortName: "File Privacy & Security Checker",
+    onPageTitle:
+      "File Privacy & Security Checker – Scan & Clean Files Before Sharing",
     description:
-      "Analyze files for hidden metadata, privacy risks, quality, and compatibility issues directly in your browser. Review and fix supported issues before sharing.",
+      "Free file privacy and security checker that scans supported files for hidden metadata, GPS data, author information, embedded content, file-type mismatches, and other privacy or security issues. Fix supported privacy issues with one click and download a cleaned copy.",
     icon: "ShieldCheck",
     keywords: [
-      "remove exif data online",
-      "remove metadata from pdf",
-      "remove gps location from photo",
       "file privacy checker",
-      "document metadata remover",
-      "pdf javascript remover",
-      "docx metadata cleaner",
-      "sensitive data scanner",
+      "file security checker",
+      "file analyzer",
+      "file privacy scanner",
       "file security analyzer",
+      "file metadata checker",
+      "hidden metadata checker",
+      "hidden information checker",
+      "metadata checker online",
+      "metadata remover",
+      "remove metadata from files",
+      "remove file metadata",
+      "remove hidden metadata",
+      "remove EXIF data",
+      "remove EXIF metadata",
+      "EXIF remover",
+      "remove GPS metadata",
+      "remove GPS location from photo",
+      "photo metadata remover",
+      "image metadata remover",
+      "PDF metadata remover",
+      "remove metadata from PDF",
+      "PDF privacy checker",
+      "document metadata remover",
+      "remove author metadata",
+      "file privacy scanner",
+      "file security scan",
+      "check file before sharing",
+      "check file before uploading",
       "is my file safe to share",
-      "strip metadata browser tool",
-      "remove author from word document"
+      "clean file before sharing",
+      "hidden information remover",
+      "privacy file checker",
+      "file sanitization",
+      "file privacy tool",
+      "online file analyzer"
     ],
     alternates: {
       canonical: `${siteUrl}/tools/privacysecurity/file-analyzer`
@@ -600,19 +625,28 @@ export const tools: ToolRegistryEntry[] = [
     id: "image/compress-image",
     archived: false,
     icon: "ImageDown",
-    //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
-    title: "Image Compressor Online | JPG, PNG, WEBP",
-    toolShortName: "Compress Image",
-    onPageTitle: "Compress JPG, PNG & WEBP Images | Custom Quality Control",
-    description: "Compress JPG, JPEG, WEBP, and PNG images online with adjustable quality settings. Reduce file size for faster websites, email, and storage, free and instant.",
+    // loader: () =>
+    //   import("@/components/tools/image/imageCompressor/ImageCompressor"),
+    title: "Image Compressor Online – JPG, PNG & WebP",
+    toolShortName: "Image Compressor",
+    onPageTitle:
+      "Compress JPG, PNG & WebP Images Online | Reduce Image File Size",
+    description:
+      "Compress JPG, JPEG, PNG, and WebP images online with adjustable quality. Reduce image file size for websites, uploads, email, sharing, and storage.",
     keywords: [
       "image compressor online",
+      "compress image online",
       "compress jpg online",
+      "compress jpeg online",
       "compress png online",
       "compress webp online",
       "reduce image file size",
-      "bulk image compressor",
-      "online image optimizer"
+      "image size reducer",
+      "photo compressor online",
+      "online image optimizer",
+      "reduce jpg file size",
+      "reduce png file size",
+      "reduce webp file size"
     ],
     alternates: {
       canonical: `${siteUrl}/tools/image/compress-image`
@@ -633,7 +667,7 @@ export const tools: ToolRegistryEntry[] = [
       defaultQuality: 80,
       mode: "quality"
     },
-    toolImage:"compress-image.png"
+    toolImage: "compress-image.png"
   },
   {
     id: "image/passport-photo-resizer",
@@ -650,9 +684,9 @@ export const tools: ToolRegistryEntry[] = [
       targetHeight: 51
     },
     toolShortName: "Passport Photo Resizer",
-    title: "Passport Photo Resizer Online | Custom Size 0-100KB",
-    onPageTitle: "Resize Passport Photo | Custom Size & Official Dimensions",
-    description: "Resize passport photos online with a custom file size from 0-100KB and official dimensions for India, USA, UK, and EU passport or visa applications.",
+    title: "Passport Photo Resizer | Resize Photos for Applications",
+    onPageTitle: "Passport Photo Resizer Online | Resize to Custom Dimensions",
+    description: "Resize passport, visa, ID, and application photos online with custom width and height controls. Maintain aspect ratio, adjust image quality, and reduce file size for upload requirements.",
     keywords: [
       "passport photo resizer online",
       "resize passport photo",
@@ -675,31 +709,116 @@ export const tools: ToolRegistryEntry[] = [
     icon: "PenTool",
     ...getDefaultCompressorRegistry(),
     category: "Image_Editor",
-    //loader: () => import("@/components/tools/image/signatureResizer/signatureCompressor"),
+    // loader: () =>
+    //   import("@/components/tools/image/signatureResizer/signatureCompressor"),
+
     defaultProps: {
       ...getDefaultCompressorRegistry().defaultProps as any,
+      // Common starting point for signature uploads.
       targetKB: 20,
       lockTarget: false,
+      // Keep these as defaults, but allow the user to change them.
       targetWidth: 51,
       targetHeight: 51
     },
     toolShortName: "Signature Resizer",
-    title: "Resize Signature for Upload | 0-100KB Optimizer",
-    onPageTitle: "Compress & Resize Signature Images for Online Forms",
-    description: "Resize and compress signature images online with a custom size from 0-100KB. Optimize JPG, JPEG, PNG, and WEBP signatures for forms and document uploads.",
+    title:
+      "Resize Signature Image for Upload – Compress Signature to 20 KB",
+    onPageTitle:
+      "Resize & Compress Signature Image for Online Form Uploads",
+    description:
+      "Resize and compress signature images online for form and document uploads. Adjust signature width, height, file size, and quality to meet requirements such as 10 KB, 20 KB, 50 KB, or 100 KB. Supports JPG, JPEG, PNG, and WebP.",
     keywords: [
+      // Primary intent
       "resize signature for upload",
-      "compress signature image online",
+      "signature resizer",
       "signature image resizer",
+      "resize signature image online",
+      "signature resize online",
+      "resize signature online",
+      "signature size reducer",
+
+      // Compression intent
+      "compress signature image",
+      "compress signature image online",
+      "compress signature online",
       "reduce signature file size",
-      "signature size for form upload"
+      "reduce signature image size",
+      "signature image compressor",
+      "signature compressor online",
+      "make signature image smaller",
+      "reduce signature kb",
+
+      // Exact/common file-size searches
+      "signature image 10 kb",
+      "signature image 20 kb",
+      "signature image 30 kb",
+      "signature image 50 kb",
+      "signature image 100 kb",
+      "resize signature to 20 kb",
+      "compress signature to 20 kb",
+      "signature under 20 kb",
+      "signature under 50 kb",
+      "signature under 100 kb",
+      "signature less than 100 kb",
+
+      // Dimension intent
+      "signature size in pixels",
+      "signature image size",
+      "signature dimensions for upload",
+      "signature width and height",
+      "resize signature width height",
+      "signature image 50x50",
+      "signature image 51x51",
+      "signature photo resize",
+
+      // Upload/form intent
+      "signature for online form",
+      "signature for form upload",
+      "signature image for upload",
+      "signature upload size",
+      "signature upload requirements",
+      "signature file size reducer",
+      "online signature upload",
+      "digital signature image upload",
+
+      // Application intent
+      "signature for government form",
+      "signature for online application",
+      "signature for application form",
+      "signature for exam form",
+      "signature for admission form",
+      "signature for job application",
+      "signature for resume",
+      "signature for document upload",
+
+      // Format intent
+      "resize jpg signature",
+      "resize jpeg signature",
+      "resize png signature",
+      "resize webp signature",
+      "compress jpg signature",
+      "compress png signature",
+      "compress jpeg signature",
+      "signature png compressor",
+
+      // General problem-solving intent
+      "how to resize signature image",
+      "how to reduce signature size",
+      "how to reduce signature kb",
+      "how to make signature image 20 kb",
+      "how to make signature smaller",
+      "how to resize signature for online form"
     ],
     alternates: {
       canonical: `${siteUrl}/tools/image/resize-signature-for-upload`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
-    toolImage:"resize-signature-for-upload.png"
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    toolImage: "resize-signature-for-upload.png"
   },
   {
     id: "image/background-remover",
@@ -1147,8 +1266,9 @@ export const tools: ToolRegistryEntry[] = [
     //loader: () => import("@/components/tools/image/imageCompressor/ImageCompressor"),
     title: "Compress JPG Online | Adjustable Quality Compressor",
     toolShortName: "Compress JPG",
-    onPageTitle: "Compress JPG & JPEG Images with Quality Control",
-    description: "Compress JPG and JPEG images online with full quality control. Reduce file size and optimize images for web, email, and storage while keeping clarity.",
+    onPageTitle: "Compress JPG & JPEG Images Online",
+    description:
+      "Compress JPG and JPEG images online with adjustable quality. Reduce JPG file size for websites, email, uploads, and storage while keeping a good balance of image quality and file size.",
     keywords: [
       "compress jpg online",
       "jpeg compressor tool",

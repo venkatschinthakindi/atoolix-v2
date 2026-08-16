@@ -24,221 +24,259 @@ type FeatureItem = {
   icon: string;
 };
 
+type InfoCard = {
+  title: string;
+  desc: string;
+  icon?: string;
+};
+
 const faqItems: FaqItem[] = [
   {
-    q: "What does this image resizer do?",
-    a: "It lets you resize images by width and height, maintain or change the aspect ratio, and control the final file size using KB or MB targets.",
+    q: "What does a passport photo resizer do?",
+    a: "A passport photo resizer lets you change a photo to the width, height, aspect ratio, and file-size requirements specified by a passport, visa, ID, application, or other submission system.",
   },
   {
-    q: "Can I resize an image by width and height?",
-    a: "Yes. You can enter an exact width, height, or both dimensions to create the output size you need.",
+    q: "Is there one universal passport photo size?",
+    a: "No. Passport and visa photo requirements can vary by country, document type, application, and issuing authority. Use the exact dimensions and file-size requirements provided by the authority or application you are submitting to.",
   },
   {
-    q: "Can I resize an image while maintaining its aspect ratio?",
-    a: "Yes. When aspect-ratio locking is enabled, changing one dimension automatically keeps the image proportions consistent and helps prevent stretching or distortion.",
+    q: "Can I resize a passport photo to exact pixel dimensions?",
+    a: "Yes. Enter the required width and height when the application specifies exact pixel dimensions.",
   },
   {
-    q: "Can I change the aspect ratio?",
-    a: "Yes. You can use the available aspect-ratio controls to resize the image to the proportions required for your intended use.",
+    q: "Can I resize a passport photo without stretching it?",
+    a: "Yes. Keep the aspect ratio locked when you want the original proportions preserved while changing the image dimensions. If the destination requires a different aspect ratio, you may need to crop the image before or during the resizing workflow.",
   },
   {
-    q: "Can I resize an image to a specific file size in KB?",
-    a: "Yes. You can set a target file size in KB and adjust the output settings to reduce the image toward the required size.",
+    q: "Can I resize a passport photo to a specific KB size?",
+    a: "If the target-size control is enabled in the current tool configuration, you can specify a KB target and adjust the output toward the required file-size limit. The exact final size can vary depending on the source image and encoding.",
   },
   {
-    q: "Can I resize an image to a specific file size in MB?",
-    a: "Yes. You can use an MB target when the required upload or storage limit is specified in megabytes.",
+    q: "Can I resize a passport photo to a specific MB size?",
+    a: "If the tool provides an MB target, you can use it when an application specifies a maximum or target file size in megabytes.",
   },
   {
-    q: "Does resizing also reduce image file size?",
-    a: "Reducing image dimensions can reduce file size, but dimensions and file size are different controls. You can also use the target KB or MB option when you need a specific file-size limit.",
+    q: "Can I use this for visa photos?",
+    a: "Yes. The same custom resizing workflow can be used for visa photos when you know the required dimensions, aspect ratio, and file-size limits.",
   },
   {
-    q: "Can I resize and compress an image at the same time?",
-    a: "Yes. You can change the image dimensions and use the target file-size controls to create a smaller output suitable for uploads, websites, forms, or sharing.",
+    q: "Can I use this for ID photos?",
+    a: "Yes. You can resize an ID photo to the dimensions and file-size requirements specified by the relevant organization or application.",
   },
   {
-    q: "Can I enter custom width and height values?",
-    a: "Yes. You can enter custom pixel dimensions instead of relying only on preset sizes.",
+    q: "Can I use this for online application photos?",
+    a: "Yes. The tool can help prepare images for online applications when you have the required pixel dimensions, aspect ratio, and file-size limit.",
   },
   {
-    q: "Can I resize images without stretching them?",
-    a: "Yes. Use the aspect-ratio option when you want the original proportions preserved while changing the image dimensions.",
+    q: "What image formats are supported?",
+    a: "The current resizer supports JPG, JPEG, PNG, and WebP images.",
   },
   {
-    q: "Which image formats are supported?",
-    a: "The image resizer supports JPG, JPEG, PNG, and WebP files.",
+    q: "Can I resize an ordinary image with this tool?",
+    a: "Yes. Although the page is designed around passport, visa, ID, and application photos, the underlying resizing controls can also be used for ordinary images that need custom dimensions or file-size reduction.",
   },
   {
-    q: "Can I preview the resized image before downloading?",
-    a: "Yes. You can review the resized output before saving it to your device.",
+    q: "Can I change both width and height?",
+    a: "Yes. You can enter custom width and height values when the destination requires exact dimensions.",
   },
   {
-    q: "Can I control image quality?",
-    a: "Yes. Quality controls can be adjusted to balance visual clarity and the final file size when creating the output.",
+    q: "Can I maintain the original aspect ratio?",
+    a: "Yes. Use the aspect-ratio control when you want the image proportions to remain consistent while resizing.",
   },
   {
-    q: "Is this image resizer free?",
-    a: "Yes. The tool can be used without installing desktop software or creating an account.",
+    q: "Can I use a custom aspect ratio?",
+    a: "If custom aspect-ratio controls are enabled, you can use the proportions required by your destination instead of keeping the original ratio.",
   },
   {
-    q: "Can I resize images on mobile?",
-    a: "Yes. The responsive interface works on smartphones, tablets, laptops, and desktop computers.",
+    q: "Does resizing reduce image file size?",
+    a: "Reducing pixel dimensions often reduces file size, but dimensions and file size are different properties. Quality and encoding settings can also affect the final file size.",
   },
   {
-    q: "Are my images uploaded to a server?",
-    a: "If processing is performed locally in the browser, your selected images remain on your device instead of being uploaded for processing.",
+    q: "Can I adjust image quality?",
+    a: "Yes, when quality control is available. Adjusting quality can help balance visual appearance and output file size.",
   },
   {
-    q: "What is the difference between resizing and compression?",
-    a: "Resizing changes the image dimensions, while compression changes how efficiently the image is encoded and can reduce its file size. Using both together gives you more control over the final image.",
+    q: "Can I preview the resized photo before downloading?",
+    a: "If preview is available in the current interface, you can review the processed image and its output characteristics before downloading it.",
+  },
+  {
+    q: "Is this passport photo resizer free?",
+    a: "Yes. The browser-based resizing workflow is available without requiring desktop image-editing software.",
+  },
+  {
+    q: "Can I use the passport photo resizer on my phone?",
+    a: "Yes. The responsive interface is designed to work on smartphones, tablets, laptops, and desktop browsers.",
+  },
+  {
+    q: "Does this tool guarantee that my passport photo meets government requirements?",
+    a: "No. The tool changes image dimensions and related output properties, but it does not independently verify every country-specific passport, visa, ID, background, facial-position, or biometric requirement. Always check the current requirements of the authority or application receiving your photo.",
+  },
+  {
+    q: "Are my photos uploaded to a server?",
+    a: "When processing is performed locally in the browser, the selected image can be processed on your device instead of being uploaded to a remote image-processing server. Check the current tool implementation and site privacy information for the applicable processing behavior.",
   },
 ];
 
 const howToSteps: StepItem[] = [
   {
-    title: "Upload your image",
+    title: "Check the destination requirements",
+    desc: "Find the current photo dimensions, aspect ratio, file format, and maximum file size specified by the passport, visa, ID, or application authority.",
+    icon: "📋",
+  },
+  {
+    title: "Upload your photo",
     desc: "Choose a supported JPG, JPEG, PNG, or WebP image from your device.",
     icon: "📁",
   },
   {
-    title: "Choose the resize method",
-    desc: "Set the width, height, aspect ratio, or custom dimensions required for your output.",
+    title: "Enter the required dimensions",
+    desc: "Set the exact width and height required by the destination, or use the available resize controls to reach the required proportions.",
     icon: "📐",
   },
   {
-    title: "Control the aspect ratio",
-    desc: "Keep the original proportions or choose the required aspect ratio for the resized image.",
+    title: "Set the aspect ratio",
+    desc: "Keep the original proportions when appropriate, or use the required aspect ratio when the destination specifies one.",
     icon: "🔗",
   },
   {
-    title: "Set a target file size",
-    desc: "Use a target in KB or MB when your upload, website, form, or storage requirement has a file-size limit.",
+    title: "Set the file-size requirement",
+    desc: "If the application specifies a KB or MB limit and the target-size control is available, use it to reduce the output toward the required limit.",
     icon: "🎯",
   },
   {
-    title: "Adjust quality and preview",
-    desc: "Fine-tune quality when needed and review the resulting dimensions and file size.",
-    icon: "🎚️",
-  },
-  {
-    title: "Download the resized image",
-    desc: "Save the final image to your device once the dimensions and file size meet your requirements.",
+    title: "Review and download",
+    desc: "Check the resulting photo, dimensions, and file size where the interface provides those details, then download the finished image.",
     icon: "⬇️",
   },
 ];
 
 const coreFeatures: FeatureItem[] = [
   {
-    title: "Exact Width Control",
-    desc: "Set a precise output width in pixels for websites, forms, documents, social media, and other uses.",
+    title: "Custom Width",
+    desc: "Enter the exact output width in pixels when a passport, visa, ID, or application requires a specific dimension.",
     icon: "↔️",
   },
   {
-    title: "Exact Height Control",
-    desc: "Enter a specific output height when an application or upload form requires fixed dimensions.",
+    title: "Custom Height",
+    desc: "Set a precise output height for applications that specify fixed pixel dimensions.",
     icon: "↕️",
   },
   {
     title: "Aspect Ratio Control",
-    desc: "Preserve the original proportions or resize to the aspect ratio required for your final image.",
+    desc: "Preserve the original proportions or use the ratio required by your destination.",
     icon: "🔗",
   },
   {
     title: "Custom Dimensions",
-    desc: "Use your own width and height instead of being restricted to predefined image sizes.",
+    desc: "Use your own width and height instead of being limited to predefined passport-photo presets.",
     icon: "📐",
   },
   {
-    title: "Target Size in KB",
-    desc: "Reduce the output toward a specific kilobyte target when an upload has a KB limit.",
-    icon: "KB",
-  },
-  {
-    title: "Target Size in MB",
-    desc: "Set a megabyte target when larger image uploads or storage systems specify their limit in MB.",
-    icon: "MB",
+    title: "Target File Size",
+    desc: "Work toward a specified KB or MB requirement when target-size controls are available.",
+    icon: "🎯",
   },
   {
     title: "Quality Control",
-    desc: "Adjust image quality to balance visual clarity with the final file size.",
+    desc: "Adjust output quality when available to balance image appearance and file size.",
     icon: "🎚️",
   },
   {
-    title: "Resize and Compress",
-    desc: "Combine dimension changes with file-size control when you need a smaller, upload-ready image.",
+    title: "Resize and Reduce",
+    desc: "Combine dimension changes with file-size optimization when an online application has both requirements.",
     icon: "⚡",
   },
   {
-    title: "Live Preview",
-    desc: "Review the resulting image and its output characteristics before downloading.",
+    title: "Preview",
+    desc: "Review the processed image before downloading when preview functionality is available.",
     icon: "👀",
   },
   {
-    title: "Multiple Image Formats",
-    desc: "Resize common JPG, JPEG, PNG, and WebP images.",
+    title: "JPG and JPEG Support",
+    desc: "Process common JPEG-based photographs used for applications and document submissions.",
+    icon: "📷",
+  },
+  {
+    title: "PNG and WebP Support",
+    desc: "Resize PNG and WebP images when those formats are accepted by the current tool and destination.",
     icon: "🖼️",
   },
   {
-    title: "Browser-Based Processing",
-    desc: "Process supported images directly in the browser without requiring desktop software.",
+    title: "Browser-Based Workflow",
+    desc: "Resize supported images directly through the web interface without installing desktop editing software.",
     icon: "🌐",
   },
   {
     title: "Mobile Friendly",
-    desc: "Resize images from smartphones, tablets, laptops, and desktop browsers.",
+    desc: "Use the resizer from smartphones, tablets, laptops, and desktop browsers.",
     icon: "📱",
   },
 ];
 
-const resizeMethods = [
+const photoTypes: InfoCard[] = [
+  {
+    title: "Passport Photos",
+    desc: "Prepare a photo using the exact dimensions and file-size requirements specified by the relevant passport authority.",
+    icon: "🛂",
+  },
+  {
+    title: "Visa Photos",
+    desc: "Resize photos for visa applications when the destination provides specific image dimensions or file-size limits.",
+    icon: "🌍",
+  },
+  {
+    title: "ID Photos",
+    desc: "Create an appropriately sized image for ID-card or identification applications when custom dimensions are provided.",
+    icon: "🪪",
+  },
+  {
+    title: "Application Photos",
+    desc: "Prepare profile or application photos for online portals that specify pixel or file-size requirements.",
+    icon: "📄",
+  },
+  {
+    title: "Job Portal Photos",
+    desc: "Resize profile photographs to fit the dimensions or file-size limits of employment websites and application forms.",
+    icon: "💼",
+  },
+  {
+    title: "Profile Photos",
+    desc: "Use the same resizing controls for ordinary profile images and other custom image-size requirements.",
+    icon: "👤",
+  },
+];
+
+const resizeMethods: InfoCard[] = [
   {
     title: "Resize by Width",
-    desc: "Enter the exact width you need and let the image height follow the selected aspect-ratio behavior.",
-    example: "1200 px wide",
+    desc: "Enter the required width and let the height follow the selected aspect-ratio behavior.",
     icon: "↔️",
   },
   {
     title: "Resize by Height",
-    desc: "Set the required height when the destination requires a specific vertical dimension.",
-    example: "800 px high",
+    desc: "Set the required height when the destination specifies a particular vertical dimension.",
     icon: "↕️",
   },
   {
     title: "Width + Height",
-    desc: "Enter both dimensions when the destination requires an exact pixel size.",
-    example: "800 × 600 px",
+    desc: "Enter both values when an application requires exact pixel dimensions.",
     icon: "📐",
   },
   {
     title: "Maintain Aspect Ratio",
-    desc: "Lock the original proportions while changing dimensions to avoid unwanted stretching.",
-    example: "Keep original ratio",
+    desc: "Keep the original proportions while changing the image dimensions to avoid unintended stretching.",
     icon: "🔗",
   },
   {
     title: "Custom Aspect Ratio",
-    desc: "Resize to the proportions needed for a particular layout, platform, form, or design.",
-    example: "16:9, 4:3, 1:1",
+    desc: "Use the required width-to-height relationship when the destination specifies a different proportion.",
     icon: "▣",
   },
   {
     title: "Target File Size",
-    desc: "Work toward a KB or MB limit when dimensions alone are not enough to satisfy an upload requirement.",
-    example: "100 KB / 2 MB",
+    desc: "Work toward a KB or MB limit when the application has a file-size restriction in addition to dimension requirements.",
     icon: "🎯",
   },
-];
-
-const commonTargetSizes = [
-  "20 KB",
-  "50 KB",
-  "100 KB",
-  "200 KB",
-  "500 KB",
-  "1 MB",
-  "2 MB",
-  "5 MB",
 ];
 
 const commonDimensions = [
@@ -246,43 +284,54 @@ const commonDimensions = [
   "300 × 300 px",
   "400 × 400 px",
   "600 × 600 px",
+  "600 × 800 px",
   "800 × 600 px",
-  "1280 × 720 px",
-  "1920 × 1080 px",
   "Custom dimensions",
+  "Authority-specified dimensions",
+];
+
+const commonFileSizes = [
+  "20 KB",
+  "50 KB",
+  "100 KB",
+  "200 KB",
+  "500 KB",
+  "1 MB",
+  "2 MB",
+  "Custom limit",
 ];
 
 const aspectRatios = [
   {
     ratio: "1:1",
-    use: "Square profile images, thumbnails, product images, and social content.",
+    use: "Square images, profile photos, some ID formats, and application systems that require equal width and height.",
   },
   {
     ratio: "4:3",
-    use: "Traditional photos, presentations, and common display layouts.",
+    use: "Traditional photo layouts and applications that specify a four-to-three image proportion.",
   },
   {
     ratio: "3:2",
-    use: "Photography and standard camera image proportions.",
+    use: "Common photography proportions when the destination accepts this ratio.",
+  },
+  {
+    ratio: "2:3",
+    use: "Portrait-oriented images when the destination specifies a two-to-three relationship.",
   },
   {
     ratio: "16:9",
-    use: "Web banners, videos, presentations, and widescreen layouts.",
-  },
-  {
-    ratio: "9:16",
-    use: "Vertical mobile content, stories, and portrait-oriented designs.",
+    use: "Widescreen images and general-purpose digital content rather than most traditional passport-photo requirements.",
   },
   {
     ratio: "Custom",
-    use: "Any destination that requires a specific width-to-height relationship.",
+    use: "Use the exact width-to-height relationship specified by your application or destination.",
   },
 ];
 
 const supportedFormats = [
   {
     format: "JPG",
-    bestFor: "Photographs and general-purpose images",
+    bestFor: "Photographs and common application images",
     transparency: "No",
   },
   {
@@ -292,65 +341,80 @@ const supportedFormats = [
   },
   {
     format: "PNG",
-    bestFor: "Graphics, screenshots, and transparency",
+    bestFor: "Graphics, screenshots, and images where transparency may be relevant",
     transparency: "Yes",
   },
   {
     format: "WebP",
-    bestFor: "Modern web images and efficient delivery",
+    bestFor: "Modern web images and efficient image delivery",
     transparency: "Yes",
   },
 ];
 
+const requirementChecklist = [
+  "Required photo width",
+  "Required photo height",
+  "Required aspect ratio",
+  "Maximum or target file size",
+  "Accepted image format",
+  "Required background",
+  "Facial-position requirements",
+  "Country or authority-specific rules",
+];
+
 const commonUses = [
-  "Website image resizing",
-  "Blog images",
-  "Product images",
-  "Social media images",
-  "Profile pictures",
-  "Online forms",
-  "Email attachments",
-  "Marketplace uploads",
-  "Job portal uploads",
-  "Presentation images",
-  "Document images",
-  "Mobile images",
+  "Passport applications",
+  "Visa applications",
+  "ID applications",
+  "Online application portals",
+  "Job applications",
+  "Profile photos",
+  "Membership applications",
+  "Document submissions",
+  "Website profile images",
+  "Marketplace profiles",
+  "Student portals",
+  "General image resizing",
 ];
 
 const audiences = [
   {
-    title: "Website Owners",
-    desc: "Resize large images to suitable dimensions and file sizes before publishing pages.",
-    icon: "🌐",
+    title: "Passport Applicants",
+    desc: "Resize a photo according to the dimensions and file-size requirements provided by the relevant passport authority.",
+    icon: "🛂",
   },
   {
-    title: "Developers",
-    desc: "Prepare images that match exact pixel dimensions and upload constraints.",
-    icon: "💻",
+    title: "Visa Applicants",
+    desc: "Prepare an image for a visa application when the destination provides specific digital-photo requirements.",
+    icon: "🌍",
   },
   {
-    title: "Online Sellers",
-    desc: "Create product images that fit marketplace dimensions and file-size limits.",
-    icon: "🛍️",
+    title: "ID Applicants",
+    desc: "Resize identification photos to the dimensions specified by the issuing organization.",
+    icon: "🪪",
+  },
+  {
+    title: "Job Seekers",
+    desc: "Prepare profile or application photos for recruitment websites and online forms.",
+    icon: "💼",
   },
   {
     title: "Students",
-    desc: "Resize images for assignments, portals, presentations, and online submissions.",
+    desc: "Resize photos for student portals, applications, documents, and submissions.",
     icon: "🎓",
   },
   {
-    title: "Designers",
-    desc: "Create correctly proportioned assets for layouts, thumbnails, and digital content.",
-    icon: "🎨",
-  },
-  {
     title: "Everyday Users",
-    desc: "Quickly resize and reduce images before sharing, uploading, or storing them.",
+    desc: "Use the same custom controls to resize ordinary images for websites, profiles, sharing, and uploads.",
     icon: "👤",
   },
 ];
 
 const relatedTools = [
+  {
+    name: "Resize Signature for Upload",
+    href: "/tools/image/resize-signature-for-upload",
+  },
   {
     name: "Compress Image",
     href: "/tools/image/compress-image",
@@ -358,10 +422,6 @@ const relatedTools = [
   {
     name: "Compress JPG",
     href: "/tools/image/compress-jpg",
-  },
-  {
-    name: "Resize Signature for Upload",
-    href: "/tools/image/resize-signature-for-upload",
   },
   {
     name: "JPG to PNG",
@@ -373,23 +433,9 @@ const relatedTools = [
   },
 ];
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqItems.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.a,
-    },
-  })),
-};
-
 const softwareApplicationJsonLd = {
-  "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: `Image Resizer - ${siteName}`,
+  name: `Passport Photo Resizer - ${siteName}`,
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Any",
   url: canonicalUrl,
@@ -399,26 +445,25 @@ const softwareApplicationJsonLd = {
     priceCurrency: "USD",
   },
   featureList: [
-    "Resize images by width",
-    "Resize images by height",
-    "Set exact width and height",
-    "Maintain aspect ratio",
-    "Custom aspect ratio control",
-    "Target file size in KB",
-    "Target file size in MB",
-    "Image quality control",
-    "Resize and compress images",
-    "Live preview",
+    "Resize passport photos by width",
+    "Resize passport photos by height",
+    "Set custom image dimensions",
+    "Maintain image aspect ratio",
+    "Use custom aspect ratios",
+    "Prepare visa and ID photos",
+    "Reduce image file size",
+    "Target KB or MB file sizes when supported",
+    "Adjust image quality when supported",
     "JPG support",
     "JPEG support",
     "PNG support",
     "WebP support",
-    "Browser-based processing",
+    "Browser-based image resizing",
+    "Mobile-friendly image resizing",
   ],
 };
 
 const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
     {
@@ -436,30 +481,39 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       position: 3,
-      name: "Resize Image",
+      name: "Passport Photo Resizer",
       item: canonicalUrl,
     },
   ],
 };
 
-const itemListJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Related Image Tools",
-  itemListElement: relatedTools.map((tool, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: tool.name,
-    url: `${siteUrl}${tool.href}`,
+const faqJsonLd = {
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
   })),
 };
 
-function JsonLd({ data }: { data: unknown }) {
+const jsonLdGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    softwareApplicationJsonLd,
+    breadcrumbJsonLd,
+    faqJsonLd,
+  ],
+};
+
+function JsonLd() {
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+        __html: JSON.stringify(jsonLdGraph).replace(/</g, "\\u003c"),
       }}
     />
   );
@@ -492,71 +546,115 @@ function SectionHeading({
   );
 }
 
-export default function ResizeImageSeoContent() {
+export default function PassportPhotoResizerSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
-      <JsonLd data={softwareApplicationJsonLd} />
-      <JsonLd data={breadcrumbJsonLd} />
-      <JsonLd data={itemListJsonLd} />
-      <JsonLd data={faqJsonLd} />
+    <div className="mx-auto max-w-6xl space-y-7 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-7">
+      <JsonLd />
 
-      {/* INTRO */}
-      <section aria-labelledby="intro-heading" className="space-y-3">
+      {/* =========================================================
+          INTRO
+      ========================================================= */}
+      <section
+        aria-labelledby="intro-heading"
+        className="space-y-3"
+      >
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          Free Browser-Based Image Resizer
+          Free Passport, Visa & ID Photo Resizer
         </p>
 
         <h1
           id="intro-heading"
           className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          Free Image Resizer Online – Resize Images by Width, Height, Aspect Ratio & File Size
+          Passport Photo Resizer Online – Resize Photos to Custom Dimensions
         </h1>
 
         <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Resize images online for free with precise control over width, height,
-          aspect ratio, and final file size. Set custom pixel dimensions,
-          preserve the original proportions, choose a different aspect ratio,
-          or target a specific file size in KB or MB.
+          Resize passport, visa, ID, and application photos online with custom
+          width and height controls. Enter the exact dimensions required by
+          your destination, maintain the original aspect ratio when appropriate,
+          adjust image quality, and reduce the final file size when the
+          application specifies a KB or MB limit.
         </p>
 
         <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          Use the image resizer to prepare JPG, JPEG, PNG, and WebP images for
-          websites, online forms, social media, marketplaces, documents,
-          presentations, email attachments, and other upload requirements.
-          Preview the result, adjust quality when needed, and download the
-          resized image when it meets your requirements.
+          There is no single universal digital passport-photo size. Requirements
+          can vary by country, passport or visa type, issuing authority, and
+          application system. Instead of assuming one fixed size, this tool lets
+          you use the dimensions and file-size requirements provided by the
+          authority or application you are submitting to.
+        </p>
+
+        <p className="text-sm leading-7 text-white/65 sm:text-[0.95rem]">
+          The same resizing workflow can also be used for ordinary profile
+          pictures, job applications, student portals, document uploads, and
+          other situations where an image needs specific dimensions or a
+          smaller file size.
         </p>
       </section>
 
-      {/* WHY RESIZE */}
+      {/* =========================================================
+          IMPORTANT REQUIREMENTS
+      ========================================================= */}
       <section
-        aria-labelledby="why-resize-heading"
+        aria-labelledby="requirements-heading"
+        className="rounded-2xl border border-amber-300/15 bg-amber-300/5 p-4 sm:p-6"
+      >
+        <SectionHeading
+          id="requirements-heading"
+          title="Check the Photo Requirements Before Resizing"
+          description="Passport and visa-photo rules are not universal. Always use the current requirements supplied by the authority, embassy, consulate, application portal, or organization receiving your photo."
+        />
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {requirementChecklist.map((item) => (
+            <div
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-white/80"
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-4 text-xs leading-6 text-white/55">
+          Resizing changes the image file. It does not independently verify
+          country-specific requirements such as background color, facial
+          positioning, head size, expression, lighting, glasses, clothing, or
+          biometric-photo rules.
+        </p>
+      </section>
+
+      {/* =========================================================
+          WHY USE IT
+      ========================================================= */}
+      <section
+        aria-labelledby="why-heading"
         className="space-y-4"
       >
         <SectionHeading
-          id="why-resize-heading"
-          title="Why Resize an Image?"
-          description="Different websites, applications, devices, and upload forms often require specific image dimensions or file-size limits."
+          id="why-heading"
+          title="Why Resize a Passport or Application Photo?"
+          description="Online application systems commonly impose image dimensions, aspect-ratio, format, or file-size requirements."
         />
 
         <div className="grid gap-3 md:grid-cols-2">
           {[
             [
-              "Match Exact Dimensions",
-              "Set a precise width and height when a website or application requires fixed pixel dimensions.",
+              "Match Required Dimensions",
+              "Enter the exact pixel width and height specified by the application instead of relying on a generic preset.",
             ],
             [
-              "Maintain Image Proportions",
-              "Keep the original aspect ratio when you want to resize without stretching or squashing the image.",
+              "Meet File-Size Limits",
+              "Reduce the output toward a KB or MB limit when the destination restricts upload size.",
             ],
             [
-              "Meet File Size Limits",
-              "Use KB or MB targets when an upload form limits the maximum image size.",
+              "Keep the Correct Proportions",
+              "Lock the aspect ratio when you need to resize without unintentionally stretching the photo.",
             ],
             [
-              "Prepare Images Faster",
-              "Resize and reduce images in one browser-based workflow instead of using desktop editing software.",
+              "Prepare an Upload-Ready File",
+              "Combine dimensions, quality, and file-size controls when an online portal has multiple image requirements.",
             ],
           ].map(([title, desc]) => (
             <article
@@ -566,6 +664,7 @@ export default function ResizeImageSeoContent() {
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
+
               <p className="mt-1.5 text-sm leading-6 text-white/70">
                 {desc}
               </p>
@@ -574,25 +673,30 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* RESIZE METHODS */}
+      {/* =========================================================
+          PHOTO TYPES
+      ========================================================= */}
       <section
-        aria-labelledby="resize-methods-heading"
+        aria-labelledby="photo-types-heading"
         className="space-y-4"
       >
         <SectionHeading
-          id="resize-methods-heading"
-          title="Ways to Resize an Image"
-          description="Choose the resize method that matches the requirement of your destination."
+          id="photo-types-heading"
+          title="What Types of Photos Can You Prepare?"
+          description="Use the custom resizing workflow for different application and image-submission scenarios."
         />
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {resizeMethods.map((item) => (
+          {photoTypes.map((item) => (
             <article
               key={item.title}
               className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl" aria-hidden="true">
+                <span
+                  className="text-2xl"
+                  aria-hidden="true"
+                >
                   {item.icon}
                 </span>
 
@@ -604,9 +708,91 @@ export default function ResizeImageSeoContent() {
                   <p className="mt-1.5 text-sm leading-6 text-white/70">
                     {item.desc}
                   </p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
-                  <p className="mt-2 text-xs font-medium text-white/45">
-                    Example: {item.example}
+      {/* =========================================================
+          HOW TO RESIZE
+      ========================================================= */}
+      <section
+        aria-labelledby="how-it-works-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="how-it-works-heading"
+          title="How to Resize a Passport Photo Online"
+          description="Use the requirements from your destination, then prepare the image using the corresponding resize and file-size controls."
+        />
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {howToSteps.map((step, index) => (
+            <article
+              key={step.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
+                  {index + 1}
+                </div>
+
+                <span
+                  className="text-xl"
+                  aria-hidden="true"
+                >
+                  {step.icon}
+                </span>
+              </div>
+
+              <h3 className="mt-3 text-sm font-semibold">
+                {step.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {step.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          RESIZE METHODS
+      ========================================================= */}
+      <section
+        aria-labelledby="resize-methods-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="resize-methods-heading"
+          title="Ways to Resize a Passport Photo"
+          description="Choose the control that matches the requirements of the application or destination."
+        />
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {resizeMethods.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+            >
+              <div className="flex items-start gap-3">
+                <span
+                  className="text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
+                <div>
+                  <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1.5 text-sm leading-6 text-white/70">
+                    {item.desc}
                   </p>
                 </div>
               </div>
@@ -615,7 +801,9 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* DIMENSIONS */}
+      {/* =========================================================
+          DIMENSIONS
+      ========================================================= */}
       <section
         aria-labelledby="dimensions-heading"
         className="space-y-4"
@@ -623,30 +811,38 @@ export default function ResizeImageSeoContent() {
         <SectionHeading
           id="dimensions-heading"
           title="Common Image Dimensions"
-          description="Use a preset dimension as a starting point or enter your own custom width and height."
+          description="These are examples of dimensions you may encounter. They are not universal passport or visa requirements."
         />
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {commonDimensions.map((size) => (
             <div
               key={size}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm"
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm text-white/80"
             >
               {size}
             </div>
           ))}
         </div>
+
+        <p className="text-xs leading-6 text-white/50">
+          Do not assume one of these example dimensions is valid for your
+          application. Use the exact dimensions supplied by the relevant
+          authority or application portal.
+        </p>
       </section>
 
-      {/* ASPECT RATIO */}
+      {/* =========================================================
+          ASPECT RATIO
+      ========================================================= */}
       <section
         aria-labelledby="aspect-ratio-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="aspect-ratio-heading"
-          title="Resize Images by Aspect Ratio"
-          description="Aspect ratio controls help you choose the relationship between image width and height."
+          title="Passport Photo Aspect Ratio"
+          description="Aspect ratio describes the relationship between an image's width and height. Your destination may specify a particular ratio or exact dimensions."
         />
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -673,26 +869,29 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* FILE SIZE */}
+      {/* =========================================================
+          FILE SIZE
+      ========================================================= */}
       <section
         aria-labelledby="file-size-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="file-size-heading"
-          title="Resize Images to a Target File Size"
-          description="When an upload has a maximum size, use a KB or MB target instead of guessing the compression level."
+          title="Passport Photo File Size Requirements"
+          description="Some application portals specify a maximum or target file size in KB or MB in addition to image dimensions."
         />
 
         <p className="text-sm leading-7 text-white/70">
-          Image dimensions and file size are separate requirements. A smaller
-          width and height can reduce the file size, while compression and
-          quality settings provide additional control. Use the target-size
-          option when you need the output to fit a specific KB or MB limit.
+          Image dimensions and file size are different properties. Reducing
+          pixel dimensions can often reduce file size, while image quality and
+          encoding settings can provide additional control. If the tool's
+          target-size controls are available, use the specified KB or MB value
+          as a target rather than guessing.
         </p>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {commonTargetSizes.map((size) => (
+          {commonFileSizes.map((size) => (
             <div
               key={size}
               className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm"
@@ -701,9 +900,17 @@ export default function ResizeImageSeoContent() {
             </div>
           ))}
         </div>
+
+        <p className="text-xs leading-6 text-white/50">
+          A target file size should be treated as a target or limit, not as a
+          guarantee of an exact byte-for-byte output unless the application
+          explicitly provides such functionality.
+        </p>
       </section>
 
-      {/* DIMENSIONS VS FILE SIZE */}
+      {/* =========================================================
+          DIMENSIONS VS FILE SIZE
+      ========================================================= */}
       <section
         aria-labelledby="dimensions-vs-size-heading"
         className="space-y-4"
@@ -711,7 +918,7 @@ export default function ResizeImageSeoContent() {
         <SectionHeading
           id="dimensions-vs-size-heading"
           title="Image Dimensions vs File Size"
-          description="Understanding the difference helps you choose the right control."
+          description="Understanding the difference makes it easier to satisfy online application requirements."
         />
 
         <div className="grid gap-3 md:grid-cols-2">
@@ -719,83 +926,53 @@ export default function ResizeImageSeoContent() {
             <h3 className="text-sm font-semibold">
               Width and Height
             </h3>
+
             <p className="mt-1.5 text-sm leading-6 text-white/70">
-              Width and height determine how large the image is in pixels.
-              Reducing dimensions can make an image smaller while keeping its
-              proportions when aspect ratio is locked.
+              Width and height describe the image's pixel dimensions. For
+              example, an image can be 600 pixels wide and 800 pixels high.
+              Changing these values changes the resolution and physical pixel
+              dimensions of the digital image.
             </p>
           </article>
 
           <article className="rounded-xl border border-white/10 bg-white/5 p-4">
             <h3 className="text-sm font-semibold">
-              KB and MB Target
+              KB and MB
             </h3>
+
             <p className="mt-1.5 text-sm leading-6 text-white/70">
-              KB and MB describe the amount of storage the output file uses.
-              Target-size controls are useful when an upload portal specifies
-              a maximum file size.
+              KB and MB describe the amount of data stored in the image file.
+              An application can require both exact dimensions and a maximum
+              file size, so you may need to adjust dimensions and quality
+              together.
             </p>
           </article>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section
-        aria-labelledby="how-it-works-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="how-it-works-heading"
-          title="How to Resize an Image Online"
-          description="Resize, preview, and download an image in a few simple steps."
-        />
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {howToSteps.map((step, index) => (
-            <article
-              key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
-                  {index + 1}
-                </div>
-
-                <span className="text-xl" aria-hidden="true">
-                  {step.icon}
-                </span>
-              </div>
-
-              <h3 className="mt-3 text-sm font-semibold">
-                {step.title}
-              </h3>
-
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
-                {step.desc}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* FEATURES */}
+      {/* =========================================================
+          FEATURES
+      ========================================================= */}
       <section
         aria-labelledby="features-heading"
-        className="space-y-4"
+        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
       >
         <SectionHeading
           id="features-heading"
-          title="Image Resizer Features"
-          description="Precise controls for dimensions, proportions, file size, and output quality."
+          title="Passport Photo Resizer Features"
+          description="Custom controls for image dimensions, proportions, quality, and upload requirements."
         />
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
               className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
-              <div className="text-xl" aria-hidden="true">
+              <div
+                className="text-xl"
+                aria-hidden="true"
+              >
                 {feature.icon}
               </div>
 
@@ -811,7 +988,9 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* FORMATS */}
+      {/* =========================================================
+          FORMATS
+      ========================================================= */}
       <section
         aria-labelledby="formats-heading"
         className="space-y-4"
@@ -819,7 +998,7 @@ export default function ResizeImageSeoContent() {
         <SectionHeading
           id="formats-heading"
           title="Supported Image Formats"
-          description="Resize common image formats used for websites, applications, and everyday sharing."
+          description="Use a format accepted by both this tool and the destination application."
         />
 
         <div className="overflow-hidden rounded-2xl border border-white/10">
@@ -830,9 +1009,11 @@ export default function ResizeImageSeoContent() {
                   <th className="px-3 py-2.5 font-semibold sm:px-4">
                     Format
                   </th>
+
                   <th className="px-3 py-2.5 font-semibold sm:px-4">
                     Best For
                   </th>
+
                   <th className="px-3 py-2.5 font-semibold sm:px-4">
                     Transparency
                   </th>
@@ -848,10 +1029,12 @@ export default function ResizeImageSeoContent() {
                     <td className="px-3 py-2.5 font-medium sm:px-4">
                       {item.format}
                     </td>
-                    <td className="px-3 py-2.5 sm:px-4">
+
+                    <td className="px-3 py-2.5 text-white/75 sm:px-4">
                       {item.bestFor}
                     </td>
-                    <td className="px-3 py-2.5 sm:px-4">
+
+                    <td className="px-3 py-2.5 text-white/75 sm:px-4">
                       {item.transparency}
                     </td>
                   </tr>
@@ -862,30 +1045,32 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* RESIZE + COMPRESS */}
+      {/* =========================================================
+          RESIZE + COMPRESS
+      ========================================================= */}
       <section
         aria-labelledby="resize-compress-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="resize-compress-heading"
-          title="Resize and Compress Images Together"
-          description="Use dimensions when you need a specific image size and target KB or MB when you also need to satisfy a file-size limit."
+          title="Resize and Reduce File Size Together"
+          description="Some application systems require both specific image dimensions and a maximum file size."
         />
 
         <div className="grid gap-3 md:grid-cols-3">
           {[
             [
               "1. Set Dimensions",
-              "Choose the required width and height or resize using the selected aspect ratio.",
+              "Enter the required width and height or use the appropriate aspect-ratio controls.",
             ],
             [
-              "2. Set Target Size",
-              "Use KB or MB when the destination specifies a file-size limit.",
+              "2. Set File-Size Target",
+              "If the application specifies a KB or MB limit and the control is available, use it to reduce the output.",
             ],
             [
-              "3. Review Quality",
-              "Preview the result and adjust quality if necessary before downloading.",
+              "3. Review the Result",
+              "Check the resulting image and available size information before downloading and submitting it.",
             ],
           ].map(([title, desc], index) => (
             <article
@@ -908,22 +1093,55 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* COMMON USES */}
+      {/* =========================================================
+          PASSPORT REQUIREMENTS WARNING
+      ========================================================= */}
+      <section
+        aria-labelledby="verification-heading"
+        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
+      >
+        <SectionHeading
+          id="verification-heading"
+          title="Always Verify the Current Passport or Visa Requirements"
+          description="Photo specifications can change and may differ between countries, documents, and application systems."
+        />
+
+        <div className="mt-4 space-y-3 text-sm leading-7 text-white/70">
+          <p>
+            Before submitting your resized photo, check the current instructions
+            provided by the authority or application receiving it. Pay attention
+            to dimensions, file format, maximum file size, background,
+            positioning, lighting, facial expression, head size, and any other
+            requirements.
+          </p>
+
+          <p>
+            This tool is designed to help you resize and optimize the image
+            file. It does not replace the official instructions or guarantee
+            that a photograph satisfies every country-specific or
+            application-specific requirement.
+          </p>
+        </div>
+      </section>
+
+      {/* =========================================================
+          COMMON USES
+      ========================================================= */}
       <section
         aria-labelledby="uses-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="uses-heading"
-          title="Common Uses for an Online Image Resizer"
-          description="Resize images before uploading, publishing, sharing, or storing them."
+          title="Common Uses for This Photo Resizer"
+          description="Use the same custom resizing workflow for passport photos and many other image-upload requirements."
         />
 
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {commonUses.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/80"
             >
               {item}
             </li>
@@ -931,25 +1149,30 @@ export default function ResizeImageSeoContent() {
         </ul>
       </section>
 
-      {/* AUDIENCE */}
+      {/* =========================================================
+          AUDIENCE
+      ========================================================= */}
       <section
         aria-labelledby="audience-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="audience-heading"
-          title="Who Uses an Image Resizer?"
-          description="Useful for anyone who needs precise image dimensions or a smaller upload-ready file."
+          title="Who Can Use This Photo Resizer?"
+          description="Useful for applicants, students, professionals, and anyone who needs precise image dimensions."
         />
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="text-2xl" aria-hidden="true">
+                <span
+                  className="text-2xl"
+                  aria-hidden="true"
+                >
                   {item.icon}
                 </span>
 
@@ -968,27 +1191,75 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* PRIVACY */}
+      {/* =========================================================
+          GENERAL IMAGE RESIZING
+      ========================================================= */}
+      <section
+        aria-labelledby="general-resize-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="general-resize-heading"
+          title="Use It as a General Image Resizer Too"
+          description="The passport-photo workflow uses the same fundamental image-resizing controls needed for many everyday image tasks."
+        />
+
+        <div className="grid gap-3 md:grid-cols-2">
+          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <h3 className="text-sm font-semibold">
+              Resize for Websites and Profiles
+            </h3>
+
+            <p className="mt-1.5 text-sm leading-6 text-white/70">
+              Set custom dimensions for website images, profile pictures,
+              thumbnails, blog images, and other digital content.
+            </p>
+          </article>
+
+          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+            <h3 className="text-sm font-semibold">
+              Resize for Uploads and Documents
+            </h3>
+
+            <p className="mt-1.5 text-sm leading-6 text-white/70">
+              Reduce dimensions or file size when an online form, document
+              system, portal, or sharing service imposes an upload limit.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      {/* =========================================================
+          PRIVACY
+      ========================================================= */}
       <section
         aria-labelledby="privacy-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="privacy-heading"
-          title="Browser-Based Image Resizing"
-          description="A convenient workflow without requiring image-editing software."
+          title="Browser-Based Photo Resizing"
+          description="A convenient workflow for resizing images without requiring desktop photo-editing software."
         />
 
         <p className="text-sm leading-7 text-white/70">
-          When image processing is performed locally in the browser, the
-          selected image can be handled directly on your device instead of
-          being uploaded to a remote processing server. This can make resizing
-          convenient for personal photos, documents, screenshots, and other
-          files that you prefer to keep on your device.
+          When image processing is performed locally in your browser, the
+          selected photo can be handled directly on your device rather than
+          being uploaded to a remote image-processing server. This can be useful
+          when preparing personal photographs, application images, documents,
+          and screenshots.
+        </p>
+
+        <p className="text-xs leading-6 text-white/50">
+          Processing behavior depends on the current implementation of the
+          tool. Do not use the privacy statement as a substitute for the site's
+          current privacy policy or technical documentation.
         </p>
       </section>
 
-      {/* FAQ */}
+      {/* =========================================================
+          FAQ
+      ========================================================= */}
       <section
         aria-labelledby="faq-heading"
         className="space-y-4"
@@ -996,7 +1267,7 @@ export default function ResizeImageSeoContent() {
         <SectionHeading
           id="faq-heading"
           title="Frequently Asked Questions"
-          description="Answers to common questions about image dimensions, aspect ratios, quality, and file-size targets."
+          description="Answers about passport photo dimensions, file size, aspect ratio, supported formats, and image resizing."
         />
 
         <div className="space-y-3">
@@ -1019,7 +1290,9 @@ export default function ResizeImageSeoContent() {
         </div>
       </section>
 
-      {/* RELATED TOOLS */}
+      {/* =========================================================
+          RELATED TOOLS
+      ========================================================= */}
       <section
         aria-labelledby="related-tools-heading"
         className="space-y-4"
@@ -1027,7 +1300,7 @@ export default function ResizeImageSeoContent() {
         <SectionHeading
           id="related-tools-heading"
           title="Related Image Tools"
-          description="Continue with another image workflow when you need compression, format conversion, or specialized resizing."
+          description="Use another image tool when you need compression, format conversion, or specialized resizing."
         />
 
         <div className="flex flex-wrap gap-2.5">

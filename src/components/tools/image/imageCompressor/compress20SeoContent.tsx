@@ -2,7 +2,7 @@ import Link from "next/link";
 import { serverConfig } from "@/config/server";
 
 const siteName = serverConfig.siteName;
-const siteUrl = serverConfig.siteUrl;
+const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
 
 const canonicalPath = "/tools/image/compress-image-to-20kb";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
@@ -31,56 +31,64 @@ type UseCaseItem = {
 
 const faqItems: FaqItem[] = [
   {
-    q: "What does the 20 KB image compressor do?",
-    a: "It compresses JPG, JPEG, PNG, and WebP images toward a 20 KB target. The tool can adjust image quality and, when necessary, image dimensions to help reduce the file to a very small size.",
+    q: "How do I compress an image to 20 KB?",
+    a: "Upload your JPG, JPEG, PNG, or WebP image, set the target size to 20 KB, and let the compressor reduce the file using quality and, when necessary, image dimensions. Preview the result and download it when it meets your requirements.",
   },
   {
-    q: "Can I compress an image to exactly 20 KB?",
-    a: "The compressor aims to get the output as close to 20 KB as practical. Exact byte-level results can vary because image formats, dimensions, transparency, and image content affect the final file size.",
+    q: "Can I reduce an image to less than 20 KB?",
+    a: "Yes. If the destination website requires a maximum of 20 KB rather than exactly 20 KB, you can use a target below 20 KB to leave some room for the upload limit.",
   },
   {
-    q: "Can I control image quality while compressing?",
-    a: "Yes. Quality can be adjusted to balance visual appearance and file size. Lower quality generally produces a smaller file, while higher quality generally preserves more image detail.",
+    q: "Can an image be exactly 20 KB?",
+    a: "The compressor aims for the requested target, but exact byte-level output can vary depending on the image format, dimensions, transparency, image content, and encoding. For portals that specify a maximum size, staying below the limit is usually more useful than targeting exactly 20 KB.",
   },
   {
-    q: "Can I resize the image while targeting 20 KB?",
-    a: "Yes. You can use width and height controls when resizing is supported by the tool. Reducing dimensions can make it easier to reach a very small target such as 20 KB.",
+    q: "How can I compress a JPG to 20 KB?",
+    a: "Upload the JPG image and set a 20 KB target. JPG is generally well suited to photographs because lossy compression can significantly reduce file size. If quality reduction is not enough, reducing the image dimensions can help reach the target.",
   },
   {
-    q: "Does the tool keep the aspect ratio?",
-    a: "Yes. The resize controls include an aspect-ratio lock so you can reduce width or height while keeping the original proportions. You can also unlock the ratio when independent dimensions are required.",
+    q: "How can I compress a PNG to 20 KB?",
+    a: "Upload the PNG and set the target size to 20 KB. PNG is useful for signatures, logos, icons, and graphics, but photographic PNG files can be difficult to reduce to such a small size. Resizing or converting to JPG or WebP may help when the destination accepts another format.",
   },
   {
-    q: "Can I compress PNG images to 20 KB?",
-    a: "Yes. PNG files are supported. PNG can be effective for signatures, logos, icons, and graphics, although detailed photographs may require resizing or another format to reach a very small target.",
+    q: "How can I compress a WebP image to 20 KB?",
+    a: "Upload the WebP image and choose a 20 KB target. WebP can provide efficient compression, although compatibility should be checked if the image is being uploaded to an older website, application portal, or form.",
   },
   {
-    q: "Which format is best for getting a photo below 20 KB?",
-    a: "JPG or WebP is usually more suitable for photographic images because they can achieve much smaller sizes than PNG at comparable visual quality. The best choice depends on the image and the upload requirements.",
+    q: "What should I do if my image is still larger than 20 KB?",
+    a: "First reduce image dimensions if the original is very large. Then adjust compression quality gradually. For photographs, JPG or WebP can often reach very small sizes more easily than PNG. Also check whether the destination requires a specific format or minimum dimensions.",
   },
   {
-    q: "Is this 20 KB compressor free?",
-    a: "Yes. The tool is available for free and does not require a paid plan for normal image compression.",
+    q: "Will compressing an image to 20 KB reduce its dimensions?",
+    a: "Not always. Compression and resizing are separate operations. If the image can reach 20 KB through compression alone, its dimensions can remain unchanged. If the original image contains too many pixels, reducing width and height may be necessary.",
   },
   {
-    q: "Can I preview the compressed image before downloading?",
-    a: "Yes. You can review the resulting image and its file size before downloading it.",
+    q: "Does the compressor keep the original aspect ratio?",
+    a: "Yes. When resizing, the aspect-ratio control can keep the original proportions so the image does not become stretched or distorted.",
   },
   {
-    q: "Will compressing an image reduce its dimensions?",
-    a: "Not necessarily. Compression and resizing are separate controls. If the original dimensions are already suitable, you can focus on compression. Resizing can be used when additional size reduction is needed.",
+    q: "Can I compress a passport photo to 20 KB?",
+    a: "Yes, when the destination application allows the resulting dimensions and format. Upload the photo, set the target size, and adjust dimensions and quality as needed. Always follow the specific portal's required dimensions, format, and maximum file size.",
   },
   {
-    q: "Is a 20 KB image suitable for passport or ID uploads?",
-    a: "It can be useful when a website or application specifically requires an image around 20 KB. Always follow the exact dimensions, format, and file-size requirements of the destination portal.",
+    q: "Can I reduce a signature image to 20 KB?",
+    a: "Yes. Small signature images are a common use case for strict upload limits. PNG can be useful for signatures with transparency, while JPG can be useful when the destination requires or accepts JPEG images.",
   },
   {
-    q: "Is this tool useful for signature uploads?",
-    a: "Yes. Small signature files are a common use case for strict file-size limits. PNG can be useful when transparency or sharp edges are important.",
+    q: "Can I compress an image for an online application form?",
+    a: "Yes. The tool can help prepare photographs, signatures, scanned images, and other supported images when an application portal specifies a small maximum file size such as 20 KB.",
   },
   {
-    q: "Can I use the compressor on my phone?",
-    a: "Yes. The page is responsive and designed to work on modern phones, tablets, laptops, and desktop browsers.",
+    q: "Is 20 KB the same as 20 KiB?",
+    a: "No. KB and KiB are different units technically. Many websites use KB informally for a file-size limit. Always check how the destination portal defines its maximum size.",
+  },
+  {
+    q: "Is the 20 KB image compressor free?",
+    a: "Yes. The image compressor is available for free for normal image compression and resizing.",
+  },
+  {
+    q: "Can I use the 20 KB compressor on my phone?",
+    a: "Yes. The page is designed to work in modern mobile and desktop browsers, so you can compress supported images from a phone, tablet, laptop, or desktop.",
   },
 ];
 
@@ -91,140 +99,157 @@ const howToSteps: StepItem[] = [
     icon: "📁",
   },
   {
-    title: "Set the target size",
-    desc: "Use the target-size control and select or enter a goal such as 20 KB.",
+    title: "Choose 20 KB",
+    desc: "Set the target file size to 20 KB or choose a smaller target if the website requires a strict maximum.",
     icon: "🎯",
   },
   {
-    title: "Adjust quality",
-    desc: "Balance visual quality and compression strength when the image needs further reduction.",
+    title: "Compress the image",
+    desc: "The compressor reduces file size using appropriate quality settings.",
     icon: "⚙️",
   },
   {
-    title: "Resize if needed",
-    desc: "Adjust width and height when a very small target requires fewer image pixels.",
+    title: "Resize if necessary",
+    desc: "If the image is still too large, reduce width and height while keeping the aspect ratio locked.",
     icon: "📐",
   },
   {
-    title: "Check the result",
-    desc: "Preview the compressed image and verify the resulting file size.",
+    title: "Preview the result",
+    desc: "Check the resulting image and file size before downloading.",
     icon: "👀",
   },
   {
     title: "Download",
-    desc: "Save the optimized image once it meets your upload requirements.",
+    desc: "Save the compressed image and upload it to your destination website or application.",
     icon: "⬇️",
   },
 ];
 
 const coreFeatures: FeatureItem[] = [
   {
-    title: "20 KB Target Size",
-    desc: "Optimize images toward a very small 20 KB file-size target for strict upload limits.",
+    title: "20 KB Target",
+    desc: "Compress images toward a 20 KB file-size target for forms, applications, and strict upload limits.",
     icon: "🎯",
   },
   {
+    title: "Under 20 KB",
+    desc: "Use a smaller target when a website accepts only files below 20 KB rather than exactly 20 KB.",
+    icon: "📉",
+  },
+  {
+    title: "JPG / JPEG Compression",
+    desc: "Reduce common photographic images to a much smaller file size.",
+    icon: "🖼️",
+  },
+  {
+    title: "PNG Compression",
+    desc: "Optimize signatures, logos, icons, and graphics where PNG is required.",
+    icon: "🔲",
+  },
+  {
+    title: "WebP Compression",
+    desc: "Compress WebP images efficiently when the destination supports the format.",
+    icon: "🌐",
+  },
+  {
     title: "Quality Control",
-    desc: "Adjust image quality to find a practical balance between file size and visual detail.",
+    desc: "Balance visual quality and file size when additional compression is needed.",
     icon: "⚙️",
   },
   {
-    title: "Width and Height",
-    desc: "Resize image dimensions when reducing pixels is necessary to reach a small target size.",
+    title: "Image Resizing",
+    desc: "Reduce width and height when compression alone cannot reach the target.",
     icon: "📐",
   },
   {
     title: "Aspect Ratio Lock",
-    desc: "Keep the original proportions while changing width or height to avoid unwanted stretching.",
+    desc: "Keep the original proportions while changing image dimensions.",
     icon: "🔗",
   },
   {
-    title: "JPG / JPEG Support",
-    desc: "Compress common photographic images for forms, profiles, applications, and uploads.",
-    icon: "🖼️",
-  },
-  {
-    title: "PNG Support",
-    desc: "Handle signatures, logos, icons, and other graphics where PNG may be required.",
-    icon: "🔲",
-  },
-  {
-    title: "WebP Support",
-    desc: "Use an efficient modern image format when the destination system accepts WebP.",
-    icon: "🌐",
-  },
-  {
     title: "Preview Before Download",
-    desc: "Review the compressed result before saving it to your device.",
+    desc: "Check the compressed result and resulting file size before saving it.",
     icon: "👀",
-  },
-  {
-    title: "Mobile Friendly",
-    desc: "Compress and resize images from phones, tablets, laptops, and desktop browsers.",
-    icon: "📱",
   },
 ];
 
 const useCases: UseCaseItem[] = [
   {
-    title: "Government applications",
-    desc: "Reduce photos and documents when an application portal specifies a very small image-size limit.",
+    title: "Government application forms",
+    desc: "Prepare photographs and other required images when an online application specifies a very small maximum file size.",
   },
   {
-    title: "Passport and ID uploads",
-    desc: "Prepare small photos when the destination form specifies a 20 KB or similarly low maximum size.",
+    title: "Passport and ID applications",
+    desc: "Reduce a passport-style or identity photograph when the destination portal has a 20 KB or similar limit.",
   },
   {
     title: "Signature uploads",
-    desc: "Create compact signature files for online forms and application portals.",
+    desc: "Create a compact signature image for online applications, forms, registrations, and document workflows.",
   },
   {
     title: "Exam and admission forms",
-    desc: "Optimize candidate photographs or signatures for portals with strict upload limits.",
+    desc: "Optimize candidate photographs and signatures for education portals with strict upload requirements.",
   },
   {
-    title: "Profile images",
-    desc: "Reduce images for systems that accept only very small profile or avatar files.",
+    title: "Job application portals",
+    desc: "Reduce profile photographs, signatures, or scanned images when a recruitment website limits upload size.",
+  },
+  {
+    title: "Profile and avatar uploads",
+    desc: "Create smaller profile images for websites that accept only compact image files.",
+  },
+  {
+    title: "Online registration forms",
+    desc: "Prepare images for registration systems that enforce a maximum file size.",
   },
   {
     title: "Legacy websites",
-    desc: "Prepare images for older systems that impose unusually small file-size restrictions.",
+    desc: "Reduce images for older systems that accept only unusually small image files.",
+  },
+  {
+    title: "Email and document workflows",
+    desc: "Create smaller images when file size matters more than preserving the original resolution.",
   },
 ];
 
 const formatGuidance = [
   {
     format: "JPG / JPEG",
-    bestFor: "Photographs and natural images.",
-    note: "Usually a strong choice when the priority is reaching a very small file size.",
+    bestFor: "Photographs, portraits, scans, and natural images.",
+    note: "Usually one of the easiest formats for reaching a very small file size.",
+  },
+  {
+    format: "PNG",
+    bestFor: "Signatures, logos, icons, graphics, and transparency.",
+    note: "Excellent for sharp graphics, but photographic PNG files can be difficult to reduce to 20 KB.",
   },
   {
     format: "WebP",
     bestFor: "Modern websites and applications that support WebP.",
-    note: "Often provides efficient compression, but compatibility should be checked before uploading.",
-  },
-  {
-    format: "PNG",
-    bestFor: "Signatures, logos, icons, and graphics.",
-    note: "Useful when transparency or sharp graphic edges matter, but photographs can be harder to reduce to 20 KB.",
+    note: "Can provide efficient compression, but compatibility should be confirmed before uploading.",
   },
 ];
 
 const compressionGuide = [
   {
-    mode: "Quality adjustment",
-    effect: "Reduces image detail to lower file size.",
-    bestFor: "Images that already have suitable dimensions.",
+    mode: "Compress only",
+    effect: "Reduces encoded image data while keeping the current dimensions.",
+    bestFor: "Images that already have appropriate width and height.",
   },
   {
-    mode: "Dimension reduction",
+    mode: "Resize",
     effect: "Reduces the number of pixels in the image.",
-    bestFor: "Large images that must reach a very small target.",
+    bestFor: "Large photographs and images with unnecessarily high dimensions.",
   },
   {
-    mode: "Quality + resizing",
-    effect: "Combines fewer pixels with controlled compression.",
-    bestFor: "Difficult images that need to approach 20 KB.",
+    mode: "Compress + resize",
+    effect: "Combines lower dimensions with controlled compression.",
+    bestFor: "Images that are far above the 20 KB target.",
+  },
+  {
+    mode: "Change format",
+    effect: "Uses a format that may provide better compression for the image type.",
+    bestFor: "When the destination accepts JPG or WebP instead of PNG.",
   },
 ];
 
@@ -281,7 +306,7 @@ const howToJsonLd = {
   "@type": "HowTo",
   name: "How to Compress an Image to 20 KB",
   description:
-    "Compress JPG, JPEG, PNG, and WebP images toward a 20 KB target using quality and resizing controls.",
+    "Reduce a JPG, JPEG, PNG, or WebP image toward a 20 KB target using compression and resizing controls.",
   totalTime: "PT2M",
   step: howToSteps.map((step, index) => ({
     "@type": "HowToStep",
@@ -334,7 +359,7 @@ const webPageJsonLd = {
   name: "Compress Image to 20 KB Online",
   url: canonicalUrl,
   description:
-    "Compress JPG, JPEG, PNG, and WebP images toward 20 KB with quality, width, height, and aspect-ratio controls.",
+    "Compress JPG, JPEG, PNG, and WebP images toward 20 KB for applications, forms, passport photos, signatures, and strict upload limits.",
   isPartOf: {
     "@type": "WebSite",
     name: siteName,
@@ -347,7 +372,10 @@ function JsonLd({ data }: { data: unknown }) {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
+        __html: JSON.stringify(data)
+          .replace(/</g, "\\u003c")
+          .replace(/>/g, "\\u003e")
+          .replace(/&/g, "\\u0026"),
       }}
     />
   );
@@ -382,79 +410,407 @@ function SectionHeading({
 
 export default function ImageCompressor20KbSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-7 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-7">
+    <div className="mx-auto max-w-6xl space-y-8 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-7">
+
       <JsonLd data={webPageJsonLd} />
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={itemListJsonLd} />
 
-      {/* Introduction */}
+      {/* =========================================================
+          PRIMARY SEARCH INTENT
+      ========================================================== */}
+
       <section
         aria-labelledby="intro-heading"
-        className="space-y-3"
+        className="space-y-4"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
-          20 KB Image Compressor
+        <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2.5 py-1 text-[11px] font-medium text-cyan-300">
+          Free 20 KB Image Compressor
         </p>
 
         <h2
           id="intro-heading"
-          className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
+          className="max-w-4xl text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
         >
-          Compress Images to 20 KB Online
+          Compress Image to 20 KB Online
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/75 sm:text-[0.95rem]">
-          Compress JPG, JPEG, PNG, and WebP images toward a 20 KB target for
-          forms, applications, signatures, passport-style photos, profile
-          images, and other uploads with strict file-size requirements.
+        <p className="max-w-4xl text-sm leading-7 text-white/80 sm:text-base">
+          Compress JPG, JPEG, PNG, and WebP images toward a 20 KB target
+          without manually guessing compression settings. Reduce image
+          quality, resize dimensions, preserve the aspect ratio, preview
+          the result, and download the smaller image for your application,
+          form, website, or upload.
         </p>
 
         <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          Use target size, image quality, width, and height controls to reduce
-          the file without blindly guessing compression settings. When resizing,
-          you can lock the aspect ratio to preserve the original proportions.
-        </p>
-
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          The goal is not simply to make an image smaller. It is to find a
-          practical balance between file size, dimensions, format, and visual
-          quality so the resulting image is suitable for the destination
-          upload.
+          If a website says your image must be <strong>20 KB or less</strong>,
+          you can target a smaller size to leave room below the upload limit.
+          For photographs, JPG or WebP will often be easier to reduce than
+          PNG. For signatures, logos, and transparent graphics, PNG may be
+          the better choice when the destination requires it.
         </p>
       </section>
 
-      {/* Why 20 KB */}
+      {/* =========================================================
+          QUICK ANSWER
+      ========================================================== */}
+
       <section
-        aria-labelledby="why-heading"
+        aria-labelledby="quick-answer-heading"
+        className="rounded-2xl border border-cyan-400/20 bg-cyan-500/5 p-5 sm:p-6"
+      >
+        <SectionHeading
+          id="quick-answer-heading"
+          title="Need an Image Under 20 KB?"
+          description="Use this workflow when an application or website gives you a strict maximum file size."
+        />
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              title: "1. Upload",
+              desc: "Select your JPG, JPEG, PNG, or WebP image.",
+            },
+            {
+              title: "2. Set 20 KB",
+              desc: "Choose 20 KB or a smaller target if the limit is strict.",
+            },
+            {
+              title: "3. Adjust",
+              desc: "Use quality and dimensions if the image is still too large.",
+            },
+            {
+              title: "4. Download",
+              desc: "Preview the result and save the compressed image.",
+            },
+          ].map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold">
+                {item.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          WHAT DOES 20 KB MEAN
+      ========================================================== */}
+
+      <section
+        aria-labelledby="meaning-heading"
         className="space-y-4"
       >
         <SectionHeading
-          id="why-heading"
-          title="Why Compress an Image to 20 KB?"
-          description="Some websites and application portals impose very small image-size limits. A 20 KB target can help when ordinary compression is not enough."
+          id="meaning-heading"
+          title="What Does “20 KB Image” Mean?"
+          description="A 20 KB image is a file whose stored size is around 20 kilobytes. Many upload portals use a maximum size rather than requiring an exact file size."
         />
 
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-3">
           {[
             {
-              title: "Meet strict upload limits",
-              desc: "Reduce images toward a file size accepted by portals that allow only a few kilobytes.",
+              title: "Exactly 20 KB",
+              desc: "The file is targeted as closely as practical to 20 KB. Exact byte-level output can vary by image and format.",
             },
             {
-              title: "Avoid repeated compression attempts",
-              desc: "Use a target-size workflow instead of repeatedly guessing which quality setting will work.",
+              title: "20 KB Maximum",
+              desc: "The file must be no larger than 20 KB. In this situation, targeting slightly below 20 KB is usually safer.",
             },
             {
-              title: "Control quality",
-              desc: "Adjust compression strength when you need to balance image appearance and file size.",
-            },
-            {
-              title: "Resize when necessary",
-              desc: "Reducing width and height can significantly lower the amount of image data that must be stored.",
+              title: "Below 20 KB",
+              desc: "The resulting file is smaller than the requested limit, leaving additional room for a strict upload validator.",
             },
           ].map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold">
+                {item.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          FEATURES
+      ========================================================== */}
+
+      <section
+        aria-labelledby="features-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="features-heading"
+          title="20 KB Image Compressor Features"
+          description="Use the controls that matter for your particular image instead of applying the same compression setting to every file."
+        />
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {coreFeatures.map((feature) => (
+            <article
+              key={feature.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/10"
+            >
+              <div
+                aria-hidden="true"
+                className="text-xl"
+              >
+                {feature.icon}
+              </div>
+
+              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">
+                {feature.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {feature.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          HOW IT REACHES 20 KB
+      ========================================================== */}
+
+      <section
+        aria-labelledby="strategy-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="strategy-heading"
+          title="How to Get an Image Down to 20 KB"
+          description="There is no single compression setting that works for every image. The right approach depends on the format, dimensions, image content, and required quality."
+        />
+
+        <div className="overflow-x-auto rounded-2xl border border-white/10">
+          <table className="min-w-[700px] w-full text-left text-xs sm:text-sm">
+            <thead className="bg-white/10">
+              <tr>
+                <th className="px-3 py-3 font-semibold sm:px-4">
+                  Method
+                </th>
+
+                <th className="px-3 py-3 font-semibold sm:px-4">
+                  What Changes
+                </th>
+
+                <th className="px-3 py-3 font-semibold sm:px-4">
+                  Best For
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {compressionGuide.map((item) => (
+                <tr
+                  key={item.mode}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-3 font-medium sm:px-4">
+                    {item.mode}
+                  </td>
+
+                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                    {item.effect}
+                  </td>
+
+                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                    {item.bestFor}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* =========================================================
+          JPG
+      ========================================================== */}
+
+      <section
+        aria-labelledby="jpg-heading"
+        className="space-y-3"
+      >
+        <SectionHeading
+          id="jpg-heading"
+          title="Compress JPG or JPEG to 20 KB"
+          description="JPG is usually a practical choice for photographs when the goal is a very small file size."
+        />
+
+        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          JPG and JPEG images use lossy compression, which makes them useful
+          when you need to reduce a photograph substantially. If your JPG is
+          still larger than 20 KB, reducing its dimensions can often make a
+          bigger difference than lowering quality alone.
+        </p>
+
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[
+            {
+              title: "Best for",
+              desc: "Photographs, portraits, scanned documents, and natural images.",
+            },
+            {
+              title: "First adjustment",
+              desc: "Try quality compression while keeping required dimensions.",
+            },
+            {
+              title: "If still too large",
+              desc: "Reduce width and height while preserving the aspect ratio.",
+            },
+          ].map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold">
+                {item.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          PNG
+      ========================================================== */}
+
+      <section
+        aria-labelledby="png-heading"
+        className="space-y-3"
+      >
+        <SectionHeading
+          id="png-heading"
+          title="Compress PNG to 20 KB"
+          description="PNG is often preferred for signatures, logos, icons, and transparent graphics, but can be challenging for detailed photographs."
+        />
+
+        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          If a PNG contains a photograph or many colors, reaching 20 KB may
+          require significant resizing. If the destination accepts JPG or
+          WebP and transparency is not needed, changing format can sometimes
+          provide a more practical route to a very small file.
+        </p>
+      </section>
+
+      {/* =========================================================
+          WEBP
+      ========================================================== */}
+
+      <section
+        aria-labelledby="webp-heading"
+        className="space-y-3"
+      >
+        <SectionHeading
+          id="webp-heading"
+          title="Compress WebP to 20 KB"
+          description="WebP can be an efficient option for websites and applications that support the format."
+        />
+
+        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+          WebP can produce compact images while maintaining useful visual
+          quality. However, some application portals and older websites
+          accept only JPG, JPEG, or PNG. Check the destination requirements
+          before choosing WebP.
+        </p>
+      </section>
+
+      {/* =========================================================
+          FORMAT GUIDE
+      ========================================================== */}
+
+      <section
+        aria-labelledby="format-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="format-heading"
+          title="Which Format Is Best for a 20 KB Image?"
+          description="Choose the format based on the type of image and what the destination website accepts."
+        />
+
+        <div className="overflow-x-auto rounded-2xl border border-white/10">
+          <table className="min-w-[700px] w-full text-left text-xs sm:text-sm">
+            <thead className="bg-white/10">
+              <tr>
+                <th className="px-3 py-3 font-semibold sm:px-4">
+                  Format
+                </th>
+
+                <th className="px-3 py-3 font-semibold sm:px-4">
+                  Best For
+                </th>
+
+                <th className="px-3 py-3 font-semibold sm:px-4">
+                  20 KB Guidance
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {formatGuidance.map((item) => (
+                <tr
+                  key={item.format}
+                  className="border-t border-white/10"
+                >
+                  <td className="px-3 py-3 font-medium sm:px-4">
+                    {item.format}
+                  </td>
+
+                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                    {item.bestFor}
+                  </td>
+
+                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                    {item.note}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* =========================================================
+          USE CASES
+      ========================================================== */}
+
+      <section
+        aria-labelledby="usecase-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="usecase-heading"
+          title="Common Reasons to Compress an Image to 20 KB"
+          description="Small image-size limits are common on application portals, registration forms, and older websites."
+        />
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {useCases.map((item) => (
             <article
               key={item.title}
               className="rounded-xl border border-white/10 bg-white/5 p-4"
@@ -471,59 +827,78 @@ export default function ImageCompressor20KbSeoContent() {
         </div>
       </section>
 
-      {/* Controls */}
+      {/* =========================================================
+          PASSPORT / SIGNATURE
+      ========================================================== */}
+
       <section
-        aria-labelledby="controls-heading"
+        aria-labelledby="applications-heading"
         className="space-y-4"
       >
         <SectionHeading
-          id="controls-heading"
-          title="Compression and Resize Controls"
-          description="A very small target sometimes requires more than one adjustment. These controls let you choose the right approach for your image."
+          id="applications-heading"
+          title="20 KB Images for Passport, Signature, Exam and Application Forms"
+          description="Many online forms specify both a maximum file size and separate image-dimension requirements."
         />
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              title: "Target Size",
-              desc: "Set a file-size goal such as 20 KB instead of relying only on a quality percentage.",
-              icon: "🎯",
-            },
-            {
-              title: "Quality",
-              desc: "Adjust image quality to trade some visual detail for a smaller file.",
-              icon: "⚙️",
-            },
-            {
-              title: "Width & Height",
-              desc: "Reduce the image dimensions when the original contains more pixels than necessary.",
-              icon: "📐",
-            },
-            {
-              title: "Aspect Ratio",
-              desc: "Lock proportions during resizing or unlock them when independent dimensions are required.",
-              icon: "🔗",
-            },
-          ].map((item) => (
-            <article
-              key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
-            >
-              <div className="text-xl">{item.icon}</div>
+        <div className="grid gap-3 md:grid-cols-2">
+          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-base font-semibold">
+              Passport and ID photos
+            </h3>
 
-              <h3 className="mt-2.5 text-sm font-semibold">
-                {item.title}
-              </h3>
+            <p className="mt-2 text-sm leading-7 text-white/70">
+              If a passport, identity, visa, or government application asks
+              for a photo of 20 KB or less, first confirm the required
+              dimensions and image format. Then compress the image to meet
+              the size requirement without making it smaller than the portal
+              allows.
+            </p>
+          </article>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
-                {item.desc}
-              </p>
-            </article>
-          ))}
+          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-base font-semibold">
+              Signature images
+            </h3>
+
+            <p className="mt-2 text-sm leading-7 text-white/70">
+              Signatures often work well as compact PNG images, especially
+              when transparency is required. If the portal accepts JPG,
+              JPEG, or another format, that may provide additional options
+              for reaching a strict 20 KB limit.
+            </p>
+          </article>
+
+          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-base font-semibold">
+              Exam and admission forms
+            </h3>
+
+            <p className="mt-2 text-sm leading-7 text-white/70">
+              Education portals may specify separate limits for photographs
+              and signatures. Check each requirement independently rather
+              than assuming the same dimensions or format will work for both.
+            </p>
+          </article>
+
+          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-base font-semibold">
+              Online application portals
+            </h3>
+
+            <p className="mt-2 text-sm leading-7 text-white/70">
+              Before uploading, verify the portal's maximum file size,
+              accepted extension, minimum dimensions, maximum dimensions,
+              and any required aspect ratio.
+            </p>
+          </article>
         </div>
       </section>
 
-      {/* How to */}
+      {/* =========================================================
+          HOW TO
+      ========================================================== */}
+
       <section
         aria-labelledby="steps-heading"
         className="space-y-4"
@@ -531,7 +906,7 @@ export default function ImageCompressor20KbSeoContent() {
         <SectionHeading
           id="steps-heading"
           title="How to Compress an Image to 20 KB"
-          description="Use the following workflow when a website gives you a 20 KB maximum or similar small file-size requirement."
+          description="Follow these steps when a website gives you a 20 KB maximum or another very small image-size requirement."
         />
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -565,162 +940,48 @@ export default function ImageCompressor20KbSeoContent() {
         </div>
       </section>
 
-      {/* Quality vs resizing */}
+      {/* =========================================================
+          TROUBLESHOOTING
+      ========================================================== */}
+
       <section
-        aria-labelledby="strategy-heading"
+        aria-labelledby="troubleshooting-heading"
         className="space-y-4"
       >
         <SectionHeading
-          id="strategy-heading"
-          title="How to Reach a 20 KB Target"
-          description="The best compression method depends on the original image dimensions, format, complexity, and required quality."
+          id="troubleshooting-heading"
+          title="What If the Image Will Not Reach 20 KB?"
+          description="Very detailed images, large dimensions, and less-compressible formats may require more than one adjustment."
         />
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
-          <table className="min-w-[680px] w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-3 py-3 font-semibold sm:px-4">
-                  Method
-                </th>
-                <th className="px-3 py-3 font-semibold sm:px-4">
-                  What Changes
-                </th>
-                <th className="px-3 py-3 font-semibold sm:px-4">
-                  Best Use
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {compressionGuide.map((item) => (
-                <tr
-                  key={item.mode}
-                  className="border-t border-white/10"
-                >
-                  <td className="px-3 py-3 sm:px-4">
-                    {item.mode}
-                  </td>
-
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
-                    {item.effect}
-                  </td>
-
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
-                    {item.bestFor}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Format */}
-      <section
-        aria-labelledby="format-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="format-heading"
-          title="Which Image Format Should You Use?"
-          description="The source format has a major effect on how easily an image can reach a very small target."
-        />
-
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
-          <table className="min-w-[680px] w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
-              <tr>
-                <th className="px-3 py-3 font-semibold sm:px-4">
-                  Format
-                </th>
-                <th className="px-3 py-3 font-semibold sm:px-4">
-                  Best For
-                </th>
-                <th className="px-3 py-3 font-semibold sm:px-4">
-                  Guidance
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {formatGuidance.map((item) => (
-                <tr
-                  key={item.format}
-                  className="border-t border-white/10"
-                >
-                  <td className="px-3 py-3 font-medium sm:px-4">
-                    {item.format}
-                  </td>
-
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
-                    {item.bestFor}
-                  </td>
-
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
-                    {item.note}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section
-        aria-labelledby="features-heading"
-        className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
-      >
-        <SectionHeading
-          id="features-heading"
-          title="20 KB Image Compressor Features"
-          description="Everything needed to reduce an image for strict file-size requirements while retaining control over quality and dimensions."
-        />
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {coreFeatures.map((feature) => (
-            <article
-              key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/10"
-            >
-              <div
-                aria-hidden="true"
-                className="text-xl"
-              >
-                {feature.icon}
-              </div>
-
-              <h3 className="mt-2.5 text-sm font-semibold sm:text-[0.95rem]">
-                {feature.title}
-              </h3>
-
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
-                {feature.desc}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* Use cases */}
-      <section
-        aria-labelledby="usecase-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="usecase-heading"
-          title="Common 20 KB Image Compression Use Cases"
-          description="A very small target is especially useful when an external website or application defines the maximum upload size."
-        />
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {useCases.map((item) => (
+        <div className="space-y-3">
+          {[
+            {
+              title: "The original image is very large",
+              desc: "Reduce the width and height first. A large photograph may contain far more pixels than the destination portal needs.",
+            },
+            {
+              title: "Quality reduction is not enough",
+              desc: "Lowering quality alone may not produce a sufficiently small file. Combining quality adjustment with resizing can be more effective.",
+            },
+            {
+              title: "The image is PNG",
+              desc: "Detailed photographic PNG files can remain large. If the portal accepts JPG or WebP and transparency is unnecessary, another format may work better.",
+            },
+            {
+              title: "The portal requires specific dimensions",
+              desc: "Do not resize below the portal's required dimensions simply to reach 20 KB. Follow the destination's minimum and maximum dimensions first.",
+            },
+            {
+              title: "The portal says 20 KB maximum",
+              desc: "Target slightly below the stated maximum instead of trying to produce exactly 20 KB.",
+            },
+          ].map((item) => (
             <article
               key={item.title}
               className="rounded-xl border border-white/10 bg-white/5 p-4"
             >
-              <h3 className="text-sm font-semibold sm:text-[0.95rem]">
+              <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
@@ -732,56 +993,45 @@ export default function ImageCompressor20KbSeoContent() {
         </div>
       </section>
 
-      {/* Important guidance */}
+      {/* =========================================================
+          IMPORTANT CHECKLIST
+      ========================================================== */}
+
       <section
-        aria-labelledby="guidance-heading"
+        aria-labelledby="checklist-heading"
         className="space-y-4"
       >
         <SectionHeading
-          id="guidance-heading"
-          title="Tips for Getting an Image Under 20 KB"
+          id="checklist-heading"
+          title="Before Uploading Your 20 KB Image"
+          description="A file-size requirement is only one part of an image-upload specification."
         />
 
-        <div className="space-y-2 text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          <p>
-            • Start with the original dimensions required by the destination
-            website.
-          </p>
-
-          <p>
-            • If the file is still too large, reduce quality gradually rather
-            than making the image unnecessarily small.
-          </p>
-
-          <p>
-            • For large photographs, reducing width and height can be more
-            effective than lowering quality alone.
-          </p>
-
-          <p>
-            • Keep the aspect ratio locked when the image must retain its
-            original proportions.
-          </p>
-
-          <p>
-            • Use JPG or WebP for photographic images when the destination
-            accepts them.
-          </p>
-
-          <p>
-            • Use PNG when transparency or graphic quality is more important,
-            but remember that PNG photographs can be difficult to reduce to
-            extremely small sizes.
-          </p>
-
-          <p>
-            • Always check the destination portal's exact file format,
-            dimensions, and maximum size requirements before uploading.
-          </p>
-        </div>
+        <ul className="grid gap-3 md:grid-cols-2">
+          {[
+            "Check whether the requirement says 20 KB maximum or exactly 20 KB.",
+            "Confirm the accepted image format such as JPG, JPEG, PNG, or WebP.",
+            "Check the required width and height in pixels.",
+            "Check whether the website requires a particular aspect ratio.",
+            "If the limit is 20 KB maximum, consider targeting slightly below 20 KB.",
+            "Preview the final image to make sure important details remain readable.",
+            "Keep the original image separately so you can make another version later.",
+          ].map((item) => (
+            <li
+              key={item}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/75"
+            >
+              <span className="mr-2 text-cyan-300">✓</span>
+              {item}
+            </li>
+          ))}
+        </ul>
       </section>
 
-      {/* Supported */}
+      {/* =========================================================
+          SUPPORTED FORMATS
+      ========================================================== */}
+
       <section
         aria-labelledby="support-heading"
         className="space-y-4"
@@ -789,7 +1039,7 @@ export default function ImageCompressor20KbSeoContent() {
         <SectionHeading
           id="support-heading"
           title="Supported Image Formats"
-          description="Choose the format that best matches the image and the requirements of the website where you plan to upload it."
+          description="Choose the format that matches both the image and the requirements of the destination website."
         />
 
         <div className="grid gap-3 md:grid-cols-3">
@@ -800,11 +1050,11 @@ export default function ImageCompressor20KbSeoContent() {
             },
             {
               title: "PNG",
-              desc: "Useful for signatures, logos, icons, and images requiring transparency.",
+              desc: "Useful for signatures, logos, icons, graphics, and images requiring transparency.",
             },
             {
               title: "WebP",
-              desc: "An efficient modern format that can work well when WebP is accepted by the destination.",
+              desc: "An efficient modern format that can work well when the destination accepts WebP.",
             },
           ].map((item) => (
             <article
@@ -823,15 +1073,63 @@ export default function ImageCompressor20KbSeoContent() {
         </div>
       </section>
 
-      {/* Related tools */}
+      {/* =========================================================
+          QUALITY GUIDANCE
+      ========================================================== */}
+
+      <section
+        aria-labelledby="quality-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="quality-heading"
+          title="Image Quality vs File Size"
+          description="Getting from a large image to 20 KB usually requires a balance between dimensions, compression, format, and visual quality."
+        />
+
+        <div className="grid gap-3 md:grid-cols-3">
+          {[
+            {
+              title: "Higher quality",
+              desc: "Preserves more image detail but usually produces a larger file.",
+            },
+            {
+              title: "Lower quality",
+              desc: "Creates a smaller file but may introduce visible compression artifacts.",
+            },
+            {
+              title: "Smaller dimensions",
+              desc: "Reduces the number of pixels and can be especially effective for large photographs.",
+            },
+          ].map((item) => (
+            <article
+              key={item.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold">
+                {item.title}
+              </h3>
+
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {item.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          RELATED TOOLS
+      ========================================================== */}
+
       <section
         aria-labelledby="related-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="related-heading"
-          title="Related Image Tools"
-          description="Continue with another image compression or resizing tool when your required file size or workflow is different."
+          title="Related Image Compression and Resizing Tools"
+          description="Use a more specific tool when your required file size, format, or workflow is different."
         />
 
         <nav
@@ -850,15 +1148,18 @@ export default function ImageCompressor20KbSeoContent() {
         </nav>
       </section>
 
-      {/* FAQ */}
+      {/* =========================================================
+          FAQ
+      ========================================================== */}
+
       <section
         aria-labelledby="faq-heading"
         className="space-y-4"
       >
         <SectionHeading
           id="faq-heading"
-          title="Frequently Asked Questions"
-          description="Answers to common questions about compressing images to 20 KB."
+          title="Frequently Asked Questions About 20 KB Image Compression"
+          description="Answers to common questions about reducing JPG, JPEG, PNG, and WebP images to 20 KB or less."
         />
 
         <div className="space-y-3">
@@ -881,10 +1182,13 @@ export default function ImageCompressor20KbSeoContent() {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* =========================================================
+          FINAL CTA
+      ========================================================== */}
+
       <section
         aria-labelledby="cta-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6"
+        className="rounded-2xl border border-cyan-400/20 bg-cyan-500/5 p-5 sm:p-6"
       >
         <h2
           id="cta-heading"
@@ -894,10 +1198,10 @@ export default function ImageCompressor20KbSeoContent() {
         </h2>
 
         <p className="mt-2 max-w-3xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          Start with the target size, then adjust quality or dimensions when
-          necessary. Preview the result and make sure it satisfies the
-          destination website's file-size, format, and dimension requirements
-          before uploading.
+          Upload your image, set the target to 20 KB, and adjust quality or
+          dimensions when necessary. Preview the result before downloading
+          and check the destination website's required file size, format,
+          dimensions, and aspect ratio.
         </p>
       </section>
     </div>
