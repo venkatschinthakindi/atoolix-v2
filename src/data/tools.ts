@@ -754,81 +754,111 @@ export const tools: ToolRegistryEntry[] = [
     id: "datetime/timezone-converter",
     archived: false,
     icon: "Globe",
-    //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
-    title: "Timezone Converter – Convert Time Between Time Zones",
-    toolShortName: "Timezone Converter",
-    onPageTitle: "Timezone Converter – Convert Time Across Multiple Time Zones",
+
+    title: "Time Zone Converter – Convert Time Between Time Zones",
+
+    toolShortName: "Time Zone Converter",
+
+    onPageTitle:
+      "Time Zone Converter – Convert Time Across Multiple Time Zones",
+
     description:
-      "Free timezone converter to convert time between multiple time zones instantly. Compare local times, UTC offsets, and daylight saving time (DST) for up to 10 locations, then copy or share your results.",
+      "Free time zone converter for comparing up to 10 locations at once. Convert time by date, search cities or time zones, compare local times and UTC offsets, account for daylight saving time, and share your results.",
+
     keywords: [
-      "timezone converter",
       "time zone converter",
+      "timezone converter",
+      "time zone conversion",
+      "convert time between time zones",
       "world time converter",
-      "time converter",
-      "utc converter",
-      "utc to local time converter",
-      "gmt converter",
-      "local time converter",
       "international time converter",
-      "convert time zones",
-      "utc offset calculator",
+      "UTC converter",
+      "GMT converter",
+      "UTC to local time",
+      "local time converter",
+      "time zone calculator",
+      "time difference calculator",
+      "time zone difference",
+      "DST time zone converter",
       "daylight saving time converter",
-      "DST converter",
       "IST converter",
+      "IST to EST",
+      "IST to PST",
+      "IST to UTC",
       "EST to IST",
       "PST to IST",
       "GMT to IST",
-      "current time in city",
+      "UTC to IST",
     ],
+
     alternates: {
-      canonical: `${siteUrl}/tools/datetime/timezone-converter`
+      canonical: `${siteUrl}/tools/datetime/timezone-converter`,
     },
+
     applicationType: "WebApplication",
     applicationCategory: "Date & Time",
     category: "DateAndTime",
+
     featured: true,
     comingSoon: false,
     preload: false,
-    toolImage:"timezone-converter.png"
+
+    toolImage: "timezone-converter.png",
   },
   {
     id: "datetime/meeting-time-finder",
     archived: false,
     icon: "CalendarClock",
-    //loader: () => import("@/components/tools/dateTime/timezone-converter/timezoneConverter"),
-    title: "Meeting Time Finder – Find the Best Time Across Time Zones",
+
+    title:
+      "Meeting Time Finder – Find the Best Time Across Time Zones",
+
     toolShortName: "Meeting Time Finder",
-    onPageTitle: "Meeting Time Finder – Find the Best Time Across Time Zones",
+
+    onPageTitle:
+      "Meeting Time Finder – Find a Time That Works Across Time Zones",
+
     description:
-      "Find the best meeting time across multiple time zones by comparing working hours and availability. Set working days and hours, find overlapping times, use meeting templates, and export CSV or calendar invites for global meetings.",
+      "Free meeting time finder for international teams. Compare multiple time zones, set working hours for each location, account for daylight saving time, find the next overlapping meeting slots, choose a meeting duration, and export or share the complete setup.",
+
     keywords: [
       "meeting time finder",
+      "meeting time scheduler",
       "meeting scheduler",
-      "meeting time planner",
-      "world meeting planner",
+      "best time to meet",
       "best time to meet across time zones",
+      "find meeting time across time zones",
       "time zone meeting scheduler",
-      "team meeting time zones",
-      "working hours overlap calculator",
-      "schedule meeting multiple time zones",
       "international meeting scheduler",
-      "interview scheduling time zones",
-      "calendar invite generator",
-      "ics calendar export",
-      "compare time zones for meetings",
-      "cross timezone scheduling tool",
-      "remote team meeting planner",
+      "world meeting planner",
+      "meeting planner time zones",
+      "time zone meeting planner",
+      "working hours overlap",
+      "working hours overlap calculator",
+      "meeting availability across time zones",
+      "schedule meeting across time zones",
+      "global team meeting planner",
+      "remote team meeting scheduler",
+      "international meeting time finder",
+      "meeting time zone calculator",
+      "meeting scheduler multiple time zones",
+      "calendar meeting time finder",
+      "ICS calendar invite",
     ],
+
     alternates: {
-      canonical: `${siteUrl}/tools/datetime/meeting-time-finder`
+      canonical: `${siteUrl}/tools/datetime/meeting-time-finder`,
     },
+
     applicationType: "WebApplication",
     applicationCategory: "Date & Time",
     category: "DateAndTime",
+
     featured: true,
     comingSoon: false,
     preload: false,
-    toolImage:"meeting-time-finder.png"
+
+    toolImage: "meeting-time-finder.png",
   },
   //Image compressors End
   {
