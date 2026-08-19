@@ -1,4 +1,5 @@
 import Link from "next/link";
+import RelatedTools from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function CalculatorSeoContent() {
   const faqItems = [
@@ -131,45 +132,6 @@ export default function CalculatorSeoContent() {
       title: "Mobile Users",
       desc: "Perform quick calculations from a phone or tablet wherever you need them.",
       icon: "📲",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "EMI Calculator",
-      href: "/tools/calculator/emi-calculator",
-    },
-    {
-      name: "ROI Calculator",
-      href: "/tools/calculator/roi-calculator",
-    },
-    {
-      name: "FD Calculator",
-      href: "/tools/calculator/fd-calculator",
-    },
-    {
-      name: "Retirement Calculator",
-      href: "/tools/calculator/retirement-calculator",
-    },
-    {
-      name: "Unit Converter",
-      href: "/tools/converter",
-    },
-    {
-      name: "Length Converter",
-      href: "/tools/converter?unit=length",
-    },
-    {
-      name: "Weight Converter",
-      href: "/tools/converter?unit=weight",
-    },
-    {
-      name: "Volume Converter",
-      href: "/tools/converter?unit=volume",
-    },
-    {
-      name: "Temperature Converter",
-      href: "/tools/converter?unit=temperature",
     },
   ];
 
@@ -637,32 +599,7 @@ export default function CalculatorSeoContent() {
         </div>
       </section>
 
-      {/* Related tools */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Calculators and Tools
-        </h2>
-
-        <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
-          Explore related financial calculators and unit conversion tools
-          when you need a more specialized calculation.
-        </p>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="calculator" />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function SavingsDepositsSeoContent() {
   const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
@@ -205,45 +206,6 @@ export default function SavingsDepositsSeoContent() {
       title: "Financial Planners",
       desc: "Compare savings scenarios and interest calculations efficiently.",
       icon: "📊",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "Home Loan EMI",
-      href: "/tools/calculator/home-loan-emi-calculator",
-    },
-    {
-      name: "Car Loan EMI",
-      href: "/tools/calculator/car-loan-emi-calculator",
-    },
-    {
-      name: "Personal Loan EMI",
-      href: "/tools/calculator/personal-loan-emi-calculator",
-    },
-    {
-      name: "SIP Returns",
-      href: "/tools/calculator/roi-calculator?category=sip",
-    },
-    {
-      name: "Lumpsum Returns",
-      href: "/tools/calculator/roi-calculator?category=lump",
-    },
-    {
-      name: "Performance Returns",
-      href: "/tools/calculator/roi-calculator?category=performance",
-    },
-    {
-      name: "Retirement Calculator",
-      href: "/tools/calculator/retirement-calculator?category=retirement",
-    },
-    {
-      name: "FIRE Calculator",
-      href: "/tools/calculator/retirement-calculator?category=fire",
-    },
-    {
-      name: "SWP Calculator",
-      href: "/tools/calculator/retirement-calculator?category=swp",
     },
   ];
 
@@ -1090,33 +1052,7 @@ export default function SavingsDepositsSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="related-tools-heading">
-        <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">
-            🧰
-          </span>
-
-          <h2
-            id="related-tools-heading"
-            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-          >
-            Related Finance Tools
-          </h2>
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              <span aria-hidden="true">🔗</span>
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="calculator/fd-calculator" />
 
       <section aria-labelledby="choose-heading">
         <div className="flex gap-3">

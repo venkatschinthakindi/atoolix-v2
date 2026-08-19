@@ -1,3 +1,5 @@
+import RelatedTools from "@/app/tools/[...toolId]/Relatedtools";
+
 export default function UnitConverterSeoContent() {
   const faqItems = [
     {
@@ -134,21 +136,6 @@ export default function UnitConverterSeoContent() {
       title: "Mobile Users",
       desc: "Perform quick conversions from a phone or tablet when working away from a desktop.",
       icon: "📲",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "Percentage Calculator",
-      href: "/tools/calculator?category=percentage",
-    },
-    {
-      name: "Calculator",
-      href: "/tools/calculator?category=basic",
-    },
-    {
-      name: "Equation Solver",
-      href: "/tools/calculator?category=equation",
     },
   ];
 
@@ -570,26 +557,7 @@ export default function UnitConverterSeoContent() {
         </p>
       </section>
 
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Tools
-        </h2>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <a
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </a>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="converter" />
     </div>
   );
 }

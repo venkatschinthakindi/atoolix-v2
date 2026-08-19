@@ -1,3 +1,4 @@
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 import { serverConfig } from "@/config/server";
 
 const TOOL_PATH = "/tools/calculator/retirement-calculator";
@@ -280,49 +281,6 @@ const retirementStrategies = [
   "Maintain a liquidity buffer for near-term retirement expenses.",
   "Review the retirement target after major financial changes.",
   "Test conservative, base-case, and adverse scenarios before relying on a target.",
-];
-
-const relatedTools = [
-  {
-    name: "Home Loan EMI",
-    href: "/tools/calculator/home-loan-emi-calculator",
-  },
-  {
-    name: "Car Loan EMI",
-    href: "/tools/calculator/car-loan-emi-calculator",
-  },
-  {
-    name: "Personal Loan EMI",
-    href: "/tools/calculator/personal-loan-emi-calculator",
-  },
-  {
-    name: "SIP Returns",
-    href: "/tools/calculator/roi-calculator?category=sip",
-  },
-  {
-    name: "Lump Sum Returns",
-    href: "/tools/calculator/roi-calculator?category=lump",
-  },
-  {
-    name: "Performance Returns",
-    href: "/tools/calculator/roi-calculator?category=performance",
-  },
-  {
-    name: "Simple Interest",
-    href: "/tools/calculator/fd-calculator?category=simple",
-  },
-  {
-    name: "Compound Interest",
-    href: "/tools/calculator/fd-calculator?category=compound",
-  },
-  {
-    name: "Fixed Deposit",
-    href: "/tools/calculator/fd-calculator?category=fd",
-  },
-  {
-    name: "Recurring Deposit",
-    href: "/tools/calculator/fd-calculator?category=rd",
-  },
 ];
 
 const articleSchema = {
@@ -1103,29 +1061,7 @@ export default function RetirementCalculatorSeoContent() {
       </section>
 
       {/* Related Tools */}
-      <section
-        aria-labelledby="related-heading"
-        className="space-y-4"
-      >
-        <h2
-          id="related-heading"
-          className="text-2xl font-semibold tracking-tight"
-        >
-          Related Finance Calculators
-        </h2>
-
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <a
-              key={tool.name}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </a>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="calculator/retirement-calculator" />
 
       {/* FAQ */}
       <section

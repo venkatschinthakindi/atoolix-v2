@@ -1,5 +1,7 @@
 import { serverConfig } from "@/config/server";
-
+import RelatedTools from "@/app/tools/[...toolId]/Relatedtools";
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
 const siteUrl = serverConfig.siteUrl;
 
 const canonicalPath = "/tools/datetime/meeting-time-finder";
@@ -272,37 +274,6 @@ const tips = [
   "Add a clear meeting title and description before generating an .ics calendar event.",
 ];
 
-const relatedTools = [
-  {
-    name: "Time Zone Converter",
-    href: timezoneConverterPath,
-  },
-  {
-    name: "Unit Converter",
-    href: "/tools/converter",
-  },
-  {
-    name: "Calculator",
-    href: "/tools/calculator",
-  },
-  {
-    name: "EMI Calculator",
-    href: "/tools/calculator/emi-calculator",
-  },
-  {
-    name: "ROI Calculator",
-    href: "/tools/calculator/roi-calculator",
-  },
-  {
-    name: "PDF Tools",
-    href: "/pdf",
-  },
-  {
-    name: "Image Tools",
-    href: "/image",
-  },
-];
-
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -327,44 +298,6 @@ const breadcrumbJsonLd = {
     },
   ],
 };
-
-function JsonLd({ data }: { data: unknown }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
-function SectionHeading({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <h2
-        id={id}
-        className="text-xl font-bold tracking-tight sm:text-2xl"
-      >
-        {title}
-      </h2>
-
-      {description ? (
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  );
-}
 
 export default function MeetingTimeFinderSeoContent() {
   return (
@@ -1077,28 +1010,7 @@ export default function MeetingTimeFinderSeoContent() {
       </section>
 
       {/* RELATED TOOLS */}
-      <section
-        aria-labelledby="related-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="related-heading"
-          title="More Free Online Tools"
-          description="Explore other Atoolix tools for calculations, conversions, files, and productivity."
-        />
-
-        <div className="flex flex-wrap gap-2.5">
-          {relatedTools.map((tool) => (
-            <a
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
-            >
-              {tool.name}
-            </a>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="datetime/meeting-time-finder" />
     </div>
   );
 }

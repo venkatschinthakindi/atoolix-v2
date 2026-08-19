@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import RelatedTools from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function InvestmentReturnsSeoContent() {
   const faqItems = [
@@ -190,49 +190,6 @@ export default function InvestmentReturnsSeoContent() {
       title: "Financial Planning Users",
       desc: "Explore multiple return scenarios and compare projected investment outcomes using consistent assumptions.",
       icon: "📈",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "Home Loan EMI",
-      href: "/tools/calculator/home-loan-emi-calculator",
-    },
-    {
-      name: "Car Loan EMI",
-      href: "/tools/calculator/car-loan-emi-calculator",
-    },
-    {
-      name: "Personal Loan EMI",
-      href: "/tools/calculator/personal-loan-emi-calculator",
-    },
-    {
-      name: "Simple Interest",
-      href: "/tools/calculator/fd-calculator?category=simple",
-    },
-    {
-      name: "Compound Interest",
-      href: "/tools/calculator/fd-calculator?category=compound",
-    },
-    {
-      name: "Fixed Deposit",
-      href: "/tools/calculator/fd-calculator?category=fd",
-    },
-    {
-      name: "Recurring Deposit",
-      href: "/tools/calculator/fd-calculator?category=rd",
-    },
-    {
-      name: "Retirement Calculator",
-      href: "/tools/calculator/retirement-calculator?category=retirement",
-    },
-    {
-      name: "FIRE Calculator",
-      href: "/tools/calculator/retirement-calculator?category=fire",
-    },
-    {
-      name: "SWP Calculator",
-      href: "/tools/calculator/retirement-calculator?category=swp",
     },
   ];
 
@@ -686,34 +643,7 @@ export default function InvestmentReturnsSeoContent() {
         </div>
       </section>
 
-      {/* Related tools */}
-      <section aria-labelledby="related-tools-heading">
-        <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">
-            🧰
-          </span>
-
-          <h2
-            id="related-tools-heading"
-            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
-          >
-            Related Finance Calculators
-          </h2>
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              <span aria-hidden="true">🔗</span>
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="calculator/roi-calculator"></RelatedTools>
 
       {/* FAQ */}
       <section aria-labelledby="faq-heading">

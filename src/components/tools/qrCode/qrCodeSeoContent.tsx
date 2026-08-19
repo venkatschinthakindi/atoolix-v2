@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
+import RelatedTools from "@/app/tools/[...toolId]/Relatedtools";
 
 const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
 const canonicalPath = "/tools/qrcode/qr-code-generator";
@@ -346,37 +349,6 @@ const tips = [
   "For branded QR codes, test the final logo, color, size, and error-correction combination with multiple devices.",
 ];
 
-const relatedTools = [
-  {
-    name: "QR Code Tools",
-    href: "/tools/qrcode",
-  },
-  {
-    name: "Timezone Converter",
-    href: "/tools/datetime/timezone-converter",
-  },
-  {
-    name: "Meeting Time Finder",
-    href: "/tools/datetime/meeting-time-finder",
-  },
-  {
-    name: "Unit Converter",
-    href: "/tools/converter",
-  },
-  {
-    name: "Calculator",
-    href: "/tools/calculator",
-  },
-  {
-    name: "PDF Tools",
-    href: "/tools/pdf",
-  },
-  {
-    name: "Image Tools",
-    href: "/tools/image",
-  },
-];
-
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -428,18 +400,6 @@ const breadcrumbJsonLd = {
       item: canonicalUrl,
     },
   ],
-};
-
-const itemListJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Related Atoolix Tools",
-  itemListElement: relatedTools.map((tool, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: tool.name,
-    url: `${siteUrl}${tool.href}`,
-  })),
 };
 
 const softwareApplicationJsonLd = {
@@ -496,41 +456,6 @@ const softwareApplicationJsonLd = {
   }
 };
 
-function JsonLd({ data }: { data: unknown }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
-function SectionHeading({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">
-        {title}
-      </h2>
-
-      {description ? (
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
 function FeatureGrid({ items }: { items: FeatureItem[] }) {
   return (
     <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
@@ -557,7 +482,6 @@ export default function QrCodeSeoContent() {
     <div className="mx-auto space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={softwareApplicationJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
-      <JsonLd data={itemListJsonLd} />
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
 
@@ -846,31 +770,7 @@ export default function QrCodeSeoContent() {
         </div>
       </section>
 
-      <section
-        aria-labelledby="cta-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="cta-heading"
-          title="Explore More Free Atoolix Tools"
-          description="Continue exploring browser-based tools for PDF files, images, calculations, conversions, and time-related tasks."
-        />
-
-        <nav
-          aria-label="Related Atoolix tools"
-          className="flex flex-wrap gap-2.5"
-        >
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <RelatedTools toolId="qrcode/qr-code-generator" />
     </div>
   );
 }
