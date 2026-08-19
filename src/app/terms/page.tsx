@@ -6,44 +6,46 @@ import { FloatingDock } from "@/components/layout/floatingDock";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl ?? "https://atoolix.com";
-const updatedAt = new Date("2026-07-28T00:00:00Z");
+const termsUrl = `${siteUrl}/terms`;
+const updatedAt = new Date("2026-08-19T00:00:00Z");
 
 export const metadata: Metadata = {
   title: `Terms and Conditions | ${siteName}`,
-  description:
-    `Read the Terms and Conditions for ${siteName}. These terms explain how you may use the site, what rights we reserve, and the limits of our liability.`,
+  description: `Read the Terms and Conditions for ${siteName}, including rules for using our online tools, user responsibilities, intellectual property, disclaimers, and limitations.`,
   alternates: {
-    canonical: `${serverConfig.siteUrl}/terms`,
+    canonical: termsUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
   openGraph: {
     title: `Terms and Conditions | ${siteName}`,
-    description:
-      `Read the Terms and Conditions for ${siteName}. These terms explain how you may use the site, what rights we reserve, and the limits of our liability.`,
-    url: `${serverConfig.siteUrl}/terms`,
+    description: `Read the Terms and Conditions for ${siteName}, including rules for using our online tools, user responsibilities, intellectual property, disclaimers, and limitations.`,
+    url: termsUrl,
     siteName,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: `Terms and Conditions | ${siteName}`,
-    description:
-      `Read the Terms and Conditions for ${siteName}. These terms explain how you may use the site, what rights we reserve, and the limits of our liability.`,
+    description: `Read the Terms and Conditions for ${siteName}, including rules for using our online tools, user responsibilities, intellectual property, disclaimers, and limitations.`,
   },
 };
 
 const sections = [
   { id: "acceptance", title: "Acceptance of Terms" },
-  { id: "educational-use", title: "Educational Use Only" },
+  { id: "tools-and-results", title: "Tools and Results" },
   { id: "eligibility", title: "Eligibility" },
   { id: "permitted-use", title: "Permitted Use" },
   { id: "prohibited-use", title: "Prohibited Use" },
-  { id: "ip", title: "Intellectual Property" },
-  { id: "user-content", title: "User Content" },
-  { id: "third-party-links", title: "Third-Party Links" },
+  { id: "files-and-user-content", title: "Files and User Content" },
+  { id: "intellectual-property", title: "Intellectual Property" },
+  { id: "third-party-services", title: "Third-Party Services" },
   { id: "disclaimer", title: "Disclaimer of Warranties" },
   { id: "liability", title: "Limitation of Liability" },
   { id: "indemnity", title: "Indemnity" },
-  { id: "termination", title: "Termination" },
+  { id: "termination", title: "Suspension and Termination" },
   { id: "changes", title: "Changes to Terms" },
   { id: "governing-law", title: "Governing Law" },
   { id: "contact", title: "Contact Us" },
@@ -57,6 +59,31 @@ export default function TermsPage() {
     timeZone: "UTC",
   }).format(updatedAt);
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: siteName,
+        url: siteUrl,
+        email: "support@atoolix.com",
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${termsUrl}#webpage`,
+        url: termsUrl,
+        name: `Terms and Conditions | ${siteName}`,
+        description: `Terms and Conditions governing the use of ${siteName}.`,
+        dateModified: updatedAt.toISOString(),
+        inLanguage: "en",
+        about: {
+          "@id": `${siteUrl}/#organization`,
+        },
+      },
+    ],
+  };
+
   return (
     <div className="app-shell px-10 pt-30">
       <FloatingDock />
@@ -65,17 +92,14 @@ export default function TermsPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebPage",
-              name: `Terms and Conditions | ${siteName}`,
-              description: `Read the Terms and Conditions for ${siteName}.`,
-              url: `${siteUrl}/terms`,
-              inLanguage: "en",
-            }).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(structuredData).replace(
+              /</g,
+              "\\u003c"
+            ),
           }}
         />
 
+        {/* Header */}
         <section className="mb-12 rounded-3xl border border-white/10 bg-white/5 px-6 py-10 sm:px-8">
           <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-zinc-300">
             Terms and Conditions • Last updated: {lastUpdated}
@@ -86,20 +110,40 @@ export default function TermsPage() {
           </h1>
 
           <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
-            These Terms and Conditions govern your use of {siteName}. By accessing or using the website, you agree to these
-            terms. If you do not agree, do not use the site.
+            These Terms and Conditions explain the rules for using {siteName}
+            and our online tools. We have written them in clear language so
+            you can understand your responsibilities and how the service may
+            be used.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3 text-xs text-zinc-300">
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Educational only</span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Clear rules</span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Risk reduction</span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Website use terms</span>
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              Clear and simple
+            </span>
+
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              Tool usage rules
+            </span>
+
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              User responsibilities
+            </span>
+
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+              Updated regularly
+            </span>
           </div>
         </section>
 
-        <nav aria-label="On this page" className="mb-10 rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-lg font-semibold text-white">Contents</h2>
+        {/* Contents */}
+        <nav
+          aria-label="On this page"
+          className="mb-10 rounded-3xl border border-white/10 bg-white/5 p-6"
+        >
+          <h2 className="text-lg font-semibold text-white">
+            On this page
+          </h2>
+
           <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {sections.map((section) => (
               <li key={section.id}>
@@ -114,179 +158,422 @@ export default function TermsPage() {
           </ul>
         </nav>
 
+        {/* Acceptance */}
         <section id="acceptance" className="scroll-mt-24 py-2">
-          <h2 className="text-3xl font-semibold text-white">Acceptance of Terms</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Acceptance of Terms
+          </h2>
+
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            By accessing, browsing, or using {siteName}, you confirm that you have read, understood, and agree to be bound by
-            these Terms and by our Privacy Policy.
+            By accessing or using {siteName}, you agree to these Terms and
+            Conditions and our{" "}
+            <Link
+              href="/privacy"
+              className="text-violet-300 hover:text-violet-200"
+            >
+              Privacy Policy
+            </Link>
+            .
+          </p>
+
+          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+            If you do not agree with these Terms, please do not use the
+            website or its tools.
           </p>
         </section>
 
-        <section id="educational-use" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Educational Use Only</h2>
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            All tools, calculations, conversions, outputs, examples, and content on {siteName} are provided for educational and
-            informational purposes only. They do not constitute financial, legal, tax, medical, or other professional advice.
-            You are solely responsible for how you use the site and for verifying any result before relying on it.
-          </p>
+        {/* Tools */}
+        <section
+          id="tools-and-results"
+          className="scroll-mt-24 py-8"
+        >
+          <h2 className="text-3xl font-semibold text-white">
+            Tools and Results
+          </h2>
+
+          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+            <p>
+              {siteName} provides online tools for tasks such as file
+              processing, calculations, conversions, image and PDF operations,
+              QR code generation, date and time calculations, and other
+              utilities.
+            </p>
+
+            <p>
+              Results are generated from the information, settings, and files
+              provided by the user and from the functionality available at
+              the time the tool is used.
+            </p>
+
+            <p>
+              You are responsible for reviewing important results before
+              relying on them for financial, legal, business, technical, or
+              other consequential decisions.
+            </p>
+
+            <p>
+              We may improve, modify, replace, limit, or discontinue
+              individual tools or features as the service develops.
+            </p>
+          </div>
         </section>
 
+        {/* Eligibility */}
         <section id="eligibility" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Eligibility</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Eligibility
+          </h2>
+
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            You must have the legal capacity to enter into this agreement and use the site in compliance with applicable laws.
-            If you are using the site on behalf of an organization, you represent that you have authority to bind that entity.
+            You must have the legal capacity required by applicable law to
+            use the website and agree to these Terms. If you use {siteName}
+            on behalf of an organization, you represent that you have
+            authority to accept these Terms on its behalf.
           </p>
         </section>
 
+        {/* Permitted */}
         <section id="permitted-use" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Permitted Use</h2>
-          <ul className="mt-4 space-y-3 text-zinc-300 leading-7">
-            <li>You may use the website only for lawful, personal, and internal business purposes.</li>
-            <li>You may use the tools as intended and subject to any limits shown on the relevant page.</li>
-            <li>We may set, change, or enforce usage limits, file limits, or feature restrictions at any time.</li>
+          <h2 className="text-3xl font-semibold text-white">
+            Permitted Use
+          </h2>
+
+          <ul className="mt-4 max-w-4xl space-y-3 text-zinc-300 leading-7">
+            <li>
+              • Use the website and tools only for lawful purposes.
+            </li>
+            <li>
+              • Use tools according to their intended functionality.
+            </li>
+            <li>
+              • Respect applicable laws and the rights of other people and
+              organizations.
+            </li>
+            <li>
+              • Review important outputs before relying on them.
+            </li>
           </ul>
         </section>
 
+        {/* Prohibited */}
         <section id="prohibited-use" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Prohibited Use</h2>
-          <ul className="mt-4 space-y-3 text-zinc-300 leading-7">
-            <li>Do not misuse, disrupt, or damage the website or its related systems.</li>
-            <li>Do not attempt unauthorized access to any part of the site, servers, or data.</li>
-            <li>Do not upload malicious code, viruses, or harmful files.</li>
-            <li>Do not scrape, copy, mirror, or reverse engineer the site except where allowed by law.</li>
-            <li>Do not use the site for fraud, illegal activity, or infringement of rights.</li>
-            <li>Do not impersonate others or submit false, misleading, or unlawful content.</li>
+          <h2 className="text-3xl font-semibold text-white">
+            Prohibited Use
+          </h2>
+
+          <ul className="mt-4 max-w-4xl space-y-3 text-zinc-300 leading-7">
+            <li>
+              • Do not attempt unauthorized access to the website,
+              infrastructure, accounts, or data.
+            </li>
+
+            <li>
+              • Do not upload malicious software, viruses, or intentionally
+              harmful content.
+            </li>
+
+            <li>
+              • Do not interfere with the availability, security, or
+              performance of the website.
+            </li>
+
+            <li>
+              • Do not use automated methods to abuse, overload, or disrupt
+              our services.
+            </li>
+
+            <li>
+              • Do not use the service for fraud, unlawful activity, or
+              infringement of another person's rights.
+            </li>
+
+            <li>
+              • Do not impersonate another person, organization, or service.
+            </li>
+
+            <li>
+              • Do not attempt to reverse engineer or bypass technical
+              restrictions except where such activity cannot legally be
+              restricted.
+            </li>
           </ul>
         </section>
 
-        <section id="ip" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Intellectual Property</h2>
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            All text, branding, design, software, logos, page layouts, and site content on {siteName} are owned by us or our
-            licensors and are protected by applicable intellectual property laws. You may not copy, distribute, modify,
-            republish, or create derivative works without our prior written consent except where permitted by law.
-          </p>
-        </section>
+        {/* Files */}
+        <section
+          id="files-and-user-content"
+          className="scroll-mt-24 py-8"
+        >
+          <h2 className="text-3xl font-semibold text-white">
+            Files and User Content
+          </h2>
 
-        <section id="user-content" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">User Content</h2>
           <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
             <p>
-              If you submit feedback, files, messages, or other content to us, you grant us a worldwide, non-exclusive,
-              royalty-free license to use, reproduce, display, and process that content to operate, improve, and support the
-              website.
+              You retain ownership of files and other content that you own and
+              provide to an Atoolix tool.
             </p>
+
             <p>
-              You are solely responsible for the content you submit and for ensuring that it does not violate any law or third-party
-              right.
+              Files and content are processed only as necessary to provide
+              the relevant tool or service, subject to the processing method
+              used by that tool.
             </p>
+
             <p>
-              We may remove, reject, or refuse to process any content at our sole discretion where we believe it is harmful,
-              unlawful, abusive, or otherwise inappropriate.
+              Some Atoolix tools process files directly in your browser. When
+              a tool operates entirely through client-side processing, the
+              file does not need to be uploaded to Atoolix servers.
+            </p>
+
+            <p>
+              You are responsible for ensuring that you have the necessary
+              rights and permissions to process any file or content you
+              provide.
+            </p>
+
+            <p>
+              Do not use the service to process content that you are not
+              legally permitted to possess, modify, transmit, or otherwise
+              process.
             </p>
           </div>
         </section>
 
-        <section id="third-party-links" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Third-Party Links</h2>
+        {/* IP */}
+        <section
+          id="intellectual-property"
+          className="scroll-mt-24 py-8"
+        >
+          <h2 className="text-3xl font-semibold text-white">
+            Intellectual Property
+          </h2>
+
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            The website may contain links to third-party sites or services. We do not control, endorse, or assume responsibility
-            for third-party content, terms, policies, or practices. Your use of third-party services is at your own risk.
+            The Atoolix name, branding, website design, original text,
+            software, interfaces, logos, and other site materials are owned
+            by {siteName} or its licensors and are protected by applicable
+            intellectual property laws.
+          </p>
+
+          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+            You may use the website and tools for their intended purposes, but
+            you may not copy, reproduce, redistribute, mirror, sell, or create
+            derivative versions of our proprietary website materials without
+            permission, except where permitted by applicable law.
           </p>
         </section>
 
+        {/* Third Party */}
+        <section
+          id="third-party-services"
+          className="scroll-mt-24 py-8"
+        >
+          <h2 className="text-3xl font-semibold text-white">
+            Third-Party Services
+          </h2>
+
+          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+            The website may use or link to third-party services. Third-party
+            services operate under their own terms and privacy policies.
+          </p>
+
+          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+            We are not responsible for third-party websites, services,
+            content, availability, or policies that are outside our control.
+          </p>
+        </section>
+
+        {/* Disclaimer */}
         <section id="disclaimer" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Disclaimer of Warranties</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Disclaimer of Warranties
+          </h2>
+
           <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
             <p>
-              The website and all tools are provided on an “as is” and “as available” basis, without warranties of any kind,
-              whether express, implied, statutory, or otherwise, to the fullest extent permitted by law.
+              The website and tools are provided on an “as is” and “as
+              available” basis to the maximum extent permitted by applicable
+              law.
             </p>
+
             <p>
-              We do not guarantee that the site will be uninterrupted, error-free, secure, accurate, complete, or available at all
-              times.
+              We do not guarantee that the website or any particular tool
+              will always be available, uninterrupted, error-free, secure, or
+              completely accurate.
             </p>
+
             <p>
-              Any reliance you place on the site or its output is at your own risk.
+              You should independently verify important outputs before using
+              them for decisions that could result in financial, legal,
+              technical, business, or other significant consequences.
             </p>
           </div>
         </section>
 
+        {/* Liability */}
         <section id="liability" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Limitation of Liability</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Limitation of Liability
+          </h2>
+
           <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
             <p>
-              To the fullest extent permitted by law, {siteName} and its owners, affiliates, partners, officers, employees, and
-              contractors will not be liable for any indirect, incidental, special, consequential, exemplary, or punitive damages.
+              To the maximum extent permitted by applicable law, {siteName}
+              and its owners, operators, employees, contractors, and service
+              providers will not be liable for indirect, incidental,
+              consequential, special, or punitive damages arising from your
+              use of or inability to use the website.
             </p>
+
             <p>
-              This includes, without limitation, damages for lost profits, lost data, business interruption, reputational harm,
-              or any other loss arising from your use of or inability to use the site.
+              This may include loss of data, business interruption, lost
+              profits, or other indirect losses, subject to applicable law.
             </p>
+
             <p>
-              If liability cannot be excluded entirely, our total liability for any claim will be limited to the maximum extent
-              permitted by applicable law.
+              Nothing in these Terms is intended to exclude liability that
+              cannot legally be excluded or limited.
             </p>
           </div>
         </section>
 
+        {/* Indemnity */}
         <section id="indemnity" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Indemnity</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Indemnity
+          </h2>
+
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            You agree to indemnify, defend, and hold harmless {siteName}, its owners, and related parties from and against any
-            claims, losses, liabilities, damages, costs, and expenses arising from your use of the site, your violation of these
-            Terms, or your infringement of any rights of another person or entity.
+            To the extent permitted by applicable law, you agree to
+            indemnify and hold harmless {siteName} and its related parties
+            from claims, losses, liabilities, damages, and reasonable
+            expenses arising from your unlawful use of the website, your
+            violation of these Terms, or your infringement of another
+            person's rights.
           </p>
         </section>
 
+        {/* Termination */}
         <section id="termination" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Termination</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Suspension and Termination
+          </h2>
+
           <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
             <p>
-              We may suspend, restrict, or terminate your access to all or any part of the site at any time, with or without notice,
-              if we believe you have violated these Terms or for any other reason we consider appropriate.
+              We may restrict, suspend, or terminate access to the website or
+              individual tools if necessary to protect the service, users,
+              infrastructure, or third-party rights, or where these Terms are
+              violated.
             </p>
+
             <p>
-              We may also modify, suspend, or discontinue any tool, feature, or part of the website at any time without liability.
+              We may also modify or discontinue tools and features as the
+              service evolves.
             </p>
           </div>
         </section>
 
+        {/* Changes */}
         <section id="changes" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Changes to Terms</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Changes to Terms
+          </h2>
+
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            We may update these Terms at any time by posting the revised version on this page. Changes take effect immediately
-            unless otherwise stated. Your continued use of the website after changes are posted means you accept the updated Terms.
+            We may update these Terms when our services, tools, business
+            practices, or legal requirements change. The updated version will
+            be posted on this page with a revised “Last updated” date.
+          </p>
+
+          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+            Your continued use of the website after an updated version is
+            posted constitutes acceptance of the revised Terms to the extent
+            permitted by applicable law.
           </p>
         </section>
 
-        <section id="governing-law" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Governing Law</h2>
+        {/* Governing law */}
+        <section
+          id="governing-law"
+          className="scroll-mt-24 py-8"
+        >
+          <h2 className="text-3xl font-semibold text-white">
+            Governing Law
+          </h2>
+
           <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
-            These Terms are governed by the laws applicable in the jurisdiction selected by the site owner, without regard to
-            conflict-of-law rules. Any dispute shall be handled in the appropriate courts or forums determined by the site owner,
-            to the extent permitted by law.
+            These Terms are governed by the laws applicable to {siteName},
+            subject to any mandatory consumer protection or other legal
+            requirements that apply to you in your jurisdiction.
+          </p>
+
+          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+            Any disputes will be handled by the courts or dispute-resolution
+            mechanisms having appropriate jurisdiction, subject to applicable
+            law.
           </p>
         </section>
 
+        {/* Contact */}
         <section id="contact" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">Contact Us</h2>
+          <h2 className="text-3xl font-semibold text-white">
+            Contact Us
+          </h2>
+
           <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
             <p>
               If you have questions about these Terms, contact us at{" "}
-              <a href="mailto:support@atoolix.com" className="text-violet-300 hover:text-violet-200">
-                support@{siteName}.com
+              <a
+                href="mailto:support@atoolix.com"
+                className="text-violet-300 hover:text-violet-200"
+              >
+                support@atoolix.com
               </a>
               .
             </p>
+
             <p>
               You can also visit our{" "}
-              <Link href="/contact" className="text-violet-300 hover:text-violet-200">
+              <Link
+                href="/contact"
+                className="text-violet-300 hover:text-violet-200"
+              >
                 Contact page
               </Link>{" "}
-              for general inquiries.
+              for general questions or support.
             </p>
+          </div>
+        </section>
+
+        {/* Related policies */}
+        <section className="mt-10 mb-16 rounded-3xl border border-white/10 bg-white/5 p-6">
+          <h2 className="text-lg font-semibold text-white">
+            Related Policies
+          </h2>
+
+          <div className="mt-4 flex flex-wrap gap-4 text-sm">
+            <Link
+              href="/privacy"
+              className="text-violet-300 hover:text-violet-200"
+            >
+              Privacy Policy
+            </Link>
+
+            <Link
+              href="/contact"
+              className="text-violet-300 hover:text-violet-200"
+            >
+              Contact Us
+            </Link>
+
+            <Link
+              href="/"
+              className="text-violet-300 hover:text-violet-200"
+            >
+              Atoolix Tools
+            </Link>
           </div>
         </section>
       </div>
