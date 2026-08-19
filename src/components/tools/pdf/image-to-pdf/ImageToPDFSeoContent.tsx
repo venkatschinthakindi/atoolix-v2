@@ -1,3 +1,5 @@
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
+
 export default function ImageToPdfSeoContent() {
   const faqItems = [
     {
@@ -152,14 +154,6 @@ export default function ImageToPdfSeoContent() {
       desc: 'Use a browser-based workflow when you prefer image conversion to happen locally on your device.',
       icon: '🛡️',
     },
-  ];
-
-  const relatedTools = [
-    { name: 'PDF Merger', href: '/tools/pdf/merge-pdf' },
-    { name: 'PDF Splitter', href: '/tools/pdf/split-pdf' },
-    { name: 'WebP to PDF', href: '/tools/image/webp-to-pdf' },
-    { name: 'PDF Compressor', href: '/tools/pdf/compress-pdf' },
-    { name: 'Image Compressor', href: '/tools/image/compress-image' },
   ];
 
   return (
@@ -607,28 +601,8 @@ export default function ImageToPdfSeoContent() {
           ))}
         </div>
       </section>
-
-      {/* Related tools */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Related PDF and Image Tools
-        </h2>
-
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <a
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </a>
-          ))}
-        </div>
-      </section>
+          
+      <RelatedTools toolId="image/image-to-pdf" />
 
       {/* Conclusion */}
       <section

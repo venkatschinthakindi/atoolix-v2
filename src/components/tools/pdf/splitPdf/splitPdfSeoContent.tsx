@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function SplitPdfSeoContent() {
   // ---------------------------------------------------------------------
@@ -380,27 +381,6 @@ export default function SplitPdfSeoContent() {
       title: "General Users",
       desc: "Quickly extract, separate, combine, and organize PDF pages for everyday document tasks.",
       icon: "👤",
-    },
-  ];
-
-  // ---------------------------------------------------------------------
-  // RELATED TOOLS
-  // ---------------------------------------------------------------------
-  const relatedTools = [
-    {
-      name: "Merge PDF",
-      href: "/tools/pdf/merge-pdf",
-      icon: "📚",
-    },
-    {
-      name: "Compress PDF",
-      href: "/tools/pdf/compress-pdf",
-      icon: "📉",
-    },
-    {
-      name: "Image to PDF",
-      href: "/tools/image/image-to-pdf",
-      icon: "📸",
     },
   ];
 
@@ -852,39 +832,7 @@ export default function SplitPdfSeoContent() {
           RELATED TOOLS
       ================================================================= */}
 
-      <section aria-labelledby="related-tools-heading">
-        <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">
-            🔧
-          </span>
-
-          <h2
-            id="related-tools-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
-          >
-            Related PDF Tools
-          </h2>
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-          {relatedTools.map((tool, i) => (
-            <Link
-              key={i}
-              href={tool.href}
-              aria-label={tool.name}
-              className="px-4 py-2 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/70 transition-all duration-300 hover:text-white hover:bg-blue-400/20 hover:border-blue-400/30 flex items-center gap-2 relative group"
-            >
-              <span aria-hidden="true">{tool.icon}</span>
-
-              {tool.name}
-
-              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-black text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-                {tool.name} tool
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="pdf/split-pdf" />
 
       {/* ================================================================
           FAQ

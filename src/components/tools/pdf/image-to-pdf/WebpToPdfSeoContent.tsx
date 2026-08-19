@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function WebpToPdfSeoContent() {
   const faqItems = [
@@ -176,34 +177,6 @@ export default function WebpToPdfSeoContent() {
       title: "Privacy-Focused Users",
       desc: "Process WebP files locally when you want to avoid uploading images to a conversion server.",
       icon: "🛡️",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "Image to PDF",
-      href: "/tools/image/image-to-pdf",
-      desc: "Convert supported image files into PDF documents.",
-    },
-    {
-      name: "JPG to PDF",
-      href: "/tools/image/jpg-to-pdf",
-      desc: "Convert JPG and JPEG images into PDF files.",
-    },
-    {
-      name: "PDF Merger",
-      href: "/tools/pdf/merge-pdf",
-      desc: "Combine multiple PDF files into one document.",
-    },
-    {
-      name: "PDF Splitter",
-      href: "/tools/pdf/split-pdf",
-      desc: "Split PDF documents into smaller files or selected pages.",
-    },
-    {
-      name: "PDF Compressor",
-      href: "/tools/pdf/compress-pdf",
-      desc: "Reduce PDF file size for easier storage and sharing.",
     },
   ];
 
@@ -624,32 +597,7 @@ export default function WebpToPdfSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Related Tools
-        </h2>
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10"
-            >
-              <span className="block text-sm font-semibold text-white">
-                {tool.name}
-              </span>
-
-              <span className="mt-1 block text-xs leading-relaxed text-white/55">
-                {tool.desc}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/webp-to-pdf" />
 
       <section
         aria-labelledby="conclusion-heading"

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function PdfCompressorSeoContent() {
   const faqItems = [
@@ -275,49 +276,6 @@ export default function PdfCompressorSeoContent() {
     "Scanned and image-heavy PDFs may have more opportunities for size reduction than simple text PDFs.",
     "If a PDF is already highly optimized, expect less additional size reduction.",
     "Always review the compressed output before replacing the original document.",
-  ];
-
-  const relatedTools = [
-    {
-      name: "Merge PDF",
-      href: "/tools/pdf/merge-pdf",
-      desc: "Combine multiple PDF files into a single document before or after compression.",
-    },
-    {
-      name: "Split PDF",
-      href: "/tools/pdf/split-pdf",
-      desc: "Separate pages or sections from a PDF when only part of a document is needed.",
-    },
-    {
-      name: "PDF to JPG",
-      href: "/tools/pdf/pdf-to-jpg",
-      desc: "Convert PDF pages into JPG images when image output is more useful.",
-    },
-    {
-      name: "Image to PDF",
-      href: "/tools/image/image-to-pdf",
-      desc: "Convert images into PDF documents for sharing, submission, or storage.",
-    },
-    {
-      name: "JPG to PDF",
-      href: "/tools/image/jpg-to-pdf",
-      desc: "Turn JPG images into PDF files through a browser-based workflow.",
-    },
-    {
-      name: "PNG to PDF",
-      href: "/tools/image/png-to-pdf",
-      desc: "Convert PNG images into PDF documents.",
-    },
-    {
-      name: "WebP to PDF",
-      href: "/tools/image/webp-to-pdf",
-      desc: "Convert WebP images into PDF files.",
-    },
-    {
-      name: "PDF Tools",
-      href: "/pdf",
-      desc: "Explore additional browser-based PDF tools for common document tasks.",
-    },
   ];
 
   const cardClass =
@@ -996,40 +954,7 @@ export default function PdfCompressorSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related PDF and Document Tools
-        </h2>
-
-        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
-          Continue working with your documents using related Atoolix tools for
-          combining, splitting, converting, or managing PDF files.
-        </p>
-
-        <nav
-          aria-label="Related PDF and document tools"
-          className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="group rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10"
-            >
-              <span className="text-sm font-semibold text-white group-hover:text-blue-100">
-                {tool.name}
-              </span>
-
-              <span className="mt-1 block text-xs leading-relaxed text-white/50 group-hover:text-white/70">
-                {tool.desc}
-              </span>
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <RelatedTools toolId="pdf/compress-pdf" />
 
       <section
         aria-labelledby="conclusion-heading"

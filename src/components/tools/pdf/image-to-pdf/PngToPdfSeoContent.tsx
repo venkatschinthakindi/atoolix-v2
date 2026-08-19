@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function PngToPdfSeoContent() {
   const faqItems = [
@@ -164,34 +165,6 @@ export default function PngToPdfSeoContent() {
       title: "Mobile Users",
       desc: "Create PDFs from PNG images directly from a phone or tablet browser.",
       icon: "📱",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "Image to PDF",
-      href: "/tools/image/image-to-pdf",
-      desc: "Convert supported image files into PDF documents.",
-    },
-    {
-      name: "WebP to PDF",
-      href: "/tools/image/webp-to-pdf",
-      desc: "Convert WebP images into PDF files.",
-    },
-    {
-      name: "PDF Merger",
-      href: "/tools/pdf/merge-pdf",
-      desc: "Combine multiple PDF documents into one file.",
-    },
-    {
-      name: "PDF Splitter",
-      href: "/tools/pdf/split-pdf",
-      desc: "Split PDF documents into separate files or pages.",
-    },
-    {
-      name: "PDF Compressor",
-      href: "/tools/pdf/compress-pdf",
-      desc: "Reduce PDF file size for easier storage and sharing.",
     },
   ];
 
@@ -642,33 +615,7 @@ export default function PngToPdfSeoContent() {
         </div>
       </section>
 
-      {/* Related tools */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Related PDF and Image Tools
-        </h2>
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-blue-400/10"
-            >
-              <h3 className="text-sm font-semibold text-white">
-                {tool.name}
-              </h3>
-
-              <p className="mt-1 text-xs leading-relaxed text-white/60">
-                {tool.desc}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/png-to-pdf" />
 
       {/* Conclusion */}
       <section

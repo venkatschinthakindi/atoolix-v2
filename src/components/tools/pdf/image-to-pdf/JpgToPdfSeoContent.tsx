@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function JpgToPdfSeoContent() {
   const faqItems = [
@@ -189,39 +190,6 @@ export default function JpgToPdfSeoContent() {
       title: "Privacy-Conscious Users",
       desc: "Use browser-based processing when you prefer your selected images to stay on your device.",
       icon: "🛡️",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      id: "image-to-pdf",
-      name: "Image to PDF Converter",
-      href: "/tools/image/image-to-pdf",
-      desc: "Convert supported image formats into PDF documents.",
-    },
-    {
-      id: "webp-to-pdf",
-      name: "WebP to PDF",
-      href: "/tools/image/webp-to-pdf",
-      desc: "Convert WebP images into PDF files.",
-    },
-    {
-      id: "merge-pdf",
-      name: "PDF Merger",
-      href: "/tools/pdf/merge-pdf",
-      desc: "Combine multiple PDF files into one document.",
-    },
-    {
-      id: "split-pdf",
-      name: "PDF Splitter",
-      href: "/tools/pdf/split-pdf",
-      desc: "Split an existing PDF into separate files or pages.",
-    },
-    {
-      id: "compress-pdf",
-      name: "PDF Compressor",
-      href: "/tools/pdf/compress-pdf",
-      desc: "Reduce PDF file size for easier storage and sharing.",
     },
   ];
 
@@ -686,33 +654,7 @@ export default function JpgToPdfSeoContent() {
         </div>
       </section>
 
-      {/* Related tools */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          Related PDF and Image Tools
-        </h2>
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.id}
-              href={tool.href}
-              className="group rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
-            >
-              <span className="block text-sm font-semibold text-white group-hover:text-blue-300">
-                {tool.name}
-              </span>
-
-              <span className="mt-1 block text-xs leading-relaxed text-white/55">
-                {tool.desc}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/jpg-to-pdf" />
 
       {/* Conclusion */}
       <section
