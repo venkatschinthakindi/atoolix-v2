@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools"; // adjust import path to wherever RelatedTools.tsx lives
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
 
 type FaqItem = {
   q: string;
@@ -296,48 +298,51 @@ export default function EmiCalculatorSeoContent() {
     },
   ];
 
-  const relatedTools = [
-    {
-      name: "SIP Returns",
-      href: "/tools/calculator/roi-calculator?category=sip",
-    },
-    {
-      name: "Lumpsum Returns",
-      href: "/tools/calculator/roi-calculator?category=lump",
-    },
-    {
-      name: "Performance Returns",
-      href: "/tools/calculator/roi-calculator?category=performance",
-    },
-    {
-      name: "Simple Interest",
-      href: "/tools/calculator/fd-calculator?category=simple",
-    },
-    {
-      name: "Compound Interest",
-      href: "/tools/calculator/fd-calculator?category=compound",
-    },
-    {
-      name: "Fixed Deposit",
-      href: "/tools/calculator/fd-calculator?category=fd",
-    },
-    {
-      name: "Recurring Deposit",
-      href: "/tools/calculator/fd-calculator?category=rd",
-    },
-    {
-      name: "Retirement Calculator",
-      href: "/tools/calculator/retirement-calculator?category=retirement",
-    },
-    {
-      name: "FIRE Calculator",
-      href: "/tools/calculator/retirement-calculator?category=fire",
-    },
-    {
-      name: "SWP Calculator",
-      href: "/tools/calculator/retirement-calculator?category=swp",
-    },
-  ];
+  // Deliberately scenario-level links (query params into other calculators'
+  // tabs) rather than one link per tool page, so these go through
+  // RelatedTools' `items` override instead of its registry-driven default.
+  // const relatedTools = [
+  //   {
+  //     name: "SIP Returns",
+  //     href: "/tools/calculator/roi-calculator?category=sip",
+  //   },
+  //   {
+  //     name: "Lumpsum Returns",
+  //     href: "/tools/calculator/roi-calculator?category=lump",
+  //   },
+  //   {
+  //     name: "Performance Returns",
+  //     href: "/tools/calculator/roi-calculator?category=performance",
+  //   },
+  //   {
+  //     name: "Simple Interest",
+  //     href: "/tools/calculator/fd-calculator?category=simple",
+  //   },
+  //   {
+  //     name: "Compound Interest",
+  //     href: "/tools/calculator/fd-calculator?category=compound",
+  //   },
+  //   {
+  //     name: "Fixed Deposit",
+  //     href: "/tools/calculator/fd-calculator?category=fd",
+  //   },
+  //   {
+  //     name: "Recurring Deposit",
+  //     href: "/tools/calculator/fd-calculator?category=rd",
+  //   },
+  //   {
+  //     name: "Retirement Calculator",
+  //     href: "/tools/calculator/retirement-calculator?category=retirement",
+  //   },
+  //   {
+  //     name: "FIRE Calculator",
+  //     href: "/tools/calculator/retirement-calculator?category=fire",
+  //   },
+  //   {
+  //     name: "SWP Calculator",
+  //     href: "/tools/calculator/retirement-calculator?category=swp",
+  //   },
+  // ];
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -392,62 +397,11 @@ export default function EmiCalculatorSeoContent() {
     ],
   };
 
-  const relatedToolsSchema = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name: "Related Financial Calculators",
-    itemListElement: relatedTools.map((tool, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: tool.name,
-      url: tool.href,
-    })),
-  };
-
-  function JsonLd({ data }: { data: unknown }) {
-    return (
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(data).replace(/</g, "\\u003c"),
-        }}
-      />
-    );
-  }
-
-  function SectionHeading({
-    id,
-    title,
-    description,
-  }: {
-    id: string;
-    title: string;
-    description?: string;
-  }) {
-    return (
-      <div className="space-y-1.5">
-        <h2
-          id={id}
-          className="text-xl font-bold tracking-tight text-white sm:text-2xl"
-        >
-          {title}
-        </h2>
-
-        {description ? (
-          <p className="text-sm leading-7 text-white/65 sm:text-[0.95rem]">
-            {description}
-          </p>
-        ) : null}
-      </div>
-    );
-  }
-
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 text-white">
       <JsonLd data={faqSchema} />
       <JsonLd data={howToSchema} />
       <JsonLd data={breadcrumbSchema} />
-      <JsonLd data={relatedToolsSchema} />
 
       {/* ================================================================
           INTRO
@@ -980,39 +934,15 @@ export default function EmiCalculatorSeoContent() {
 
       {/* ================================================================
           RELATED TOOLS
+          Uses the shared RelatedTools component with an explicit `items`
+          override, since these links point at specific scenario tabs
+          within roi-calculator / fd-calculator / retirement-calculator
+          rather than one link per tool page. Category-aware heading,
+          description, and icon still come from the shared component's
+          Finance defaults ("Related Financial Calculators" etc.) via
+          `toolId`, so no need to repeat that copy here.
          ================================================================ */}
-      <section
-        aria-labelledby="related-tools-heading"
-        className="space-y-4"
-      >
-        <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">
-            🧰
-          </span>
-
-          <SectionHeading
-            id="related-tools-heading"
-            title="Related Financial Calculators"
-            description="Explore other Atoolix calculators for investment, deposits, retirement, and financial planning."
-          />
-        </div>
-
-        <nav
-          aria-label="Related financial calculators"
-          className="flex flex-wrap gap-3"
-        >
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-medium text-white/70 transition-colors hover:border-blue-400/30 hover:bg-blue-400/20 hover:text-white"
-            >
-              <span aria-hidden="true">🔗</span>
-              {tool.name}
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <RelatedTools toolId="calculator/emi-calculator"/>
 
       {/* ================================================================
           FINAL CTA

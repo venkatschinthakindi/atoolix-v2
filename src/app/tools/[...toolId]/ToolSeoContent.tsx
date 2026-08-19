@@ -57,7 +57,8 @@ export default async function ToolSeoContent({ toolId }: { toolId: string }) {
   const SeoContent = Mod.default;
   return (
     <div className="my-12">
-      <SeoContent />  
+      <SeoContent />
+      
     </div>
 );
 }
