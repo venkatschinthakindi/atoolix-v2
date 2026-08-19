@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
@@ -283,33 +286,6 @@ const tips = [
 /* RELATED TOOLS                                                              */
 /* -------------------------------------------------------------------------- */
 
-const relatedTools = [
-  {
-    name: "Compress Image",
-    href: "/tools/image/compress-image",
-  },
-  {
-    name: "Compress JPG",
-    href: "/tools/image/compress-jpg",
-  },
-  {
-    name: "Compress Image to 20 KB",
-    href: "/tools/image/compress-image-to-20kb",
-  },
-  {
-    name: "Compress Image to 50 KB",
-    href: "/tools/image/compress-image-to-50kb",
-  },
-  {
-    name: "Compress Image to 100 KB",
-    href: "/tools/image/compress-image-to-100kb",
-  },
-  {
-    name: "Passport Photo Resizer",
-    href: "/tools/image/passport-photo-resizer",
-  },
-];
-
 /* -------------------------------------------------------------------------- */
 /* STRUCTURED DATA                                                            */
 /* -------------------------------------------------------------------------- */
@@ -378,44 +354,6 @@ const breadcrumbJsonLd = {
     },
   ],
 };
-
-function JsonLd({ data }: { data: unknown }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
-function SectionHeading({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <h2
-        id={id}
-        className="text-xl font-bold tracking-tight sm:text-2xl"
-      >
-        {title}
-      </h2>
-
-      {description ? (
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  );
-}
 
 /* -------------------------------------------------------------------------- */
 /* PAGE                                                                       */
@@ -921,31 +859,7 @@ export default function SignatureResizerSeoContent() {
       {/* RELATED TOOLS                                                       */}
       {/* ------------------------------------------------------------------ */}
 
-      <section
-        aria-labelledby="related-tools-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="related-tools-heading"
-          title="Related Image Tools"
-          description="Continue with other image resizing and compression tools when needed."
-        />
-
-        <nav
-          aria-label="Related image tools"
-          className="flex flex-wrap gap-2.5"
-        >
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/75 transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <RelatedTools toolId="image/resize-signature-for-upload" />
 
       {/* ------------------------------------------------------------------ */}
       {/* FINAL CTA                                                           */}
@@ -968,18 +882,6 @@ export default function SignatureResizerSeoContent() {
           preview the result, and download a signature prepared for your
           upload requirement.
         </p>
-
-        <div className="mt-4 flex flex-wrap gap-2.5">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
       </section>
     </div>
   );

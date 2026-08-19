@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
@@ -208,34 +211,6 @@ const useCases = [
   "Images for storage or sharing",
 ];
 
-const relatedTools = [
-  {
-    name: "Compress Image",
-    href: "/tools/image/compress-image",
-    desc: "Compress supported image formats with a general-purpose workflow.",
-  },
-  {
-    name: "Compress Image to 20 KB",
-    href: "/tools/image/compress-image-to-20kb",
-    desc: "Useful when an upload requires a very small target file size.",
-  },
-  {
-    name: "Compress Image to 100 KB",
-    href: "/tools/image/compress-image-to-100kb",
-    desc: "Useful for applications and portals with a 100 KB limit.",
-  },
-  {
-    name: "Passport Photo Resizer",
-    href: "/tools/image/passport-photo-resizer",
-    desc: "Resize a photo for passport-style dimensions and requirements.",
-  },
-  {
-    name: "Signature Photo Resizer",
-    href: "/tools/image/resize-signature-for-upload",
-    desc: "Resize signature images for online application uploads.",
-  },
-];
-
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -290,40 +265,6 @@ const webApplicationJsonLd = {
   },
 };
 
-function JsonLd({ data }: { data: unknown }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
-function SectionHeading({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <h2 id={id} className="text-xl font-bold tracking-tight sm:text-2xl">
-        {title}
-      </h2>
-
-      {description ? (
-        <p className="max-w-3xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  );
-}
 
 export default function JpgCompressorSeoContent() {
   return (
@@ -645,35 +586,7 @@ export default function JpgCompressorSeoContent() {
       </section>
 
       {/* Related intent */}
-      <section aria-labelledby="related-heading" className="space-y-4">
-        <SectionHeading
-          id="related-heading"
-          title="Need Something Other Than Standard JPG Compression?"
-          description="Choose the tool that matches the actual requirement."
-        />
-
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-cyan-400/5"
-            >
-              <h3 className="text-sm font-semibold text-white">
-                {tool.name}
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-white/60">
-                {tool.desc}
-              </p>
-
-              <span className="mt-3 inline-block text-xs font-semibold text-cyan-300">
-                Open tool →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/compress-jpg" />
 
       {/* FAQ */}
       <section aria-labelledby="faq-heading" className="space-y-4">

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function BackgroundRemoverSeoContent() {
   // ---------------------------------------------------------------------
@@ -242,33 +242,6 @@ export default function BackgroundRemoverSeoContent() {
       title: "Mobile Users",
       desc: "Remove and replace image backgrounds directly from a phone or tablet browser.",
       icon: "📲",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "Image Compressor",
-      href: "/tools/image/compress-image",
-    },
-    {
-      name: "Passport Photo Resizer",
-      href: "/tools/image/passport-photo-resizer",
-    },
-    {
-      name: "JPG to PNG Converter",
-      href: "/tools/image/jpg-to-png",
-    },
-    {
-      name: "PNG to JPG Converter",
-      href: "/tools/image/png-to-jpg",
-    },
-    {
-      name: "WebP to PNG Converter",
-      href: "/tools/image/webp-to-png",
-    },
-    {
-      name: "Resize Signature for Upload",
-      href: "/tools/image/resize-signature-for-upload",
     },
   ];
 
@@ -760,26 +733,7 @@ export default function BackgroundRemoverSeoContent() {
       </section>
 
       {/* ===================== RELATED TOOLS ===================== */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Image Tools
-        </h2>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/background-remover" />
     </div>
   );
 }

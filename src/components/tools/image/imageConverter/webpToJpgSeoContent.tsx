@@ -1,3 +1,4 @@
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 import Link from "next/link";
 
 const SITE_URL = "https://atoolix.com";
@@ -173,45 +174,6 @@ export default function WebpToJpgSeoContent() {
     "Convert WebP files before uploading them to a platform that accepts JPG.",
     "Create a JPG copy for sharing or compatibility while keeping the original WebP file.",
     "Convert images on mobile devices without installing additional software.",
-  ];
-
-  const relatedTools = [
-    {
-      name: "WebP to JPEG Converter",
-      href: "/tools/image/webp-to-jpeg",
-    },
-    {
-      name: "WebP to PNG Converter",
-      href: "/tools/image/webp-to-png",
-    },
-    {
-      name: "JPG to WebP Converter",
-      href: "/tools/image/jpg-to-webp",
-    },
-    {
-      name: "PNG to JPG Converter",
-      href: "/tools/image/png-to-jpg",
-    },
-    {
-      name: "PNG to JPEG Converter",
-      href: "/tools/image/png-to-jpeg",
-    },
-    {
-      name: "WebP to PDF Converter",
-      href: "/tools/image/webp-to-pdf",
-    },
-    {
-      name: "Image Compressor",
-      href: "/tools/image/compress-image",
-    },
-    {
-      name: "Compress WebP",
-      href: "/tools/image/compress-webp",
-    },
-    {
-      name: "Image to PDF Converter",
-      href: "/tools/image/image-to-pdf",
-    },
   ];
 
   const faqJsonLd = {
@@ -708,31 +670,7 @@ export default function WebpToJpgSeoContent() {
       </section>
 
       {/* Related tools */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Image Conversion Tools
-        </h2>
-
-        <p className="mt-3 text-sm leading-relaxed text-white/60 sm:text-base">
-          Explore related Atoolix image tools for converting, compressing, and
-          preparing images for different formats and workflows.
-        </p>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/webp-to-jpg" />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 const SITE_URL = "https://atoolix.com";
 const CANONICAL_URL = `${SITE_URL}/tools/image/webp-to-jpeg`;
@@ -155,33 +155,6 @@ const useCases = [
   "Convert downloaded WebP images into a format supported by common desktop applications.",
   "Create JPEG copies of WebP assets for clients, colleagues, or document workflows.",
   "Convert WebP images before importing them into software that expects JPEG.",
-];
-
-const relatedTools = [
-  {
-    name: "WebP to PNG Converter",
-    href: "/tools/image/webp-to-png",
-  },
-  {
-    name: "JPG to WebP Converter",
-    href: "/tools/image/jpg-to-webp",
-  },
-  {
-    name: "PNG to JPG Converter",
-    href: "/tools/image/png-to-jpg",
-  },
-  {
-    name: "PNG to JPEG Converter",
-    href: "/tools/image/png-to-jpeg",
-  },
-  {
-    name: "WebP to PDF Converter",
-    href: "/tools/image/webp-to-pdf",
-  },
-  {
-    name: "Image Compressor",
-    href: "/tools/image/compress-image",
-  },
 ];
 
 const structuredData = {
@@ -614,26 +587,7 @@ export default function WebpToJpegSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Image Tools
-        </h2>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/webp-to-jpeg" />
     </div>
   );
 }

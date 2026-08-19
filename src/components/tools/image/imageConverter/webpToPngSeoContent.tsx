@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 const SITE_URL = "https://atoolix.com";
 const CANONICAL_URL = `${SITE_URL}/tools/image/webp-to-png`;
@@ -148,33 +148,6 @@ export default function WebpToPngSeoContent() {
       title: "Content Creators",
       desc: "Create PNG versions of WebP graphics for editing, publishing, presentations, and content workflows.",
       icon: "🎬",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "SVG to PNG Converter",
-      href: "/tools/image/svg-to-png",
-    },
-    {
-      name: "PNG to JPG Converter",
-      href: "/tools/image/png-to-jpg",
-    },
-    {
-      name: "JPG to WebP Converter",
-      href: "/tools/image/jpg-to-webp",
-    },
-    {
-      name: "Image Compressor",
-      href: "/tools/image/compress-image",
-    },
-    {
-      name: "Passport Photo Resizer",
-      href: "/tools/image/passport-photo-resizer",
-    },
-    {
-      name: "Resize Signature for Upload",
-      href: "/tools/image/resize-signature-for-upload",
     },
   ];
 
@@ -585,34 +558,7 @@ export default function WebpToPngSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Image Tools
-        </h2>
-
-        <p className="mt-3 text-sm leading-relaxed text-white/60">
-          Explore other image conversion, compression, resizing, and
-          preparation tools for related workflows.
-        </p>
-
-        <nav
-          aria-label="Related image tools"
-          className="mt-4 flex flex-wrap gap-3"
-        >
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <RelatedTools toolId="image/webp-to-png" />
     </div>
   );
 }

@@ -1,5 +1,7 @@
-import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
@@ -253,41 +255,6 @@ const compressionGuide = [
   },
 ];
 
-const relatedTools = [
-  {
-    name: "Compress Image",
-    href: "/tools/image/compress-image",
-  },
-  {
-    name: "Compress JPG",
-    href: "/tools/image/compress-jpg",
-  },
-  {
-    name: "Compress PNG",
-    href: "/tools/image/compress-png",
-  },
-  {
-    name: "Compress WebP",
-    href: "/tools/image/compress-webp",
-  },
-  {
-    name: "Compress Image to 50 KB",
-    href: "/tools/image/compress-image-to-50kb",
-  },
-  {
-    name: "Compress Image to 100 KB",
-    href: "/tools/image/compress-image-to-100kb",
-  },
-  {
-    name: "Passport Photo Resizer",
-    href: "/tools/image/passport-photo-resizer",
-  },
-  {
-    name: "Resize Signature for Upload",
-    href: "/tools/image/resize-signature-for-upload",
-  },
-];
-
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -341,17 +308,6 @@ const breadcrumbJsonLd = {
   ],
 };
 
-const itemListJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Related Image Compression Tools",
-  itemListElement: relatedTools.map((tool, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: tool.name,
-    url: `${siteUrl}${tool.href}`,
-  })),
-};
 
 const webPageJsonLd = {
   "@context": "https://schema.org",
@@ -367,46 +323,6 @@ const webPageJsonLd = {
   },
 };
 
-function JsonLd({ data }: { data: unknown }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data)
-          .replace(/</g, "\\u003c")
-          .replace(/>/g, "\\u003e")
-          .replace(/&/g, "\\u0026"),
-      }}
-    />
-  );
-}
-
-function SectionHeading({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <h2
-        id={id}
-        className="text-xl font-bold tracking-tight sm:text-2xl"
-      >
-        {title}
-      </h2>
-
-      {description ? (
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  );
-}
 
 export default function ImageCompressor20KbSeoContent() {
   return (
@@ -416,7 +332,6 @@ export default function ImageCompressor20KbSeoContent() {
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
-      <JsonLd data={itemListJsonLd} />
 
       {/* =========================================================
           PRIMARY SEARCH INTENT
@@ -1122,31 +1037,7 @@ export default function ImageCompressor20KbSeoContent() {
           RELATED TOOLS
       ========================================================== */}
 
-      <section
-        aria-labelledby="related-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="related-heading"
-          title="Related Image Compression and Resizing Tools"
-          description="Use a more specific tool when your required file size, format, or workflow is different."
-        />
-
-        <nav
-          aria-label="Related image tools"
-          className="flex flex-wrap gap-2.5"
-        >
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/75 transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <RelatedTools toolId="image/compress-image-to-20kb" />
 
       {/* =========================================================
           FAQ

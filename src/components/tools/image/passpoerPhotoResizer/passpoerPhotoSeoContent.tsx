@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
+import RelatedTools from "@/app/tools/[...toolId]/Relatedtools";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
@@ -410,29 +413,6 @@ const audiences = [
   },
 ];
 
-const relatedTools = [
-  {
-    name: "Resize Signature for Upload",
-    href: "/tools/image/resize-signature-for-upload",
-  },
-  {
-    name: "Compress Image",
-    href: "/tools/image/compress-image",
-  },
-  {
-    name: "Compress JPG",
-    href: "/tools/image/compress-jpg",
-  },
-  {
-    name: "JPG to PNG",
-    href: "/tools/image/jpg-to-png",
-  },
-  {
-    name: "PNG to JPG",
-    href: "/tools/image/png-to-jpg",
-  },
-];
-
 const softwareApplicationJsonLd = {
   "@type": "SoftwareApplication",
   name: `Passport Photo Resizer - ${siteName}`,
@@ -508,48 +488,13 @@ const jsonLdGraph = {
   ],
 };
 
-function JsonLd() {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(jsonLdGraph).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
-function SectionHeading({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <h2
-        id={id}
-        className="text-xl font-bold tracking-tight sm:text-2xl"
-      >
-        {title}
-      </h2>
-
-      {description ? (
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
 export default function PassportPhotoResizerSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-7 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-7">
-      <JsonLd />
+      <JsonLd data={softwareApplicationJsonLd} />
+      <JsonLd data={faqJsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
+      <JsonLd data={jsonLdGraph} />
 
       {/* =========================================================
           INTRO
@@ -1293,28 +1238,7 @@ export default function PassportPhotoResizerSeoContent() {
       {/* =========================================================
           RELATED TOOLS
       ========================================================= */}
-      <section
-        aria-labelledby="related-tools-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="related-tools-heading"
-          title="Related Image Tools"
-          description="Use another image tool when you need compression, format conversion, or specialized resizing."
-        />
-
-        <div className="flex flex-wrap gap-2.5">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/75 transition hover:border-blue-400/30 hover:bg-blue-500/10 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/passport-photo-resizer" />
     </div>
   );
 }

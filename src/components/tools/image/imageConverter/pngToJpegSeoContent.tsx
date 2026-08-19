@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function PngToJpegSeoContent() {
   const faqItems = [
@@ -140,29 +140,6 @@ export default function PngToJpegSeoContent() {
       title: "Mobile Users",
       desc: "Run image conversions from phones and tablets without desktop software.",
       icon: "📲",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "PNG to JPG Converter",
-      href: "/tools/image/png-to-jpg",
-    },
-    {
-      name: "JPG to WebP Converter",
-      href: "/tools/image/jpg-to-webp",
-    },
-    {
-      name: "WebP to PNG Converter",
-      href: "/tools/image/webp-to-png",
-    },
-    {
-      name: "SVG to PNG Converter",
-      href: "/tools/image/svg-to-png",
-    },
-    {
-      name: "Image Compressor",
-      href: "/tools/image/compress-image",
     },
   ];
 
@@ -622,26 +599,7 @@ export default function PngToJpegSeoContent() {
       </section>
 
       {/* Related Tools */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Image Conversion Tools
-        </h2>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/png-to-jpeg" />
     </div>
   );
 }

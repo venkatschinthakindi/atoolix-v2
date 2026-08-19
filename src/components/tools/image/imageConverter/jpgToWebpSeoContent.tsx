@@ -1,3 +1,4 @@
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 import Link from "next/link";
 
 export default function JpgToWebpSeoContent() {
@@ -140,33 +141,6 @@ export default function JpgToWebpSeoContent() {
       title: "Students and Office Users",
       desc: "Convert images for presentations, documents, projects, sharing, and digital workflows.",
       icon: "🎓",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "JPG to PNG Converter",
-      href: "/tools/image/jpg-to-png",
-    },
-    {
-      name: "WebP to JPG Converter",
-      href: "/tools/image/webp-to-jpg",
-    },
-    {
-      name: "WebP to JPEG Converter",
-      href: "/tools/image/webp-to-jpeg",
-    },
-    {
-      name: "PNG to WebP Converter",
-      href: "/tools/image/png-to-webp",
-    },
-    {
-      name: "WebP to PNG Converter",
-      href: "/tools/image/webp-to-png",
-    },
-    {
-      name: "Image Compressor",
-      href: "/tools/image/compress-image",
     },
   ];
 
@@ -756,31 +730,7 @@ export default function JpgToWebpSeoContent() {
 
       {/* Related conversion tools */}
 
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Image Conversion Tools
-        </h2>
-
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
-          Explore related Atoolix tools for converting JPG, PNG, WebP, and
-          other common image formats.
-        </p>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/jpg-to-webp" />
 
       {/* More image tools */}
 

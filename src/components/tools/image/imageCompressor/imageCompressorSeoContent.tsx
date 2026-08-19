@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 const PAGE_URL = "https://atoolix.com/tools/image/compress-image";
 
 type FaqItem = {
@@ -179,41 +179,6 @@ export default function CompressImageSeoContent() {
       title: "Documents and presentations",
       desc: "Reduce images before inserting them into documents, presentations, or reports.",
       icon: "📄",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "Compress Image to 20 KB",
-      href: "/tools/image/compress-image-to-20kb",
-    },
-    {
-      name: "Compress Image to 50 KB",
-      href: "/tools/image/compress-image-to-50kb",
-    },
-    {
-      name: "Compress Image to 100 KB",
-      href: "/tools/image/compress-image-to-100kb",
-    },
-    {
-      name: "Compress JPG",
-      href: "/tools/image/compress-jpg",
-    },
-    {
-      name: "Compress PNG",
-      href: "/tools/image/compress-png",
-    },
-    {
-      name: "Compress WebP",
-      href: "/tools/image/compress-webp",
-    },
-    {
-      name: "Resize Signature for Upload",
-      href: "/tools/image/resize-signature-for-upload",
-    },
-    {
-      name: "Passport Photo Resizer",
-      href: "/tools/image/passport-photo-resizer",
     },
   ];
 
@@ -801,37 +766,7 @@ export default function CompressImageSeoContent() {
           RELATED TOOLS / TOPICAL CLUSTER
       ========================================================= */}
 
-      <section
-        aria-labelledby="related-heading"
-        className="space-y-4"
-      >
-        <h2
-          id="related-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          More Image Compression Tools
-        </h2>
-
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
-          Use a dedicated compressor when you already know the format or
-          maximum file size required by your destination.
-        </p>
-
-        <nav
-          aria-label="Related image compression tools"
-          className="flex flex-wrap gap-2.5"
-        >
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/75 transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </nav>
-      </section>
+      <RelatedTools toolId="image/compress-image" />
 
       {/* =========================================================
           FAQ

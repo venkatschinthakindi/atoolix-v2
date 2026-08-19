@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 export default function SvgToJpgSeoContent() {
   const faqItems = [
@@ -168,41 +168,6 @@ export default function SvgToJpgSeoContent() {
       title: "Mobile Users",
       desc: "Convert SVG files from a phone or tablet without installing desktop conversion software.",
       icon: "📲",
-    },
-  ];
-
-  const relatedTools = [
-    {
-      name: "SVG to PNG Converter",
-      href: "/tools/image/svg-to-png",
-    },
-    {
-      name: "WebP to PNG Converter",
-      href: "/tools/image/webp-to-png",
-    },
-    {
-      name: "PNG to JPG Converter",
-      href: "/tools/image/png-to-jpg",
-    },
-    {
-      name: "PNG to WebP Converter",
-      href: "/tools/image/png-to-webp",
-    },
-    {
-      name: "JPG to WebP Converter",
-      href: "/tools/image/jpg-to-webp",
-    },
-    {
-      name: "Image Compressor",
-      href: "/tools/image/compress-image",
-    },
-    {
-      name: "Passport Photo Resizer",
-      href: "/tools/image/passport-photo-resizer",
-    },
-    {
-      name: "Resize Signature for Upload",
-      href: "/tools/image/resize-signature-for-upload",
     },
   ];
 
@@ -649,26 +614,7 @@ export default function SvgToJpgSeoContent() {
       </section>
 
       {/* Related tools */}
-      <section aria-labelledby="related-tools-heading">
-        <h2
-          id="related-tools-heading"
-          className="text-xl font-bold tracking-tight sm:text-2xl"
-        >
-          Related Image Tools
-        </h2>
-
-        <div className="mt-4 flex flex-wrap gap-3">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/svg-to-jpg" />
     </div>
   );
 }

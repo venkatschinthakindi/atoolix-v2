@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { serverConfig } from "@/config/server";
+import { JsonLd } from "@/utility/seo/JsonLd";
+import { SectionHeading } from "@/utility/seo/SectionHeading";
+import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
@@ -220,49 +223,6 @@ const devices = [
   "iPad",
 ];
 
-const relatedTools = [
-  {
-    name: "Compress Image",
-    href: "/tools/image/compress-image",
-  },
-  {
-    name: "Compress JPG",
-    href: "/tools/image/compress-jpg",
-  },
-  {
-    name: "Compress PNG",
-    href: "/tools/image/compress-png",
-  },
-  {
-    name: "Compress Image to 20 KB",
-    href: "/tools/image/compress-image-to-20kb",
-  },
-  {
-    name: "Compress Image to 50 KB",
-    href: "/tools/image/compress-image-to-50kb",
-  },
-  {
-    name: "Compress Image to 100 KB",
-    href: "/tools/image/compress-image-to-100kb",
-  },
-  {
-    name: "WebP to JPG",
-    href: "/tools/image/webp-to-jpg",
-  },
-  {
-    name: "WebP to PNG",
-    href: "/tools/image/webp-to-png",
-  },
-  {
-    name: "JPG to WebP",
-    href: "/tools/image/jpg-to-webp",
-  },
-  {
-    name: "PNG to WebP",
-    href: "/tools/image/png-to-webp",
-  },
-];
-
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -310,63 +270,12 @@ const breadcrumbJsonLd = {
   ],
 };
 
-const itemListJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Related Image Compression and Conversion Tools",
-  itemListElement: relatedTools.map((tool, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: tool.name,
-    url: `${siteUrl}${tool.href}`,
-  })),
-};
-
-function JsonLd({ data }: { data: unknown }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data).replace(/</g, "\\u003c"),
-      }}
-    />
-  );
-}
-
-function SectionHeading({
-  id,
-  title,
-  description,
-}: {
-  id: string;
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <h2
-        id={id}
-        className="text-xl font-bold tracking-tight sm:text-2xl"
-      >
-        {title}
-      </h2>
-
-      {description ? (
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
-          {description}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
 export default function WebpCompressorSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
-      <JsonLd data={itemListJsonLd} />
 
       <section aria-labelledby="intro-heading" className="space-y-3">
         <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
@@ -856,28 +765,7 @@ export default function WebpCompressorSeoContent() {
         </div>
       </section>
 
-      <section
-        aria-labelledby="related-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="related-heading"
-          title="Related Image Compression and Conversion Tools"
-          description="Continue with another image optimization or format-conversion workflow when your task requires it."
-        />
-
-        <div className="flex flex-wrap gap-2.5">
-          {relatedTools.map((tool) => (
-            <Link
-              key={tool.href}
-              href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-300"
-            >
-              {tool.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RelatedTools toolId="image/compress-webp" />
 
       <section aria-labelledby="faq-heading" className="space-y-4">
         <SectionHeading
