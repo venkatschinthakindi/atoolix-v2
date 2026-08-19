@@ -1,6 +1,7 @@
 import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools"; // adjust import path to wherever RelatedTools.tsx lives
 import { JsonLd } from "@/utility/seo/JsonLd";
 import { SectionHeading } from "@/utility/seo/SectionHeading";
+import Link from "next/link";
 
 type FaqItem = {
   q: string;
@@ -32,37 +33,11 @@ type AudienceItem = {
 };
 
 export default function EmiCalculatorSeoContent() {
-  /*
-   * PRIMARY SEARCH INTENT
-   *
-   * EMI calculator
-   * loan EMI calculator
-   * EMI calculator online
-   *
-   * SECONDARY / GLOBAL INTENT
-   *
-   * loan payment calculator
-   * monthly payment calculator
-   * mortgage payment calculator
-   * auto loan payment calculator
-   *
-   * ADVANCED PRODUCT INTENT
-   *
-   * EMI calculator with prepayment
-   * partial prepayment calculator
-   * extra payment loan calculator
-   * balloon payment calculator
-   * EMI reduction calculator
-   * tenure reduction calculator
-   * loan interest savings calculator
-   * loan amortization calculator
-   *
-   * The content below deliberately maps these concepts to functionality
-   * that the actual calculator provides rather than adding keywords
-   * without corresponding product functionality.
-   */
-
   const faqItems: FaqItem[] = [
+    {
+      q: "Is this the same calculator as the home, car, and personal loan pages?",
+      a: "Yes. This hub and the dedicated home loan, car loan, and personal loan EMI calculator pages all use the exact same calculation engine, so results are identical for the same inputs. The dedicated pages simply start with a typical amount, rate, and tenure for that loan type and include content specific to it — use whichever page matches what you're calculating.",
+    },
     {
       q: "How do I calculate EMI for a home, personal, or car loan?",
       a: "Enter the loan amount, annual interest rate, and loan tenure to calculate the regular monthly EMI. You can then add prepayments or extra payments to compare how different repayment strategies affect interest and loan duration.",
@@ -80,10 +55,6 @@ export default function EmiCalculatorSeoContent() {
       a: "Yes. You can add a one-time prepayment to the repayment scenario and see how applying additional money toward the loan changes the outstanding balance, interest cost, and repayment outcome.",
     },
     {
-      q: "Can I calculate the effect of a partial prepayment on my loan?",
-      a: "Yes. Enter the partial prepayment amount and compare the adjusted repayment scenario with the original loan. The calculator shows the resulting changes in repayment, including interest savings and loan duration where applicable.",
-    },
-    {
       q: "Can I add extra monthly payments?",
       a: "Yes. You can configure an additional monthly contribution on top of the regular EMI to model faster repayment and see how extra payments can reduce total interest and shorten the repayment period.",
     },
@@ -92,24 +63,8 @@ export default function EmiCalculatorSeoContent() {
       a: "A balloon payment is a larger lump-sum payment scheduled at the end of a loan or repayment scenario. This calculator lets you model a balloon payment and review its effect on the repayment plan and outstanding balance.",
     },
     {
-      q: "Can I use an EMI calculator with a balloon payment?",
-      a: "Yes. Enable the balloon payment option, enter the applicable lump-sum amount, and compare the resulting repayment scenario with the standard loan plan.",
-    },
-    {
       q: "What is the difference between EMI reduction and tenure reduction?",
       a: "EMI reduction lowers future monthly payments after an adjustment, while tenure reduction keeps the repayment strategy focused on paying the loan off sooner. The calculator lets you compare repayment outcomes instead of relying on a simple one-size-fits-all assumption.",
-    },
-    {
-      q: "Can I reduce my EMI after making a prepayment?",
-      a: "Yes. You can use the EMI reduction mode to model a lower future EMI after an applicable repayment adjustment, subject to the configured bank EMI reduction limit.",
-    },
-    {
-      q: "Can I reduce my loan tenure with extra payments?",
-      a: "Yes. Additional payments can be used to model faster principal reduction and a shorter repayment period. The calculator shows the resulting repayment schedule so you can compare the scenario with the original loan.",
-    },
-    {
-      q: "Can I compare principal reduction and EMI reduction?",
-      a: "Yes. The calculator supports principal-focused repayment and EMI reduction scenarios so you can evaluate how different repayment choices affect monthly payments, interest, and loan duration.",
     },
     {
       q: "Can I calculate how much interest I will save by prepaying a loan?",
@@ -120,24 +75,12 @@ export default function EmiCalculatorSeoContent() {
       a: "Yes. It provides a month-by-month amortization schedule showing repayment details such as balance, payment, interest, and applicable prepayment information.",
     },
     {
-      q: "Can I compare my original loan with a prepayment scenario?",
-      a: "Yes. The comparison view lets you evaluate the base loan against an adjusted repayment scenario and review differences such as interest, repayment duration, and payment behavior.",
-    },
-    {
-      q: "Can I use this calculator for mortgage or auto loan planning?",
-      a: "Yes. The underlying EMI calculation can be used for installment-based loan planning such as mortgages, home loans, car loans, auto loans, personal loans, and similar repayment scenarios when the applicable loan terms are known.",
-    },
-    {
       q: "Does this EMI calculator work for users outside India?",
       a: "Yes. The calculation is based on the loan amount, interest rate, and repayment period rather than a specific country. EMI is commonly used in India, while users elsewhere may refer to the same concept as a loan payment, mortgage payment, or monthly payment.",
     },
     {
       q: "Is this EMI calculator free and mobile-friendly?",
       a: "Yes. The calculator is free to use and the interface is responsive for phones, tablets, laptops, and desktop screens.",
-    },
-    {
-      q: "Can I use the calculator for different loan scenarios?",
-      a: "Yes. You can adjust the loan amount, interest rate, tenure, prepayments, extra monthly payments, EMI reduction settings, and balloon payment options to model different repayment scenarios.",
     },
   ];
 
@@ -298,52 +241,6 @@ export default function EmiCalculatorSeoContent() {
     },
   ];
 
-  // Deliberately scenario-level links (query params into other calculators'
-  // tabs) rather than one link per tool page, so these go through
-  // RelatedTools' `items` override instead of its registry-driven default.
-  // const relatedTools = [
-  //   {
-  //     name: "SIP Returns",
-  //     href: "/tools/calculator/roi-calculator?category=sip",
-  //   },
-  //   {
-  //     name: "Lumpsum Returns",
-  //     href: "/tools/calculator/roi-calculator?category=lump",
-  //   },
-  //   {
-  //     name: "Performance Returns",
-  //     href: "/tools/calculator/roi-calculator?category=performance",
-  //   },
-  //   {
-  //     name: "Simple Interest",
-  //     href: "/tools/calculator/fd-calculator?category=simple",
-  //   },
-  //   {
-  //     name: "Compound Interest",
-  //     href: "/tools/calculator/fd-calculator?category=compound",
-  //   },
-  //   {
-  //     name: "Fixed Deposit",
-  //     href: "/tools/calculator/fd-calculator?category=fd",
-  //   },
-  //   {
-  //     name: "Recurring Deposit",
-  //     href: "/tools/calculator/fd-calculator?category=rd",
-  //   },
-  //   {
-  //     name: "Retirement Calculator",
-  //     href: "/tools/calculator/retirement-calculator?category=retirement",
-  //   },
-  //   {
-  //     name: "FIRE Calculator",
-  //     href: "/tools/calculator/retirement-calculator?category=fire",
-  //   },
-  //   {
-  //     name: "SWP Calculator",
-  //     href: "/tools/calculator/retirement-calculator?category=swp",
-  //   },
-  // ];
-
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -407,6 +304,9 @@ export default function EmiCalculatorSeoContent() {
           INTRO
           Primary intent: EMI calculator / loan EMI calculator
           Global secondary intent: loan payment / monthly payment
+          Deliberately generic/comparison-framed — loan-type-specific intent
+          now belongs to the 3 dedicated pages linked below and in Related
+          Financial Calculators.
          ================================================================ */}
       <section aria-labelledby="intro-heading" className="space-y-4">
         <div className="flex items-center gap-3">
@@ -427,6 +327,29 @@ export default function EmiCalculatorSeoContent() {
           annual interest rate, and repayment tenure. This advanced EMI
           calculator supports home loans, mortgages, personal loans, car
           loans, auto loans, and other installment-based borrowing scenarios.
+          Already know which loan you're calculating? The dedicated{" "}
+          <Link
+            href="/tools/calculator/home-loan-emi-calculator"
+            className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
+          >
+            home loan
+          </Link>
+          ,{" "}
+          <Link
+            href="/tools/calculator/car-loan-emi-calculator"
+            className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
+          >
+            car loan
+          </Link>
+          , and{" "}
+          <Link
+            href="/tools/calculator/personal-loan-emi-calculator"
+            className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
+          >
+            personal loan
+          </Link>{" "}
+          calculators use the same engine with content tailored to that loan
+          type.
         </p>
 
         <p className="text-sm leading-7 text-white/65">
@@ -503,7 +426,6 @@ export default function EmiCalculatorSeoContent() {
 
       {/* ================================================================
           ADVANCED REPAYMENT SCENARIOS
-          This is a major differentiation section.
          ================================================================ */}
       <section
         aria-labelledby="scenarios-heading"
@@ -540,125 +462,6 @@ export default function EmiCalculatorSeoContent() {
               </p>
             </article>
           ))}
-        </div>
-      </section>
-
-      {/* ================================================================
-          PREPAYMENT EXPLANATION
-         ================================================================ */}
-      <section
-        aria-labelledby="prepayment-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="prepayment-heading"
-          title="EMI Calculator With Partial Prepayment and Extra Payments"
-          description="See what happens when you put additional money toward your loan instead of following only the original repayment schedule."
-        />
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold text-white">
-              One-Time or Partial Prepayment
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-white/60">
-              If you receive a bonus, savings amount, tax refund, or other
-              lump sum, you can model a partial loan prepayment. Compare the
-              original loan with the adjusted scenario to understand the
-              potential effect on outstanding principal, interest cost, and
-              repayment duration.
-            </p>
-          </article>
-
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold text-white">
-              Recurring Extra Monthly Payment
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-white/60">
-              Test an additional amount paid every month on top of the normal
-              EMI. This helps you explore faster repayment, potential interest
-              savings, and how much sooner the loan could be completed.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      {/* ================================================================
-          BALLOON PAYMENT
-         ================================================================ */}
-      <section
-        aria-labelledby="balloon-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="balloon-heading"
-          title="EMI Calculator With Balloon Payment"
-          description="Model a loan repayment plan that includes a larger scheduled lump-sum payment."
-        />
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <h3 className="text-sm font-semibold text-white">
-            Plan a Final Lump-Sum Payment
-          </h3>
-
-          <p className="mt-2 text-sm leading-7 text-white/60">
-            A balloon payment is a larger payment scheduled as part of a loan
-            repayment scenario. Instead of assuming that every repayment is
-            identical until the end, use the balloon payment option to model a
-            larger final amount and review how it changes the repayment
-            schedule and remaining balance.
-          </p>
-
-          <p className="mt-3 text-sm leading-7 text-white/60">
-            This can be useful when evaluating structured financing,
-            vehicle-related repayment scenarios, business borrowing, or any
-            loan plan where a larger lump sum is expected later in the
-            repayment period.
-          </p>
-        </div>
-      </section>
-
-      {/* ================================================================
-          EMI VS TENURE
-         ================================================================ */}
-      <section
-        aria-labelledby="strategy-heading"
-        className="space-y-4"
-      >
-        <SectionHeading
-          id="strategy-heading"
-          title="EMI Reduction vs Loan Tenure Reduction"
-          description="Compare two different ways of adjusting a loan after additional repayment."
-        />
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold text-white">
-              EMI Reduction
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-white/60">
-              Model a scenario where future monthly EMI payments are reduced
-              after an applicable repayment adjustment. The calculator can
-              apply the configured bank EMI reduction limit so the scenario
-              remains within the settings you choose.
-            </p>
-          </article>
-
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="text-sm font-semibold text-white">
-              Tenure Reduction
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-white/60">
-              Model a strategy focused on reducing the remaining loan duration
-              by applying additional repayment toward the outstanding balance.
-              Compare the resulting schedule with the original loan to
-              understand the potential time and interest impact.
-            </p>
-          </article>
         </div>
       </section>
 
@@ -843,8 +646,6 @@ export default function EmiCalculatorSeoContent() {
 
       {/* ================================================================
           KEY FEATURE SUMMARY
-          Kept as a compact semantic summary rather than duplicating all
-          feature descriptions again.
          ================================================================ */}
       <section
         aria-labelledby="feature-summary-heading"
@@ -932,18 +733,7 @@ export default function EmiCalculatorSeoContent() {
         </div>
       </section>
 
-      {/* ================================================================
-          RELATED TOOLS
-          Uses the shared RelatedTools component with an explicit `items`
-          override, since these links point at specific scenario tabs
-          within roi-calculator / fd-calculator / retirement-calculator
-          rather than one link per tool page. Category-aware heading,
-          description, and icon still come from the shared component's
-          Finance defaults ("Related Financial Calculators" etc.) via
-          `toolId`, so no need to repeat that copy here.
-         ================================================================ */}
-      <RelatedTools toolId="calculator/emi-calculator"/>
-
+      <RelatedTools toolId="calculator/emi-calculator" />
       {/* ================================================================
           FINAL CTA
          ================================================================ */}

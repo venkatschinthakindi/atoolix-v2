@@ -8,9 +8,9 @@ const seoLoaders: Record<string, SeoLoader> = {
   "pdf/merge-pdf": () => import("@/components/tools/pdf/mergePdf/mergePdfSeoContent"),
   "calculator/emi-calculator": () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
   
-  // "calculator/home-loan-emi-calculator": () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
-  // "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
-  // "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
+  "calculator/home-loan-emi-calculator": () => import("@/components/tools/emiCalculator/homeLoanEmiCalculatorSeoContent"),
+  "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent"),
+  "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent"),
   
   "calculator/roi-calculator": () => import("@/components/tools/financeSuite/investment/investmentReturnsSuiteSeoContent"),
   "calculator/fd-calculator": () => import("@/components/tools/financeSuite/savings/savingsDepositsSuiteSeoContent"),
