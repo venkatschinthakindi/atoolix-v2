@@ -285,15 +285,15 @@ const retirementStrategies = [
 const relatedTools = [
   {
     name: "Home Loan EMI",
-    href: "/tools/calculator/emi-calculator?category=home",
+    href: "/tools/calculator/home-loan-emi-calculator",
   },
   {
     name: "Car Loan EMI",
-    href: "/tools/calculator/emi-calculator?category=car",
+    href: "/tools/calculator/car-loan-emi-calculator",
   },
   {
     name: "Personal Loan EMI",
-    href: "/tools/calculator/emi-calculator?category=personal",
+    href: "/tools/calculator/personal-loan-emi-calculator",
   },
   {
     name: "SIP Returns",

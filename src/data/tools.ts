@@ -175,14 +175,12 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator/emi-calculator",
     archived: false,
-    //loader: () => import("@/components/tools/emiCalculator/EMICalculator"),
     title: "EMI Calculator Online | Home, Car & Personal Loan",
     toolShortName: "EMI Calculator",
     onPageTitle: "EMI Calculator with Prepayment & Amortization Schedule",
     description: "Calculate EMI for home, car, and personal loans with prepayment planning, extra monthly contributions, balloon payments, full amortization schedule, and visual charts.",
     icon: "Calculator",
-    keywords: [
-      "emi calculator online",
+    keywords: [ "emi calculator online",
       "home loan emi calculator",
       "car loan emi calculator",
       "personal loan emi calculator",
@@ -190,19 +188,92 @@ export const tools: ToolRegistryEntry[] = [
       "emi calculator with prepayment",
       "loan repayment calculator",
       "balloon payment calculator",
-      "interest vs principal calculator"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/calculator/emi-calculator`
-    },
+      "interest vs principal calculator" ],
+    alternates: { canonical: `${siteUrl}/tools/calculator/emi-calculator` },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
     featured: true,
     comingSoon: false,
     preload: false,
-    toolImage:"emi-calculator.png"
+    defaultProps: { defaultType: "home" }, // NEW — hub defaults to home
+    toolImage: "emi-calculator.png"
   },
+  {
+    id: "calculator/home-loan-emi-calculator",
+    archived: false,
+    title: "Home Loan EMI Calculator — Estimate Your Monthly Mortgage Payment",
+    toolShortName: "Home Loan EMI Calculator",
+    onPageTitle: "Home Loan EMI Calculator with Prepayment & Amortization Schedule",
+    description: "Calculate your home loan EMI instantly. See total interest over a 20–30 year tenure, model prepayments, and find out how much faster you can be mortgage-free.",
+    icon: "Calculator",
+    keywords: [
+      "home loan emi calculator",
+      "mortgage emi calculator",
+      "home loan interest calculator",
+      "home loan prepayment calculator",
+      "housing loan emi calculator india"
+    ],
+    alternates: { canonical: `${siteUrl}/tools/calculator/home-loan-emi-calculator` },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Finance",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: { defaultType: "home" },
+    toolImage: "emi-calculator.png"
+  },
+  {
+    id: "calculator/car-loan-emi-calculator",
+    archived: false,
+    title: "Car Loan EMI Calculator — Estimate Your Monthly Auto Loan Payment",
+    toolShortName: "Car Loan EMI Calculator",
+    onPageTitle: "Car Loan EMI Calculator with Prepayment & Amortization Schedule",
+    description: "Calculate your car loan EMI in seconds. Compare total interest across tenures, and see how prepayments can help you pay off your vehicle loan faster.",
+    icon: "Calculator",
+    keywords: [
+      "car loan emi calculator",
+      "auto loan calculator",
+      "vehicle loan emi calculator",
+      "car loan interest calculator",
+      "car loan prepayment calculator"
+    ],
+    alternates: { canonical: `${siteUrl}/tools/calculator/car-loan-emi-calculator` },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Finance",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: { defaultType: "car" },
+    toolImage: "emi-calculator.png"
+  },
+  {
+    id: "calculator/personal-loan-emi-calculator",
+    archived: false,
+    title: "Personal Loan EMI Calculator — Estimate Your Monthly Payment",
+    toolShortName: "Personal Loan EMI Calculator",
+    onPageTitle: "Personal Loan EMI Calculator with Prepayment & Amortization Schedule",
+    description: "Calculate your personal loan EMI instantly. Personal loans carry higher rates than secured loans — see exactly how much interest you'll pay and how prepayments cut it down.",
+    icon: "Calculator",
+    keywords: [
+      "personal loan emi calculator",
+      "unsecured loan calculator",
+      "personal loan interest calculator",
+      "personal loan prepayment calculator"
+    ],
+    alternates: { canonical: `${siteUrl}/tools/calculator/personal-loan-emi-calculator` },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Finance",
+    featured: false,
+    comingSoon: false,
+    preload: false,
+    defaultProps: { defaultType: "personal" },
+    toolImage: "emi-calculator.png"
+  },
+
   {
     id: "calculator/roi-calculator",
     archived: false,

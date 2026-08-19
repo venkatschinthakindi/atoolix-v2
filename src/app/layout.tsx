@@ -152,6 +152,10 @@ export default function RootLayout({
         jetbrainsMono.variable
       )}
       >
+      <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1267608571294570"
+          crossOrigin="anonymous"></script>
+      </head>
       <body className="min-h-full flex flex-col">
         <PwaProvider>
           <script

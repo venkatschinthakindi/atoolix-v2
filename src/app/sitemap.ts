@@ -35,6 +35,9 @@ const routes = [
   
   // Calculator Tools
   "tools/calculator/emi-calculator",
+  "tools/calculator/home-loan-emi-calculator",
+  "tools/calculator/personal-loan-emi-calculator",
+  "tools/calculator/car-loan-emi-calculator",
   "tools/calculator/roi-calculator",
   "tools/calculator/fd-calculator",
   "tools/calculator/retirement-calculator",
@@ -94,8 +97,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       route === ""
         ? "daily"
         : route.includes("/")
-        ? "weekly"
-        : "monthly",
+        ? "daily"
+        : "daily",
     priority:
       route === ""
         ? 1.0

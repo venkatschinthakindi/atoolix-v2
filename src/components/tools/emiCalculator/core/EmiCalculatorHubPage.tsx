@@ -1,9 +1,37 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CustomSelect from "@/components/ui/customSelect";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import {
+  CURRENCIES,
+  CurrencyCode,
+  LoanType,
+  PrepaymentEntry,
+  PrepaymentMode,
+  PrepaymentType,
+  amortizationSchedule,
+  amortizationScheduleWithPrepayments,
+  getLoanPreset,
+} from "@/components/tools/emiCalculator/core/Engine";
+import { ROUTE_MAP } from "@/components/tools/emiCalculator/core/Config";
+
+/**
+ * ToolRendererClient does:
+ *   mergedProps = { ...toolMeta.defaultProps, ...toolMeta }
+ * and spreads that onto this component. That means this component receives
+ * EVERY field of the matched ToolRegistryEntry as a prop (title, description,
+ * alternates, category, keywords, icon, defaultProps-as-a-nested-object,
+ * etc.) — not just the one value we actually care about. We only read
+ * `defaultType` (which we control via each registry entry's `defaultProps`)
+ * and intentionally ignore the rest via the index signature below, so this
+ * stays compatible if new fields get added to ToolRegistryEntry later.
+ */
+type EMICalculatorProps = {
+  defaultType?: LoanType;
+  [key: string]: unknown;
+};
 
 const AmortizationChart = dynamic(
   () =>
@@ -14,350 +42,14 @@ const AmortizationChart = dynamic(
 );
 
 /* ─────────────────────────────────────────────
-   Types
+   Types local to the UI layer
 ───────────────────────────────────────────── */
-type LoanType = "home" | "personal" | "car";
-type PrepaymentType = "monthly" | "one-time";
-type PrepaymentMode = "principal" | "emi";
 type ResultTab = "summary" | "chart" | "schedule";
-type CurrencyCode =
-  | "INR"
-  | "USD"
-  | "EUR"
-  | "GBP"
-  | "AED"
-  | "AUD"
-  | "CAD"
-  | "SGD"
-  | "JPY";
-
-const CURRENCIES: Record<
-  CurrencyCode,
-  { label: string; symbol: string; locale: string }
-> = {
-  INR: { label: "Indian Rupee — INR (₹)", symbol: "₹", locale: "en-IN" },
-  USD: { label: "US Dollar — USD ($)", symbol: "$", locale: "en-US" },
-  EUR: { label: "Euro — EUR (€)", symbol: "€", locale: "de-DE" },
-  GBP: { label: "British Pound — GBP (£)", symbol: "£", locale: "en-GB" },
-  AED: { label: "UAE Dirham — AED", symbol: "AED", locale: "en-AE" },
-  AUD: { label: "Australian Dollar — AUD (A$)", symbol: "A$", locale: "en-AU" },
-  CAD: { label: "Canadian Dollar — CAD (C$)", symbol: "C$", locale: "en-CA" },
-  SGD: { label: "Singapore Dollar — SGD (S$)", symbol: "S$", locale: "en-SG" },
-  JPY: { label: "Japanese Yen — JPY (¥)", symbol: "¥", locale: "ja-JP" },
-};
-
-type LoanPreset = {
-  principal: number;
-  annualRate: number;
-  tenureYears: number;
-  description: string;
-  min: number;
-  max: number;
-  step: number;
-};
-
-type PrepaymentEntry = {
-  id: number;
-  type: PrepaymentType;
-  amount: number;
-  month: number;
-  mode: PrepaymentMode;
-};
-
-type PrepaymentRow = {
-  month: number;
-  balance: number;
-  cumulativeInterest: number;
-  payment: number;
-  prepaymentAmount: number;
-  prepaymentLabel: string;
-  isEvent: boolean;
-  clipped: boolean;
-  currentEmi: number;
-};
-
-type PrepaymentAdjustment = {
-  month: number;
-  prepaymentId: number;
-  type: PrepaymentType;
-  mode: PrepaymentMode;
-  requestedAmount: number;
-  appliedAmount: number;
-  capAmount: number | null;
-  currentEmi: number;
-  note: string;
-};
-
-/* ─────────────────────────────────────────────
-   Calculation helpers (unchanged logic)
-───────────────────────────────────────────── */
-
-function computeEMI(principal: number, annualRatePct: number, months: number) {
-  const r = annualRatePct / 12 / 100;
-  if (r === 0) return principal / months;
-  return (
-    (principal * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1)
-  );
-}
-
-/** Present value of a lump sum due `months` from now — used to work out how
- *  much a balloon payment actually lowers today's regular EMI by. */
-function presentValue(futureValue: number, annualRatePct: number, months: number) {
-  const r = annualRatePct / 12 / 100;
-  if (months <= 0) return futureValue;
-  if (r === 0) return futureValue;
-  return futureValue / Math.pow(1 + r, months);
-}
-
-function getLoanPreset(type: LoanType): LoanPreset {
-  switch (type) {
-    case "home":
-      return {
-        principal: 3000000,
-        annualRate: 7.5,
-        tenureYears: 20,
-        description: "Long-term home loan with lower interest",
-        min: 100000,
-        max: 20000000,
-        step: 50000,
-      };
-    case "personal":
-      return {
-        principal: 800000,
-        annualRate: 12.5,
-        tenureYears: 5,
-        description: "Shorter personal loan with higher rate",
-        min: 25000,
-        max: 5000000,
-        step: 5000,
-      };
-    case "car":
-      return {
-        principal: 1200000,
-        annualRate: 9.0,
-        tenureYears: 7,
-        description: "Vehicle loan with mid-term tenure",
-        min: 50000,
-        max: 10000000,
-        step: 10000,
-      };
-  }
-}
-
-function amortizationSchedule(
-  principal: number,
-  annualRatePct: number,
-  months: number
-) {
-  const monthlyRate = annualRatePct / 12 / 100;
-  let balance = principal;
-  const emi = computeEMI(principal, annualRatePct, months);
-  const labels: string[] = [];
-  const principalRemaining: number[] = [];
-  const cumulativeInterest: number[] = [];
-  let cumInterest = 0;
-  let m = 1;
-  const maxIter = Math.max(months * 2, 600);
-  let totalPaid = 0;
-
-  while (balance > 0.5 && m <= maxIter) {
-    const interest = balance * monthlyRate;
-    let payment = emi;
-    if (balance + interest <= payment) payment = balance + interest;
-    const principalPaid = payment - interest;
-    balance = Math.max(0, balance - principalPaid);
-    totalPaid += payment;
-    cumInterest += interest;
-    labels.push(String(m));
-    principalRemaining.push(balance);
-    cumulativeInterest.push(cumInterest);
-    m++;
-  }
-
-  return {
-    labels,
-    principalRemaining,
-    cumulativeInterest,
-    emi,
-    monthsUsed: labels.length,
-    totalPayment: totalPaid,
-  };
-}
-
-function buildPrepaymentEvents(entries: PrepaymentEntry[], months: number) {
-  const eventsByMonth: Record<number, PrepaymentEntry[]> = {};
-  entries.forEach((entry) => {
-    if (!entry.amount || entry.amount <= 0) return;
-    if (entry.type === "monthly") {
-      for (let m = Math.max(1, entry.month); m <= months; m++) {
-        eventsByMonth[m] = [...(eventsByMonth[m] ?? []), entry];
-      }
-    } else if (
-      entry.type === "one-time" &&
-      entry.month >= 1 &&
-      entry.month <= months
-    ) {
-      eventsByMonth[entry.month] = [
-        ...(eventsByMonth[entry.month] ?? []),
-        entry,
-      ];
-    }
-  });
-  return eventsByMonth;
-}
-
-function amortizationScheduleWithPrepayments(
-  principal: number,
-  annualRatePct: number,
-  months: number,
-  prepayments: PrepaymentEntry[],
-  bankEmiLimitPercent: number,
-  extraMonthlyPayment: number,
-  balloonPayment: number,
-  currencySymbol: string = "₹"
-) {
-  const fmtPlain = (v: number) =>
-    v.toLocaleString(undefined, { maximumFractionDigits: 2 });
-  const monthlyRate = annualRatePct / 12 / 100;
-  let balance = principal;
-  // A balloon due at maturity is financed like a real balloon loan: it lowers
-  // the principal that the regular EMI needs to amortize, since the balloon's
-  // present value effectively covers that slice of the loan up front.
-  const balloonFinancedPrincipal =
-    balloonPayment > 0
-      ? Math.max(0, principal - presentValue(balloonPayment, annualRatePct, months))
-      : principal;
-  let currentEmi = computeEMI(balloonFinancedPrincipal, annualRatePct, months);
-  const baseEmiWithBalloon = currentEmi;
-  const labels: string[] = [];
-  const principalRemaining: number[] = [];
-  const cumulativeInterest: number[] = [];
-  const monthRows: PrepaymentRow[] = [];
-  const prepaymentMarkers: (number | null)[] = [];
-  const capAdjustments: PrepaymentAdjustment[] = [];
-  let cumInterest = 0;
-  let totalPaid = 0;
-  let m = 1;
-  const maxIter = Math.max(months * 2, 600);
-  const eventsByMonth = buildPrepaymentEvents(prepayments, months);
-
-  while (balance > 0.5 && m <= maxIter) {
-    const events = eventsByMonth[m] ?? [];
-    const interest = balance * monthlyRate;
-    let payment = currentEmi;
-    let prepaymentAmount = 0;
-    let prepaymentLabel = "";
-    let clipped = false;
-
-    events.forEach((event) => {
-      const maxAllowed =
-        event.mode === "emi"
-          ? currentEmi * (bankEmiLimitPercent / 100)
-          : event.amount;
-      const actualAmount =
-        event.mode === "emi"
-          ? Math.min(event.amount, maxAllowed)
-          : event.amount;
-      const capAmount = event.mode === "emi" ? maxAllowed : null;
-      const note =
-        event.mode === "emi"
-          ? event.amount > maxAllowed
-            ? "Capped by bank limit"
-            : "Within bank limit"
-          : "Principal reduction";
-
-      if (event.mode === "emi" && event.amount > maxAllowed) clipped = true;
-
-      payment += actualAmount;
-      prepaymentAmount += actualAmount;
-      capAdjustments.push({
-        month: m,
-        prepaymentId: event.id,
-        type: event.type,
-        mode: event.mode,
-        requestedAmount: event.amount,
-        appliedAmount: actualAmount,
-        capAmount,
-        currentEmi,
-        note,
-      });
-
-      const prefix = event.type === "monthly" ? "Monthly" : "One-time";
-      const modeText =
-        event.mode === "emi" ? "EMI reduction" : "Principal reduction";
-      prepaymentLabel += `${prefix} ${modeText} ${currencySymbol}${fmtPlain(actualAmount)}${
-        event.type === "one-time"
-          ? ` on month ${event.month}`
-          : ` from month ${event.month}`
-      } ; `;
-    });
-
-    if (extraMonthlyPayment > 0) {
-      payment += extraMonthlyPayment;
-      prepaymentAmount += extraMonthlyPayment;
-      prepaymentLabel += `Extra monthly ${currencySymbol}${fmtPlain(extraMonthlyPayment)} ; `;
-    }
-
-    if (m === months && balloonPayment > 0) {
-      payment += balloonPayment;
-      prepaymentAmount += balloonPayment;
-      prepaymentLabel += `Balloon ${currencySymbol}${fmtPlain(balloonPayment)} ; `;
-    }
-
-    if (balance + interest <= payment) payment = balance + interest;
-
-    const principalPaid = payment - interest;
-    balance = Math.max(0, balance - principalPaid);
-    totalPaid += payment;
-    cumInterest += interest;
-
-    if (prepaymentAmount > 0 && balance > 0 && m < months) {
-      const remainingMonths = months - m;
-      const remainingBalloonFinanced =
-        balloonPayment > 0
-          ? Math.max(
-              0,
-              balance - presentValue(balloonPayment, annualRatePct, remainingMonths)
-            )
-          : balance;
-      currentEmi = computeEMI(
-        remainingBalloonFinanced,
-        annualRatePct,
-        remainingMonths
-      );
-    }
-
-    labels.push(String(m));
-    principalRemaining.push(balance);
-    cumulativeInterest.push(cumInterest);
-    prepaymentMarkers.push(events.length > 0 ? balance : null);
-    monthRows.push({
-      month: m,
-      balance,
-      cumulativeInterest: cumInterest,
-      payment,
-      prepaymentAmount,
-      prepaymentLabel: prepaymentLabel.trim(),
-      isEvent: events.length > 0,
-      clipped,
-      currentEmi,
-    });
-    m++;
-  }
-
-  return {
-    labels,
-    principalRemaining,
-    cumulativeInterest,
-    emi: baseEmiWithBalloon,
-    monthsUsed: labels.length,
-    totalPayment: totalPaid,
-    monthRows,
-    prepaymentMarkers,
-    capAdjustments,
-    finalEmi: currentEmi,
-  };
-}
+// Simplified on purpose: the old dropdown had 7 chart types (line, area,
+// smooth, stepped, bar, pie, doughnut). Three covers every question people
+// actually ask ("how does my balance drop", "year by year", "split") without
+// turning this into a generic charting tool.
+type ChartType = "line" | "bar" | "pie";
 
 /* ─────────────────────────────────────────────
    Small presentational building blocks
@@ -588,7 +280,8 @@ function TabButton({
   children: React.ReactNode;
 }) {
   return (
-    <button type="button"
+    <button
+      type="button"
       onClick={onClick}
       aria-pressed={active}
       className={`px-4 py-2 rounded-xl text-sm font-medium border transition ${
@@ -605,14 +298,13 @@ function TabButton({
 /* ─────────────────────────────────────────────
    Main component
 ───────────────────────────────────────────── */
-export default function EMICalculator({
+export default function EmiCalculatorHubPage({
   defaultType = "home",
-}: {
-  defaultType?: LoanType;
-}) {
+}: EMICalculatorProps) {
   const defaultPreset = getLoanPreset(defaultType);
-
+  const router = useRouter();
   const searchParams = useSearchParams();
+
   const getInitialActiveTab = (): LoanType => {
     const type = searchParams.get("category")?.toLowerCase() || "";
     if (type === "home") return "home";
@@ -633,6 +325,16 @@ export default function EMICalculator({
     defaultPreset.tenureYears
   );
 
+  // Warm the other two product routes so switching tabs feels instant
+  // (client-side transition, no full page reload) instead of waiting on
+  // a cold fetch the first time someone clicks a different loan type.
+  useEffect(() => {
+    (Object.keys(ROUTE_MAP) as LoanType[])
+      .filter((t) => t !== loanType)
+      .forEach((t) => router.prefetch(ROUTE_MAP[t]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   /* Currency — lets users worldwide see amounts in their own currency */
   const [currency, setCurrency] = useState<CurrencyCode>("INR");
   const currencyMeta = CURRENCIES[currency];
@@ -646,7 +348,7 @@ export default function EMICalculator({
     return (v: number) => nf.format(Number.isFinite(v) ? v : 0);
   }, [currency, currencyMeta.locale]);
 
-  /* Prepayment & advanced state */
+  /* Prepayment & advanced state — advanced stays collapsed until asked for */
   const [compareEnabled, setCompareEnabled] = useState<boolean>(true);
   const [bankEmiLimit, setBankEmiLimit] = useState<number>(25);
   const [prepayOpen, setPrepayOpen] = useState<boolean>(false);
@@ -663,15 +365,25 @@ export default function EMICalculator({
   const [showBaseInterest, setShowBaseInterest] = useState<boolean>(true);
   const [showPrepayPrincipal, setShowPrepayPrincipal] = useState<boolean>(true);
   const [showPrepayInterest, setShowPrepayInterest] = useState<boolean>(true);
-  const [chartType, setChartType] = useState<
-    "line" | "area" | "smooth" | "stepped" | "bar" | "pie" | "doughnut"
-  >("line");
+  const [chartType, setChartType] = useState<ChartType>("line");
 
   /* Prepayment entries */
   const [prepayments, setPrepayments] = useState<PrepaymentEntry[]>([
     { id: 1, type: "one-time", amount: 50000, month: 12, mode: "principal" },
   ]);
   const [nextPrepaymentId, setNextPrepaymentId] = useState<number>(2);
+  
+  const prepaySectionRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (prepayOpen) {
+      prepaySectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      prepaySectionRef.current?.focus();
+    }
+  }, [prepayOpen]);
 
   const addPrepayment = () => {
     setPrepayments((c) => [
@@ -702,12 +414,19 @@ export default function EMICalculator({
     setPrepayments((c) => c.filter((e) => e.id !== id));
   };
 
+  /** Switching loan type both resets to that product's preset AND updates
+   *  the URL to its dedicated page — client-side (router.push), so there's
+   *  no full page reload, the calculator state transition is instant, and
+   *  the address bar / share link / back button all stay correct. */
   const handleLoanTypeChange = (type: LoanType) => {
     const preset = getLoanPreset(type);
     setLoanType(type);
     setPrincipal(preset.principal);
     setAnnualRate(preset.annualRate);
     setTenureYears(preset.tenureYears);
+    if (ROUTE_MAP[type]) {
+      router.push(ROUTE_MAP[type], { scroll: false });
+    }
   };
 
   /* Derived */
@@ -805,10 +524,11 @@ export default function EMICalculator({
         </div>
       </div>
 
-      {/* ── Loan type tabs ── */}
+      {/* ── Loan type tabs — instant client-side switch, URL updates too ── */}
       <div className="flex gap-2 flex-wrap justify-center">
         {(["home", "personal", "car"] as LoanType[]).map((t) => (
-          <button type="button"
+          <button
+            type="button"
             key={t}
             onClick={() => handleLoanTypeChange(t)}
             aria-pressed={loanType === t}
@@ -852,12 +572,13 @@ export default function EMICalculator({
 
       {/* ── Quick start ── */}
       <QuickStartStrip />
-      
-      {/* ── Loan details + live EMI result ── */}
+
+      {/* ── Loan details + live EMI result (Basic layer) ── */}
       <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
         <SectionHeading
           action={
-            <button type="button"
+            <button
+              type="button"
               onClick={() => handleLoanTypeChange(loanType)}
               className="text-xs text-blue-300 hover:text-blue-200 underline underline-offset-2"
             >
@@ -914,39 +635,51 @@ export default function EMICalculator({
               {fmt(base.emi)}
             </div>
             <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="min-w-0">
-              <StatCard
-                label="Total Interest"
-                value={fmt(base.cumulativeInterest.at(-1) ?? 0)}
-              />
-            </div>
+              <div className="min-w-0">
+                <StatCard
+                  label="Total Interest"
+                  value={fmt(base.cumulativeInterest.at(-1) ?? 0)}
+                />
+              </div>
 
-            <div className="min-w-0">
-              <StatCard
-                label="Total Payment"
-                value={fmt(base.totalPayment ?? base.emi * base.monthsUsed)}
-              />
-            </div>
+              <div className="min-w-0">
+                <StatCard
+                  label="Total Payment"
+                  value={fmt(base.totalPayment ?? base.emi * base.monthsUsed)}
+                />
+              </div>
             </div>
             {hasPrepayments && (
               <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
                 <span className="text-white/50">With your prepayments</span>
                 <span className="text-emerald-300 font-semibold">
-                  Save {fmt(interestSaved)} ·{" "}
-                  {monthsSaved > 0 ? `${monthsSaved} mo faster` : "same tenure"}
+                  🎉 Save {fmt(interestSaved)} ·{" "}
+                  {monthsSaved > 0 ? `${monthsSaved} month${monthsSaved > 1 ? 's' : ''} faster` : "same tenure"}
                 </span>
               </div>
+            )}
+            {!prepayOpen && (
+              <button
+                type="button"
+                onClick={() => setPrepayOpen(true)}
+                className="mt-4 w-full text-xs font-semibold text-blue-300 hover:text-blue-200 underline underline-offset-2 text-left"
+              >
+                Want to reduce your interest? Explore prepayment →
+              </button>
             )}
           </div>
         </div>
       </div>
-      
+
       {/* ── How this is calculated ── */}
       <MethodologyNote />
 
-      {/* ── Prepayment & advanced options ── */}
-      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
-        <button type="button"
+      {/* ── Prepayment & advanced options (progressively revealed) ── */}
+      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden"
+        tabIndex={-1}
+        ref={prepaySectionRef}>
+        <button
+          type="button"
           onClick={() => setPrepayOpen(!prepayOpen)}
           aria-expanded={prepayOpen}
           className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-white/5 transition"
@@ -971,7 +704,7 @@ export default function EMICalculator({
 
         {prepayOpen && (
           <div className="px-6 pb-6 pt-2 space-y-5 border-t border-white/10">
-            {/* Bank limit + Advanced toggle row */}
+            {/* Bank limit + Advanced toggle row — advanced stays collapsed by default */}
             <div className="grid gap-4 sm:grid-cols-2">
               <Field
                 label="Bank EMI reduction limit (%)"
@@ -990,7 +723,8 @@ export default function EMICalculator({
                 <div className="text-sm font-medium text-white/80">
                   Advanced options
                 </div>
-                <button type="button"
+                <button
+                  type="button"
                   onClick={() => setAdvancedOpen(!advancedOpen)}
                   className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white/70 text-sm hover:bg-white/10 hover:text-white transition"
                 >
@@ -999,7 +733,7 @@ export default function EMICalculator({
               </div>
             </div>
 
-            {/* Advanced options */}
+            {/* Advanced options — extra monthly / balloon, hidden until asked for */}
             {advancedOpen && (
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
                 <div className="text-xs text-white/50 uppercase tracking-wide">
@@ -1058,7 +792,8 @@ export default function EMICalculator({
                     <div className="text-sm font-semibold text-white">
                       Prepayment #{index + 1}
                     </div>
-                    <button type="button"
+                    <button
+                      type="button"
                       onClick={() => removePrepayment(entry.id)}
                       className="text-xs text-red-400 hover:text-red-300 transition underline"
                     >
@@ -1132,7 +867,8 @@ export default function EMICalculator({
               ))}
             </div>
 
-            <button type="button"
+            <button
+              type="button"
               onClick={addPrepayment}
               className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold hover:bg-blue-500/30 hover:text-white transition"
             >
@@ -1211,7 +947,7 @@ export default function EMICalculator({
                       ? `You'll also be debt-free ${monthsSaved} month${
                           monthsSaved > 1 ? "s" : ""
                         } sooner.`
-                      : "Your tenure stays the same, but every extra payment you make now reduces the interest you’ll pay over the life of the loan."}
+                      : "Your tenure stays the same, but every extra payment you make now reduces the interest you'll pay over the life of the loan."}
                   </p>
                 </div>
 
@@ -1349,7 +1085,7 @@ export default function EMICalculator({
           </div>
         )}
 
-        {/* Chart tab */}
+        {/* Chart tab — simplified to 3 chart types */}
         {resultTab === "chart" && (
           <div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
@@ -1357,92 +1093,79 @@ export default function EMICalculator({
                 <span>Chart type</span>
                 <CustomSelect
                   value={chartType}
-                  callBackTrigger={(e) =>
-                    setChartType(
-                      e as
-                        | "line"
-                        | "area"
-                        | "smooth"
-                        | "stepped"
-                        | "bar"
-                        | "pie"
-                        | "doughnut"
-                    )
-                  }
+                  callBackTrigger={(e) => setChartType(e as ChartType)}
                   options={[
-                    { value: "line", label: "Line" },
-                    { value: "area", label: "Area" },
-                    { value: "smooth", label: "Smooth" },
-                    { value: "stepped", label: "Stepped" },
-                    { value: "bar", label: "Bar" },
-                    { value: "pie", label: "Pie" },
-                    { value: "doughnut", label: "Doughnut" },
+                    { value: "line", label: "Balance over time" },
+                    { value: "bar", label: "Yearly breakdown" },
+                    { value: "pie", label: "Principal vs interest" },
                   ]}
                 />
               </div>
-              <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
-                {(
-                  [
+              {chartType === "line" && (
+                <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
+                  {(
                     [
-                      "compareEnabled",
-                      compareEnabled,
-                      setCompareEnabled,
-                      "Compare with Prepay",
-                    ] as const,
-                    [
-                      "showBasePrincipal",
-                      showBasePrincipal,
-                      setShowBasePrincipal,
-                      "Base Principal",
-                    ] as const,
-                    [
-                      "showBaseInterest",
-                      showBaseInterest,
-                      setShowBaseInterest,
-                      "Base Interest",
-                    ] as const,
-                  ]
-                ).map(([key, checked, setter, label]) => (
-                  <label
-                    key={key}
-                    className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={(e) => setter(e.target.checked)}
-                      className="accent-blue-400"
-                    />
-                    {label}
-                  </label>
-                ))}
-                {compareEnabled && (
-                  <>
-                    <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
+                      [
+                        "compareEnabled",
+                        compareEnabled,
+                        setCompareEnabled,
+                        "Compare with Prepay",
+                      ] as const,
+                      [
+                        "showBasePrincipal",
+                        showBasePrincipal,
+                        setShowBasePrincipal,
+                        "Base Principal",
+                      ] as const,
+                      [
+                        "showBaseInterest",
+                        showBaseInterest,
+                        setShowBaseInterest,
+                        "Base Interest",
+                      ] as const,
+                    ]
+                  ).map(([key, checked, setter, label]) => (
+                    <label
+                      key={key}
+                      className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer"
+                    >
                       <input
                         type="checkbox"
-                        checked={showPrepayPrincipal}
-                        onChange={(e) =>
-                          setShowPrepayPrincipal(e.target.checked)
-                        }
+                        checked={checked}
+                        onChange={(e) => setter(e.target.checked)}
                         className="accent-blue-400"
                       />
-                      Prepay Principal
+                      {label}
                     </label>
-                    <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={showPrepayInterest}
-                        onChange={(e) =>
-                          setShowPrepayInterest(e.target.checked)
-                        }
-                        className="accent-blue-400"
-                      />
-                      Prepay Interest
-                    </label>
-                  </>
-                )}
-              </div>
+                  ))}
+                  {compareEnabled && (
+                    <>
+                      <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={showPrepayPrincipal}
+                          onChange={(e) =>
+                            setShowPrepayPrincipal(e.target.checked)
+                          }
+                          className="accent-blue-400"
+                        />
+                        Prepay Principal
+                      </label>
+                      <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={showPrepayInterest}
+                          onChange={(e) =>
+                            setShowPrepayInterest(e.target.checked)
+                          }
+                          className="accent-blue-400"
+                        />
+                        Prepay Interest
+                      </label>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             <div style={{ minHeight: 360 }}>
@@ -1477,7 +1200,8 @@ export default function EMICalculator({
                   ? "Full Schedule — Base / With Prepay"
                   : "First 12 Months"}
               </div>
-              <button type="button"
+              <button
+                type="button"
                 onClick={() => setShowFullSchedule(!showFullSchedule)}
                 className="text-xs text-blue-400 hover:text-blue-300 transition underline self-start sm:self-auto"
               >
