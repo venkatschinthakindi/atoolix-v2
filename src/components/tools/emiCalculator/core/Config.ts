@@ -11,7 +11,7 @@ export const SITE_URL =serverConfig.siteUrl?.replace(/\/$/, "") ??
 // Must exactly match the `id` field (and therefore the resolved URL) of
 // each entry added to src/data/tools.ts.
 export const ROUTE_MAP: Record<LoanType, string> = {
-  home: "/tools/calculator/home-loan-emi-calculator",
+  home: "/tools/calculator/emi-calculator",
   car: "/tools/calculator/car-loan-emi-calculator",
   personal: "/tools/calculator/personal-loan-emi-calculator",
 };

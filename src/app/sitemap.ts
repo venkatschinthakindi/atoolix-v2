@@ -35,7 +35,6 @@ const routes = [
   
   // Calculator Tools
   "tools/calculator/emi-calculator",
-  "tools/calculator/home-loan-emi-calculator",
   "tools/calculator/personal-loan-emi-calculator",
   "tools/calculator/car-loan-emi-calculator",
   "tools/calculator/roi-calculator",

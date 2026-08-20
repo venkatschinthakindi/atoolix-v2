@@ -6,9 +6,8 @@ type SeoLoader = () => Promise<{ default: SeoComponent }>;
 const seoLoaders: Record<string, SeoLoader> = {
   "pdf/split-pdf": () => import("@/components/tools/pdf/splitPdf/splitPdfSeoContent"),
   "pdf/merge-pdf": () => import("@/components/tools/pdf/mergePdf/mergePdfSeoContent"),
-  "calculator/emi-calculator": () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
+  "calculator/emi-calculator": () => import("@/components/tools/emiCalculator/homeLoanEmiCalculatorSeoContent"),
   
-  "calculator/home-loan-emi-calculator": () => import("@/components/tools/emiCalculator/homeLoanEmiCalculatorSeoContent"),
   "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent"),
   "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent"),
   

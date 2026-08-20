@@ -252,7 +252,7 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         "@type": "ListItem",
         position: 3,
         name: "Home Loan EMI Calculator",
-        item: `${siteUrl}/tools/calculator/home-loan-emi-calculator`,
+        item: `${siteUrl}/tools/calculator/emi-calculator`,
       },
     ],
   };
@@ -581,7 +581,7 @@ export default function HomeLoanEmiCalculatorSeoContent() {
       </section>
 
       {/* RELATED TOOLS */}
-      <RelatedTools toolId="calculator/home-loan-emi-calculator" />
+      <RelatedTools toolId="calculator/emi-calculator" />
 
       {/* TRUST / YMYL BLOCK */}
       <section
