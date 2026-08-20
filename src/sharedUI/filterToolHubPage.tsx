@@ -23,7 +23,7 @@ export function FilterToolHubPage({ filterKey, showCategoryBar, title}: {
         <div className="section-header pb-8">
           <FloatingButton children={<BackButton />}/>
         </div>
-        {!!showCategoryBar && <ToolsHubClient filterKey={filterKey}/>}
+        {/* {!!showCategoryBar && <ToolsHubClient filterKey={filterKey}/>} */}
         <FilteredTools filterKey={filterKey}/>
       </div>
     </>

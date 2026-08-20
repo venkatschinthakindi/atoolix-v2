@@ -93,6 +93,7 @@ export type ToolRegistryEntry<Props = {}> = {
   onPageTitle?: string;
   description: string;
   category?: string;
+  subCategory?: string;
   icon?: any;
   keywords?: string[];
   alternates: { canonical: string };
@@ -196,6 +197,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
+    subCategory: "Loan",
     featured: true,
     comingSoon: false,
     preload: false,
@@ -222,6 +224,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
+    subCategory: "Loan",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -247,6 +250,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
+    subCategory: "Loan",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -280,6 +284,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
+    subCategory: "Investment",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -311,6 +316,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
+    subCategory: "Savings",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -342,6 +348,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
+    subCategory: "Retirement",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -524,6 +531,7 @@ export const tools: ToolRegistryEntry[] = [
       "WebApplication",
       "Utilities"
     ),
+    subCategory: "JPG",
     toolImage:"jpg-to-pdf.png"
   },
   {
@@ -643,6 +651,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "SVG",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -675,6 +684,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "SVG",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1076,6 +1086,7 @@ export const tools: ToolRegistryEntry[] = [
       "WebApplication",
       "Utilities"
     ),
+    subCategory: "WEBP",
     toolImage:"webp-to-pdf.png"
   },
   {
@@ -1102,6 +1113,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "JPG",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1135,6 +1147,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "PNG",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1167,6 +1180,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "PNG",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1200,6 +1214,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "JPG",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1233,6 +1248,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "PNG",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1265,6 +1281,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "WEBP",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1297,6 +1314,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "WEBP",
     featured: false,
     comingSoon: false,
     preload: false,
@@ -1329,6 +1347,7 @@ export const tools: ToolRegistryEntry[] = [
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Image_Converter",
+    subCategory: "WEBP",
     featured: false,
     comingSoon: false,
     preload: false,
