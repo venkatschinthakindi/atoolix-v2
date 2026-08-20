@@ -33,3 +33,30 @@ export type PreviewState = {
   variant: PreviewVariant;
   documentName: string;
 };
+
+/* NEW */
+
+export type QrLabelFont =
+  | "Inter"
+  | "Arial"
+  | "Helvetica"
+  | "Georgia"
+  | "Times New Roman"
+  | "Courier New";
+
+export type QrPresentationState = {
+  enabled: boolean;
+
+  title: string;
+  description: string;
+
+  titleColor: string;
+  descriptionColor: string;
+
+  titleFont: QrLabelFont;
+  descriptionFont: QrLabelFont;
+
+  backgroundColor: string;
+
+  image?: string;
+};

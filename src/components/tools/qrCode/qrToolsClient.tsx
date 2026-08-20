@@ -3,18 +3,17 @@
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { defaultQrForm } from "@/components/tools/qrCode/qrData";
-import type { PreviewState, QrFormState, QrType, TabKey, ScanActionType } from "@/components/tools/qrCode/qrTypes";
+import type { PreviewState,  QrFormState,  QrPresentationState,  QrType,  TabKey,  ScanActionType } from "@/components/tools/qrCode/qrTypes";
 import { useQrCode } from "@/components/tools/qrCode/hooks/useQrCode";
 import { useQrScanner } from "@/components/tools/qrCode/hooks/qrScanner";
 import { QRGeneratorPanel } from "@/components/tools/qrCode/components/qrGeneratorPanel";
 import { QRScannerPanel } from "@/components/tools/qrCode/components/qrScannerPanel";
 import { QRPreviewCard } from "@/components/tools/qrCode/components/qrPreviewCard";
 import { ScanResultModal } from "@/components/tools/qrCode/components/scanResultModal";
-import { blobToDataUrl, dataUrlToBlob, exportQrPdf } from "@/components/tools/qrCode/qrExport";
+import { blobToDataUrl, exportQrCardPng, exportQrPdf } from "@/components/tools/qrCode/qrExport";
 import { downloadBlob } from "@/lib/download";
 import {
   isMobileLike,
-  isSafeExternalUrl,
   sanitizeDownloadName,
   todayStamp,
   isValidEmail,
@@ -54,6 +53,19 @@ export default function QRToolsClient() {
   const [size, setSize] = useState(320);
   const [ecLevel, setEcLevel] = useState<"L" | "M" | "Q" | "H">("M");
   const [logo, setLogo] = useState<string | undefined>();
+  const [presentation, setPresentation] =
+  useState<QrPresentationState>({
+    enabled: true,
+    title: "Atoolix QR Code",
+    description: "Atoolix QR Code Generator",
+    titleColor: "#111827",
+    descriptionColor: "#4B5563",
+    titleFont: "Inter",
+    descriptionFont: "Inter",
+    backgroundColor: "#FFFFFF",
+    image: undefined,
+  });
+
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState<PreviewState>({
     open: false,
@@ -106,12 +118,33 @@ export default function QRToolsClient() {
     if (url) URL.revokeObjectURL(url);
   }, []);
 
-  const buildPreview = useCallback(async () => {
-    const blob = await instanceRef.current?.getRawData("png");
-    if (!(blob instanceof Blob)) return null;
+  const buildPreview =
+    useCallback(async () => {
+      const qrBlob =
+        await instanceRef.current?.getRawData(
+          "png"
+        );
 
-    return URL.createObjectURL(blob);
-  }, [instanceRef]);
+      if (
+        !(qrBlob instanceof Blob)
+      ) {
+        return null;
+      }
+
+      const finalBlob =
+        await exportQrCardPng({
+          qrBlob,
+          presentation,
+        });
+
+      return URL.createObjectURL(
+        finalBlob
+      );
+    }, [
+      instanceRef,
+      presentation,
+  ]);
+
 
   const openPreview = useCallback(async () => {
     if (errors.length > 0) return;
@@ -179,21 +212,112 @@ export default function QRToolsClient() {
     reader.readAsDataURL(file);
   }, []);
 
-  const downloadPng = useCallback(async () => {
-    if (errors.length > 0) return;
+  const handlePresentationImage =
+  useCallback(
+    async (
+      file?: File | null
+    ) => {
+      if (!file) {
+        setPresentation(
+          (prev) => ({
+            ...prev,
+            image: undefined,
+          })
+        );
 
-    setBusy(true);
+        return;
+      }
 
-    try {
-        const blob = await instanceRef.current?.getRawData?.("png");
+      const allowedTypes = [
+        "image/png",
+        "image/jpeg",
+        "image/webp",
+      ];
 
-        if (!(blob instanceof Blob)) return;
+      if (
+        !allowedTypes.includes(
+          file.type
+        )
+      ) {
+        return;
+      }
 
-        downloadBlob(`qr-${type}-${todayStamp()}.png`, blob);
-    } finally {
+      if (
+        file.size >
+        5 * 1024 * 1024
+      ) {
+        return;
+      }
+
+      const reader =
+        new FileReader();
+
+      reader.onload = () => {
+        setPresentation(
+          (prev) => ({
+            ...prev,
+            image: String(
+              reader.result || ""
+            ),
+          })
+        );
+      };
+
+      reader.onerror =
+        reader.onabort = () => {
+          setPresentation(
+            (prev) => ({
+              ...prev,
+              image: undefined,
+            })
+          );
+        };
+
+      reader.readAsDataURL(file);
+    },
+    []
+  );
+
+  const downloadPng =
+    useCallback(async () => {
+      if (errors.length > 0) {
+        return;
+      }
+
+      setBusy(true);
+
+      try {
+        const qrBlob =
+          await instanceRef.current?.getRawData?.(
+            "png"
+          );
+
+        if (
+          !(qrBlob instanceof Blob)
+        ) {
+          return;
+        }
+
+        const finalBlob =
+          await exportQrCardPng({
+            qrBlob,
+            presentation,
+          });
+
+        downloadBlob(
+          `qr-${type}-${todayStamp()}.png`,
+          finalBlob
+        );
+      } finally {
         setBusy(false);
-    }
-    }, [errors.length, instanceRef, type]);
+      }
+    }, [
+      errors.length,
+      instanceRef,
+      presentation,
+      type,
+  ]);
+
 
   const downloadSvg = useCallback(async () => {
     if (errors.length > 0) return;
@@ -206,26 +330,53 @@ export default function QRToolsClient() {
     }
   }, [errors.length, instanceRef, type]);
 
-  const downloadPdf = useCallback(async () => {
-    if (errors.length > 0) return;
+  const downloadPdf =
+    useCallback(async () => {
+      if (errors.length > 0) {
+        return;
+      }
 
-    setBusy(true);
+      setBusy(true);
 
-    try {
-        const blob = await instanceRef.current?.getRawData?.("png");
+      try {
+        const qrBlob =
+          await instanceRef.current?.getRawData?.(
+            "png"
+          );
 
-        if (!(blob instanceof Blob)) return;
+        if (
+          !(qrBlob instanceof Blob)
+        ) {
+          return;
+        }
 
-        const dataUrl = await blobToDataUrl(blob);
+        const finalBlob =
+          await exportQrCardPng({
+            qrBlob,
+            presentation,
+          });
+
+        const dataUrl =
+          await blobToDataUrl(
+            finalBlob
+          );
 
         await exportQrPdf(
-        dataUrl,
-        sanitizeDownloadName(`qr-${type}-${todayStamp()}`)
+          dataUrl,
+          sanitizeDownloadName(
+            `qr-${type}-${todayStamp()}`
+          )
         );
-    } finally {
+      } finally {
         setBusy(false);
-    }
-    }, [errors.length, instanceRef, type]);
+      }
+    }, [
+      errors.length,
+      instanceRef,
+      presentation,
+      type,
+  ]);
+
 
   const copyScan = useCallback(async () => {
     try {
@@ -374,6 +525,9 @@ export default function QRToolsClient() {
             ecLevel={ecLevel}
             setEcLevel={setEcLevel}
             onLogo={handleLogo}
+            presentation={presentation}
+            setPresentation={setPresentation}
+            onPresentationImage={handlePresentationImage}
             onOpenPreview={openPreview}
             onPng={downloadPng}
             onSvg={downloadSvg}
@@ -381,6 +535,7 @@ export default function QRToolsClient() {
             busy={busy}
             hasErrors={hasErrors}
           />
+
         ) : (
           <QRScannerPanel
             scannerId={scannerId}
@@ -401,7 +556,12 @@ export default function QRToolsClient() {
       </section>
 
       <aside className="grid gap-6">
-        <QRPreviewCard refEl={qrRef} onOpenModal={openPreview} loading={loading} />
+        <QRPreviewCard
+          refEl={qrRef}
+          onOpenModal={openPreview}
+          loading={loading}
+          presentation={presentation}
+        />
       </aside>
     </div>
 
