@@ -8,13 +8,16 @@ const seoLoaders: Record<string, SeoLoader> = {
   "pdf/merge-pdf": () => import("@/components/tools/pdf/mergePdf/mergePdfSeoContent"),
   "calculator/emi-calculator": () => import("@/components/tools/emiCalculator/emiCalculatorSeoContent"),
   
-  "calculator/home-loan-emi-calculator": () => import("@/components/tools/emiCalculator/homeLoanEmiCalculatorSeoContent"),
   "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent"),
   "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent"),
   
   "calculator/roi-calculator": () => import("@/components/tools/financeSuite/investment/investmentReturnsSuiteSeoContent"),
   "calculator/fd-calculator": () => import("@/components/tools/financeSuite/savings/savingsDepositsSuiteSeoContent"),
-  "calculator/retirement-calculator": () => import("@/components/tools/financeSuite/retirement/retirementWealthSuiteSeoContent"),
+  "calculator/retirement-calculator": () => import("@/components/tools/financeSuite/retirement/sipSeoContent"),
+  "calculator/cagr-calculator": () => import("@/components/tools/financeSuite/retirement/cagrSeoContent"),
+  "calculator/xirr-calculator": () => import("@/components/tools/financeSuite/retirement/xirrSeoContent"),
+  "calculator/lumpsum-calculator": () => import("@/components/tools/financeSuite/retirement/lumpsumSeoContent"),
+
   "image/image-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/ImageToPDFSeoContent"),
   "image/jpg-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/JpgToPdfSeoContent"),
   "image/png-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/PngToPdfSeoContent"),

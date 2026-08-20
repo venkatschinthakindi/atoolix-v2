@@ -41,6 +41,9 @@ const routes = [
   "tools/calculator/roi-calculator",
   "tools/calculator/fd-calculator",
   "tools/calculator/retirement-calculator",
+  "tools/calculator/xirr-calculator",
+  "tools/calculator/lampsum-calculator",
+  "tools/calculator/cagr-calculator",
 
   // PDF Tools
   "tools/pdf/split-pdf",
