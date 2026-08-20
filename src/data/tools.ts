@@ -183,7 +183,7 @@ export const tools: ToolRegistryEntry[] = [
     toolShortName: "EMI Calculator",
     onPageTitle: "EMI Calculator with Prepayment & Amortization Schedule",
     description: "Calculate EMI for home, car, and personal loans with prepayment planning, extra monthly contributions, balloon payments, full amortization schedule, and visual charts.",
-    icon: "Calculator",
+    icon: "Home",
     keywords: [ "emi calculator online",
       "home loan emi calculator",
       "car loan emi calculator",
@@ -212,7 +212,7 @@ export const tools: ToolRegistryEntry[] = [
     toolShortName: "Car Loan EMI Calculator",
     onPageTitle: "Car Loan EMI Calculator with Prepayment & Amortization Schedule",
     description: "Calculate your car loan EMI in seconds. Compare total interest across tenures, and see how prepayments can help you pay off your vehicle loan faster.",
-    icon: "Calculator",
+    icon: "Car",
     keywords: [
       "car loan emi calculator",
       "auto loan calculator",
@@ -239,7 +239,7 @@ export const tools: ToolRegistryEntry[] = [
     toolShortName: "Personal Loan EMI Calculator",
     onPageTitle: "Personal Loan EMI Calculator with Prepayment & Amortization Schedule",
     description: "Calculate your personal loan EMI instantly. Personal loans carry higher rates than secured loans — see exactly how much interest you'll pay and how prepayments cut it down.",
-    icon: "Calculator",
+    icon: "User2",
     keywords: [
       "personal loan emi calculator",
       "unsecured loan calculator",
@@ -260,26 +260,225 @@ export const tools: ToolRegistryEntry[] = [
 
   {
     id: "calculator/roi-calculator",
+
     archived: false,
-    relatedTools: ["calculator/emi-calculator", "calculator/fd-calculator", "calculator/retirement-calculator", "calculator"],
-    //loader: () => import("@/components/tools/financeSuite/investment/investmentReturnsSuite"),
-    toolShortName: "Investment Returns",
-    title: "SIP Calculator with Step-Up | CAGR, XIRR & Returns",
-    onPageTitle: "SIP Calculator with Step-Up, CAGR, XIRR & Lumpsum Returns",
-    description: "Calculate SIP returns with annual or monthly step-up. View maturity value, wealth gained, CAGR, XIRR, and lumpsum returns with interactive charts and a downloadable PDF report.",
+
+    relatedTools: [
+      "calculator/cagr-calculator",
+      "calculator/xirr-calculator",
+      "calculator/lumpsum-calculator",
+      "calculator/emi-calculator",
+      "calculator/fd-calculator",
+      "calculator/retirement-calculator"
+    ],
+
+    // loader: () =>
+    //   import("@/components/tools/financeSuite/investment/investmentReturnsSuite"),
+
+    toolShortName: "SIP Calculator",
+
+    title:
+      "SIP Calculator with Step-Up | SIP Returns Calculator",
+
+    onPageTitle:
+      "SIP Calculator with Step-Up – Calculate SIP Returns & Maturity",
+
+    description:
+      "Calculate SIP returns with annual or monthly step-up contributions. Estimate total investment, maturity value, wealth gained and expected returns with interactive charts and a downloadable PDF report.",
+
     icon: "TrendingUp",
+
     keywords: [
+      "sip calculator",
       "sip calculator with step up",
       "sip roi calculator",
-      "cagr calculator",
-      "xirr calculator",
-      "lumpsum return calculator",
+      "sip returns calculator",
       "mutual fund sip calculator",
       "sip calculator india",
-      "sip growth calculator"
+      "sip growth calculator",
+      "monthly sip calculator",
+      "step up sip calculator",
+      "sip maturity calculator",
+      "sip investment calculator",
+      "systematic investment plan calculator"
     ],
+
     alternates: {
       canonical: `${siteUrl}/tools/calculator/roi-calculator`
+    },
+
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+
+    category: "Finance",
+    subCategory: "Investment",
+
+    featured: false,
+    comingSoon: false,
+    preload: false,
+
+    toolImage: "roi-calculator.png"
+  },
+
+
+  // ============================================================
+  // 2. CAGR CALCULATOR
+  // ============================================================
+  {
+    id: "calculator/cagr-calculator",
+
+    archived: false,
+
+    relatedTools: [
+      "calculator/roi-calculator",
+      "calculator/xirr-calculator",
+      "calculator/lumpsum-calculator"
+    ],
+
+    // loader: () =>
+    //   import("@/components/tools/financeSuite/investment/cagrCalculator"),
+
+    toolShortName: "CAGR Calculator",
+
+    title:
+      "CAGR Calculator | Compound Annual Growth Rate",
+
+    onPageTitle:
+      "CAGR Calculator – Calculate Compound Annual Growth Rate",
+
+    description:
+      "Calculate the Compound Annual Growth Rate of an investment using the initial value, final value and investment period. Understand annualized investment growth over time.",
+
+    icon: "TrendingUp",
+
+    keywords: [
+      "cagr calculator",
+      "cagr calculator india",
+      "compound annual growth rate calculator",
+      "cagr calculation",
+      "cagr return calculator",
+      "investment cagr calculator",
+      "mutual fund cagr calculator",
+      "stock cagr calculator",
+      "annualized return calculator",
+      "compound growth calculator"
+    ],
+
+    alternates: {
+      canonical: `${siteUrl}/tools/calculator/cagr-calculator`
+    },
+
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+
+    category: "Finance",
+    subCategory: "Investment",
+
+    featured: false,
+    comingSoon: false,
+    preload: false,
+
+    toolImage: "roi-calculator.png"
+  },
+
+
+  // ============================================================
+  // 3. XIRR CALCULATOR
+  // ============================================================
+  {
+    id: "calculator/xirr-calculator",
+
+    archived: false,
+
+    relatedTools: [
+      "calculator/roi-calculator",
+      "calculator/cagr-calculator",
+      "calculator/lumpsum-calculator"
+    ],
+
+    // loader: () =>
+    //   import("@/components/tools/financeSuite/investment/xirrCalculator"),
+
+    toolShortName: "XIRR Calculator",
+
+    title:
+      "XIRR Calculator | Annualized Investment Returns",
+
+    onPageTitle:
+      "XIRR Calculator – Calculate Annualized Investment Returns",
+
+    description:
+      "Calculate XIRR for investments with multiple or irregular cash flows. Measure annualized returns accurately for SIPs, withdrawals, deposits and other investments with different transaction dates.",
+
+    icon: "TrendingUp",
+
+    keywords: [
+      "xirr calculator",
+      "xirr calculator india",
+      "xirr calculation",
+      "xirr return calculator",
+      "mutual fund xirr calculator",
+      "sip xirr calculator",
+      "investment xirr calculator",
+      "annualized return calculator",
+      "irregular cash flow calculator",
+      "xirr investment calculator",
+      "xirr vs cagr"
+    ],
+
+    alternates: {
+      canonical: `${siteUrl}/tools/calculator/xirr-calculator`
+    },
+
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+
+    category: "Finance",
+    subCategory: "Investment",
+
+    featured: false,
+    comingSoon: false,
+    preload: false,
+
+    toolImage: "roi-calculator.png"
+  },
+
+
+  // ============================================================
+  // 4. LUMPSUM CALCULATOR
+  // ============================================================
+  {
+    id: "calculator/lumpsum-calculator",
+    archived: false,
+    relatedTools: [
+      "calculator/roi-calculator",
+      "calculator/cagr-calculator",
+      "calculator/xirr-calculator"
+    ],
+    toolShortName: "Lumpsum Calculator",
+    title:
+      "Lumpsum Calculator | Mutual Fund Lumpsum Returns",
+    onPageTitle:
+      "Lumpsum Calculator – Calculate Mutual Fund Investment Returns",
+    description:
+      "Calculate the future value and returns of a one-time lumpsum investment. Estimate invested amount, wealth gained, maturity value and expected growth over your selected investment period.",
+    icon: "Wallet",
+    keywords: [
+      "lumpsum calculator",
+      "lumpsum calculator india",
+      "lumpsum return calculator",
+      "mutual fund lumpsum calculator",
+      "lumpsum investment calculator",
+      "one time investment calculator",
+      "lumpsum mutual fund calculator",
+      "investment maturity calculator",
+      "lumpsum growth calculator",
+      "lumpsum investment returns",
+      "mutual fund return calculator"
+    ],
+
+    alternates: {
+      canonical: `${siteUrl}/tools/calculator/lumpsum-calculator`
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -288,7 +487,7 @@ export const tools: ToolRegistryEntry[] = [
     featured: false,
     comingSoon: false,
     preload: false,
-    toolImage:"roi-calculator.png"
+    toolImage: "roi-calculator.png"
   },
   {
     id: "calculator/fd-calculator",
@@ -784,7 +983,7 @@ export const tools: ToolRegistryEntry[] = [
     id: "image/resize-signature-for-upload",
     archived: false,
     relatedTools: ["image/compress-image-to-20kb", "image/passport-photo-resizer", "image/background-remover", "image/compress-image"],
-    icon: "PenTool",
+    icon: "Signature",
     ...getDefaultCompressorRegistry(),
     category: "Image_Editor",
     // loader: () =>

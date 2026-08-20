@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useMemo, useRef, useState, memo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
 import {
   Calculator,
   Percent,
@@ -18,13 +18,38 @@ import {
 
 import { Field } from "@/components/ui/Field";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
-import { ExplainerPanel, TabKey } from "@/sharedUI/explainerPanel";
+import { ExplainerPanel } from "@/sharedUI/explainerPanel";
 import CustomSelect from "@/components/ui/customSelect";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  CURRENCIES,
+  CurrencyCode,
+  CashFlow,
+  NumField,
+  XirrStatus,
+  InvestmentTabKey,
+  LIMITS,
+  uid,
+  todayISO,
+  parseNumericInput,
+  clamp,
+  formatCurrency,
+  formatPercent,
+  toCalcNumber,
+  calculateSIPValue,
+  buildSipSeries,
+  calculateCompoundValue,
+  buildLumpSeries,
+  utcDay,
+  xirr,
+  isFlowValid,
+} from "@/components/tools/financeSuite/investment/core/engine";
+import { ROUTE_MAP } from "@/components/tools/financeSuite/investment/core/config";
+
 
 // NOTE: this component calls useSearchParams(). In the App Router, any
 // route that renders it must wrap it in a <Suspense> boundary (e.g. in
-// page.tsx: `<Suspense fallback={...}><InvestmentReturnsSuite /></Suspense>`)
+// page.tsx: `<Suspense fallback={...}><InvestmentReturnsHubPage /></Suspense>`)
 // or Next.js will fail the build / throw at runtime for statically
 // rendered routes.
 
@@ -44,57 +69,16 @@ const FinancePdfExport = dynamic(
   }
 );
 
-// ---------------------------------------------------------------------------
-// Currency
-// ---------------------------------------------------------------------------
-// This tool only swaps the currency *symbol* and keeps Indian-style digit
-// grouping (e.g. ₹5,00,000 -> $5,00,000). It does NOT convert amounts. This
-// is intentional and called out to the user in the UI (see the warning
-// banner in the hero section).
-
-const CURRENCIES = {
-  INR: { code: "INR", symbol: "₹", label: "₹ INR — Indian Rupee" },
-  USD: { code: "USD", symbol: "$", label: "$ USD — US Dollar" },
-  EUR: { code: "EUR", symbol: "€", label: "€ EUR — Euro" },
-  GBP: { code: "GBP", symbol: "£", label: "£ GBP — British Pound" },
-  JPY: { code: "JPY", symbol: "¥", label: "¥ JPY — Japanese Yen" },
-  AUD: { code: "AUD", symbol: "A$", label: "A$ AUD — Australian Dollar" },
-  CAD: { code: "CAD", symbol: "C$", label: "C$ CAD — Canadian Dollar" },
-  SGD: { code: "SGD", symbol: "S$", label: "S$ SGD — Singapore Dollar" },
-  AED: { code: "AED", symbol: "د.إ", label: "د.إ AED — UAE Dirham" },
-} as const;
-
-type CurrencyCode = keyof typeof CURRENCIES;
-
-function formatCurrency(value: number, currency: CurrencyCode = "INR") {
-  if (!Number.isFinite(value)) return "—";
-  const symbol = CURRENCIES[currency].symbol;
-  const sign = value < 0 ? "-" : "";
-  const grouped = Math.abs(Math.round(value)).toLocaleString("en-IN");
-  return `${sign}${symbol}${grouped}`;
-}
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-type CashFlow = {
-  id: string;
-  amount: number | "";
-  date: string;
-};
-
-// Numeric form fields can be transiently empty while the user retypes them.
-type NumField = number | "";
-
-type XirrStatus = "idle" | "invalid" | "same-date" | "no-solution" | "ok";
-
-const tabs: { id: TabKey; label: string; icon: string }[] = [
+const tabs: { id: InvestmentTabKey; label: string; icon: string }[] = [
   { id: "sip", label: "SIP Growth", icon: "🚀" },
   { id: "lump", label: "Lump Sum", icon: "💎" },
-  { id: "performance", label: "CAGR & XIRR", icon: "🎯" },
+  { id: "cagr", label: "CAGR", icon: "🎯" },
+  { id: "xirr", label: "XIRR", icon: "📈" },
 ];
 
+// EXPLAINERS keys must match InvestmentTabKey. CAGR and XIRR were
+// previously one shared "performance" explainer — split so each dedicated
+// page shows only the explainer relevant to it.
 const EXPLAINERS: any = {
   sip: {
     title: "What is SIP (Systematic Investment Plan)?",
@@ -114,312 +98,25 @@ const EXPLAINERS: any = {
       "Example: ₹1,00,000 at 8% for 5 years compounded quarterly.",
     ],
   },
-  performance: {
-    title: "What are CAGR and XIRR?",
+  cagr: {
+    title: "What is CAGR (Compound Annual Growth Rate)?",
     lines: [
-      "CAGR (Compound Annual Growth Rate) tells you the steady annual rate at which an investment grew from start to end.",
-      "It ignores timing of cash flows — use it to compare two investments over the same period.",
-      "XIRR is more powerful: it accounts for the exact dates of each investment and withdrawal.",
+      "CAGR tells you the steady annual rate at which an investment grew from a starting value to an ending value.",
+      "It ignores the timing of cash flows in between — use it to compare two investments over the same period.",
+      "Useful when you know only two numbers: what you started with and what you ended up with.",
+      "Example: ₹1,00,000 grew to ₹1,80,000 over 5 years — CAGR tells you the equivalent steady annual rate.",
+    ],
+  },
+  xirr: {
+    title: "What is XIRR (Extended Internal Rate of Return)?",
+    lines: [
+      "XIRR accounts for the exact dates of each investment and withdrawal, not just a start and end value.",
       "Use XIRR when you've made multiple investments at different times (e.g. SIP purchases + redemptions).",
       "Investments are entered as negative numbers (money out of your pocket), payouts as positive (money back to you).",
+      "XIRR is the more realistic return measure whenever your cash flows aren't a single lump sum in and out.",
     ],
   },
 };
-
-// ---------------------------------------------------------------------------
-// Small helpers
-// ---------------------------------------------------------------------------
-
-function uid() {
-  return `cf_${Math.random().toString(36).slice(2)}_${Date.now().toString(36)}`;
-}
-
-function todayISO() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-// Lets a field go empty (so the user can delete-then-retype) instead of
-// collapsing to 0 the instant the box is cleared.
-function parseNumericInput(value: string): NumField {
-  if (value.trim() === "") return "";
-  const n = Number(value);
-  return Number.isFinite(n) ? n : "";
-}
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
-}
-
-function clampField(value: NumField, min: number, max: number): NumField {
-  if (value === "") return value;
-  return clamp(value, min, max);
-}
-
-// Converts a possibly-empty field into a real number for calculations,
-// clamped into a safe range so a stray invalid state can never blow up a
-// loop (e.g. someone entering a few million "years").
-function toCalcNumber(value: NumField, fallback: number, min: number, max: number) {
-  const n = value === "" ? fallback : value;
-  return clamp(n, min, max);
-}
-
-function formatPercent(value: number) {
-  if (!Number.isFinite(value)) return "—";
-  return `${value.toFixed(2)}%`;
-}
-
-// Per-field limits: keeps huge inputs from creating runaway loops, and
-// gives every numeric field an enforced (not just cosmetic) min/max.
-const LIMITS = {
-  sipAmount: { min: 0, max: 10_000_000 },
-  sipRate: { min: 0, max: 50 },
-  sipYears: { min: 1, max: 100 },
-  sipStepUp: { min: 0, max: 100 },
-  lumpAmount: { min: 0, max: 100_000_000 },
-  lumpRate: { min: 0, max: 50 },
-  lumpYears: { min: 1, max: 100 },
-  cagrStart: { min: 1, max: 100_000_000 },
-  cagrEnd: { min: 0, max: 100_000_000 },
-  cagrYears: { min: 1, max: 100 },
-} as const;
-
-// Builds onChange/onBlur handlers for a numeric field: onChange stays
-// permissive (so typing "-" or an empty box works), onBlur clamps into
-// range and optionally rounds to a whole number (used for "years" fields
-// so they can never drift out of sync with month-based calculations).
-function numberFieldHandlers(
-  setter: React.Dispatch<React.SetStateAction<NumField>>,
-  { min, max, integer = false }: { min: number; max: number; integer?: boolean }
-) {
-  return {
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      setter(parseNumericInput(e.target.value));
-    },
-    onBlur: () => {
-      setter((current) => {
-        if (current === "") return current;
-        let next = clamp(current, min, max);
-        if (integer) next = Math.round(next);
-        return next;
-      });
-    },
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Finance math
-// ---------------------------------------------------------------------------
-
-function calculateSIPValue(
-  monthly: number,
-  annualRate: number,
-  years: number,
-  stepUpPercent: number
-) {
-  const months = Math.max(0, Math.round(years * 12));
-  const monthlyRate = annualRate / 100 / 12;
-
-  let balance = 0;
-  let currentMonthly = monthly;
-  let invested = 0;
-
-  for (let month = 1; month <= months; month += 1) {
-    balance = balance * (1 + monthlyRate) + currentMonthly;
-    invested += currentMonthly;
-    if (month % 12 === 0) {
-      currentMonthly *= 1 + stepUpPercent / 100;
-    }
-  }
-
-  return {
-    futureValue: balance,
-    invested,
-    gain: balance - invested,
-  };
-}
-
-function calculateCompoundValue(
-  amount: number,
-  rate: number,
-  years: number,
-  frequency: number
-) {
-  if (years <= 0) return amount;
-  const periodic = rate / 100 / frequency;
-  return amount * Math.pow(1 + periodic, frequency * years);
-}
-
-function buildSipSeries(
-  monthly: number,
-  annualRate: number,
-  years: number,
-  stepUpPercent: number
-) {
-  // years is always a whole number by the time it reaches here (enforced
-  // via step=1 + onBlur rounding), so month count and the yearly chart
-  // labels built from `years` stay in sync.
-  const months = Math.max(0, Math.round(years) * 12);
-  const monthlyRate = annualRate / 100 / 12;
-
-  const series: number[] = [];
-  let balance = 0;
-  let currentMonthly = monthly;
-
-  for (let month = 1; month <= months; month += 1) {
-    balance = balance * (1 + monthlyRate) + currentMonthly;
-    if (month % 12 === 0) {
-      series.push(balance);
-      currentMonthly *= 1 + stepUpPercent / 100;
-    }
-  }
-
-  return series;
-}
-
-function buildLumpSeries(
-  amount: number,
-  rate: number,
-  years: number,
-  frequency: number
-) {
-  const series: number[] = [];
-  const wholeYears = Math.round(years);
-  for (let year = 1; year <= wholeYears; year += 1) {
-    const periodic = rate / 100 / frequency;
-    series.push(amount * Math.pow(1 + periodic, frequency * year));
-  }
-  return series;
-}
-
-function utcDay(dateStr: string) {
-  const d = new Date(dateStr);
-  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
-}
-
-function xnpv(rate: number, cashflows: CashFlow[]) {
-  if (!Number.isFinite(rate) || rate <= -1) return NaN;
-  if (!cashflows.length) return NaN;
-
-  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
-  const first = utcDay(sorted[0].date);
-
-  let total = 0;
-  for (const flow of sorted) {
-    if (typeof flow.amount !== "number" || !Number.isFinite(flow.amount) || !flow.date)
-      return NaN;
-    const days = (utcDay(flow.date) - first) / 86400000;
-    total += flow.amount / Math.pow(1 + rate, days / 365);
-  }
-  return total;
-}
-
-function xirrNewton(cashflows: CashFlow[], guess = 0.1) {
-  let rate = guess;
-
-  for (let i = 0; i < 100; i += 1) {
-    const f = xnpv(rate, cashflows);
-    if (!Number.isFinite(f)) return NaN;
-
-    const h = 1e-7;
-    const fp = xnpv(rate + h, cashflows);
-    const derivative = (fp - f) / h;
-
-    if (!Number.isFinite(derivative) || Math.abs(derivative) < 1e-12) return NaN;
-
-    const next = rate - f / derivative;
-    if (!Number.isFinite(next) || next <= -0.9999999999) return NaN;
-    if (Math.abs(next - rate) < 1e-10) return next;
-    rate = next;
-  }
-
-  return NaN;
-}
-
-function xirrBisection(cashflows: CashFlow[]) {
-  let low = -0.9999999999;
-  let high = 10;
-
-  let fLow = xnpv(low, cashflows);
-  let fHigh = xnpv(high, cashflows);
-
-  if (!Number.isFinite(fLow) || !Number.isFinite(fHigh)) return NaN;
-
-  for (let i = 0; i < 50 && fLow * fHigh > 0; i += 1) {
-    high *= 2;
-    fHigh = xnpv(high, cashflows);
-    if (!Number.isFinite(fHigh)) return NaN;
-  }
-
-  if (fLow * fHigh > 0) return NaN;
-
-  for (let i = 0; i < 120; i += 1) {
-    const mid = (low + high) / 2;
-    const fMid = xnpv(mid, cashflows);
-
-    if (!Number.isFinite(fMid)) return NaN;
-    if (Math.abs(fMid) < 1e-12) return mid;
-
-    if (fLow * fMid <= 0) {
-      high = mid;
-      fHigh = fMid;
-    } else {
-      low = mid;
-      fLow = fMid;
-    }
-
-    if (Math.abs(high - low) < 1e-12) return (low + high) / 2;
-  }
-
-  return (low + high) / 2;
-}
-
-// Cash-flow sets with unusual sign patterns (e.g. invest, partial payout,
-// invest again) can mathematically have more than one rate that zeroes the
-// NPV, or none at all. There's no way to guarantee "the one true answer" in
-// that case — but trying several starting points and keeping only the ones
-// that actually verify (|NPV| ~ 0) makes single-root cases far more
-// reliable than one fixed guess, and picking the smallest-magnitude root
-// among verified candidates matches the conventional XIRR convention.
-function solveXirr(cashflows: CashFlow[]) {
-  const sorted = [...cashflows].sort((a, b) => utcDay(a.date) - utcDay(b.date));
-  const seeds = [0.1, 0.3, -0.3, 0.5, -0.5, 1, 2, -0.9];
-
-  const verified: number[] = [];
-  for (const seed of seeds) {
-    const candidate = xirrNewton(sorted, seed);
-    if (!Number.isFinite(candidate) || candidate <= -0.999999) continue;
-    const check = xnpv(candidate, sorted);
-    if (Number.isFinite(check) && Math.abs(check) < 1e-4) {
-      verified.push(candidate);
-    }
-  }
-
-  if (verified.length) {
-    verified.sort((a, b) => Math.abs(a) - Math.abs(b));
-    return verified[0];
-  }
-
-  const bisected = xirrBisection(sorted);
-  if (Number.isFinite(bisected)) {
-    const check = xnpv(bisected, sorted);
-    if (Number.isFinite(check) && Math.abs(check) < 1e-4) return bisected;
-  }
-
-  return NaN;
-}
-
-function xirr(cashflows: CashFlow[]) {
-  const valid = cashflows.filter(
-    (f) => typeof f.amount === "number" && Number.isFinite(f.amount) && !!f.date
-  );
-  if (valid.length < 2) return NaN;
-
-  const hasPos = valid.some((f) => (f.amount as number) > 0);
-  const hasNeg = valid.some((f) => (f.amount as number) < 0);
-  if (!hasPos || !hasNeg) return NaN;
-
-  return solveXirr(valid);
-}
 
 // ---------------------------------------------------------------------------
 // Presentational bits
@@ -430,8 +127,6 @@ const premiumShellClass =
 
 const inputClass =
   "w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none transition focus:border-blue-400/40";
-
-const cardClass = "rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-4";
 
 type BadgeColor = "blue" | "green" | "purple";
 
@@ -490,15 +185,6 @@ function FieldHint({ text }: { text: string }) {
       <Info className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
       {text}
     </p>
-  );
-}
-
-function isFlowValid(flow: CashFlow) {
-  return (
-    typeof flow.amount === "number" &&
-    Number.isFinite(flow.amount) &&
-    flow.amount !== 0 &&
-    !!flow.date
   );
 }
 
@@ -637,27 +323,82 @@ function XirrSignLegend() {
   );
 }
 
+// Builds onChange/onBlur handlers for a numeric field — stays React-coupled
+// (uses a state setter), so it lives here rather than in the pure engine.
+function numberFieldHandlers(
+  setter: React.Dispatch<React.SetStateAction<NumField>>,
+  { min, max, integer = false }: { min: number; max: number; integer?: boolean }
+) {
+  return {
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      setter(parseNumericInput(e.target.value));
+    },
+    onBlur: () => {
+      setter((current: any) => {
+        if (current === "") return current;
+        let next = clamp(current, min, max);
+        if (integer) next = Math.round(next);
+        return next;
+      });
+    },
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
 
-export default function InvestmentReturnsSuite() {
+type Props = {
+  defaultTab?: InvestmentTabKey;
+  [key: string]: unknown;
+};
+
+export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) {
+  const router = useRouter();
   const searchParams = useSearchParams();
-
-  const getInitialActiveTab = (): TabKey => {
-    const type = searchParams.get("category")?.toLowerCase() || "";
-
-    if (type === "sip") return "sip";
-    if (type === "lump") return "lump";
-    if (type === "performance") return "performance";
-
-    return "sip";
+  const TAB_LABELS: Record<keyof typeof ROUTE_MAP, string> = {
+    sip: "🚀 SIP Calculator",
+    lump: "💎 Lump Sum Calculator",
+    cagr: "🎯 CAGR Calculator",
+    xirr: "📈 XIRR Calculator",
   };
-  const [activeTab, setActiveTab] = useState<TabKey>(() => getInitialActiveTab());
+  const getInitialActiveTab = (): InvestmentTabKey => {
+    // ?category= is kept for backward compatibility with any existing
+    // links; the page's own `defaultTab` (set per dedicated route) is now
+    // the primary source of truth, same pattern as the EMI calculator.
+    const type = searchParams.get("category")?.toLowerCase() || "";
+      if (type === "sip") return "sip";
+      if (type === "lump") return "lump";
+      if (type === "cagr") return "cagr";
+      if (type === "xirr") return "xirr";
+      // "performance" was the old combined tab id — route it to CAGR as a
+      // reasonable default rather than 404-ing old links/bookmarks.
+      if (type === "performance") return "cagr";
+      return defaultTab;
+    };
+
+  const [activeTab, setActiveTab] = useState<InvestmentTabKey>(() => getInitialActiveTab());
   const [currency, setCurrency] = useState<CurrencyCode>("INR");
 
   const chartRef = useRef<HTMLDivElement | null>(null);
-  const performanceRef = useRef<HTMLDivElement | null>(null);
+  const cagrRef = useRef<HTMLDivElement | null>(null);
+  const xirrRef = useRef<HTMLDivElement | null>(null);
+
+  // Warm the sibling routes so switching tabs feels instant (client-side
+  // transition, no full page reload) instead of a cold fetch on first click.
+  useEffect(() => {
+    (Object.keys(ROUTE_MAP) as InvestmentTabKey[])
+      .filter((t) => t !== activeTab)
+      .forEach((t) => router.prefetch(ROUTE_MAP[t]));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleTabChange = (tab: InvestmentTabKey) => {
+    setActiveTab(tab);
+    if (ROUTE_MAP[tab]) {
+      router.push(ROUTE_MAP[tab], { scroll: false });
+    }
+  };
 
   const [sipAmount, setSipAmount] = useState<NumField>(5000);
   const [sipRate, setSipRate] = useState<NumField>(12);
@@ -899,31 +640,38 @@ export default function InvestmentReturnsSuite() {
       };
     }
 
+    if (activeTab === "cagr") {
+      return {
+        title: "CAGR Report",
+        subtitle: "Compound annual growth rate analysis",
+        summaryCards: [
+          {
+            label: "CAGR",
+            value: cagrIsValid ? formatPercent(cagrResult * 100) : "—",
+            tone: "positive" as const,
+          },
+        ],
+        inputRows: [
+          ["Opening value", formatCurrency(cagrStartN, currency)],
+          ["Ending value", formatCurrency(cagrEndN, currency)],
+          ["Period", `${cagrYearsN} years`],
+        ],
+        resultRows: [
+          ["CAGR", cagrIsValid ? formatPercent(cagrResult * 100) : "—"],
+        ],
+        notes: ["CAGR ignores the timing of cash flows in between."],
+      };
+    }
+
     return {
-      title: "Performance Report",
-      subtitle: "CAGR and XIRR analysis",
+      title: "XIRR Report",
+      subtitle: "Annualised return across dated cash flows",
       summaryCards: [
-        {
-          label: "CAGR",
-          value: cagrIsValid ? formatPercent(cagrResult * 100) : "—",
-          tone: "positive" as const,
-        },
         { label: "XIRR", value: xirrValueText, tone: "accent" as const },
       ],
-      inputRows: [
-        ["CAGR start", formatCurrency(cagrStartN, currency)],
-        ["CAGR end", formatCurrency(cagrEndN, currency)],
-        ["CAGR years", `${cagrYearsN}`],
-        ["XIRR rows", `${xirrFlows.length}`],
-      ],
-      resultRows: [
-        ["CAGR", cagrIsValid ? formatPercent(cagrResult * 100) : "—"],
-        ["XIRR", xirrValueText],
-      ],
-      notes: [
-        "CAGR ignores the timing of cash flows.",
-        "XIRR uses the exact dates of each cash flow.",
-      ],
+      inputRows: [["XIRR rows", `${xirrFlows.length}`]],
+      resultRows: [["XIRR", xirrValueText]],
+      notes: ["XIRR uses the exact dates of each cash flow."],
     };
   }, [
     activeTab,
@@ -1016,7 +764,7 @@ export default function InvestmentReturnsSuite() {
                         callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
                         options={Object.entries(CURRENCIES).map(([code, meta]) => ({
                           value: code,
-                          label: meta.label,
+                          label: meta?.label,
                         }))}
                       />
                     </div>
@@ -1044,7 +792,7 @@ export default function InvestmentReturnsSuite() {
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => handleTabChange(tab.id)}
                 className={[
                   "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
                   active
@@ -1057,6 +805,7 @@ export default function InvestmentReturnsSuite() {
               </button>
             );
           })}
+          
         </div>
       </div>
 
@@ -1334,18 +1083,15 @@ export default function InvestmentReturnsSuite() {
         </div>
       )}
 
-      {activeTab === "performance" && (
-        <div className="space-y-5">
-          <ExplainerPanel tabKey="performance" explainers={EXPLAINERS} />
+      {/* CAGR — now its own independent full-width section, previously
+          shared a 2-column tab with XIRR. */}
+      {activeTab === "cagr" && (
+        <div className="space-y-4">
+          <ExplainerPanel tabKey="cagr" explainers={EXPLAINERS} />
 
-          {/* This tab has no chart component, but FinancePdfExport still
-              expects a chartRef. Pointing it at the results wrapper below
-              keeps the ref non-null so a PDF export from this tab doesn't
-              crash trying to capture a missing chart element. */}
-          <div ref={performanceRef} className="grid gap-5 xl:grid-cols-2">
+          <div ref={cagrRef}>
             <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
-
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <SectionHeader
                     title="CAGR calculator"
@@ -1361,7 +1107,7 @@ export default function InvestmentReturnsSuite() {
                     inputRows={exportData.inputRows}
                     resultRows={exportData.resultRows}
                     notes={exportData.notes}
-                    chartRef={performanceRef}
+                    chartRef={cagrRef}
                   />
                 </div>
               </div>
@@ -1433,14 +1179,36 @@ export default function InvestmentReturnsSuite() {
                 )}
               </div>
             </section>
+          </div>
+        </div>
+      )}
 
+      {/* XIRR — now its own independent full-width section. */}
+      {activeTab === "xirr" && (
+        <div className="space-y-4">
+          <ExplainerPanel tabKey="xirr" explainers={EXPLAINERS} />
+
+          <div ref={xirrRef}>
             <section className={premiumShellClass}>
               <div className="border-b border-white/10 p-4 sm:p-5">
-                <SectionHeader
-                  title="XIRR calculator"
-                  subtitle="Annualised return across multiple dated cash flows."
-                  icon={Calculator}
-                />
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                  <SectionHeader
+                    title="XIRR calculator"
+                    subtitle="Annualised return across multiple dated cash flows."
+                    icon={Calculator}
+                  />
+
+                  <FinancePdfExport
+                    filename="XIRR-report"
+                    title={exportData.title}
+                    subtitle={exportData.subtitle}
+                    summaryCards={exportData.summaryCards}
+                    inputRows={exportData.inputRows}
+                    resultRows={exportData.resultRows}
+                    notes={exportData.notes}
+                    chartRef={xirrRef}
+                  />
+                </div>
               </div>
 
               <div className="space-y-4 p-4 sm:p-5">

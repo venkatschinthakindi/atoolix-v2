@@ -22,7 +22,12 @@ import {
   Clock3,
   QrCode,
   Pencil,
-  ShieldCheck
+  ShieldCheck,
+  Wallet,
+  Home,
+  Car,
+  User2,
+  Signature
 } from "lucide-react";
 import React from "react";
 
@@ -50,7 +55,12 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
   Clock3: Clock3,
   QrCode: QrCode,
   Pencil: Pencil,
-  ShieldCheck: ShieldCheck
+  ShieldCheck: ShieldCheck,
+  Wallet: Wallet,
+  Home: Home,
+  Car:Car,
+  User2:User2,
+  Signature:Signature
 };
 
 export function IconResolver({ name, className,size, strokeWidth, color }: { name: string; 

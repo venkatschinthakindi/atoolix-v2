@@ -1,7 +1,8 @@
 import { ChevronDown, ChevronUp, Info } from "lucide-react";
 import { useState } from "react";
 
-export type TabKey = "sip" | "lump" | "performance" | "simple" | "compound" | "deposits";
+export type TabKey = "sip" | "lump" | "performance" | "simple" | "compound" |
+ "deposits" | "xirr" | "cagr";
 
 
 export function ExplainerPanel({ tabKey, explainers }: { tabKey: TabKey, explainers:any }) {

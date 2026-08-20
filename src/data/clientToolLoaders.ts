@@ -35,7 +35,28 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
     "calculator/roi-calculator",
     () =>
       import(
-        "@/components/tools/financeSuite/investment/investmentReturnsSuite"
+        "@/components/tools/financeSuite/investment/calculators/investmentReturnsSuite"
+      ),
+  ],
+  [
+    "calculator/cagr-calculator",
+    () =>
+      import(
+        "@/components/tools/financeSuite/investment/calculators/cagrCalculator"
+      ),
+  ],
+  [
+    "calculator/xirr-calculator",
+    () =>
+      import(
+        "@/components/tools/financeSuite/investment/calculators/xirrCalculator"
+      ),
+  ],
+  [
+    "calculator/lumpsum-calculator",
+    () =>
+      import(
+        "@/components/tools/financeSuite/investment/calculators/lumpsumCalculator"
       ),
   ],
   [

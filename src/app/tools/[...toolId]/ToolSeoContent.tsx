@@ -11,7 +11,11 @@ const seoLoaders: Record<string, SeoLoader> = {
   "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent"),
   "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent"),
   
-  "calculator/roi-calculator": () => import("@/components/tools/financeSuite/investment/investmentReturnsSuiteSeoContent"),
+  "calculator/roi-calculator": () => import("@/components/tools/financeSuite/investment/sipReturnCalculatorSeoContent"),
+  "calculator/cagr-calculator": () => import("@/components/tools/financeSuite/investment/cagrSeoContent"),
+  "calculator/xirr-calculator": () => import("@/components/tools/financeSuite/investment/xirrSeoContent"),
+  "calculator/lumpsum-calculator": () => import("@/components/tools/financeSuite/investment/lumpsumcalculatorseocontent"),
+
   "calculator/fd-calculator": () => import("@/components/tools/financeSuite/savings/savingsDepositsSuiteSeoContent"),
   "calculator/retirement-calculator": () => import("@/components/tools/financeSuite/retirement/retirementWealthSuiteSeoContent"),
   "image/image-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/ImageToPDFSeoContent"),
