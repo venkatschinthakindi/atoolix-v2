@@ -343,31 +343,24 @@ export const tools: ToolRegistryEntry[] = [
     toolImage:"fd-calculator.png"
   },
   {
-    id: "calculator/retirement-calculator",//SIP
+    id: "calculator/retirement-calculator",
     archived: false,
-    relatedTools: [
-      "calculator/lumpsum-calculator",
-      "calculator/cagr-calculator",
-      "calculator/xirr-calculator",
-      "calculator/roi-calculator",
-      "calculator/fd-calculator",
-      "calculator/emi-calculator",
-      "calculator"
-    ],
-    toolShortName: "SIP Retirement Calculator",
-    title: "SIP Calculator | Mutual Fund Investment Planner",
-    onPageTitle: "SIP Calculator with Investment Growth Charts",
-    description: "Calculate SIP returns, total investment, and estimated wealth with inflation-aware planning, growth charts, and detailed year-by-year projections.",
-    icon: "ChartNoAxesCombined",
+    relatedTools: ["calculator/roi-calculator", "calculator/fd-calculator", "calculator/emi-calculator", "calculator"],
+    //loader: () => import("@/components/tools/financeSuite/retirement/retirementWealthSuite"),
+    toolShortName: "Retirement Planner",
+    title: "Retirement Calculator | FIRE & SWP Planner",
+    onPageTitle: "Retirement, FIRE & SWP Planner with PDF Report and Charts",
+    description: "Plan retirement with corpus, FIRE target, and SWP withdrawal calculators. View inflation-adjusted income, growth charts, and a downloadable year-by-year PDF report.",
+    icon: "Palmtree",
     keywords: [
-      "sip calculator",
-      "sip calculator india",
-      "mutual fund sip calculator",
-      "sip return calculator",
-      "monthly sip calculator",
-      "systematic investment plan calculator",
-      "sip investment calculator",
-      "mutual fund calculator"
+      "retirement calculator india",
+      "fire calculator",
+      "swp calculator",
+      "retirement corpus calculator",
+      "financial independence calculator",
+      "systematic withdrawal plan calculator",
+      "retirement planning calculator",
+      "when can i retire calculator"
     ],
     alternates: {
       canonical: `${siteUrl}/tools/calculator/retirement-calculator`
@@ -378,123 +371,8 @@ export const tools: ToolRegistryEntry[] = [
     featured: false,
     comingSoon: false,
     preload: false,
-    toolImage: "sip-calculator.png"
+    toolImage:"retirement-calculator.png"
   },
-  {
-    id: "calculator/lumpsum-calculator",
-    archived: false,
-    relatedTools: [
-      "calculator/retirement-calculator",
-      "calculator/cagr-calculator",
-      "calculator/xirr-calculator",
-      "calculator/roi-calculator",
-      "calculator/fd-calculator",
-      "calculator/emi-calculator",
-      "calculator"
-    ],
-    toolShortName: "Lumpsum Retirement Calculator",
-    title: "Lumpsum Calculator | Mutual Fund Returns Planner",
-    onPageTitle: "Lumpsum Investment Calculator with Growth Charts",
-    description: "Calculate the future value of a one-time investment using expected returns and investment duration. View estimated wealth, growth charts, and detailed projections.",
-    icon: "TrendingUp",
-    keywords: [
-      "lumpsum calculator",
-      "lumpsum calculator india",
-      "lump sum investment calculator",
-      "mutual fund lumpsum calculator",
-      "lumpsum return calculator",
-      "one time investment calculator",
-      "mutual fund calculator",
-      "investment growth calculator"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/calculator/lumpsum-calculator`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities",
-    category: "Finance",
-    featured: false,
-    comingSoon: false,
-    preload: false,
-    toolImage: "lumpsum-calculator.png"
-  },
-  {
-    id: "calculator/cagr-calculator",
-    archived: false,
-    relatedTools: [
-      "calculator/lumpsum-calculator",
-      "calculator/xirr-calculator",
-      "calculator/retirement-calculator",
-      "calculator/roi-calculator",
-      "calculator/fd-calculator",
-      "calculator/emi-calculator",
-      "calculator"
-    ],
-    toolShortName: "CAGR Retirement Calculator",
-    title: "CAGR Calculator | Compound Annual Growth Rate",
-    onPageTitle: "CAGR Calculator with Investment Growth Analysis",
-    description: "Calculate compound annual growth rate from starting value, ending value, and investment period. Compare investment growth and view annualized returns.",
-    icon: "Percent",
-    keywords: [
-      "cagr calculator",
-      "cagr calculator india",
-      "compound annual growth rate calculator",
-      "investment cagr calculator",
-      "stock cagr calculator",
-      "mutual fund cagr calculator",
-      "annualized return calculator",
-      "investment growth calculator"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/calculator/cagr-calculator`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities",
-    category: "Finance",
-    featured: false,
-    comingSoon: false,
-    preload: false,
-    toolImage: "cagr-calculator.png"
-  },
-  {
-    id: "calculator/xirr-calculator",
-    archived: false,
-    relatedTools: [
-      "calculator/lumpsum-calculator",
-      "calculator/cagr-calculator",
-      "calculator/retirement-calculator",
-      "calculator/roi-calculator",
-      "calculator/fd-calculator",
-      "calculator/emi-calculator",
-      "calculator"
-    ],
-    toolShortName: "XIRR Retirement Calculator",
-    title: "XIRR Calculator | Annualized Return on Investments",
-    onPageTitle: "XIRR Calculator for SIP, Mutual Fund & Irregular Investments",
-    description: "Calculate XIRR for SIPs, mutual funds, stocks, and other investments with multiple cash flows on different dates. Measure annualized returns accurately.",
-    icon: "Calculator",
-    keywords: [
-      "xirr calculator",
-      "xirr calculator india",
-      "mutual fund xirr calculator",
-      "sip xirr calculator",
-      "investment xirr calculator",
-      "annualized return calculator",
-      "irregular cash flow calculator",
-      "xirr return calculator"
-    ],
-    alternates: {
-      canonical: `${siteUrl}/tools/calculator/xirr-calculator`
-    },
-    applicationType: "WebApplication",
-    applicationCategory: "Utilities",
-    category: "Finance",
-    featured: false,
-    comingSoon: false,
-    preload: false,
-    toolImage: "xirr-calculator.png"
-  },
-
   {
     id: "calculator",
     archived: false,

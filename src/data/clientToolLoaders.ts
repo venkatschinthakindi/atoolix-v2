@@ -24,6 +24,10 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
     () => import("@/components/tools/emiCalculator/calculators/Emicalculator"),
   ],
   [
+    "calculator/home-loan-emi-calculator",
+    () => import("@/components/tools/emiCalculator/calculators/HomeLoanEmiCalculatorPage"),
+  ],
+  [
     "calculator/car-loan-emi-calculator",
     () => import("@/components/tools/emiCalculator/calculators/CarLoanEmiCalculatorPage"),
   ],
@@ -47,30 +51,7 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
     "calculator/retirement-calculator",
     () =>
       import(
-        "@/components/tools/financeSuite/retirement/calculators/sipCalculator"
-      ),
-  ],
-
-  [
-    "calculator/lumpsum-calculator",
-    () =>
-      import(
-        "@/components/tools/financeSuite/retirement/calculators/lumpsumCalculator"
-      ),
-  ],
-
-  [
-    "calculator/cagr-calculator",
-    () =>
-      import(
-        "@/components/tools/financeSuite/retirement/calculators/cagrCalculator"
-      ),
-  ],
-  [
-    "calculator/xirr-calculator",
-    () =>
-      import(
-        "@/components/tools/financeSuite/retirement/calculators/xirrCalculator"
+        "@/components/tools/financeSuite/retirement/retirementWealthSuite"
       ),
   ],
 

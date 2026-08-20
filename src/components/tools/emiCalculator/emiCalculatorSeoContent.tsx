@@ -2,215 +2,278 @@ import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools"; // adjust i
 import { JsonLd } from "@/utility/seo/JsonLd";
 import { SectionHeading } from "@/utility/seo/SectionHeading";
 import { serverConfig } from "@/config/server";
+import Link from "next/link";
 
-type FaqItem = { q: string; a: string };
-type StepItem = { title: string; desc: string; icon: string };
-type FeatureItem = { title: string; desc: string; icon: string };
-type ScenarioItem = { title: string; desc: string; icon: string };
-type AudienceItem = { title: string; desc: string; icon: string };
-type ComparisonRow = { label: string; without: string; with: string };
+type FaqItem = {
+  q: string;
+  a: string;
+};
 
-export default function HomeLoanEmiCalculatorSeoContent() {
-  /*
-   * PRIMARY SEARCH INTENT
-   * home loan emi calculator, housing loan emi calculator, mortgage emi calculator
-   *
-   * SECONDARY / GLOBAL INTENT
-   * mortgage calculator, mortgage payment calculator, home loan payment calculator
-   *
-   * ADVANCED PRODUCT INTENT
-   * home loan prepayment calculator, home loan emi calculator with prepayment,
-   * home loan additional payment calculator, home loan interest savings calculator,
-   * home loan amortization calculator, home loan tenure reduction calculator
-   *
-   * "emi calculator with additional payment" showed up in Search Console for
-   * the generic EMI page — "additional payment" phrasing is carried through
-   * into the FAQ/feature copy below rather than only "extra payment".
-   */
+type StepItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
 
+type FeatureItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type ScenarioItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type AudienceItem = {
+  title: string;
+  desc: string;
+  icon: string;
+};
+
+type ComparisonRow = { label: string; standard: string; onetime: string; combined: string };
+
+export default function EmiCalculatorSeoContent() {
   const LAST_REVIEWED = "2026-08-20"; // update whenever the methodology/copy on this page is re-checked
 
   const faqItems: FaqItem[] = [
     {
-      q: "How do I calculate EMI for a home loan?",
-      a: "Enter the home loan amount, annual interest rate, and loan tenure to calculate the monthly EMI. You can then add a prepayment or additional monthly payment to compare how it changes your interest and payoff time.",
+      q: "Is this the same calculator as the home, car, and personal loan pages?",
+      a: "Yes. This hub and the dedicated home loan, car loan, and personal loan EMI calculator pages all use the exact same calculation engine, so results are identical for the same inputs. The dedicated pages simply start with a typical amount, rate, and tenure for that loan type and include content specific to it — use whichever page matches what you're calculating.",
     },
     {
-      q: "What is a home loan EMI calculator?",
-      a: "A home loan EMI calculator estimates your regular monthly mortgage payment using the loan principal, annual interest rate, and repayment tenure — typically 15 to 30 years for a home loan.",
+      q: "How do I calculate EMI for a home, personal, or car loan?",
+      a: "Enter the loan amount, annual interest rate, and loan tenure to calculate the regular monthly EMI. You can then add prepayments or extra payments to compare how different repayment strategies affect interest and loan duration.",
     },
     {
-      q: "Can I use this as a mortgage payment calculator?",
-      a: "Yes. The underlying calculation is the same reducing-balance method used for mortgage payment calculators — enter your home loan amount, rate, and term to get your estimated monthly payment.",
+      q: "What is an EMI calculator?",
+      a: "An EMI calculator estimates the regular monthly payment for a loan using the principal amount, annual interest rate, and repayment tenure. EMI stands for Equated Monthly Instalment and is commonly used for home, personal, car, and other installment loans.",
     },
     {
-      q: "Can I add a partial or one-time prepayment to my home loan?",
-      a: "Yes. Add a one-time prepayment — for example, from a bonus or savings — and compare the adjusted repayment scenario against your original home loan schedule.",
+      q: "Can I use this as a loan payment or monthly payment calculator?",
+      a: "Yes. The calculator can be used to estimate monthly loan payments using the loan amount, interest rate, and repayment term. EMI is the common term in India and several other markets, while loan payment or monthly payment calculator is often used in other countries.",
     },
     {
-      q: "Can I add an additional monthly payment to my home loan EMI?",
-      a: "Yes. Configure an additional monthly contribution on top of your regular EMI to model faster repayment and see the effect on total interest and loan tenure.",
+      q: "Can I add more than one partial or one-time loan prepayment?",
+      a: "Yes. You're not limited to a single lump sum — add multiple one-time prepayments at different months and see how each one, applied on top of the last, changes the outstanding balance, interest cost, and repayment outcome.",
     },
     {
-      q: "How much can prepaying my home loan actually save?",
-      a: "Because interest is charged only on the outstanding balance, a prepayment made early in a 20–30 year home loan typically saves far more interest than the same amount paid later — the calculator shows the exact difference for your numbers.",
+      q: "Can I add extra monthly payments?",
+      a: "Yes. You can configure a recurring extra amount added to every EMI from a chosen month onward, to model a steady faster repayment rather than a single lump sum.",
     },
     {
-      q: "Should I reduce my EMI or shorten my tenure after a home loan prepayment?",
-      a: "Shortening the tenure while keeping the EMI the same generally saves the most total interest. Reducing the EMI instead frees up monthly cash flow — the calculator lets you model either as an EMI reduction or principal reduction scenario.",
+      q: "Can I combine one-time prepayments with a recurring extra monthly payment?",
+      a: "Yes. Model both together in the same scenario — for example, a lump-sum prepayment now plus a smaller recurring extra amount every month after — and compare the combined effect against either approach on its own.",
     },
     {
-      q: "Can I model a balloon payment on a home loan?",
-      a: "Yes. If your home loan structure includes a scheduled lump-sum payment at the end of the term, you can model it as a balloon payment and see how it lowers your regular EMI.",
+      q: "What is a balloon payment in a loan?",
+      a: "A balloon payment is a larger lump-sum payment scheduled at the end of a loan or repayment scenario. This calculator lets you model a balloon payment and review its effect on the repayment plan and outstanding balance.",
     },
     {
-      q: "Does this include home loan processing fees or insurance?",
-      a: "No — this tool models principal and interest only. Lenders often bundle processing fees, mortgage insurance, or legal charges into their official quote, so treat these numbers as an estimate and confirm exact figures with your lender.",
+      q: "What is the difference between EMI reduction and tenure reduction?",
+      a: "EMI reduction lowers future monthly payments after an adjustment, while tenure reduction keeps the repayment strategy focused on paying the loan off sooner. The calculator lets you compare repayment outcomes instead of relying on a simple one-size-fits-all assumption.",
     },
     {
-      q: "Does the calculator show a home loan amortization schedule?",
-      a: "Yes. It provides a month-by-month amortization schedule showing balance, payment, interest, and any prepayment applied for that month.",
+      q: "Can I calculate how much interest I will save by prepaying a loan?",
+      a: "Yes. Add one or more one-time prepayments, a recurring extra monthly contribution, or both, and compare the adjusted scenario with the original repayment plan to see the potential interest and time savings.",
     },
     {
-      q: "Is there a prepayment penalty on home loans?",
-      a: "It depends on your lender and loan type — many home loans allow partial prepayment without penalty, especially on floating-rate loans, but check your loan agreement to confirm.",
+      q: "Does the calculator show an amortization schedule?",
+      a: "Yes. It provides a month-by-month amortization schedule showing repayment details such as balance, payment, interest, and any prepayment applied that month.",
     },
     {
-      q: "Does this work for mortgages outside India?",
-      a: "Yes. The calculation is based on loan amount, interest rate, and tenure rather than a specific country — the same math applies whether you call it a home loan, housing loan, or mortgage.",
+      q: "Does this EMI calculator work for users outside India?",
+      a: "Yes. The calculation is based on the loan amount, interest rate, and repayment period rather than a specific country. EMI is commonly used in India, while users elsewhere may refer to the same concept as a loan payment, mortgage payment, or monthly payment.",
     },
     {
-      q: "How is the EMI formula calculated, and can I verify it myself?",
+      q: "Is this EMI calculator free and mobile-friendly?",
+      a: "Yes. The calculator is free to use and the interface is responsive for phones, tablets, laptops, and desktop screens.",
+    },
+    {
+      q: "How is EMI calculated, and can I verify the formula myself?",
       a: "EMI = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan amount, r is the monthly interest rate (annual rate ÷ 12 ÷ 100), and n is the number of monthly installments. See the worked example below to check the formula against a real set of numbers.",
     },
   ];
 
   const howToSteps: StepItem[] = [
     {
-      title: "Enter your home loan details",
-      desc: "Set the loan amount, annual interest rate, and tenure — typically 15 to 30 years for a home loan.",
-      icon: "🏠",
+      title: "Choose the loan type",
+      desc: "Start with a home loan, personal loan, or car loan preset when a suitable starting scenario is available.",
+      icon: "🏦",
     },
     {
-      title: "Review your monthly EMI",
-      desc: "See your estimated monthly mortgage payment along with total interest and total payment over the full tenure.",
+      title: "Enter loan details",
+      desc: "Set the loan amount, annual interest rate, and repayment tenure to calculate the regular monthly EMI.",
       icon: "🧮",
     },
     {
-      title: "Add a prepayment or additional payment",
-      desc: "Model a one-time prepayment from a bonus, or an additional monthly contribution on top of your regular EMI.",
+      title: "Add repayment changes",
+      desc: "Model one or more one-time prepayments, a recurring extra monthly payment, a combination of both, principal reduction, EMI reduction, or a balloon payment.",
       icon: "💸",
     },
     {
-      title: "Compare interest and tenure saved",
-      desc: "See exactly how much interest you'd save and how many months sooner you'd be mortgage-free.",
+      title: "Compare the outcome",
+      desc: "Review EMI, total interest, repayment duration, interest saved, time saved, charts, and the amortization schedule.",
       icon: "📊",
     },
     {
-      title: "Check the amortization schedule",
-      desc: "Review the full month-by-month breakdown of principal, interest, and balance.",
-      icon: "📅",
+      title: "Fine-tune the scenario",
+      desc: "Adjust advanced settings such as the bank EMI reduction limit and compare different repayment strategies.",
+      icon: "⚙️",
     },
   ];
 
   const coreFeatures: FeatureItem[] = [
     {
-      title: "Home Loan EMI Calculation",
-      desc: "Calculate your monthly mortgage payment from loan amount, interest rate, and a 15–30 year tenure.",
-      icon: "🏠",
+      title: "EMI Calculation",
+      desc: "Calculate the regular monthly EMI from loan principal, annual interest rate, and repayment tenure.",
+      icon: "🧮",
     },
     {
-      title: "Partial Prepayment",
-      desc: "Model a one-time home loan prepayment and see the effect on your remaining balance and total interest.",
+      title: "Home, Personal & Car Loans",
+      desc: "Use loan presets for common home loan, personal loan, and car loan planning scenarios.",
+      icon: "🏷️",
+    },
+    {
+      title: "Global Loan Payment Planning",
+      desc: "Use the same core calculation for installment-based loans globally, whether you call it EMI, monthly loan payment, mortgage payment, or auto loan payment.",
+      icon: "🌍",
+    },
+    {
+      title: "Multiple One-Time Prepayments",
+      desc: "Add more than one lump-sum prepayment at different months, not limited to a single occurrence.",
       icon: "➕",
     },
     {
-      title: "Additional Monthly Payment",
-      desc: "Add extra money to every EMI to model a faster payoff and reduced total interest.",
+      title: "Recurring Extra Payment",
+      desc: "Add a fixed extra amount to every EMI from a chosen month onward to model a sustained faster payoff.",
       icon: "🔁",
     },
     {
+      title: "Combined Prepayment Strategy",
+      desc: "Model one-time prepayments and a recurring extra payment together in the same repayment scenario.",
+      icon: "🧩",
+    },
+    {
       title: "Balloon Payment",
-      desc: "Model a scheduled lump-sum payment at the end of the loan term and see how it lowers your EMI.",
+      desc: "Model a larger final lump-sum payment and evaluate its effect on the loan repayment scenario.",
       icon: "🎯",
     },
     {
-      title: "EMI Reduction vs Tenure Reduction",
-      desc: "Compare lowering your future monthly payment against paying off the mortgage sooner.",
+      title: "Principal Reduction",
+      desc: "Apply additional repayment toward principal and analyze how reducing the outstanding balance affects the loan.",
+      icon: "📌",
+    },
+    {
+      title: "EMI Reduction",
+      desc: "Model lower future EMI payments after an applicable adjustment while respecting the configured bank EMI reduction limit.",
       icon: "📉",
     },
     {
-      title: "Interest Savings Comparison",
-      desc: "See your original home loan schedule side by side with the prepayment scenario.",
+      title: "Tenure Reduction",
+      desc: "Analyze scenarios where additional repayment is used to shorten the remaining loan duration and pay off debt sooner.",
+      icon: "⏱️",
+    },
+    {
+      title: "Interest Savings",
+      desc: "Compare the original loan against adjusted repayment scenarios to identify potential interest savings.",
       icon: "💰",
     },
     {
-      title: "Full Amortization Schedule",
-      desc: "Month-by-month balance, payment, and interest for the entire mortgage term.",
+      title: "Amortization Schedule",
+      desc: "Review the loan month by month with balance, payment, interest, and prepayment details.",
       icon: "📅",
     },
     {
-      title: "Multi-Currency Support",
-      desc: "Calculate in INR, USD, EUR, GBP, and other major currencies for mortgages outside India.",
-      icon: "🌍",
+      title: "Scenario Comparison",
+      desc: "Compare the original repayment plan with prepayment and other advanced repayment scenarios.",
+      icon: "🔍",
     },
   ];
 
   const repaymentScenarios: ScenarioItem[] = [
     {
-      title: "Bonus or Windfall Prepayment",
-      desc: "Received a bonus, tax refund, or inheritance? Model a one-time prepayment and see how much mortgage interest it saves.",
+      title: "Multiple Partial Prepayments",
+      desc: "Have extra money available more than once? Add prepayments at different months and compare the adjusted loan against the original repayment plan.",
       icon: "💵",
     },
     {
-      title: "Additional Monthly Payment",
-      desc: "Test paying a fixed amount extra every month and see the cumulative effect over the life of the loan.",
+      title: "Recurring Extra Monthly Payment",
+      desc: "Test what happens when you pay more than the regular EMI every month, starting whenever you choose. Review the potential effect on interest and repayment duration.",
       icon: "📆",
     },
     {
-      title: "Balloon Payment at Maturity",
-      desc: "Model a structured mortgage with a larger payment due at the end of the term.",
+      title: "Combined: One-Time + Recurring",
+      desc: "Stack a lump-sum prepayment on top of a recurring extra monthly payment and see how the two work together.",
+      icon: "🧩",
+    },
+    {
+      title: "Balloon Payment",
+      desc: "Model a scheduled larger lump-sum payment near the end of the repayment scenario and see how it changes the overall plan.",
       icon: "🎈",
     },
     {
-      title: "Refinance Comparison",
-      desc: "Use two calculations side by side to compare your current mortgage terms against a potential refinance rate and tenure.",
-      icon: "🔄",
+      title: "Reduce EMI",
+      desc: "Explore a repayment scenario focused on reducing future monthly EMI payments within the configured bank limit.",
+      icon: "📉",
+    },
+    {
+      title: "Reduce Loan Tenure",
+      desc: "Explore a repayment strategy focused on clearing the loan sooner by applying additional repayment toward the outstanding balance.",
+      icon: "🏁",
+    },
+    {
+      title: "Compare Repayment Plans",
+      desc: "Compare the base loan with adjusted scenarios to understand the trade-offs between monthly payment, interest, and repayment duration.",
+      icon: "⚖️",
     },
   ];
 
   const audiences: AudienceItem[] = [
     {
-      title: "First-Time Home Buyers",
-      desc: "Estimate what a mortgage will actually cost per month before you commit to a loan amount.",
-      icon: "🏡",
+      title: "Home Buyers & Mortgage Borrowers",
+      desc: "Estimate monthly payments and explore prepayment, interest savings, and repayment-duration scenarios.",
+      icon: "🏠",
     },
     {
-      title: "Existing Homeowners",
-      desc: "Check whether a prepayment or additional monthly payment is worth it given your current rate and remaining tenure.",
-      icon: "🔑",
+      title: "Personal Loan Borrowers",
+      desc: "Check monthly affordability and test whether extra payments or partial prepayments could change the repayment plan.",
+      icon: "💼",
     },
     {
-      title: "Refinancing Homeowners",
-      desc: "Compare your existing mortgage terms against a new rate or tenure before refinancing.",
-      icon: "🔄",
+      title: "Car & Auto Loan Buyers",
+      desc: "Estimate vehicle loan payments and compare additional repayment or balloon-payment scenarios.",
+      icon: "🚗",
+    },
+    {
+      title: "Borrowers Planning Prepayments",
+      desc: "Evaluate one or more one-time prepayments, a recurring extra payment, or both together, and their effect on the loan.",
+      icon: "💰",
     },
     {
       title: "Financial Planners",
-      desc: "Model home loan repayment scenarios for clients using detailed amortization schedules and charts.",
+      desc: "Compare repayment scenarios using amortization schedules, charts, and detailed loan calculations.",
       icon: "📊",
+    },
+    {
+      title: "Global Loan Users",
+      desc: "Use the calculator for installment-based loan planning regardless of whether your market calls the payment EMI, mortgage payment, or monthly loan payment.",
+      icon: "🌎",
     },
   ];
 
-  // Illustrative worked example — figures are computed from the formula above,
+  // Illustrative worked example — figures are computed from the formula below,
   // shown so users (and reviewers) can sanity-check the tool's output independently.
   const comparisonRows: ComparisonRow[] = [
-    { label: "Loan amount", without: "₹50,00,000", with: "₹50,00,000" },
-    { label: "Interest rate (p.a.)", without: "8.5%", with: "8.5%" },
-    { label: "Tenure", without: "20 years (240 EMIs)", with: "20 years (240 EMIs)" },
-    { label: "Monthly EMI", without: "≈ ₹43,391", with: "≈ ₹43,391 (unchanged)" },
-    { label: "One-time prepayment", without: "None", with: "₹5,00,000 in month 60" },
-    { label: "Effect modeled", without: "—", with: "Reduced tenure, same EMI" },
+    { label: "Loan amount", standard: "₹10,00,000", onetime: "₹10,00,000", combined: "₹10,00,000" },
+    { label: "Interest rate (p.a.)", standard: "10%", onetime: "10%", combined: "10%" },
+    { label: "Tenure", standard: "5 years (60 EMIs)", onetime: "5 years (60 EMIs)", combined: "5 years (60 EMIs)" },
+    { label: "Monthly EMI", standard: "≈ ₹21,250", onetime: "≈ ₹21,250 (unchanged)", combined: "≈ ₹21,250 (unchanged)" },
+    { label: "One-time prepayment(s)", standard: "None", onetime: "₹1,00,000 in month 18", combined: "₹1,00,000 in month 18" },
+    { label: "Recurring extra payment", standard: "None", onetime: "None", combined: "₹2,000/month from month 19" },
+    { label: "Effect modeled", standard: "—", onetime: "Reduced tenure, same EMI", combined: "Larger tenure reduction than either alone" },
   ];
 
   const faqSchema = {
@@ -219,16 +282,19 @@ export default function HomeLoanEmiCalculatorSeoContent() {
     mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
     })),
   };
 
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "How to Calculate Home Loan EMI and Compare Prepayment Scenarios",
+    name: "How to Calculate EMI and Compare Loan Repayment Scenarios",
     description:
-      "Calculate home loan EMI and compare prepayments, additional payments, balloon payments, interest savings, and amortization.",
+      "Calculate loan EMI and compare one-time prepayments, recurring extra payments, combined strategies, balloon payments, interest savings, and repayment duration.",
     totalTime: "PT2M",
     step: howToSteps.map((step, index) => ({
       "@type": "HowToStep",
@@ -246,13 +312,23 @@ export default function HomeLoanEmiCalculatorSeoContent() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-      { "@type": "ListItem", position: 2, name: "Calculators", item: `${siteUrl}/tools/calculator` },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Tools",
+        item: `${siteUrl}/tools`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Calculators",
+        item: `${siteUrl}/tools/calculator`,
+      },
       {
         "@type": "ListItem",
         position: 3,
-        name: "Home Loan EMI Calculator",
-        item: `${siteUrl}/tools/calculator/home-loan-emi-calculator`,
+        name: "EMI Calculator",
+        item: `${siteUrl}/tools/calculator/emi-calculator`,
       },
     ],
   };
@@ -263,44 +339,85 @@ export default function HomeLoanEmiCalculatorSeoContent() {
       <JsonLd data={howToSchema} />
       <JsonLd data={breadcrumbSchema} />
 
-      {/* INTRO */}
+      {/* ================================================================
+          INTRO
+          Primary intent: EMI calculator / loan EMI calculator
+          Global secondary intent: loan payment / monthly payment
+          Deliberately generic/comparison-framed — loan-type-specific intent
+          now belongs to the 3 dedicated pages linked below and in Related
+          Financial Calculators.
+         ================================================================ */}
       <section aria-labelledby="intro-heading" className="space-y-4">
         <div className="flex items-center gap-3">
-          <span className="text-2xl" aria-hidden="true">🏠</span>
-          <h2 id="intro-heading" className="text-xl font-bold tracking-tight text-white">
-            Home Loan EMI Calculator — Mortgage Payments & Prepayment Planning
+          <span className="text-2xl" aria-hidden="true">
+            🧮
+          </span>
+
+          <h2
+            id="intro-heading"
+            className="text-xl font-bold tracking-tight text-white"
+          >
+            EMI Calculator Online for Loans, Prepayments & Repayment Planning
           </h2>
         </div>
 
         <p className="text-sm leading-7 text-white/65">
-          Calculate your monthly home loan EMI using the loan amount, annual
-          interest rate, and repayment tenure. A home loan is usually the
-          largest and longest-running debt most people take on — often 15 to
-          30 years — so even small differences in rate or tenure compound into
-          large amounts of interest over the life of the mortgage.
+          Calculate your monthly EMI or loan payment using the loan amount,
+          annual interest rate, and repayment tenure. This advanced EMI
+          calculator supports home loans, mortgages, personal loans, car
+          loans, auto loans, and other installment-based borrowing scenarios.
+          Already know which loan you're calculating? The dedicated{" "}
+          <Link
+            href="/tools/calculator/home-loan-emi-calculator"
+            className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
+          >
+            home loan
+          </Link>
+          ,{" "}
+          <Link
+            href="/tools/calculator/car-loan-emi-calculator"
+            className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
+          >
+            car loan
+          </Link>
+          , and{" "}
+          <Link
+            href="/tools/calculator/personal-loan-emi-calculator"
+            className="text-blue-300 hover:text-blue-200 underline underline-offset-2"
+          >
+            personal loan
+          </Link>{" "}
+          calculators use the same engine with content tailored to that loan
+          type.
         </p>
 
         <p className="text-sm leading-7 text-white/65">
-          Go beyond a basic EMI figure by testing{" "}
+          Go beyond a basic EMI calculation by testing{" "}
           <strong className="font-semibold text-white/80">
-            partial prepayments, additional monthly payments, balloon
-            payments, EMI reduction, and tenure reduction
+            multiple one-time prepayments, a recurring extra monthly
+            payment, a combination of both, balloon payments, principal
+            reduction, EMI reduction, and tenure reduction
           </strong>
-          . Compare your original mortgage schedule against a prepayment
-          scenario and see the exact interest and time you could save.
+          . Compare repayment scenarios, estimate potential interest savings,
+          review the complete amortization schedule, and understand how
+          different repayment choices can change your loan.
         </p>
 
         <p className="text-sm leading-7 text-white/65">
-          Whether you call it a home loan, housing loan, or mortgage, the
-          calculation is the same everywhere — enter your loan amount,
-          interest rate, and tenure to get started. Figures on this page are
-          shown in Indian Rupees (₹) by default; use the currency selector in
-          the calculator above to switch to USD, EUR, GBP, or another supported
-          currency.
+          EMI is a commonly used term in India and several other markets. If
+          you are elsewhere, you may know the same concept as a{" "}
+          <strong className="font-semibold text-white/80">
+            loan payment calculator, monthly payment calculator, mortgage
+            payment calculator, or auto loan payment calculator
+          </strong>
+          . The core calculation uses your loan amount, interest rate, and
+          repayment period.
         </p>
       </section>
 
-      {/* FORMULA & METHODOLOGY */}
+      {/* ================================================================
+          FORMULA & METHODOLOGY
+         ================================================================ */}
       <section aria-labelledby="formula-heading" className="space-y-4">
         <div className="flex gap-3">
           <span className="text-2xl" aria-hidden="true">📐</span>
@@ -317,7 +434,8 @@ export default function HomeLoanEmiCalculatorSeoContent() {
             <strong className="font-semibold text-white/80">
               reducing-balance (amortizing) EMI formula
             </strong>
-            , the same method used by banks and NBFCs for home loans:
+            , the same method used by banks and NBFCs for home, personal, car,
+            and other installment loans:
           </p>
 
           <pre className="overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-white/80">
@@ -325,7 +443,7 @@ export default function HomeLoanEmiCalculatorSeoContent() {
           </pre>
 
           <ul className="space-y-2 text-xs leading-6 text-white/60">
-            <li><strong className="text-white/80">P</strong> — Principal, the home loan amount disbursed.</li>
+            <li><strong className="text-white/80">P</strong> — Principal, the loan amount disbursed.</li>
             <li><strong className="text-white/80">r</strong> — Monthly interest rate, calculated as annual rate ÷ 12 ÷ 100.</li>
             <li><strong className="text-white/80">n</strong> — Total number of monthly installments (tenure in years × 12).</li>
           </ul>
@@ -337,14 +455,19 @@ export default function HomeLoanEmiCalculatorSeoContent() {
                 <li>Interest rate is treated as fixed for the full tenure unless you model a change manually.</li>
                 <li>EMIs are due monthly, starting one month after disbursement.</li>
                 <li>Interest for each period is charged only on the outstanding balance (reducing balance method).</li>
-                <li>Any prepayment or additional payment is applied on the date/month you specify, directly reducing outstanding principal.</li>
+                <li>
+                  Each one-time prepayment is applied on the month you specify and reduces outstanding
+                  principal from that point forward; a recurring extra payment is added to every EMI from
+                  its start month onward. Both can be active in the same scenario and are applied
+                  chronologically, month by month.
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="mb-2 text-sm font-semibold text-white">Rounding & Final Payment</h3>
               <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
                 <li>EMI amounts are rounded to the nearest whole currency unit for display.</li>
-                <li>Rounding across 100+ installments can leave a small residual balance.</li>
+                <li>Rounding across many installments, and across multiple prepayments, can leave a small residual balance.</li>
                 <li>The final EMI in the schedule is automatically adjusted up or down to clear this residual, so the loan closes exactly at ₹0.</li>
               </ul>
             </div>
@@ -352,22 +475,24 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         </div>
       </section>
 
-      {/* WORKED EXAMPLE + COMPARISON */}
+      {/* ================================================================
+          WORKED EXAMPLE + COMPARISON
+         ================================================================ */}
       <section aria-labelledby="example-heading" className="space-y-4">
         <div className="flex gap-3">
           <span className="text-2xl" aria-hidden="true">🧮</span>
           <SectionHeading
             id="example-heading"
-            title="Worked Example: EMI With & Without Prepayment"
+            title="Worked Example: Standard vs One-Time vs Combined Prepayment"
             description="A sample calculation you can check against the formula above, and against the calculator's own output."
           />
         </div>
 
         <p className="text-sm leading-7 text-white/65">
-          For a ₹50,00,000 home loan at 8.5% annual interest over 20 years
-          (240 monthly installments), the monthly EMI works out to
-          approximately <strong className="font-semibold text-white/80">₹43,391</strong>{" "}
-          — total interest over the full tenure is roughly ₹54.1 lakh. Enter
+          For a ₹10,00,000 loan at 10% annual interest over 5 years (60
+          monthly installments), the monthly EMI works out to approximately{" "}
+          <strong className="font-semibold text-white/80">₹21,250</strong> —
+          total interest over the full tenure is roughly ₹2.75 lakh. Enter
           these same numbers into the calculator above to confirm the exact
           figure; results shown there are computed live from your actual
           inputs rather than this fixed example.
@@ -378,16 +503,18 @@ export default function HomeLoanEmiCalculatorSeoContent() {
             <thead>
               <tr className="border-b border-white/10 text-white/80">
                 <th className="p-4 font-semibold">Metric</th>
-                <th className="p-4 font-semibold">Without Prepayment</th>
-                <th className="p-4 font-semibold">With ₹5L Prepayment (Month 60)</th>
+                <th className="p-4 font-semibold">Standard EMI</th>
+                <th className="p-4 font-semibold">One-Time Prepayment</th>
+                <th className="p-4 font-semibold">One-Time + Recurring (Combined)</th>
               </tr>
             </thead>
             <tbody>
               {comparisonRows.map((row) => (
                 <tr key={row.label} className="border-b border-white/5 last:border-0">
                   <td className="p-4 text-white/70">{row.label}</td>
-                  <td className="p-4 text-white/60">{row.without}</td>
-                  <td className="p-4 text-white/60">{row.with}</td>
+                  <td className="p-4 text-white/60">{row.standard}</td>
+                  <td className="p-4 text-white/60">{row.onetime}</td>
+                  <td className="p-4 text-white/60">{row.combined}</td>
                 </tr>
               ))}
             </tbody>
@@ -395,22 +522,31 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         </div>
 
         <p className="text-xs leading-6 text-white/50">
-          This table is illustrative and uses rounded figures to show how a
-          prepayment scenario compares to a standard schedule. Your exact
+          This table is illustrative and uses rounded figures to show how
+          each repayment approach compares to a standard schedule. Your exact
           interest saved and months reduced depend on your specific loan
-          amount, rate, tenure, and prepayment timing — use the calculator
-          above for precise numbers.
+          amount, rate, tenure, and the number, timing, and size of your
+          prepayments — use the calculator above for precise numbers,
+          including scenarios with more than one one-time prepayment.
         </p>
       </section>
 
-      {/* CORE FEATURES */}
-      <section aria-labelledby="core-features-heading" className="space-y-4">
+      {/* ================================================================
+          CORE FEATURES
+         ================================================================ */}
+      <section
+        aria-labelledby="core-features-heading"
+        className="space-y-4"
+      >
         <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">✨</span>
+          <span className="text-2xl" aria-hidden="true">
+            ✨
+          </span>
+
           <SectionHeading
             id="core-features-heading"
-            title="What You Can Do With This Home Loan Calculator"
-            description="Calculate your basic monthly mortgage payment or build a detailed prepayment scenario."
+            title="What You Can Do With This EMI Calculator"
+            description="Use the calculator for basic monthly payment calculations or build detailed loan repayment scenarios with additional payments and prepayments."
           />
         </div>
 
@@ -421,10 +557,21 @@ export default function HomeLoanEmiCalculatorSeoContent() {
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl" aria-hidden="true">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="mb-2 text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="text-xs leading-6 text-white/60">{item.desc}</p>
+                  <h3 className="mb-2 text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs leading-6 text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </article>
@@ -432,14 +579,22 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         </div>
       </section>
 
-      {/* SCENARIOS */}
-      <section aria-labelledby="scenarios-heading" className="space-y-4">
+      {/* ================================================================
+          ADVANCED REPAYMENT SCENARIOS
+         ================================================================ */}
+      <section
+        aria-labelledby="scenarios-heading"
+        className="space-y-4"
+      >
         <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">🎯</span>
+          <span className="text-2xl" aria-hidden="true">
+            🎯
+          </span>
+
           <SectionHeading
             id="scenarios-heading"
-            title="Home Loan Repayment Scenarios"
-            description="Model realistic mortgage decisions instead of calculating only the standard EMI."
+            title="Advanced Loan Repayment Scenarios"
+            description="Model realistic repayment decisions instead of calculating only the standard EMI."
           />
         </div>
 
@@ -449,22 +604,38 @@ export default function HomeLoanEmiCalculatorSeoContent() {
               key={item.title}
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:border-blue-400/30 hover:bg-white/10"
             >
-              <span className="text-2xl" aria-hidden="true">{item.icon}</span>
-              <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-xs leading-6 text-white/60">{item.desc}</p>
+              <span className="text-2xl" aria-hidden="true">
+                {item.icon}
+              </span>
+
+              <h3 className="mt-3 text-sm font-semibold text-white">
+                {item.title}
+              </h3>
+
+              <p className="mt-2 text-xs leading-6 text-white/60">
+                {item.desc}
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      {/* WORKFLOW */}
-      <section aria-labelledby="workflow-heading" className="space-y-4">
+      {/* ================================================================
+          WORKFLOW
+         ================================================================ */}
+      <section
+        aria-labelledby="workflow-heading"
+        className="space-y-4"
+      >
         <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">🧭</span>
+          <span className="text-2xl" aria-hidden="true">
+            🧭
+          </span>
+
           <SectionHeading
             id="workflow-heading"
-            title="How to Use the Home Loan EMI Calculator"
-            description="Start with a standard EMI calculation, then model a prepayment if you want a deeper analysis."
+            title="How to Use the EMI Calculator"
+            description="Start with a standard EMI calculation, then add realistic repayment changes if you want a deeper analysis."
           />
         </div>
 
@@ -481,10 +652,22 @@ export default function HomeLoanEmiCalculatorSeoContent() {
                 >
                   {index + 1}
                 </span>
-                <span className="flex-shrink-0 text-2xl" aria-hidden="true">{step.icon}</span>
+
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {step.icon}
+                </span>
+
                 <div className="flex-1">
-                  <h3 className="mb-1 text-sm font-semibold text-white">{step.title}</h3>
-                  <p className="text-xs leading-6 text-white/60">{step.desc}</p>
+                  <h3 className="mb-1 text-sm font-semibold text-white">
+                    {step.title}
+                  </h3>
+
+                  <p className="text-xs leading-6 text-white/60">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             </article>
@@ -492,14 +675,98 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         </div>
       </section>
 
-      {/* AUDIENCE */}
-      <section aria-labelledby="audience-heading" className="space-y-4">
+      {/* ================================================================
+          AMORTIZATION / RESULTS
+         ================================================================ */}
+      <section
+        aria-labelledby="analysis-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="analysis-heading"
+          title="Analyze Your Loan Repayment"
+          description="Go beyond the monthly EMI and understand how the entire loan changes under different repayment scenarios."
+        />
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold text-white">
+              Monthly Amortization Schedule
+            </h3>
+            <p className="mt-2 text-xs leading-6 text-white/60">
+              Follow the loan month by month with repayment, interest,
+              outstanding balance, and applicable prepayment information.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold text-white">
+              Interest Savings
+            </h3>
+            <p className="mt-2 text-xs leading-6 text-white/60">
+              Compare the original repayment plan with an adjusted scenario to
+              understand the potential difference in total interest.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold text-white">
+              Time or Tenure Savings
+            </h3>
+            <p className="mt-2 text-xs leading-6 text-white/60">
+              See whether additional repayment can shorten the remaining loan
+              period compared with the original schedule.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold text-white">
+              Before & After Comparison
+            </h3>
+            <p className="mt-2 text-xs leading-6 text-white/60">
+              Compare your original loan against an adjusted repayment
+              scenario instead of evaluating the numbers in isolation.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold text-white">
+              Advanced Payment Controls
+            </h3>
+            <p className="mt-2 text-xs leading-6 text-white/60">
+              Adjust extra payments, balloon payments, prepayments, and EMI
+              reduction settings to test more granular repayment scenarios.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold text-white">
+              Charts & Schedule Data
+            </h3>
+            <p className="mt-2 text-xs leading-6 text-white/60">
+              Use visual repayment information and the detailed schedule to
+              understand principal, interest, and changing loan balances.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      {/* ================================================================
+          AUDIENCE
+         ================================================================ */}
+      <section
+        aria-labelledby="audience-heading"
+        className="space-y-4"
+      >
         <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">👥</span>
+          <span className="text-2xl" aria-hidden="true">
+            👥
+          </span>
+
           <SectionHeading
             id="audience-heading"
-            title="Who Uses This Home Loan Calculator?"
-            description="Useful whether you're buying your first home or planning a prepayment on an existing mortgage."
+            title="Who Can Use This Loan & EMI Calculator?"
+            description="Useful for borrowers and planners comparing standard and advanced repayment scenarios."
           />
         </div>
 
@@ -510,10 +777,21 @@ export default function HomeLoanEmiCalculatorSeoContent() {
               className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:border-blue-400/30 hover:bg-white/10"
             >
               <div className="flex items-start gap-3">
-                <span className="flex-shrink-0 text-2xl" aria-hidden="true">{item.icon}</span>
+                <span
+                  className="flex-shrink-0 text-2xl"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="text-xs leading-6 text-white/60">{item.desc}</p>
+                  <h3 className="mb-1 text-sm font-semibold text-white">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs leading-6 text-white/60">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             </article>
@@ -521,29 +799,43 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         </div>
       </section>
 
-      {/* FEATURE SUMMARY */}
-      <section aria-labelledby="feature-summary-heading" className="space-y-4">
+      {/* ================================================================
+          KEY FEATURE SUMMARY
+         ================================================================ */}
+      <section
+        aria-labelledby="feature-summary-heading"
+        className="space-y-4"
+      >
         <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">⚡</span>
+          <span className="text-2xl" aria-hidden="true">
+            ⚡
+          </span>
+
           <SectionHeading
             id="feature-summary-heading"
-            title="Home Loan EMI Calculator Features"
+            title="Advanced EMI Calculator Features"
             description="A quick summary of the repayment controls available in the calculator."
           />
         </div>
 
         <div className="flex flex-wrap gap-3">
           {[
-            "Home loan EMI",
-            "Mortgage payment",
-            "Partial prepayment",
-            "Additional monthly payment",
+            "EMI calculation",
+            "Home loan",
+            "Personal loan",
+            "Car loan",
+            "Loan payment",
+            "Multiple one-time prepayments",
+            "Recurring extra payment",
+            "Combined prepayment strategy",
             "Balloon payment",
+            "Principal reduction",
             "EMI reduction",
             "Tenure reduction",
             "Interest savings",
             "Amortization schedule",
-            "Multi-currency",
+            "Scenario comparison",
+            "Bank EMI limit",
           ].map((feature) => (
             <span
               key={feature}
@@ -555,24 +847,40 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* ================================================================
+          FAQ
+         ================================================================ */}
       <section aria-labelledby="faq-heading" className="space-y-4">
         <SectionHeading
           id="faq-heading"
-          title="Frequently Asked Questions About Home Loan EMI"
-          description="Answers covering home loan EMI calculation, mortgage payments, prepayments, and amortization."
+          title="Frequently Asked Questions About EMI & Loan Calculations"
+          description="Answers covering EMI calculation, loan payments, prepayments, extra payments, balloon payments, amortization, and repayment strategies."
         />
 
         <div className="space-y-4">
           {faqItems.map((item) => (
-            <article key={item.q} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+            <article
+              key={item.q}
+              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+            >
               <details className="native-details">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                  <span className="text-sm font-semibold text-white">{item.q}</span>
-                  <span className="flex-shrink-0 text-lg text-blue-400" aria-hidden="true">⌄</span>
+                  <span className="text-sm font-semibold text-white">
+                    {item.q}
+                  </span>
+
+                  <span
+                    className="flex-shrink-0 text-lg text-blue-400"
+                    aria-hidden="true"
+                  >
+                    ⌄
+                  </span>
                 </summary>
+
                 <div className="border-t border-white/5 border-dashed p-5 pt-0">
-                  <p className="mt-4 text-xs leading-6 text-white/60">{item.a}</p>
+                  <p className="mt-4 text-xs leading-6 text-white/60">
+                    {item.a}
+                  </p>
                 </div>
               </details>
             </article>
@@ -580,10 +888,11 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         </div>
       </section>
 
-      {/* RELATED TOOLS */}
-      <RelatedTools toolId="calculator/home-loan-emi-calculator" />
+      <RelatedTools toolId="calculator/emi-calculator" />
 
-      {/* TRUST / YMYL BLOCK */}
+      {/* ================================================================
+          TRUST / YMYL BLOCK
+         ================================================================ */}
       <section
         aria-labelledby="trust-heading"
         className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5"
@@ -594,13 +903,16 @@ export default function HomeLoanEmiCalculatorSeoContent() {
         <ul className="space-y-2 text-xs leading-6 text-white/60">
           <li>
             <strong className="text-white/80">Methodology:</strong> Uses the
-            standard reducing-balance EMI formula described above, the same
-            method used by banks and NBFCs for home loan amortization.
+            standard reducing-balance EMI formula described above, applied
+            chronologically across any combination of one-time and recurring
+            prepayments you configure — the same engine used by the home
+            loan, car loan, and personal loan calculators.
           </li>
           <li>
             <strong className="text-white/80">Reviewed by:</strong> Atoolix
             Finance Tools Team — outputs are periodically cross-checked
-            against manual reducing-balance calculations.
+            against manual reducing-balance calculations, including
+            multi-prepayment scenarios.
           </li>
           <li>
             <strong className="text-white/80">Last reviewed:</strong>{" "}
@@ -614,41 +926,51 @@ export default function HomeLoanEmiCalculatorSeoContent() {
           </li>
           <li>
             <strong className="text-white/80">Jurisdiction:</strong> Figures
-            default to Indian Rupees (₹) and Indian home loan conventions
-            (reducing balance, monthly EMI), but the underlying formula
-            applies to mortgages in any country — switch currency in the
+            default to Indian Rupees (₹) and Indian EMI conventions (reducing
+            balance, monthly EMI), but the underlying formula applies to
+            installment loans in any country — switch currency in the
             calculator as needed.
           </li>
           <li>
             <strong className="text-white/80">Limitations:</strong> This tool
             estimates principal and interest only. It does not include
-            processing fees, mortgage insurance, legal charges, taxes,
-            prepayment penalties, or lender-specific rounding conventions.
-            Actual EMI quoted by your lender may differ slightly. This is an
-            educational planning tool, not financial advice — confirm exact
-            figures with your lender before making a decision.
+            processing fees, insurance, taxes, prepayment or foreclosure
+            penalties, or lender-specific rounding conventions — this applies
+            regardless of loan type or how many prepayments you model. Actual
+            EMI quoted by your lender may differ. This is an educational
+            planning tool, not financial advice — confirm exact figures with
+            your lender before making a decision.
           </li>
         </ul>
       </section>
 
-      {/* FINAL CTA */}
+      {/* ================================================================
+          FINAL CTA
+         ================================================================ */}
       <section
         aria-labelledby="final-heading"
         className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5"
       >
-        <h2 id="final-heading" className="text-xl font-bold tracking-tight text-white">
-          Calculate Your Home Loan EMI and Explore Prepayment Options
+        <h2
+          id="final-heading"
+          className="text-xl font-bold tracking-tight text-white"
+        >
+          Calculate EMI and Explore Your Loan Repayment Options
         </h2>
+
         <p className="text-sm leading-7 text-white/65">
-          Start with your regular EMI, then test what happens if you make a
-          prepayment, pay extra every month, or use a balloon payment. Review
-          the amortization schedule and potential interest savings before
-          making your mortgage decision.
+          Start with your regular EMI, then test what happens if you make one
+          or more prepayments, pay extra every month, combine both, use a
+          balloon payment, reduce your EMI, shorten your loan tenure, or
+          compare different repayment strategies. Review the amortization
+          schedule and potential interest savings before making your
+          financial decision.
         </p>
+
         <p className="text-xs leading-6 text-white/50">
           This calculator is an educational planning tool. Actual loan terms,
-          prepayment rules, fees, and lender policies can vary by lender,
-          country, and loan agreement.
+          prepayment rules, fees, interest calculations, and lender policies
+          can vary by lender, country, and loan agreement.
         </p>
       </section>
     </div>
