@@ -251,6 +251,7 @@ export default function HomeLoanEmiCalculatorSeoContent() {
       {
         "@type": "ListItem",
         position: 3,
+        position: 3,
         name: "Home Loan EMI Calculator",
         item: `${siteUrl}/tools/calculator/home-loan-emi-calculator`,
       },

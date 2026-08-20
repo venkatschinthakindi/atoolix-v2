@@ -251,6 +251,7 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
       {
         "@type": "ListItem",
         position: 3,
+        position: 3,
         name: "Personal Loan EMI Calculator",
         item: `${siteUrl}/tools/calculator/personal-loan-emi-calculator`,
       },
