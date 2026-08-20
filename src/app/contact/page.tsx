@@ -8,7 +8,7 @@ const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl ?? "https://atoolix.com";
 const supportEmail = "support@atoolix.com";
 
-const updatedAt = new Date("2026-08-198T00:00:00Z");
+const updatedAt = new Date("2026-08-19T00:00:00Z");
 
 export const metadata: Metadata = {
   title: `Contact ${siteName}`,

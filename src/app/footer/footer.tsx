@@ -115,7 +115,7 @@ const toolCategories = [
 export async function Footer() {
   const year = new Date().getFullYear();
 
-  const siteName = serverConfig.siteName;
+  const siteName = serverConfig.siteName.toPascalCase();
   const siteUrl = (serverConfig.siteUrl ?? "").replace(/\/+$/, "");
 
   /*
@@ -127,7 +127,7 @@ export async function Footer() {
   const businessName = "Thrinetra Tech";
 
   const operator = {
-    name: "Venkkatesh",
+    name: "Venkatesh",
     location: "Hyderabad, Telangana, India",
     email: `support@${siteName}.com`,
   };
@@ -206,7 +206,12 @@ export async function Footer() {
               </h3>
 
               <p className="mt-3 text-sm font-medium text-zinc-200">
-                {businessName}
+                <span className="text-lg text-green-600">
+                {" "}
+                <a href="https://www.thrinetratech.in" target="_blank" rel="noopener noreferrer">
+                  Thrinetra Tech
+                </a>
+              </span>
               </p>
 
               <address className="not-italic">
@@ -507,11 +512,13 @@ export async function Footer() {
             </p>
 
             <p>
-              {siteName} is independently operated and maintained under the
-              <span className="font-medium text-zinc-300">
-                {" "}Thrinetra Tech
+              {siteName} is independently operated and maintained by the
+              <span className="text-lg text-green-600">
+                {" "}
+                <a href="https://www.thrinetratech.in" target="_blank" rel="noopener noreferrer">
+                  Thrinetra Tech
+                </a>
               </span>
-              name.
           </p>
 
             <p className="text-xs text-zinc-600">
