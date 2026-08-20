@@ -1,6 +1,7 @@
 import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools"; // adjust import path to wherever RelatedTools.tsx lives
 import { JsonLd } from "@/utility/seo/JsonLd";
 import { SectionHeading } from "@/utility/seo/SectionHeading";
+import { serverConfig } from "@/config/server";
 import Link from "next/link";
 
 type FaqItem = {
@@ -32,7 +33,11 @@ type AudienceItem = {
   icon: string;
 };
 
+type ComparisonRow = { label: string; standard: string; onetime: string; combined: string };
+
 export default function EmiCalculatorSeoContent() {
+  const LAST_REVIEWED = "2026-08-20"; // update whenever the methodology/copy on this page is re-checked
+
   const faqItems: FaqItem[] = [
     {
       q: "Is this the same calculator as the home, car, and personal loan pages?",
@@ -51,12 +56,16 @@ export default function EmiCalculatorSeoContent() {
       a: "Yes. The calculator can be used to estimate monthly loan payments using the loan amount, interest rate, and repayment term. EMI is the common term in India and several other markets, while loan payment or monthly payment calculator is often used in other countries.",
     },
     {
-      q: "Can I add a partial or one-time loan prepayment?",
-      a: "Yes. You can add a one-time prepayment to the repayment scenario and see how applying additional money toward the loan changes the outstanding balance, interest cost, and repayment outcome.",
+      q: "Can I add more than one partial or one-time loan prepayment?",
+      a: "Yes. You're not limited to a single lump sum — add multiple one-time prepayments at different months and see how each one, applied on top of the last, changes the outstanding balance, interest cost, and repayment outcome.",
     },
     {
       q: "Can I add extra monthly payments?",
-      a: "Yes. You can configure an additional monthly contribution on top of the regular EMI to model faster repayment and see how extra payments can reduce total interest and shorten the repayment period.",
+      a: "Yes. You can configure a recurring extra amount added to every EMI from a chosen month onward, to model a steady faster repayment rather than a single lump sum.",
+    },
+    {
+      q: "Can I combine one-time prepayments with a recurring extra monthly payment?",
+      a: "Yes. Model both together in the same scenario — for example, a lump-sum prepayment now plus a smaller recurring extra amount every month after — and compare the combined effect against either approach on its own.",
     },
     {
       q: "What is a balloon payment in a loan?",
@@ -68,11 +77,11 @@ export default function EmiCalculatorSeoContent() {
     },
     {
       q: "Can I calculate how much interest I will save by prepaying a loan?",
-      a: "Yes. Add a one-time prepayment or extra monthly contribution and compare the adjusted scenario with the original repayment plan to see the potential interest and time savings.",
+      a: "Yes. Add one or more one-time prepayments, a recurring extra monthly contribution, or both, and compare the adjusted scenario with the original repayment plan to see the potential interest and time savings.",
     },
     {
       q: "Does the calculator show an amortization schedule?",
-      a: "Yes. It provides a month-by-month amortization schedule showing repayment details such as balance, payment, interest, and applicable prepayment information.",
+      a: "Yes. It provides a month-by-month amortization schedule showing repayment details such as balance, payment, interest, and any prepayment applied that month.",
     },
     {
       q: "Does this EMI calculator work for users outside India?",
@@ -81,6 +90,10 @@ export default function EmiCalculatorSeoContent() {
     {
       q: "Is this EMI calculator free and mobile-friendly?",
       a: "Yes. The calculator is free to use and the interface is responsive for phones, tablets, laptops, and desktop screens.",
+    },
+    {
+      q: "How is EMI calculated, and can I verify the formula myself?",
+      a: "EMI = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan amount, r is the monthly interest rate (annual rate ÷ 12 ÷ 100), and n is the number of monthly installments. See the worked example below to check the formula against a real set of numbers.",
     },
   ];
 
@@ -97,7 +110,7 @@ export default function EmiCalculatorSeoContent() {
     },
     {
       title: "Add repayment changes",
-      desc: "Model one-time partial prepayments, recurring extra monthly payments, principal reduction, EMI reduction, or a balloon payment.",
+      desc: "Model one or more one-time prepayments, a recurring extra monthly payment, a combination of both, principal reduction, EMI reduction, or a balloon payment.",
       icon: "💸",
     },
     {
@@ -129,14 +142,19 @@ export default function EmiCalculatorSeoContent() {
       icon: "🌍",
     },
     {
-      title: "Partial Prepayment",
-      desc: "Model a one-time partial loan prepayment and compare its effect on the remaining repayment plan.",
+      title: "Multiple One-Time Prepayments",
+      desc: "Add more than one lump-sum prepayment at different months, not limited to a single occurrence.",
       icon: "➕",
     },
     {
       title: "Recurring Extra Payment",
-      desc: "Add an extra monthly contribution to model faster principal repayment and potential interest savings.",
+      desc: "Add a fixed extra amount to every EMI from a chosen month onward to model a sustained faster payoff.",
       icon: "🔁",
+    },
+    {
+      title: "Combined Prepayment Strategy",
+      desc: "Model one-time prepayments and a recurring extra payment together in the same repayment scenario.",
+      icon: "🧩",
     },
     {
       title: "Balloon Payment",
@@ -177,14 +195,19 @@ export default function EmiCalculatorSeoContent() {
 
   const repaymentScenarios: ScenarioItem[] = [
     {
-      title: "Partial Loan Prepayment",
-      desc: "Have extra money available for a one-time payment? Add a partial prepayment and compare the adjusted loan against the original repayment plan.",
+      title: "Multiple Partial Prepayments",
+      desc: "Have extra money available more than once? Add prepayments at different months and compare the adjusted loan against the original repayment plan.",
       icon: "💵",
     },
     {
-      title: "Extra Monthly Payment",
-      desc: "Test what happens when you pay more than the regular EMI every month. Review the potential effect on interest and repayment duration.",
+      title: "Recurring Extra Monthly Payment",
+      desc: "Test what happens when you pay more than the regular EMI every month, starting whenever you choose. Review the potential effect on interest and repayment duration.",
       icon: "📆",
+    },
+    {
+      title: "Combined: One-Time + Recurring",
+      desc: "Stack a lump-sum prepayment on top of a recurring extra monthly payment and see how the two work together.",
+      icon: "🧩",
     },
     {
       title: "Balloon Payment",
@@ -226,7 +249,7 @@ export default function EmiCalculatorSeoContent() {
     },
     {
       title: "Borrowers Planning Prepayments",
-      desc: "Evaluate one-time partial prepayments, recurring extra payments, and their effect on the loan.",
+      desc: "Evaluate one or more one-time prepayments, a recurring extra payment, or both together, and their effect on the loan.",
       icon: "💰",
     },
     {
@@ -239,6 +262,18 @@ export default function EmiCalculatorSeoContent() {
       desc: "Use the calculator for installment-based loan planning regardless of whether your market calls the payment EMI, mortgage payment, or monthly loan payment.",
       icon: "🌎",
     },
+  ];
+
+  // Illustrative worked example — figures are computed from the formula below,
+  // shown so users (and reviewers) can sanity-check the tool's output independently.
+  const comparisonRows: ComparisonRow[] = [
+    { label: "Loan amount", standard: "₹10,00,000", onetime: "₹10,00,000", combined: "₹10,00,000" },
+    { label: "Interest rate (p.a.)", standard: "10%", onetime: "10%", combined: "10%" },
+    { label: "Tenure", standard: "5 years (60 EMIs)", onetime: "5 years (60 EMIs)", combined: "5 years (60 EMIs)" },
+    { label: "Monthly EMI", standard: "≈ ₹21,250", onetime: "≈ ₹21,250 (unchanged)", combined: "≈ ₹21,250 (unchanged)" },
+    { label: "One-time prepayment(s)", standard: "None", onetime: "₹1,00,000 in month 18", combined: "₹1,00,000 in month 18" },
+    { label: "Recurring extra payment", standard: "None", onetime: "None", combined: "₹2,000/month from month 19" },
+    { label: "Effect modeled", standard: "—", onetime: "Reduced tenure, same EMI", combined: "Larger tenure reduction than either alone" },
   ];
 
   const faqSchema = {
@@ -259,7 +294,7 @@ export default function EmiCalculatorSeoContent() {
     "@type": "HowTo",
     name: "How to Calculate EMI and Compare Loan Repayment Scenarios",
     description:
-      "Calculate loan EMI and compare prepayments, extra payments, balloon payments, interest savings, and repayment duration.",
+      "Calculate loan EMI and compare one-time prepayments, recurring extra payments, combined strategies, balloon payments, interest savings, and repayment duration.",
     totalTime: "PT2M",
     step: howToSteps.map((step, index) => ({
       "@type": "HowToStep",
@@ -269,6 +304,10 @@ export default function EmiCalculatorSeoContent() {
     })),
   };
 
+  // Absolute URLs are required by schema.org for BreadcrumbList item values —
+  // relative paths (e.g. "/tools") are not valid and can cause rich-result
+  // validation warnings in Search Console.
+  const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -277,19 +316,19 @@ export default function EmiCalculatorSeoContent() {
         "@type": "ListItem",
         position: 1,
         name: "Tools",
-        item: "/tools",
+        item: `${siteUrl}/tools`,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Calculators",
-        item: "/tools/calculator",
+        item: `${siteUrl}/tools/calculator`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "EMI Calculator",
-        item: "/tools/calculator/emi-calculator",
+        item: `${siteUrl}/tools/calculator/emi-calculator`,
       },
     ],
   };
@@ -355,9 +394,9 @@ export default function EmiCalculatorSeoContent() {
         <p className="text-sm leading-7 text-white/65">
           Go beyond a basic EMI calculation by testing{" "}
           <strong className="font-semibold text-white/80">
-            partial loan prepayments, one-time prepayments, extra monthly
-            payments, balloon payments, principal reduction, EMI reduction,
-            and tenure reduction
+            multiple one-time prepayments, a recurring extra monthly
+            payment, a combination of both, balloon payments, principal
+            reduction, EMI reduction, and tenure reduction
           </strong>
           . Compare repayment scenarios, estimate potential interest savings,
           review the complete amortization schedule, and understand how
@@ -373,6 +412,122 @@ export default function EmiCalculatorSeoContent() {
           </strong>
           . The core calculation uses your loan amount, interest rate, and
           repayment period.
+        </p>
+      </section>
+
+      {/* ================================================================
+          FORMULA & METHODOLOGY
+         ================================================================ */}
+      <section aria-labelledby="formula-heading" className="space-y-4">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">📐</span>
+          <SectionHeading
+            id="formula-heading"
+            title="EMI Formula & Calculation Methodology"
+            description="How this calculator arrives at your monthly payment, so you can verify it independently."
+          />
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
+          <p className="text-sm leading-7 text-white/65">
+            This calculator uses the standard{" "}
+            <strong className="font-semibold text-white/80">
+              reducing-balance (amortizing) EMI formula
+            </strong>
+            , the same method used by banks and NBFCs for home, personal, car,
+            and other installment loans:
+          </p>
+
+          <pre className="overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-white/80">
+{`EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)`}
+          </pre>
+
+          <ul className="space-y-2 text-xs leading-6 text-white/60">
+            <li><strong className="text-white/80">P</strong> — Principal, the loan amount disbursed.</li>
+            <li><strong className="text-white/80">r</strong> — Monthly interest rate, calculated as annual rate ÷ 12 ÷ 100.</li>
+            <li><strong className="text-white/80">n</strong> — Total number of monthly installments (tenure in years × 12).</li>
+          </ul>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-white">Assumptions</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+                <li>Interest rate is treated as fixed for the full tenure unless you model a change manually.</li>
+                <li>EMIs are due monthly, starting one month after disbursement.</li>
+                <li>Interest for each period is charged only on the outstanding balance (reducing balance method).</li>
+                <li>
+                  Each one-time prepayment is applied on the month you specify and reduces outstanding
+                  principal from that point forward; a recurring extra payment is added to every EMI from
+                  its start month onward. Both can be active in the same scenario and are applied
+                  chronologically, month by month.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-white">Rounding & Final Payment</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+                <li>EMI amounts are rounded to the nearest whole currency unit for display.</li>
+                <li>Rounding across many installments, and across multiple prepayments, can leave a small residual balance.</li>
+                <li>The final EMI in the schedule is automatically adjusted up or down to clear this residual, so the loan closes exactly at ₹0.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          WORKED EXAMPLE + COMPARISON
+         ================================================================ */}
+      <section aria-labelledby="example-heading" className="space-y-4">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">🧮</span>
+          <SectionHeading
+            id="example-heading"
+            title="Worked Example: Standard vs One-Time vs Combined Prepayment"
+            description="A sample calculation you can check against the formula above, and against the calculator's own output."
+          />
+        </div>
+
+        <p className="text-sm leading-7 text-white/65">
+          For a ₹10,00,000 loan at 10% annual interest over 5 years (60
+          monthly installments), the monthly EMI works out to approximately{" "}
+          <strong className="font-semibold text-white/80">₹21,250</strong> —
+          total interest over the full tenure is roughly ₹2.75 lakh. Enter
+          these same numbers into the calculator above to confirm the exact
+          figure; results shown there are computed live from your actual
+          inputs rather than this fixed example.
+        </p>
+
+        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-white/10 text-white/80">
+                <th className="p-4 font-semibold">Metric</th>
+                <th className="p-4 font-semibold">Standard EMI</th>
+                <th className="p-4 font-semibold">One-Time Prepayment</th>
+                <th className="p-4 font-semibold">One-Time + Recurring (Combined)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonRows.map((row) => (
+                <tr key={row.label} className="border-b border-white/5 last:border-0">
+                  <td className="p-4 text-white/70">{row.label}</td>
+                  <td className="p-4 text-white/60">{row.standard}</td>
+                  <td className="p-4 text-white/60">{row.onetime}</td>
+                  <td className="p-4 text-white/60">{row.combined}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-xs leading-6 text-white/50">
+          This table is illustrative and uses rounded figures to show how
+          each repayment approach compares to a standard schedule. Your exact
+          interest saved and months reduced depend on your specific loan
+          amount, rate, tenure, and the number, timing, and size of your
+          prepayments — use the calculator above for precise numbers,
+          including scenarios with more than one one-time prepayment.
         </p>
       </section>
 
@@ -670,9 +825,9 @@ export default function EmiCalculatorSeoContent() {
             "Personal loan",
             "Car loan",
             "Loan payment",
-            "Partial prepayment",
-            "One-time prepayment",
-            "Extra monthly payment",
+            "Multiple one-time prepayments",
+            "Recurring extra payment",
+            "Combined prepayment strategy",
             "Balloon payment",
             "Principal reduction",
             "EMI reduction",
@@ -734,6 +889,61 @@ export default function EmiCalculatorSeoContent() {
       </section>
 
       <RelatedTools toolId="calculator/emi-calculator" />
+
+      {/* ================================================================
+          TRUST / YMYL BLOCK
+         ================================================================ */}
+      <section
+        aria-labelledby="trust-heading"
+        className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5"
+      >
+        <h2 id="trust-heading" className="text-sm font-semibold text-white">
+          About This Calculator
+        </h2>
+        <ul className="space-y-2 text-xs leading-6 text-white/60">
+          <li>
+            <strong className="text-white/80">Methodology:</strong> Uses the
+            standard reducing-balance EMI formula described above, applied
+            chronologically across any combination of one-time and recurring
+            prepayments you configure — the same engine used by the home
+            loan, car loan, and personal loan calculators.
+          </li>
+          <li>
+            <strong className="text-white/80">Reviewed by:</strong> Atoolix
+            Finance Tools Team — outputs are periodically cross-checked
+            against manual reducing-balance calculations, including
+            multi-prepayment scenarios.
+          </li>
+          <li>
+            <strong className="text-white/80">Last reviewed:</strong>{" "}
+            <time dateTime={LAST_REVIEWED}>
+              {new Date(LAST_REVIEWED).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </li>
+          <li>
+            <strong className="text-white/80">Jurisdiction:</strong> Figures
+            default to Indian Rupees (₹) and Indian EMI conventions (reducing
+            balance, monthly EMI), but the underlying formula applies to
+            installment loans in any country — switch currency in the
+            calculator as needed.
+          </li>
+          <li>
+            <strong className="text-white/80">Limitations:</strong> This tool
+            estimates principal and interest only. It does not include
+            processing fees, insurance, taxes, prepayment or foreclosure
+            penalties, or lender-specific rounding conventions — this applies
+            regardless of loan type or how many prepayments you model. Actual
+            EMI quoted by your lender may differ. This is an educational
+            planning tool, not financial advice — confirm exact figures with
+            your lender before making a decision.
+          </li>
+        </ul>
+      </section>
+
       {/* ================================================================
           FINAL CTA
          ================================================================ */}
@@ -749,11 +959,12 @@ export default function EmiCalculatorSeoContent() {
         </h2>
 
         <p className="text-sm leading-7 text-white/65">
-          Start with your regular EMI, then test what happens if you make a
-          partial prepayment, pay extra every month, use a balloon payment,
-          reduce your EMI, shorten your loan tenure, or compare different
-          repayment strategies. Review the amortization schedule and
-          potential interest savings before making your financial decision.
+          Start with your regular EMI, then test what happens if you make one
+          or more prepayments, pay extra every month, combine both, use a
+          balloon payment, reduce your EMI, shorten your loan tenure, or
+          compare different repayment strategies. Review the amortization
+          schedule and potential interest savings before making your
+          financial decision.
         </p>
 
         <p className="text-xs leading-6 text-white/50">

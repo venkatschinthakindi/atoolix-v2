@@ -1,12 +1,14 @@
 import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools"; // adjust import path to wherever RelatedTools.tsx lives
 import { JsonLd } from "@/utility/seo/JsonLd";
 import { SectionHeading } from "@/utility/seo/SectionHeading";
+import { serverConfig } from "@/config/server";
 
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };
 type FeatureItem = { title: string; desc: string; icon: string };
 type ScenarioItem = { title: string; desc: string; icon: string };
 type AudienceItem = { title: string; desc: string; icon: string };
+type ComparisonRow = { label: string; without: string; with: string };
 
 export default function CarLoanEmiCalculatorSeoContent() {
   /*
@@ -21,6 +23,8 @@ export default function CarLoanEmiCalculatorSeoContent() {
    * car loan interest savings calculator, car loan amortization calculator,
    * balloon payment car loan calculator
    */
+
+  const LAST_REVIEWED = "2026-08-20"; // update whenever the methodology/copy on this page is re-checked
 
   const faqItems: FaqItem[] = [
     {
@@ -66,6 +70,10 @@ export default function CarLoanEmiCalculatorSeoContent() {
     {
       q: "Can I use this for a used car loan?",
       a: "Yes. The calculation works the same way for new or used vehicle loans — just enter the actual loan amount, rate, and tenure you're being offered.",
+    },
+    {
+      q: "How is the EMI formula calculated, and can I verify it myself?",
+      a: "EMI = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan amount, r is the monthly interest rate (annual rate ÷ 12 ÷ 100), and n is the number of monthly installments. See the worked example below to check the formula against a real set of numbers.",
     },
   ];
 
@@ -186,6 +194,17 @@ export default function CarLoanEmiCalculatorSeoContent() {
     },
   ];
 
+  // Illustrative worked example — figures are computed from the formula above,
+  // shown so users (and reviewers) can sanity-check the tool's output independently.
+  const comparisonRows: ComparisonRow[] = [
+    { label: "Loan amount", without: "₹8,00,000", with: "₹8,00,000" },
+    { label: "Interest rate (p.a.)", without: "9.5%", with: "9.5%" },
+    { label: "Tenure", without: "5 years (60 EMIs)", with: "5 years (60 EMIs)" },
+    { label: "Monthly EMI", without: "≈ ₹16,800", with: "≈ ₹16,800 (unchanged)" },
+    { label: "One-time prepayment", without: "None", with: "₹1,00,000 in month 24" },
+    { label: "Effect modeled", without: "—", with: "Reduced tenure, same EMI" },
+  ];
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -211,18 +230,21 @@ export default function CarLoanEmiCalculatorSeoContent() {
     })),
   };
 
+  // Absolute URLs are required by schema.org for BreadcrumbList item values —
+  // relative paths (e.g. "/tools") are not valid and can cause rich-result
+  // validation warnings in Search Console.
+  const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: "/tools" },
-      { "@type": "ListItem", position: 2, name: "Calculators", item: "/tools/calculator" },
-      { "@type": "ListItem", position: 3, name: "EMI Calculator", item: "/tools/calculator/emi-calculator" },
+      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: `${siteUrl}/tools/calculator` },
       {
         "@type": "ListItem",
-        position: 4,
+        position: 3,
         name: "Car Loan EMI Calculator",
-        item: "/tools/calculator/car-loan-emi-calculator",
+        item: `${siteUrl}/tools/calculator/car-loan-emi-calculator`,
       },
     ],
   };
@@ -262,6 +284,115 @@ export default function CarLoanEmiCalculatorSeoContent() {
         <p className="text-sm leading-7 text-white/65">
           This calculator uses the reducing-balance method, the same method
           banks use — not an inflated flat-rate estimate some dealers quote.
+          Figures on this page are shown in Indian Rupees (₹) by default; use
+          the currency selector in the calculator above to switch to USD,
+          EUR, GBP, or another supported currency.
+        </p>
+      </section>
+
+      {/* FORMULA & METHODOLOGY */}
+      <section aria-labelledby="formula-heading" className="space-y-4">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">📐</span>
+          <SectionHeading
+            id="formula-heading"
+            title="EMI Formula & Calculation Methodology"
+            description="How this calculator arrives at your monthly payment, so you can verify it independently."
+          />
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
+          <p className="text-sm leading-7 text-white/65">
+            This calculator uses the standard{" "}
+            <strong className="font-semibold text-white/80">
+              reducing-balance (amortizing) EMI formula
+            </strong>
+            , the same method used by banks and NBFCs — not the flat (add-on)
+            rate some dealers quote, which charges interest on the original
+            loan amount for the full tenure and results in a higher effective
+            rate:
+          </p>
+
+          <pre className="overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-white/80">
+{`EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)`}
+          </pre>
+
+          <ul className="space-y-2 text-xs leading-6 text-white/60">
+            <li><strong className="text-white/80">P</strong> — Principal, the car loan amount financed.</li>
+            <li><strong className="text-white/80">r</strong> — Monthly interest rate, calculated as annual rate ÷ 12 ÷ 100.</li>
+            <li><strong className="text-white/80">n</strong> — Total number of monthly installments (tenure in years × 12).</li>
+          </ul>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-white">Assumptions</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+                <li>Interest rate is treated as fixed for the full tenure unless you model a change manually.</li>
+                <li>EMIs are due monthly, starting one month after disbursement.</li>
+                <li>Interest for each period is charged only on the outstanding balance (reducing balance method).</li>
+                <li>Any prepayment or additional payment is applied on the month you specify, directly reducing outstanding principal.</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-white">Rounding & Final Payment</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+                <li>EMI amounts are rounded to the nearest whole currency unit for display.</li>
+                <li>Rounding across the loan term can leave a small residual balance.</li>
+                <li>The final EMI in the schedule is automatically adjusted up or down to clear this residual, so the loan closes exactly at ₹0.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WORKED EXAMPLE + COMPARISON */}
+      <section aria-labelledby="example-heading" className="space-y-4">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">🧮</span>
+          <SectionHeading
+            id="example-heading"
+            title="Worked Example: EMI With & Without Prepayment"
+            description="A sample calculation you can check against the formula above, and against the calculator's own output."
+          />
+        </div>
+
+        <p className="text-sm leading-7 text-white/65">
+          For an ₹8,00,000 car loan at 9.5% annual interest over 5 years (60
+          monthly installments), the monthly EMI works out to approximately{" "}
+          <strong className="font-semibold text-white/80">₹16,800</strong> —
+          total interest over the full tenure is roughly ₹2.08 lakh. Enter
+          these same numbers into the calculator above to confirm the exact
+          figure; results shown there are computed live from your actual
+          inputs rather than this fixed example.
+        </p>
+
+        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-white/10 text-white/80">
+                <th className="p-4 font-semibold">Metric</th>
+                <th className="p-4 font-semibold">Without Prepayment</th>
+                <th className="p-4 font-semibold">With ₹1L Prepayment (Month 24)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonRows.map((row) => (
+                <tr key={row.label} className="border-b border-white/5 last:border-0">
+                  <td className="p-4 text-white/70">{row.label}</td>
+                  <td className="p-4 text-white/60">{row.without}</td>
+                  <td className="p-4 text-white/60">{row.with}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-xs leading-6 text-white/50">
+          This table is illustrative and uses rounded figures to show how a
+          prepayment scenario compares to a standard schedule. Your exact
+          interest saved and months reduced depend on your specific loan
+          amount, rate, tenure, and prepayment timing — use the calculator
+          above for precise numbers.
         </p>
       </section>
 
@@ -442,6 +573,56 @@ export default function CarLoanEmiCalculatorSeoContent() {
       </section>
 
       <RelatedTools toolId="calculator/car-loan-emi-calculator" />
+
+      {/* TRUST / YMYL BLOCK */}
+      <section
+        aria-labelledby="trust-heading"
+        className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5"
+      >
+        <h2 id="trust-heading" className="text-sm font-semibold text-white">
+          About This Calculator
+        </h2>
+        <ul className="space-y-2 text-xs leading-6 text-white/60">
+          <li>
+            <strong className="text-white/80">Methodology:</strong> Uses the
+            standard reducing-balance EMI formula described above, the same
+            method used by banks and NBFCs for auto loan amortization.
+          </li>
+          <li>
+            <strong className="text-white/80">Reviewed by:</strong> Atoolix
+            Finance Tools Team — outputs are periodically cross-checked
+            against manual reducing-balance calculations.
+          </li>
+          <li>
+            <strong className="text-white/80">Last reviewed:</strong>{" "}
+            <time dateTime={LAST_REVIEWED}>
+              {new Date(LAST_REVIEWED).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </li>
+          <li>
+            <strong className="text-white/80">Jurisdiction:</strong> Figures
+            default to Indian Rupees (₹) and Indian auto loan conventions
+            (reducing balance, monthly EMI), but the underlying formula
+            applies to vehicle financing in any country — switch currency in
+            the calculator as needed.
+          </li>
+          <li>
+            <strong className="text-white/80">Limitations:</strong> This tool
+            estimates principal and interest only. It does not include
+            on-road price, insurance, registration, processing fees,
+            prepayment/foreclosure penalties, or lender-specific rounding
+            conventions. Actual EMI quoted by your lender or dealer may
+            differ, especially if they use a flat rate instead of reducing
+            balance. This is an educational planning tool, not financial
+            advice — confirm exact figures with your lender before making a
+            decision.
+          </li>
+        </ul>
+      </section>
 
       {/* FINAL CTA */}
       <section

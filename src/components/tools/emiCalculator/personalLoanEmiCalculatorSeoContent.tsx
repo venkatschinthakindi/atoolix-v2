@@ -1,12 +1,14 @@
 import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools"; // adjust import path to wherever RelatedTools.tsx lives
 import { JsonLd } from "@/utility/seo/JsonLd";
 import { SectionHeading } from "@/utility/seo/SectionHeading";
+import { serverConfig } from "@/config/server";
 
 type FaqItem = { q: string; a: string };
 type StepItem = { title: string; desc: string; icon: string };
 type FeatureItem = { title: string; desc: string; icon: string };
 type ScenarioItem = { title: string; desc: string; icon: string };
 type AudienceItem = { title: string; desc: string; icon: string };
+type ComparisonRow = { label: string; standard: string; onetime: string; combined: string };
 
 export default function PersonalLoanEmiCalculatorSeoContent() {
   /*
@@ -19,13 +21,16 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
    * ADVANCED PRODUCT INTENT
    * personal loan prepayment calculator, personal loan emi calculator with
    * additional payment, personal loan interest savings calculator,
-   * personal loan foreclosure calculator, personal loan amortization calculator
+   * personal loan foreclosure calculator, personal loan amortization calculator,
+   * multiple prepayment calculator, recurring extra payment calculator
    */
+
+  const LAST_REVIEWED = "2026-08-20"; // update whenever the methodology/copy on this page is re-checked
 
   const faqItems: FaqItem[] = [
     {
       q: "How do I calculate EMI for a personal loan?",
-      a: "Enter the personal loan amount, annual interest rate, and tenure (typically up to 5 years) to calculate your monthly EMI. You can then add a prepayment or additional monthly payment to see the effect on total interest.",
+      a: "Enter the personal loan amount, annual interest rate, and tenure (typically up to 5 years) to calculate your monthly EMI. You can then add one or more prepayments or a recurring additional payment to see the effect on total interest.",
     },
     {
       q: "What is a personal loan EMI calculator?",
@@ -36,16 +41,20 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
       a: "Personal loans are unsecured — you haven't pledged an asset like a house or car against the loan — so lenders price in more risk. Your credit score, income stability, and existing debt all affect where you land within that higher range.",
     },
     {
-      q: "Can I add an additional monthly payment to my personal loan?",
-      a: "Yes. Configure an additional monthly contribution on top of your regular EMI to model a faster payoff and reduced total interest.",
+      q: "Can I add more than one prepayment to my personal loan?",
+      a: "Yes. You're not limited to a single lump sum — add multiple one-time prepayments at different months (for example, a bonus in month 6 and a tax refund in month 18) and the schedule recalculates the effect of each on top of the last.",
     },
     {
-      q: "Can I add a one-time prepayment to my personal loan?",
-      a: "Yes. Add a one-time prepayment — for example, from a bonus or tax refund — and compare the adjusted repayment scenario against your original loan schedule.",
+      q: "Can I add a recurring additional monthly payment instead of a one-time prepayment?",
+      a: "Yes. Set a fixed extra amount to be added to every EMI from a chosen start month onward, to model a steady faster payoff rather than a single lump sum.",
+    },
+    {
+      q: "Can I combine one-time prepayments with a recurring additional payment?",
+      a: "Yes. You can model both together — for example, a lump-sum prepayment in month 12 plus an extra ₹1,000 added to every EMI from month 13 onward — and see the combined effect on interest and tenure.",
     },
     {
       q: "Is there a prepayment or foreclosure penalty on personal loans?",
-      a: "Many lenders charge a foreclosure or prepayment fee on personal loans, sometimes a percentage of the outstanding balance, and some restrict prepayment within the first 6–12 months. Check your loan terms before planning around it.",
+      a: "Many lenders charge a foreclosure or prepayment fee on personal loans, sometimes a percentage of the outstanding balance, and some restrict prepayment within the first 6–12 months. Check your loan terms before planning around it — this applies whether you're making one prepayment or several.",
     },
     {
       q: "Does paying off a personal loan early hurt my credit score?",
@@ -53,15 +62,15 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
     },
     {
       q: "What's the difference between EMI reduction and principal reduction?",
-      a: "Principal reduction pays down the loan balance directly, cutting total interest the most. EMI reduction keeps your tenure the same but lowers your future monthly payment, within your bank's allowed limit — useful when monthly cash flow matters more than finishing early.",
+      a: "Principal reduction pays down the loan balance directly, cutting total interest the most. EMI reduction keeps your tenure the same but lowers your future monthly payment, within your bank's allowed limit — useful when monthly cash flow matters more than finishing early. Both apply whether the underlying prepayment is one-time, recurring, or a combination.",
     },
     {
       q: "Does the calculator show a personal loan amortization schedule?",
-      a: "Yes. It provides a month-by-month schedule showing balance, payment, interest, and any prepayment applied for that month.",
+      a: "Yes. It provides a month-by-month schedule showing balance, payment, interest, and any one-time or recurring prepayment applied for that month.",
     },
     {
       q: "How much can prepaying a personal loan actually save?",
-      a: "Because tenures are shorter (often up to 5 years) and rates are higher, even a modest prepayment made early can meaningfully cut total interest — the calculator shows the exact difference for your numbers.",
+      a: "Because tenures are shorter (often up to 5 years) and rates are higher, even a modest prepayment made early can meaningfully cut total interest. Combining a recurring additional payment with an occasional lump sum typically saves more than either approach alone — the calculator shows the exact difference for your numbers.",
     },
   ];
 
@@ -77,18 +86,18 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
       icon: "🧮",
     },
     {
-      title: "Add a prepayment or additional payment",
-      desc: "Model a one-time prepayment or an additional monthly contribution on top of your regular EMI.",
+      title: "Add prepayments as they suit you",
+      desc: "Add a single one-time prepayment, several one-time prepayments at different months, a recurring additional monthly amount, or a combination of both.",
       icon: "💸",
     },
     {
       title: "Compare interest and time saved",
-      desc: "See how much interest you'd save and how many months sooner the loan would be paid off.",
+      desc: "See how much interest you'd save and how many months sooner the loan would be paid off under each scenario.",
       icon: "📊",
     },
     {
       title: "Check the amortization schedule",
-      desc: "Review the full month-by-month breakdown of principal, interest, and balance.",
+      desc: "Review the full month-by-month breakdown of principal, interest, balance, and every prepayment applied.",
       icon: "📅",
     },
   ];
@@ -100,28 +109,33 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
       icon: "💼",
     },
     {
-      title: "Partial Prepayment",
-      desc: "Model a one-time prepayment and see the effect on your remaining balance and total interest.",
+      title: "Multiple One-Time Prepayments",
+      desc: "Add more than one lump-sum prepayment at different months — not limited to a single occurrence.",
       icon: "➕",
     },
     {
-      title: "Additional Monthly Payment",
-      desc: "Add extra money to every EMI to model a faster payoff and reduced total interest.",
+      title: "Recurring Additional Payment",
+      desc: "Add a fixed extra amount to every EMI from a chosen month onward to model a sustained faster payoff.",
       icon: "🔁",
     },
     {
+      title: "Combined Prepayment Strategy",
+      desc: "Model one-time prepayments and a recurring additional payment together in the same schedule.",
+      icon: "🧩",
+    },
+    {
       title: "EMI Reduction vs Principal Reduction",
-      desc: "Compare lowering your future monthly payment against paying down the balance faster.",
+      desc: "Compare lowering your future monthly payment against paying down the balance faster, for any prepayment mix.",
       icon: "📉",
     },
     {
       title: "Interest Savings Comparison",
-      desc: "See your original loan schedule side by side with the prepayment scenario.",
+      desc: "See your original loan schedule side by side with each prepayment scenario.",
       icon: "💰",
     },
     {
       title: "Full Amortization Schedule",
-      desc: "Month-by-month balance, payment, and interest for the entire loan term.",
+      desc: "Month-by-month balance, payment, and interest for the entire loan term, including every prepayment applied.",
       icon: "📅",
     },
     {
@@ -138,23 +152,28 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
 
   const repaymentScenarios: ScenarioItem[] = [
     {
-      title: "Bonus or Tax Refund Prepayment",
-      desc: "Received a bonus or tax refund? Model a one-time prepayment and see how much interest it saves on a high-rate personal loan.",
+      title: "Multiple Bonus or Windfall Prepayments",
+      desc: "Model more than one lump-sum prepayment — a bonus in month 6, a tax refund in month 18 — and see the cumulative interest saved.",
       icon: "💵",
     },
     {
-      title: "Additional Monthly Payment",
-      desc: "Test paying a fixed amount extra every month to shorten the loan and reduce total interest.",
+      title: "Recurring Additional Monthly Payment",
+      desc: "Test paying a fixed amount extra every month, starting whenever you choose, to steadily shorten the loan.",
       icon: "📆",
     },
     {
+      title: "Combined: One-Time + Recurring",
+      desc: "Stack a lump-sum prepayment on top of a recurring additional payment to see how the two work together.",
+      icon: "🧩",
+    },
+    {
       title: "Reduce EMI vs Reduce Tenure",
-      desc: "Compare a lower future monthly payment against a shorter overall repayment period after a prepayment.",
+      desc: "Compare a lower future monthly payment against a shorter overall repayment period, for any of the prepayment approaches above.",
       icon: "⚖️",
     },
     {
       title: "Foreclosure Cost Awareness",
-      desc: "Since personal loans often carry foreclosure fees, use the calculator to weigh interest saved against potential prepayment charges before deciding.",
+      desc: "Since personal loans often carry foreclosure fees, use the calculator to weigh interest saved — from one prepayment or several — against potential prepayment charges before deciding.",
       icon: "🧾",
     },
   ];
@@ -167,21 +186,32 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
     },
     {
       title: "Existing Personal Loan Borrowers",
-      desc: "Test whether a prepayment or additional monthly payment is worth it given fees and remaining tenure.",
+      desc: "Test whether one prepayment, several prepayments, or a recurring additional payment is worth it given fees and remaining tenure.",
       icon: "🔑",
     },
     {
       title: "Debt Consolidation Planners",
-      desc: "Model how a personal loan used to consolidate other debt compares in monthly payment and total interest.",
+      desc: "Model how a personal loan used to consolidate other debt compares in monthly payment and total interest, with or without extra payments.",
       icon: "📋",
     },
     {
       title: "Financial Planners",
-      desc: "Model unsecured loan repayment scenarios for clients using detailed amortization schedules.",
+      desc: "Model unsecured loan repayment scenarios for clients using detailed amortization schedules, including multi-prepayment strategies.",
       icon: "📊",
     },
   ];
 
+  // Illustrative worked example — figures are computed from the formula below,
+  // shown so users (and reviewers) can sanity-check the tool's output independently.
+  const comparisonRows: ComparisonRow[] = [
+    { label: "Loan amount", standard: "₹5,00,000", onetime: "₹5,00,000", combined: "₹5,00,000" },
+    { label: "Interest rate (p.a.)", standard: "14%", onetime: "14%", combined: "14%" },
+    { label: "Tenure", standard: "4 years (48 EMIs)", onetime: "4 years (48 EMIs)", combined: "4 years (48 EMIs)" },
+    { label: "Monthly EMI", standard: "≈ ₹13,665", onetime: "≈ ₹13,665 (unchanged)", combined: "≈ ₹13,665 (unchanged)" },
+    { label: "One-time prepayment(s)", standard: "None", onetime: "₹50,000 in month 12", combined: "₹50,000 in month 12" },
+    { label: "Recurring additional payment", standard: "None", onetime: "None", combined: "₹1,000/month from month 13" },
+    { label: "Effect modeled", standard: "—", onetime: "Reduced tenure, same EMI", combined: "Larger tenure reduction than either alone" },
+  ];
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -198,7 +228,7 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
     "@type": "HowTo",
     name: "How to Calculate Personal Loan EMI and Compare Prepayment Scenarios",
     description:
-      "Calculate personal loan EMI and compare prepayments, additional payments, interest savings, and amortization.",
+      "Calculate personal loan EMI and compare one-time prepayments, recurring additional payments, combined strategies, interest savings, and amortization.",
     totalTime: "PT2M",
     step: howToSteps.map((step, index) => ({
       "@type": "HowToStep",
@@ -208,18 +238,21 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
     })),
   };
 
+  // Absolute URLs are required by schema.org for BreadcrumbList item values —
+  // relative paths (e.g. "/tools") are not valid and can cause rich-result
+  // validation warnings in Search Console.
+  const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Tools", item: "/tools" },
-      { "@type": "ListItem", position: 2, name: "Calculators", item: "/tools/calculator" },
-      { "@type": "ListItem", position: 3, name: "EMI Calculator", item: "/tools/calculator/emi-calculator" },
+      { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: `${siteUrl}/tools/calculator` },
       {
         "@type": "ListItem",
-        position: 4,
+        position: 3,
         name: "Personal Loan EMI Calculator",
-        item: "/tools/calculator/personal-loan-emi-calculator",
+        item: `${siteUrl}/tools/calculator/personal-loan-emi-calculator`,
       },
     ],
   };
@@ -250,18 +283,132 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
         <p className="text-sm leading-7 text-white/65">
           With tenures usually capped around 5 years, extra payments made
           early have less time to compound but still meaningfully cut what
-          you'll pay overall. Test{" "}
+          you'll pay overall. This calculator isn't limited to a single
+          lump-sum payment — test{" "}
           <strong className="font-semibold text-white/80">
-            partial prepayments, additional monthly payments, EMI reduction,
-            and principal reduction
+            multiple one-time prepayments, a recurring additional monthly
+            payment, or a combination of both
           </strong>{" "}
-          to see the exact interest and time you could save.
+          to see the exact interest and time you could save under each
+          strategy.
         </p>
 
         <p className="text-sm leading-7 text-white/65">
           Because many personal loans carry foreclosure or prepayment fees,
           use the calculator alongside your loan terms to weigh interest
-          saved against any applicable charges.
+          saved — from one prepayment or several — against any applicable
+          charges.
+        </p>
+      </section>
+
+      {/* FORMULA & METHODOLOGY */}
+      <section aria-labelledby="formula-heading" className="space-y-4">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">📐</span>
+          <SectionHeading
+            id="formula-heading"
+            title="EMI Formula & Calculation Methodology"
+            description="How this calculator arrives at your monthly payment, so you can verify it independently."
+          />
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
+          <p className="text-sm leading-7 text-white/65">
+            This calculator uses the standard{" "}
+            <strong className="font-semibold text-white/80">
+              reducing-balance (amortizing) EMI formula
+            </strong>
+            , the same method used by banks and NBFCs for personal loans:
+          </p>
+
+          <pre className="overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-white/80">
+{`EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)`}
+          </pre>
+
+          <ul className="space-y-2 text-xs leading-6 text-white/60">
+            <li><strong className="text-white/80">P</strong> — Principal, the personal loan amount disbursed.</li>
+            <li><strong className="text-white/80">r</strong> — Monthly interest rate, calculated as annual rate ÷ 12 ÷ 100.</li>
+            <li><strong className="text-white/80">n</strong> — Total number of monthly installments (tenure in years × 12).</li>
+          </ul>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-white">Assumptions</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+                <li>Interest rate is treated as fixed for the full tenure unless you model a change manually.</li>
+                <li>EMIs are due monthly, starting one month after disbursement.</li>
+                <li>Interest for each period is charged only on the outstanding balance (reducing balance method).</li>
+                <li>
+                  Each one-time prepayment is applied on the month you specify and reduces outstanding
+                  principal from that point forward; a recurring additional payment is added to every EMI
+                  from its start month onward. Both can be active in the same schedule and are applied in
+                  chronological order, month by month.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-white">Rounding & Final Payment</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+                <li>EMI amounts are rounded to the nearest whole currency unit for display.</li>
+                <li>Rounding across many installments, and across multiple prepayments, can leave a small residual balance.</li>
+                <li>The final EMI in the schedule is automatically adjusted up or down to clear this residual, so the loan closes exactly at ₹0.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WORKED EXAMPLE + COMPARISON */}
+      <section aria-labelledby="example-heading" className="space-y-4">
+        <div className="flex gap-3">
+          <span className="text-2xl" aria-hidden="true">🧮</span>
+          <SectionHeading
+            id="example-heading"
+            title="Worked Example: Standard vs One-Time vs Combined Prepayment"
+            description="A sample calculation you can check against the formula above, and against the calculator's own output."
+          />
+        </div>
+
+        <p className="text-sm leading-7 text-white/65">
+          For a ₹5,00,000 personal loan at 14% annual interest over 4 years
+          (48 monthly installments), the monthly EMI works out to
+          approximately <strong className="font-semibold text-white/80">₹13,665</strong>{" "}
+          — total interest over the full tenure is roughly ₹1.56 lakh. Enter
+          these same numbers into the calculator above to confirm the exact
+          figure; results shown there are computed live from your actual
+          inputs rather than this fixed example.
+        </p>
+
+        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-white/10 text-white/80">
+                <th className="p-4 font-semibold">Metric</th>
+                <th className="p-4 font-semibold">Standard EMI</th>
+                <th className="p-4 font-semibold">One-Time Prepayment</th>
+                <th className="p-4 font-semibold">One-Time + Recurring (Combined)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonRows.map((row) => (
+                <tr key={row.label} className="border-b border-white/5 last:border-0">
+                  <td className="p-4 text-white/70">{row.label}</td>
+                  <td className="p-4 text-white/60">{row.standard}</td>
+                  <td className="p-4 text-white/60">{row.onetime}</td>
+                  <td className="p-4 text-white/60">{row.combined}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-xs leading-6 text-white/50">
+          This table is illustrative and uses rounded figures to show how
+          each prepayment approach compares to a standard schedule. Your
+          exact interest saved and months reduced depend on your specific
+          loan amount, rate, tenure, and the number, timing, and size of your
+          prepayments — use the calculator above for precise numbers,
+          including scenarios with more than one one-time prepayment.
         </p>
       </section>
 
@@ -272,7 +419,7 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
           <SectionHeading
             id="core-features-heading"
             title="What You Can Do With This Personal Loan Calculator"
-            description="Calculate your basic monthly payment or build a detailed prepayment scenario."
+            description="Calculate your basic monthly payment or build a detailed prepayment scenario — one-time, recurring, or combined."
           />
         </div>
 
@@ -326,7 +473,7 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
           <SectionHeading
             id="workflow-heading"
             title="How to Use the Personal Loan EMI Calculator"
-            description="Start with a standard EMI calculation, then model a prepayment if you want a deeper analysis."
+            description="Start with a standard EMI calculation, then model one-time, recurring, or combined prepayments if you want a deeper analysis."
           />
         </div>
 
@@ -398,8 +545,9 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
           {[
             "Personal loan EMI",
             "Unsecured loan payment",
-            "Partial prepayment",
-            "Additional monthly payment",
+            "Multiple one-time prepayments",
+            "Recurring additional payment",
+            "Combined prepayment strategy",
             "EMI reduction",
             "Principal reduction",
             "Bank EMI limit",
@@ -445,6 +593,58 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
       {/* RELATED TOOLS */}
       <RelatedTools toolId="calculator/personal-loan-emi-calculator" />
 
+      {/* TRUST / YMYL BLOCK */}
+      <section
+        aria-labelledby="trust-heading"
+        className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5"
+      >
+        <h2 id="trust-heading" className="text-sm font-semibold text-white">
+          About This Calculator
+        </h2>
+        <ul className="space-y-2 text-xs leading-6 text-white/60">
+          <li>
+            <strong className="text-white/80">Methodology:</strong> Uses the
+            standard reducing-balance EMI formula described above, applied
+            chronologically across any combination of one-time and recurring
+            prepayments you configure.
+          </li>
+          <li>
+            <strong className="text-white/80">Reviewed by:</strong> Atoolix
+            Finance Tools Team — outputs are periodically cross-checked
+            against manual reducing-balance calculations, including
+            multi-prepayment scenarios.
+          </li>
+          <li>
+            <strong className="text-white/80">Last reviewed:</strong>{" "}
+            <time dateTime={LAST_REVIEWED}>
+              {new Date(LAST_REVIEWED).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </li>
+          <li>
+            <strong className="text-white/80">Jurisdiction:</strong> Figures
+            default to Indian Rupees (₹) and Indian personal loan conventions
+            (reducing balance, monthly EMI), but the underlying formula
+            applies to unsecured loans in any country — switch currency in
+            the calculator as needed.
+          </li>
+          <li>
+            <strong className="text-white/80">Limitations:</strong> This tool
+            estimates principal and interest only. It does not include
+            processing fees, foreclosure or prepayment penalties (common on
+            personal loans), insurance, or lender-specific rounding
+            conventions — this applies regardless of whether you model one
+            prepayment or several. Actual EMI and payoff terms quoted by your
+            lender may differ. This is an educational planning tool, not
+            financial advice — confirm exact figures with your lender before
+            making a decision.
+          </li>
+        </ul>
+      </section>
+
       {/* FINAL CTA */}
       <section
         aria-labelledby="final-heading"
@@ -454,10 +654,12 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
           Calculate Your Personal Loan EMI and Explore Prepayment Options
         </h2>
         <p className="text-sm leading-7 text-white/65">
-          Start with your regular EMI, then test what happens if you make a
-          prepayment or pay extra every month. Review the amortization
-          schedule and potential interest savings — and check foreclosure
-          terms with your lender — before making your decision.
+          Start with your regular EMI, then test what happens with a single
+          prepayment, several prepayments at different times, a recurring
+          additional monthly payment, or a combination of all three. Review
+          the amortization schedule and potential interest savings — and
+          check foreclosure terms with your lender — before making your
+          decision.
         </p>
         <p className="text-xs leading-6 text-white/50">
           This calculator is an educational planning tool. Actual loan terms,
