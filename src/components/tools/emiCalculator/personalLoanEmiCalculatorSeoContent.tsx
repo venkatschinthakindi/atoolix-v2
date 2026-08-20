@@ -214,10 +214,9 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Tools", item: "/tools" },
       { "@type": "ListItem", position: 2, name: "Calculators", item: "/tools/calculator" },
-      { "@type": "ListItem", position: 3, name: "EMI Calculator", item: "/tools/calculator/emi-calculator" },
       {
         "@type": "ListItem",
-        position: 4,
+        position: 3,
         name: "Personal Loan EMI Calculator",
         item: "/tools/calculator/personal-loan-emi-calculator",
       },

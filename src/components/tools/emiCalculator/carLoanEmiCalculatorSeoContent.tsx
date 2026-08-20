@@ -217,15 +217,10 @@ export default function CarLoanEmiCalculatorSeoContent() {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Tools", item: "/tools" },
       { "@type": "ListItem", position: 2, name: "Calculators", item: "/tools/calculator" },
-      { "@type": "ListItem", position: 3, name: "EMI Calculator", item: "/tools/calculator/emi-calculator" },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: "Car Loan EMI Calculator",
-        item: "/tools/calculator/car-loan-emi-calculator",
-      },
+      { "@type": "ListItem", position: 3, name: "EMI Calculator", item: "/tools/calculator/car-loan-emi-calculator" }
     ],
   };
+  
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 text-white">
