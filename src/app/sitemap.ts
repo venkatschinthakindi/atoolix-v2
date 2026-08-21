@@ -37,11 +37,17 @@ const routes = [
   "tools/calculator/emi-calculator",
   "tools/calculator/personal-loan-emi-calculator",
   "tools/calculator/car-loan-emi-calculator",
+
   "tools/calculator/roi-calculator",
   "tools/calculator/xirr-calculator",
   "tools/calculator/lampsum-calculator",
   "tools/calculator/cagr-calculator",
+
   "tools/calculator/fd-calculator",
+  "tools/calculator/fixed-deposit-calculator",
+  "tools/calculator/compound-interest-calculator",
+  "tools/calculator/recurring-deposit-calculator",
+
   "tools/calculator/retirement-calculator",
 
   // PDF Tools

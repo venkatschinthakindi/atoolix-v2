@@ -16,7 +16,12 @@ const seoLoaders: Record<string, SeoLoader> = {
   "calculator/xirr-calculator": () => import("@/components/tools/financeSuite/investment/xirrSeoContent"),
   "calculator/lumpsum-calculator": () => import("@/components/tools/financeSuite/investment/lumpsumcalculatorseocontent"),
 
-  "calculator/fd-calculator": () => import("@/components/tools/financeSuite/savings/savingsDepositsSuiteSeoContent"),
+  "calculator/fd-calculator": () => import("@/components/tools/financeSuite/savings/simpleInterestCalculatorSeoContent"),
+  "calculator/fixed-deposit-calculator": () => import("@/components/tools/financeSuite/savings/fixedDepositCalculatorSeoContent"),
+  "calculator/compound-interest-calculator": () => import("@/components/tools/financeSuite/savings/compoundInterestCalculatorSeoContent"),
+  "calculator/recurring-deposit-calculator": () => import("@/components/tools/financeSuite/savings/recurringDepositCalculatorSeoContent"),
+  
+
   "calculator/retirement-calculator": () => import("@/components/tools/financeSuite/retirement/retirementWealthSuiteSeoContent"),
   "image/image-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/ImageToPDFSeoContent"),
   "image/jpg-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/JpgToPdfSeoContent"),
