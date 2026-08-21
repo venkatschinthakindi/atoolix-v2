@@ -16,19 +16,24 @@ export function PrivacyDropZone({ onFiles, allowMultiple = false, validFileTypes
   const [isDragging, setIsDragging] = useState(false);
   const [sizeError, setSizeError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const MAX_FILE_SIZE_BYTES = 250 * 1024 * 1024; // 250 MB
+  
   const handleFilesList = useCallback(
     (list: FileList | null) => {
       if (!list || list.length === 0) return;
       const files = Array.from(list);
       const first = files[0];
+      
       if (!first) return;
-      if (maxSizeBytes) {
-        const tooBig = files.find((f) => f.size > maxSizeBytes);
-        if (tooBig) {
-          setSizeError(`"${tooBig.name}" exceeds the size limit for this tool.`);
-          return;
-        }
+        const tooBig = files.find(
+        (file) => file.size > MAX_FILE_SIZE_BYTES
+      );
+
+      if (tooBig) {
+        setSizeError(
+          `"${tooBig.name}" exceeds the maximum file size of 250 MB.`
+        );
+        return;
       }
       setSizeError(null);
       onFiles(allowMultiple ? files : [first]);

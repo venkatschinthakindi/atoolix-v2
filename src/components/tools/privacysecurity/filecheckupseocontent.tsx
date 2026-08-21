@@ -8,6 +8,9 @@ const siteUrl = serverConfig.siteUrl.replace(/\/$/, "");
 const canonicalPath = "/tools/privacysecurity/file-analyzer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
+// Update this whenever the tool's behavior or this copy changes.
+const lastReviewed = "2026-08-21";
+
 type FaqItem = {
   q: string;
   a: string;
@@ -32,6 +35,10 @@ const faqItems: FaqItem[] = [
   {
     q: "What files can File Checkup analyze?",
     a: "File Checkup is designed for commonly used files such as PDF documents, JPG and JPEG photos, PNG, WebP and GIF images, TXT, JSON, CSV, XML, SVG, HTML and other supported file formats. The depth of analysis depends on the file type.",
+  },
+  {
+    q: "Is there a file size limit?",
+    a: "Yes. File Checkup supports files up to 250 MB. Because scanning and cleaning both happen in your browser rather than on a server, very large files can take longer to process depending on your device's available memory.",
   },
   {
     q: "Can I check a file before uploading it online?",
@@ -83,7 +90,11 @@ const faqItems: FaqItem[] = [
   },
   {
     q: "Is my file uploaded to a server?",
-    a: "File analysis is designed to run locally in your browser when supported by the current implementation. The file-processing behavior shown by the tool should be used as the source of truth for how a particular analysis is performed.",
+    a: "No. File Checkup has no backend — every scan and cleaning operation runs entirely in your browser using JavaScript. Your file never leaves your device, and there is no server for it to be sent to.",
+  },
+  {
+    q: "Is my file stored or retained anywhere?",
+    a: "No. Since your file is never transmitted anywhere, there is nothing to retain or delete on our end. Closing or refreshing the tab discards everything from that session.",
   },
   {
     q: "Do I need an account?",
@@ -274,6 +285,48 @@ const useCases = [
   },
 ];
 
+const audienceItems: FeatureItem[] = [
+  {
+    name: "Job seekers",
+    desc: "Check a resume or CV for author, creator, or company metadata left over from a previous employer's template.",
+  },
+  {
+    name: "Photographers & everyday users",
+    desc: "Remove GPS and camera EXIF data before posting photos publicly.",
+  },
+  {
+    name: "Freelancers & agencies",
+    desc: "Review PDF document properties before sending client deliverables.",
+  },
+  {
+    name: "Developers & data teams",
+    desc: "Validate JSON, CSV, XML, and SVG files, and check for embedded scripts before passing files downstream.",
+  },
+  {
+    name: "Anyone uploading to a new platform",
+    desc: "Run a quick check before a file leaves your device for a website, portal, or shared drive.",
+  },
+];
+
+const processingFacts = [
+  {
+    title: "Max file size",
+    desc: "Files up to 250 MB are supported per scan. Very large files — especially large PDFs or high-resolution images — may take longer to process depending on your device's available memory, since everything runs in-browser.",
+  },
+  {
+    title: "Where processing happens",
+    desc: "Entirely in your browser. File Checkup has no backend, so your file is never transmitted anywhere.",
+  },
+  {
+    title: "Retention",
+    desc: "There's nothing to retain. Since the file never leaves your device, there's no server-side copy to store or delete.",
+  },
+  {
+    title: "Cleaned copies",
+    desc: "A cleaned copy is generated in your browser and downloaded directly to your device — it isn't kept anywhere else.",
+  },
+];
+
 const bestPractices = [
   "Check files before uploading them to public websites or third-party services.",
   "Remove GPS and other sensitive image metadata before publishing photos.",
@@ -324,6 +377,12 @@ const breadcrumbJsonLd = {
     {
       "@type": "ListItem",
       position: 2,
+      name: "Privacy & Security",
+      item: `${siteUrl}/privacysecurity`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
       name: "File Privacy & Security Checker",
       item: canonicalUrl,
     },
@@ -380,6 +439,13 @@ export default function FileCheckupSeoContent() {
         </p>
 
         <p className="max-w-4xl text-sm leading-7 text-white/70">
+          File Checkup runs entirely in your browser — there's no backend, so
+          your files are never uploaded or transmitted anywhere. Everything
+          from scanning to cleaning to downloading the result happens on your
+          own device, with files up to 250 MB supported per scan.
+        </p>
+
+        <p className="max-w-4xl text-sm leading-7 text-white/70">
           Check commonly used files including PDFs, photos, text files, JSON,
           CSV, XML, SVG, HTML, and other supported formats. Review the findings,
           fix supported issues, and download a separate cleaned copy without
@@ -388,10 +454,7 @@ export default function FileCheckupSeoContent() {
       </section>
 
       {/* SIMPLE WORKFLOW */}
-      <section
-        aria-labelledby="workflow-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="workflow-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="workflow-heading"
           title="Scan, Find, Fix, Download"
@@ -424,10 +487,7 @@ export default function FileCheckupSeoContent() {
       </section>
 
       {/* WHAT IT FINDS */}
-      <section
-        aria-labelledby="find-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="find-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="find-heading"
           title="What File Checkup Can Find"
@@ -438,10 +498,7 @@ export default function FileCheckupSeoContent() {
       </section>
 
       {/* PRIVACY FINDINGS */}
-      <section
-        aria-labelledby="privacy-findings-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="privacy-findings-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="privacy-findings-heading"
           title="Privacy Information You May Not See"
@@ -452,10 +509,7 @@ export default function FileCheckupSeoContent() {
       </section>
 
       {/* ONE CLICK CLEANING */}
-      <section
-        aria-labelledby="fix-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="fix-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="fix-heading"
           title="Fix Supported Privacy Issues With One Click"
@@ -466,10 +520,7 @@ export default function FileCheckupSeoContent() {
       </section>
 
       {/* SUPPORTED FILES */}
-      <section
-        aria-labelledby="formats-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="formats-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="formats-heading"
           title="Supported File Types"
@@ -493,10 +544,7 @@ export default function FileCheckupSeoContent() {
       </section>
 
       {/* USE CASES */}
-      <section
-        aria-labelledby="use-cases-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="use-cases-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="use-cases-heading"
           title="When Should You Check a File?"
@@ -519,11 +567,19 @@ export default function FileCheckupSeoContent() {
         </div>
       </section>
 
+      {/* AUDIENCE */}
+      <section aria-labelledby="audience-heading" className="mt-10 space-y-4">
+        <SectionHeading
+          id="audience-heading"
+          title="Who Is File Checkup For?"
+          description="Anyone who wants to know what a file actually contains before it leaves their device."
+        />
+
+        <FeatureGrid items={audienceItems} />
+      </section>
+
       {/* HOW IT WORKS */}
-      <section
-        aria-labelledby="how-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="how-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="how-heading"
           title="How File Checkup Works"
@@ -552,11 +608,31 @@ export default function FileCheckupSeoContent() {
         </div>
       </section>
 
+      {/* FILE SIZE, PROCESSING & RETENTION */}
+      <section aria-labelledby="processing-heading" className="mt-10 space-y-4">
+        <SectionHeading
+          id="processing-heading"
+          title="File Size, Processing & Retention"
+          description="How your file is handled during a scan."
+        />
+
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          {processingFacts.map((fact) => (
+            <article
+              key={fact.title}
+              className="rounded-xl border border-white/10 bg-white/5 p-4"
+            >
+              <h3 className="text-sm font-semibold">{fact.title}</h3>
+              <p className="mt-1.5 text-sm leading-6 text-white/70">
+                {fact.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       {/* BEST PRACTICES */}
-      <section
-        aria-labelledby="best-practices-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="best-practices-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="best-practices-heading"
           title="Best Practices Before Sharing Files"
@@ -575,11 +651,30 @@ export default function FileCheckupSeoContent() {
         </ul>
       </section>
 
+      {/* TRUST / METHODOLOGY (E-E-A-T) */}
+      <section aria-labelledby="trust-heading" className="mt-10 space-y-4">
+        <SectionHeading
+          id="trust-heading"
+          title="About This Tool"
+          description="Methodology and review information."
+        />
+
+        <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/70">
+          <p>
+            File Checkup inspects file metadata and structure using the same
+            public format specifications — EXIF, PDF metadata dictionaries,
+            XML and JSON grammars — that other photo, document, and developer
+            tools rely on. There is no backend: nothing is sent to a third
+            party for analysis. Findings are categorized as either safely
+            auto-cleanable or requiring manual review, so nothing is silently
+            modified without your action.
+          </p>
+          <p className="mt-2 text-white/50">Last reviewed: {lastReviewed}</p>
+        </div>
+      </section>
+
       {/* FAQ */}
-      <section
-        aria-labelledby="faq-heading"
-        className="mt-10 space-y-4"
-      >
+      <section aria-labelledby="faq-heading" className="mt-10 space-y-4">
         <SectionHeading
           id="faq-heading"
           title="Frequently Asked Questions"
@@ -607,7 +702,7 @@ export default function FileCheckupSeoContent() {
       </section>
 
       {/* FINAL CTA */}
-      <RelatedTools toolId="privacysecurity/file-analyzer" />
+        <RelatedTools toolId="privacysecurity/file-analyzer" />
     </div>
   );
 }
