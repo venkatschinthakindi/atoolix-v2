@@ -1,9 +1,10 @@
 import type { LoanType } from "@/components/tools/emiCalculator/core/Engine";
-import { serverConfig } from "@/config/client";
+import { serverConfig } from "@/config/server";
+
 // TODO: replace with your real production domain (used for canonical URLs
 // and JSON-LD). Pulling from an env var keeps preview deployments honest.
-export const SITE_URL =serverConfig.siteUrl?.replace(/\/$/, "") ??
-  "https://atoolix.com";
+export const SITE_URL =
+  serverConfig.siteUrl?.replace(/\/$/, "") ?? "https://atoolix.com";
 
 /** Single source of truth for which loan type lives at which URL.
  *  The calculator component uses this to update the address bar client-side
@@ -25,7 +26,7 @@ export type LoanPageCopy = {
 };
 
 /** Generic hub copy — deliberately distinct from LOAN_PAGE_COPY.home, so the
- *  hub page and the home-loan page don't render near-identical text. */
+ * hub page and the home-loan page don't render near-identical text. */
 export const HUB_COPY: LoanPageCopy = {
   h1: "EMI Calculator",
   intro:
