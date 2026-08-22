@@ -8,6 +8,7 @@ const SIP_PUBLIC_PATH = "/tools/calculator/sip-calculator";
 const HOME_LOAN_PUBLIC_PATH = "/tools/calculator/home-loan-emi-calculator";
 const CAR_LOAN_PUBLIC_PATH = "/tools/calculator/car-loan-emi-calculator";
 const PERSONAL_LOAN_PUBLIC_PATH = "/tools/calculator/personal-loan-emi-calculator";
+const QR_CODE_PUBLIC_PATH = "/tools/qrcode/qr-code-generator";
 
 // Keep the registry's internal tool id stable while exposing the corrected
 // public SIP URL. This lets the existing investment implementation continue
@@ -29,6 +30,42 @@ function withPublicCanonical(
         ...tool.alternates,
         canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/calculator\/roi-calculator$/, "")}${SIP_PUBLIC_PATH}`,
       },
+    };
+  }
+
+  // The QR tool serves two closely related intents: creating QR codes and
+  // scanning existing QR codes. Keep one canonical URL while making the
+  // page metadata accurately represent both capabilities.
+  if (toolId === "qrcode/qr-code-generator") {
+    return {
+      ...tool,
+      alternates: {
+        ...tool.alternates,
+        canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/qrcode\/qr-code-generator$/, "")}${QR_CODE_PUBLIC_PATH}`,
+      },
+      title: "Free QR Code Generator & Scanner Online",
+      onPageTitle: "Free QR Code Generator & Scanner Online",
+      description:
+        "Create and scan QR codes online for URLs, text, Wi-Fi, email, phone, SMS, WhatsApp, vCards, locations, and events. Customize colors and logos, then export QR codes as PNG, SVG, or PDF.",
+      keywords: [
+        "qr code generator",
+        "free qr code generator",
+        "qr code generator online",
+        "qr code creator",
+        "create qr code online",
+        "generate qr code",
+        "qr code scanner",
+        "qr code scanner online",
+        "scan qr code online",
+        "scan qr code from image",
+        "scan qr code from photo",
+        "qr code reader online",
+        "url qr code generator",
+        "wifi qr code generator",
+        "vcard qr code generator",
+        "qr code with logo",
+        "download qr code",
+      ],
     };
   }
 
