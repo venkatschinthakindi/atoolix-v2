@@ -1,4 +1,6 @@
-export const serverConfig = {
+import "client-only";
+
+export const clientConfig = {
   siteName: process.env.NEXT_PUBLIC_SITE_NAME!,
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL!,
   siteLogoUrl: process.env.NEXT_PUBLIC_SITE_LOGO_URL!,
@@ -14,3 +16,7 @@ export const serverConfig = {
     googleAnalyticsId: process.env.NEXT_PUBLIC_GA_ID,
   },
 } as const;
+
+// Temporary compatibility alias for existing Client Components.
+// Server Components must import serverConfig from @/config/server instead.
+export const serverConfig = clientConfig;
