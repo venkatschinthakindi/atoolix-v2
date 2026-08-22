@@ -4,34 +4,35 @@ import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
 
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
-const title = "Free Finance, Percentage & Everyday Math Calculators Online";
-const description = "Calculate EMI, ROI, percentages, interest, and more with our collection of free online calculators. Quick, accurate, and user-friendly.";
+const title = "Free Online Calculators – Finance, Math, Loan & More";
+const description =
+  "Use free online calculators for EMI and loans, SIP and investment returns, percentages, ROI, interest, retirement planning, and everyday math. Compare tools and calculate results quickly in your browser.";
 
 export const metadata = {
-  title: title,
-  description: description,
+  title,
+  description,
   alternates: {
     canonical: `${siteUrl}/calculator`,
   },
   openGraph: {
-    title: title,
-    description: description,
+    title,
+    description,
     url: `${serverConfig.siteUrl}/calculator`,
     siteName,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: title,
-    description: description,
+    title,
+    description,
   },
 };
 
-export default function Page(props: any) {
+export default function Page() {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
-        <FilterToolHubPage filterKey="math" title={title}/>
+        <FilterToolHubPage filterKey="calculator" title={title} />
         <Footer />
       </div>
     </div>
