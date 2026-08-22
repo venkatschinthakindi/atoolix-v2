@@ -16,7 +16,6 @@ const staticRoutes = [
   "terms",
   "disclaimer",
   "tools",
-  "calculator",
   "datetime",
   "finance",
   "image",
