@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { InvestmentCalculatorGuide } from "./InvestmentCalculatorGuide";
 
 type SeoComponent = ComponentType<any>;
 type SeoLoader = () => Promise<{ default: SeoComponent }>;
@@ -7,21 +8,16 @@ const seoLoaders: Record<string, SeoLoader> = {
   "pdf/split-pdf": () => import("@/components/tools/pdf/splitPdf/splitPdfSeoContent"),
   "pdf/merge-pdf": () => import("@/components/tools/pdf/mergePdf/mergePdfSeoContent"),
   "calculator/emi-calculator": () => import("@/components/tools/emiCalculator/homeLoanEmiCalculatorSeoContent"),
-  
   "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent"),
   "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent"),
-  
   "calculator/roi-calculator": () => import("@/components/tools/financeSuite/investment/sipReturnCalculatorSeoContent"),
   "calculator/cagr-calculator": () => import("@/components/tools/financeSuite/investment/cagrSeoContent"),
   "calculator/xirr-calculator": () => import("@/components/tools/financeSuite/investment/xirrSeoContent"),
   "calculator/lumpsum-calculator": () => import("@/components/tools/financeSuite/investment/lumpsumcalculatorseocontent"),
-
   "calculator/simple-interest-calculator": () => import("@/components/tools/financeSuite/savings/simpleInterestCalculatorSeoContent"),
   "calculator/fd-calculator": () => import("@/components/tools/financeSuite/savings/fixedDepositCalculatorSeoContent"),
   "calculator/compound-interest-calculator": () => import("@/components/tools/financeSuite/savings/compoundInterestCalculatorSeoContent"),
   "calculator/recurring-deposit-calculator": () => import("@/components/tools/financeSuite/savings/recurringDepositCalculatorSeoContent"),
-  
-
   "calculator/retirement-calculator": () => import("@/components/tools/financeSuite/retirement/retirementWealthSuiteSeoContent"),
   "image/image-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/ImageToPDFSeoContent"),
   "image/jpg-to-pdf": () => import("@/components/tools/pdf/image-to-pdf/JpgToPdfSeoContent"),
@@ -56,6 +52,14 @@ const seoLoaders: Record<string, SeoLoader> = {
   "privacysecurity/file-analyzer": () => import("@/components/tools/privacysecurity/filecheckupseocontent"),
 };
 
+const investmentGuideByTool: Record<string, "sip" | "lumpsum" | "cagr" | "xirr" | undefined> = {
+  calculator: undefined,
+  "calculator/roi-calculator": "sip",
+  "calculator/lumpsum-calculator": "lumpsum",
+  "calculator/cagr-calculator": "cagr",
+  "calculator/xirr-calculator": "xirr",
+};
+
 export default async function ToolSeoContent({ toolId }: { toolId: string }) {
   const key = toolId.toLowerCase();
   const loader = seoLoaders[key];
@@ -63,10 +67,14 @@ export default async function ToolSeoContent({ toolId }: { toolId: string }) {
 
   const Mod = await loader();
   const SeoContent = Mod.default;
+  const investmentGuide = Object.prototype.hasOwnProperty.call(investmentGuideByTool, key);
+
   return (
-    <div className="my-12">
+    <div className="my-12 space-y-12">
       <SeoContent />
-      
+      {investmentGuide && (
+        <InvestmentCalculatorGuide active={investmentGuideByTool[key]} />
+      )}
     </div>
-);
+  );
 }
