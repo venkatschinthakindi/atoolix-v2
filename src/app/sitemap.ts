@@ -21,6 +21,8 @@ const staticRoutes = [
   "pdf",
   "qrcode",
   "privacysecurity",
+  "tools/calculator",
+  "tools/converter",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
