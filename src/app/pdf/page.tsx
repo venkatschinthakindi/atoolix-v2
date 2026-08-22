@@ -1,32 +1,35 @@
 import { Footer } from "@/app/footer/footer";
 import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
+
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
-const title = "Explore the Complete Collection of PDF Tools and Utilities";
-const description = "Use free online PDF tools to merge, split, compress, convert, edit, rotate, organize, and manage PDF files quickly, securely, and without installation.";
+
+const title = "Free Online PDF Tools – Merge, Split, Compress & Convert PDFs";
+const description =
+  "Free online PDF tools to merge, split, compress, convert, and manage PDF files in your browser. Fast, private, mobile-friendly, and no software installation required.";
 
 export const metadata = {
-  title: title,
-  description: description,
+  title,
+  description,
   alternates: {
     canonical: `${siteUrl}/pdf`,
   },
   openGraph: {
-    title: title,
-    description: description,
+    title,
+    description,
     url: `${siteUrl}/pdf`,
     siteName,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: title,
-    description: description,
+    title,
+    description,
   },
 };
 
-export default function Page(props: any) {
+export default function Page() {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
@@ -34,5 +37,5 @@ export default function Page(props: any) {
         <Footer />
       </div>
     </div>
-  )
+  );
 }
