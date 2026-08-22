@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { usePwa } from "@/components/pwa/PwaProvider";
-import { serverConfig } from "@/config/client";
+import { clientConfig } from "@/config/client";
 
 const HANDLE_WIDTH = 34;
 const PANEL_WIDTH = 264;
@@ -102,7 +102,7 @@ export default function InstallButton() {
       `}
     >
       <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#D9B978]">
-        {serverConfig.siteName} · App
+        {clientConfig.siteName} · App
       </div>
 
       <div className="text-[13px] font-medium leading-snug text-white/90">
@@ -206,7 +206,7 @@ export default function InstallButton() {
 
           <div className="min-w-0 flex-1">
             <div className="mb-0.5 text-[9.5px] font-semibold uppercase tracking-[0.12em] text-[#D9B978]">
-              {serverConfig.siteName}
+              {clientConfig.siteName}
             </div>
 
             <div className="truncate text-[13px] font-medium tracking-tight text-white">
