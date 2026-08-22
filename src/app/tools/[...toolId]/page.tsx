@@ -1,4 +1,3 @@
-
 import { notFound } from "next/navigation";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
@@ -35,8 +34,8 @@ export default async function ToolPage({ params }: any) {
   const normalizedToolId = Array.isArray(rawToolId)
     ? rawToolId.join("/").toLowerCase()
     : String(rawToolId).toLowerCase();
-  
-  const { toolId, tool } = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry };
+
+  const { toolId, tool } = getTool(rawToolId) as { toolId: string; tool: ToolRegistryEntry };
   if (!tool) return notFound();
 
   const { ...toolMeta } = tool;
@@ -49,74 +48,35 @@ export default async function ToolPage({ params }: any) {
   const pageTitle = isCalculatorHub ? CALCULATOR_TITLE : (tool.onPageTitle || tool.title);
   const pageDescription = isCalculatorHub ? CALCULATOR_DESCRIPTION : tool.description;
 
-  const softwareApplicationSchema = {
-    "@context": "https://schema.org",
-    "@type": tool.applicationType ?? "WebApplication",
-
-    name: pageTitle,
-    description: pageDescription,
-    "@id": `${pageCanonical}#software`,
-    url: pageCanonical,
-    browserRequirements: "Requires JavaScript. Works in modern web browsers.",
-    inLanguage: "en",
-
-    applicationCategory:
-      tool.applicationCategory ?? "UtilitiesApplication",
-
-    operatingSystem: "Any",
-    isAccessibleForFree: true,
-
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "INR",
-    },
-    ...(tool.keywords && {
-      keywords: isCalculatorHub
-        ? "online calculator, calculator online, free online calculator, scientific calculator, percentage calculator, equation solver, math calculator"
-        : Array.isArray(tool.keywords)
-          ? tool.keywords.join(", ")
-          : tool.keywords,
-    }),
-    publisher: {
-      "@id": `${serverConfig.siteUrl}/#organization`,
-    }
-  };
-
   return (
     <>
       <div className="app-shell">
         <div className="app-container page-section">
-            <div className="mb-12">
-                <FloatingDock />
-            </div>
-
-            <FloatingButton children={<BackButton />}/>
-              <div className="mb-2 flex flex-col items-center space-y-4">
-                <div className="inline-flex items-center justify-center gap-2">
-                  <h1 className="text-center max-w-4xl text-2xl font-extrabold tracking-wide text-white md:text-2xl">
-                    {pageTitle}
-                  </h1>
-                  
-                  <FloatingButton 
-                  className='fixed top-21 right-40 z-50 transition-all duration-300'
-                  children={<ToolHeaderFavorite tool={tool}/>}/>
-                </div>
-              </div>
-              <p className="text-white/70 text-sm text-center max-w-3xl mx-auto leading-relaxed">
-                {pageDescription}
-              </p>
-              <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
-              <ToolSeoContent toolId={toolId} />
-              <Footer />
+          <div className="mb-12">
+            <FloatingDock />
           </div>
+
+          <FloatingButton children={<BackButton />} />
+          <div className="mb-2 flex flex-col items-center space-y-4">
+            <div className="inline-flex items-center justify-center gap-2">
+              <h1 className="text-center max-w-4xl text-2xl font-extrabold tracking-wide text-white md:text-2xl">
+                {pageTitle}
+              </h1>
+
+              <FloatingButton
+                className="fixed top-21 right-40 z-50 transition-all duration-300"
+                children={<ToolHeaderFavorite tool={tool} />}
+              />
+            </div>
+          </div>
+          <p className="text-white/70 text-sm text-center max-w-3xl mx-auto leading-relaxed">
+            {pageDescription}
+          </p>
+          <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
+          <ToolSeoContent toolId={toolId} />
+          <Footer />
+        </div>
       </div>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(softwareApplicationSchema),
-        }}
-      /> 
     </>
   );
 }
