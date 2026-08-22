@@ -83,7 +83,8 @@ export default function Page() {
               <table className="w-full min-w-[680px] text-left text-sm">
                 <thead className="border-b border-white/10"><tr><th scope="col" className="px-4 py-3 font-semibold text-white">Goal</th><th scope="col" className="px-4 py-3 font-semibold text-white">Recommended tool</th></tr></thead>
                 <tbody className="text-white/70">
-                  <tr className="border-b border-white/10"><td className="px-4 py-3">Change image format</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/jpg-to-png">Choose the matching converter</Link></td></tr>
+                  <tr className="border-b border-white/10"><td className="px-4 py-3">Change image format</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/image">Browse image format converters</Link></td></tr>
+                  <tr className="border-b border-white/10"><td className="px-4 py-3">Convert JPG to WebP for a website</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/jpg-to-webp">JPG to WebP Converter</Link></td></tr>
                   <tr className="border-b border-white/10"><td className="px-4 py-3">Reduce image file size</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/compress-image">Image Compressor</Link></td></tr>
                   <tr className="border-b border-white/10"><td className="px-4 py-3">Meet a strict upload size</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/compress-image-to-50kb">Choose a target-size compressor</Link></td></tr>
                   <tr className="border-b border-white/10"><td className="px-4 py-3">Remove a background</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/background-remover">Background Remover</Link></td></tr>
