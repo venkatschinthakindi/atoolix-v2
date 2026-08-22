@@ -9,7 +9,7 @@ import { serverConfig } from "@/config/server";
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl;
 
-const TITLE = `Free Online PDF, Image, Finance & QR Code Tools | ${siteName}`;
+const TITLE = `Free Online Tools for PDF, Images, Finance, Math & More | ${siteName}`;
 const DESCRIPTION =
   "Free online tools for PDF, images, finance, math, QR codes and time zones. Process files in your browser with no signup or software installation.";
 
