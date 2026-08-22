@@ -34,24 +34,6 @@ const faqItems = [
 export default function CalculatorSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-10 p-4 text-white sm:p-5 lg:p-6">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqItems.map((item) => ({
-              "@type": "Question",
-              name: item.q,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: item.a,
-              },
-            })),
-          }),
-        }}
-      />
-
       <section aria-labelledby="calculator-intro" className="space-y-4">
         <h2 id="calculator-intro" className="text-2xl font-bold tracking-tight sm:text-3xl">
           Free Online Calculator for Everyday Math
