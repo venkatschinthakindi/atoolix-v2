@@ -1,14 +1,14 @@
 import { getCachedTools, ToolRegistryEntry } from "@/data/tools";
 
 const toolMap = new Map<string, ToolRegistryEntry>(
-  getCachedTools().map((tool) => [tool.id, tool])
+  getCachedTools().map((tool) => [tool.id, tool]),
 );
 
 export function getTool(toolId: string | string[]) {
   const normalizedToolId =
-  typeof toolId === "string"
-    ? toolId.toLowerCase()
-    : toolId.join("/").toLowerCase();
+    typeof toolId === "string"
+      ? toolId.toLowerCase()
+      : toolId.join("/").toLowerCase();
 
   const tool = toolMap.get(normalizedToolId);
 
@@ -16,4 +16,9 @@ export function getTool(toolId: string | string[]) {
     toolId: tool ? normalizedToolId : "not-found",
     tool,
   };
+}
+
+export function getCanonicalToolPath(tool: ToolRegistryEntry): string {
+  const canonical = new URL(tool.alternates.canonical);
+  return canonical.pathname.replace(/\/$/, "") || "/";
 }
