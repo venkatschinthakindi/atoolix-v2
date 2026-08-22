@@ -412,6 +412,7 @@ const toolGroups = [
         related: [
           "/tools/calculator/roi-calculator",
           "/tools/calculator/fd-calculator",
+          "/tools/calculator/home-loan-emi-calculator",
         ],
       },
       {
