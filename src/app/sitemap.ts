@@ -9,7 +9,6 @@ const staticRoutes = [
   "about",
   "contact",
   "documentation",
-  "offline",
   "privacy",
   "terms",
   "disclaimer",
