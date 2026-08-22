@@ -46,12 +46,12 @@ const nextConfig = {
       },
       {
         source: "/calculator/retirement-planning-calculator",
-        destination: "/calculator/retirement-calculator",
+        destination: "/tools/calculator/retirement-calculator",
         permanent: true,
       },
       {
         source: "/calculator/fixed-deposit-calculator",
-        destination: "/calculator/fd-calculator",
+        destination: "/tools/calculator/fd-calculator",
         permanent: true,
       },
     ];
