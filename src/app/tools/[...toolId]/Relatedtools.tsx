@@ -84,72 +84,82 @@ const DEFAULT_COPY: CategoryCopy = {
 
 const IMAGE_TO_PDF_CLUSTER: Record<string, RelatedToolItem[]> = {
   "/tools/image/image-to-pdf": [
-    {
-      name: "JPG to PDF",
-      href: "/tools/image/jpg-to-pdf",
-      canonical: `${SITE_URL}/tools/image/jpg-to-pdf`,
-    },
-    {
-      name: "PNG to PDF",
-      href: "/tools/image/png-to-pdf",
-      canonical: `${SITE_URL}/tools/image/png-to-pdf`,
-    },
-    {
-      name: "WebP to PDF",
-      href: "/tools/image/webp-to-pdf",
-      canonical: `${SITE_URL}/tools/image/webp-to-pdf`,
-    },
+    { name: "JPG to PDF", href: "/tools/image/jpg-to-pdf", canonical: `${SITE_URL}/tools/image/jpg-to-pdf` },
+    { name: "PNG to PDF", href: "/tools/image/png-to-pdf", canonical: `${SITE_URL}/tools/image/png-to-pdf` },
+    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf", canonical: `${SITE_URL}/tools/image/webp-to-pdf` },
   ],
   "/tools/image/jpg-to-pdf": [
-    {
-      name: "Image to PDF",
-      href: "/tools/image/image-to-pdf",
-      canonical: `${SITE_URL}/tools/image/image-to-pdf`,
-    },
-    {
-      name: "PNG to PDF",
-      href: "/tools/image/png-to-pdf",
-      canonical: `${SITE_URL}/tools/image/png-to-pdf`,
-    },
-    {
-      name: "WebP to PDF",
-      href: "/tools/image/webp-to-pdf",
-      canonical: `${SITE_URL}/tools/image/webp-to-pdf`,
-    },
+    { name: "Image to PDF", href: "/tools/image/image-to-pdf", canonical: `${SITE_URL}/tools/image/image-to-pdf` },
+    { name: "PNG to PDF", href: "/tools/image/png-to-pdf", canonical: `${SITE_URL}/tools/image/png-to-pdf` },
+    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf", canonical: `${SITE_URL}/tools/image/webp-to-pdf` },
   ],
   "/tools/image/png-to-pdf": [
-    {
-      name: "Image to PDF",
-      href: "/tools/image/image-to-pdf",
-      canonical: `${SITE_URL}/tools/image/image-to-pdf`,
-    },
-    {
-      name: "JPG to PDF",
-      href: "/tools/image/jpg-to-pdf",
-      canonical: `${SITE_URL}/tools/image/jpg-to-pdf`,
-    },
-    {
-      name: "WebP to PDF",
-      href: "/tools/image/webp-to-pdf",
-      canonical: `${SITE_URL}/tools/image/webp-to-pdf`,
-    },
+    { name: "Image to PDF", href: "/tools/image/image-to-pdf", canonical: `${SITE_URL}/tools/image/image-to-pdf` },
+    { name: "JPG to PDF", href: "/tools/image/jpg-to-pdf", canonical: `${SITE_URL}/tools/image/jpg-to-pdf` },
+    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf", canonical: `${SITE_URL}/tools/image/webp-to-pdf` },
   ],
   "/tools/image/webp-to-pdf": [
-    {
-      name: "Image to PDF",
-      href: "/tools/image/image-to-pdf",
-      canonical: `${SITE_URL}/tools/image/image-to-pdf`,
-    },
-    {
-      name: "JPG to PDF",
-      href: "/tools/image/jpg-to-pdf",
-      canonical: `${SITE_URL}/tools/image/jpg-to-pdf`,
-    },
-    {
-      name: "PNG to PDF",
-      href: "/tools/image/png-to-pdf",
-      canonical: `${SITE_URL}/tools/image/png-to-pdf`,
-    },
+    { name: "Image to PDF", href: "/tools/image/image-to-pdf", canonical: `${SITE_URL}/tools/image/image-to-pdf` },
+    { name: "JPG to PDF", href: "/tools/image/jpg-to-pdf", canonical: `${SITE_URL}/tools/image/jpg-to-pdf` },
+    { name: "PNG to PDF", href: "/tools/image/png-to-pdf", canonical: `${SITE_URL}/tools/image/png-to-pdf` },
+  ],
+};
+
+const IMAGE_CONVERTER_CLUSTER: Record<string, RelatedToolItem[]> = {
+  "/tools/image/jpg-to-png": [
+    { name: "PNG to JPG", href: "/tools/image/png-to-jpg" },
+    { name: "JPG to WebP", href: "/tools/image/jpg-to-webp" },
+    { name: "PNG to WebP", href: "/tools/image/png-to-webp" },
+    { name: "WebP to JPG", href: "/tools/image/webp-to-jpg" },
+  ],
+  "/tools/image/png-to-jpg": [
+    { name: "JPG to PNG", href: "/tools/image/jpg-to-png" },
+    { name: "PNG to WebP", href: "/tools/image/png-to-webp" },
+    { name: "PNG to JPEG", href: "/tools/image/png-to-jpeg" },
+    { name: "WebP to PNG", href: "/tools/image/webp-to-png" },
+  ],
+  "/tools/image/png-to-jpeg": [
+    { name: "PNG to JPG", href: "/tools/image/png-to-jpg" },
+    { name: "JPG to PNG", href: "/tools/image/jpg-to-png" },
+    { name: "PNG to WebP", href: "/tools/image/png-to-webp" },
+  ],
+  "/tools/image/jpg-to-webp": [
+    { name: "JPG to PNG", href: "/tools/image/jpg-to-png" },
+    { name: "PNG to WebP", href: "/tools/image/png-to-webp" },
+    { name: "WebP to JPG", href: "/tools/image/webp-to-jpg" },
+    { name: "WebP to PNG", href: "/tools/image/webp-to-png" },
+  ],
+  "/tools/image/png-to-webp": [
+    { name: "JPG to WebP", href: "/tools/image/jpg-to-webp" },
+    { name: "JPG to PNG", href: "/tools/image/jpg-to-png" },
+    { name: "WebP to PNG", href: "/tools/image/webp-to-png" },
+    { name: "WebP to JPG", href: "/tools/image/webp-to-jpg" },
+  ],
+  "/tools/image/webp-to-jpg": [
+    { name: "WebP to PNG", href: "/tools/image/webp-to-png" },
+    { name: "JPG to WebP", href: "/tools/image/jpg-to-webp" },
+    { name: "PNG to JPG", href: "/tools/image/png-to-jpg" },
+    { name: "WebP to JPEG", href: "/tools/image/webp-to-jpeg" },
+  ],
+  "/tools/image/webp-to-jpeg": [
+    { name: "WebP to JPG", href: "/tools/image/webp-to-jpg" },
+    { name: "WebP to PNG", href: "/tools/image/webp-to-png" },
+    { name: "JPG to WebP", href: "/tools/image/jpg-to-webp" },
+  ],
+  "/tools/image/webp-to-png": [
+    { name: "WebP to JPG", href: "/tools/image/webp-to-jpg" },
+    { name: "PNG to WebP", href: "/tools/image/png-to-webp" },
+    { name: "JPG to PNG", href: "/tools/image/jpg-to-png" },
+  ],
+  "/tools/image/svg-to-png": [
+    { name: "SVG to JPG", href: "/tools/image/svg-to-jpg" },
+    { name: "PNG to JPG", href: "/tools/image/png-to-jpg" },
+    { name: "JPG to PNG", href: "/tools/image/jpg-to-png" },
+  ],
+  "/tools/image/svg-to-jpg": [
+    { name: "SVG to PNG", href: "/tools/image/svg-to-png" },
+    { name: "JPG to PNG", href: "/tools/image/jpg-to-png" },
+    { name: "PNG to JPG", href: "/tools/image/png-to-jpg" },
   ],
 };
 
@@ -184,12 +194,10 @@ export async function RelatedTools({
 }: RelatedToolsProps) {
   const currentTool = tools.find((t: any) => t.id === toolId);
   const currentPath = currentTool?.alternates?.canonical
-    ? currentTool.alternates.canonical
-        .replace(SITE_URL, "")
-        .replace(/\/$/, "")
+    ? currentTool.alternates.canonical.replace(SITE_URL, "").replace(/\/$/, "")
     : publicToolPath(toolId, currentTool?.alternates?.canonical);
 
-  const clusterItems = IMAGE_TO_PDF_CLUSTER[currentPath];
+  const clusterItems = IMAGE_TO_PDF_CLUSTER[currentPath] ?? IMAGE_CONVERTER_CLUSTER[currentPath];
 
   const relatedTools = items
     ? items.map((item) => ({
@@ -221,13 +229,21 @@ export async function RelatedTools({
     return null;
   }
 
+  const isImageConverterCluster = Boolean(IMAGE_CONVERTER_CLUSTER[currentPath]);
+  const isImageToPdfCluster = Boolean(IMAGE_TO_PDF_CLUSTER[currentPath]);
   const copy = CATEGORY_COPY[currentTool?.category ?? ""] ?? DEFAULT_COPY;
   const finalHeading = heading ??
-    (clusterItems ? "Related Image to PDF Converters" : copy.heading);
+    (isImageToPdfCluster
+      ? "Related Image to PDF Converters"
+      : isImageConverterCluster
+        ? "Related Image Format Converters"
+        : copy.heading);
   const finalDescription = description ??
-    (clusterItems
+    (isImageToPdfCluster
       ? "Convert other supported image formats to PDF or use the general image-to-PDF converter."
-      : copy.description);
+      : isImageConverterCluster
+        ? "Convert between JPG, PNG, WebP, and SVG formats with these related browser-based image converters."
+        : copy.description);
   const finalIcon = icon ?? copy.icon;
 
   const relatedToolsSchema = {
@@ -245,22 +261,11 @@ export async function RelatedTools({
   return (
     <>
       <JsonLd data={relatedToolsSchema} />
-      <section
-        aria-labelledby="related-tools-heading"
-        className={className ?? "space-y-4"}
-      >
+      <section aria-labelledby="related-tools-heading" className={className ?? "space-y-4"}>
         <div className="flex gap-3">
-          <span className="text-2xl" aria-hidden="true">
-            {finalIcon}
-          </span>
-
-          <SectionHeading
-            id="related-tools-heading"
-            title={finalHeading}
-            description={finalDescription}
-          />
+          <span className="text-2xl" aria-hidden="true">{finalIcon}</span>
+          <SectionHeading id="related-tools-heading" title={finalHeading} description={finalDescription} />
         </div>
-
         <nav aria-label={finalHeading} className="flex flex-wrap gap-3">
           {limitedRelatedTools.map((tool: any) => (
             <Link
