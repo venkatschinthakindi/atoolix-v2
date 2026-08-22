@@ -1,0 +1,63 @@
+name: EMI SEO Schema Patch
+
+on:
+  push:
+    branches:
+      - seo/emi-cluster-schema-cleanup
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove deprecated FAQ and HowTo schema from EMI pages
+        shell: python
+        run: |
+          from pathlib import Path
+          import subprocess
+
+          files = [
+              Path("src/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent.tsx"),
+              Path("src/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent.tsx"),
+          ]
+
+          for path in files:
+              text = path.read_text(encoding="utf-8")
+              original = text
+
+              for marker, end_marker in [
+                  ("\n  const faqSchema = {", "\n  const howToSchema = {"),
+                  ("\n  const howToSchema = {", "\n  // Absolute URLs are required by schema.org"),
+              ]:
+                  start = text.find(marker)
+                  end = text.find(end_marker, start + len(marker)) if start >= 0 else -1
+                  if start >= 0 and end > start:
+                      text = text[:start] + "\n" + text[end:]
+
+              text = text.replace("      <JsonLd data={faqSchema} />\n", "", 1)
+              text = text.replace("      <JsonLd data={howToSchema} />\n", "", 1)
+
+              if text == original:
+                  raise SystemExit(f"No schema change applied to {path}")
+
+              if '"@type": "FAQPage"' in text or '"@type": "HowTo"' in text:
+                  raise SystemExit(f"Deprecated schema still present in {path}")
+
+              path.write_text(text, encoding="utf-8")
+
+          subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=True)
+          subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=True)
+          subprocess.run(["git", "add", *map(str, files)], check=True)
+          subprocess.run(["git", "diff", "--cached", "--check"], check=True)
+          subprocess.run(["git", "commit", "-m", "seo: remove deprecated EMI FAQ and HowTo schema"], check=True)
+          subprocess.run(["git", "push", "origin", "HEAD:seo/emi-cluster-schema-cleanup"], check=True)
