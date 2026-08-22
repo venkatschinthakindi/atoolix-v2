@@ -27,6 +27,13 @@ const converterTools = [
   ["SVG to JPG Converter", "/tools/image/svg-to-jpg", "Convert SVG graphics to JPG when a raster JPEG output is required."],
 ];
 
+const compressionTools = [
+  ["Image Compressor", "/tools/image/compress-image", "Reduce image file size while balancing compression quality and visual detail."],
+  ["Compress Image to 20 KB", "/tools/image/compress-image-to-20kb", "Prepare supported images for forms and portals with a strict 20 KB maximum."],
+  ["Compress Image to 50 KB", "/tools/image/compress-image-to-50kb", "Target a 50 KB image size for upload limits while keeping useful image quality."],
+  ["Compress Image to 100 KB", "/tools/image/compress-image-to-100kb", "Reduce supported images toward a 100 KB target for common online upload limits."],
+];
+
 export default function Page() {
   return (
     <div className="app-shell">
@@ -55,6 +62,21 @@ export default function Page() {
             </div>
           </section>
 
+          <section aria-labelledby="image-compression-tools" className="space-y-5">
+            <div>
+              <h2 id="image-compression-tools" className="text-xl font-bold tracking-tight sm:text-2xl">Image Compression and File-Size Tools</h2>
+              <p className="mt-2 max-w-4xl text-sm leading-relaxed text-white/60 sm:text-base">Use the general compressor when you want to balance file size and quality, or choose a target-size tool when a website, application, exam form, government portal, or upload service specifies a maximum file size.</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {compressionTools.map(([name, href, text]) => (
+                <Link key={href} href={href} className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:bg-white/10">
+                  <h3 className="font-semibold text-white">{name}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/60">{text}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+
           <section aria-labelledby="choose-image-tool" className="space-y-4">
             <h2 id="choose-image-tool" className="text-xl font-bold tracking-tight sm:text-2xl">Which Image Tool Should You Use?</h2>
             <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
@@ -63,6 +85,7 @@ export default function Page() {
                 <tbody className="text-white/70">
                   <tr className="border-b border-white/10"><td className="px-4 py-3">Change image format</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/jpg-to-png">Choose the matching converter</Link></td></tr>
                   <tr className="border-b border-white/10"><td className="px-4 py-3">Reduce image file size</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/compress-image">Image Compressor</Link></td></tr>
+                  <tr className="border-b border-white/10"><td className="px-4 py-3">Meet a strict upload size</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/compress-image-to-50kb">Choose a target-size compressor</Link></td></tr>
                   <tr className="border-b border-white/10"><td className="px-4 py-3">Remove a background</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/background-remover">Background Remover</Link></td></tr>
                   <tr><td className="px-4 py-3">Create a PDF from images</td><td className="px-4 py-3"><Link className="text-blue-300 underline" href="/tools/image/image-to-pdf">Image to PDF</Link></td></tr>
                 </tbody>
