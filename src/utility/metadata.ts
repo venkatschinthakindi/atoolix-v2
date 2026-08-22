@@ -8,18 +8,6 @@ const CALCULATOR_CANONICAL = `${serverConfig.siteUrl}/calculator`;
 const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
 const CALCULATOR_DESCRIPTION =
   "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
-const CALCULATOR_KEYWORDS = [
-  "online calculator",
-  "calculator online",
-  "free online calculator",
-  "scientific calculator",
-  "percentage calculator",
-  "percentage increase calculator",
-  "percentage decrease calculator",
-  "equation solver",
-  "math calculator",
-  "advanced calculator",
-];
 
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
@@ -46,7 +34,6 @@ export async function generateMetadata(params: any): Promise<Metadata> {
   const isCalculatorHub = normalizedToolId === "calculator";
   const title = isCalculatorHub ? CALCULATOR_TITLE : tool.title;
   const description = isCalculatorHub ? CALCULATOR_DESCRIPTION : tool.description;
-  const keywords = isCalculatorHub ? CALCULATOR_KEYWORDS : tool.keywords;
   const canonical =
     normalizedToolId === "calculator/sip-calculator"
       ? SIP_CANONICAL
@@ -59,7 +46,6 @@ export async function generateMetadata(params: any): Promise<Metadata> {
   return {
     title,
     description,
-    keywords,
     alternates: {
       canonical,
     },
