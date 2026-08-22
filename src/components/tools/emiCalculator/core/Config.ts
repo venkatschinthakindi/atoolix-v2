@@ -1,10 +1,10 @@
 import type { LoanType } from "@/components/tools/emiCalculator/core/Engine";
-import { serverConfig } from "@/config/server";
+import { sharedConfig } from "@/config/shared";
 
 // TODO: replace with your real production domain (used for canonical URLs
 // and JSON-LD). Pulling from an env var keeps preview deployments honest.
 export const SITE_URL =
-  serverConfig.siteUrl?.replace(/\/$/, "") ?? "https://atoolix.com";
+  sharedConfig.siteUrl?.replace(/\/$/, "") ?? "https://atoolix.com";
 
 /** Single source of truth for which loan type lives at which URL.
  *  The calculator component uses this to update the address bar client-side
