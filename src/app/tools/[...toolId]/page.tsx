@@ -16,6 +16,8 @@ const ToolSeoContent = dynamic(
   { loading: () => null }
 );
 
+const SIP_CANONICAL = `${serverConfig.siteUrl}/tools/calculator/sip-calculator`;
+
 export async function generateMetadata({
   params,
 }: {
@@ -27,19 +29,27 @@ export async function generateMetadata({
 export default async function ToolPage({ params }: any) {
   const resolvedParams = await params;
   const rawToolId = resolvedParams.toolId;
+  const normalizedToolId = Array.isArray(rawToolId)
+    ? rawToolId.join("/").toLowerCase()
+    : String(rawToolId).toLowerCase();
   
   const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry};
   if (!tool) return notFound();
 
   const { ...toolMeta } = tool;
+  const pageCanonical =
+    normalizedToolId === "calculator/sip-calculator"
+      ? SIP_CANONICAL
+      : tool.alternates?.canonical;
+
   const softwareApplicationSchema = {
     "@context": "https://schema.org",
     "@type": tool.applicationType ?? "WebApplication",
 
     name: tool.title,
     description: tool.description,
-    "@id": `${tool.alternates?.canonical}#software`,
-    url: tool.alternates?.canonical,
+    "@id": `${pageCanonical}#software`,
+    url: pageCanonical,
     browserRequirements: "Requires JavaScript. Works in modern web browsers.",
     inLanguage: "en",
 
