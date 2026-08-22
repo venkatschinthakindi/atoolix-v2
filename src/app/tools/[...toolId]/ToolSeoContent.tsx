@@ -2,6 +2,7 @@ import type { ComponentType, ReactNode } from "react";
 import { cloneElement, isValidElement } from "react";
 import { InvestmentCalculatorGuide } from "./InvestmentCalculatorGuide";
 import { Compress100SearchIntentSection } from "@/components/tools/image/imageCompressor/compress100SearchIntentSection";
+import { CompressTargetSizeGuidance } from "@/components/tools/image/imageCompressor/compressTargetSizeGuidance";
 
 type SeoComponent = ComponentType<any>;
 type SeoLoader = () => Promise<{ default: SeoComponent }>;
@@ -116,6 +117,8 @@ export default async function ToolSeoContent({ toolId }: { toolId: string }) {
     <div className="my-12 space-y-12">
       {stripDeprecatedStructuredData(<SeoContent />)}
       {key === "image/compress-image-to-100kb" && <Compress100SearchIntentSection />}
+      {key === "image/compress-image-to-50kb" && <CompressTargetSizeGuidance target={50} />}
+      {key === "image/compress-image-to-20kb" && <CompressTargetSizeGuidance target={20} />}
       {investmentGuide && (
         <InvestmentCalculatorGuide active={investmentGuideByTool[key]} />
       )}
