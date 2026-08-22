@@ -3,9 +3,14 @@ import { getTool } from "@/utility/getTool";
 import { serverConfig } from "@/config/server";
 import type { Metadata } from "next";
 
+const SIP_CANONICAL = `${serverConfig.siteUrl}/tools/calculator/sip-calculator`;
+
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
   const rawToolId = resolvedParams.toolId;
+  const normalizedToolId = Array.isArray(rawToolId)
+    ? rawToolId.join("/").toLowerCase()
+    : String(rawToolId).toLowerCase();
 
   const { tool } = getTool(rawToolId) as {
     toolId: string;
@@ -22,7 +27,10 @@ export async function generateMetadata(params: any): Promise<Metadata> {
     };
   }
 
-  const canonical = tool.alternates.canonical.replace(/\/$/, "");
+  const canonical =
+    normalizedToolId === "calculator/sip-calculator"
+      ? SIP_CANONICAL
+      : tool.alternates.canonical.replace(/\/$/, "");
 
   return {
     title: tool.title,
