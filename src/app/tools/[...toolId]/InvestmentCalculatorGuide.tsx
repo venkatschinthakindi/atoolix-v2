@@ -62,6 +62,20 @@ export function InvestmentCalculatorGuide({ active }: InvestmentCalculatorGuideP
         </p>
       </div>
 
+      {active === "sip" && (
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5" aria-labelledby="sip-example-heading">
+          <h3 id="sip-example-heading" className="text-base font-semibold text-white sm:text-lg">
+            SIP Calculator Example
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/65 sm:text-base">
+            Example only: invest ₹5,000 every month for 10 years using an assumed 12% annual return. The total contributions would be ₹6,00,000. The projected maturity value depends on the return assumption and calculation convention, so it is an illustration rather than a guaranteed outcome.
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-white/45">
+            Change the monthly amount, investment period, and assumed return in the calculator to compare scenarios. Actual market-linked returns can be higher or lower than the assumption.
+          </p>
+        </div>
+      )}
+
       <div className="grid gap-3 sm:grid-cols-2">
         {CALCULATORS.map((item) => (
           <Link key={item.id} href={item.href} className={`rounded-2xl border p-4 transition hover:border-blue-400/30 hover:bg-white/[0.06] ${item.id === active ? "border-blue-400/30 bg-blue-400/[0.08]" : "border-white/10 bg-white/[0.03]"}`}>
