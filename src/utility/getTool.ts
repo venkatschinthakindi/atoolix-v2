@@ -6,6 +6,8 @@ const toolMap = new Map<string, ToolRegistryEntry>(
 
 const SIP_PUBLIC_PATH = "/tools/calculator/sip-calculator";
 const HOME_LOAN_PUBLIC_PATH = "/tools/calculator/home-loan-emi-calculator";
+const CAR_LOAN_PUBLIC_PATH = "/tools/calculator/car-loan-emi-calculator";
+const PERSONAL_LOAN_PUBLIC_PATH = "/tools/calculator/personal-loan-emi-calculator";
 
 // Keep the registry's internal tool id stable while exposing the corrected
 // public SIP URL. This lets the existing investment implementation continue
@@ -30,9 +32,9 @@ function withPublicCanonical(
     };
   }
 
-  // The dedicated Home Loan EMI page must self-canonicalize. The registry
-  // historically pointed it at the generic EMI hub, which creates conflicting
-  // canonical/internal signals between two genuinely different search intents.
+  // Dedicated loan pages must self-canonicalize. The registry historically
+  // pointed Home Loan at the generic EMI hub, which creates conflicting
+  // canonical/internal signals between genuinely different search intents.
   if (toolId === "calculator/home-loan-emi-calculator") {
     return {
       ...tool,
@@ -49,6 +51,51 @@ function withPublicCanonical(
         "home loan amortization calculator",
         "home loan repayment calculator",
         "home loan interest savings",
+      ],
+      applicationCategory: "FinanceApplication",
+    };
+  }
+
+  if (toolId === "calculator/car-loan-emi-calculator") {
+    return {
+      ...tool,
+      alternates: {
+        ...tool.alternates,
+        canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/calculator\/car-loan-emi-calculator$/, "")}${CAR_LOAN_PUBLIC_PATH}`,
+      },
+      keywords: [
+        "car loan emi calculator",
+        "car loan calculator",
+        "auto loan calculator",
+        "vehicle loan emi calculator",
+        "car loan interest calculator",
+        "car loan prepayment calculator",
+        "car loan amortization calculator",
+        "car payment calculator",
+        "used car loan calculator",
+        "car loan additional payment calculator",
+      ],
+      applicationCategory: "FinanceApplication",
+    };
+  }
+
+  if (toolId === "calculator/personal-loan-emi-calculator") {
+    return {
+      ...tool,
+      alternates: {
+        ...tool.alternates,
+        canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/calculator\/personal-loan-emi-calculator$/, "")}${PERSONAL_LOAN_PUBLIC_PATH}`,
+      },
+      keywords: [
+        "personal loan emi calculator",
+        "personal loan calculator",
+        "personal loan interest calculator",
+        "unsecured loan calculator",
+        "personal loan prepayment calculator",
+        "personal loan foreclosure calculator",
+        "personal loan amortization calculator",
+        "personal loan additional payment calculator",
+        "personal loan repayment calculator",
       ],
       applicationCategory: "FinanceApplication",
     };
