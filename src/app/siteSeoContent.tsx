@@ -27,7 +27,7 @@ const quickLinks = [
   { href: "/tools/image/passport-photo-resizer", label: "Passport Photo Resizer" },
   { href: "/tools/image/resize-signature-for-upload", label: "Signature Resizer" },
   { href: "/tools/pdf/merge-pdf", label: "PDF Merge" },
-  { href: "/tools/calculator", label: "Percentage Calculator" },
+  { href: "/calculator", label: "Percentage Calculator" },
   { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
   { href: "/tools/calculator/retirement-calculator?category=retirement", label: "Retirement Calculator" },
   { href: "/tools/calculator/retirement-calculator?category=fire", label: "FIRE Calculator" },
@@ -53,7 +53,7 @@ const categories = [
       { href: "/tools/calculator/fd-calculator?category=compound", label: "Compound Interest" },
       { href: "/tools/calculator/fd-calculator?category=fd", label: "Fixed Deposit Calculator" },
       { href: "/tools/calculator/retirement-calculator", label: "Retirement Planning" },
-      { href: "/tools/calculator/roi-calculator", label: "Investment Returns" },
+      { href: "/tools/calculator/sip-calculator", label: "SIP Calculator" },
     ],
   },
   {
