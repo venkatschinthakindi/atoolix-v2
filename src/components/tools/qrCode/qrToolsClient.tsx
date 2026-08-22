@@ -555,7 +555,7 @@ export default function QRToolsClient() {
         )}
       </section>
 
-      <aside className="grid gap-6">
+      <aside className="grid gap-6 self-start">
         <QRPreviewCard
           refEl={qrRef}
           onOpenModal={openPreview}

@@ -28,6 +28,10 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
     () => import("@/components/tools/emiCalculator/calculators/CarLoanEmiCalculatorPage"),
   ],
   [
+    "calculator/home-loan-emi-calculator",
+    () => import("@/components/tools/emiCalculator/calculators/HomeLoanEmiCalculatorPage"),
+  ],
+  [
     "calculator/personal-loan-emi-calculator",
     () => import("@/components/tools/emiCalculator/calculators/PersonalLoanEmiCalculatorPage"),
   ],

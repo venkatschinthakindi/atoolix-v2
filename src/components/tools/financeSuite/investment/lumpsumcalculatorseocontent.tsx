@@ -124,13 +124,13 @@ function FAQSchema() {
 
 export default function LumpsumCalculatorSeoContent() {
   return (
-    <>
+    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
       <BreadcrumbSchema />
       <FAQSchema />
 
       <section
         aria-labelledby="lumpsum-calculator-content"
-        className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8"
+        className="space-y-4"
       >
         <div className="space-y-12">
           {/* Introduction */}
@@ -1007,6 +1007,6 @@ export default function LumpsumCalculatorSeoContent() {
           </section>
         </div>
       </section>
-    </>
+    </div>
   );
 }

@@ -205,6 +205,35 @@ export const tools: ToolRegistryEntry[] = [
     toolImage: "emi-calculator.png"
   },
   {
+    id: "calculator/home-loan-emi-calculator",
+    archived: false,
+    relatedTools: ["calculator/car-loan-emi-calculator", "calculator/personal-loan-emi-calculator", "calculator/roi-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
+    title: "Home Loan EMI Calculator – Prepayment & Interest Savings",
+    toolShortName: "Home Loan EMI Calculator",
+    onPageTitle: "Home Loan EMI Calculator with Prepayment & Amortization Schedule",
+    description: "Calculate home loan EMI, total interest, amortization, and prepayment savings. Compare loan tenure and extra-payment scenarios with a free online calculator.",
+    icon: "Home",
+    keywords: [ "emi calculator online",
+      "home loan emi calculator",
+      "car loan emi calculator",
+      "personal loan emi calculator",
+      "loan amortization schedule",
+      "emi calculator with prepayment",
+      "loan repayment calculator",
+      "balloon payment calculator",
+      "interest vs principal calculator" ],
+    alternates: { canonical: `${siteUrl}/tools/calculator/emi-calculator` },
+    applicationType: "WebApplication",
+    applicationCategory: "Utilities",
+    category: "Finance",
+    subCategory: "Loan",
+    featured: true,
+    comingSoon: false,
+    preload: false,
+    defaultProps: { defaultType: "home" }, // NEW — hub defaults to home
+    toolImage: "emi-calculator.png"
+  },
+  {
     id: "calculator/car-loan-emi-calculator",
     archived: false,
     relatedTools: ["calculator/emi-calculator",  "calculator/personal-loan-emi-calculator", "calculator/roi-calculator", "calculator/fd-calculator"],
@@ -639,7 +668,7 @@ export const tools: ToolRegistryEntry[] = [
       "RD Calculator for Recurring Deposit Maturity Value and Interest",
     description:
       "Calculate recurring deposit maturity value, total investment, and interest earned from monthly deposits, annual interest rate, and deposit duration with an instant projection.",
-    icon: "CalendarDays",
+    icon: "Calendar",
     keywords: [
       "rd calculator",
       "recurring deposit calculator",

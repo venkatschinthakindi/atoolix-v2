@@ -10,6 +10,7 @@ const seoLoaders: Record<string, SeoLoader> = {
   "calculator/emi-calculator": () => import("@/components/tools/emiCalculator/emiCalculatorHubSeoContent"),
   "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent"),
   "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent"),
+  "calculator/home-loan-emi-calculator": () => import("@/components/tools/emiCalculator/homeLoanEmiCalculatorPageSeoContent"),
   "calculator/roi-calculator": () => import("@/components/tools/financeSuite/investment/sipReturnCalculatorSeoContent"),
   "calculator/cagr-calculator": () => import("@/components/tools/financeSuite/investment/cagrSeoContent"),
   "calculator/xirr-calculator": () => import("@/components/tools/financeSuite/investment/xirrSeoContent"),

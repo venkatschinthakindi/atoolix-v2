@@ -14,7 +14,6 @@ export default function Page() {
           {HUB_COPY.intro}
         </p>
       </div>
-
       <EmiCalculatorHubPage defaultType="home" />
     </main>
   );
