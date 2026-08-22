@@ -48,7 +48,7 @@ export function breadcrumbSchemaFor(toolId: FinanceSeoToolId, toolName: string) 
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
       { "@type": "ListItem", position: 2, name: "Tools", item: `${SITE_URL}/tools` },
-      { "@type": "ListItem", position: 3, name: "Calculator", item: `${SITE_URL}/tools/calculator` },
+      { "@type": "ListItem", position: 3, name: "Calculator", item: `${SITE_URL}/calculator` },
       { "@type": "ListItem", position: 4, name: toolName, item: canonicalUrl },
     ],
   };
