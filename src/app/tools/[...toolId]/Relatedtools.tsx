@@ -163,6 +163,89 @@ const IMAGE_CONVERTER_CLUSTER: Record<string, RelatedToolItem[]> = {
   ],
 };
 
+// Finance clusters intentionally use contextual, small sets of links rather than
+// linking every calculator to every other calculator. This keeps the information
+// architecture useful to people while giving Google clear relationships between
+// closely related tools.
+const FINANCE_CLUSTER: Record<string, RelatedToolItem[]> = {
+  "/tools/calculator/emi-calculator": [
+    { name: "Home Loan EMI Calculator", href: "/tools/calculator/home-loan-emi-calculator" },
+    { name: "Car Loan EMI Calculator", href: "/tools/calculator/car-loan-emi-calculator" },
+    { name: "Personal Loan EMI Calculator", href: "/tools/calculator/personal-loan-emi-calculator" },
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+    { name: "FD Calculator", href: "/tools/calculator/fd-calculator" },
+  ],
+  "/tools/calculator/home-loan-emi-calculator": [
+    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
+    { name: "Car Loan EMI Calculator", href: "/tools/calculator/car-loan-emi-calculator" },
+    { name: "Personal Loan EMI Calculator", href: "/tools/calculator/personal-loan-emi-calculator" },
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+  ],
+  "/tools/calculator/car-loan-emi-calculator": [
+    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
+    { name: "Home Loan EMI Calculator", href: "/tools/calculator/home-loan-emi-calculator" },
+    { name: "Personal Loan EMI Calculator", href: "/tools/calculator/personal-loan-emi-calculator" },
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+  ],
+  "/tools/calculator/personal-loan-emi-calculator": [
+    { name: "EMI Calculator", href: "/tools/calculator/emi-calculator" },
+    { name: "Home Loan EMI Calculator", href: "/tools/calculator/home-loan-emi-calculator" },
+    { name: "Car Loan EMI Calculator", href: "/tools/calculator/car-loan-emi-calculator" },
+    { name: "FD Calculator", href: "/tools/calculator/fd-calculator" },
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+  ],
+  "/tools/calculator/roi-calculator": [
+    { name: "CAGR Calculator", href: "/tools/calculator/cagr-calculator" },
+    { name: "XIRR Calculator", href: "/tools/calculator/xirr-calculator" },
+    { name: "Lumpsum Calculator", href: "/tools/calculator/lumpsum-calculator" },
+    { name: "Retirement Calculator", href: "/tools/calculator/retirement-calculator" },
+  ],
+  "/tools/calculator/cagr-calculator": [
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+    { name: "XIRR Calculator", href: "/tools/calculator/xirr-calculator" },
+    { name: "Lumpsum Calculator", href: "/tools/calculator/lumpsum-calculator" },
+  ],
+  "/tools/calculator/xirr-calculator": [
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+    { name: "CAGR Calculator", href: "/tools/calculator/cagr-calculator" },
+    { name: "Lumpsum Calculator", href: "/tools/calculator/lumpsum-calculator" },
+  ],
+  "/tools/calculator/lumpsum-calculator": [
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+    { name: "CAGR Calculator", href: "/tools/calculator/cagr-calculator" },
+    { name: "XIRR Calculator", href: "/tools/calculator/xirr-calculator" },
+  ],
+  "/tools/calculator/fd-calculator": [
+    { name: "Compound Interest Calculator", href: "/tools/calculator/compound-interest-calculator" },
+    { name: "Simple Interest Calculator", href: "/tools/calculator/simple-interest-calculator" },
+    { name: "Recurring Deposit Calculator", href: "/tools/calculator/recurring-deposit-calculator" },
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+  ],
+  "/tools/calculator/compound-interest-calculator": [
+    { name: "FD Calculator", href: "/tools/calculator/fd-calculator" },
+    { name: "Simple Interest Calculator", href: "/tools/calculator/simple-interest-calculator" },
+    { name: "Recurring Deposit Calculator", href: "/tools/calculator/recurring-deposit-calculator" },
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+  ],
+  "/tools/calculator/simple-interest-calculator": [
+    { name: "Compound Interest Calculator", href: "/tools/calculator/compound-interest-calculator" },
+    { name: "FD Calculator", href: "/tools/calculator/fd-calculator" },
+    { name: "Recurring Deposit Calculator", href: "/tools/calculator/recurring-deposit-calculator" },
+  ],
+  "/tools/calculator/recurring-deposit-calculator": [
+    { name: "FD Calculator", href: "/tools/calculator/fd-calculator" },
+    { name: "Compound Interest Calculator", href: "/tools/calculator/compound-interest-calculator" },
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+  ],
+  "/tools/calculator/retirement-calculator": [
+    { name: "SIP Calculator", href: SIP_NEW_PATH },
+    { name: "CAGR Calculator", href: "/tools/calculator/cagr-calculator" },
+    { name: "XIRR Calculator", href: "/tools/calculator/xirr-calculator" },
+    { name: "Lumpsum Calculator", href: "/tools/calculator/lumpsum-calculator" },
+    { name: "FD Calculator", href: "/tools/calculator/fd-calculator" },
+  ],
+};
+
 export interface RelatedToolItem {
   name: string;
   href: string;
@@ -197,7 +280,10 @@ export async function RelatedTools({
     ? currentTool.alternates.canonical.replace(SITE_URL, "").replace(/\/$/, "")
     : publicToolPath(toolId, currentTool?.alternates?.canonical);
 
-  const clusterItems = IMAGE_TO_PDF_CLUSTER[currentPath] ?? IMAGE_CONVERTER_CLUSTER[currentPath];
+  const clusterItems =
+    IMAGE_TO_PDF_CLUSTER[currentPath] ??
+    IMAGE_CONVERTER_CLUSTER[currentPath] ??
+    FINANCE_CLUSTER[currentPath];
 
   const relatedTools = items
     ? items.map((item) => ({
