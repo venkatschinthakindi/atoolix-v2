@@ -90,6 +90,20 @@ export function InvestmentCalculatorGuide({ active }: InvestmentCalculatorGuideP
         </div>
       )}
 
+      {active === "cagr" && (
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5" aria-labelledby="cagr-example-heading">
+          <h3 id="cagr-example-heading" className="text-base font-semibold text-white sm:text-lg">
+            CAGR Calculator Example
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/65 sm:text-base">
+            Example only: an investment grows from ₹1,00,000 to ₹1,76,234 over 5 years. CAGR is calculated as (₹1,76,234 ÷ ₹1,00,000)^(1 ÷ 5) − 1, which is approximately 12% per year. CAGR is an annualized summary of the beginning-to-ending growth; it does not mean the investment earned exactly 12% in every year.
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-white/45">
+            Use the calculator with your own beginning value, ending value, and measurement period. The result describes historical or supplied values and does not predict or guarantee future performance.
+          </p>
+        </div>
+      )}
+
       <div className="grid gap-3 sm:grid-cols-2">
         {CALCULATORS.map((item) => (
           <Link key={item.id} href={item.href} className={`rounded-2xl border p-4 transition hover:border-blue-400/30 hover:bg-white/[0.06] ${item.id === active ? "border-blue-400/30 bg-blue-400/[0.08]" : "border-white/10 bg-white/[0.03]"}`}>
