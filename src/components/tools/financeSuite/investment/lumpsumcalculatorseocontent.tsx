@@ -100,33 +100,11 @@ function BreadcrumbSchema() {
   );
 }
 
-function FAQSchema() {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqItems.map((item) => ({
-            "@type": "Question",
-            name: item.q,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: item.a,
-            },
-          })),
-        }),
-      }}
-    />
-  );
-}
 
 export default function LumpsumCalculatorSeoContent() {
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
       <BreadcrumbSchema />
-      <FAQSchema />
 
       <section
         aria-labelledby="lumpsum-calculator-content"
