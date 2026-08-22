@@ -5,6 +5,7 @@ import type { MetadataRoute } from "next";
 const BASE_URL = serverConfig.siteUrl.replace(/\/$/, "");
 const SIP_OLD_PATH = "/tools/calculator/roi-calculator";
 const SIP_NEW_PATH = "/tools/calculator/sip-calculator";
+const HOME_LOAN_EMI_PATH = "/tools/calculator/home-loan-emi-calculator";
 
 const staticRoutes = [
   "",
@@ -41,6 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ),
       ...toolUrls,
       `${BASE_URL}${SIP_NEW_PATH}`,
+      `${BASE_URL}${HOME_LOAN_EMI_PATH}`,
     ]),
   );
 
