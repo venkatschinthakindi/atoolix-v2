@@ -47,7 +47,7 @@ const popularTools = [
     description: "Reduce PDF file size for email, uploads, applications, storage, and sharing.",
   },
   {
-    href: "/tools/pdf/image-to-pdf",
+    href: "/tools/image/image-to-pdf",
     title: "Image to PDF",
     description: "Turn supported JPG, PNG, and WebP images into PDF documents in your browser.",
   },
