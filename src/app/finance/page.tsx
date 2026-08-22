@@ -1,38 +1,41 @@
 import { Footer } from "@/app/footer/footer";
 import { serverConfig } from "@/config/server";
 import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
+import { FinanceHubSeoContent } from "./FinanceHubSeoContent";
+
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
-const title = "Explore Finance Calculators, EMI & Investment Tools Online";
-const description = "Calculate EMI, SIP, ROI, simple interest, compound interest, savings, investments, loan repayments, and returns with our free online finance calculators.";
+const title = "Free Finance Calculators – EMI, Investment, FD & Retirement";
+const description = "Free online finance calculators for home loan EMI, investments, fixed deposits, compound interest, ROI, retirement and FIRE planning. Compare scenarios instantly in your browser.";
 
 export const metadata = {
-  title: title,
-  description: description,
+  title,
+  description,
   alternates: {
     canonical: `${siteUrl}/finance`,
   },
   openGraph: {
-    title: title,
-    description: description,
+    title,
+    description,
     url: `${siteUrl}/finance`,
     siteName,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: title,
-    description: description,
+    title,
+    description,
   },
 };
 
-export default function Page(props: any) {
+export default function Page() {
   return (
     <div className="app-shell">
       <div className="app-container page-section pt-12">
         <FilterToolHubPage filterKey="finance" title={title} />
+        <FinanceHubSeoContent />
         <Footer />
       </div>
     </div>
-  )
+  );
 }
