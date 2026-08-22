@@ -8,7 +8,6 @@ import { SectionHeading } from "@/utility/seo/SectionHeading";
 // Same fallback used in tools.ts — keep the two in sync so canonical URLs
 // built here match the ones baked into the registry.
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://atoolix.com";
-const SIP_OLD_PATH = "/tools/calculator/roi-calculator";
 const SIP_NEW_PATH = "/tools/calculator/sip-calculator";
 
 function publicToolPath(toolId: string, canonical?: string) {
@@ -24,11 +23,6 @@ function publicCanonical(toolId: string, canonical?: string) {
   return canonical ?? `${SITE_URL}/tools/${toolId}`;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Per-category copy defaults                                         */
-/*  Keeps headings/icons sensible without every call site having to   */
-/*  repeat them — still fully overridable via props.                  */
-/* ------------------------------------------------------------------ */
 type CategoryCopy = {
   heading: string;
   description: string;
@@ -90,9 +84,6 @@ const DEFAULT_COPY: CategoryCopy = {
   icon: "🧰",
 };
 
-/** A manually-specified related link — used when the default one-tool-page-
- *  per-id registry lookup isn't granular enough (e.g. linking to a specific
- *  scenario/tab within another tool via a query param). */
 export interface RelatedToolItem {
   name: string;
   /** Relative path, e.g. "/tools/calculator/sip-calculator?category=sip". */
