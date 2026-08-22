@@ -4,6 +4,22 @@ import { serverConfig } from "@/config/server";
 import type { Metadata } from "next";
 
 const SIP_CANONICAL = `${serverConfig.siteUrl}/tools/calculator/sip-calculator`;
+const CALCULATOR_CANONICAL = `${serverConfig.siteUrl}/tools/calculator`;
+const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
+const CALCULATOR_DESCRIPTION =
+  "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
+const CALCULATOR_KEYWORDS = [
+  "online calculator",
+  "calculator online",
+  "free online calculator",
+  "scientific calculator",
+  "percentage calculator",
+  "percentage increase calculator",
+  "percentage decrease calculator",
+  "equation solver",
+  "math calculator",
+  "advanced calculator",
+];
 
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
@@ -27,15 +43,21 @@ export async function generateMetadata(params: any): Promise<Metadata> {
     };
   }
 
+  const isCalculatorHub = normalizedToolId === "calculator";
+  const title = isCalculatorHub ? CALCULATOR_TITLE : tool.title;
+  const description = isCalculatorHub ? CALCULATOR_DESCRIPTION : tool.description;
+  const keywords = isCalculatorHub ? CALCULATOR_KEYWORDS : tool.keywords;
   const canonical =
     normalizedToolId === "calculator/sip-calculator"
       ? SIP_CANONICAL
-      : tool.alternates.canonical.replace(/\/$/, "");
+      : isCalculatorHub
+        ? CALCULATOR_CANONICAL
+        : tool.alternates.canonical.replace(/\/$/, "");
 
   return {
-    title: tool.title,
-    description: tool.description,
-    keywords: tool.keywords,
+    title,
+    description,
+    keywords,
     alternates: {
       canonical,
     },
@@ -44,8 +66,8 @@ export async function generateMetadata(params: any): Promise<Metadata> {
       follow: true,
     },
     openGraph: {
-      title: tool.title,
-      description: tool.description,
+      title,
+      description,
       url: canonical,
       siteName: serverConfig.siteName,
       type: "website",
@@ -59,8 +81,8 @@ export async function generateMetadata(params: any): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: tool.title,
-      description: tool.description,
+      title,
+      description,
       images: [
         {
           url: `${serverConfig.siteUrl}/toolimages/${tool.toolImage}`,
