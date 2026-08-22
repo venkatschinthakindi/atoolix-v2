@@ -40,8 +40,8 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: "/tools/calculator",
-        destination: "/calculator",
+        source: "/calculator",
+        destination: "/tools/calculator",
         permanent: true,
       },
       {
