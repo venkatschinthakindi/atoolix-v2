@@ -1,12 +1,10 @@
 "use server";
 
 import Link from "next/link";
-import { tools, type ToolRegistryEntry } from "@/data/tools"; // adjust import path to wherever tools.ts lives
+import { tools, type ToolRegistryEntry } from "@/data/tools";
 import { JsonLd } from "@/utility/seo/JsonLd";
 import { SectionHeading } from "@/utility/seo/SectionHeading";
 
-// Same fallback used in tools.ts — keep the two in sync so canonical URLs
-// built here match the ones baked into the registry.
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://atoolix.com";
 const SIP_NEW_PATH = "/tools/calculator/sip-calculator";
 
@@ -84,11 +82,80 @@ const DEFAULT_COPY: CategoryCopy = {
   icon: "🧰",
 };
 
+const IMAGE_TO_PDF_CLUSTER: Record<string, RelatedToolItem[]> = {
+  "/tools/image/image-to-pdf": [
+    {
+      name: "JPG to PDF",
+      href: "/tools/image/jpg-to-pdf",
+      canonical: `${SITE_URL}/tools/image/jpg-to-pdf`,
+    },
+    {
+      name: "PNG to PDF",
+      href: "/tools/image/png-to-pdf",
+      canonical: `${SITE_URL}/tools/image/png-to-pdf`,
+    },
+    {
+      name: "WebP to PDF",
+      href: "/tools/image/webp-to-pdf",
+      canonical: `${SITE_URL}/tools/image/webp-to-pdf`,
+    },
+  ],
+  "/tools/image/jpg-to-pdf": [
+    {
+      name: "Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      canonical: `${SITE_URL}/tools/image/image-to-pdf`,
+    },
+    {
+      name: "PNG to PDF",
+      href: "/tools/image/png-to-pdf",
+      canonical: `${SITE_URL}/tools/image/png-to-pdf`,
+    },
+    {
+      name: "WebP to PDF",
+      href: "/tools/image/webp-to-pdf",
+      canonical: `${SITE_URL}/tools/image/webp-to-pdf`,
+    },
+  ],
+  "/tools/image/png-to-pdf": [
+    {
+      name: "Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      canonical: `${SITE_URL}/tools/image/image-to-pdf`,
+    },
+    {
+      name: "JPG to PDF",
+      href: "/tools/image/jpg-to-pdf",
+      canonical: `${SITE_URL}/tools/image/jpg-to-pdf`,
+    },
+    {
+      name: "WebP to PDF",
+      href: "/tools/image/webp-to-pdf",
+      canonical: `${SITE_URL}/tools/image/webp-to-pdf`,
+    },
+  ],
+  "/tools/image/webp-to-pdf": [
+    {
+      name: "Image to PDF",
+      href: "/tools/image/image-to-pdf",
+      canonical: `${SITE_URL}/tools/image/image-to-pdf`,
+    },
+    {
+      name: "JPG to PDF",
+      href: "/tools/image/jpg-to-pdf",
+      canonical: `${SITE_URL}/tools/image/jpg-to-pdf`,
+    },
+    {
+      name: "PNG to PDF",
+      href: "/tools/image/png-to-pdf",
+      canonical: `${SITE_URL}/tools/image/png-to-pdf`,
+    },
+  ],
+};
+
 export interface RelatedToolItem {
   name: string;
-  /** Relative path, e.g. "/tools/calculator/sip-calculator?category=sip". */
   href: string;
-  /** Absolute URL for JSON-LD. Auto-derived from `href` + SITE_URL if omitted. */
   canonical?: string;
 }
 
@@ -116,6 +183,13 @@ export async function RelatedTools({
   className,
 }: RelatedToolsProps) {
   const currentTool = tools.find((t: any) => t.id === toolId);
+  const currentPath = currentTool?.alternates?.canonical
+    ? currentTool.alternates.canonical
+        .replace(SITE_URL, "")
+        .replace(/\/$/, "")
+    : publicToolPath(toolId, currentTool?.alternates?.canonical);
+
+  const clusterItems = IMAGE_TO_PDF_CLUSTER[currentPath];
 
   const relatedTools = items
     ? items.map((item) => ({
@@ -125,7 +199,8 @@ export async function RelatedTools({
           item.canonical ??
           `${SITE_URL}${item.href.startsWith("/") ? item.href : `/${item.href}`}`,
       }))
-    : (currentTool?.relatedTools ?? [])
+    : clusterItems ??
+      (currentTool?.relatedTools ?? [])
         .map((id: any) => tools.find((t: any) => t.id === id))
         .filter((t: any): t is ToolRegistryEntry => {
           if (!t) return false;
@@ -140,20 +215,26 @@ export async function RelatedTools({
           canonical: publicCanonical(t.id, t.alternates.canonical),
         }));
 
-  if (relatedTools.length === 0) {
+  const limitedRelatedTools = relatedTools.slice(0, maxItems);
+
+  if (limitedRelatedTools.length === 0) {
     return null;
   }
 
   const copy = CATEGORY_COPY[currentTool?.category ?? ""] ?? DEFAULT_COPY;
-  const finalHeading = heading ?? copy.heading;
-  const finalDescription = description ?? copy.description;
+  const finalHeading = heading ??
+    (clusterItems ? "Related Image to PDF Converters" : copy.heading);
+  const finalDescription = description ??
+    (clusterItems
+      ? "Convert other supported image formats to PDF or use the general image-to-PDF converter."
+      : copy.description);
   const finalIcon = icon ?? copy.icon;
 
   const relatedToolsSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: finalHeading,
-    itemListElement: relatedTools.map((tool, index) => ({
+    itemListElement: limitedRelatedTools.map((tool, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: tool.name,
@@ -181,7 +262,7 @@ export async function RelatedTools({
         </div>
 
         <nav aria-label={finalHeading} className="flex flex-wrap gap-3">
-          {relatedTools.map((tool: any) => (
+          {limitedRelatedTools.map((tool: any) => (
             <Link
               key={tool.href}
               href={tool.href}
