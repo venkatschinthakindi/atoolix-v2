@@ -163,6 +163,42 @@ const IMAGE_CONVERTER_CLUSTER: Record<string, RelatedToolItem[]> = {
   ],
 };
 
+// Image compression pages are grouped by the user's target-size intent.
+// Keep the cluster focused so links are useful to people and do not become
+// an artificial keyword network.
+const IMAGE_COMPRESSOR_CLUSTER: Record<string, RelatedToolItem[]> = {
+  "/tools/image/compress-image-to-100kb": [
+    { name: "Compress Image to 50 KB", href: "/tools/image/compress-image-to-50kb" },
+    { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
+    { name: "Image Compressor", href: "/tools/image/compress-image" },
+    { name: "JPG Image Compressor", href: "/tools/image/compress-jpg" },
+  ],
+  "/tools/image/compress-image-to-50kb": [
+    { name: "Compress Image to 100 KB", href: "/tools/image/compress-image-to-100kb" },
+    { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
+    { name: "Image Compressor", href: "/tools/image/compress-image" },
+    { name: "JPG Image Compressor", href: "/tools/image/compress-jpg" },
+  ],
+  "/tools/image/compress-image-to-20kb": [
+    { name: "Compress Image to 100 KB", href: "/tools/image/compress-image-to-100kb" },
+    { name: "Compress Image to 50 KB", href: "/tools/image/compress-image-to-50kb" },
+    { name: "Image Compressor", href: "/tools/image/compress-image" },
+    { name: "JPG Image Compressor", href: "/tools/image/compress-jpg" },
+  ],
+  "/tools/image/compress-image": [
+    { name: "Compress Image to 100 KB", href: "/tools/image/compress-image-to-100kb" },
+    { name: "Compress Image to 50 KB", href: "/tools/image/compress-image-to-50kb" },
+    { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
+    { name: "JPG Image Compressor", href: "/tools/image/compress-jpg" },
+  ],
+  "/tools/image/compress-jpg": [
+    { name: "Compress Image to 100 KB", href: "/tools/image/compress-image-to-100kb" },
+    { name: "Compress Image to 50 KB", href: "/tools/image/compress-image-to-50kb" },
+    { name: "Compress Image to 20 KB", href: "/tools/image/compress-image-to-20kb" },
+    { name: "Image Compressor", href: "/tools/image/compress-image" },
+  ],
+};
+
 // Finance clusters intentionally use contextual, small sets of links rather than
 // linking every calculator to every other calculator. This keeps the information
 // architecture useful to people while giving Google clear relationships between
@@ -283,6 +319,7 @@ export async function RelatedTools({
   const clusterItems =
     IMAGE_TO_PDF_CLUSTER[currentPath] ??
     IMAGE_CONVERTER_CLUSTER[currentPath] ??
+    IMAGE_COMPRESSOR_CLUSTER[currentPath] ??
     FINANCE_CLUSTER[currentPath];
 
   const relatedTools = items
@@ -317,19 +354,24 @@ export async function RelatedTools({
 
   const isImageConverterCluster = Boolean(IMAGE_CONVERTER_CLUSTER[currentPath]);
   const isImageToPdfCluster = Boolean(IMAGE_TO_PDF_CLUSTER[currentPath]);
+  const isImageCompressorCluster = Boolean(IMAGE_COMPRESSOR_CLUSTER[currentPath]);
   const copy = CATEGORY_COPY[currentTool?.category ?? ""] ?? DEFAULT_COPY;
   const finalHeading = heading ??
     (isImageToPdfCluster
       ? "Related Image to PDF Converters"
       : isImageConverterCluster
         ? "Related Image Format Converters"
-        : copy.heading);
+        : isImageCompressorCluster
+          ? "Related Image Compression Tools"
+          : copy.heading);
   const finalDescription = description ??
     (isImageToPdfCluster
       ? "Convert other supported image formats to PDF or use the general image-to-PDF converter."
       : isImageConverterCluster
         ? "Convert between JPG, PNG, WebP, and SVG formats with these related browser-based image converters."
-        : copy.description);
+        : isImageCompressorCluster
+          ? "Choose another image compression workflow when you need a different target file size or compression format."
+          : copy.description);
   const finalIcon = icon ?? copy.icon;
 
   const relatedToolsSchema = {
