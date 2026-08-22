@@ -3,42 +3,59 @@ import { getTool } from "@/utility/getTool";
 import { serverConfig } from "@/config/server";
 import type { Metadata } from "next";
 
-export async function generateMetadata(params : any): Promise<Metadata> {
-    const resolvedParams = await params;
-    const rawToolId = resolvedParams.toolId;
+export async function generateMetadata(params: any): Promise<Metadata> {
+  const resolvedParams = await params;
+  const rawToolId = resolvedParams.toolId;
 
-    const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry };
-    
+  const { tool } = getTool(rawToolId) as {
+    toolId: string;
+    tool: ToolRegistryEntry | undefined;
+  };
+
+  if (!tool) {
+    return {
+      title: "Page Not Found",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const canonical = tool.alternates.canonical.replace(/\/$/, "");
+
   return {
-    title: tool?.title,
-    description: tool?.description,
-    keywords: tool?.keywords,
-
+    title: tool.title,
+    description: tool.description,
+    keywords: tool.keywords,
     alternates: {
-      canonical: tool?.alternates?.canonical,
+      canonical,
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
     openGraph: {
-      title: tool?.title,
-      description: tool?.description,
-      url: tool?.alternates?.canonical,
+      title: tool.title,
+      description: tool.description,
+      url: canonical,
       siteName: serverConfig.siteName,
       type: "website",
       images: [
         {
-          url: `${serverConfig.siteUrl}/toolimages/${tool?.toolImage}`,
+          url: `${serverConfig.siteUrl}/toolimages/${tool.toolImage}`,
           width: 1200,
           height: 630,
         },
       ],
     },
-
     twitter: {
       card: "summary_large_image",
-      title: tool?.title,
-      description: tool?.description,
+      title: tool.title,
+      description: tool.description,
       images: [
         {
-          url: `${serverConfig.siteUrl}/toolimages/${tool?.toolImage}`,
+          url: `${serverConfig.siteUrl}/toolimages/${tool.toolImage}`,
           width: 1200,
           height: 630,
         },
