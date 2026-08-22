@@ -222,7 +222,7 @@ export const tools: ToolRegistryEntry[] = [
       "loan repayment calculator",
       "balloon payment calculator",
       "interest vs principal calculator" ],
-    alternates: { canonical: `${siteUrl}/tools/calculator/emi-calculator` },
+    alternates: { canonical: `${siteUrl}/tools/calculator/home-loan-emi-calculator` },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
     category: "Finance",
@@ -1266,7 +1266,7 @@ export const tools: ToolRegistryEntry[] = [
     featured: true,
     comingSoon: false,
     preload: false,
-    toolImage: "resize-signature-for-upload.png"
+    toolImage:"resize-signature-for-upload.png"
   },
   {
     id: "image/background-remover",
