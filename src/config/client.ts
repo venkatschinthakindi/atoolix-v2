@@ -1,5 +1,3 @@
-import "client-only";
-
 export const serverConfig = {
   siteName: process.env.NEXT_PUBLIC_SITE_NAME!,
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL!,
