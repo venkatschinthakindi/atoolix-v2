@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import HomeLoanEmiCalculatorPage from "@/components/tools/emiCalculator/calculators/HomeLoanEmiCalculatorPage";
 import HomeLoanEmiCalculatorPageSeoContent from "@/components/tools/emiCalculator/homeLoanEmiCalculatorPageSeoContent";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Home Loan EMI Calculator – Prepayment & Interest Savings",
@@ -24,9 +25,9 @@ export const metadata: Metadata = {
 
 export default function HomeLoanEmiCalculatorRoute() {
   return (
-    <>
+    <Suspense>
       <HomeLoanEmiCalculatorPage />
       <HomeLoanEmiCalculatorPageSeoContent />
-    </>
+    </Suspense>
   );
 }
