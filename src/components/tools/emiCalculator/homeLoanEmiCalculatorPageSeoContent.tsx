@@ -48,6 +48,27 @@ export default function HomeLoanEmiCalculatorPageSeoContent() {
           <div><h3 className="font-semibold text-white">Should I reduce EMI or tenure after a prepayment?</h3><p>Keeping the EMI similar and shortening the tenure generally maximizes interest savings, while reducing EMI provides more monthly cash-flow flexibility.</p></div>
         </div>
       </section>
+      <section className="space-y-4" aria-labelledby="related-loan-calculators">
+        <SectionHeading
+          id="related-loan-calculators"
+          title="Related Loan EMI Calculators"
+          description="Compare the home-loan calculation with other loan types."
+        />
+        <div className="grid gap-4 md:grid-cols-3">
+          <a href="/tools/calculator/emi-calculator" className="rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
+            <h3 className="font-semibold">EMI Calculator</h3>
+            <p className="mt-2 text-sm text-white/55">Compare general loan repayment scenarios and switch between home, car, and personal loan calculations.</p>
+          </a>
+          <a href="/tools/calculator/car-loan-emi-calculator" className="rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
+            <h3 className="font-semibold">Car Loan EMI Calculator</h3>
+            <p className="mt-2 text-sm text-white/55">Estimate vehicle-loan EMI, total interest, and the effect of extra payments.</p>
+          </a>
+          <a href="/tools/calculator/personal-loan-emi-calculator" className="rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition">
+            <h3 className="font-semibold">Personal Loan EMI Calculator</h3>
+            <p className="mt-2 text-sm text-white/55">Calculate unsecured-loan EMI and compare rate and tenure scenarios.</p>
+          </a>
+        </div>
+      </section>
     </div>
   );
 }
