@@ -8,6 +8,21 @@ import { SectionHeading } from "@/utility/seo/SectionHeading";
 // Same fallback used in tools.ts — keep the two in sync so canonical URLs
 // built here match the ones baked into the registry.
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://atoolix.com";
+const SIP_OLD_PATH = "/tools/calculator/roi-calculator";
+const SIP_NEW_PATH = "/tools/calculator/sip-calculator";
+
+function publicToolPath(toolId: string, canonical?: string) {
+  if (toolId === "calculator/roi-calculator") return SIP_NEW_PATH;
+  if (canonical) {
+    return canonical.replace(SITE_URL, "").replace(/\/$/, "") || "/";
+  }
+  return `/tools/${toolId}`;
+}
+
+function publicCanonical(toolId: string, canonical?: string) {
+  if (toolId === "calculator/roi-calculator") return `${SITE_URL}${SIP_NEW_PATH}`;
+  return canonical ?? `${SITE_URL}/tools/${toolId}`;
+}
 
 /* ------------------------------------------------------------------ */
 /*  Per-category copy defaults                                         */
@@ -80,55 +95,24 @@ const DEFAULT_COPY: CategoryCopy = {
  *  scenario/tab within another tool via a query param). */
 export interface RelatedToolItem {
   name: string;
-  /** Relative path, e.g. "/tools/calculator/roi-calculator?category=sip". */
+  /** Relative path, e.g. "/tools/calculator/sip-calculator?category=sip". */
   href: string;
   /** Absolute URL for JSON-LD. Auto-derived from `href` + SITE_URL if omitted. */
   canonical?: string;
 }
 
 export interface RelatedToolsProps {
-  /**
-   * The id of the CURRENT tool, e.g. "image/jpg-to-webp". Used to resolve
-   * the default related-tools list from the registry, and to pick
-   * category-aware default heading/description/icon copy. Still required
-   * even when `items` is passed, so the right default copy is picked.
-   */
   toolId: string;
-  /**
-   * Optional explicit override list. When provided, this is rendered
-   * as-is instead of resolving `toolId`'s `relatedTools` ids from the
-   * registry — use this when you need finer-grained links than "one link
-   * per tool page" (e.g. specific calculator scenarios/tabs).
-   */
   items?: RelatedToolItem[];
-  /** Override the section heading. Defaults to a category-aware heading. */
   heading?: string;
-  /** Override the section description. Defaults to a category-aware description. */
   description?: string;
-  /** Override the leading emoji/icon. Defaults to a category-aware icon. */
   icon?: string;
-  /** Cap how many related tools render. Only applies to the registry-driven path — an explicit `items` list is never truncated. */
   maxItems?: number;
-  /** Include tools flagged archived: true (they still resolve to real ids/urls). Registry-driven path only. */
   includeArchived?: boolean;
-  /** Include tools flagged comingSoon: true. Registry-driven path only. */
   includeComingSoon?: boolean;
   className?: string;
 }
 
-/**
- * Renders the "Related Tools" section (JSON-LD ItemList + link chips) for
- * ANY tool. Two modes:
- *
- *   1. Registry-driven (default) — resolves `toolId`'s `relatedTools` ids
- *      from the tools registry:
- *        <RelatedTools toolId="image/jpg-to-webp" />
- *
- *   2. Explicit override — pass `items` when you need links more granular
- *      than the registry (e.g. specific calculator scenario tabs):
- *        <RelatedTools toolId="calculator/emi-calculator" items={[...]} />
- *      `toolId` is still used to pick category-aware default heading copy.
- */
 export async function RelatedTools({
   toolId,
   items,
@@ -161,8 +145,8 @@ export async function RelatedTools({
         .slice(0, maxItems)
         .map((t: any) => ({
           name: t.toolShortName || t.title,
-          href: `/tools/${t.id}`,
-          canonical: t.alternates.canonical,
+          href: publicToolPath(t.id, t.alternates.canonical),
+          canonical: publicCanonical(t.id, t.alternates.canonical),
         }));
 
   if (relatedTools.length === 0) {
@@ -182,7 +166,6 @@ export async function RelatedTools({
       "@type": "ListItem",
       position: index + 1,
       name: tool.name,
-      // JSON-LD urls must be absolute — use the canonical, not the relative href.
       url: tool.canonical,
     })),
   };
@@ -190,10 +173,6 @@ export async function RelatedTools({
   return (
     <>
       <JsonLd data={relatedToolsSchema} />
-
-      {/* ================================================================
-          RELATED TOOLS
-         ================================================================ */}
       <section
         aria-labelledby="related-tools-heading"
         className={className ?? "space-y-4"}
