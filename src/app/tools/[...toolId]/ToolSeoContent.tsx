@@ -1,8 +1,49 @@
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
+import { cloneElement, isValidElement } from "react";
 import { InvestmentCalculatorGuide } from "./InvestmentCalculatorGuide";
 
 type SeoComponent = ComponentType<any>;
 type SeoLoader = () => Promise<{ default: SeoComponent }>;
+
+type JsonLdScriptProps = {
+  type?: string;
+  dangerouslySetInnerHTML?: { __html?: unknown };
+  children?: ReactNode;
+};
+
+function containsDeprecatedStructuredData(value: unknown): boolean {
+  if (!value || typeof value !== "object") return false;
+  if (Array.isArray(value)) return value.some(containsDeprecatedStructuredData);
+
+  const record = value as Record<string, unknown>;
+  const type = record["@type"];
+  if (type === "FAQPage" || type === "HowTo") return true;
+
+  return Object.values(record).some(containsDeprecatedStructuredData);
+}
+
+function stripDeprecatedStructuredData(node: ReactNode): ReactNode {
+  if (Array.isArray(node)) {
+    return node.map(stripDeprecatedStructuredData);
+  }
+
+  if (!isValidElement(node)) return node;
+
+  const props = node.props as JsonLdScriptProps;
+  if (node.type === "script" && props.type === "application/ld+json") {
+    const raw = props.dangerouslySetInnerHTML?.__html;
+    if (typeof raw === "string") {
+      try {
+        if (containsDeprecatedStructuredData(JSON.parse(raw))) return null;
+      } catch {
+        // Preserve unparseable JSON-LD rather than changing unrelated markup.
+      }
+    }
+  }
+
+  if (props.children == null) return node;
+  return cloneElement(node, undefined, stripDeprecatedStructuredData(props.children));
+}
 
 const seoLoaders: Record<string, SeoLoader> = {
   "pdf/split-pdf": () => import("@/components/tools/pdf/splitPdf/splitPdfSeoContent"),
@@ -72,7 +113,7 @@ export default async function ToolSeoContent({ toolId }: { toolId: string }) {
 
   return (
     <div className="my-12 space-y-12">
-      <SeoContent />
+      {stripDeprecatedStructuredData(<SeoContent />)}
       {investmentGuide && (
         <InvestmentCalculatorGuide active={investmentGuideByTool[key]} />
       )}
