@@ -76,6 +76,20 @@ export function InvestmentCalculatorGuide({ active }: InvestmentCalculatorGuideP
         </div>
       )}
 
+      {active === "lumpsum" && (
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5" aria-labelledby="lumpsum-example-heading">
+          <h3 id="lumpsum-example-heading" className="text-base font-semibold text-white sm:text-lg">
+            Lumpsum Calculator Example
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/65 sm:text-base">
+            Example only: invest ₹1,00,000 once for 10 years using an assumed 10% annual return. Under a standard annual compounding model, the estimated future value is about ₹2,59,374 and the estimated gain is about ₹1,59,374.
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-white/45">
+            This is a mathematical illustration based on a constant assumed return, not a prediction or guarantee. Actual investment outcomes can differ because returns, fees, taxes, inflation, and timing can vary.
+          </p>
+        </div>
+      )}
+
       {active === "xirr" && (
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5" aria-labelledby="xirr-example-heading">
           <h3 id="xirr-example-heading" className="text-base font-semibold text-white sm:text-lg">
