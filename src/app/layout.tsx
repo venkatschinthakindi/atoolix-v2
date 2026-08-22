@@ -28,11 +28,6 @@ const DESCRIPTION =
   "Free online PDF tools, image converters and compressors, calculators, EMI and finance tools. Fast, secure, no signup required.";
 
 export const metadata: Metadata = {
-  // metadataBase is normally set once in the root layout, not here — but if
-    // it ISN'T set anywhere in your app, Next falls back to localhost when
-    // resolving any relative metadata URL and logs a build warning. Since every
-    // URL below is already absolute (via siteUrl) this isn't breaking anything
-    // today, but confirm metadataBase exists in app/layout.tsx as a safety net.
   metadataBase: new URL(serverConfig.siteUrl),
   title: {
     default: TITLE,
@@ -95,7 +90,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: "atoolix",
-    statusBarStyle: "black-translucent"
+    statusBarStyle: "black-translucent",
   },
 };
 
@@ -135,7 +130,6 @@ const siteJsonLd = {
   ],
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -151,10 +145,13 @@ export default function RootLayout({
         "font-mono",
         jetbrainsMono.variable
       )}
-      >
+    >
       <head>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1267608571294570"
-          crossOrigin="anonymous"></script>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1267608571294570"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body className="min-h-full flex flex-col">
         <PwaProvider>
@@ -166,12 +163,8 @@ export default function RootLayout({
           />
           <InstallButton />
           {/* <PwaUpdateToast /> */}
-          <main>
-            {children}
-          </main>
+          <main>{children}</main>
         </PwaProvider>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1267608571294570"
-          crossOrigin="anonymous"></script>
       </body>
     </html>
   );
