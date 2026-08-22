@@ -4,7 +4,7 @@ const CALCULATORS = [
   {
     id: "sip",
     name: "SIP Calculator",
-    href: "/tools/calculator/roi-calculator",
+    href: "/tools/calculator/sip-calculator",
     description: "Estimate the future value of regular investments made at recurring intervals.",
     intent: "Use a SIP calculator when you invest a fixed amount regularly and want to estimate the total contribution, potential returns, and future value using an assumed annual return.",
   },
@@ -134,7 +134,7 @@ export function InvestmentCalculatorGuide({ active }: InvestmentCalculatorGuideP
         <table className="min-w-full text-left text-sm">
           <thead className="bg-white/[0.04] text-white/80"><tr><th className="px-4 py-3 font-semibold">Your situation</th><th className="px-4 py-3 font-semibold">Best fit</th></tr></thead>
           <tbody className="divide-y divide-white/10 text-white/65">
-            <tr><td className="px-4 py-3">I invest a fixed amount regularly</td><td className="px-4 py-3"><Link className="text-white underline underline-offset-4" href="/tools/calculator/roi-calculator">SIP Calculator</Link></td></tr>
+            <tr><td className="px-4 py-3">I invest a fixed amount regularly</td><td className="px-4 py-3"><Link className="text-white underline underline-offset-4" href="/tools/calculator/sip-calculator">SIP Calculator</Link></td></tr>
             <tr><td className="px-4 py-3">I invest one amount at once</td><td className="px-4 py-3"><Link className="text-white underline underline-offset-4" href="/tools/calculator/lumpsum-calculator">Lumpsum Calculator</Link></td></tr>
             <tr><td className="px-4 py-3">I know the starting and ending values</td><td className="px-4 py-3"><Link className="text-white underline underline-offset-4" href="/tools/calculator/cagr-calculator">CAGR Calculator</Link></td></tr>
             <tr><td className="px-4 py-3">I have multiple cash flows on specific dates</td><td className="px-4 py-3"><Link className="text-white underline underline-offset-4" href="/tools/calculator/xirr-calculator">XIRR Calculator</Link></td></tr>
