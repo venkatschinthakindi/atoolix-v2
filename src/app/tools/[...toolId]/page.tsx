@@ -17,6 +17,9 @@ const ToolSeoContent = dynamic(
 );
 
 const SIP_CANONICAL = `${serverConfig.siteUrl}/tools/calculator/sip-calculator`;
+const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
+const CALCULATOR_DESCRIPTION =
+  "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
 
 export async function generateMetadata({
   params,
@@ -33,7 +36,7 @@ export default async function ToolPage({ params }: any) {
     ? rawToolId.join("/").toLowerCase()
     : String(rawToolId).toLowerCase();
   
-  const { toolId , tool} = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry};
+  const { toolId, tool } = getTool(rawToolId) as { toolId: string, tool: ToolRegistryEntry };
   if (!tool) return notFound();
 
   const { ...toolMeta } = tool;
@@ -42,12 +45,16 @@ export default async function ToolPage({ params }: any) {
       ? SIP_CANONICAL
       : tool.alternates?.canonical;
 
+  const isCalculatorHub = normalizedToolId === "calculator";
+  const pageTitle = isCalculatorHub ? CALCULATOR_TITLE : (tool.onPageTitle || tool.title);
+  const pageDescription = isCalculatorHub ? CALCULATOR_DESCRIPTION : tool.description;
+
   const softwareApplicationSchema = {
     "@context": "https://schema.org",
     "@type": tool.applicationType ?? "WebApplication",
 
-    name: tool.title,
-    description: tool.description,
+    name: pageTitle,
+    description: pageDescription,
     "@id": `${pageCanonical}#software`,
     url: pageCanonical,
     browserRequirements: "Requires JavaScript. Works in modern web browsers.",
@@ -65,9 +72,11 @@ export default async function ToolPage({ params }: any) {
       priceCurrency: "INR",
     },
     ...(tool.keywords && {
-      keywords: Array.isArray(tool.keywords)
-        ? tool.keywords.join(", ")
-        : tool.keywords,
+      keywords: isCalculatorHub
+        ? "online calculator, calculator online, free online calculator, scientific calculator, percentage calculator, equation solver, math calculator"
+        : Array.isArray(tool.keywords)
+          ? tool.keywords.join(", ")
+          : tool.keywords,
     }),
     publisher: {
       "@id": `${serverConfig.siteUrl}/#organization`,
@@ -86,7 +95,7 @@ export default async function ToolPage({ params }: any) {
               <div className="mb-2 flex flex-col items-center space-y-4">
                 <div className="inline-flex items-center justify-center gap-2">
                   <h1 className="text-center max-w-4xl text-2xl font-extrabold tracking-wide text-white md:text-2xl">
-                    {tool.onPageTitle || tool.title}
+                    {pageTitle}
                   </h1>
                   
                   <FloatingButton 
@@ -95,7 +104,7 @@ export default async function ToolPage({ params }: any) {
                 </div>
               </div>
               <p className="text-white/70 text-sm text-center max-w-3xl mx-auto leading-relaxed">
-                {tool.description}
+                {pageDescription}
               </p>
               <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
               <ToolSeoContent toolId={toolId} />
