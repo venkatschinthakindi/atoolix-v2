@@ -10,7 +10,6 @@ const financeLinks = [
   ["/tools/calculator/cagr-calculator", "CAGR Calculator"],
   ["/tools/calculator/lumpsum-calculator", "Lumpsum Calculator"],
   ["/tools/calculator/retirement-calculator", "Retirement Calculator"],
-  ["/tools/calculator/sip-calculator", "SIP Calculator"],
   ["/tools/calculator/fd-calculator?category=fd", "FD Calculator"],
   ["/tools/calculator/fd-calculator?category=compound", "Compound Interest Calculator"],
   ["/tools/calculator/retirement-calculator?category=fire", "FIRE Calculator"],
