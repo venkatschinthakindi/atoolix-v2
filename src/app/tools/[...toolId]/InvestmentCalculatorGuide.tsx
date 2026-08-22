@@ -76,6 +76,20 @@ export function InvestmentCalculatorGuide({ active }: InvestmentCalculatorGuideP
         </div>
       )}
 
+      {active === "xirr" && (
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5" aria-labelledby="xirr-example-heading">
+          <h3 id="xirr-example-heading" className="text-base font-semibold text-white sm:text-lg">
+            XIRR Calculator Example
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-white/65 sm:text-base">
+            Example only: invest ₹1,00,000 on 1 January 2025, invest another ₹50,000 on 15 April 2025, and value the investment at ₹1,70,000 on 1 January 2026. XIRR uses both the amounts and exact dates to calculate the annualized return implied by those cash flows.
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-white/45">
+            This is an illustrative cash-flow scenario, not an investment recommendation or a prediction of future returns. Changing a transaction date, cash-flow amount, or final value changes the calculated XIRR.
+          </p>
+        </div>
+      )}
+
       <div className="grid gap-3 sm:grid-cols-2">
         {CALCULATORS.map((item) => (
           <Link key={item.id} href={item.href} className={`rounded-2xl border p-4 transition hover:border-blue-400/30 hover:bg-white/[0.06] ${item.id === active ? "border-blue-400/30 bg-blue-400/[0.08]" : "border-white/10 bg-white/[0.03]"}`}>
