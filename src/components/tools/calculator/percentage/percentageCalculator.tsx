@@ -1,238 +1,193 @@
 "use client";
 
-import { useState, Suspense, lazy, useRef, useEffect, KeyboardEvent } from "react";
-import {
-  Calculator,
-  Percent,
-} from "lucide-react";
-// import ToolLoader from "../../ToolLoader";
+import { useMemo, useState } from "react";
+import { Calculator, Percent } from "lucide-react";
 
-type PercentageTab = "basic" | "of";
+type PercentageTab = "of" | "whatPercent" | "change" | "apply";
 
 const tabs: { id: PercentageTab; label: string; desc: string }[] = [
-  { id: "basic", label: "Basic %", desc: "Find percentage of a value" },
-  { id: "of", label: "What % Of?", desc: "Use one value to calculate another" },
+  { id: "of", label: "X% of Y", desc: "Find a percentage of a number" },
+  { id: "whatPercent", label: "X is what % of Y?", desc: "Find the percentage one value represents" },
+  { id: "change", label: "% Increase / Decrease", desc: "Compare an original and new value" },
+  { id: "apply", label: "Add / Subtract %", desc: "Apply a percentage change to a value" },
 ];
 
-const BasicPercentage = lazy(
-  () => import("@/components/tools/calculator/percentage/basicPercentage")
-);
-
-const PercentageOf = lazy(
-  () => import("@/components/tools/calculator/percentage/percentageOf")
-);
-
-const tabComponents: Record<PercentageTab, React.ComponentType> = {
-  basic: BasicPercentage,
-  of: PercentageOf,
-};
-
-function ShellCard({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <section
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06] ${className}`}
-    >
-      {children}
-    </section>
-  );
+function number(value: string) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
-function SectionHeader({
-  icon: Icon,
-  title,
-  subtitle,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  subtitle: string;
-}) {
+function format(value: number, suffix = "") {
+  if (!Number.isFinite(value)) return "—";
+  return `${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 6 }).format(value)}${suffix}`;
+}
+
+function Field({ label, value, onChange, suffix }: { label: string; value: string; onChange: (value: string) => void; suffix?: string }) {
   return (
-    <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-      <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div>
-          <h2 className="text-base font-semibold tracking-tight text-white sm:text-md">{title}</h2>
-          <p className="mt-1 text-xs text-white/60 sm:text-sm">{subtitle}</p>
-        </div>
+    <label className="block space-y-2">
+      <span className="text-sm font-medium text-white/80">{label}</span>
+      <div className="flex items-center rounded-2xl border border-white/10 bg-black/10 px-3 focus-within:border-blue-400/40">
+        <input
+          inputMode="decimal"
+          type="number"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="min-w-0 flex-1 bg-transparent py-3 text-base text-white outline-none placeholder:text-white/30"
+        />
+        {suffix && <span className="pl-2 text-sm text-white/45">{suffix}</span>}
       </div>
-    </div>
-  );
-}
-
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3 backdrop-blur-sm">
-      <div className="flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center text-blue-200">
-          <Icon className="h-4.5 w-4.5" />
-        </span>
-        <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">{label}</p>
-          <p className="truncate text-sm font-semibold text-white">{value}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TabButton({
-  id,
-  label,
-  desc,
-  active,
-  onClick,
-  onKeyDown,
-  tabRef,
-}: {
-  id: PercentageTab;
-  label: string;
-  desc: string;
-  active: boolean;
-  onClick: () => void;
-  onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => void;
-  tabRef: (el: HTMLButtonElement | null) => void;
-}) {
-  return (
-    <button
-      ref={tabRef}
-      id={`percentage-tab-${id}`}
-      role="tab"
-      aria-selected={active}
-      aria-controls={`percentage-panel-${id}`}
-      tabIndex={active ? 0 : -1}
-      type="button"
-      onClick={onClick}
-      onKeyDown={onKeyDown}
-      className={`flex min-w-0 flex-1 items-start gap-3 rounded-2xl border px-4 py-3 text-left transition ${
-        active
-          ? "border-blue-400/35 bg-blue-400/10 shadow-[0_0_0_1px_rgba(96,165,250,0.12)]"
-          : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
-      }`}
-    >
-      <span
-        className={`mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-xl ${
-          active ? "bg-blue-400/15 text-blue-200" : "border border-white/10 bg-black/10 text-white/75"
-        }`}
-      >
-        {id === "basic" ? <Percent className="h-4 w-4" /> : <Calculator className="h-4 w-4" />}
-      </span>
-      <span className="min-w-0">
-        <span className="block text-sm font-semibold text-white">{label}</span>
-        <span className="mt-1 block text-xs leading-5 text-white/60">{desc}</span>
-      </span>
-    </button>
+    </label>
   );
 }
 
 export function PercentageCalculator() {
-  const [activeTab, setActiveTab] = useState<PercentageTab>("basic");
-  const tabRefs = useRef<Record<PercentageTab, HTMLButtonElement | null>>({
-    basic: null,
-    of: null,
-  });
+  const [activeTab, setActiveTab] = useState<PercentageTab>("of");
+  const [percent, setPercent] = useState("20");
+  const [value, setValue] = useState("150");
+  const [part, setPart] = useState("45");
+  const [whole, setWhole] = useState("180");
+  const [original, setOriginal] = useState("80");
+  const [current, setCurrent] = useState("100");
+  const [applyValue, setApplyValue] = useState("120");
+  const [applyPercent, setApplyPercent] = useState("15");
+  const [direction, setDirection] = useState<"increase" | "decrease">("increase");
 
-  const ActiveComponent = tabComponents[activeTab];
+  const result = useMemo(() => {
+    const p = number(percent);
+    const y = number(value);
+    const x = number(part);
+    const w = number(whole);
+    const oldValue = number(original);
+    const newValue = number(current);
+    const base = number(applyValue);
+    const rate = number(applyPercent);
 
-  useEffect(() => {
-    tabRefs.current[activeTab]?.focus();
-  }, [activeTab]);
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>, current: PercentageTab) => {
-    const idx = tabs.findIndex((t) => t.id === current);
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      setActiveTab(tabs[(idx + 1) % tabs.length].id);
+    switch (activeTab) {
+      case "of":
+        return {
+          value: (p / 100) * y,
+          label: `${p}% of ${y}`,
+          formula: `(${p} ÷ 100) × ${y}`,
+          explanation: `A percentage is a fraction out of 100, so divide ${p} by 100 and multiply by ${y}.`,
+        };
+      case "whatPercent":
+        return {
+          value: w === 0 ? NaN : (x / w) * 100,
+          label: `${x} is what % of ${w}?`,
+          formula: `(${x} ÷ ${w}) × 100`,
+          explanation: `Divide the part by the whole, then multiply by 100.`,
+        };
+      case "change": {
+        const change = oldValue === 0 ? NaN : ((newValue - oldValue) / Math.abs(oldValue)) * 100;
+        return {
+          value: change,
+          label: `${oldValue} → ${newValue}`,
+          formula: `((${newValue} − ${oldValue}) ÷ |${oldValue}|) × 100`,
+          explanation: Number.isFinite(change) ? (change >= 0 ? `${format(Math.abs(change), "%")} increase` : `${format(Math.abs(change), "%")} decrease`) : "The original value must not be zero.",
+        };
+      }
+      case "apply": {
+        const multiplier = direction === "increase" ? 1 + rate / 100 : 1 - rate / 100;
+        return {
+          value: base * multiplier,
+          label: `${base} ${direction === "increase" ? "+" : "−"} ${rate}%`,
+          formula: `${base} × (1 ${direction === "increase" ? "+" : "−"} ${rate} ÷ 100)`,
+          explanation: direction === "increase" ? `Increase ${base} by ${rate}%.` : `Decrease ${base} by ${rate}%.`,
+        };
+      }
     }
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      setActiveTab(tabs[(idx - 1 + tabs.length) % tabs.length].id);
-    }
-    if (e.key === "Home") {
-      e.preventDefault();
-      setActiveTab(tabs[0].id);
-    }
-    if (e.key === "End") {
-      e.preventDefault();
-      setActiveTab(tabs[tabs.length - 1].id);
-    }
-  };
+  }, [activeTab, percent, value, part, whole, original, current, applyValue, applyPercent, direction]);
 
   return (
     <div className="mx-auto w-full text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      <section className="mb-3">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between">
-          <p className="text-center text-sm text-white/65">
-              Calculate percentages, increases, decreases, discounts, GST, profit, markup, and more
-              with a clean, responsive workflow.
-            </p>
-        </div>
-      </section>
-
-      <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-        <div className="space-y-4">
-          <ShellCard>
-            <SectionHeader
-              icon={Percent}
-              title="Choose a calculator"
-              subtitle="Select the calculator you want to use."
-            />
-
-            <div className="p-3 sm:p-4 md:p-5">
-              <div role="tablist" aria-label="Percentage calculator modes" className="grid gap-3 sm:grid-cols-2">
-                {tabs.map((tab) => (
-                  <TabButton
-                    key={tab.id}
-                    id={tab.id}
-                    label={tab.label}
-                    desc={tab.desc}
-                    active={activeTab === tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    onKeyDown={(e) => handleKeyDown(e, tab.id)}
-                    tabRef={(el) => {
-                      tabRefs.current[tab.id] = el;
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </ShellCard>
-        </div>
-
-        <ShellCard>
-          <SectionHeader
-            icon={Calculator}
-            title={tabs.find((t) => t.id === activeTab)?.label ?? "Calculator"}
-            subtitle={tabs.find((t) => t.id === activeTab)?.desc ?? ""}
-          />
-
-          <div
-            id={`percentage-panel-${activeTab}`}
-            role="tabpanel"
-            aria-labelledby={`percentage-tab-${activeTab}`}
-            tabIndex={0}
-            className="p-3 sm:p-4 md:p-5"
-          >
-            {/* <Suspense fallback={<ToolLoader />}> */}
-              <ActiveComponent />
-            {/* </Suspense> */}
+      <div className="mb-5 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
+        <div className="flex items-start gap-3">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-blue-200">
+            <Percent className="h-5 w-5" />
+          </span>
+          <div>
+            <h2 className="text-lg font-semibold">Percentage Calculator</h2>
+            <p className="mt-1 text-sm leading-6 text-white/60">Calculate percent of a number, what percent one value is of another, percentage change, and add or subtract a percentage.</p>
           </div>
-        </ShellCard>
+        </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+        <section className="rounded-3xl border border-white/10 bg-white/5 p-3 sm:p-5">
+          <div role="tablist" aria-label="Percentage calculator modes" className="grid gap-3 sm:grid-cols-2">
+            {tabs.map((tab) => {
+              const active = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`rounded-2xl border px-4 py-3 text-left transition ${active ? "border-blue-400/35 bg-blue-400/10" : "border-white/10 bg-white/5 hover:bg-white/10"}`}
+                >
+                  <span className="block text-sm font-semibold text-white">{tab.label}</span>
+                  <span className="mt-1 block text-xs leading-5 text-white/55">{tab.desc}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-5 space-y-4">
+            {activeTab === "of" && (
+              <>
+                <Field label="Percentage" value={percent} onChange={setPercent} suffix="%" />
+                <Field label="Number" value={value} onChange={setValue} />
+              </>
+            )}
+
+            {activeTab === "whatPercent" && (
+              <>
+                <Field label="Part value" value={part} onChange={setPart} />
+                <Field label="Whole value" value={whole} onChange={setWhole} />
+              </>
+            )}
+
+            {activeTab === "change" && (
+              <>
+                <Field label="Original value" value={original} onChange={setOriginal} />
+                <Field label="New value" value={current} onChange={setCurrent} />
+              </>
+            )}
+
+            {activeTab === "apply" && (
+              <>
+                <Field label="Starting value" value={applyValue} onChange={setApplyValue} />
+                <Field label="Percentage" value={applyPercent} onChange={setApplyPercent} suffix="%" />
+                <div className="grid grid-cols-2 gap-3">
+                  {(["increase", "decrease"] as const).map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setDirection(option)}
+                      className={`rounded-2xl border px-4 py-3 text-sm font-medium capitalize transition ${direction === option ? "border-blue-400/35 bg-blue-400/10 text-white" : "border-white/10 bg-white/5 text-white/65 hover:bg-white/10"}`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-blue-400/20 bg-blue-400/5 p-5 sm:p-6">
+          <div className="flex items-center gap-2 text-sm font-medium text-white/70">
+            <Calculator className="h-4 w-4" /> Result
+          </div>
+          <p className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">{format(result.value, activeTab === "whatPercent" || activeTab === "change" ? "%" : "")}</p>
+          <p className="mt-2 text-sm text-white/65">{result.label}</p>
+          <div className="mt-6 rounded-2xl border border-white/10 bg-black/10 p-4">
+            <p className="text-xs uppercase tracking-[0.14em] text-white/40">Formula</p>
+            <p className="mt-2 break-words font-mono text-sm text-white/85">{result.formula}</p>
+            <p className="mt-3 text-sm leading-6 text-white/60">{result.explanation}</p>
+          </div>
+        </section>
       </div>
     </div>
   );
