@@ -40,6 +40,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/tools/calculator",
+        destination: "/calculator",
+        permanent: true,
+      },
+      {
         source: "/tools/calculator/roi-calculator",
         destination: "/tools/calculator/sip-calculator",
         permanent: true,
