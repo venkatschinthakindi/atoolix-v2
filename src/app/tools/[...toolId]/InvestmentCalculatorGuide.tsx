@@ -58,6 +58,16 @@ export function InvestmentCalculatorGuide({
           values, and XIRR is designed for cash flows that occur on different
           dates.
         </p>
+        <p className="max-w-3xl text-sm leading-relaxed text-white/65 sm:text-base">
+          If you need a different financial calculation, explore the full
+          <Link
+            href="/finance"
+            className="ml-1 text-white underline decoration-white/30 underline-offset-4 hover:text-blue-300"
+          >
+            finance calculator collection
+          </Link>
+          .
+        </p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
