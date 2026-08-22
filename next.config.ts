@@ -40,6 +40,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/tools/calculator/roi-calculator",
+        destination: "/tools/calculator/sip-calculator",
+        permanent: true,
+      },
+      {
         source: "/tools/image/jpeg-to-pdf",
         destination: "/tools/image/jpg-to-pdf",
         permanent: true,
