@@ -213,30 +213,7 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
     { label: "Effect modeled", standard: "—", onetime: "Reduced tenure, same EMI", combined: "Larger tenure reduction than either alone" },
   ];
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.q,
-      acceptedAnswer: { "@type": "Answer", text: item.a },
-    })),
-  };
 
-  const howToSchema = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "How to Calculate Personal Loan EMI and Compare Prepayment Scenarios",
-    description:
-      "Calculate personal loan EMI and compare one-time prepayments, recurring additional payments, combined strategies, interest savings, and amortization.",
-    totalTime: "PT2M",
-    step: howToSteps.map((step, index) => ({
-      "@type": "HowToStep",
-      position: index + 1,
-      name: step.title,
-      text: step.desc,
-    })),
-  };
 
   // Absolute URLs are required by schema.org for BreadcrumbList item values —
   // relative paths (e.g. "/tools") are not valid and can cause rich-result
@@ -259,8 +236,6 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-4 text-white">
-      <JsonLd data={faqSchema} />
-      <JsonLd data={howToSchema} />
       <JsonLd data={breadcrumbSchema} />
 
       {/* INTRO */}
