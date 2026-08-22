@@ -4,7 +4,7 @@ import { serverConfig } from "@/config/server";
 import type { Metadata } from "next";
 
 const SIP_CANONICAL = `${serverConfig.siteUrl}/tools/calculator/sip-calculator`;
-const CALCULATOR_CANONICAL = `${serverConfig.siteUrl}/tools/calculator`;
+const CALCULATOR_CANONICAL = `${serverConfig.siteUrl}/calculator`;
 const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
 const CALCULATOR_DESCRIPTION =
   "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
