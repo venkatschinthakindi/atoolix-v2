@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { serverConfig } from "@/config/server";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://atoolix.com";
+  const baseUrl = serverConfig.siteUrl.replace(/\/$/, "");
 
   return {
     rules: [
