@@ -103,7 +103,7 @@ const toolCategories = [
     label: "Date & Time Tools",
   },
   {
-    href: "/calculator",
+    href: "/tools/calculator",
     label: "Math Tools",
   },
   {
