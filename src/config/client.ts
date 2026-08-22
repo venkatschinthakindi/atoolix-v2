@@ -1,22 +1,5 @@
 import "client-only";
 
-export const clientConfig = {
-  siteName: process.env.NEXT_PUBLIC_SITE_NAME!,
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL!,
-  siteLogoUrl: process.env.NEXT_PUBLIC_SITE_LOGO_URL!,
-  siteDescription: process.env.NEXT_PUBLIC_SITE_DESCRIPTION!,
-  companyName: process.env.NEXT_PUBLIC_SITE_COMPANY_NAME!,
-  supportEmail: process.env.NEXT_PUBLIC_SITE_SUPPORT_EMAIL!,
-  theme: {
-    default: "dark",
-    accent: "indigo",
-  },
+import { sharedConfig } from "./shared";
 
-  analytics: {
-    googleAnalyticsId: process.env.NEXT_PUBLIC_GA_ID,
-  },
-} as const;
-
-// Temporary compatibility alias for existing Client Components.
-// Server Components must import serverConfig from @/config/server instead.
-export const serverConfig = clientConfig;
+export const clientConfig = sharedConfig;
