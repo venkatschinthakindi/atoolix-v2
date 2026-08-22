@@ -1,0 +1,61 @@
+name: Investment SEO Patch
+
+on:
+  push:
+    branches:
+      - seo/investment-cluster-fixes
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply confirmed SEO fixes
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          import subprocess
+
+          sip = Path("src/components/tools/financeSuite/investment/sipReturnCalculatorSeoContent.tsx")
+          text = sip.read_text(encoding="utf-8")
+          expected = 'const TOOL_PATH = "/tools/calculator/roi-calculator";'
+          replacement = 'const TOOL_PATH = "/tools/calculator/sip-calculator";'
+          if expected not in text:
+              raise SystemExit("Expected SIP TOOL_PATH was not found; refusing to modify the file.")
+          text = text.replace(expected, replacement, 1)
+          related = '<RelatedTools toolId="calculator/roi-calculator" />'
+          related_replacement = '<RelatedTools toolId="calculator/sip-calculator" />'
+          if related not in text:
+              raise SystemExit("Expected SIP RelatedTools reference was not found; refusing to modify the file.")
+          text = text.replace(related, related_replacement, 1)
+          sip.write_text(text, encoding="utf-8")
+
+          lumpsum = Path("src/components/tools/financeSuite/investment/lumpsumcalculatorseocontent.tsx")
+          text = lumpsum.read_text(encoding="utf-8")
+          start_marker = "\nfunction FAQSchema() {"
+          end_marker = "\nexport default function LumpsumCalculatorSeoContent()"
+          start = text.find(start_marker)
+          end = text.find(end_marker)
+          if start < 0 or end < 0 or end <= start:
+              raise SystemExit("Expected Lumpsum FAQSchema block boundaries were not found; refusing to modify the file.")
+          text = text[:start] + "\n" + text[end:]
+          call = "      <FAQSchema />\n"
+          if call not in text:
+              raise SystemExit("Expected Lumpsum FAQSchema call was not found; refusing to modify the file.")
+          text = text.replace(call, "", 1)
+          lumpsum.write_text(text, encoding="utf-8")
+
+          subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=True)
+          subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=True)
+          subprocess.run(["git", "add", str(sip), str(lumpsum)], check=True)
+          subprocess.run(["git", "diff", "--cached", "--check"], check=True)
+          subprocess.run(["git", "commit", "-m", "seo: align investment calculator canonical references"], check=True)
+          subprocess.run(["git", "push", "origin", "HEAD:seo/investment-cluster-fixes"], check=True)
