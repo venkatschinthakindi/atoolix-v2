@@ -490,11 +490,11 @@ export const tools: ToolRegistryEntry[] = [
     toolImage: "roi-calculator.png"
   },
   {
-    id: "calculator/fd-calculator",
+    id: "calculator/simple-interest-calculator",
     archived: false,
     relatedTools: [
       "calculator/compound-interest-calculator",
-      "calculator/fixed-deposit-calculator",
+      "calculator/fd-calculator",
       "calculator/recurring-deposit-calculator",
       "calculator/roi-calculator",
       "calculator/retirement-calculator",
@@ -522,7 +522,7 @@ export const tools: ToolRegistryEntry[] = [
       "principal interest calculator",
     ],
     alternates: {
-      canonical: `${siteUrl}/tools/calculator/fd-calculator`,
+      canonical: `${siteUrl}/tools/calculator/simple-interest-calculator`,
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -538,7 +538,7 @@ export const tools: ToolRegistryEntry[] = [
     archived: false,
     relatedTools: [
       "calculator/fd-calculator",
-      "calculator/fixed-deposit-calculator",
+      "calculator/simple-interest-calculator",
       "calculator/recurring-deposit-calculator",
       "calculator/roi-calculator",
       "calculator/retirement-calculator",
@@ -578,10 +578,10 @@ export const tools: ToolRegistryEntry[] = [
     toolImage: "fd-calculator.png",
   },
   {
-    id: "calculator/fixed-deposit-calculator",
+    id: "calculator/fd-calculator",
     archived: false,
     relatedTools: [
-      "calculator/fd-calculator",
+      "calculator/simple-interest-calculator",
       "calculator/compound-interest-calculator",
       "calculator/recurring-deposit-calculator",
       "calculator/roi-calculator",
@@ -609,7 +609,7 @@ export const tools: ToolRegistryEntry[] = [
       "fd investment calculator",
     ],
     alternates: {
-      canonical: `${siteUrl}/tools/calculator/fixed-deposit-calculator`,
+      canonical: `${siteUrl}/tools/calculator/fd-calculator`,
     },
     applicationType: "WebApplication",
     applicationCategory: "Utilities",
@@ -624,8 +624,8 @@ export const tools: ToolRegistryEntry[] = [
     id: "calculator/recurring-deposit-calculator",
     archived: false,
     relatedTools: [
+      "calculator/simple-interest-calculator",
       "calculator/fd-calculator",
-      "calculator/fixed-deposit-calculator",
       "calculator/compound-interest-calculator",
       "calculator/roi-calculator",
       "calculator/emi-calculator",

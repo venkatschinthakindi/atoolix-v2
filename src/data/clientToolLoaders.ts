@@ -60,7 +60,7 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
       ),
   ],
   [
-    "calculator/fd-calculator",
+    "calculator/simple-interest-calculator",
     () =>
       import("@/components/tools/financeSuite/savings/simpleInterestDepositsSuite"),
   ],
@@ -70,7 +70,7 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
       import("@/components/tools/financeSuite/savings/compoundInterestCalculator"),
   ],
   [
-    "calculator/fixed-deposit-calculator",
+    "calculator/fd-calculator",
     () =>
       import("@/components/tools/financeSuite/savings/fixedDepositCalculator"),
   ],

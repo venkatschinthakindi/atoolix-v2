@@ -44,7 +44,7 @@ const routes = [
   "tools/calculator/cagr-calculator",
 
   "tools/calculator/fd-calculator",
-  "tools/calculator/fixed-deposit-calculator",
+  "tools/calculator/simple-interest-calculator",
   "tools/calculator/compound-interest-calculator",
   "tools/calculator/recurring-deposit-calculator",
 

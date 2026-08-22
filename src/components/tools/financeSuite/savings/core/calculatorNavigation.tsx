@@ -5,7 +5,7 @@ export function CalculatorNavigation({
 }) {
   const links = [
     {
-      href: "/tools/calculator/fd-calculator",
+      href: "/tools/calculator/simple-interest-calculator",
       label: "Simple Interest",
       icon: "🧮",
     },
@@ -15,7 +15,7 @@ export function CalculatorNavigation({
       icon: "📈",
     },
     {
-      href: "/tools/calculator/fixed-deposit-calculator",
+      href: "/tools/calculator/fd-calculator",
       label: "Fixed Deposit",
       icon: "🏦",
     },

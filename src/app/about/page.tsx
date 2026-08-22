@@ -144,6 +144,7 @@ export default function AboutPage() {
   }).format(updatedAt);
 
   const organizationId = `${siteUrl}/#organization`;
+  const founderId = `${siteUrl}/#founder-venkatesh`;
 
   const aboutPageSchema = {
     "@context": "https://schema.org",
@@ -169,15 +170,45 @@ export default function AboutPage() {
     },
   };
 
+  const founderSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": founderId,
+    name: "Venkatesh",
+    jobTitle: "Founder & Operator",
+    worksFor: {
+      "@id": organizationId,
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Hyderabad",
+      addressRegion: "Telangana",
+      addressCountry: "IN",
+    },
+  };
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": organizationId,
     name: siteName,
+    legalName: "Thrinetra Tech",
     url: siteUrl,
     description:
       `${siteName} provides browser-based finance calculators, PDF tools, image tools, file utilities, and everyday productivity tools.`,
     email: `support@${siteName}.com`,
+    founder: {
+      "@id": founderId,
+    },
+    employee: {
+      "@id": founderId,
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Hyderabad",
+      addressRegion: "Telangana",
+      addressCountry: "IN",
+    },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
@@ -197,6 +228,7 @@ export default function AboutPage() {
             __html: JSON.stringify([
               aboutPageSchema,
               organizationSchema,
+              founderSchema,
             ]).replace(/</g, "\\u003c"),
           }}
         />
@@ -243,8 +275,8 @@ export default function AboutPage() {
         </section>
 
         {/* Who we are */}
-        <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+        <section className="mb-14" aria-labelledby="who-we-are-heading">
+          <h2 id="who-we-are-heading" className="text-3xl font-semibold text-white">
             Who we are
           </h2>
 
@@ -265,6 +297,32 @@ export default function AboutPage() {
               We aim to make each tool understandable and useful on its own,
               rather than requiring users to learn complicated software for
               simple tasks.
+            </p>
+
+            <p>
+              {siteName} is built and operated by{" "}
+              <strong className="font-semibold text-white">Venkatesh</strong>,
+              based in Hyderabad, Telangana, India, through the operating
+              entity{" "}
+              <a
+                href="https://www.thrinetratech.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-violet-300 underline underline-offset-4 hover:text-violet-200"
+              >
+                Thrinetra Tech
+              </a>
+              . Venkatesh is responsible for the calculators and tools
+              published on this site, including reviewing the formulas and
+              worked examples used on each calculator page for accuracy. You
+              can reach the team directly at{" "}
+              <a
+                href={`mailto:support@${siteName}.com`}
+                className="font-medium text-violet-300 underline underline-offset-4 hover:text-violet-200"
+              >
+                support@{siteName}.com
+              </a>
+              , or see full contact and operator details in the site footer.
             </p>
           </div>
         </section>

@@ -12,7 +12,6 @@ import CustomSelect from "@/components/ui/customSelect";
 import {
   ShieldCheck,
   BarChart3,
-  TrendingUp,
 } from "lucide-react";
 import { CURRENCIES, CurrencyCode } from "./core/currencyCode";
 import { StatCard } from "./core/statCard";
@@ -453,7 +452,7 @@ export default function FixedDepositCalculator() {
 
       <MethodologyNote />
 
-      <CalculatorNavigation toolRoute="/tools/calculator/fixed-deposit-calculator" />
+      <CalculatorNavigation toolRoute="/tools/calculator/fd-calculator" />
 
       <div className="grid w-full min-w-0 max-w-full gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
 

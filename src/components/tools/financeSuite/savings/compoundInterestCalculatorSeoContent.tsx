@@ -1,161 +1,136 @@
-import { serverConfig } from "@/config/server";
 import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
+import {
+  breadcrumbSchemaFor,
+  ReviewedMeta,
+  AudienceSection,
+  ComparisonTable,
+  FaqSection,
+  CrossToolCta,
+  CalculatorDisclaimer,
+} from "@/components/tools/financeSuite/savings/core/Financeseoshared";
 
 export default function CompoundInterestCalculatorSeoContent() {
-  const siteUrl = serverConfig.siteUrl.replace(/\/+$/, "");
-  const canonicalUrl = `${siteUrl}/tools/calculator/compound-interest-calculator`;
+  const toolId = "calculator/compound-interest-calculator" as const;
+  const breadcrumbSchema = breadcrumbSchemaFor(toolId, "Compound Interest Calculator");
 
   const faqItems = [
     {
-      q: "What is compound interest?",
-      a: "Compound interest is interest calculated on the original principal plus previously accumulated interest. This means earlier interest can itself contribute to later growth.",
+      q: "What is a compound interest calculator?",
+      a: "A compound interest calculator estimates how an investment grows when interest is periodically added to the principal, so future interest is earned on both the original amount and past interest.",
     },
     {
-      q: "What is the compound interest formula?",
-      a: "A common compound-interest formula is A = P(1 + r/n)^(nt), where P is principal, r is the annual interest rate as a decimal, n is the number of compounding periods per year, and t is the time in years.",
+      q: "What is the formula for compound interest?",
+      a: "The standard formula is A = P(1 + r/n)^(nt), where P is the principal, r is the annual interest rate as a decimal, n is the number of compounding periods per year, and t is the time in years.",
     },
     {
       q: "How is compound interest different from simple interest?",
-      a: "Simple interest is calculated only on the original principal, while compound interest includes previously accumulated interest in subsequent calculations.",
+      a: "Simple interest is earned only on the original principal. Compound interest is earned on the principal plus any interest already added, so the balance grows faster the longer it compounds.",
     },
     {
-      q: "Does compound interest grow faster over time?",
-      a: "It can. Because accumulated interest becomes part of the amount used for future calculations, the effect of compounding can become more significant over longer periods.",
+      q: "What compounding frequencies can I choose?",
+      a: "This calculator supports annual, semi-annual, quarterly, and monthly compounding. More frequent compounding produces a slightly higher result for the same nominal annual rate.",
     },
     {
-      q: "Does compounding frequency affect the result?",
-      a: "Yes. With the same nominal rate and other assumptions, more frequent compounding generally produces a higher calculated future value.",
+      q: "What information do I need to calculate compound interest?",
+      a: "You need the principal amount, the annual interest rate, the compounding frequency, and the investment duration in years.",
     },
     {
-      q: "What happens if the interest rate is increased?",
-      a: "A higher rate generally increases the calculated future value when the principal, tenure, and compounding assumptions remain unchanged.",
+      q: "Does compounding frequency make a big difference?",
+      a: "For most everyday rates and durations, the difference between quarterly and monthly compounding is modest, but it can add up meaningfully over long periods or at higher rates.",
     },
     {
-      q: "What happens if the investment period is increased?",
-      a: "A longer period gives the principal and accumulated interest more time to grow, which can significantly affect the final value under compound growth.",
+      q: "How much will ₹1 lakh grow with compound interest?",
+      a: "The result depends on the rate, duration, and compounding frequency you choose. Enter ₹1,00,000 with your expected rate and tenure to see the projected maturity value.",
     },
     {
-      q: "Can I calculate compound interest monthly?",
-      a: "Yes, if monthly compounding is selected. The annual rate and compounding frequency should match the assumptions you want to model.",
+      q: "Can I use this for investment products like mutual funds?",
+      a: "This calculator models fixed-rate compound growth. Market-linked investments like mutual funds have variable returns, so treat this as a simplified illustration rather than a forecast of actual returns.",
     },
     {
-      q: "Can compound interest be used for FD calculations?",
-      a: "Yes. Compound-interest mathematics is commonly used to model many deposit and investment scenarios, including fixed deposits. Actual financial products may use their own calculation conventions.",
-    },
-    {
-      q: "Can I calculate compound interest on monthly deposits?",
-      a: "A standard lump-sum compound-interest formula assumes an initial principal. Regular contributions require a periodic-contribution or future-value calculation instead.",
-    },
-    {
-      q: "What is the rule of 72?",
-      a: "The Rule of 72 is a rough mental-math approximation for estimating how long it may take an amount to double at a given annual growth rate. It is an approximation and not a replacement for an exact calculation.",
-    },
-    {
-      q: "Is compound interest guaranteed?",
-      a: "No. A mathematical compound-growth calculation is only an estimate based on the assumed rate. Actual investment returns can vary depending on the financial product.",
+      q: "Is compound interest income taxable?",
+      a: "Interest or gains can be taxable under applicable tax rules depending on your jurisdiction, product type, and circumstances. This calculator estimates growth and does not calculate personal tax liability.",
     },
     {
       q: "Is this compound interest calculator free?",
       a: "Yes. The calculator is free to use and does not require registration.",
     },
     {
-      q: "Are my calculation inputs stored?",
-      a: "The calculator is designed for browser-based use. Where calculations are performed locally, the values entered are processed on the device rather than requiring an external calculation server.",
+      q: "Is my financial information stored?",
+      a: "No. The calculator runs entirely in your browser — the numbers you enter are used only to compute the result on your device and are not uploaded or saved.",
+    },
+    {
+      q: "Can I export my compound interest calculation?",
+      a: "Yes, use the export button above the projection chart to generate a PDF report of your principal, rate, frequency, and results.",
     },
   ];
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: siteUrl,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Tools",
-        item: `${siteUrl}/tools`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Calculator",
-        item: `${siteUrl}/tools/calculator`,
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: "Compound Interest Calculator",
-        item: canonicalUrl,
-      },
-    ],
-  };
+  const comparisonRows = [
+    {
+      label: "How interest is earned",
+      values: ["On principal plus previously earned interest", "Only on the original principal"],
+    },
+    {
+      label: "Growth over time",
+      values: ["Accelerating — grows faster each period", "Linear — grows by the same amount each year"],
+    },
+    {
+      label: "Formula",
+      values: ["A = P(1 + r/n)^(nt)", "I = P × r × t"],
+    },
+    {
+      label: "Typical use case",
+      values: ["Bank deposits, long-term investments", "Short-term loans, simple savings estimates"],
+    },
+  ];
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 p-4 text-white">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <section aria-labelledby="compound-intro">
-        <h2
-          id="compound-intro"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Compound Interest Calculator for Future Value and Growth
+      <ReviewedMeta
+        lastReviewed="2026-08-22"
+        methodologyNote="Uses the standard compound-interest formula A = P(1 + r/n)^(nt)."
+      />
+
+      <section aria-labelledby="ci-intro">
+        <h2 id="ci-intro" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
+          Compound Interest Calculator for Growth Projections
         </h2>
-
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Calculate compound interest, total interest earned, and future value
-          from an initial investment. Enter the principal amount, annual
-          interest rate, investment period, and compounding frequency to see how
-          the amount may grow over time.
+          Calculate how an investment grows with compound interest. Enter your principal,
+          annual interest rate, compounding frequency, and duration to see the projected
+          maturity value and total interest earned.
         </p>
-
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
-          Compound interest is particularly useful for understanding long-term
-          growth because previously earned interest can become part of the
-          amount used to calculate future interest.
+          This calculator is useful for comparing how different compounding frequencies —
+          annual, semi-annual, quarterly, or monthly — affect long-term growth. Results
+          are estimates and should be checked against the actual terms of your investment
+          or deposit product.
         </p>
       </section>
 
-      <section aria-labelledby="compound-features">
-        <h2
-          id="compound-features"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
+      <section aria-labelledby="ci-features">
+        <h2 id="ci-features" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Compound Interest Calculator Features
         </h2>
-
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            ["🧮", "Compound Interest", "Calculate interest using the selected compounding assumptions."],
-            ["📈", "Future Value", "Estimate how an initial amount may grow over the selected period."],
-            ["🔄", "Compounding Frequency", "Model different compounding frequencies when supported by the calculator."],
-            ["💰", "Interest Earned", "Separate the estimated interest from the original principal."],
-            ["📊", "Growth Analysis", "Understand how compounding changes projected growth over time."],
-            ["📱", "Responsive Calculator", "Use the tool across mobile, tablet, and desktop devices."],
-          ].map(([icon, title, desc]) => (
-            <div
-              key={title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
-            >
+            { title: "Maturity Calculation", desc: "Estimate the amount accumulated at the end of the selected duration.", icon: "🏆" },
+            { title: "Compound Interest Earned", desc: "See the estimated interest separately from the original principal.", icon: "✨" },
+            { title: "Adjustable Frequency", desc: "Model annual, semi-annual, quarterly, or monthly compounding.", icon: "⚙️" },
+            { title: "Growth Projection", desc: "See a year-by-year chart of how the investment compounds over time.", icon: "📈" },
+            { title: "Calculation Breakdown", desc: "Review the principal, projected interest, and maturity value together.", icon: "🧮" },
+            { title: "Mobile Friendly", desc: "Calculate compound interest from phones, tablets, laptops, or desktop browsers.", icon: "📱" },
+          ].map((item) => (
+            <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="flex gap-3">
-                <span className="text-2xl" aria-hidden="true">
-                  {icon}
-                </span>
+                <span className="text-2xl" aria-hidden="true">{item.icon}</span>
                 <div>
-                  <h3 className="text-sm font-semibold">{title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
-                    {desc}
-                  </p>
+                  <h3 className="text-sm font-semibold">{item.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
                 </div>
               </div>
             </div>
@@ -163,96 +138,81 @@ export default function CompoundInterestCalculatorSeoContent() {
         </div>
       </section>
 
-      <section aria-labelledby="compound-how">
-        <h2
-          id="compound-how"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
+      <section aria-labelledby="ci-how">
+        <h2 id="ci-how" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           How to Use the Compound Interest Calculator
         </h2>
-
         <div className="grid gap-4 md:grid-cols-2">
           {[
-            "Enter the initial principal amount.",
-            "Enter the annual interest rate.",
-            "Enter the investment period.",
-            "Choose the compounding frequency.",
-            "Review the final value and total interest.",
+            { title: "Enter the principal", desc: "Enter the amount on which compound interest will be calculated." },
+            { title: "Enter the interest rate", desc: "Enter the annual nominal interest rate applicable to your scenario." },
+            { title: "Choose the duration", desc: "Enter how long the investment stays active, in years, up to 100." },
+            { title: "Select the compounding frequency", desc: "Choose annual, semi-annual, quarterly, or monthly compounding." },
+            { title: "Review maturity and interest", desc: "Check the estimated maturity value and total compound interest earned." },
           ].map((step, index) => (
-            <div
-              key={step}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
-            >
+            <div key={step.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="flex gap-4">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {index + 1}
                 </span>
-                <p className="text-sm leading-relaxed text-white/65">
-                  {step}
-                </p>
+                <div>
+                  <h3 className="text-sm font-semibold">{step.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section aria-labelledby="compound-formula">
-        <h2
-          id="compound-formula"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Compound Interest Formula
+      <AudienceSection
+        id="ci-audience"
+        heading="Who This Compound Interest Calculator Is For"
+        intro="This calculator is built for anyone who wants to see how compounding accelerates growth over time."
+        items={[
+          "Investors comparing long-term growth at different rates",
+          "Anyone choosing between compounding frequencies on a deposit",
+          "Students learning how the compound-interest formula works",
+          "People setting long-term savings or retirement goals",
+        ]}
+      />
+
+      <section aria-labelledby="ci-formula">
+        <h2 id="ci-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
+          Compound Interest Calculation Formula
         </h2>
-
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm text-white/65">
-            The standard compound-interest future-value formula is:
+          <p className="text-sm leading-relaxed text-white/65">
+            The standard compound-interest formula is:
           </p>
-
-          <p className="my-5 rounded-xl bg-black/20 p-4 text-center text-lg font-semibold">
+          <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
             A = P(1 + r/n)^(nt)
           </p>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              ["P", "Initial principal"],
-              ["r", "Annual interest rate as a decimal"],
-              ["n", "Number of compounding periods per year"],
-              ["t", "Time in years"],
-              ["A", "Future value"],
-            ].map(([variable, meaning]) => (
-              <div
-                key={variable}
-                className="rounded-xl bg-white/5 p-3 text-sm"
-              >
-                <strong>{variable}</strong>
-                <span className="ml-2 text-white/60">{meaning}</span>
-              </div>
-            ))}
+          <div className="space-y-2 text-sm text-white/65">
+            <p><strong className="text-white">A</strong> = maturity value</p>
+            <p><strong className="text-white">P</strong> = principal amount</p>
+            <p><strong className="text-white">r</strong> = annual interest rate expressed as a decimal</p>
+            <p><strong className="text-white">n</strong> = number of compounding periods per year</p>
+            <p><strong className="text-white">t</strong> = time in years</p>
           </div>
-
-          <p className="mt-4 text-xs leading-relaxed text-white/50">
-            Interest earned can be calculated as A − P when the formula models
-            the full accumulated value.
+          <p className="mt-4 text-xs leading-relaxed text-white/55">
+            Interest earned is the maturity value minus the principal: Interest = A − P.
+            Actual financial products may use institution-specific conventions.
           </p>
         </div>
       </section>
 
-      <section aria-labelledby="compound-example">
-        <h2
-          id="compound-example"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Compound Interest Calculation Example
+      <section aria-labelledby="ci-example">
+        <h2 id="ci-example" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
+          Compound Interest Calculator Example
         </h2>
-
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
           <p className="text-sm leading-relaxed text-white/65">
-            Consider ₹1,00,000 invested at 8% per year for five years with
-            quarterly compounding. Using the standard compound-interest formula,
-            the estimated future value is approximately ₹1,48,859.
+            Suppose you invest ₹1,00,000 at an annual rate of 8% for five years with
+            quarterly compounding. Using A = P(1 + r/n)^(nt) with P = 1,00,000, r = 0.08,
+            n = 4, and t = 5, the estimated maturity value works out to approximately
+            ₹1,48,595 — around ₹48,595 in compound interest.
           </p>
-
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             <div className="rounded-xl bg-white/5 p-4">
               <div className="text-xs text-white/50">Principal</div>
@@ -260,159 +220,61 @@ export default function CompoundInterestCalculatorSeoContent() {
             </div>
             <div className="rounded-xl bg-white/5 p-4">
               <div className="text-xs text-white/50">Rate</div>
-              <div className="mt-1 font-semibold">8%</div>
+              <div className="mt-1 font-semibold">8% p.a., quarterly</div>
             </div>
             <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Period</div>
+              <div className="text-xs text-white/50">Duration</div>
               <div className="mt-1 font-semibold">5 years</div>
             </div>
           </div>
+          <p className="mt-4 text-xs leading-relaxed text-white/50">
+            This example matches the calculator's default values above, so you can verify
+            it yourself.
+          </p>
         </div>
       </section>
 
-      <section aria-labelledby="compound-vs-simple">
-        <h2
-          id="compound-vs-simple"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Compound Interest vs Simple Interest
-        </h2>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="font-semibold text-blue-300">
-              Compound Interest
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/60">
-              Interest is calculated on the principal together with previously
-              accumulated interest.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <h3 className="font-semibold text-violet-300">
-              Simple Interest
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/60">
-              Interest is calculated only on the original principal under the
-              standard simple-interest model.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section aria-labelledby="compound-factors">
-        <h2
-          id="compound-factors"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
+      <section aria-labelledby="ci-factors">
+        <h2 id="ci-factors" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Factors That Affect Compound Growth
         </h2>
-
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
           <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-            <li>• Starting principal</li>
-            <li>• Annual interest or growth rate</li>
-            <li>• Investment duration</li>
-            <li>• Compounding frequency</li>
-            <li>• Additional contributions, if applicable</li>
-            <li>• Fees, taxes, or product-specific adjustments</li>
+            <li>• <strong className="text-white">Principal amount:</strong> A larger starting amount produces proportionally more interest.</li>
+            <li>• <strong className="text-white">Interest rate:</strong> A higher rate compounds faster and increases the maturity value.</li>
+            <li>• <strong className="text-white">Compounding frequency:</strong> More frequent compounding modestly increases the calculated result for the same nominal rate.</li>
+            <li>• <strong className="text-white">Duration:</strong> Longer periods let compounding accelerate growth more noticeably.</li>
           </ul>
         </div>
       </section>
 
-      <section aria-labelledby="compound-usecases">
-        <h2
-          id="compound-usecases"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Common Compound Interest Use Cases
-        </h2>
+      <ComparisonTable
+        id="ci-vs-simple"
+        heading="Compound vs Simple Interest: Which Should You Use?"
+        columns={["Compound Interest", "Simple Interest"]}
+        rows={comparisonRows}
+      />
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            "Long-term savings projections",
-            "Investment growth estimates",
-            "FD interest modelling",
-            "Comparing different interest rates",
-            "Understanding compounding frequency",
-            "Financial education and planning",
-          ].map((item) => (
-            <div
-              key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/65"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="compound-limitations">
-        <h2
-          id="compound-limitations"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Compound Interest Calculation Limitations
-        </h2>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/60">
-            Compound-interest calculations assume a particular rate,
-            compounding schedule, and time period. Actual investments may have
-            changing rates, fees, taxes, deposits, withdrawals, or other
-            conditions. The result should therefore be treated as a mathematical
-            estimate rather than a guaranteed investment return.
-          </p>
-        </div>
-      </section>
+      <CrossToolCta
+        id="ci-cta"
+        heading="Explore Related Calculators"
+        currentToolId={toolId}
+        body="Modeling a real bank fixed or recurring deposit, or want to compare against no-compounding simple interest? Try our other savings calculators."
+      />
 
       <RelatedTools toolId="calculator/compound-interest-calculator" />
 
-      <section aria-labelledby="compound-faq">
-        <h2
-          id="compound-faq"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Frequently Asked Questions
-        </h2>
+      <FaqSection
+        id="ci-faq"
+        heading="Frequently Asked Questions About Compound Interest Calculators"
+        items={faqItems}
+      />
 
-        <div className="space-y-3">
-          {faqItems.map((item) => (
-            <details
-              key={item.q}
-              className="rounded-2xl border border-white/10 bg-white/5"
-            >
-              <summary className="cursor-pointer list-none p-5 text-sm font-semibold">
-                {item.q}
-              </summary>
-
-              <div className="border-t border-white/10 px-5 pb-5 pt-4">
-                <p className="text-xs leading-relaxed text-white/60">
-                  {item.a}
-                </p>
-              </div>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="compound-disclaimer">
-        <h2
-          id="compound-disclaimer"
-          className="mb-4 text-xl font-bold sm:text-2xl"
-        >
-          Calculation Disclaimer
-        </h2>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/60">
-            Results are mathematical estimates based on the assumptions entered.
-            Actual investment returns may differ. Do not interpret projected
-            compound growth as a guaranteed return or financial advice.
-          </p>
-        </div>
-      </section>
+      <CalculatorDisclaimer
+        id="ci-disclaimer"
+        heading="Compound Interest Calculation Disclaimer"
+        body="Results are estimates based on the values entered and the standard compound-interest formula. Actual financial products may differ because institutions can use different rates, compounding conventions, fees, or calculation rules. Confirm the applicable terms with the relevant institution before making a decision."
+      />
     </div>
   );
 }

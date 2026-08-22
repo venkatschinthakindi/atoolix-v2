@@ -2,7 +2,6 @@
 
 import { useMemo, useRef, useState, type ReactNode, type ComponentType } from "react";
 import dynamic from "next/dynamic";
-import CustomSelect from "@/components/ui/customSelect";
 import {
   PiggyBank,
   BarChart3,
@@ -428,7 +427,7 @@ export default function SimpleInterestCalculator() {
 
       <MethodologyNote />
 
-      <CalculatorNavigation toolRoute="/tools/calculator/fd-calculator" />
+      <CalculatorNavigation toolRoute="/tools/calculator/simple-interest-calculator" />
 
       <div className="grid w-full min-w-0 max-w-full gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
 
