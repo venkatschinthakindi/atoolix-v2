@@ -38,7 +38,7 @@ const categories = [
     title: "Finance calculators",
     description:
       "Calculators for common financial estimates such as EMI, ROI, fixed deposits, SIP returns, and retirement planning.",
-    href: "/tools/calculator",
+    href: "/calculator",
   },
   {
     title: "PDF tools",
@@ -79,8 +79,8 @@ const quickLinks = [
     description: "Estimate monthly loan payments.",
   },
   {
-    href: "/tools/calculator/roi-calculator",
-    label: "ROI Calculator",
+    href: "/tools/calculator/sip-calculator",
+    label: "SIP Calculator",
     description: "Estimate investment returns.",
   },
   {
