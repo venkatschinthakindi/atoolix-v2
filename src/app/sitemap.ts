@@ -40,7 +40,7 @@ const routes = [
 
   "tools/calculator/roi-calculator",
   "tools/calculator/xirr-calculator",
-  "tools/calculator/lampsum-calculator",
+  "tools/calculator/lumpsum-calculator",
   "tools/calculator/cagr-calculator",
 
   "tools/calculator/fd-calculator",
