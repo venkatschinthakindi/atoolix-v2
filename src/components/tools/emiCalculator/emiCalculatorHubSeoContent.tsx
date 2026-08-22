@@ -11,7 +11,7 @@ export default function EmiCalculatorHubSeoContent() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Tools", item: `${siteUrl}/tools` },
-      { "@type": "ListItem", position: 2, name: "Calculators", item: `${siteUrl}/calculator` },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: `${siteUrl}/tools/calculator` },
       { "@type": "ListItem", position: 3, name: "EMI Calculator", item: pageUrl },
     ],
   };
