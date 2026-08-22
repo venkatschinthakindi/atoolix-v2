@@ -54,6 +54,8 @@ export async function generateMetadata(params: any): Promise<Metadata> {
         ? CALCULATOR_CANONICAL
         : tool.alternates.canonical.replace(/\/$/, "");
 
+  const isIndexable = !tool.comingSoon;
+
   return {
     title,
     description,
@@ -62,7 +64,7 @@ export async function generateMetadata(params: any): Promise<Metadata> {
       canonical,
     },
     robots: {
-      index: true,
+      index: isIndexable,
       follow: true,
     },
     openGraph: {
