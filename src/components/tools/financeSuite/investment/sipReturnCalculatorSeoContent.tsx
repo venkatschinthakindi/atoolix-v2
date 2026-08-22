@@ -1,7 +1,7 @@
 import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 import { serverConfig } from "@/config/server";
 
-const TOOL_PATH = "/tools/calculator/roi-calculator";
+const TOOL_PATH = "/tools/calculator/sip-calculator";
 const TOOL_URL = `${serverConfig.siteUrl.replace(/\/+$/, "")}${TOOL_PATH}`;
 
 const LAST_REVIEWED = "August 2026";
@@ -1286,7 +1286,7 @@ export default function SipCalculatorSeoContent() {
       </section>
 
       {/* Related Tools */}
-      <RelatedTools toolId="calculator/roi-calculator" />
+      <RelatedTools toolId="calculator/sip-calculator" />
 
       {/* FAQ */}
       <section
