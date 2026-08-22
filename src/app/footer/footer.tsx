@@ -13,15 +13,15 @@ const popularTools = [
     label: "EMI Calculator",
   },
   {
-    href: "/tools/calculator/personal-loan-calculator",
+    href: "/tools/calculator/personal-loan-emi-calculator",
     label: "Personal Loan Calculator",
   },
   {
-    href: "/tools/calculator/car-loan-calculator",
+    href: "/tools/calculator/car-loan-emi-calculator",
     label: "Car Loan Calculator",
   },
   {
-    href: "/tools/calculator/home-loan-calculator",
+    href: "/tools/calculator/home-loan-emi-calculator",
     label: "Home Loan Calculator",
   },
   {
@@ -56,15 +56,15 @@ const financeTools = [
     label: "EMI Calculator",
   },
   {
-    href: "/tools/calculator/personal-loan-calculator",
+    href: "/tools/calculator/personal-loan-emi-calculator",
     label: "Personal Loan Calculator",
   },
   {
-    href: "/tools/calculator/car-loan-calculator",
+    href: "/tools/calculator/car-loan-emi-calculator",
     label: "Car Loan Calculator",
   },
   {
-    href: "/tools/calculator/home-loan-calculator",
+    href: "/tools/calculator/home-loan-emi-calculator",
     label: "Home Loan Calculator",
   },
   {
@@ -72,8 +72,8 @@ const financeTools = [
     label: "FD Calculator",
   },
   {
-    href: "/tools/calculator/roi-calculator",
-    label: "ROI Calculator",
+    href: "/tools/calculator/sip-calculator",
+    label: "SIP Calculator",
   },
   {
     href: "/tools/calculator/retirement-calculator",
@@ -118,12 +118,6 @@ export async function Footer() {
   const siteName = serverConfig.siteName.toPascalCase();
   const siteUrl = (serverConfig.siteUrl ?? "").replace(/\/+$/, "");
 
-  /*
-   * IMPORTANT:
-   * Replace these placeholders with your REAL business/operator details.
-   *
-   * Do not publish a fake address or phone number.
-   */
   const businessName = "Thrinetra Tech";
 
   const operator = {
@@ -145,10 +139,6 @@ export async function Footer() {
       />
 
       <div className="footer-inner relative mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-        {/* =========================================================
-            TRUST / OPERATOR INFORMATION
-        ========================================================== */}
-
         <section
           className="mb-10 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8"
           aria-labelledby="site-footer-heading"
@@ -199,7 +189,6 @@ export async function Footer() {
               </p>
             </div>
 
-            {/* Operator information */}
             <address className="not-italic">
               <h3 className="text-sm font-semibold text-white">
                 Website operator
@@ -207,11 +196,11 @@ export async function Footer() {
 
               <p className="mt-3 text-sm font-medium text-zinc-200">
                 <span className="text-lg text-green-600">
-                {" "}
-                <a href="https://www.thrinetratech.in" target="_blank" rel="noopener noreferrer">
-                  Thrinetra Tech
-                </a>
-              </span>
+                  {" "}
+                  <a href="https://www.thrinetratech.in" target="_blank" rel="noopener noreferrer">
+                    {businessName}
+                  </a>
+                </span>
               </p>
 
               <address className="not-italic">
@@ -242,7 +231,6 @@ export async function Footer() {
                 {siteUrl ? (
                   <p>
                     <span className="text-zinc-500">Website: </span>
-
                     <Link href="/" className={footerLink}>
                       {siteName}
                     </Link>
@@ -253,12 +241,7 @@ export async function Footer() {
           </div>
         </section>
 
-        {/* =========================================================
-            MAIN NAVIGATION
-        ========================================================== */}
-
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {/* Brand */}
           <div className="space-y-4">
             <h2 className="text-sm font-semibold text-white">
               {siteName}
@@ -277,7 +260,6 @@ export async function Footer() {
             </Link>
           </div>
 
-          {/* Tool Categories */}
           <nav aria-label="Tool categories">
             <h2 className="mb-4 text-sm font-semibold text-white">
               Tool Categories
@@ -294,7 +276,6 @@ export async function Footer() {
             </ul>
           </nav>
 
-          {/* Finance */}
           <nav aria-label="Finance tools">
             <h2 className="mb-4 text-sm font-semibold text-white">
               Finance Tools
@@ -311,7 +292,6 @@ export async function Footer() {
             </ul>
           </nav>
 
-          {/* Company */}
           <nav aria-label="Company and legal">
             <h2 className="mb-4 text-sm font-semibold text-white">
               Company &amp; Legal
@@ -323,31 +303,26 @@ export async function Footer() {
                   About {siteName}
                 </Link>
               </li>
-
               <li>
                 <Link href="/contact" className={footerLink}>
                   Contact
                 </Link>
               </li>
-
               <li>
                 <Link href="/privacy" className={footerLink}>
                   Privacy Policy
                 </Link>
               </li>
-
               <li>
                 <Link href="/terms" className={footerLink}>
                   Terms of Service
                 </Link>
               </li>
-
               <li>
                 <Link href="/disclaimer" className={footerLink}>
                   Disclaimer
                 </Link>
               </li>
-
               <li>
                 <Link href="/documentation" className={footerLink}>
                   Documentation
@@ -356,7 +331,6 @@ export async function Footer() {
             </ul>
           </nav>
 
-          {/* Resources */}
           <nav aria-label="Resources">
             <h2 className="mb-4 text-sm font-semibold text-white">
               Resources
@@ -368,25 +342,21 @@ export async function Footer() {
                   All Tools
                 </Link>
               </li>
-
               <li>
                 <Link href="/documentation" className={footerLink}>
                   Help &amp; FAQ
                 </Link>
               </li>
-
               <li>
                 <Link href="/contact" className={footerLink}>
                   Suggest a Tool
                 </Link>
               </li>
-
               <li>
                 <Link href="/contact" className={footerLink}>
                   Report a Bug
                 </Link>
               </li>
-
               <li>
                 <Link href="/about#recognition-heading" className={footerLink}>
                   Recognition &amp; Reviews
@@ -395,10 +365,6 @@ export async function Footer() {
             </ul>
           </nav>
         </div>
-
-        {/* =========================================================
-            POPULAR TOOLS
-        ========================================================== */}
 
         <section
           className="mt-10 rounded-3xl border border-white/10 bg-white/[0.02] p-6"
@@ -412,7 +378,6 @@ export async function Footer() {
               >
                 Popular Tools
               </h2>
-
               <p className="mt-1 text-sm text-zinc-500">
                 Quick access to commonly used tools.
               </p>
@@ -438,10 +403,6 @@ export async function Footer() {
             ))}
           </div>
         </section>
-
-        {/* =========================================================
-            IMPORTANT PRIVACY / FINANCE NOTICE
-        ========================================================== */}
 
         <section
           className="mt-8 rounded-3xl border border-white/10 bg-slate-950/30 p-6"
@@ -483,10 +444,6 @@ export async function Footer() {
           </div>
         </section>
 
-        {/* =========================================================
-            GENERAL SITE DESCRIPTION
-        ========================================================== */}
-
         <div className="my-10 border-t border-white/10" />
 
         <div className="mx-auto max-w-5xl text-center text-sm leading-7 text-zinc-500">
@@ -501,10 +458,6 @@ export async function Footer() {
 
         <div className="my-8 border-t border-white/10" />
 
-        {/* =========================================================
-            COPYRIGHT / MAINTAINER
-        ========================================================== */}
-
         <div className="flex flex-col items-center justify-between gap-5 pb-8 text-sm text-zinc-500 md:flex-row">
           <div className="space-y-2 text-center md:text-left">
             <p>
@@ -516,10 +469,10 @@ export async function Footer() {
               <span className="text-lg text-green-600">
                 {" "}
                 <a href="https://www.thrinetratech.in" target="_blank" rel="noopener noreferrer">
-                  Thrinetra Tech
+                  {businessName}
                 </a>
               </span>
-          </p>
+            </p>
 
             <p className="text-xs text-zinc-600">
               Information on this website is provided for general informational
@@ -531,19 +484,15 @@ export async function Footer() {
             <Link href="/contact" className={footerLink}>
               Suggest a Tool
             </Link>
-
             <Link href="/contact" className={footerLink}>
               Report a Bug
             </Link>
-
             <Link href="/privacy" className={footerLink}>
               Privacy
             </Link>
-
             <Link href="/terms" className={footerLink}>
               Terms
             </Link>
-
             <Link href="/disclaimer" className={footerLink}>
               Disclaimer
             </Link>
