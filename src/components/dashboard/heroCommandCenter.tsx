@@ -7,6 +7,7 @@ import { Search } from "lucide-react";
 import { getCachedTools } from "@/data/tools";
 import { IconResolver } from "@/sharedUI/iconResolver";
 import { FeatureBadge } from "../ui/featureBadge";
+import { getCanonicalToolPath } from "@/utility/getTool";
 
 export function HeroCommandCenter() {
     const router = useRouter();
@@ -35,7 +36,7 @@ export function HeroCommandCenter() {
           if (e.key === "ArrowUp")
             setSelectedIndex((prev) => Math.max(prev - 1, 0));
           if (e.key === "Enter" && results[selectedIndex]) {
-            router.push(`/tools/${results[selectedIndex].title}`);
+            router.push(getCanonicalToolPath(results[selectedIndex]));
             setOpen(false);
           }
         }
@@ -112,7 +113,7 @@ export function HeroCommandCenter() {
                   index === selectedIndex ? "result-item-active" : "result-item-hover"
                 }`}
                 onClick={() => {
-                  router.push(`/tools/${item.id}`);
+                  router.push(getCanonicalToolPath(item));
                   setOpen(false);
                 }}
               >
