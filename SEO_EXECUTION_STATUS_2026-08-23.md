@@ -180,8 +180,6 @@ includeComingSoon = false,
 
 This makes normal related-tool navigation active-only by default while preserving an explicit opt-in for callers that genuinely need non-active entries.
 
-Repository searches for `RelatedTools(`, `includeArchived`, and `includeComingSoon` did not reveal a separate caller-level requirement for the previous permissive defaults. The dynamic tool rendering path is the primary usage pattern, so this was treated as a safe consistency fix rather than a mass registry rewrite.
-
 ### Google rationale
 Google's current guidance recommends crawlable internal links, descriptive anchor text, and updating internal links after URL changes. Google also uses redirects, sitemap inclusion and canonical annotations as canonicalization signals, while canonicalization remains a hint rather than a rule. Keeping generic active navigation pointed at current destinations avoids unnecessary redirect/archived paths and gives crawlers a cleaner site graph.
 
@@ -200,6 +198,45 @@ Source commit:
 Dedicated audit:
 `SEO_RELATED_TOOLS_AUDIT_2026-08-23.md`
 
+## Build error — CommandPalette type narrowing
+
+### Reported failure
+The production Next.js TypeScript check failed at `src/components/ui/CommandPalette.tsx` because `results` is a union of `CategoryInfo` and `ToolRegistryEntry`, while `getCanonicalToolPath()` accepts only `ToolRegistryEntry`.
+
+The failing expression was the keyboard Enter handler calling `getCanonicalToolPath(item)` without narrowing the union.
+
+### Root cause
+`dataSource` intentionally switches between the tool registry and category registry depending on `searchTools`. TypeScript cannot infer from that boolean that `results[selectedIndex]` is a `ToolRegistryEntry` at the later call site.
+
+### Fix
+The Enter handler now narrows the result before calling the canonical-path helper:
+
+```ts
+if (searchTools && "alternates" in item) {
+  router.push(getCanonicalToolPath(item));
+} else if (!searchTools) {
+  router.push(`/tools/${item.title}`);
+}
+```
+
+This preserves the existing behavior while satisfying the actual `ToolRegistryEntry` contract. No `any`, unsafe cast, or weakened prop/type definition was introduced.
+
+The canonical path helper itself correctly requires a `ToolRegistryEntry` because it reads `tool.alternates.canonical`; that source-of-truth behavior was preserved.
+
+Source commit:
+`918995dfb251696845652114b078c0c54f0f7546` — `fix: narrow command palette search result types`
+
+### SEO impact
+This is primarily a build correctness fix, but it also protects the site's canonical internal navigation: tool-search Enter navigation continues to use `getCanonicalToolPath()` rather than constructing a potentially non-canonical path. This keeps command-palette navigation aligned with the registry canonical URL source.
+
+### Validation state
+- [x] Exact failing file inspected.
+- [x] `getCanonicalToolPath()` contract inspected.
+- [x] Root cause confirmed as union-type narrowing.
+- [x] Type-safe source fix committed.
+- [ ] Full Next.js TypeScript/build validation after this fix.
+- [ ] Production command-palette navigation validation.
+
 ## Validation state
 - [x] Latest `main` inspected before JPG recovery decision.
 - [x] Registry canonical source inspected.
@@ -215,7 +252,9 @@ Dedicated audit:
 - [x] Active Image-to-PDF rendered related-link configuration cleaned of archived/redirect-only PDF variants.
 - [x] Generic RelatedTools fallback changed to active-only defaults.
 - [x] Dedicated related-tools audit synchronized.
+- [x] CommandPalette TypeScript error fixed with explicit union narrowing.
 - [ ] Full registry `relatedTools` graph cleanup.
+- [ ] Full Next.js TypeScript/build/lint validation after the latest fixes.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
 - [ ] Production rendered title/H1 comparison after deployment.
@@ -240,17 +279,15 @@ Approximate implementation progress: **85–90% complete**. This is implementati
 Continue the **broader Search Console + site-wide technical reconciliation** from the latest `main`.
 
 Immediate priority:
-1. Reconcile remaining explicit `relatedTools` registry relationships against current `archived`, `comingSoon`, canonical and redirect state; do not mass-edit useful active relationships.
-2. Continue using fresh Search Console/query evidence where available.
-3. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
-4. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
-5. Keep canonical, sitemap, redirects and internal-link signals consistent.
-6. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
-7. Validate build/type/lint where available.
-8. Update this central MD and any dedicated audit MD in the same execution.
-9. Record exact commits.
-10. Validate production and Search Console after Google has had time to recrawl.
-11. Then continue to the planned **Next.js rendering/performance audit**.
+1. Re-run full TypeScript/build/lint validation from the latest `main` and fix the next genuine build defect if reported.
+2. Reconcile remaining explicit `relatedTools` registry relationships against current `archived`, `comingSoon`, canonical and redirect state; do not mass-edit useful active relationships.
+3. Continue using fresh Search Console/query evidence where available.
+4. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
+5. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
+6. Keep canonical, sitemap, redirects and internal-link signals consistent.
+7. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
+8. Validate production and Search Console after Google has had time to recrawl.
+9. Then continue the planned Next.js rendering/performance audit based on measured evidence.
 
 ## Historical execution commits
 - Meeting Time Finder breadcrumb correction: `7082ca169f40a2143b1aa9ae30f9d90df8d6aee9`
@@ -279,6 +316,7 @@ Immediate priority:
 - Image-to-PDF internal-link cleanup: `b1dfb36aadbcc9f1c48b2a73279ce0a1d779375c`
 - Related-tools audit documentation: `c2f868afab5cc116b9ea1ac0f1b0fe2c6c3e13ff`
 - Related-tools active-only defaults: `93cf6c57c456fb7843efad25d431edc9e5cdf1d2`
+- CommandPalette TypeScript narrowing: `918995dfb251696845652114b078c0c54f0f7546`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
