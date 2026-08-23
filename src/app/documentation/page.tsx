@@ -91,8 +91,8 @@ const quickLinks = [
   },
   {
     href: "/tools/calculator/sip-calculator",
-    label: "ROI Calculator",
-    desc: "Estimate return-based investment scenarios.",
+    label: "SIP Calculator",
+    desc: "Estimate investment scenarios using supplied assumptions.",
   },
 ];
 
@@ -433,7 +433,7 @@ const toolGroups = [
         ],
       },
       {
-        name: "ROI Calculator",
+        name: "SIP Calculator",
         href: "/tools/calculator/sip-calculator",
         description:
           "Estimate investment return scenarios using user-provided values and assumptions.",
