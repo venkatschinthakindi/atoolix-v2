@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { IconResolver } from "@/sharedUI/iconResolver";
+import { getCanonicalToolPath } from "@/utility/getTool";
 
 // const categoryIcons: Record<string, JSX.Element> = categoryIcons;
 type CommandPaletteProps = {
@@ -41,14 +42,15 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
         if (e.key === "ArrowUp")
           setSelectedIndex((prev) => Math.max(prev - 1, 0));
         if (e.key === "Enter" && results[selectedIndex]) {
-          router.push(`/tools/${results[selectedIndex].title}`);
+          const item = results[selectedIndex];
+          router.push(searchTools ? getCanonicalToolPath(item) : `/tools/${item.title}`);
           setOpen(false);
         }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [open, results, selectedIndex, router]);
+  }, [open, results, selectedIndex, router, searchTools]);
 
   return (
     <>
@@ -99,7 +101,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                       }`}
                       onClick={() => {
                         if (searchTools) {
-                          router.push(`/tools/${item.id}`);
+                          router.push(getCanonicalToolPath(item));
                           setOpen(false);
                         }
                         else {
