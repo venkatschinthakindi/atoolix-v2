@@ -32,9 +32,11 @@ Do not remove the legacy route redirects. They are required compatibility/migrat
 ## Execution status
 The dedicated working branch remains `seo/documentation-link-reconciliation` and is intentionally retained until this task is actually completed and validated.
 
-A temporary GitHub Actions reconciliation mechanism was tested previously and removed without changing the source file. No false completion commit was retained.
+PR #8 remains a working mechanism only; its current diff contains the temporary reconciliation workflow and MD synchronization, but the actual `src/app/documentation/page.tsx` source change has not been applied. It must not be merged to `main` in this state.
 
 The GitHub connector can retrieve the source file and its current blob SHA (`1b986831b1eaf0067a0df0ebb43eb0fb837538f2`), but the direct file-update operation requires the complete replacement text. The current retrieval response is truncated for this large 1,320-line source file. No partial or reconstructed source has been blindly overwritten.
+
+A temporary GitHub Actions reconciliation mechanism was tested previously. The workflow correctly contains assertions for the intended surgical change and build validation, but repository workflow execution has not provided a verified completed source change. No false completion commit is retained.
 
 ## Validation required after source change
 1. Repository-wide search for all active internal links to the three legacy routes.
@@ -56,7 +58,8 @@ Google's canonicalization troubleshooting guidance (updated 2026-08-21) says clu
 - Revalidated Google's canonicalization guidance: canonicalization is a selection process and redirects, sitemap inclusion, and `rel="canonical"` are signals rather than absolute rules.
 - Revalidated Google's site-move guidance: internal links should be updated to the final URL, redirects should point directly to the final destination, and old redirects should be retained for an appropriate migration period.
 - Re-read the current Documentation source on the dedicated branch and confirmed the three legacy entries are still present; no source completion claim has been made.
-- Re-synchronized this MD rather than creating a false source-completion commit.
+- Rechecked PR #8 and confirmed it is not a completed source-change PR and must not be merged to `main` yet.
+- Re-synchronized this MD with the current repository/PR state rather than creating a false source-completion commit.
 - The working branch is intentionally retained until the source change and validation gates pass.
 - Do not delete the working branch yet.
 
