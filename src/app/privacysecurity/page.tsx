@@ -32,7 +32,7 @@ export default function Page() {
           <section>
             <h2 className="text-2xl font-semibold tracking-tight">Choose the Right Privacy Tool</h2>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <div><h3 className="font-semibold"><Link className="underline" href="/tools/privacysecurity/file-analyzer">Inspect file metadata</Link></h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Use the File Privacy &amp; Security Checker to inspect supported files for hidden metadata and other information that may be relevant before sharing.</p></div>
+              <div><h3 className="font-semibold"><Link className="underline" href="/tools/privacysecurity/file-analyzer">File Privacy &amp; Security Checker</Link></h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Inspect supported files for hidden metadata and other information that may be relevant before sharing.</p></div>
               <div><h3 className="font-semibold">Check photos and documents</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Review supported image and document properties when you need to understand what information is embedded in a file.</p></div>
               <div><h3 className="font-semibold">Remove supported metadata</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Where the individual tool supports cleaning, remove supported privacy metadata and download a cleaned copy for sharing.</p></div>
               <div><h3 className="font-semibold">Prepare files before upload</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Check a file before sending it to an application portal, client, colleague, public website, or other third party.</p></div>
