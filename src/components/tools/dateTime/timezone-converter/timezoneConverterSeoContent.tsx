@@ -265,7 +265,7 @@ const breadcrumbJsonLd = {
       "@type": "ListItem",
       position: 2,
       name: "Date & Time Tools",
-      item: `${siteUrl}/tools/datetime`,
+      item: `${siteUrl}/datetime`,
     },
     {
       "@type": "ListItem",
