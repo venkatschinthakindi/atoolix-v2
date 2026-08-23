@@ -85,3 +85,9 @@ Complete the actual Documentation source reconciliation first. After successful 
 - The workflow is intentionally scoped to `seo/documentation-link-reconciliation` and refuses to modify `page.tsx` if any expected source pattern is missing.
 - It is not considered an SEO completion mechanism until GitHub Actions produces a verified commit changing `src/app/documentation/page.tsx`.
 - **Do not add another status-only MD checkpoint while the source remains unchanged.** The next checkpoint must contain the actual source commit, a concrete workflow failure/blocker, or validation evidence.
+
+## 2026-08-24 — execution trigger synchronized
+- The MD is synchronized with the verified pre-reconciliation state.
+- This push is intentionally being used to activate the already-committed branch-scoped reconciliation workflow; it is **not** being counted as SEO completion.
+- The workflow must now perform the surgical source change, synchronize this MD with the resulting evidence, and push the actual source commit.
+- No merge to `main` is authorized until the source change and validation gates pass.
