@@ -128,21 +128,36 @@ Target: `/tools/datetime/meeting-time-finder`
 - Audit commit: **`a10a392f1b6191e981f090d3166bac5aee029138`**.
 - Production deployment/live validation and Search Console post-recrawl measurement remain pending.
 
+### 20 KB Image Compressor — audited/preserved
+Target: `/tools/image/compress-image-to-20kb`
+- Latest `main` implementation inspected after the previously recorded Search Console baseline identified 20 KB as a high-impression opportunity.
+- The page has a dedicated 20 KB canonical and search intent rather than being a generic image compressor.
+- Visible content covers JPG/JPEG/PNG/WebP, exact-vs-maximum 20 KB targeting, compression versus resizing, aspect-ratio preservation, quality control, format choice, strict upload limits, passport/ID photos, signatures, government forms, education forms, job applications, registration portals and other practical use cases.
+- The page provides a six-step workflow and extensive FAQ content that answers common 20 KB-specific questions. This is useful people-first content rather than a keyword-only variant.
+- The 20 KB page is materially differentiated from the 50 KB and 100 KB pages through its target size, maximum-size guidance and associated strict-upload use cases.
+- The source defines FAQPage and HowTo JSON-LD objects, but the project-wide `JsonLd` policy records that unsupported/deprecated FAQPage and HowTo rich-result markup is suppressed. No new schema was added and no attempt was made to create a rich-result signal unsupported by current Google Search.
+- BreadcrumbList and WebPage JSON-LD are present in the page implementation.
+- No canonical, sitemap, route, indexability, internal-link or content-differentiation defect justified a source-code change.
+- Decision: **audit complete; preserve current implementation.**
+- Full audit record: `SEO_20KB_IMAGE_COMPRESSOR_AUDIT_2026-08-23.md`.
+- Audit record commit: **`902ec515c951a731b76e53d6bdafb760805b38ea`**.
+- Production deployment/live validation and Search Console post-recrawl measurement remain pending.
+
 ## Overall implementation status
-Approximate implementation progress: **78–83% complete**. This is an implementation estimate, not a ranking prediction.
+Approximate implementation progress: **79–84% complete**. This is an implementation estimate, not a ranking prediction.
 
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~82–86%
 - Internal linking: ~70–75%
-- Search Console opportunity/content optimization: ~82%
+- Search Console opportunity/content optimization: ~84%
 - Authority/trust foundation: substantially improved; earned external authority still pending
 - Final production validation and post-deployment Search Console measurement: pending
 
 ## Next planned work — do not deviate
 **Broader Search Console query/page optimization workstream** continues.
 
-Next execution should use the next strongest fresh Search Console opportunity rather than reopening completed pages. The strongest baseline opportunities already audited include 100 KB Image Compressor, Time Zone Converter and Meeting Time Finder; these are now preserved unless new query evidence identifies a real defect or improvement opportunity.
+The baseline high-impression opportunities 100 KB, Time Zone Converter, Meeting Time Finder and 20 KB are now audited and preserved. The next execution should use the next strongest available Search Console/query evidence or a concrete site-wide SEO defect; do not reopen these pages without new evidence.
 
 The next execution must:
 1. Start from the latest `main`.
@@ -169,6 +184,7 @@ The next execution must:
 - 100 KB Search Console audit record: `14358e89dcc2ca115cd7a1a9d01ca754ea88e432`
 - Time Zone Converter audit record: `9d576f77c9ce604be3a7fe086ddfab179d01f967`
 - Meeting Time Finder audit record: `a10a392f1b6191e981f090d3166bac5aee029138`
+- 20 KB Image Compressor audit record: `902ec515c951a731b76e53d6bdafb760805b38ea`
 
 ## Rule for future chats
 Continue from the latest `main` and this status file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
