@@ -9,7 +9,6 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://atoolix.com";
 const SIP_NEW_PATH = "/tools/calculator/sip-calculator";
 
 function publicToolPath(toolId: string, canonical?: string) {
-  if (toolId === "calculator/roi-calculator") return SIP_NEW_PATH;
   if (canonical) {
     return canonical.replace(SITE_URL, "").replace(/\/$/, "") || "/";
   }
@@ -17,7 +16,6 @@ function publicToolPath(toolId: string, canonical?: string) {
 }
 
 function publicCanonical(toolId: string, canonical?: string) {
-  if (toolId === "calculator/roi-calculator") return `${SITE_URL}${SIP_NEW_PATH}`;
   return canonical ?? `${SITE_URL}/tools/${toolId}`;
 }
 
