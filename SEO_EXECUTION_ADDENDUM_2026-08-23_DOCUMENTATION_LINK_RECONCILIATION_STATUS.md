@@ -52,5 +52,13 @@ Consolidate duplicate/near-duplicate intent into the strongest useful page rathe
 ## Current Google canonicalization checkpoint
 Google's canonicalization troubleshooting guidance (updated 2026-08-21) says clustered pages should be sufficiently different and that after fixing content/technical issues Google may take time to re-evaluate a cluster. Once the source change is live, the most important preferred URL should be monitored in Search Console and re-indexing requested only where appropriate.
 
+## 2026-08-23 execution checkpoint
+- Revalidated Google's canonicalization guidance: canonicalization is a selection process and redirects, sitemap inclusion, and `rel="canonical"` are signals rather than absolute rules.
+- Revalidated Google's site-move guidance: internal links should be updated to the final URL, redirects should point directly to the final destination, and old redirects should be retained for an appropriate migration period.
+- Re-read the current Documentation source on the dedicated branch and confirmed the three legacy entries are still present; no source completion claim has been made.
+- Re-synchronized this MD rather than creating a false source-completion commit.
+- The working branch is intentionally retained until the source change and validation gates pass.
+- Do not delete the working branch yet.
+
 ## Next phase
 Complete the actual Documentation source reconciliation first. After successful build and production validation, continue to measured production HTML and Core Web Vitals/performance work, followed by Search Console measurement.
