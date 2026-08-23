@@ -4,9 +4,6 @@ const toolMap = new Map<string, ToolRegistryEntry>(
   getCachedTools().map((tool) => [tool.id, tool]),
 );
 
-const HOME_LOAN_PUBLIC_PATH = "/tools/calculator/home-loan-emi-calculator";
-const CAR_LOAN_PUBLIC_PATH = "/tools/calculator/car-loan-emi-calculator";
-const PERSONAL_LOAN_PUBLIC_PATH = "/tools/calculator/personal-loan-emi-calculator";
 const QR_CODE_PUBLIC_PATH = "/tools/qrcode/qr-code-generator";
 
 function withPublicCanonical(
@@ -51,16 +48,13 @@ function withPublicCanonical(
     };
   }
 
-  // Dedicated loan pages must self-canonicalize. The registry historically
-  // pointed Home Loan at the generic EMI hub, which creates conflicting
-  // canonical/internal signals between genuinely different search intents.
+  // Dedicated EMI loan pages have their own canonical URLs in the registry.
+  // Keep their search-intent metadata distinct without maintaining a second
+  // canonical source here. This prevents future registry migrations from
+  // creating competing canonical definitions.
   if (toolId === "calculator/home-loan-emi-calculator") {
     return {
       ...tool,
-      alternates: {
-        ...tool.alternates,
-        canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/calculator\/emi-calculator$/, "")}${HOME_LOAN_PUBLIC_PATH}`,
-      },
       keywords: [
         "home loan emi calculator",
         "home loan calculator",
@@ -78,10 +72,6 @@ function withPublicCanonical(
   if (toolId === "calculator/car-loan-emi-calculator") {
     return {
       ...tool,
-      alternates: {
-        ...tool.alternates,
-        canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/calculator\/car-loan-emi-calculator$/, "")}${CAR_LOAN_PUBLIC_PATH}`,
-      },
       keywords: [
         "car loan emi calculator",
         "car loan calculator",
@@ -101,10 +91,6 @@ function withPublicCanonical(
   if (toolId === "calculator/personal-loan-emi-calculator") {
     return {
       ...tool,
-      alternates: {
-        ...tool.alternates,
-        canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/calculator\/personal-loan-emi-calculator$/, "")}${PERSONAL_LOAN_PUBLIC_PATH}`,
-      },
       keywords: [
         "personal loan emi calculator",
         "personal loan calculator",
