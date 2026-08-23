@@ -87,7 +87,10 @@ export async function generateMetadata(params: any): Promise<Metadata> {
     ? CALCULATOR_CANONICAL
     : tool.alternates.canonical.replace(/\/$/, "");
 
-  const isIndexable = !tool.comingSoon;
+  // Archived tools are intentionally excluded from the XML sitemap and must
+  // not remain indexable. Coming-soon pages are also kept out of the index.
+  // This keeps robots/indexability state consistent with sitemap policy.
+  const isIndexable = !tool.comingSoon && !tool.archived;
 
   return {
     title,
