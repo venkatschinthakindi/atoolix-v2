@@ -35,6 +35,10 @@ const QR_GENERATOR_TITLE =
   "QR Code Generator & Scanner – Create, Scan & Download | Atoolix";
 const QR_GENERATOR_DESCRIPTION =
   "Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan QR codes with a camera or image and export PNG, SVG, or PDF in your browser.";
+const RETIREMENT_CALCULATOR_TITLE =
+  "Retirement Calculator – Corpus, FIRE & Retirement Planning | Atoolix";
+const RETIREMENT_CALCULATOR_DESCRIPTION =
+  "Estimate your retirement corpus, FIRE target, withdrawal needs, and monthly savings using expenses, inflation, return, and retirement assumptions.";
 
 export async function generateMetadata({
   params,
@@ -116,6 +120,24 @@ export async function generateMetadata({
         ...metadata.twitter,
         title: QR_GENERATOR_TITLE,
         description: QR_GENERATOR_DESCRIPTION,
+      },
+    };
+  }
+
+  if (normalizedToolId === "calculator/retirement-calculator") {
+    return {
+      ...metadata,
+      title: RETIREMENT_CALCULATOR_TITLE,
+      description: RETIREMENT_CALCULATOR_DESCRIPTION,
+      openGraph: {
+        ...metadata.openGraph,
+        title: RETIREMENT_CALCULATOR_TITLE,
+        description: RETIREMENT_CALCULATOR_DESCRIPTION,
+      },
+      twitter: {
+        ...metadata.twitter,
+        title: RETIREMENT_CALCULATOR_TITLE,
+        description: RETIREMENT_CALCULATOR_DESCRIPTION,
       },
     };
   }
