@@ -3,6 +3,7 @@ import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import { ToolRegistryEntry } from "@/data/tools";
 import { serverConfig } from "@/config/server";
+import { JsonLd } from "@/utility/seo/JsonLd";
 import { LOAN_PAGE_COPY } from "@/components/tools/emiCalculator/core/Config";
 import ToolRendererClient from "@/components/tools/toolRendererClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
@@ -158,6 +159,7 @@ export default async function ToolPage({ params }: any) {
   const { ...toolMeta } = tool;
   const isCalculatorHub = normalizedToolId === "calculator";
   const isFileAnalyzer = normalizedToolId === "privacysecurity/file-analyzer";
+  const isPersonalLoan = normalizedToolId === "calculator/personal-loan-emi-calculator";
   const loanTypeByRoute: Record<string, keyof typeof LOAN_PAGE_COPY> = {
     "calculator/home-loan-emi-calculator": "home",
     "calculator/car-loan-emi-calculator": "car",
@@ -176,6 +178,22 @@ export default async function ToolPage({ params }: any) {
     : isFileAnalyzer
       ? FILE_ANALYZER_DESCRIPTION
       : tool.description;
+
+  const personalLoanAppSchema = isPersonalLoan
+    ? {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: "Personal Loan EMI Calculator",
+        url: `${serverConfig.siteUrl.replace(/\/$/, "")}/tools/calculator/personal-loan-emi-calculator`,
+        applicationCategory: "FinanceApplication",
+        operatingSystem: "Any",
+        description: PERSONAL_LOAN_DESCRIPTION,
+        offers: {
+          "@type": "Offer",
+          price: 0,
+        },
+      }
+    : null;
 
   return (
     <>
@@ -201,6 +219,7 @@ export default async function ToolPage({ params }: any) {
           <p className="text-white/70 text-sm text-center max-w-3xl mx-auto leading-relaxed">
             {pageDescription}
           </p>
+          {personalLoanAppSchema && <JsonLd data={personalLoanAppSchema} />}
           <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
           <ToolSeoContent toolId={toolId} />
           <Footer />
