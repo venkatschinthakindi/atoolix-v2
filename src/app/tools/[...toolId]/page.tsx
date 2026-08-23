@@ -16,7 +16,6 @@ const ToolSeoContent = dynamic(
   { loading: () => null }
 );
 
-const SIP_CANONICAL = `${serverConfig.siteUrl}/tools/calculator/sip-calculator`;
 const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
 const CALCULATOR_DESCRIPTION =
   "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
@@ -40,11 +39,6 @@ export default async function ToolPage({ params }: any) {
   if (!tool) return notFound();
 
   const { ...toolMeta } = tool;
-  const pageCanonical =
-    normalizedToolId === "calculator/sip-calculator"
-      ? SIP_CANONICAL
-      : tool.alternates?.canonical;
-
   const isCalculatorHub = normalizedToolId === "calculator";
   const loanTypeByRoute: Record<string, keyof typeof LOAN_PAGE_COPY> = {
     "calculator/home-loan-emi-calculator": "home",
