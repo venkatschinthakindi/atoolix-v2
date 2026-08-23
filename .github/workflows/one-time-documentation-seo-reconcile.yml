@@ -1,0 +1,95 @@
+name: One-time Documentation SEO Reconciliation
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconcile Documentation source and synchronize MD
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+          import subprocess
+
+          source = Path("src/app/documentation/page.tsx")
+          text = source.read_text(encoding="utf-8")
+          legacy = [
+              "/tools/image/jpg-to-pdf",
+              "/tools/image/png-to-pdf",
+              "/tools/image/webp-to-pdf",
+          ]
+
+          if legacy[0] in text or legacy[1] in text or legacy[2] in text:
+              old_related = '''        related: [
+          "/tools/image/jpg-to-pdf",
+          "/tools/image/png-to-pdf",
+          "/tools/image/webp-to-pdf",
+        ],'''
+              new_related = '''        related: [
+          "/tools/pdf/merge-pdf",
+          "/tools/pdf/split-pdf",
+          "/tools/pdf/compress-pdf",
+        ],'''
+              if text.count(old_related) != 1:
+                  raise SystemExit("Expected exactly one Image to PDF legacy related-links block")
+              text = text.replace(old_related, new_related, 1)
+
+              patterns = [
+                  (r'''\n      \{\n        name: "JPG to PDF",.*?\n      \},\n      \{\n        name: "PNG to PDF",''', '\n      {\n        name: "PNG to PDF",'),
+                  (r'''\n      \{\n        name: "PNG to PDF",.*?\n      \},\n      \{\n        name: "WebP to PDF",''', '\n      {\n        name: "WebP to PDF",'),
+                  (r'''\n      \{\n        name: "WebP to PDF",.*?\n      \},\n    \],\n  \},''', '\n    ],\n  },'),
+              ]
+              for pattern, replacement in patterns:
+                  text, count = re.subn(pattern, replacement, text, count=1, flags=re.S)
+                  if count != 1:
+                      raise SystemExit(f"Expected exactly one Documentation object boundary: {pattern}")
+
+              for value in legacy:
+                  if value in text:
+                      raise SystemExit(f"Legacy URL remains in Documentation source: {value}")
+              if text.count('name: "Image to PDF"') != 1:
+                  raise SystemExit("Expected exactly one active Image to PDF Documentation entry")
+              source.write_text(text, encoding="utf-8")
+
+          for value in legacy:
+              if value in source.read_text(encoding="utf-8"):
+                  raise SystemExit(f"Legacy URL still present after reconciliation: {value}")
+
+          md = Path("SEO_EXECUTION_ADDENDUM_2026-08-23_DOCUMENTATION_LINK_RECONCILIATION_STATUS.md")
+          md_text = md.read_text(encoding="utf-8")
+          marker = "## Source reconciliation completed"
+          if marker not in md_text:
+              md_text += "\n\n## Source reconciliation completed\n\n- The Documentation page now uses **Image to PDF** as the single active destination for image-to-PDF documentation.\n- Standalone JPG to PDF, PNG to PDF, and WebP to PDF Documentation entries were removed.\n- Image to PDF related links now point to active PDF destinations: Merge PDF, Split PDF, and Compress PDF.\n- Existing legacy route redirects were not changed.\n- Repository source verification confirmed the three legacy URLs are absent from active Documentation source.\n- This change follows Google's current canonicalization and URL-migration guidance: consolidate substantially similar content around the most useful representative URL and update internal links to the preferred destination.\n"
+              md.write_text(md_text, encoding="utf-8")
+
+          subprocess.run(["git", "diff", "--check"], check=True)
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Remove one-time workflow and commit validated reconciliation
+        shell: bash
+        run: |
+          rm -f .github/workflows/one-time-documentation-seo-reconcile.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/documentation/page.tsx SEO_EXECUTION_ADDENDUM_2026-08-23_DOCUMENTATION_LINK_RECONCILIATION_STATUS.md .github/workflows/one-time-documentation-seo-reconcile.yml
+          git diff --cached --check
+          git commit -m "seo: consolidate documentation PDF links"
+          git push origin HEAD:main
