@@ -107,7 +107,7 @@ Target: `/tools/calculator/fd-calculator`
 - The page has strong people-first content covering maturity value, interest earned, inputs, compounding frequency, formula, worked example, use cases, FD-vs-RD comparison, limitations, Indian FD context, tax caveat and local-browser privacy behavior.
 - The calculation implementation uses the stated compound-interest model `A = P(1 + r/n)^(nt)` and matches the documented inputs/frequency controls.
 - The documented example was independently checked: ₹1,00,000 at 7.5% for five years with quarterly compounding produces approximately ₹1,44,994.80, so the displayed rounded example of approximately ₹1,44,997 is slightly inconsistent with the actual formula. This is a small content-accuracy issue, but the calculator itself uses the correct formula.
-- The FD page emitted BreadcrumbList but lacked the `WebApplication` structured data now consistently used on the finance calculator pages. Google documents `offers.price` for SoftwareApplication rich-result eligibility and `price: 0` when an application is available without payment. citeturn1search0
+- The FD page emitted BreadcrumbList but lacked the `WebApplication` structured data now consistently used on the finance calculator pages. Google documents `offers.price` for SoftwareApplication rich-result eligibility and `price: 0` when an application is available without payment.
 - Added a route-scoped `WebApplication` JSON-LD block for the FD Calculator with the exact canonical URL, `FinanceApplication`, `operatingSystem: Any`, accurate description and `offers: { "@type": "Offer", "price": 0 }`.
 - Commit: `e9cd218ac4a8880cc8a478267cfe5073feb3f40a`.
 - The slight worked-example discrepancy was deliberately not changed in the same commit because it is a content-number correction that should be handled as a separate validated edit rather than bundled into the structured-data change.
@@ -117,26 +117,39 @@ Target: `/tools/calculator/fd-calculator`
 
 ### SIP Calculator — completed audit
 Target: `/tools/calculator/sip-calculator`
-- Latest `main` implementation, investment route map, SIP SEO content, metadata path, calculator architecture and related investment-tool cluster were inspected before editing. The investment route map establishes `/tools/calculator/sip-calculator` as the public SIP URL and keeps the investment cluster's public routes explicit. fileciteturn53file0
-- The page has substantial people-first content covering SIP definition, calculation methodology, invested amount, maturity value, return assumptions, step-up SIP, goal-based planning, SIP vs lump sum, XIRR, compounding, use cases, mistakes, strategies and limitations. fileciteturn56file0
-- The canonical path is explicitly `/tools/calculator/sip-calculator`, and the SEO content's BreadcrumbList uses the site root → Tools → SIP Calculator hierarchy. fileciteturn56file0
-- The page is materially differentiated from the adjacent CAGR, XIRR and Lumpsum pages; those pages have separate investment intents and dedicated content architectures. fileciteturn49file0 fileciteturn50file0 fileciteturn48file0
-- A concrete structured-data gap was identified: repository search found no existing `WebApplication`/`FinanceApplication` implementation for the SIP page, while the established finance calculator architecture already uses this markup for comparable free calculators. Google currently documents `name` and `offers.price`, with `price: 0` for free applications, for SoftwareApplication rich-result eligibility. citeturn0search4
+- Latest `main` implementation, investment route map, SIP SEO content, metadata path, calculator architecture and related investment-tool cluster were inspected before editing. The investment route map establishes `/tools/calculator/sip-calculator` as the public SIP URL and keeps the investment cluster's public routes explicit.
+- The page has substantial people-first content covering SIP definition, calculation methodology, invested amount, maturity value, return assumptions, step-up SIP, goal-based planning, SIP vs lump sum, XIRR, compounding, use cases, mistakes, strategies and limitations.
+- The canonical path is explicitly `/tools/calculator/sip-calculator`, and the SEO content's BreadcrumbList uses the site root → Tools → SIP Calculator hierarchy.
+- The page is materially differentiated from the adjacent CAGR, XIRR and Lumpsum pages; those pages have separate investment intents and dedicated content architectures.
+- A concrete structured-data gap was identified: repository search found no existing `WebApplication`/`FinanceApplication` implementation for the SIP page, while the established finance calculator architecture already uses this markup for comparable free calculators.
 - Added a route-scoped `WebApplication` JSON-LD block for the SIP Calculator with the exact canonical URL, `FinanceApplication`, `operatingSystem: Any`, accurate SIP description and `offers: { "@type": "Offer", "price": 0 }`.
 - Added dedicated SIP title/description overrides matching the page's search intent: `SIP Calculator – Calculate SIP Returns & Maturity Value | Atoolix` and an accurate description of monthly investment, period, expected return, invested amount and maturity value.
 - Commit: `5ca54c941fb219c4a6cb7d3020e0bf271a1d00e9`.
 - No canonical, sitemap, route, calculation-method or content-usefulness defect justified additional changes.
-- The visible FAQ content remains useful to users; no attempt was made to add FAQPage JSON-LD because Google removed the FAQ rich-result documentation in June 2026. citeturn0search7
+- The visible FAQ content remains useful to users; no attempt was made to add FAQPage JSON-LD because Google removed the FAQ rich-result feature documentation in June 2026.
 - Production deployment, live HTML/Rich Results validation and Google recrawl remain pending. Structured data is an eligibility signal, not a ranking or rich-result guarantee.
-- **Decision: audit complete; concrete metadata + structured-data fix committed; preserve all other working signals.**
+- Decision: audit complete; concrete metadata + structured-data fix committed; preserve all other working signals.
+
+### CAGR Calculator — completed audit
+Target: `/tools/calculator/cagr-calculator`
+- Latest `main` implementation was fetched and audited against the current investment route map, SEO renderer, CAGR SEO content, metadata path, related investment-tool architecture and current Google Search guidance.
+- The public route is explicitly `/tools/calculator/cagr-calculator`; the investment route map keeps CAGR distinct from SIP, XIRR and Lumpsum routes.
+- The CAGR page has substantial people-first content covering the definition, standard formula, required inputs, compound-growth interpretation, negative/zero/high CAGR cases, investment and business use cases, dividends, inflation, risk, CAGR vs annual return, CAGR vs average return, CAGR vs XIRR/IRR/SIP/Lumpsum, limitations, mistakes and best practices.
+- The page includes a five-step visible usage guide, feature/use-case sections, comparison content and India-relevant investment examples. This provides genuine intent differentiation rather than a thin keyword variant.
+- BreadcrumbList uses Home → Tools → CAGR Calculator and the canonical tool path is `/tools/calculator/cagr-calculator`.
+- The CAGR SEO implementation already contains route-scoped `WebApplication`/`FinanceApplication` structured data, so no duplicate schema was introduced. Google currently requires `name` and `offers.price` for SoftwareApplication rich-result eligibility; a free application should use `offers.price: 0`. Google also requires a rating/review signal for that specific rich-result feature, which Atoolix does not have legitimate user-review data to populate; therefore no fabricated rating/review markup was added.
+- The shared SEO renderer removes deprecated `FAQPage` and `HowTo` JSON-LD. The visible FAQ/how-to content remains useful for users, but no unsupported rich-result markup was added.
+- No confirmed canonical, indexability, sitemap, route, internal-link, content-differentiation or calculation-method defect justified a source-code change in this execution.
+- Decision: **audit complete; preserve current CAGR implementation; no speculative code change.**
+- Production deployment/live HTML validation and Google recrawl remain pending as part of the existing post-deployment validation workstream.
 
 ## Ranking-growth status
-Approximate implementation progress: **72–77% complete**. This is not a ranking prediction.
+Approximate implementation progress: **73–78% complete**. This is not a ranking prediction.
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~82–86%
 - Internal linking: ~70–75%
-- GSC opportunity/content optimization: ~74% after the completed priority audits and investment-cluster work
+- GSC opportunity/content optimization: ~75% after the completed priority audits and investment-cluster work
 - Authority/backlink/trust growth: substantially pending
 - Final production validation and post-deployment Search Console measurement: pending
 
@@ -153,8 +166,8 @@ Approximate implementation progress: **72–77% complete**. This is not a rankin
 10. Personal Loan EMI Calculator — structured-data fix committed; production validation pending
 11. FD Calculator — structured-data fix committed; example-number follow-up recorded; production validation pending
 12. SIP Calculator — metadata + structured-data fix committed; production validation pending
-13. **Next: CAGR Calculator — continue the investment cluster in existing roadmap order**
-14. XIRR Calculator
+13. CAGR Calculator — completed/preserved after audit; no speculative source change
+14. **Next: XIRR Calculator — continue the investment cluster in existing roadmap order**
 15. Lumpsum Calculator
 16. Authority/trust growth
 17. Broader Search Console query/page optimization after recrawl
@@ -184,9 +197,9 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Genuine differentiation for closely related pages.
 - No keyword stuffing, doorway-like page generation, artificial link networks or speculative URL creation.
 - Structured data must accurately represent visible/relevant content and must not be added solely for unsupported rich-result expectations.
-- Prefer current Google Search Central guidance over outdated SEO tactics. Current canonicalization guidance says Google may choose a different canonical and emphasizes consistent canonical signals and sufficiently differentiated clustered pages. citeturn0search0turn0search1
-- Current Google documentation states that SoftwareApplication markup requires `name` and `offers.price` for rich-result eligibility, with `price: 0` for free applications. citeturn0search4
-- Google's June 2026 documentation update removed the FAQ rich-result feature documentation because FAQ rich results are no longer shown in Google Search; visible FAQs remain valuable when they help users. citeturn0search7
+- Prefer current Google Search Central guidance over outdated SEO tactics. Current canonicalization guidance says Google may choose a different canonical and emphasizes consistent canonical signals and sufficiently differentiated clustered pages.
+- Current Google documentation states that SoftwareApplication markup requires `name` and `offers.price` for rich-result eligibility, with `price: 0` for free applications. A rating/review is also required for that specific SoftwareApplication rich-result feature, so Atoolix must not fabricate ratings where legitimate review data does not exist.
+- Google's June 2026 documentation update removed the FAQ rich-result feature documentation because FAQ rich results are no longer shown in Google Search; visible FAQs remain valuable when they help users.
 - Top-5 ranking is the strategic target, but no ranking position is guaranteed; every change must be technically sound and genuinely useful.
 
 ## Production status
@@ -195,4 +208,4 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Repository changes do not prove Google has processed them; live HTML, deployment and Search Console recrawl/indexation must be validated separately.
 
 ## Next execution
-**CAGR Calculator** — fetch the latest `main` implementation first, then audit against current Google Search guidance, Search Console evidence, investment-intent differentiation, calculation accuracy, canonical/indexability, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update the relevant MD files in the same execution before moving to XIRR and Lumpsum.
+**XIRR Calculator** — fetch the latest `main` implementation first, then audit against current Google Search guidance, Search Console evidence, investment-intent differentiation, cash-flow/date calculation accuracy, canonical/indexability, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this MD in the same execution before moving to Lumpsum.
