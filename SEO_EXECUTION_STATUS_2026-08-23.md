@@ -12,6 +12,7 @@
 - Structured data must accurately describe visible/relevant content. Do not add duplicate or fabricated markup merely to chase a rich result.
 - Do not fabricate ratings/reviews. Do not create doorway/keyword-variant pages, artificial backlinks or other manipulative signals.
 - Visible FAQs may remain useful, but FAQPage rich-result markup is no longer a current Google Search feature.
+- HowTo rich-result markup is no longer a current Google Search feature; visible step-by-step guidance can remain useful to users.
 - Validate the live deployment with URL Inspection/Rich Results Test and allow Google time to recrawl before judging results.
 - Top-5 ranking is the strategic goal, not a guaranteed outcome.
 
@@ -112,21 +113,36 @@ Target: `/tools/datetime/timezone-converter`
 - Audit commit: **`9d576f77c9ce604be3a7fe086ddfab179d01f967`**.
 - Production deployment/live validation and Search Console post-recrawl measurement remain pending.
 
+### Meeting Time Finder — audited/preserved
+Target: `/tools/datetime/meeting-time-finder`
+- Latest `main` implementation reviewed for canonical, breadcrumb, metadata, search intent, content usefulness, differentiation from Time Zone Converter, internal-link architecture and structured-data architecture.
+- Canonical is `/tools/datetime/meeting-time-finder`; BreadcrumbList correctly uses `/tools` → `/datetime` → the exact Meeting Time Finder canonical URL. The earlier `/tools/datetime` hub defect was already corrected and is not reopened.
+- The page has substantial people-first content covering participant locations, working hours, meeting duration, overlapping availability, next available slots, DST/date-aware offsets, templates, examples, use cases, CSV/ICS exports and setup sharing.
+- Content is materially differentiated from Time Zone Converter: Time Zone Converter serves time conversion/comparison, while Meeting Time Finder serves schedule intersection and meeting-slot discovery.
+- Visible how-to steps remain useful, but no `HowTo` structured-data markup is added because the HowTo rich result is no longer supported in Google Search.
+- Visible FAQs remain useful, but no `FAQPage` structured-data markup is added because FAQ rich results are not a current general Google Search feature.
+- Existing BreadcrumbList is preserved. No additional application schema was added because the current evidence did not establish a concrete need and duplicate/speculative markup would not improve the page by itself.
+- No title, description, canonical, route, content architecture or internal-link change was justified in this execution.
+- Decision: **audit complete; preserve current implementation.**
+- Full audit record: `SEO_MEETING_TIME_FINDER_AUDIT_2026-08-23.md`.
+- Audit commit: **`a10a392f1b6191e981f090d3166bac5aee029138`**.
+- Production deployment/live validation and Search Console post-recrawl measurement remain pending.
+
 ## Overall implementation status
-Approximate implementation progress: **77–82% complete**. This is an implementation estimate, not a ranking prediction.
+Approximate implementation progress: **78–83% complete**. This is an implementation estimate, not a ranking prediction.
 
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~82–86%
 - Internal linking: ~70–75%
-- Search Console opportunity/content optimization: ~80%
+- Search Console opportunity/content optimization: ~82%
 - Authority/trust foundation: substantially improved; earned external authority still pending
 - Final production validation and post-deployment Search Console measurement: pending
 
 ## Next planned work — do not deviate
 **Broader Search Console query/page optimization workstream** continues.
 
-Next execution: **Meeting Time Finder**.
+Next execution should use the next strongest fresh Search Console opportunity rather than reopening completed pages. The strongest baseline opportunities already audited include 100 KB Image Compressor, Time Zone Converter and Meeting Time Finder; these are now preserved unless new query evidence identifies a real defect or improvement opportunity.
 
 The next execution must:
 1. Start from the latest `main`.
@@ -152,6 +168,7 @@ The next execution must:
 - Authority/trust audit record: `e2daa385caea975f70eca355c3f55babd4966360`
 - 100 KB Search Console audit record: `14358e89dcc2ca115cd7a1a9d01ca754ea88e432`
 - Time Zone Converter audit record: `9d576f77c9ce604be3a7fe086ddfab179d01f967`
+- Meeting Time Finder audit record: `a10a392f1b6191e981f090d3166bac5aee029138`
 
 ## Rule for future chats
 Continue from the latest `main` and this status file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
