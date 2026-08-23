@@ -39,10 +39,6 @@ const RETIREMENT_CALCULATOR_TITLE =
   "Retirement Calculator – Corpus, FIRE & Retirement Planning | Atoolix";
 const RETIREMENT_CALCULATOR_DESCRIPTION =
   "Estimate your retirement corpus, FIRE target, withdrawal needs, and monthly savings using expenses, inflation, return, and retirement assumptions.";
-const ROI_CALCULATOR_TITLE =
-  "ROI Calculator – Return on Investment Calculator | Atoolix";
-const ROI_CALCULATOR_DESCRIPTION =
-  "Calculate return on investment from your initial investment and final value. Estimate ROI percentage and compare investment gains or losses in your browser.";
 
 export async function generateMetadata({
   params,
@@ -142,24 +138,6 @@ export async function generateMetadata({
         ...metadata.twitter,
         title: RETIREMENT_CALCULATOR_TITLE,
         description: RETIREMENT_CALCULATOR_DESCRIPTION,
-      },
-    };
-  }
-
-  if (normalizedToolId === "calculator/roi-calculator") {
-    return {
-      ...metadata,
-      title: ROI_CALCULATOR_TITLE,
-      description: ROI_CALCULATOR_DESCRIPTION,
-      openGraph: {
-        ...metadata.openGraph,
-        title: ROI_CALCULATOR_TITLE,
-        description: ROI_CALCULATOR_DESCRIPTION,
-      },
-      twitter: {
-        ...metadata.twitter,
-        title: ROI_CALCULATOR_TITLE,
-        description: ROI_CALCULATOR_DESCRIPTION,
       },
     };
   }
