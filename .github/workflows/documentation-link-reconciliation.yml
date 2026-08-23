@@ -70,8 +70,14 @@ jobs:
           echo "$html" | grep -F 'Image to PDF'
           echo "$html" | grep -F 'rel="canonical"'
           echo "$html" | grep -F 'rel="canonical" href="https://atoolix.com/tools/image/image-to-pdf"'
-          if echo "$html" | grep -Eq 'jpg-to-pdf|png-to-pdf|webp-to-pdf'; then
-            echo 'Legacy PDF converter URLs leaked into consolidated page HTML.'
+
+          # Validate actual rendered links, not arbitrary occurrences in the
+          # HTML payload. Legacy route strings may legitimately remain in
+          # serialized registry/config data while the active page navigation
+          # correctly avoids linking to redirect-only destinations.
+          links=$(printf '%s' "$html" | grep -Eo 'href="[^"]+"' || true)
+          if printf '%s' "$links" | grep -Eq 'href="[^"]*(jpg-to-pdf|png-to-pdf|webp-to-pdf)([/?"]|$)'; then
+            echo 'Legacy PDF converter URLs are linked from the consolidated page.'
             exit 1
           fi
 
