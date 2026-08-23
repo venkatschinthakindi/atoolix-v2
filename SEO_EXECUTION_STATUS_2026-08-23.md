@@ -102,13 +102,28 @@ Target: `/tools/calculator/car-loan-emi-calculator`
 - The audit is complete and the execution status is now synchronized with this decision.
 - Production deployment/live HTML and Google recrawl remain part of the normal post-change validation process; no code change was made here to validate.
 
+### Personal Loan EMI Calculator — completed audit
+Target: `/tools/calculator/personal-loan-emi-calculator`
+- Latest `main` implementation, registry entry, metadata path, shared SEO renderer, personal-loan SEO content, calculation engine and related-tool architecture were inspected before editing.
+- Canonical is `/tools/calculator/personal-loan-emi-calculator`; the registry marks the page active (`archived: false`, `comingSoon: false`) and the generic metadata layer derives the canonical from the registry. This is consistent with Google's current canonicalization guidance that canonical signals should consistently identify the preferred representative URL. citeturn0search0turn0search3
+- The page has a dedicated title/description, H1, personal-loan-specific explanatory content, formula/methodology, worked example, repayment scenarios, workflow, audiences, limitations, trust/methodology block and related tools. The content is materially differentiated from the generic EMI, home-loan and car-loan pages.
+- BreadcrumbList is correctly rooted at `/tools` → `/tools/calculator` → the dedicated Personal Loan EMI URL and uses absolute URLs.
+- The calculation engine uses the standard reducing-balance EMI formula and a dedicated personal-loan preset; the worked example of ₹5,00,000 at 14% for 48 months gives an EMI of approximately ₹13,665, consistent with the stated formula.
+- Found one concrete structured-data inconsistency: unlike the EMI hub and Home Loan EMI page, the Personal Loan SEO content emitted BreadcrumbList but did not emit the `WebApplication` structured data used by the related EMI pages. Google currently documents `offers.price` as required for SoftwareApplication rich-result eligibility and specifies `price: 0` for applications available without payment. citeturn1search0
+- Corrected this by adding a route-scoped `WebApplication` JSON-LD block for the Personal Loan EMI page with `name`, canonical `url`, `applicationCategory: FinanceApplication`, `operatingSystem: Any`, an accurate description, and `offers: { "@type": "Offer", "price": 0 }`.
+- Commit: `c0fa08c3f496881e1e8746227c638d907ac4eaad`.
+- No canonical, indexability, sitemap, route, calculation-method or content-usefulness defect justified additional changes.
+- The shared renderer continues to suppress deprecated/unsupported `FAQPage` and `HowTo` JSON-LD, while the FAQ content remains visible and useful to users.
+- Production deployment, live HTML validation, Rich Results validation and Google recrawl remain pending. Structured data does not guarantee a rich result; Google may choose not to display eligible features. citeturn1search1
+- **Decision: audit complete; concrete structured-data fix committed; preserve all other working signals.**
+
 ## Ranking-growth status
-Approximate implementation progress: **69–74% complete**. This is not a ranking prediction.
+Approximate implementation progress: **70–75% complete**. This is not a ranking prediction.
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~80–85%
 - Internal linking: ~70–75%
-- GSC opportunity/content optimization: ~71% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport, File Analyzer and EMI audits
+- GSC opportunity/content optimization: ~72% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport, File Analyzer and EMI audits
 - Authority/backlink/trust growth: substantially pending
 - Final production validation and post-deployment Search Console measurement: pending
 
@@ -122,8 +137,8 @@ Approximate implementation progress: **69–74% complete**. This is not a rankin
 7. EMI Calculator hub — structured-data fix committed; production validation pending
 8. Home Loan EMI Calculator — structured-data fix committed; production validation pending
 9. Car Loan EMI Calculator — completed/preserved
-10. **Personal Loan EMI Calculator — next execution target**
-11. Broader finance/investment cluster
+10. Personal Loan EMI Calculator — structured-data fix committed; production validation pending
+11. **Broader finance/investment cluster — next execution target**
 12. Authority/trust growth
 13. Broader Search Console query/page optimization after recrawl
 14. Final site-wide production validation
@@ -151,7 +166,7 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Genuine differentiation for closely related pages.
 - No keyword stuffing, doorway-like page generation, artificial link networks or speculative URL creation.
 - Structured data must accurately represent visible/relevant content and must not be added solely for unsupported rich-result expectations.
-- Prefer current Google Search Central guidance over outdated SEO tactics.
+- Prefer current Google Search Central guidance over outdated SEO tactics. Google's documentation was updated again in August 2026, so current Search Central guidance remains the reference point rather than older SEO advice. citeturn0search2
 - Top-5 ranking is the strategic target, but no ranking position is guaranteed; every change must be technically sound and genuinely useful.
 
 ## Production status
@@ -160,4 +175,4 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Repository changes do not prove Google has processed them; live HTML, deployment and Search Console recrawl/indexation must be validated separately.
 
 ## Next execution
-**Personal Loan EMI Calculator** — fetch the latest `main` implementation first, then audit it against current Search Console evidence, current Google Search guidance, financial-calculation accuracy/trust requirements, canonical/indexability state, content usefulness, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this file before moving to the broader finance/investment cluster.
+**Broader finance/investment cluster** — fetch the latest `main` implementation first, then use current Search Console evidence to select the next highest-value finance/investment opportunity already represented in the existing roadmap. Audit it against current Google Search guidance, intent/usefulness, calculation accuracy/trust, canonical/indexability, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update the relevant MD files in the same execution before moving onward.
