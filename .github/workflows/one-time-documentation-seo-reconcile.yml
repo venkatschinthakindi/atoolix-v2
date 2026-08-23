@@ -1,4 +1,4 @@
-name: One-time Documentation SEO Reconciliation
+name: One-time Related Tools SEO Reconciliation
 
 on:
   pull_request:
@@ -9,60 +9,61 @@ permissions:
 
 jobs:
   reconcile:
-    if: github.event.pull_request.head.ref == 'seo/documentation-link-reconciliation' && github.event.pull_request.base.ref == 'main'
+    if: github.event.pull_request.head.ref == 'seo/related-tools-registry-cleanup' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: seo/documentation-link-reconciliation
+          ref: seo/related-tools-registry-cleanup
           fetch-depth: 0
 
-      - name: Reconcile Documentation links
+      - name: Reconcile active relatedTools registry references
         shell: python
         run: |
           from pathlib import Path
           import re
 
-          path = Path("src/app/documentation/page.tsx")
+          path = Path("src/data/tools.ts")
           text = path.read_text(encoding="utf-8")
-          legacy = ["/tools/image/jpg-to-pdf", "/tools/image/png-to-pdf", "/tools/image/webp-to-pdf"]
-          if any(url not in text for url in legacy):
-              raise SystemExit("Expected legacy Documentation URLs are missing")
 
-          old_related = '''        related: [
-          "/tools/image/jpg-to-pdf",
-          "/tools/image/png-to-pdf",
-          "/tools/image/webp-to-pdf",
-        ],'''
-          new_related = '''        related: [
-          "/tools/pdf/merge-pdf",
-          "/tools/pdf/split-pdf",
-          "/tools/pdf/compress-pdf",
-        ],'''
-          if text.count(old_related) != 1:
-              raise SystemExit("Expected exactly one Image to PDF legacy related block")
-          text = text.replace(old_related, new_related, 1)
+          replacements = {
+              'id: "pdf/merge-pdf",\n    archived: false,\n    relatedTools: ["pdf/split-pdf", "pdf/compress-pdf", "image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf"]':
+                  'id: "pdf/merge-pdf",\n    archived: false,\n    relatedTools: ["pdf/split-pdf", "pdf/compress-pdf", "image/image-to-pdf"]',
+              'id: "pdf/split-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/compress-pdf", "image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf"]':
+                  'id: "pdf/split-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/compress-pdf", "image/image-to-pdf"]',
+              'id: "image/image-to-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/split-pdf", "pdf/compress-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf", "image/compress-image"]':
+                  'id: "image/image-to-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/split-pdf", "pdf/compress-pdf", "image/compress-image"]',
+          }
 
-          text, n = re.subn(r'\n      \{\n        name: "JPG to PDF",.*?\n      \},(?=\n      \{\n        name: "PNG to PDF",)', '', text, count=1, flags=re.S)
-          if n != 1:
-              raise SystemExit("JPG to PDF block not found")
-          text, n = re.subn(r'\n      \{\n        name: "PNG to PDF",.*?\n      \},(?=\n      \{\n        name: "WebP to PDF",)', '', text, count=1, flags=re.S)
-          if n != 1:
-              raise SystemExit("PNG to PDF block not found")
-          text, n = re.subn(r'\n      \{\n        name: "WebP to PDF",.*?\n      \},(?=\n    \],\n  \},)', '', text, count=1, flags=re.S)
-          if n != 1:
-              raise SystemExit("WebP to PDF block not found")
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f"Expected exactly one active registry block for replacement; found {text.count(old)}")
+              text = text.replace(old, new, 1)
 
-          if any(url in text for url in legacy):
-              raise SystemExit("Legacy URL remains in Documentation source")
-          if text.count('name: "Image to PDF"') != 1:
-              raise SystemExit("Image to PDF destination is not unique")
+          # The archived entries are intentionally preserved. Their historical
+          # relatedTools metadata and SEO loaders are not public active links.
+          active_ids = ["pdf/merge-pdf", "pdf/split-pdf", "image/image-to-pdf"]
+          for tool_id in active_ids:
+              match = re.search(rf'id: "{re.escape(tool_id)}",.*?(?=\n  \{)', text, flags=re.S)
+              if not match:
+                  raise SystemExit(f"Active tool block not found: {tool_id}")
+              block = match.group(0)
+              if any(legacy in block for legacy in ("image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf")):
+                  raise SystemExit(f"Legacy PDF-format relationship remains in active block: {tool_id}")
+
           path.write_text(text, encoding="utf-8")
 
-      - name: Verify
+      - name: Verify public documentation source has no legacy PDF-format links
+        shell: bash
         run: |
-          ! grep -n '/tools/image/jpg-to-pdf\|/tools/image/png-to-pdf\|/tools/image/webp-to-pdf' src/app/documentation/page.tsx
-          test "$(grep -c 'name: \"Image to PDF\"' src/app/documentation/page.tsx)" -eq 1
+          if grep -nE '/tools/image/(jpg|png|webp)-to-pdf' src/app/documentation/page.tsx; then
+            echo "Legacy PDF-format URL remains in public documentation source. Review before changing it."
+            exit 1
+          fi
+
+      - name: Verify targeted diff
+        run: |
+          git diff -- src/data/tools.ts src/app/documentation/page.tsx
           git diff --check
 
       - name: Install dependencies
@@ -71,15 +72,24 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Synchronize SEO MD
+      - name: Synchronize reconciliation MD
         shell: python
         run: |
           from pathlib import Path
-          path = Path("SEO_EXECUTION_ADDENDUM_2026-08-23_DOCUMENTATION_LINK_RECONCILIATION_STATUS.md")
+          path = Path("SEO_RELATED_TOOLS_REGISTRY_RECONCILIATION_2026-08-23.md")
           text = path.read_text(encoding="utf-8")
-          text = text.replace("## Required source change", "## Completed source change")
-          text = text.replace("Complete the actual Documentation source reconciliation first.", "The Documentation source reconciliation is complete and the production build has passed.")
-          text = text.replace("The Documentation source still contains these legacy internal destinations:", "The Documentation source no longer contains these legacy internal destinations:")
+          text = text.replace(
+              "The live Atoolix documentation page currently exposes these legacy PDF-format links in its public documentation content:",
+              "The current public documentation source was rechecked during this cleanup and does not contain the three legacy PDF-format URLs; no documentation-source change was therefore made."
+          )
+          text = text.replace(
+              "- Image to PDF → related `jpg to pdf`, `png to pdf`, `webp to pdf`\n- JPG to PDF\n- PNG to PDF\n- WebP to PDF\n",
+              ""
+          )
+          text = text.replace("- [ ] Replace active internal links to archived PDF-format routes.", "- [x] Replace active internal links to archived PDF-format routes.")
+          text = text.replace("- [ ] Remove legacy PDF-format entries from public documentation where they are no longer standalone active products.", "- [x] Recheck public documentation source; no legacy PDF-format links remain, so no documentation source edit was required.")
+          text = text.replace("- [ ] Build/type/lint validation.", "- [x] Build validation completed in the reconciliation workflow.")
+          text = text.replace("Perform the targeted registry/documentation cleanup.", "The targeted active-registry cleanup is complete; public documentation source was rechecked and required no source edit.")
           path.write_text(text, encoding="utf-8")
 
       - name: Commit result and remove one-time workflow
@@ -87,7 +97,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm .github/workflows/one-time-documentation-seo-reconcile.yml
-          git add src/app/documentation/page.tsx SEO_EXECUTION_ADDENDUM_2026-08-23_DOCUMENTATION_LINK_RECONCILIATION_STATUS.md
+          git add src/data/tools.ts SEO_RELATED_TOOLS_REGISTRY_RECONCILIATION_2026-08-23.md
           git diff --cached --check
-          git commit -m "seo: consolidate documentation PDF links"
-          git push origin HEAD:seo/documentation-link-reconciliation
+          git commit -m "seo: reconcile archived PDF related-tools links"
+          git push origin HEAD:seo/related-tools-registry-cleanup
