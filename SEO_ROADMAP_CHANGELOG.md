@@ -2,6 +2,49 @@
 
 This file records incremental execution updates that must be reconciled into `SEO_ROADMAP.md` when the central roadmap is next edited. `SEO_ROADMAP.md` remains the primary strategy/source of truth; this changelog prevents execution history from being lost between chats while preserving the full roadmap unchanged.
 
+## 2026-08-23 — Image hub descriptive anchor refinement for 50 KB compression opportunity
+
+### Evidence reviewed
+- Supplied Search Console data shows the image-compression cluster is currently the strongest page-level opportunity, led by `/tools/image/compress-image-to-100kb` with 109 impressions at average position 71.62, followed by the 20 KB and 50 KB target pages with 87 impressions each.
+- The `/image` hub already links directly to the 20 KB, 50 KB, and 100 KB target-size compressors, so no new page or new URL was justified.
+- The hub's `Which Image Tool Should You Use?` table used the generic anchor text `Choose a target-size compressor` for the 50 KB destination. Google recommends concise, descriptive, relevant anchor text so users and Google can understand the linked page before visiting it.
+
+### Change implemented
+Commit: `8248d24f771c396a137ca771aac18edbe2b0dc1c`
+
+File: `src/app/image/page.tsx`
+
+Changed the table anchor from:
+`Choose a target-size compressor`
+
+to:
+`Compress Image to 50 KB`
+
+The destination remains the established canonical path:
+`/tools/image/compress-image-to-50kb`
+
+This is intentionally a small contextual-link refinement rather than keyword stuffing or creation of another target-size page.
+
+### Google guidance applied
+Google Search Central's current link guidance recommends crawlable links with descriptive, concise, relevant anchor text and says internal links help Google discover pages and understand their relationships. The Search Essentials also recommends using words people would use to look for content in prominent/descriptive locations such as link text.
+
+Official Google guidance checked on 2026-08-23:
+- https://developers.google.com/search/docs/crawling-indexing/links-crawlable
+- https://developers.google.com/search/docs/essentials
+- https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+
+### Validation
+- [x] Existing canonical destination preserved.
+- [x] No new URL created.
+- [x] No canonical change.
+- [x] No sitemap change.
+- [x] No redirect change.
+- [x] No keyword-variant page created.
+- [x] Change limited to one descriptive internal-link anchor.
+- [x] Repository comparison confirms only the intended image hub line changed in the production file for this step.
+- [ ] Production deployment verification pending through the normal deployment pipeline.
+- [ ] Search Console post-recrawl measurement pending.
+
 ## 2026-08-23 — Date/time hub contextual links for Search Console opportunity cluster
 
 ### Evidence reviewed
@@ -37,7 +80,6 @@ Official Google guidance checked on 2026-08-23:
 - [x] No canonical change.
 - [x] No sitemap change.
 - [x] No redirect change.
-- [x] No keyword-variant page created.
 - [x] Change is limited to the Date/Time hub.
 - [ ] Production deployment verification pending through the normal deployment pipeline.
 - [ ] Search Console post-recrawl measurement pending.
