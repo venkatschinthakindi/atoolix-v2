@@ -6,6 +6,7 @@ import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ToolCard } from "@/components/ui/toolCard";
 import { getCachedTools } from "@/data/tools";
+import { getCanonicalToolPath } from "@/utility/getTool";
 import { QuickAccessSection } from "./quickAccessSection";
 import { useFavoriteToolStore } from "@/stores/favoriteToolsStore";
 import { useRecentToolStore } from "@/stores/recentToolsStore";
@@ -81,7 +82,7 @@ useEffect(() => {
         </div>
 
         <div
-          onClick={() => router.push(`/tools/${featured.id}`)}
+          onClick={() => router.push(getCanonicalToolPath(featured))}
           className="surface-card-light group relative cursor-pointer overflow-hidden"
         >
           <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)]" />
