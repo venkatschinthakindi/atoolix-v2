@@ -27,6 +27,10 @@ const FILE_ANALYZER_TITLE =
   "File Analyzer – Privacy & Security Checker | Atoolix";
 const FILE_ANALYZER_DESCRIPTION =
   "Free file analyzer that checks supported files for hidden metadata, GPS data, author information, embedded content, file-type mismatches, and other privacy or security issues. Clean supported privacy data in your browser.";
+const PERSONAL_LOAN_TITLE =
+  "Personal Loan EMI Calculator – EMI, Interest & Prepayment | Atoolix";
+const PERSONAL_LOAN_DESCRIPTION =
+  "Calculate personal loan EMI from loan amount, interest rate, and tenure. Compare total interest and model one-time or recurring prepayments in your browser.";
 
 export async function generateMetadata({
   params,
@@ -72,6 +76,24 @@ export async function generateMetadata({
         ...metadata.twitter,
         title: FILE_ANALYZER_TITLE,
         description: FILE_ANALYZER_DESCRIPTION,
+      },
+    };
+  }
+
+  if (normalizedToolId === "calculator/personal-loan-emi-calculator") {
+    return {
+      ...metadata,
+      title: PERSONAL_LOAN_TITLE,
+      description: PERSONAL_LOAN_DESCRIPTION,
+      openGraph: {
+        ...metadata.openGraph,
+        title: PERSONAL_LOAN_TITLE,
+        description: PERSONAL_LOAN_DESCRIPTION,
+      },
+      twitter: {
+        ...metadata.twitter,
+        title: PERSONAL_LOAN_TITLE,
+        description: PERSONAL_LOAN_DESCRIPTION,
       },
     };
   }
