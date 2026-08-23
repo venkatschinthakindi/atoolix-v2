@@ -52,6 +52,12 @@ const PERSONAL_LOAN_EMI_METADATA = {
     "Calculate personal loan EMI, total interest, and repayment costs from your loan amount, interest rate, and tenure. Compare prepayments and extra payments to see potential interest and time savings.",
 };
 
+const FD_CALCULATOR_METADATA = {
+  title: "FD Calculator – Fixed Deposit Maturity & Interest | Atoolix",
+  description:
+    "Calculate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency. Compare FD scenarios and estimate returns online.",
+};
+
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
   const rawToolId = resolvedParams.toolId;
@@ -81,6 +87,7 @@ export async function generateMetadata(params: any): Promise<Metadata> {
   const isRoiCalculator = normalizedToolId === "calculator/roi-calculator";
   const isPersonalLoanEmiCalculator =
     normalizedToolId === "calculator/personal-loan-emi-calculator";
+  const isFdCalculator = normalizedToolId === "calculator/fd-calculator";
 
   const title = isCalculatorHub
     ? CALCULATOR_TITLE
@@ -93,7 +100,9 @@ export async function generateMetadata(params: any): Promise<Metadata> {
             ? ROI_CALCULATOR_METADATA.title
             : isPersonalLoanEmiCalculator
               ? PERSONAL_LOAN_EMI_METADATA.title
-              : tool.title);
+              : isFdCalculator
+                ? FD_CALCULATOR_METADATA.title
+                : tool.title);
   const description = isCalculatorHub
     ? CALCULATOR_DESCRIPTION
     : targetSizeMetadata?.description ??
@@ -105,7 +114,9 @@ export async function generateMetadata(params: any): Promise<Metadata> {
             ? ROI_CALCULATOR_METADATA.description
             : isPersonalLoanEmiCalculator
               ? PERSONAL_LOAN_EMI_METADATA.description
-              : tool.description);
+              : isFdCalculator
+                ? FD_CALCULATOR_METADATA.description
+                : tool.description);
   const canonical = isCalculatorHub
     ? CALCULATOR_CANONICAL
     : tool.alternates.canonical.replace(/\/$/, "");
