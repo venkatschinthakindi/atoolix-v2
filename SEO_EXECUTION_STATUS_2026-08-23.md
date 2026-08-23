@@ -3,175 +3,137 @@
 ## Source of truth
 - Repository: `venkatschinthakindi/atoolix-v2`
 - SEO execution branch: `main` only.
-- This file records the current execution state so future chats continue from the latest verified point without reopening completed work.
+- Continue from this file and the latest `main`; do not restart the SEO audit or reopen completed work without new evidence.
+- Google Search Central guidance is the governing standard. Top-5 visibility is the strategic target, not a guaranteed outcome.
 
 ## Current Google Search principles
-- People-first useful content is the priority; do not optimize pages by keyword repetition alone.
-- Keep canonical, sitemap, redirects, internal links and indexability signals consistent. Google treats canonical declarations as hints and may choose another canonical. Pages in a duplicate cluster should be meaningfully differentiated.
-- Use descriptive, concise internal-link anchor text and link to the preferred canonical URL.
-- Structured data must accurately describe visible/relevant content. Do not add duplicate or fabricated markup merely to chase a rich result.
-- Do not fabricate ratings/reviews. Do not create doorway/keyword-variant pages, artificial backlinks or other manipulative signals.
-- Visible FAQs may remain useful, but FAQPage rich-result markup is no longer a current Google Search feature.
-- HowTo rich-result markup is no longer a current Google Search feature; visible step-by-step guidance can remain useful to users.
-- Validate the live deployment with URL Inspection/Rich Results Test and allow Google time to recrawl before judging results.
-- Top-5 ranking is the strategic goal, not a guaranteed outcome.
+- Prioritize useful, people-first, non-commodity content and accurate search-intent alignment.
+- Keep canonical, sitemap, redirects, internal links and indexability signals consistent. Google treats canonical declarations as hints and may choose another canonical.
+- Closely related pages must have meaningful differences; do not create doorway/keyword-variant pages.
+- Use descriptive internal-link anchor text and point links at the preferred canonical URL.
+- Structured data must accurately represent relevant visible content. Do not fabricate reviews/ratings or add duplicate markup merely to chase rich results.
+- Visible FAQs/how-to guidance can remain useful, but deprecated/unsupported rich-result markup must not be added.
+- Validate live production with URL Inspection/Rich Results Test and allow Google time to recrawl before judging results.
 
 ## Search Console baseline
-- Baseline export: 2026-07-15 to 2026-08-23.
+- Recorded export: 2026-07-15 to 2026-08-23.
 - 765 impressions / 2 clicks; 665 impressions (87%) arrived in the final 14 days.
-- Strong page-level opportunities included 100 KB, 20 KB and 50 KB image compressors, Time Zone Converter and Meeting Time Finder.
-- Most visibility was still in positions 50–100, so technical integrity, usefulness, intent alignment, internal architecture and authority remain priorities.
+- Strong recorded opportunities: 100 KB, 20 KB and 50 KB image compressors, Time Zone Converter and Meeting Time Finder.
+- Most visibility remained in positions 50–100, so technical integrity, usefulness, intent alignment, internal architecture and legitimate authority remain priorities.
 
-## Completed workstream
-- Sitemap/indexability reconciliation for archived tools completed.
-- Archived `noindex` tools removed from XML sitemap.
-- Canonical → sitemap → internal-navigation architecture reconciled across the validated workstream.
-- 20 KB / 50 KB / 100 KB target-size image pages verified as dedicated intent pages.
-- Date/Time hub contextual links added; Meeting Time Finder and Time Zone Converter BreadcrumbList hub references corrected to `/datetime`.
-- QR Code Generator, Passport Photo Resizer and File Analyzer audited and preserved after evidence-based review.
-- EMI, Home Loan EMI and Personal Loan EMI structured-data gaps fixed with free `WebApplication` markup and `offers.price: 0` where justified.
-- FD Calculator structured-data gap fixed; its small worked-example number discrepancy remains explicitly recorded as a separate follow-up.
-- SIP Calculator metadata + `WebApplication` structured data completed.
-- CAGR Calculator audited and preserved; existing application structured data verified; no speculative changes.
-- XIRR Calculator audited and preserved; calculation engine reviewed for dated cash flows, positive/negative flow validation, XNPV solving, root verification and bisection fallback; no speculative changes.
+## Completed foundation
+- Archived `noindex` tools are excluded from the XML sitemap.
+- Canonical → sitemap → internal-navigation reconciliation completed across the validated workstream.
+- Date/Time hub links and BreadcrumbList references corrected to `/datetime` where required.
+- QR Code Generator, Passport Photo Resizer and File Analyzer audited and preserved.
+- EMI, Home Loan EMI and Personal Loan EMI structured-data gaps fixed with free `WebApplication` markup where justified.
+- FD Calculator structured-data gap fixed; its small worked-example discrepancy remains separately recorded.
+- SIP metadata + `WebApplication` structured data completed.
+- CAGR audited/preserved.
+- XIRR audited/preserved, including dated cash-flow validation and solver/fallback review.
+- Lumpsum structured-data gap fixed.
+- Authority/trust foundation audited; no artificial trust signals, fake reviews, fabricated entities or link schemes introduced.
 
-## Lumpsum Calculator — completed 2026-08-23
-Target: `/tools/calculator/lumpsum-calculator`
-
-### Audit findings
-- Dedicated canonical route is established and remains unchanged.
-- Dedicated Lumpsum SEO content is substantial and people-first: definition, features, use cases, usage steps, formula, variables, worked example, calculation methodology, assumptions, growth factors, Lumpsum/SIP/CAGR/XIRR comparison, limitations, related tools, visible FAQ, financial disclaimer and about content.
-- The worked example is mathematically consistent: ₹1,00,000 × (1 + 0.10)^10 ≈ ₹2,59,374, with estimated gain ≈ ₹1,59,374.
-- BreadcrumbList is present and points to the exact canonical Lumpsum URL.
-- A concrete structured-data gap was found: Lumpsum emitted BreadcrumbList but lacked the route-scoped `WebApplication` / `FinanceApplication` markup used by the completed finance-calculator workstream.
-
-### Change implemented
-File: `src/app/tools/[...toolId]/ToolSeoContent.tsx`
-
-Added route-scoped JSON-LD for the Lumpsum Calculator:
-- `@type`: `WebApplication`
-- `name`: `Lumpsum Calculator`
-- canonical URL: `https://atoolix.com/tools/calculator/lumpsum-calculator`
-- `applicationCategory`: `FinanceApplication`
-- `operatingSystem`: `Any`
-- accurate one-time-investment description
-- `offers.price`: `0`
-
-Commit: **`ade320242f82af8e7587eb68e9aa98b765f2a9ab`**
-
-No URL, canonical, sitemap, redirect, content or calculation changes were made because none were justified.
-
-### Validation state
-- [x] Canonical preserved.
-- [x] Existing BreadcrumbList preserved.
-- [x] Genuine page differentiation preserved.
-- [x] Structured data is route-scoped and represents a free application accurately.
-- [x] No FAQPage/HowTo markup added.
-- [ ] Production deployment/live HTML validation pending.
-- [ ] Google URL Inspection/Rich Results validation pending.
-- [ ] Search Console post-recrawl measurement pending.
-
-## Investment cluster status
+## Investment cluster
 1. SIP — complete
 2. CAGR — complete/preserved
 3. XIRR — complete/preserved
 4. Lumpsum — complete; structured-data fix committed
 
-Do not reopen these calculator audits unless new evidence identifies a real defect.
-
-## Authority & Trust — foundation audit completed 2026-08-23
-- Latest `main` About page inspected. It already provides a dedicated `/about` identity surface, identifies Venkatesh as Founder & Operator, identifies Thrinetra Tech as the operating entity, provides support contact information, links to the site's categories/tools, and emits AboutPage, Organization and Person relationships.
-- Latest `main` Contact page inspected. It provides a dedicated `/contact` page, support/feedback/partnership contact paths, Organization/WebSite/ContactPage structured data, privacy/file-safety guidance, and links to About, Privacy, Terms and Disclaimer.
-- Latest `main` global footer inspected. It provides persistent operator information, location, support email, About/Contact/legal links, tool-category navigation, popular tools, financial/privacy disclaimers and a Recognition & Reviews navigation path.
-- These are already meaningful first-party trust/identity signals. No generic trust-badge, author-page, rating, testimonial or schema addition was justified merely for SEO.
-- A broad web search did not establish a sufficiently unambiguous current official result for the exact external operator/domain relationship used by the repository. The existing external link was therefore not changed and no `sameAs` or third-party entity claims were invented.
-- No artificial backlink campaign, paid/link-scheme recommendation, fake review, doorway page, keyword-only page, or low-value authority content was introduced.
-- Full audit record: `SEO_AUTHORITY_TRUST_AUDIT_2026-08-23.md`.
-- Authority/trust **foundation audit is complete**; legitimate earned mentions/links and useful non-commodity resources remain ongoing growth activities rather than speculative code changes.
-- Commit: **`e2daa385caea975f70eca355c3f55babd4966360`**.
+Do not reopen these unless new evidence identifies a real defect.
 
 ## Search Console opportunity audits
+### 100 KB Image Compressor
+- Audited/preserved. Dedicated intent, canonical, metadata, useful content and Image-hub navigation are already aligned.
+- No speculative rewrite.
+- Commit: `14358e89dcc2ca115cd7a1a9d01ca754ea88e432`.
 
-### 100 KB Image Compressor — audited/preserved
-Target: `/tools/image/compress-image-to-100kb`
-- Dedicated 100 KB intent, canonical, metadata, visible content, format guidance, target-size/resize functionality and Image-hub contextual navigation were reviewed.
-- The page already has meaningful intent differentiation and useful supporting content; no title/content rewrite was justified without new query-level evidence.
-- Decision: preserve; no speculative source-code change.
-- Audit recorded in `SEO_GSC_OPPORTUNITY_AUDIT_2026-08-23.md`.
-- Commit: **`14358e89dcc2ca115cd7a1a9d01ca754ea88e432`**.
+### Time Zone Converter
+- Audited/preserved. Canonical `/tools/datetime/timezone-converter`, `/datetime` breadcrumb hub, dedicated metadata and substantial time-zone/DST content verified.
+- No concrete canonical, indexability or differentiation defect justified a source change.
+- Commit: `9d576f77c9ce604be3a7fe086ddfab179d01f967`.
 
-### Time Zone Converter — audited/preserved
-Target: `/tools/datetime/timezone-converter`
-- Latest `main` implementation reviewed for canonical, breadcrumb, metadata, search intent, content usefulness, differentiation from Meeting Time Finder, internal-link architecture and structured-data architecture.
-- Canonical is `/tools/datetime/timezone-converter`; BreadcrumbList correctly uses `/datetime` as the Date & Time hub and the exact canonical tool URL.
-- Route-specific metadata is already present: `Time Zone Converter – Convert Time Between Time Zones | Atoolix`, with a description covering date, city/country, multiple locations, UTC offsets, day differences and daylight saving changes.
-- The page has substantial intent-specific content covering multi-zone conversion, city/country search, date-aware offsets, DST, day differences, copying/sharing, international calls, remote work, travel, events and deadlines. This is materially different from Meeting Time Finder, which serves the separate meeting-scheduling intent.
-- Repository search did not establish a route-scoped `WebApplication` schema for this page. No schema was added because doing so without validating the shared rendered-schema architecture and live HTML would be speculative; existing BreadcrumbList was preserved.
-- No canonical, sitemap, route, breadcrumb, indexability or content-differentiation defect justified a source-code change.
-- Decision: **audit complete; preserve current implementation.**
-- Full audit record: `SEO_TIMEZONE_CONVERTER_AUDIT_2026-08-23.md`.
-- Audit commit: **`9d576f77c9ce604be3a7fe086ddfab179d01f967`**.
-- Production deployment/live validation and Search Console post-recrawl measurement remain pending.
+### Meeting Time Finder
+- Audited/preserved. Canonical `/tools/datetime/meeting-time-finder`, corrected breadcrumb hierarchy, substantial meeting-slot content and clear differentiation from Time Zone Converter verified.
+- Earlier breadcrumb correction remains preserved.
+- Commit: `a10a392f1b6191e981f090d3166bac5aee029138`.
 
-### Meeting Time Finder — audited/preserved
-Target: `/tools/datetime/meeting-time-finder`
-- Latest `main` implementation reviewed for canonical, breadcrumb, metadata, search intent, content usefulness, differentiation from Time Zone Converter, internal-link architecture and structured-data architecture.
-- Canonical is `/tools/datetime/meeting-time-finder`; BreadcrumbList correctly uses `/tools` → `/datetime` → the exact Meeting Time Finder canonical URL. The earlier `/tools/datetime` hub defect was already corrected and is not reopened.
-- The page has substantial people-first content covering participant locations, working hours, meeting duration, overlapping availability, next available slots, DST/date-aware offsets, templates, examples, use cases, CSV/ICS exports and setup sharing.
-- Content is materially differentiated from Time Zone Converter: Time Zone Converter serves time conversion/comparison, while Meeting Time Finder serves schedule intersection and meeting-slot discovery.
-- Visible how-to steps remain useful, but no `HowTo` structured-data markup is added because the HowTo rich result is no longer supported in Google Search.
-- Visible FAQs remain useful, but no `FAQPage` structured-data markup is added because FAQ rich results are not a current general Google Search feature.
-- Existing BreadcrumbList is preserved. No additional application schema was added because the current evidence did not establish a concrete need and duplicate/speculative markup would not improve the page by itself.
-- No title, description, canonical, route, content architecture or internal-link change was justified in this execution.
-- Decision: **audit complete; preserve current implementation.**
-- Full audit record: `SEO_MEETING_TIME_FINDER_AUDIT_2026-08-23.md`.
-- Audit commit: **`a10a392f1b6191e981f090d3166bac5aee029138`**.
-- Production deployment/live validation and Search Console post-recrawl measurement remain pending.
+### 20 KB Image Compressor
+- Audited/preserved. Dedicated 20 KB intent, canonical, substantial target-size content and meaningful differentiation from 50 KB/100 KB pages verified.
+- Commit: `902ec515c951a731b76e53d6bdafb760805b38ea`.
 
-### 20 KB Image Compressor — audited/preserved
-Target: `/tools/image/compress-image-to-20kb`
-- Latest `main` implementation inspected after the previously recorded Search Console baseline identified 20 KB as a high-impression opportunity.
-- The page has a dedicated 20 KB canonical and search intent rather than being a generic image compressor.
-- Visible content covers JPG/JPEG/PNG/WebP, exact-vs-maximum 20 KB targeting, compression versus resizing, aspect-ratio preservation, quality control, format choice, strict upload limits, passport/ID photos, signatures, government forms, education forms, job applications, registration portals and other practical use cases.
-- The page provides a six-step workflow and extensive FAQ content that answers common 20 KB-specific questions. This is useful people-first content rather than a keyword-only variant.
-- The 20 KB page is materially differentiated from the 50 KB and 100 KB pages through its target size, maximum-size guidance and associated strict-upload use cases.
-- The source defines FAQPage and HowTo JSON-LD objects, but the project-wide `JsonLd` policy records that unsupported/deprecated FAQPage and HowTo rich-result markup is suppressed. No new schema was added and no attempt was made to create a rich-result signal unsupported by current Google Search.
-- BreadcrumbList and WebPage JSON-LD are present in the page implementation.
-- No canonical, sitemap, route, indexability, internal-link or content-differentiation defect justified a source-code change.
-- Decision: **audit complete; preserve current implementation.**
-- Full audit record: `SEO_20KB_IMAGE_COMPRESSOR_AUDIT_2026-08-23.md`.
-- Audit record commit: **`902ec515c951a731b76e53d6bdafb760805b38ea`**.
-- Production deployment/live validation and Search Console post-recrawl measurement remain pending.
+### 50 KB Image Compressor
+- Audited/preserved. Dedicated 50 KB intent, canonical, compression/resizing guidance and meaningful cluster differentiation verified.
+- Commit: `2c48c2fcd4290319d82b769430e65c0214db0355`.
+
+### Legacy ROI Search Console opportunity
+- Investigated and closed. Do not recreate an ROI keyword-variant page without new evidence of a distinct user intent.
+- Preserve the existing migration behavior and active SIP destination.
+- Commit: `a32cfa7af00e3eb22e8ebcfb67601f0a93cba6d4`.
+
+## New site-wide canonical/indexability audit — 2026-08-23
+### Concrete defect found
+`src/app/sitemap.ts` intentionally excludes archived tools with `!tool.comingSoon && !tool.archived`, but `src/utility/metadata.ts` previously calculated robots indexability as only `!tool.comingSoon`.
+
+That allowed an archived tool with `comingSoon: false` to remain `index` eligible while being excluded from the XML sitemap. This contradicted the repository's stated archived-tool policy.
+
+### Fix implemented
+`src/utility/metadata.ts` now uses:
+
+`const isIndexable = !tool.comingSoon && !tool.archived;`
+
+The source comment explicitly explains that archived tools are excluded from both sitemap submission and indexability.
+
+### Why this is SEO-correct
+Google's current canonicalization guidance says canonicalization is a collection of signals including sitemap presence, redirects and `rel="canonical"`, and Google may select a different canonical. Google's current troubleshooting guidance recommends fixing technical canonicalization issues and ensuring clustered pages are sufficiently differentiated. A contradictory `index` state for archived pages is therefore a concrete technical consistency defect, not a speculative ranking tweak.
+
+Google's current documentation also clarifies `noindex` behavior and JavaScript processing; indexability controls should be explicit in the original HTML/meta path when pages should not be indexed.
+
+### Commits
+- Code fix: `ff5824301dae38a09376e8ba595545eb7753320e`
+- Audit record: `393aef3fbfd0b2ba7712e83e85523bdd8bb12b51`
+- Audit file: `SEO_SITEWIDE_CANONICAL_INDEXABILITY_AUDIT_2026-08-23.md`
+
+### Validation state
+- [x] Latest `main` inspected before change.
+- [x] Sitemap archived-tool exclusion verified.
+- [x] Metadata/indexability mismatch identified.
+- [x] Fix committed to `main`.
+- [x] MD audit synchronized.
+- [ ] Production deployment/live HTML validation pending.
+- [ ] Production sitemap/robots validation pending.
+- [ ] Google URL Inspection/indexation validation pending.
+- [ ] Search Console post-recrawl measurement pending.
 
 ## Overall implementation status
-Approximate implementation progress: **79–84% complete**. This is an implementation estimate, not a ranking prediction.
+Approximate implementation progress: **80–85% complete**. This is implementation progress, not a ranking prediction.
 
-- Technical SEO foundation: ~85–90%
-- Route/canonical/sitemap reconciliation: ~85–90%
-- Metadata optimization: ~82–86%
-- Internal linking: ~70–75%
-- Search Console opportunity/content optimization: ~84%
-- Authority/trust foundation: substantially improved; earned external authority still pending
-- Final production validation and post-deployment Search Console measurement: pending
+- Technical SEO foundation: ~88–92%
+- Route/canonical/sitemap reconciliation: ~90%
+- Metadata optimization: ~84–88%
+- Internal linking: ~72–77%
+- Search Console opportunity/content optimization: ~85%
+- Authority/trust foundation: substantially improved; legitimate earned external authority remains pending
+- Production validation and Search Console measurement: pending
 
 ## Next planned work — do not deviate
-**Broader Search Console query/page optimization workstream** continues.
+Continue the **broader Search Console + site-wide technical reconciliation** from the latest `main`.
 
-The baseline high-impression opportunities 100 KB, Time Zone Converter, Meeting Time Finder and 20 KB are now audited and preserved. The next execution should use the next strongest available Search Console/query evidence or a concrete site-wide SEO defect; do not reopen these pages without new evidence.
-
-The next execution must:
+Priority rules:
 1. Start from the latest `main`.
-2. Preserve all completed calculator/page and authority-foundation work unless new evidence proves a defect.
-3. Use fresh Search Console/query evidence where available, prioritizing pages with impressions but low CTR or positions where realistic improvement is possible.
-4. Inspect the exact page/query intent before changing titles, descriptions, headings, content or internal links.
-5. Prefer improvements that make the result more useful and more accurately aligned with the query, not keyword stuffing.
-6. Keep canonical, sitemap and internal-link signals consistent with the established preferred URL.
-7. Do not create keyword-variant/doorway pages or artificial backlinks.
-8. Update the MD status in the same execution and record the exact commit.
-9. Finish with live production validation and Search Console measurement after Google has had time to recrawl.
+2. Preserve completed calculator/page/authority work unless new evidence identifies a real defect.
+3. Use fresh Search Console/query evidence where available.
+4. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
+5. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
+6. Keep canonical, sitemap, redirects and internal-link signals consistent.
+7. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
+8. Validate build/type/lint where available.
+9. Update this central MD and any dedicated audit MD in the same execution.
+10. Record exact commits.
+11. Validate production and Search Console after Google has had time to recrawl.
 
 ## Historical execution commits
-- Meeting Time Finder Breadcrumb correction: `7082ca169f40a2143b1aa9ae30f9d90df8d6aee9`
+- Meeting Time Finder breadcrumb correction: `7082ca169f40a2143b1aa9ae30f9d90df8d6aee9`
 - EMI structured-data fix: `4164509bb5347fe431d0456e257c8c748025f678`
 - Home Loan EMI structured-data fix: `38e8af751b1efe2e94132158fa83734b448eb490`
 - Personal Loan structured-data fix: `c0fa08c3f496881e1e8746227c638d907ac4eaad`
@@ -180,11 +142,15 @@ The next execution must:
 - CAGR status synchronization: `7e25375031db01783f292500bad9e5bab34e63e7`
 - XIRR status synchronization: `a415d9349e52302c3edd9ee1ebf18ce713e64bce`
 - Lumpsum structured-data fix: `ade320242f82af8e7587eb68e9aa98b765f2a9ab`
-- Authority/trust audit record: `e2daa385caea975f70eca355c3f55babd4966360`
-- 100 KB Search Console audit record: `14358e89dcc2ca115cd7a1a9d01ca754ea88e432`
-- Time Zone Converter audit record: `9d576f77c9ce604be3a7fe086ddfab179d01f967`
-- Meeting Time Finder audit record: `a10a392f1b6191e981f090d3166bac5aee029138`
-- 20 KB Image Compressor audit record: `902ec515c951a731b76e53d6bdafb760805b38ea`
+- Authority/trust audit: `e2daa385caea975f70eca355c3f55babd4966360`
+- 100 KB audit: `14358e89dcc2ca115cd7a1a9d01ca754ea88e432`
+- Time Zone Converter audit: `9d576f77c9ce604be3a7fe086ddfab179d01f967`
+- Meeting Time Finder audit: `a10a392f1b6191e981f090d3166bac5aee029138`
+- 20 KB audit: `902ec515c951a731b76e53d6bdafb760805b38ea`
+- 50 KB audit: `2c48c2fcd4290319d82b769430e65c0214db0355`
+- Legacy ROI audit: `a32cfa7af00e3eb22e8ebcfb67601f0a93cba6d4`
+- Archived indexability code fix: `ff5824301dae38a09376e8ba595545eb7753320e`
+- Site-wide indexability audit record: `393aef3fbfd0b2ba7712e83e85523bdd8bb12b51`
 
 ## Rule for future chats
-Continue from the latest `main` and this status file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
+Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
