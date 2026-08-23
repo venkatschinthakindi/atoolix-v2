@@ -40,6 +40,12 @@ const TIMEZONE_CONVERTER_TITLE =
 const TIMEZONE_CONVERTER_DESCRIPTION =
   "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
 
+const ROI_CALCULATOR_METADATA = {
+  title: "ROI Calculator – Calculate Return on Investment Online | Atoolix",
+  description:
+    "Calculate return on investment (ROI) online from your initial investment, final value, profit, and return percentage. Compare investment outcomes quickly with a free calculator.",
+};
+
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
   const rawToolId = resolvedParams.toolId;
@@ -66,6 +72,7 @@ export async function generateMetadata(params: any): Promise<Metadata> {
   const targetSizeMetadata = IMAGE_TARGET_SIZE_METADATA[normalizedToolId];
   const isPassportPhotoResizer = normalizedToolId === "image/passport-photo-resizer";
   const isTimezoneConverter = normalizedToolId === "datetime/timezone-converter";
+  const isRoiCalculator = normalizedToolId === "calculator/roi-calculator";
 
   const title = isCalculatorHub
     ? CALCULATOR_TITLE
@@ -74,7 +81,9 @@ export async function generateMetadata(params: any): Promise<Metadata> {
         ? PASSPORT_PHOTO_METADATA.title
         : isTimezoneConverter
           ? TIMEZONE_CONVERTER_TITLE
-          : tool.title);
+          : isRoiCalculator
+            ? ROI_CALCULATOR_METADATA.title
+            : tool.title);
   const description = isCalculatorHub
     ? CALCULATOR_DESCRIPTION
     : targetSizeMetadata?.description ??
@@ -82,7 +91,9 @@ export async function generateMetadata(params: any): Promise<Metadata> {
         ? PASSPORT_PHOTO_METADATA.description
         : isTimezoneConverter
           ? TIMEZONE_CONVERTER_DESCRIPTION
-          : tool.description);
+          : isRoiCalculator
+            ? ROI_CALCULATOR_METADATA.description
+            : tool.description);
   const canonical = isCalculatorHub
     ? CALCULATOR_CANONICAL
     : tool.alternates.canonical.replace(/\/$/, "");
