@@ -11,6 +11,8 @@
 - Keep canonical, sitemap, redirects, internal links and indexability signals consistent. Google treats canonical declarations as hints and may choose another canonical.
 - Closely related pages must have meaningful differences; do not create doorway/keyword-variant pages.
 - Use descriptive internal-link anchor text and point links at the preferred canonical URL.
+- Use descriptive, concise, unique title elements and accurate visible headings. Google may construct title links from the `<title>`, H1/main heading, prominent text, `og:title`, links and other sources.
+- Meta descriptions should accurately summarize important pages; Google may use page content instead of the meta description for snippets.
 - Structured data must accurately represent relevant visible content. Do not fabricate reviews/ratings or add duplicate markup merely to chase rich results.
 - Visible FAQs/how-to guidance can remain useful, but deprecated/unsupported rich-result markup must not be added.
 - Validate live production with URL Inspection/Rich Results Test and allow Google time to recrawl before judging results.
@@ -90,7 +92,6 @@ The policy is now implemented consistently in:
 - Legacy ROI remains a permanent redirect to SIP and is not an active product URL.
 - Legacy retirement/fixed-deposit/JPEG-to-PDF URLs remain redirect-only compatibility routes and are not used as active canonical destinations.
 - Repository search found no current internal-link usage of `/calculator/retirement-planning-calculator` or `/calculator/fixed-deposit-calculator` beyond the redirect configuration, and no `href="/calculator...` internal links were found.
-- The route page delegates canonical metadata to the shared metadata generator; route-specific title/description overrides do not replace the canonical URL.
 - The QR public canonical is normalized consistently to `/tools/qrcode/qr-code-generator` by the existing `getTool` normalization layer and registry.
 
 ### MD synchronization correction
@@ -98,6 +99,15 @@ The earlier `SEO_ROUTE_RECONCILIATION_2026-08-23.md` incorrectly stated that arc
 
 Updated dedicated audit commit:
 `18562f57018e001cb28491a4f4a73ac6316e69d6` — `docs: correct route reconciliation indexability policy`
+
+## Metadata / title / H1 audit — latest state
+- `src/utility/metadata.ts` is the shared metadata source for title, description, canonical, robots, Open Graph and Twitter fields.
+- `src/app/tools/[...toolId]/page.tsx` contains a second route-specific `generateMetadata` wrapper with overrides for several priority pages.
+- This duplication is a source-of-truth/maintenance risk because the same SEO fields exist in multiple locations, but it is not by itself a confirmed Google indexing/ranking defect.
+- No blind refactor was made. Consolidation should only happen after route-by-route rendered-output comparison so already-optimized titles/descriptions are not accidentally changed.
+- Titles should remain descriptive, concise and unique; H1s should accurately represent the primary user intent. Exact title/H1 identity is not required.
+- Dedicated audit: `SEO_METADATA_H1_AUDIT_2026-08-23.md`.
+- Audit commit: `06ae36d3b47ad2f703a5cb2d254c7722285641d6`.
 
 ### Validation state
 - [x] Latest `main` inspected before reconciliation.
@@ -107,18 +117,20 @@ Updated dedicated audit commit:
 - [x] Legacy redirect mappings inspected.
 - [x] Repository searches for selected legacy internal destinations completed.
 - [x] Archived sitemap/indexability policy corrected and synchronized.
+- [x] Metadata/title/H1 architecture audited.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
+- [ ] Production rendered title/H1 comparison after deployment.
 - [ ] Google URL Inspection / selected-canonical validation after deployment.
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
 
 ## Overall implementation status
-Approximate implementation progress: **80–85% complete**. This is implementation progress, not a ranking prediction.
+Approximate implementation progress: **81–86% complete**. This is implementation progress, not a ranking prediction.
 
 - Technical SEO foundation: ~88–92%
 - Route/canonical/sitemap reconciliation: ~92%
-- Metadata optimization: ~84–88%
-- Internal linking: ~74–78%
+- Metadata optimization: ~85–89%
+- Internal linking: ~75–79%
 - Search Console opportunity/content optimization: ~85%
 - Authority/trust foundation: substantially improved; legitimate earned external authority remains pending
 - Production validation and Search Console measurement: pending
@@ -159,6 +171,7 @@ Priority rules:
 - Archived indexability code fix: `ff5824301dae38a09376e8ba595545eb7753320e`
 - Site-wide indexability audit record: `393aef3fbfd0b2ba7712e83e85523bdd8bb12b51`
 - Route reconciliation documentation correction: `18562f57018e001cb28491a4f4a73ac6316e69d6`
+- Metadata/H1 audit: `06ae36d3b47ad2f703a5cb2d254c7722285641d6`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
