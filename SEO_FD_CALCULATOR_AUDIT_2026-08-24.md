@@ -74,10 +74,10 @@ Source correction commit: `c69f2f52df67504fb26343d3182e0241c872ad3b`
 
 ### Production validation evidence
 
-- Public search rendering confirms that Atoolix currently exposes an FD Calculator in its finance-tool architecture and on the tools/home surfaces. citeturn4search0turn4search1turn4search3
+- Public search rendering confirms that Atoolix currently exposes an FD Calculator in its finance-tool architecture and on the tools/home surfaces.
 - The exact `/tools/calculator/fd-calculator` page was not returned as a directly retrievable search result in this validation pass.
 - Direct raw HTTP access to arbitrary Atoolix production routes is unavailable through the current web execution path, so the following exact production assertions remain **unverified**: HTTP status, `robots`/X-Robots-Tag, rendered canonical, rendered title/meta description, rendered H1, structured data, visible corrected worked-example values, rendered internal links, and direct sitemap membership.
-- The public documentation does describe the FD Calculator and its purpose, but this is not equivalent to validating the target page's rendered HTML. citeturn4search0
+- The public documentation does describe the FD Calculator and its purpose, but this is not equivalent to validating the target page's rendered HTML.
 
 ### Gate decision
 
