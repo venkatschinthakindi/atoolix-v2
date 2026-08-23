@@ -32,6 +32,10 @@ const PERSONAL_LOAN_TITLE =
   "Personal Loan EMI Calculator – EMI, Interest & Prepayment | Atoolix";
 const PERSONAL_LOAN_DESCRIPTION =
   "Calculate personal loan EMI from loan amount, interest rate, and tenure. Compare total interest and model one-time or recurring prepayments in your browser.";
+const SIP_TITLE =
+  "SIP Calculator – Calculate SIP Returns & Maturity Value | Atoolix";
+const SIP_DESCRIPTION =
+  "Calculate estimated SIP returns, invested amount, and maturity value from your monthly investment, investment period, and expected annual return. Free online SIP calculator.";
 const QR_GENERATOR_TITLE =
   "QR Code Generator & Scanner – Create, Scan & Download | Atoolix";
 const QR_GENERATOR_DESCRIPTION =
@@ -107,6 +111,24 @@ export async function generateMetadata({
     };
   }
 
+  if (normalizedToolId === "calculator/sip-calculator") {
+    return {
+      ...metadata,
+      title: SIP_TITLE,
+      description: SIP_DESCRIPTION,
+      openGraph: {
+        ...metadata.openGraph,
+        title: SIP_TITLE,
+        description: SIP_DESCRIPTION,
+      },
+      twitter: {
+        ...metadata.twitter,
+        title: SIP_TITLE,
+        description: SIP_DESCRIPTION,
+      },
+    };
+  }
+
   if (normalizedToolId === "qrcode/qr-code-generator") {
     return {
       ...metadata,
@@ -161,6 +183,7 @@ export default async function ToolPage({ params }: any) {
   const isFileAnalyzer = normalizedToolId === "privacysecurity/file-analyzer";
   const isPersonalLoan = normalizedToolId === "calculator/personal-loan-emi-calculator";
   const isFdCalculator = normalizedToolId === "calculator/fd-calculator";
+  const isSipCalculator = normalizedToolId === "calculator/sip-calculator";
   const loanTypeByRoute: Record<string, keyof typeof LOAN_PAGE_COPY> = {
     "calculator/home-loan-emi-calculator": "home",
     "calculator/car-loan-emi-calculator": "car",
@@ -212,6 +235,22 @@ export default async function ToolPage({ params }: any) {
       }
     : null;
 
+  const sipCalculatorAppSchema = isSipCalculator
+    ? {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: "SIP Calculator",
+        url: `${serverConfig.siteUrl.replace(/\/$/, "")}/tools/calculator/sip-calculator`,
+        applicationCategory: "FinanceApplication",
+        operatingSystem: "Any",
+        description: SIP_DESCRIPTION,
+        offers: {
+          "@type": "Offer",
+          price: 0,
+        },
+      }
+    : null;
+
   return (
     <>
       <div className="app-shell">
@@ -238,6 +277,7 @@ export default async function ToolPage({ params }: any) {
           </p>
           {personalLoanAppSchema && <JsonLd data={personalLoanAppSchema} />}
           {fdCalculatorAppSchema && <JsonLd data={fdCalculatorAppSchema} />}
+          {sipCalculatorAppSchema && <JsonLd data={sipCalculatorAppSchema} />}
           <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
           <ToolSeoContent toolId={toolId} />
           <Footer />
