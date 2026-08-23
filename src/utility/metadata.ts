@@ -8,56 +8,11 @@ const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Eq
 const CALCULATOR_DESCRIPTION =
   "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
 
-const IMAGE_TARGET_SIZE_METADATA: Record<
-  string,
-  { title: string; description: string }
-> = {
-  "image/compress-image-to-100kb": {
-    title: "Compress Image to 100 KB Online Free | JPG, PNG & WebP | Atoolix",
-    description:
-      "Compress an image to a 100 KB target online. Choose JPG, PNG, or WebP, adjust dimensions or quality when needed, preview the result, and download it in your browser.",
-  },
-  "image/compress-image-to-50kb": {
-    title: "Compress Image to 50 KB Online Free | JPG, PNG & WebP | Atoolix",
-    description:
-      "Compress an image to a 50 KB target online. Choose JPG, PNG, or WebP, adjust dimensions or quality when needed, preview the result, and download it in your browser.",
-  },
-  "image/compress-image-to-20kb": {
-    title: "Compress Image to 20 KB Online Free | JPG, PNG & WebP | Atoolix",
-    description:
-      "Compress an image to a 20 KB target online. Choose JPG, PNG, or WebP, adjust dimensions or quality when needed, preview the result, and download it in your browser.",
-  },
-};
-
-const PASSPORT_PHOTO_METADATA = {
-  title: "Passport Photo Resizer Online – Resize & Compress Photos | Atoolix",
-  description:
-    "Resize passport, visa, ID, and application photos online. Set custom dimensions, reduce file size, adjust quality, preview the result, and download the image in your browser.",
-};
-
-const TIMEZONE_CONVERTER_TITLE =
-  "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
-const TIMEZONE_CONVERTER_DESCRIPTION =
-  "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
-
-const ROI_CALCULATOR_METADATA = {
-  title: "ROI Calculator – Calculate Return on Investment Online | Atoolix",
-  description:
-    "Calculate return on investment (ROI) online from your initial investment, final value, profit, and return percentage. Compare investment outcomes quickly with a free calculator.",
-};
-
-const PERSONAL_LOAN_EMI_METADATA = {
-  title: "Personal Loan EMI Calculator – EMI & Interest Calculator | Atoolix",
-  description:
-    "Calculate personal loan EMI, total interest, and repayment costs from your loan amount, interest rate, and tenure. Compare prepayments and extra payments to see potential interest and time savings.",
-};
-
-const FD_CALCULATOR_METADATA = {
-  title: "FD Calculator – Fixed Deposit Maturity & Interest | Atoolix",
-  description:
-    "Calculate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency. Compare FD scenarios and estimate returns online.",
-};
-
+/**
+ * Tool metadata is owned by the tool registry (`src/data/tools.ts`).
+ * Keep this module focused on Next.js metadata generation and the special
+ * calculator hub route, which is intentionally separate from tool entries.
+ */
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
   const rawToolId = resolvedParams.toolId;
@@ -81,42 +36,8 @@ export async function generateMetadata(params: any): Promise<Metadata> {
   }
 
   const isCalculatorHub = normalizedToolId === "calculator";
-  const targetSizeMetadata = IMAGE_TARGET_SIZE_METADATA[normalizedToolId];
-  const isPassportPhotoResizer = normalizedToolId === "image/passport-photo-resizer";
-  const isTimezoneConverter = normalizedToolId === "datetime/timezone-converter";
-  const isRoiCalculator = normalizedToolId === "calculator/roi-calculator";
-  const isPersonalLoanEmiCalculator =
-    normalizedToolId === "calculator/personal-loan-emi-calculator";
-  const isFdCalculator = normalizedToolId === "calculator/fd-calculator";
-
-  const title = isCalculatorHub
-    ? CALCULATOR_TITLE
-    : targetSizeMetadata?.title ??
-      (isPassportPhotoResizer
-        ? PASSPORT_PHOTO_METADATA.title
-        : isTimezoneConverter
-          ? TIMEZONE_CONVERTER_TITLE
-          : isRoiCalculator
-            ? ROI_CALCULATOR_METADATA.title
-            : isPersonalLoanEmiCalculator
-              ? PERSONAL_LOAN_EMI_METADATA.title
-              : isFdCalculator
-                ? FD_CALCULATOR_METADATA.title
-                : tool.title);
-  const description = isCalculatorHub
-    ? CALCULATOR_DESCRIPTION
-    : targetSizeMetadata?.description ??
-      (isPassportPhotoResizer
-        ? PASSPORT_PHOTO_METADATA.description
-        : isTimezoneConverter
-          ? TIMEZONE_CONVERTER_DESCRIPTION
-          : isRoiCalculator
-            ? ROI_CALCULATOR_METADATA.description
-            : isPersonalLoanEmiCalculator
-              ? PERSONAL_LOAN_EMI_METADATA.description
-              : isFdCalculator
-                ? FD_CALCULATOR_METADATA.description
-                : tool.description);
+  const title = isCalculatorHub ? CALCULATOR_TITLE : tool.title;
+  const description = isCalculatorHub ? CALCULATOR_DESCRIPTION : tool.description;
   const canonical = isCalculatorHub
     ? CALCULATOR_CANONICAL
     : tool.alternates.canonical.replace(/\/$/, "");
