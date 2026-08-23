@@ -221,7 +221,7 @@ export default function FixedDepositCalculatorSeoContent() {
             Suppose you deposit ₹1,00,000 at an annual rate of 7.5% for five years with
             quarterly compounding. Using A = P(1 + r/n)^(nt) with P = 1,00,000, r = 0.075,
             n = 4, and t = 5, the estimated maturity value works out to approximately
-            ₹1,44,997 — around ₹44,997 in interest.
+            ₹1,44,995 — around ₹44,995 in interest.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             <div className="rounded-xl bg-white/5 p-4">
