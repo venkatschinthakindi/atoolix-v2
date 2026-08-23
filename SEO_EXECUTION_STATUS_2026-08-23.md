@@ -143,13 +143,28 @@ Target: `/tools/calculator/cagr-calculator`
 - Decision: **audit complete; preserve current CAGR implementation; no speculative code change.**
 - Production deployment/live HTML validation and Google recrawl remain pending as part of the existing post-deployment validation workstream.
 
+### XIRR Calculator — completed audit
+Target: `/tools/calculator/xirr-calculator`
+- Latest `main` XIRR implementation was inspected before making any decision, including the dedicated XIRR SEO content, investment route architecture, shared calculation engine and related investment pages.
+- The XIRR page is materially differentiated from CAGR, SIP and Lumpsum: it focuses on dated cash flows, irregular investments/withdrawals, SIP transaction dates, mutual funds, stocks, partial redemptions, cash-flow signs and annualized historical/scenario returns.
+- The dedicated SEO content contains substantial people-first education, a six-step usage guide, features, audiences, comparisons with CAGR/IRR/SIP/Lumpsum, India-specific use cases, common mistakes, best practices and limitations. This is genuine intent differentiation rather than a thin keyword variant. fileciteturn28file0L2-L2
+- The public canonical path is explicitly `/tools/calculator/xirr-calculator` in the dedicated SEO implementation. fileciteturn28file0L2-L2
+- The shared investment calculation engine is the single implementation for the investment pages and contains dedicated XIRR validation: it requires both positive and negative cash flows, uses actual UTC calendar dates, solves XNPV numerically, verifies candidate roots and falls back to bisection when necessary. fileciteturn41file0L2-L2 fileciteturn42file0L2-L2
+- The XIRR implementation therefore passed the calculation-method review at the SEO audit level; no calculation code change was justified merely for SEO.
+- Repository search did not identify a route-specific `WebApplication`/`FinanceApplication` implementation for XIRR comparable to the recently completed SIP/CAGR work. However, the available source evidence was not sufficient to prove that the shared page renderer does not already emit equivalent application structured data for this route.
+- Because Google treats structured data as an eligibility mechanism rather than a ranking guarantee, and because adding duplicate application JSON-LD without confirming the shared renderer output could create conflicting markup, **no speculative structured-data change was made** in this execution.
+- The XIRR SEO content includes a visible FAQ section. No `FAQPage` JSON-LD was added because Google removed the FAQ rich-result feature documentation in June 2026; visible FAQs remain useful when they answer user questions.
+- No confirmed canonical, sitemap, indexability, breadcrumb, internal-link, calculation or content-differentiation defect was established strongly enough to justify a source-code change.
+- Decision: **audit complete; preserve current XIRR implementation; no speculative source change.**
+- Production deployment/live HTML validation and Google recrawl remain pending as part of the existing post-deployment validation workstream.
+
 ## Ranking-growth status
-Approximate implementation progress: **73–78% complete**. This is not a ranking prediction.
+Approximate implementation progress: **74–79% complete**. This is not a ranking prediction.
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~82–86%
 - Internal linking: ~70–75%
-- GSC opportunity/content optimization: ~75% after the completed priority audits and investment-cluster work
+- GSC opportunity/content optimization: ~76% after the completed priority audits and investment-cluster work
 - Authority/backlink/trust growth: substantially pending
 - Final production validation and post-deployment Search Console measurement: pending
 
@@ -167,8 +182,8 @@ Approximate implementation progress: **73–78% complete**. This is not a rankin
 11. FD Calculator — structured-data fix committed; example-number follow-up recorded; production validation pending
 12. SIP Calculator — metadata + structured-data fix committed; production validation pending
 13. CAGR Calculator — completed/preserved after audit; no speculative source change
-14. **Next: XIRR Calculator — continue the investment cluster in existing roadmap order**
-15. Lumpsum Calculator
+14. XIRR Calculator — completed/preserved after audit; no speculative source change
+15. **Next: Lumpsum Calculator — continue the investment cluster in existing roadmap order**
 16. Authority/trust growth
 17. Broader Search Console query/page optimization after recrawl
 18. Final site-wide production validation
@@ -197,9 +212,13 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Genuine differentiation for closely related pages.
 - No keyword stuffing, doorway-like page generation, artificial link networks or speculative URL creation.
 - Structured data must accurately represent visible/relevant content and must not be added solely for unsupported rich-result expectations.
-- Prefer current Google Search Central guidance over outdated SEO tactics. Current canonicalization guidance says Google may choose a different canonical and emphasizes consistent canonical signals and sufficiently differentiated clustered pages.
+- Prefer current Google Search Central guidance over outdated SEO tactics. Current canonicalization guidance says Google may choose a different canonical and emphasizes consistent canonical signals and sufficiently differentiated clustered pages. citeturn0search0turn0search1
+- Google’s current canonicalization troubleshooting guidance specifically recommends checking the Google-selected canonical in URL Inspection, resolving technical canonical signals, and making clustered pages sufficiently different. citeturn0search1
+- Google’s current documentation updates also emphasize that canonicalization happens before and after JavaScript rendering, so the canonical should be clear in original HTML whenever possible. citeturn0search2
 - Current Google documentation states that SoftwareApplication markup requires `name` and `offers.price` for rich-result eligibility, with `price: 0` for free applications. A rating/review is also required for that specific SoftwareApplication rich-result feature, so Atoolix must not fabricate ratings where legitimate review data does not exist.
-- Google's June 2026 documentation update removed the FAQ rich-result feature documentation because FAQ rich results are no longer shown in Google Search; visible FAQs remain valuable when they help users.
+- Google’s current review guidance explicitly prohibits fake or undisclosed incentivized reviews and requires marked-up review content to be visible to users. citeturn0search5
+- Google’s June 2026 documentation update removed the FAQ rich-result feature documentation because FAQ rich results are no longer shown in Google Search; visible FAQs remain valuable when they help users. citeturn0search7
+- Google recommends validating structured data with the Rich Results Test and URL Inspection after deployment, then allowing time for crawling and re-indexing. citeturn0search6
 - Top-5 ranking is the strategic target, but no ranking position is guaranteed; every change must be technically sound and genuinely useful.
 
 ## Production status
@@ -208,4 +227,4 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Repository changes do not prove Google has processed them; live HTML, deployment and Search Console recrawl/indexation must be validated separately.
 
 ## Next execution
-**XIRR Calculator** — fetch the latest `main` implementation first, then audit against current Google Search guidance, Search Console evidence, investment-intent differentiation, cash-flow/date calculation accuracy, canonical/indexability, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this MD in the same execution before moving to Lumpsum.
+**Lumpsum Calculator** — fetch the latest `main` implementation first, then audit against current Google Search guidance, Search Console evidence, investment-intent differentiation, calculation accuracy, canonical/indexability, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this MD in the same execution before moving to authority/trust work.
