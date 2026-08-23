@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import ToolCard from "@/components/ui/toolCard";
 import { getCachedTools } from "@/data/tools";
+import { getCanonicalToolPath } from "@/utility/getTool";
 
 export function FilteredTools({ filterKey, filteredTools }: any) {
   const [query, setQuery] = useState("");
@@ -136,7 +137,7 @@ export function FilteredTools({ filterKey, filteredTools }: any) {
                 className={`chip ${activeCategory === c ? "chip-active" : ""}`}
                 onClick={() => setActiveCategory(c)}
               >
-                {c?.replace("_"," ")}
+                {c?.replace("_", " ")}
                 <span className="chip-count">
                   {baseTools.filter((t: any) => (t.category || "Other") === c).length}
                 </span>
@@ -161,7 +162,7 @@ export function FilteredTools({ filterKey, filteredTools }: any) {
         >
           <div className="tools-section-head">
             <h2 id={`section-${subCategory}`} className="tools-section-title">
-              {subCategory?.replace("_"," ")}
+              {subCategory?.replace("_", " ")}
             </h2>
             <span className="tools-section-count">
               {tools.length} tool{tools.length !== 1 ? "s" : ""}
@@ -172,7 +173,7 @@ export function FilteredTools({ filterKey, filteredTools }: any) {
             {tools.map((tool: any) => (
               <Link
                 key={tool.id}
-                href={`/tools/${tool.id}`}
+                href={getCanonicalToolPath(tool)}
                 className="card-surface tool-card-v2"
                 aria-label={tool.title}
                 style={{ ["--accent" as any]: tool.accentColor || "#7c5cff" }}
