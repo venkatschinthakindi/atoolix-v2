@@ -69,6 +69,7 @@ jobs:
           html=$(curl -fsS http://127.0.0.1:3000/tools/image/image-to-pdf)
           echo "$html" | grep -F 'Image to PDF'
           echo "$html" | grep -F 'rel="canonical"'
+          echo "$html" | grep -F 'rel="canonical" href="https://www.atoolix.com/tools/image/image-to-pdf"'
           if echo "$html" | grep -Eq 'jpg-to-pdf|png-to-pdf|webp-to-pdf'; then
             echo 'Legacy PDF converter URLs leaked into consolidated page HTML.'
             exit 1
