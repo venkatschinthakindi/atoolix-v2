@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Check, Pencil, PencilLine, X } from 'lucide-react';
 import { FavoriteTool, RecentTool } from '@/types/favorite/favorite';
 import { IconResolver } from '@/sharedUI/iconResolver';
+import { getCachedTools } from '@/data/tools';
+import { getCanonicalToolPath } from '@/utility/getTool';
 import { useState } from 'react';
 import { useFavoriteToolStore } from '@/stores/favoriteToolsStore';
 
@@ -96,6 +98,8 @@ function QuickAccessGroupView({
         <div className="flex flex-wrap gap-3">
           {items.map((tool) => {
             const editing = editingId === tool.toolId;
+            const registeredTool = getCachedTools().find((entry) => entry.id === tool.toolId);
+            const href = registeredTool ? getCanonicalToolPath(registeredTool) : `/tools/${tool.toolId}`;
 
             return (
               <div
@@ -121,7 +125,7 @@ function QuickAccessGroupView({
                 {!editing ? (
                   <>
                     <Link
-                      href={`/tools/${tool.toolId}`}
+                      href={href}
                       className="flex items-center gap-2"
                     >
                       <IconResolver
