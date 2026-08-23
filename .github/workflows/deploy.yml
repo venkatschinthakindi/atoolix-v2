@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,6 +15,71 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Reconcile legacy documentation PDF links
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          path = Path("src/app/documentation/page.tsx")
+          text = path.read_text(encoding="utf-8")
+
+          pattern = re.compile(
+              r'      \{\n'
+              r'        name: "(?:JPG|PNG|WebP) to PDF",\n'
+              r'        href: "/tools/image/(?:jpg|png|webp)-to-pdf",\n'
+              r'.*?'
+              r'      \},\n',
+              re.DOTALL,
+          )
+          text, removed = pattern.subn("", text)
+          if removed != 3:
+              raise SystemExit(f"Expected to remove 3 legacy documentation entries, removed {removed}")
+
+          old_related = '''        related: [
+          "/tools/image/jpg-to-pdf",
+          "/tools/image/png-to-pdf",
+          "/tools/image/webp-to-pdf",
+        ],'''
+          new_related = '''        related: [
+          "/tools/pdf/merge-pdf",
+          "/tools/pdf/split-pdf",
+          "/tools/pdf/compress-pdf",
+        ],'''
+          if text.count(old_related) != 1:
+              raise SystemExit("Expected exactly one legacy Image to PDF related-links block")
+          text = text.replace(old_related, new_related)
+
+          legacy_urls = (
+              "/tools/image/jpg-to-pdf",
+              "/tools/image/png-to-pdf",
+              "/tools/image/webp-to-pdf",
+          )
+          if any(url in text for url in legacy_urls):
+              raise SystemExit("Legacy documentation PDF URL remains after reconciliation")
+
+          path.write_text(text, encoding="utf-8")
+
+      - name: Commit SEO source reconciliation
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/app/documentation/page.tsx
+          if [ -f .github/workflows/seo-doc-link-reconcile.yml ]; then
+            git rm .github/workflows/seo-doc-link-reconcile.yml
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m "seo: consolidate documentation image-to-pdf links"
+            git push
+          fi
+
+      - name: Verify documentation source
+        run: |
+          ! grep -nE '/tools/image/(jpg|png|webp)-to-pdf' src/app/documentation/page.tsx
+          grep -n 'href: "/tools/image/image-to-pdf"' src/app/documentation/page.tsx
+          grep -n 'name: "Image to PDF"' src/app/documentation/page.tsx
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
