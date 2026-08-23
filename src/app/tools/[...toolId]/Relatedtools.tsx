@@ -80,26 +80,15 @@ const DEFAULT_COPY: CategoryCopy = {
   icon: "🧰",
 };
 
+// Keep the Image-to-PDF cluster focused on active destinations.
+// Legacy format-specific PDF routes are archived/redirect-only and must not
+// be promoted through active internal navigation.
 const IMAGE_TO_PDF_CLUSTER: Record<string, RelatedToolItem[]> = {
   "/tools/image/image-to-pdf": [
-    { name: "JPG to PDF", href: "/tools/image/jpg-to-pdf", canonical: `${SITE_URL}/tools/image/jpg-to-pdf` },
-    { name: "PNG to PDF", href: "/tools/image/png-to-pdf", canonical: `${SITE_URL}/tools/image/png-to-pdf` },
-    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf", canonical: `${SITE_URL}/tools/image/webp-to-pdf` },
-  ],
-  "/tools/image/jpg-to-pdf": [
-    { name: "Image to PDF", href: "/tools/image/image-to-pdf", canonical: `${SITE_URL}/tools/image/image-to-pdf` },
-    { name: "PNG to PDF", href: "/tools/image/png-to-pdf", canonical: `${SITE_URL}/tools/image/png-to-pdf` },
-    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf", canonical: `${SITE_URL}/tools/image/webp-to-pdf` },
-  ],
-  "/tools/image/png-to-pdf": [
-    { name: "Image to PDF", href: "/tools/image/image-to-pdf", canonical: `${SITE_URL}/tools/image/image-to-pdf` },
-    { name: "JPG to PDF", href: "/tools/image/jpg-to-pdf", canonical: `${SITE_URL}/tools/image/jpg-to-pdf` },
-    { name: "WebP to PDF", href: "/tools/image/webp-to-pdf", canonical: `${SITE_URL}/tools/image/webp-to-pdf` },
-  ],
-  "/tools/image/webp-to-pdf": [
-    { name: "Image to PDF", href: "/tools/image/image-to-pdf", canonical: `${SITE_URL}/tools/image/image-to-pdf` },
-    { name: "JPG to PDF", href: "/tools/image/jpg-to-pdf", canonical: `${SITE_URL}/tools/image/jpg-to-pdf` },
-    { name: "PNG to PDF", href: "/tools/image/png-to-pdf", canonical: `${SITE_URL}/tools/image/png-to-pdf` },
+    { name: "Merge PDF", href: "/tools/pdf/merge-pdf", canonical: `${SITE_URL}/tools/pdf/merge-pdf` },
+    { name: "Split PDF", href: "/tools/pdf/split-pdf", canonical: `${SITE_URL}/tools/pdf/split-pdf` },
+    { name: "Compress PDF", href: "/tools/pdf/compress-pdf", canonical: `${SITE_URL}/tools/pdf/compress-pdf` },
+    { name: "File Privacy & Security Checker", href: "/tools/privacysecurity/file-analyzer", canonical: `${SITE_URL}/tools/privacysecurity/file-analyzer` },
   ],
 };
 
@@ -356,7 +345,7 @@ export async function RelatedTools({
   const copy = CATEGORY_COPY[currentTool?.category ?? ""] ?? DEFAULT_COPY;
   const finalHeading = heading ??
     (isImageToPdfCluster
-      ? "Related Image to PDF Converters"
+      ? "Related PDF Tools"
       : isImageConverterCluster
         ? "Related Image Format Converters"
         : isImageCompressorCluster
@@ -364,7 +353,7 @@ export async function RelatedTools({
           : copy.heading);
   const finalDescription = description ??
     (isImageToPdfCluster
-      ? "Convert other supported image formats to PDF or use the general image-to-PDF converter."
+      ? "Continue working with your PDF using related merge, split, compression, and file-privacy tools."
       : isImageConverterCluster
         ? "Convert between JPG, PNG, WebP, and SVG formats with these related browser-based image converters."
         : isImageCompressorCluster
