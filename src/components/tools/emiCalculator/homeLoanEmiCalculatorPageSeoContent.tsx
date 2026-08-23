@@ -25,6 +25,10 @@ export default function HomeLoanEmiCalculatorPageSeoContent() {
     applicationCategory: "FinanceApplication",
     operatingSystem: "Any",
     description: "Calculate home loan EMI, total interest, amortization, and compare prepayment scenarios online.",
+    offers: {
+      "@type": "Offer",
+      price: 0,
+    },
   };
 
   return (
