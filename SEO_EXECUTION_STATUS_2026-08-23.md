@@ -79,13 +79,27 @@ Target: `/tools/calculator/emi-calculator`
 - Commit: `4164509bb5347fe431d0456e257c8c748025f678`.
 - Production deployment and Google recrawl/rich-result validation remain pending.
 
+### Home Loan EMI Calculator — completed audit
+Target: `/tools/calculator/home-loan-emi-calculator`
+- Latest `main` source was fetched before editing.
+- Registry canonical is `/tools/calculator/home-loan-emi-calculator`; the page's JSON-LD uses the same canonical URL.
+- Generic metadata generation derives the canonical from `tool.alternates.canonical`, and the page is indexable because the registry entry is not archived/coming-soon.
+- BreadcrumbList correctly progresses through `/tools` → `/tools/calculator` → `/tools/calculator/emi-calculator` → the dedicated Home Loan EMI URL.
+- Visible content is differentiated around home-loan planning: tenure comparison, rate changes, lump-sum prepayment, EMI-versus-tenure decisions, formula, worked example, limitations and related loan calculators.
+- The worked example was numerically checked: ₹50,00,000 at 8.5% for 20 years gives an EMI of approximately ₹43,391 under the stated reducing-balance formula.
+- Found a concrete structured-data eligibility gap matching the already-confirmed EMI hub issue: `WebApplication` markup lacked `offers.price`.
+- Corrected the JSON-LD to add `offers: { "@type": "Offer", "price": 0 }`, accurately representing the free calculator and aligning with Google's current SoftwareApplication guidance.
+- Commit: `38e8af751b1efe2e94132158fa83734b448eb490`.
+- No canonical, indexability, sitemap or content defect justified additional speculative changes.
+- Production deployment, live HTML validation, Rich Results validation and Google recrawl remain pending.
+
 ## Ranking-growth status
-Approximate implementation progress: **68–73% complete**. This is not a ranking prediction.
+Approximate implementation progress: **69–74% complete**. This is not a ranking prediction.
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~80–85%
 - Internal linking: ~70–75%
-- GSC opportunity/content optimization: ~70% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport, File Analyzer and first EMI audit
+- GSC opportunity/content optimization: ~71% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport, File Analyzer and EMI audits
 - Authority/backlink/trust growth: substantially pending
 - Final production validation and post-deployment Search Console measurement: pending
 
@@ -96,9 +110,9 @@ Approximate implementation progress: **68–73% complete**. This is not a rankin
 4. QR Code Generator — completed/preserved
 5. Passport Photo Resizer — completed/preserved
 6. File Analyzer — completed/preserved
-7. EMI Calculator hub — structured-data fix committed; validate deployment, then continue EMI child pages
-8. Home Loan EMI Calculator
-9. Car Loan EMI Calculator
+7. EMI Calculator hub — structured-data fix committed; production validation pending
+8. Home Loan EMI Calculator — structured-data fix committed; production validation pending
+9. **Car Loan EMI Calculator — next execution target**
 10. Personal Loan EMI Calculator
 11. Broader finance/investment cluster
 12. Authority/trust growth
@@ -137,4 +151,4 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Repository changes do not prove Google has processed them; live HTML, deployment and Search Console recrawl/indexation must be validated separately.
 
 ## Next execution
-**Home Loan EMI Calculator** — fetch the latest `main` implementation first, then audit it against current Search Console evidence, current Google Search guidance, financial-calculation accuracy/trust requirements, canonical/indexability state, content usefulness, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this file before moving to the Car Loan EMI Calculator.
+**Car Loan EMI Calculator** — fetch the latest `main` implementation first, then audit it against current Search Console evidence, current Google Search guidance, financial-calculation accuracy/trust requirements, canonical/indexability state, content usefulness, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this file before moving to the Personal Loan EMI Calculator.
