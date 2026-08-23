@@ -26,9 +26,10 @@ const staticRoutes = [
 
 function getCanonicalToolUrls() {
   const urls = tools
-    // Archived tools remain eligible for sitemap inclusion because they may be
-    // reactivated. Only tools explicitly marked comingSoon are excluded.
-    .filter((tool) => !tool.comingSoon)
+    // Only current, indexable tools belong in the XML sitemap.
+    // Archived tools remain reachable for legacy/internal links, but their
+    // metadata intentionally uses noindex and therefore must not be submitted.
+    .filter((tool) => !tool.comingSoon && !tool.archived)
     .map((tool) => tool.alternates.canonical)
     .filter((url): url is string => Boolean(url))
     .map((url) => url.replace(/\/$/, ""));
