@@ -3,6 +3,7 @@ import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import { ToolRegistryEntry } from "@/data/tools";
 import { serverConfig } from "@/config/server";
+import { LOAN_PAGE_COPY } from "@/components/tools/emiCalculator/core/Config";
 import ToolRendererClient from "@/components/tools/toolRendererClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
 import { Footer } from "@/app/footer/footer";
@@ -45,7 +46,17 @@ export default async function ToolPage({ params }: any) {
       : tool.alternates?.canonical;
 
   const isCalculatorHub = normalizedToolId === "calculator";
-  const pageTitle = isCalculatorHub ? CALCULATOR_TITLE : (tool.onPageTitle || tool.title);
+  const loanTypeByRoute: Record<string, keyof typeof LOAN_PAGE_COPY> = {
+    "calculator/home-loan-emi-calculator": "home",
+    "calculator/car-loan-emi-calculator": "car",
+    "calculator/personal-loan-emi-calculator": "personal",
+  };
+  const loanType = loanTypeByRoute[normalizedToolId];
+  const pageTitle = isCalculatorHub
+    ? CALCULATOR_TITLE
+    : loanType
+      ? LOAN_PAGE_COPY[loanType].h1
+      : (tool.onPageTitle || tool.title);
   const pageDescription = isCalculatorHub ? CALCULATOR_DESCRIPTION : tool.description;
 
   return (
