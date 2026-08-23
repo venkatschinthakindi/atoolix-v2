@@ -23,6 +23,10 @@ const TIMEZONE_CONVERTER_TITLE =
   "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
 const TIMEZONE_CONVERTER_DESCRIPTION =
   "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
+const FILE_ANALYZER_TITLE =
+  "File Analyzer – Privacy & Security Checker | Atoolix";
+const FILE_ANALYZER_DESCRIPTION =
+  "Free file analyzer that checks supported files for hidden metadata, GPS data, author information, embedded content, file-type mismatches, and other privacy or security issues. Clean supported privacy data in your browser.";
 
 export async function generateMetadata({
   params,
@@ -36,23 +40,43 @@ export async function generateMetadata({
     ? rawToolId.join("/").toLowerCase()
     : String(rawToolId).toLowerCase();
 
-  if (normalizedToolId !== "datetime/timezone-converter") return metadata;
+  if (normalizedToolId === "datetime/timezone-converter") {
+    return {
+      ...metadata,
+      title: TIMEZONE_CONVERTER_TITLE,
+      description: TIMEZONE_CONVERTER_DESCRIPTION,
+      openGraph: {
+        ...metadata.openGraph,
+        title: TIMEZONE_CONVERTER_TITLE,
+        description: TIMEZONE_CONVERTER_DESCRIPTION,
+      },
+      twitter: {
+        ...metadata.twitter,
+        title: TIMEZONE_CONVERTER_TITLE,
+        description: TIMEZONE_CONVERTER_DESCRIPTION,
+      },
+    };
+  }
 
-  return {
-    ...metadata,
-    title: TIMEZONE_CONVERTER_TITLE,
-    description: TIMEZONE_CONVERTER_DESCRIPTION,
-    openGraph: {
-      ...metadata.openGraph,
-      title: TIMEZONE_CONVERTER_TITLE,
-      description: TIMEZONE_CONVERTER_DESCRIPTION,
-    },
-    twitter: {
-      ...metadata.twitter,
-      title: TIMEZONE_CONVERTER_TITLE,
-      description: TIMEZONE_CONVERTER_DESCRIPTION,
-    },
-  };
+  if (normalizedToolId === "privacysecurity/file-analyzer") {
+    return {
+      ...metadata,
+      title: FILE_ANALYZER_TITLE,
+      description: FILE_ANALYZER_DESCRIPTION,
+      openGraph: {
+        ...metadata.openGraph,
+        title: FILE_ANALYZER_TITLE,
+        description: FILE_ANALYZER_DESCRIPTION,
+      },
+      twitter: {
+        ...metadata.twitter,
+        title: FILE_ANALYZER_TITLE,
+        description: FILE_ANALYZER_DESCRIPTION,
+      },
+    };
+  }
+
+  return metadata;
 }
 
 export default async function ToolPage({ params }: any) {
@@ -67,6 +91,7 @@ export default async function ToolPage({ params }: any) {
 
   const { ...toolMeta } = tool;
   const isCalculatorHub = normalizedToolId === "calculator";
+  const isFileAnalyzer = normalizedToolId === "privacysecurity/file-analyzer";
   const loanTypeByRoute: Record<string, keyof typeof LOAN_PAGE_COPY> = {
     "calculator/home-loan-emi-calculator": "home",
     "calculator/car-loan-emi-calculator": "car",
@@ -75,10 +100,16 @@ export default async function ToolPage({ params }: any) {
   const loanType = loanTypeByRoute[normalizedToolId];
   const pageTitle = isCalculatorHub
     ? CALCULATOR_TITLE
-    : loanType
-      ? LOAN_PAGE_COPY[loanType].h1
-      : (tool.onPageTitle || tool.title);
-  const pageDescription = isCalculatorHub ? CALCULATOR_DESCRIPTION : tool.description;
+    : isFileAnalyzer
+      ? FILE_ANALYZER_TITLE
+      : loanType
+        ? LOAN_PAGE_COPY[loanType].h1
+        : (tool.onPageTitle || tool.title);
+  const pageDescription = isCalculatorHub
+    ? CALCULATOR_DESCRIPTION
+    : isFileAnalyzer
+      ? FILE_ANALYZER_DESCRIPTION
+      : tool.description;
 
   return (
     <>
