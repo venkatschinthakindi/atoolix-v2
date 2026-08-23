@@ -236,6 +236,13 @@ The supplied Search Console snapshot showed the site beginning to receive meanin
 
 These numbers are the historical baseline supplied in the SEO conversations. Future analysis should compare against newer Search Console exports rather than assuming these values remain current.
 
+### Latest Search Console export — 2026-07-15 to 2026-08-23
+
+- **765 impressions, 2 clicks**, with 665 impressions in the final 14 days of the export. This is early discovery evidence for the approximately 45-day-old site, not a basis for judging final ranking potential.
+- The active-page opportunity order is now: 100 KB Image Compressor (109 impressions), Time Zone Converter (104), 20 KB Image Compressor (88), 50 KB Image Compressor (87), then Meeting Time Finder (54, 1 click).
+- The observed 58 impressions for `/tools/calculator/roi-calculator` belong to a legacy redirect and must not trigger recreation of a standalone ROI page. Continue strengthening the active SIP destination only when current query/page evidence supports it.
+- Because the majority of current impressions are in positions 50-100, use this period to improve relevance, user task completion, canonical/indexing clarity, and internal architecture. Do not draw CTR conclusions until pages are competing nearer the first two result pages.
+
 ## 5. Completed SEO work / decisions
 
 ### Technical foundations
@@ -518,9 +525,13 @@ Created this document as the central SEO source of truth so future conversations
 
 Added a contextual crawlable link from the Privacy & Security hub to the File Analyzer because the relationship is directly relevant to users inspecting file metadata. No canonical or sitemap change was justified.
 
-### 2026-08-23 — SIP vs Retirement URL clarification
+### 2026-08-23 - SIP vs Retirement URL clarification
 
 A site-wide internal-link audit exposed an incorrect assumption in the tracking documentation: the repository's actual tool registry defines `/tools/calculator/sip-calculator` as the SIP Calculator canonical and `/tools/calculator/retirement-calculator` as a separate Retirement Calculator. The production SIP link was restored to `/tools/calculator/sip-calculator`. Future Search Console analysis must not combine those routes without fresh evidence.
+
+### 2026-08-23 - Fresh Search Console export evaluated
+
+Evaluated the Web performance export for 2026-07-15 to 2026-08-23. The data confirms meaningful early discovery growth, prioritizes the active image target-size and time-zone pages, and confirms that the legacy ROI URL must not be treated as an active content opportunity.
 
 ## 13. Success measurement
 

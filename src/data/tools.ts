@@ -1919,10 +1919,10 @@ export const tools: ToolRegistryEntry[] = [
       targetKB: 100,
       lockTarget: false
     },
-    title: "Compress Image to 100KB Online | JPG, PNG, WEBP",
-    toolShortName: "Compress Image to 100KB",
-    onPageTitle: "Compress Image to 100KB | JPG, PNG & WEBP Size Reducer",
-    description: "Compress images to around 100KB online with smart optimization for JPG, JPEG, PNG, and WEBP formats, preserving visual quality for uploads and web use.",
+    title: "Compress Image to 100 KB Online | JPG, PNG & WebP",
+    toolShortName: "Compress Image to 100 KB",
+    onPageTitle: "Compress Image to 100 KB | JPG, PNG & WebP",
+    description: "Compress JPG, JPEG, PNG, and WebP images toward a 100 KB target. Adjust the target size or dimensions when needed, preview the result, and download it in your browser.",
     keywords: [
       "compress image to 100kb",
       "reduce image size to 100kb",

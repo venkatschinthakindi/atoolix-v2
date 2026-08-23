@@ -287,3 +287,17 @@ Added a direct crawlable ROI link and concise ROI context so users can distingui
 Continue from the latest Git state after correcting the SIP/Retirement URL distinction. Run the site-wide route → registry → sitemap → canonical → internal-link reconciliation first, because the audit just demonstrated that an incorrect URL assumption can create a real SEO regression. Then use the fresh Search Console opportunity queue to select the next highest-value page/cluster. For each candidate, apply the full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance.
 
 Make a production change only when a genuine gap exists, including legitimate small improvements. Do not infer Search Console metrics for SIP versus Retirement from the previously combined "Retirement/SIP" baseline; obtain fresh page-level Search Console evidence before prioritizing one over the other.
+# 2026-08-23 — 100 KB Image Compressor title/H1 clarity
+
+- Updated the 100 KB Image Compressor registry title, short name, H1, and visible summary to use consistent `100 KB` spelling and accurately describe the page as a configurable target-size workflow rather than implying a guaranteed fixed result.
+- Preserved the existing canonical URL, route, supported formats, tool behavior, and internal-link architecture.
+- Rationale: Google recommends concise, descriptive page titles and a clear main heading that accurately represents the page. The update improves user understanding and title/H1 consistency without adding keyword-only content.
+- Validation pending: TypeScript/lint and production HTML/Search Console observation after deployment.
+
+# 2026-08-23 — Fresh Google Search Console performance evidence
+
+- Evaluated the Web performance export covering 2026-07-15 to 2026-08-23: 765 impressions and 2 clicks, with 87% of impressions arriving in the final 14 days.
+- Confirmed the active-page priority sequence: 100 KB Image Compressor, Time Zone Converter, 20 KB Image Compressor, 50 KB Image Compressor, then Meeting Time Finder.
+- Recorded that `/tools/calculator/roi-calculator` is a legacy redirect despite its 58 observed impressions; no standalone ROI page is justified.
+- Updated the next active-page audit to Time Zone Converter.
+- Validation result for the 100 KB wording change: Git diff whitespace check passed. Repository-wide TypeScript and ESLint checks remain blocked by existing unrelated errors; neither command reported an error on the edited string fields.

@@ -9,6 +9,15 @@
 - Latest synchronized main commit: `3126955eb761a1f4eb65f34ce756d0995db9c3e2`
 - Production deployment: **NOT performed by this SEO work**
 
+## Latest Search Console evidence
+
+- Source: Web performance export covering **2026-07-15 to 2026-08-23**.
+- The site received **765 impressions and 2 clicks** across the period. **665 impressions (87%)** arrived in the final 14 days, showing that Google is beginning to test the site more broadly.
+- Highest active-page opportunities: 100 KB Image Compressor (**109 impressions, position 71.62**), Time Zone Converter (**104, 71.80**), 20 KB Image Compressor (**88, 73.77**), 50 KB Image Compressor (**87, 77.41**), and Meeting Time Finder (**54 impressions, 1 click, position 53.65**).
+- The 100 KB page's strongest observed queries are target-size image-compression variants. The Time Zone Converter's strongest observed queries are time-zone conversion variants.
+- `/tools/calculator/roi-calculator` recorded 58 impressions but remains a legacy redirect to the active SIP Calculator. Do not recreate an ROI page or target its legacy URL.
+- Most impressions remain at positions 50-100, so prioritize usefulness, technical integrity, clear intent, and crawlable architecture before CTR experiments. Compare results only after deployment and recrawling.
+
 ## Completed
 
 ### Technical/indexability foundation
@@ -22,6 +31,7 @@
 - Specialized page-level metadata/H1 behavior was preserved when synchronizing branches; stale centralized overrides were intentionally not reintroduced.
 - Passport Photo Resizer metadata improved.
 - 20 KB, 50 KB and 100 KB target-size image pages have dedicated metadata/content implementations.
+- 100 KB Image Compressor H1 and visible summary now accurately describe a configurable 100 KB target, its supported formats, and the available preview/adjustment workflow.
 
 ### Internal linking
 - Image hub now directly links to all three distinct target-size intents:
@@ -103,7 +113,7 @@ Primary reference: Google Search Central documentation.
 
 ## Next execution target
 
-**100 KB Image Compressor:** make the next evidence-backed page-level improvement, with emphasis on useful search-intent coverage and differentiation from the 20 KB and 50 KB pages. Preserve the canonical URL and existing tool behavior. Update this status file in the same workstream after the change.
+**Time Zone Converter:** use a fresh Search Console export to identify one evidence-backed page-level improvement. Preserve the canonical URL and existing tool behavior. Update this status file in the same workstream after the change.
 
 ## Rule for future updates
 
