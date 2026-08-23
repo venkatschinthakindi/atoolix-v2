@@ -160,6 +160,7 @@ export default async function ToolPage({ params }: any) {
   const isCalculatorHub = normalizedToolId === "calculator";
   const isFileAnalyzer = normalizedToolId === "privacysecurity/file-analyzer";
   const isPersonalLoan = normalizedToolId === "calculator/personal-loan-emi-calculator";
+  const isFdCalculator = normalizedToolId === "calculator/fd-calculator";
   const loanTypeByRoute: Record<string, keyof typeof LOAN_PAGE_COPY> = {
     "calculator/home-loan-emi-calculator": "home",
     "calculator/car-loan-emi-calculator": "car",
@@ -195,6 +196,22 @@ export default async function ToolPage({ params }: any) {
       }
     : null;
 
+  const fdCalculatorAppSchema = isFdCalculator
+    ? {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: "FD Calculator",
+        url: `${serverConfig.siteUrl.replace(/\/$/, "")}/tools/calculator/fd-calculator`,
+        applicationCategory: "FinanceApplication",
+        operatingSystem: "Any",
+        description: "Estimate fixed deposit maturity value and interest from deposit amount, interest rate, tenure, and compounding frequency.",
+        offers: {
+          "@type": "Offer",
+          price: 0,
+        },
+      }
+    : null;
+
   return (
     <>
       <div className="app-shell">
@@ -220,6 +237,7 @@ export default async function ToolPage({ params }: any) {
             {pageDescription}
           </p>
           {personalLoanAppSchema && <JsonLd data={personalLoanAppSchema} />}
+          {fdCalculatorAppSchema && <JsonLd data={fdCalculatorAppSchema} />}
           <ToolRendererClient toolId={toolId} toolMeta={toolMeta} />
           <ToolSeoContent toolId={toolId} />
           <Footer />
