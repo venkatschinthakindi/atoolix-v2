@@ -19,13 +19,40 @@ const ToolSeoContent = dynamic(
 const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
 const CALCULATOR_DESCRIPTION =
   "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
+const TIMEZONE_CONVERTER_TITLE =
+  "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
+const TIMEZONE_CONVERTER_DESCRIPTION =
+  "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ toolId: string }>;
 }) {
-  return createMetadata(params);
+  const metadata = await createMetadata(params);
+  const resolvedParams = await params;
+  const rawToolId = resolvedParams.toolId;
+  const normalizedToolId = Array.isArray(rawToolId)
+    ? rawToolId.join("/").toLowerCase()
+    : String(rawToolId).toLowerCase();
+
+  if (normalizedToolId !== "datetime/timezone-converter") return metadata;
+
+  return {
+    ...metadata,
+    title: TIMEZONE_CONVERTER_TITLE,
+    description: TIMEZONE_CONVERTER_DESCRIPTION,
+    openGraph: {
+      ...metadata.openGraph,
+      title: TIMEZONE_CONVERTER_TITLE,
+      description: TIMEZONE_CONVERTER_DESCRIPTION,
+    },
+    twitter: {
+      ...metadata.twitter,
+      title: TIMEZONE_CONVERTER_TITLE,
+      description: TIMEZONE_CONVERTER_DESCRIPTION,
+    },
+  };
 }
 
 export default async function ToolPage({ params }: any) {
