@@ -2,6 +2,55 @@
 
 This file records incremental execution updates that must be reconciled into `SEO_ROADMAP.md` when the central roadmap is next edited. `SEO_ROADMAP.md` remains the primary strategy/source of truth; this changelog prevents execution history from being lost between chats while preserving the full roadmap unchanged.
 
+## 2026-08-23 — Calculator hub SIP internal-link canonical consistency fix
+
+### Evidence reviewed
+- The established SEO roadmap identifies `/tools/calculator/retirement-calculator` as the source-of-truth URL for the Retirement/SIP calculator.
+- `src/components/tools/calculator/calculatorSeoContent.tsx` was linking the visible **SIP Calculator** anchor to `/tools/calculator/sip-calculator` instead.
+- The page therefore contained an internal-link signal that did not match the established canonical/source-of-truth route. This is exactly the kind of small consistency issue that can weaken URL consolidation and crawl paths even when the destination is otherwise functional.
+- The calculator page already has useful related-calculator links, so the justified change was to correct the existing link rather than add more links or content.
+
+### Google guidance applied
+Google's current canonicalization guidance says canonical selection is based on multiple signals including redirects, sitemap URLs, and `rel="canonical"`, and its site-move guidance explicitly recommends updating internal links to the new/preferred URLs rather than continuing to link through old URLs. Google also emphasizes logical crawlable site structure and descriptive links.
+
+Official Google guidance checked on 2026-08-23:
+- What is URL canonicalization: https://developers.google.com/search/docs/crawling-indexing/canonicalization
+- Fix canonicalization issues: https://developers.google.com/search/docs/crawling-indexing/canonicalization-troubleshooting
+- Site moves / update internal links: https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes
+- Latest Search documentation updates: https://developers.google.com/search/updates
+
+### Change implemented
+Primary implementation commit: `ba9428acd784632c5a006f22b6fbeeb6247a982a`
+Follow-up cleanup commit: `346505623defcbb8dd0ef7675163ef96936e241d`
+
+File:
+`src/components/tools/calculator/calculatorSeoContent.tsx`
+
+Changed the visible SIP Calculator internal link from:
+`/tools/calculator/sip-calculator`
+
+to the established route:
+`/tools/calculator/retirement-calculator`
+
+The visible anchor text remains `SIP Calculator`, because the destination is the site's established SIP/retirement calculator page and the text accurately describes the user intent.
+
+### Why this was justified
+This is a small, concrete technical/internal-link SEO improvement. It aligns an existing crawlable internal link with the site's established canonical/source-of-truth URL instead of creating a new page, redirect chain, keyword variant, or additional SEO copy.
+
+### Validation / non-changes
+- [x] Existing calculator page retained.
+- [x] Existing established SIP/retirement URL retained.
+- [x] Internal link now points directly to the established route.
+- [x] No new URL created.
+- [x] No canonical tag changed.
+- [x] No sitemap change.
+- [x] No redirect change.
+- [x] No keyword stuffing.
+- [x] No duplicate content created.
+- [x] Accidental duplicate Tailwind class introduced during the first write was immediately corrected in the follow-up commit.
+- [ ] Production deployment verification pending.
+- [ ] Search Console post-recrawl measurement pending.
+
 ## 2026-08-23 — QR generator Search Console intent/metadata alignment
 
 ### Evidence reviewed
@@ -186,6 +235,6 @@ This is a small but genuine internal-architecture and intent-context improvement
 - [ ] Post-recrawl Search Console measurement pending.
 
 ## Next action
-Continue from commit `28888b6910b9e67ad5b0f291760cb008938121c6`. Audit the next highest-opportunity Search Console page/cluster using the established full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance. Make a change only when a genuine gap exists, including legitimate small improvements.
+Continue from commit `346505623defcbb8dd0ef7675163ef96936e241d`. Audit the next highest-opportunity Search Console page/cluster using the established full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance. Make a change only when a genuine gap exists, including legitimate small improvements.
 
 Minor legitimate improvements must continue to be captured rather than ignored, but no change should be made without a concrete user, technical, relevance, crawlability, or Search Console rationale.
