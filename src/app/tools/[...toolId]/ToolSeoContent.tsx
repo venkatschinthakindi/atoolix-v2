@@ -54,7 +54,7 @@ const seoLoaders: Record<string, SeoLoader> = {
   "calculator/car-loan-emi-calculator": () => import("@/components/tools/emiCalculator/carLoanEmiCalculatorSeoContent"),
   "calculator/personal-loan-emi-calculator": () => import("@/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent"),
   "calculator/home-loan-emi-calculator": () => import("@/components/tools/emiCalculator/homeLoanEmiCalculatorPageSeoContent"),
-  "calculator/roi-calculator": () => import("@/components/tools/financeSuite/investment/sipReturnCalculatorSeoContent"),
+  "calculator/sip-calculator": () => import("@/components/tools/financeSuite/investment/sipReturnCalculatorSeoContent"),
   "calculator/cagr-calculator": () => import("@/components/tools/financeSuite/investment/cagrSeoContent"),
   "calculator/xirr-calculator": () => import("@/components/tools/financeSuite/investment/xirrSeoContent"),
   "calculator/lumpsum-calculator": () => import("@/components/tools/financeSuite/investment/lumpsumcalculatorseocontent"),
@@ -98,7 +98,7 @@ const seoLoaders: Record<string, SeoLoader> = {
 
 const investmentGuideByTool: Record<string, "sip" | "lumpsum" | "cagr" | "xirr" | undefined> = {
   calculator: undefined,
-  "calculator/roi-calculator": "sip",
+  "calculator/sip-calculator": "sip",
   "calculator/lumpsum-calculator": "lumpsum",
   "calculator/cagr-calculator": "cagr",
   "calculator/xirr-calculator": "xirr",

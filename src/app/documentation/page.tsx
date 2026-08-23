@@ -90,7 +90,7 @@ const quickLinks = [
     desc: "Estimate loan repayments from supplied assumptions.",
   },
   {
-    href: "/tools/calculator/roi-calculator",
+    href: "/tools/calculator/sip-calculator",
     label: "ROI Calculator",
     desc: "Estimate return-based investment scenarios.",
   },
@@ -410,7 +410,7 @@ const toolGroups = [
         tips:
           "Actual lender payments can differ because of fees, taxes, insurance, changing rates, rounding, and lender-specific terms.",
         related: [
-          "/tools/calculator/roi-calculator",
+          "/tools/calculator/sip-calculator",
           "/tools/calculator/fd-calculator",
           "/tools/calculator/home-loan-emi-calculator",
         ],
@@ -428,13 +428,13 @@ const toolGroups = [
         tips:
           "Actual maturity values depend on the institution, rate, compounding method, taxes, and applicable terms.",
         related: [
-          "/tools/calculator/roi-calculator",
+          "/tools/calculator/sip-calculator",
           "/tools/calculator/retirement-calculator",
         ],
       },
       {
         name: "ROI Calculator",
-        href: "/tools/calculator/roi-calculator",
+        href: "/tools/calculator/sip-calculator",
         description:
           "Estimate investment return scenarios using user-provided values and assumptions.",
         useCases: [
@@ -462,7 +462,7 @@ const toolGroups = [
         tips:
           "Retirement projections are estimates and can change substantially with inflation, returns, contributions, taxes, and life circumstances.",
         related: [
-          "/tools/calculator/roi-calculator",
+          "/tools/calculator/sip-calculator",
         ],
       },
 

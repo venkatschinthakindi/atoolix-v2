@@ -36,7 +36,7 @@ export const clientToolLoaders = new Map<string,() => Promise<any>>([
     () => import("@/components/tools/emiCalculator/calculators/PersonalLoanEmiCalculatorPage"),
   ],
   [
-    "calculator/roi-calculator",
+    "calculator/sip-calculator",
     () =>
       import(
         "@/components/tools/financeSuite/investment/calculators/investmentReturnsSuite"

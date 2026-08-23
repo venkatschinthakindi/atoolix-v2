@@ -1342,7 +1342,7 @@ export default function TimezoneConverterClient() {
               EMI Calculator
             </Link>
             <Link
-              href="/tools/calculator/roi-calculator"
+              href="/tools/calculator/sip-calculator"
               className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
             >
               ROI Calculator

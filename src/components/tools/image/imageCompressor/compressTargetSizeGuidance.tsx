@@ -28,7 +28,7 @@ const copy: Record<Target, { title: string; intro: string; action: string }> = {
 
 export function CompressTargetSizeGuidance({ target }: { target: Target }) {
   const current = copy[target];
-  const alternatives = (Object.keys(TARGET_PAGES) as Target[]).filter((value) => value !== target);
+  const alternatives = Object.entries(TARGET_PAGES).filter(([value]) => Number(value) !== target);
 
   return (
     <section
@@ -49,10 +49,10 @@ export function CompressTargetSizeGuidance({ target }: { target: Target }) {
       </p>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        {alternatives.map((value) => (
+        {alternatives.map(([value, href]) => (
           <Link
             key={value}
-            href={TARGET_PAGES[value]}
+            href={href}
             className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-white/20 hover:bg-white/[0.08]"
           >
             <span className="text-sm font-semibold">

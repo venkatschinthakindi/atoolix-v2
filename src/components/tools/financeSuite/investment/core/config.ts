@@ -14,7 +14,7 @@ export const ROUTE_MAP: Record<InvestmentTabKey, string> = {
 };
 
 export const INVESTMENT_TOOL_IDS = {
-  hub: "calculator/roi-calculator",
+  hub: "calculator/sip-calculator",
   lump: "calculator/lumpsum-calculator",
   cagr: "calculator/cagr-calculator",
   xirr: "calculator/xirr-calculator",

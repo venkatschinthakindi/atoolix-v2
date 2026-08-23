@@ -178,7 +178,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator/emi-calculator",
     archived: false,
-    relatedTools: ["calculator/car-loan-emi-calculator", "calculator/personal-loan-emi-calculator", "calculator/roi-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
+    relatedTools: ["calculator/car-loan-emi-calculator", "calculator/personal-loan-emi-calculator", "calculator/sip-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
     title: "EMI Calculator Online | Home, Car & Personal Loan",
     toolShortName: "EMI Calculator",
     onPageTitle: "EMI Calculator with Prepayment & Amortization Schedule",
@@ -207,7 +207,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator/home-loan-emi-calculator",
     archived: false,
-    relatedTools: ["calculator/car-loan-emi-calculator", "calculator/personal-loan-emi-calculator", "calculator/roi-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
+    relatedTools: ["calculator/car-loan-emi-calculator", "calculator/personal-loan-emi-calculator", "calculator/sip-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
     title: "Home Loan EMI Calculator – Prepayment & Interest Savings",
     toolShortName: "Home Loan EMI Calculator",
     onPageTitle: "Home Loan EMI Calculator with Prepayment & Amortization Schedule",
@@ -236,7 +236,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator/car-loan-emi-calculator",
     archived: false,
-    relatedTools: ["calculator/emi-calculator",  "calculator/personal-loan-emi-calculator", "calculator/roi-calculator", "calculator/fd-calculator"],
+    relatedTools: ["calculator/emi-calculator",  "calculator/personal-loan-emi-calculator", "calculator/sip-calculator", "calculator/fd-calculator"],
     title: "Car Loan EMI Calculator — Estimate Your Monthly Auto Loan Payment",
     toolShortName: "Car Loan EMI Calculator",
     onPageTitle: "Car Loan EMI Calculator with Prepayment & Amortization Schedule",
@@ -263,7 +263,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator/personal-loan-emi-calculator",
     archived: false,
-    relatedTools: ["calculator/emi-calculator", "calculator/car-loan-emi-calculator", "calculator/roi-calculator", "calculator/fd-calculator"],
+    relatedTools: ["calculator/emi-calculator", "calculator/car-loan-emi-calculator", "calculator/sip-calculator", "calculator/fd-calculator"],
     title: "Personal Loan EMI Calculator — Estimate Your Monthly Payment",
     toolShortName: "Personal Loan EMI Calculator",
     onPageTitle: "Personal Loan EMI Calculator with Prepayment & Amortization Schedule",
@@ -288,7 +288,7 @@ export const tools: ToolRegistryEntry[] = [
   },
 
   {
-    id: "calculator/roi-calculator",
+    id: "calculator/sip-calculator",
 
     archived: false,
 
@@ -333,7 +333,7 @@ export const tools: ToolRegistryEntry[] = [
     ],
 
     alternates: {
-      canonical: `${siteUrl}/tools/calculator/roi-calculator`
+      canonical: `${siteUrl}/tools/calculator/sip-calculator`
     },
 
     applicationType: "WebApplication",
@@ -359,7 +359,7 @@ export const tools: ToolRegistryEntry[] = [
     archived: false,
 
     relatedTools: [
-      "calculator/roi-calculator",
+      "calculator/sip-calculator",
       "calculator/xirr-calculator",
       "calculator/lumpsum-calculator"
     ],
@@ -420,7 +420,7 @@ export const tools: ToolRegistryEntry[] = [
     archived: false,
 
     relatedTools: [
-      "calculator/roi-calculator",
+      "calculator/sip-calculator",
       "calculator/cagr-calculator",
       "calculator/lumpsum-calculator"
     ],
@@ -480,7 +480,7 @@ export const tools: ToolRegistryEntry[] = [
     id: "calculator/lumpsum-calculator",
     archived: false,
     relatedTools: [
-      "calculator/roi-calculator",
+      "calculator/sip-calculator",
       "calculator/cagr-calculator",
       "calculator/xirr-calculator"
     ],
@@ -525,7 +525,7 @@ export const tools: ToolRegistryEntry[] = [
       "calculator/compound-interest-calculator",
       "calculator/fd-calculator",
       "calculator/recurring-deposit-calculator",
-      "calculator/roi-calculator",
+      "calculator/sip-calculator",
       "calculator/retirement-calculator",
       "calculator/emi-calculator",
       "calculator/personal-loan-emi-calculator",
@@ -569,7 +569,7 @@ export const tools: ToolRegistryEntry[] = [
       "calculator/fd-calculator",
       "calculator/simple-interest-calculator",
       "calculator/recurring-deposit-calculator",
-      "calculator/roi-calculator",
+      "calculator/sip-calculator",
       "calculator/retirement-calculator",
       "calculator/emi-calculator",
       "calculator/personal-loan-emi-calculator",
@@ -613,7 +613,7 @@ export const tools: ToolRegistryEntry[] = [
       "calculator/simple-interest-calculator",
       "calculator/compound-interest-calculator",
       "calculator/recurring-deposit-calculator",
-      "calculator/roi-calculator",
+      "calculator/sip-calculator",
       "calculator/emi-calculator",
       "calculator/personal-loan-emi-calculator",
       "calculator",
@@ -656,7 +656,7 @@ export const tools: ToolRegistryEntry[] = [
       "calculator/simple-interest-calculator",
       "calculator/fd-calculator",
       "calculator/compound-interest-calculator",
-      "calculator/roi-calculator",
+      "calculator/sip-calculator",
       "calculator/emi-calculator",
       "calculator/personal-loan-emi-calculator",
       "calculator",
@@ -695,7 +695,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator/retirement-calculator",
     archived: false,
-    relatedTools: ["calculator/roi-calculator", "calculator/fd-calculator", "calculator/emi-calculator", "calculator"],
+    relatedTools: ["calculator/sip-calculator", "calculator/fd-calculator", "calculator/emi-calculator", "calculator"],
     //loader: () => import("@/components/tools/financeSuite/retirement/retirementWealthSuite"),
     toolShortName: "Retirement Planner",
     title: "Retirement Calculator | FIRE & SWP Planner",
@@ -727,7 +727,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "calculator",
     archived: false,
-    relatedTools: ["converter", "calculator/emi-calculator", "calculator/roi-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
+    relatedTools: ["converter", "calculator/emi-calculator", "calculator/sip-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
     //loader: () => import("@/components/tools/calculator/Calculator"),
     title: "Calculator – Scientific, Percentage & Equation Solver",
     toolShortName: "Scientific, Percentage & Equation Solver",
