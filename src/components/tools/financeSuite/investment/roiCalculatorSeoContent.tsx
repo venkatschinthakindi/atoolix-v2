@@ -128,6 +128,25 @@ export default function RoiCalculatorSeoContent() {
         </div>
       </section>
 
+      <section aria-labelledby="roi-net-profit-formula">
+        <h2 id="roi-net-profit-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
+          ROI Using Net Profit vs Final Value
+        </h2>
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <p className="text-sm leading-relaxed text-white/65">
+            ROI is also commonly written as <strong className="text-white">(Net Profit / Investment Cost) × 100</strong>.
+            This is equivalent to the final-value formula when net profit is the final value minus the original investment.
+          </p>
+          <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
+            Net Profit = Final Value − Initial Investment
+          </p>
+          <p className="text-sm leading-relaxed text-white/65">
+            For example, if you invest ₹1,00,000 and receive ₹1,25,000, the net profit is ₹25,000 and the ROI is 25%.
+            If you use a broader investment-cost definition that includes fees or other expenses, apply that same definition consistently to the return amount so the comparison remains meaningful.
+          </p>
+        </div>
+      </section>
+
       <section aria-labelledby="roi-features">
         <h2 id="roi-features" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           ROI Calculator Features
