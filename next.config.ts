@@ -51,7 +51,12 @@ const nextConfig = {
       },
       {
         source: "/tools/image/jpeg-to-pdf",
-        destination: "/tools/image/jpg-to-pdf",
+        destination: "/tools/image/image-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/image/jpg-to-pdf",
+        destination: "/tools/image/image-to-pdf",
         permanent: true,
       },
       {
