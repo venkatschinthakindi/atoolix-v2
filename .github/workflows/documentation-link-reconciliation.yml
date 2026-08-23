@@ -60,8 +60,8 @@ jobs:
             headers=$(curl -sS -D - -o /dev/null "http://127.0.0.1:3000${path}")
             echo "${path}"
             echo "${headers}"
-            echo "${headers}" | grep -Eq '^HTTP/.* 30[18]$'
-            echo "${headers}" | grep -Fi 'location: /tools/image/image-to-pdf'
+            echo "${headers}" | grep -Eq '^HTTP/.*30[18]( |$)'
+            echo "${headers}" | grep -Eiq '^location: https?://[^[:space:]]*/tools/image/image-to-pdf/?$|^location: /tools/image/image-to-pdf/?$'
           done
 
       - name: Validate consolidated page
