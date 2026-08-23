@@ -82,7 +82,7 @@ Previously, an archived tool with `comingSoon: false` could remain indexable whi
 ### Current policy
 **archived = noindex + excluded from sitemap**
 
-The policy is now implemented consistently in:
+The policy is implemented consistently in:
 - `src/utility/metadata.ts`: `const isIndexable = !tool.comingSoon && !tool.archived;`
 - `src/app/sitemap.ts`: `.filter((tool) => !tool.comingSoon && !tool.archived)`
 
@@ -90,12 +90,13 @@ The policy is now implemented consistently in:
 - Active registry canonical URLs remain the canonical source for tools.
 - Sitemap canonical values are taken directly from the registry and validated for origin and duplicates.
 - Legacy ROI remains a permanent redirect to SIP and is not an active product URL.
-- Legacy retirement/fixed-deposit/JPEG-to-PDF URLs remain redirect-only compatibility routes and are not used as active canonical destinations.
+- Legacy retirement/fixed-deposit URLs remain redirect-only compatibility routes and are not used as active canonical destinations.
+- Legacy JPEG/JPG-to-PDF routes are now consolidated to the active Image-to-PDF destination rather than being treated as separate indexed products.
 - Repository search found no current internal-link usage of `/calculator/retirement-planning-calculator` or `/calculator/fixed-deposit-calculator` beyond the redirect configuration, and no `href="/calculator...` internal links were found.
 - The QR public canonical is normalized consistently to `/tools/qrcode/qr-code-generator` by the existing `getTool` normalization layer and registry.
 
 ### MD synchronization correction
-The earlier `SEO_ROUTE_RECONCILIATION_2026-08-23.md` incorrectly stated that archived tools remained eligible for the XML sitemap. That documentation defect has now been corrected and synchronized with the actual latest code.
+The earlier `SEO_ROUTE_RECONCILIATION_2026-08-23.md` incorrectly stated that archived tools remained eligible for the XML sitemap. That documentation defect was corrected and synchronized with the actual code.
 
 Updated dedicated audit commit:
 `18562f57018e001cb28491a4f4a73ac6316e69d6` — `docs: correct route reconciliation indexability policy`
@@ -118,8 +119,38 @@ Updated dedicated audit commit:
 - Dedicated audit: `SEO_IMAGE_SEO_AUDIT_2026-08-23.md`.
 - Audit commit: `40fad8dad64f967c658186cabb3dc712809521b2`.
 
-### Validation state
-- [x] Latest `main` inspected before reconciliation.
+## JPG → PDF recovery audit — latest state
+### Assessment
+The legacy `/tools/image/jpg-to-pdf` route was re-evaluated from the latest `main` after repository access was restored.
+
+The route is currently `archived: true` and uses the same image-to-PDF engine/helper as the active `/tools/image/image-to-pdf` route. The active route already accepts JPG/JPEG/PNG/WEBP. The legacy page's `JpgToPdfSeoContent.tsx` contains substantial visible content, but its primary information architecture substantially overlaps the active Image-to-PDF page: supported formats, multiple-image conversion, ordering, page settings, browser processing, use cases, audiences, mobile guidance, FAQ and download workflow.
+
+The JPG route therefore does not currently provide enough distinct primary functionality or sufficiently significant primary-content differentiation to justify becoming a separate indexed keyword-variant page.
+
+### Google guidance applied
+Google's current canonicalization guidance says that substantially similar pages can be clustered, that the canonical is the most representative/useful page, and that clustered pages should be sufficiently different. Canonical signals are hints rather than rules. The current JPG route does not pass the evidence threshold for a separate indexed page.
+
+### Decision
+**JPG → PDF recovery is closed as an indexing candidate.**
+
+Do not change `image/jpg-to-pdf` to `archived: false`.
+
+The SEO-preferred action is consolidation into `/tools/image/image-to-pdf`.
+
+### Implementation
+The legacy routes now permanently redirect to the active Image-to-PDF destination:
+- `/tools/image/jpg-to-pdf` → `/tools/image/image-to-pdf`
+- `/tools/image/jpeg-to-pdf` → `/tools/image/image-to-pdf`
+
+Commit: `680f9f4275010884d1333f07eaab916e26097706` — `seo: consolidate legacy JPG-to-PDF URLs to active image-to-PDF`
+
+Dedicated audit: `SEO_JPG_TO_PDF_AUDIT_2026-08-23.md`.
+
+### Internal-link follow-up
+The active Image-to-PDF related-tools configuration still contains legacy JPG/PNG/WEBP references in its cluster configuration. These should be cleaned so active pages point directly to useful active destinations rather than redirects/archived variants. This is a separate internal-link cleanup task and should be completed during the broader route/internal-link reconciliation.
+
+## Validation state
+- [x] Latest `main` inspected before JPG recovery decision.
 - [x] Registry canonical source inspected.
 - [x] Sitemap generation inspected.
 - [x] Metadata/indexability inspected.
@@ -128,18 +159,22 @@ Updated dedicated audit commit:
 - [x] Archived sitemap/indexability policy corrected and synchronized.
 - [x] Metadata/title/H1 architecture audited.
 - [x] Image SEO/accessibility architecture audited.
+- [x] JPG/JPEG duplicate-intent candidate audited.
+- [x] JPG/JPEG legacy redirects consolidated to the active Image-to-PDF route.
+- [ ] Active Image-to-PDF related-tool links cleaned of archived/redirect-only variants.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
 - [ ] Production rendered title/H1 comparison after deployment.
 - [ ] Production image/og:image validation after deployment.
+- [ ] Production redirect validation for legacy JPG/JPEG URLs.
 - [ ] Google URL Inspection / selected-canonical validation after deployment.
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
 
 ## Overall implementation status
-Approximate implementation progress: **82–87% complete**. This is implementation progress, not a ranking prediction.
+Approximate implementation progress: **83–88% complete**. This is implementation progress, not a ranking prediction.
 
-- Technical SEO foundation: ~89–93%
-- Route/canonical/sitemap reconciliation: ~92%
+- Technical SEO foundation: ~90–94%
+- Route/canonical/sitemap reconciliation: ~93%
 - Metadata optimization: ~85–89%
 - Internal linking: ~75–79%
 - Search Console opportunity/content optimization: ~85%
@@ -150,10 +185,10 @@ Approximate implementation progress: **82–87% complete**. This is implementati
 ## Next planned work — do not deviate
 Continue the **broader Search Console + site-wide technical reconciliation** from the latest `main`.
 
-Priority rules:
-1. Start from the latest `main`.
-2. Preserve completed calculator/page/authority work unless new evidence identifies a real defect.
-3. Use fresh Search Console/query evidence where available.
+Immediate priority after the JPG decision:
+1. Clean active Image-to-PDF related-tool links so they do not point at archived/redirect-only variants.
+2. Reconcile remaining active-route → registry → canonical → sitemap → internal-link relationships.
+3. Continue using fresh Search Console/query evidence where available.
 4. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
 5. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
 6. Keep canonical, sitemap, redirects and internal-link signals consistent.
@@ -162,6 +197,7 @@ Priority rules:
 9. Update this central MD and any dedicated audit MD in the same execution.
 10. Record exact commits.
 11. Validate production and Search Console after Google has had time to recrawl.
+12. Then continue to the planned **Next.js rendering/performance audit**.
 
 ## Historical execution commits
 - Meeting Time Finder breadcrumb correction: `7082ca169f40a2143b1aa9ae30f9d90df8d6aee9`
@@ -185,6 +221,8 @@ Priority rules:
 - Route reconciliation documentation correction: `18562f57018e001cb28491a4f4a73ac6316e69d6`
 - Metadata/H1 audit: `06ae36d3b47ad2f703a5cb2d254c7722285641d6`
 - Image SEO audit: `40fad8dad64f967c658186cabb3dc712809521b2`
+- JPG/JPEG consolidation: `680f9f4275010884d1333f07eaab916e26097706`
+- JPG/JPEG audit documentation: `57223cc71821c348df48eb5b83e95547db58dcad`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
