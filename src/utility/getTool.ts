@@ -4,7 +4,6 @@ const toolMap = new Map<string, ToolRegistryEntry>(
   getCachedTools().map((tool) => [tool.id, tool]),
 );
 
-const SIP_PUBLIC_PATH = "/tools/calculator/sip-calculator";
 const HOME_LOAN_PUBLIC_PATH = "/tools/calculator/home-loan-emi-calculator";
 const CAR_LOAN_PUBLIC_PATH = "/tools/calculator/car-loan-emi-calculator";
 const PERSONAL_LOAN_PUBLIC_PATH = "/tools/calculator/personal-loan-emi-calculator";
@@ -17,8 +16,8 @@ function withPublicCanonical(
   if (!tool) return tool;
 
   // The QR tool serves two closely related intents: creating QR codes and
-  // scanning existing QR codes. Keep one canonical URL while making the
-  // page metadata accurately represent both capabilities.
+  // scanning existing QR codes. Keep one canonical URL while making the page
+  // metadata accurately represent both capabilities.
   if (toolId === "qrcode/qr-code-generator") {
     return {
       ...tool,
