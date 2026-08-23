@@ -32,7 +32,7 @@ Do not remove the legacy route redirects. They are required compatibility/migrat
 ## Execution status
 The dedicated working branch remains `seo/documentation-link-reconciliation` and is intentionally retained until this task is actually completed and validated.
 
-PR #8 remains unmerged. The actual `src/app/documentation/page.tsx` source change is committed, and the missing PNG/WebP redirect configuration found during validation has now been corrected. Build/typecheck, canonical/sitemap verification, and production validation remain required before merge.
+PR #8 remains unmerged. The actual `src/app/documentation/page.tsx` source change is committed, and the missing PNG/WebP redirect configuration found during validation has now been corrected. A dedicated validation workflow has now been configured to run TypeScript checking, lint, production build, runtime redirect checks, and consolidated-page HTML checks. No workflow run has been recorded for its latest commit, so no CI result is being treated as evidence.
 
 ## Anti-loop execution log
 This section is the authoritative checkpoint intended to prevent repeating the same analysis without repository progress.
@@ -54,6 +54,13 @@ This section is the authoritative checkpoint intended to prevent repeating the s
 - New `next.config.ts` blob: `db3e40f17dfb1834b90a3a79c06dfef619049654`.
 - This satisfies the intended URL mapping at source level; runtime HTTP status verification is still required after a build/deployment.
 
+### 2026-08-24 — validation workflow configured
+- Replaced the source-mutating reconciliation workflow with a validation-only workflow.
+- Validation workflow now runs on pushes to `seo/documentation-link-reconciliation` and pull requests targeting `main`.
+- It performs `npm ci`, `npx tsc --noEmit`, `npm run lint`, `npm run build`, starts the production server, verifies JPG/PNG/WebP permanent redirects, and checks the consolidated Image to PDF HTML for a canonical and absence of the legacy converter URLs.
+- Validation workflow commit: `96c685449484e129b9aef01bfd9efacfc6cd27c0`.
+- GitHub currently reports no workflow run associated with that commit, so build/typecheck/runtime validation remains pending and must not be represented as successful.
+
 ## Execution rule from this checkpoint
 Do not create another MD-only checkpoint unless one of these materially changes:
 1. repository-wide legacy-link audit produces a new result;
@@ -68,9 +75,10 @@ If none of these changes, stop repeating the same analysis and move to the next 
 - Source diff: verified.
 - Active Documentation legacy links: removed.
 - PNG/WebP redirect configuration: corrected at source level.
-- Runtime 301/308 behavior: pending deployment/runtime verification.
+- Validation workflow: configured.
+- Runtime 301/308 behavior: pending actual workflow/runtime execution.
 - Build/typecheck/lint: pending actual execution; no CI result is being treated as evidence.
-- Canonical verification: pending.
+- Canonical verification: pending actual runtime execution.
 - Sitemap verification: pending.
 - Production rendered HTML: pending.
 - Core Web Vitals/performance: pending.
@@ -82,4 +90,4 @@ Google's site-move guidance recommends preparing URL mappings, updating internal
 Consolidate duplicate/near-duplicate intent into the strongest useful page rather than increasing indexed-page count. The strategic goal remains top-5 visibility through genuinely useful, differentiated pages, strong technical signals, people-first content, and legitimate authority—not artificial keyword variants or ranking guarantees.
 
 ## Next phase
-Run actual build/typecheck validation, then verify runtime redirects, canonical, sitemap, and rendered production HTML. After successful production validation, continue to measured Core Web Vitals/performance work followed by Search Console measurement.
+Obtain actual build/typecheck/lint and runtime redirect results. Then verify canonical, sitemap, and rendered production HTML. After successful production validation, continue to measured Core Web Vitals/performance work followed by Search Console measurement.
