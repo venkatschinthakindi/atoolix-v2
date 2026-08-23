@@ -146,8 +146,15 @@ Commit: `680f9f4275010884d1333f07eaab916e26097706` — `seo: consolidate legacy 
 
 Dedicated audit: `SEO_JPG_TO_PDF_AUDIT_2026-08-23.md`.
 
-### Internal-link follow-up
-The active Image-to-PDF related-tools configuration still contains legacy JPG/PNG/WEBP references in its cluster configuration. These should be cleaned so active pages point directly to useful active destinations rather than redirects/archived variants. This is a separate internal-link cleanup task and should be completed during the broader route/internal-link reconciliation.
+### Internal-link cleanup — completed
+The active Image-to-PDF related-tools cluster no longer links to archived/redirect-only JPG, PNG or WebP PDF variants. It now links directly to active PDF workflows: Merge PDF, Split PDF, Compress PDF, and File Privacy & Security Checker.
+
+Google recommends crawlable internal links with descriptive, relevant anchor text and recommends updating internal links after URL migrations so users and crawlers do not need to follow unnecessary redirects. The new links use direct active destinations and descriptive tool names.
+
+Source commit:
+`b1dfb36aadbcc9f1c48b2a73279ce0a1d779375c` — `seo: clean Image-to-PDF internal links`
+
+Note: the tool registry still contains historical `relatedTools` references for some archived PDF-format variants. Those registry relationships are not rendered by the Image-to-PDF cluster because the dedicated active cluster takes precedence. A broader registry relationship cleanup can be considered during the next full route-graph pass; it is not required to leave the active Image-to-PDF page linking to archived destinations.
 
 ## Validation state
 - [x] Latest `main` inspected before JPG recovery decision.
@@ -161,7 +168,8 @@ The active Image-to-PDF related-tools configuration still contains legacy JPG/PN
 - [x] Image SEO/accessibility architecture audited.
 - [x] JPG/JPEG duplicate-intent candidate audited.
 - [x] JPG/JPEG legacy redirects consolidated to the active Image-to-PDF route.
-- [ ] Active Image-to-PDF related-tool links cleaned of archived/redirect-only variants.
+- [x] Active Image-to-PDF rendered related-link configuration cleaned of archived/redirect-only PDF variants.
+- [ ] Full registry `relatedTools` graph cleanup.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
 - [ ] Production rendered title/H1 comparison after deployment.
@@ -171,12 +179,12 @@ The active Image-to-PDF related-tools configuration still contains legacy JPG/PN
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
 
 ## Overall implementation status
-Approximate implementation progress: **83–88% complete**. This is implementation progress, not a ranking prediction.
+Approximate implementation progress: **84–89% complete**. This is implementation progress, not a ranking prediction.
 
 - Technical SEO foundation: ~90–94%
-- Route/canonical/sitemap reconciliation: ~93%
+- Route/canonical/sitemap reconciliation: ~94%
 - Metadata optimization: ~85–89%
-- Internal linking: ~75–79%
+- Internal linking: ~78–82%
 - Search Console opportunity/content optimization: ~85%
 - Image SEO foundation: ~90%; production image validation remains pending
 - Authority/trust foundation: substantially improved; legitimate earned external authority remains pending
@@ -185,19 +193,18 @@ Approximate implementation progress: **83–88% complete**. This is implementati
 ## Next planned work — do not deviate
 Continue the **broader Search Console + site-wide technical reconciliation** from the latest `main`.
 
-Immediate priority after the JPG decision:
-1. Clean active Image-to-PDF related-tool links so they do not point at archived/redirect-only variants.
-2. Reconcile remaining active-route → registry → canonical → sitemap → internal-link relationships.
-3. Continue using fresh Search Console/query evidence where available.
-4. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
-5. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
-6. Keep canonical, sitemap, redirects and internal-link signals consistent.
-7. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
-8. Validate build/type/lint where available.
-9. Update this central MD and any dedicated audit MD in the same execution.
-10. Record exact commits.
-11. Validate production and Search Console after Google has had time to recrawl.
-12. Then continue to the planned **Next.js rendering/performance audit**.
+Immediate priority:
+1. Reconcile remaining active-route → registry → canonical → sitemap → internal-link relationships, with special attention to registry `relatedTools` references that still name archived routes.
+2. Continue using fresh Search Console/query evidence where available.
+3. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
+4. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
+5. Keep canonical, sitemap, redirects and internal-link signals consistent.
+6. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
+7. Validate build/type/lint where available.
+8. Update this central MD and any dedicated audit MD in the same execution.
+9. Record exact commits.
+10. Validate production and Search Console after Google has had time to recrawl.
+11. Then continue to the planned **Next.js rendering/performance audit**.
 
 ## Historical execution commits
 - Meeting Time Finder breadcrumb correction: `7082ca169f40a2143b1aa9ae30f9d90df8d6aee9`
@@ -223,6 +230,7 @@ Immediate priority after the JPG decision:
 - Image SEO audit: `40fad8dad64f967c658186cabb3dc712809521b2`
 - JPG/JPEG consolidation: `680f9f4275010884d1333f07eaab916e26097706`
 - JPG/JPEG audit documentation: `57223cc71821c348df48eb5b83e95547db58dcad`
+- Image-to-PDF internal-link cleanup: `b1dfb36aadbcc9f1c48b2a73279ce0a1d779375c`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
