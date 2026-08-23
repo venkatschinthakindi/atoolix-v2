@@ -107,7 +107,7 @@ const toolCategories = [
     label: "Math Tools",
   },
   {
-    href: "/tools/qrcode/qr-code-generator",
+    href: "/qrcode",
     label: "QR Code Tools",
   },
 ];
