@@ -108,7 +108,10 @@ export default function MeetingTimeFinderSeoContent() {
       <section aria-labelledby="comparisons-heading" className="space-y-4"><SectionHeading id="comparisons-heading" title="Popular Time Zone Comparisons" description="Examples of common location combinations to check when planning an international meeting." /><ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{popularComparisons.map((item) => <li key={item} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/75">{item}</li>)}</ul></section>
       <section aria-labelledby="tips-heading" className="space-y-4"><SectionHeading id="tips-heading" title="Tips for Scheduling Meetings Across Time Zones" description="Use date-aware time zones and realistic schedules when choosing a meeting slot." /><ul className="space-y-2 text-sm leading-6 text-white/70">{tips.map((tip) => <li key={tip} className="rounded-lg border border-white/10 bg-white/5 px-4 py-2">{tip}</li>)}</ul></section>
       <section aria-labelledby="faq-heading" className="space-y-4"><SectionHeading id="faq-heading" title="Meeting Time Finder FAQ" description="Answers to common questions about finding meeting times across time zones." /><div className="space-y-3">{faqItems.map((item) => <details key={item.q} className="rounded-xl border border-white/10 bg-white/5 p-4"><summary className="cursor-pointer text-sm font-semibold">{item.q}</summary><p className="mt-2 text-sm leading-6 text-white/70">{item.a}</p></details>)}</div></section>
-      <RelatedTools toolIds={["timezone-converter"]} currentToolId="meeting-time-finder" />
+      <RelatedTools
+        toolId="meeting-time-finder"
+        items={[{ name: "Time Zone Converter", href: timezoneConverterPath }]}
+      />
     </div>
   );
 }
