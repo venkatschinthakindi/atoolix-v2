@@ -25,6 +25,10 @@ export default function EmiCalculatorHubSeoContent() {
     operatingSystem: "Any",
     description:
       "Free EMI calculator for home, car, and personal loans with repayment and prepayment comparisons.",
+    offers: {
+      "@type": "Offer",
+      price: 0,
+    },
   };
 
   return (
