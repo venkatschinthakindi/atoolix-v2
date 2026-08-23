@@ -8,12 +8,12 @@ import { Search } from "lucide-react";
 import { IconResolver } from "@/sharedUI/iconResolver";
 import { getCanonicalToolPath } from "@/utility/getTool";
 
-// const categoryIcons: Record<string, JSX.Element> = categoryIcons;
 type CommandPaletteProps = {
   buttonName: string;
   buttonClassName: string; // optional: Tailwind width class (e.g. "max-w-md")
-  searchTools: boolean ;
+  searchTools: boolean;
 };
+
 export function CommandPalette({ buttonName, buttonClassName, searchTools }: CommandPaletteProps) {
   const tools = getCachedTools();
   const router = useRouter();
@@ -21,7 +21,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
   const [open, setOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  let dataSource = searchTools ? tools : categoryIcons; // You can replace [] with another dataset if needed
+  const dataSource = searchTools ? tools : categoryIcons;
 
   const results = dataSource.filter(
     (item) =>
@@ -43,7 +43,11 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
           setSelectedIndex((prev) => Math.max(prev - 1, 0));
         if (e.key === "Enter" && results[selectedIndex]) {
           const item = results[selectedIndex];
-          router.push(searchTools ? getCanonicalToolPath(item) : `/tools/${item.title}`);
+          if (searchTools && "alternates" in item) {
+            router.push(getCanonicalToolPath(item));
+          } else if (!searchTools) {
+            router.push(`/tools/${item.title}`);
+          }
           setOpen(false);
         }
       }
@@ -62,87 +66,85 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
       </button>
 
       {/* <AnimatePresence> */}
-        {open && (
+      {open && (
+        <div
+          // initial={{ opacity: 0 }}
+          // animate={{ opacity: 1 }}
+          // exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-indigo/50 backdrop-blur-sm flex items-center justify-center z-50"
+          onClick={() => setOpen(false)}
+        >
           <div
-            // initial={{ opacity: 0 }}
-            // animate={{ opacity: 1 }}
-            // exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-indigo/50 backdrop-blur-sm flex items-center justify-center z-50"
-            onClick={() => setOpen(false)}
+            // initial={{ scale: 0.95, opacity: 0 }}
+            // animate={{ scale: 1, opacity: 1 }}
+            // exit={{ scale: 0.95, opacity: 0 }}
+            className="bg-white/10 w-full max-w-2xl rounded-xl shadow-xl p-6"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div
-              // initial={{ scale: 0.95, opacity: 0 }}
-              // animate={{ scale: 1, opacity: 1 }}
-              // exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white/10 w-full max-w-2xl rounded-xl shadow-xl p-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="glass-input border-b border-white/10 pb-4">
-                <Search className="w-5 h-5 text-white/40" />
-                <input
-                  autoFocus
-                  placeholder={searchTools == true ? "Search tools..." : "Explore categories..."}
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setSelectedIndex(0);
-                  }}
-                  className="search-field"
-                />
-              </div>
+            <div className="glass-input border-b border-white/10 pb-4">
+              <Search className="w-5 h-5 text-white/40" />
+              <input
+                autoFocus
+                placeholder={searchTools === true ? "Search tools..." : "Explore categories..."}
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setSelectedIndex(0);
+                }}
+                className="search-field"
+              />
+            </div>
 
-              <div className="mt-4 max-h-64 overflow-y-auto toolsSeatchResultSection">
-                {results.length > 0 ? (
-                  results.map((item: any, index: number) => (
-                    <div
-                      key={index}
-                      className={`result-item ${
-                        index === selectedIndex ? "result-item-active" : "result-item-hover"
-                      }`}
-                      onClick={() => {
-                        if (searchTools) {
-                          router.push(getCanonicalToolPath(item));
-                          setOpen(false);
-                        }
-                        else {
-                          const params = new URLSearchParams({
-                            categoryid: item?.id
-                          });
-                          
-                          router.push(`/tools?${params.toString()}`);
-                        }
-                      }}
-                    >
-                      {
-                        searchTools == true ?
-                        (<div className="flex items-center gap-2">
-                        <IconResolver name={item.icon} size={18} color="#40916f"/>
+            <div className="mt-4 max-h-64 overflow-y-auto toolsSeatchResultSection">
+              {results.length > 0 ? (
+                results.map((item: any, index: number) => (
+                  <div
+                    key={index}
+                    className={`result-item ${
+                      index === selectedIndex ? "result-item-active" : "result-item-hover"
+                    }`}
+                    onClick={() => {
+                      if (searchTools) {
+                        router.push(getCanonicalToolPath(item));
+                        setOpen(false);
+                      } else {
+                        const params = new URLSearchParams({
+                          categoryid: item?.id,
+                        });
+
+                        router.push(`/tools?${params.toString()}`);
+                      }
+                    }}
+                  >
+                    {searchTools === true ? (
+                      <div className="flex items-center gap-2">
+                        <IconResolver name={item.icon} size={18} color="#40916f" />
                         {/* <span>
                           {item.category}
                         </span> */}
-                      </div>):("")
-                      }
-                      <div>
-                        <p className="font-medium" title={String(item.description)}>{item.title}</p>
-                        {/* <p className="text-white/60 text-sm">
-                          {item.description}
-                        </p> */}
                       </div>
-                      
-                      
+                    ) : (
+                      ""
+                    )}
+                    <div>
+                      <p className="font-medium" title={String(item.description)}>{item.title}</p>
+                      {/* <p className="text-white/60 text-sm">
+                        {item.description}
+                      </p> */}
                     </div>
-                  ))
-                ) : (
-                  <p className="text-white/60 text-center py-6">No tools found</p>
-                )}
-              </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-white/60 text-center py-6">No tools found</p>
+              )}
+            </div>
 
-              <div className="mt-4 text-xs text-white/50 text-center">
-                ↵ Enter to select • Esc to close • ↑ ↓ to navigate
-              </div>
+            <div className="mt-4 text-xs text-white/50 text-center">
+              ↵ Enter to select • Esc to close • ↑ ↓ to navigate
             </div>
           </div>
-        )}
+        </div>
+      )}
       {/* </AnimatePresence> */}
     </>
   );
