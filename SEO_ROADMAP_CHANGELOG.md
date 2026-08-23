@@ -11,7 +11,7 @@ This file records incremental execution updates that must be reconciled into `SE
 - `FinanceHubSeoContent.tsx` still listed `ROI Calculator` with the legacy `/tools/calculator/roi-calculator` destination and separately described ROI as an active calculator. This contradicted the current product architecture and the permanent alias policy.
 
 ### Change implemented
-Commit: `5df3834184e1520eec75f171c04e29c6e5c79cbf`
+Commit: `6c31858c7c137bed4b36e87d4c59a4b054aade10`
 
 File: `src/app/finance/FinanceHubSeoContent.tsx`
 
