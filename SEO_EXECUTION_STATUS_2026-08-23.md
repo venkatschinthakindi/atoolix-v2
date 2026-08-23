@@ -68,13 +68,24 @@ Target: `/tools/privacysecurity/file-analyzer`
 - Shared JSON-LD handling continues to suppress deprecated/unsupported `FAQPage` and `HowTo` types.
 - **Decision: preserve the page; no speculative File Analyzer code change.**
 
+### Finance/EMI — first execution
+Target: `/tools/calculator/emi-calculator`
+- Latest `main` source inspected before editing.
+- Canonical is `/tools/calculator/emi-calculator` and the registry identifies the page as a Finance/Loan tool.
+- Page content accurately covers EMI calculation, home/car/personal loan paths, formula, repayment/prepayment context and lender-result limitations.
+- BreadcrumbList uses the `/tools/calculator` hub and the dedicated page URL.
+- Found a concrete structured-data eligibility gap: the page emitted `WebApplication` markup without the required `offers.price` property for Google's SoftwareApplication rich-result eligibility.
+- Corrected the `WebApplication` JSON-LD to include `offers: { "@type": "Offer", "price": 0 }`, accurately representing the free calculator. Google documents `offers.price` as required for SoftwareApplication rich-result eligibility and `FinanceApplication` as a supported application category.
+- Commit: `4164509bb5347fe431d0456e257c8c748025f678`.
+- Production deployment and Google recrawl/rich-result validation remain pending.
+
 ## Ranking-growth status
-Approximate implementation progress: **67–72% complete**. This is not a ranking prediction.
+Approximate implementation progress: **68–73% complete**. This is not a ranking prediction.
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~80–85%
 - Internal linking: ~70–75%
-- GSC opportunity/content optimization: ~68% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport and File Analyzer audits
+- GSC opportunity/content optimization: ~70% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport, File Analyzer and first EMI audit
 - Authority/backlink/trust growth: substantially pending
 - Final production validation and post-deployment Search Console measurement: pending
 
@@ -85,10 +96,14 @@ Approximate implementation progress: **67–72% complete**. This is not a rankin
 4. QR Code Generator — completed/preserved
 5. Passport Photo Resizer — completed/preserved
 6. File Analyzer — completed/preserved
-7. **Finance/EMI cluster — next execution target**
-8. Authority/trust growth
-9. Broader Search Console query/page optimization after recrawl
-10. Final site-wide production validation
+7. EMI Calculator hub — structured-data fix committed; validate deployment, then continue EMI child pages
+8. Home Loan EMI Calculator
+9. Car Loan EMI Calculator
+10. Personal Loan EMI Calculator
+11. Broader finance/investment cluster
+12. Authority/trust growth
+13. Broader Search Console query/page optimization after recrawl
+14. Final site-wide production validation
 
 Do not reopen completed items unless new evidence identifies a defect.
 
@@ -122,4 +137,4 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Repository changes do not prove Google has processed them; live HTML, deployment and Search Console recrawl/indexation must be validated separately.
 
 ## Next execution
-**Finance/EMI cluster** — fetch the latest `main` implementation first, then audit the highest-value finance page(s) against current Search Console evidence, current Google Search guidance, canonical/indexability state, content usefulness, internal-link architecture and structured-data validity. Finance pages receive additional accuracy/trust scrutiny because users rely on them for financial calculations. Preserve working signals and make a code change only when evidence supports it. Update this file before moving to authority/trust growth.
+**Home Loan EMI Calculator** — fetch the latest `main` implementation first, then audit it against current Search Console evidence, current Google Search guidance, financial-calculation accuracy/trust requirements, canonical/indexability state, content usefulness, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this file before moving to the Car Loan EMI Calculator.
