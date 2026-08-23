@@ -119,7 +119,49 @@ File: `src/app/finance/FinanceHubSeoContent.tsx`
 
 Added a direct crawlable ROI link and concise ROI context so users can distinguish total ROI from annualized/time-sensitive measures. No URL, canonical, sitemap, redirect, or duplicate-page change was made.
 
+## 2026-08-23 — QR category footer → hub internal-link correction
+
+### Evidence reviewed
+- The dedicated `/qrcode` page exists as a real category hub with its own self-referencing canonical: `/qrcode`.
+- Its title and description explicitly cover both QR generation and scanning, and the page provides hub-level explanatory content plus links onward to broader tool areas.
+- The global footer's `Tool Categories` list labeled the destination **QR Code Tools** but pointed directly to `/tools/qrcode/qr-code-generator`, bypassing the category hub.
+
+### Google guidance applied
+Google's current canonicalization guidance says canonical signals work together and recommends consistent URL signals. Google's current site-move/link guidance also explicitly recommends updating internal links to the intended URLs. The broader principle applied here is to keep category navigation pointing to the category's canonical hub while individual tool navigation points to the child tool.
+
+Official Google guidance checked on 2026-08-23:
+- What is URL canonicalization: https://developers.google.com/search/docs/crawling-indexing/canonicalization
+- Fix canonicalization issues: https://developers.google.com/search/docs/crawling-indexing/canonicalization-troubleshooting
+- Site moves / internal links: https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes
+- Latest Search documentation updates: https://developers.google.com/search/updates
+
+### Change implemented
+Commit: `068fc5bc8c49d7e1631e243fd9f9a323d904f435`
+
+File: `src/app/footer/footer.tsx`
+
+Changed only the QR category destination:
+- Before: `/tools/qrcode/qr-code-generator`
+- After: `/qrcode`
+- Anchor label remains: `QR Code Tools`
+
+### Why this was justified
+This is a small but genuine internal-information-architecture correction. The footer now reinforces the category → hub → child-tool hierarchy instead of bypassing the hub. It does not create a new page, change a canonical, change the sitemap, or introduce a keyword variant.
+
+### Validation / non-changes
+- [x] `/qrcode` exists and has canonical `${siteUrl}/qrcode`.
+- [x] Footer category anchor remains descriptive: `QR Code Tools`.
+- [x] Individual QR generator route remains available separately.
+- [x] No URL migration performed.
+- [x] No redirect change.
+- [x] No sitemap change.
+- [x] No structured-data change.
+- [x] No duplicate page created.
+- [x] Git commit created.
+- [ ] Production deployment verification pending.
+- [ ] Search Console post-recrawl measurement pending.
+
 ## Next action
-Continue from the latest Git state after correcting the SIP/Retirement URL distinction. Run the site-wide route → registry → sitemap → canonical → internal-link reconciliation first, because the audit just demonstrated that an incorrect URL assumption can create a real SEO regression. Then use the fresh Search Console opportunity queue to select the next highest-value page/cluster. For each candidate, apply the full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance.
+Continue from commit `068fc5bc8c49d7e1631e243fd9f9a323d904f435`. Run the remaining site-wide hub/category → child-tool internal-link reconciliation and verify that every category-level navigation element points to the correct hub canonical while individual tool links point to their registered tool canonical. Then move to the next fresh Search Console opportunity. For each candidate, apply the full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance.
 
 Make a production change only when a genuine gap exists, including legitimate small improvements. Do not infer Search Console metrics for SIP versus Retirement from the previously combined "Retirement/SIP" baseline; obtain fresh page-level Search Console evidence before prioritizing one over the other.
