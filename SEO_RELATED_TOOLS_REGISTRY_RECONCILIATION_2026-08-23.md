@@ -72,6 +72,6 @@ The next source edit should therefore be a targeted reconciliation of the active
 
 ## Next step
 
-Perform the targeted registry/documentation cleanup. Keep the active Image-to-PDF page as the consolidated destination for JPG/JPEG/PNG/WebP-to-PDF intent. Do not create new keyword-variant pages.
+Perform the targeted registry/documentation cleanup through the one-time GitHub Actions reconciliation workflow now available from `main`. The workflow is scoped to the dedicated `seo/related-tools-registry-cleanup` PR and will run `npm ci` plus `npm run build` before committing the controlled source/MD result. Keep the active Image-to-PDF page as the consolidated destination for JPG/JPEG/PNG/WebP-to-PDF intent. Do not create new keyword-variant pages.
 
 This audit supersedes the earlier statement that the full explicit `relatedTools` graph was merely pending without a known defect: a concrete legacy-link defect is now confirmed in the public documentation surface.
