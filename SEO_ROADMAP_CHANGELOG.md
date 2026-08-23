@@ -2,6 +2,51 @@
 
 This file records incremental execution updates that must be reconciled into `SEO_ROADMAP.md` when the central roadmap is next edited. `SEO_ROADMAP.md` remains the primary strategy/source of truth; this changelog prevents execution history from being lost between chats while preserving the full roadmap unchanged.
 
+## 2026-08-23 — Legacy ROI visible-identity cleanup completed
+
+### Evidence reviewed
+- The active registered product at `/tools/calculator/sip-calculator` is the SIP Calculator.
+- `/tools/calculator/roi-calculator` remains a legacy migration URL and is intentionally preserved as a permanent redirect to the SIP Calculator.
+- Documentation and Disclaimer still contained active visible labels identifying the SIP URL as `ROI Calculator`.
+- The repository-wide sweep distinguished active product references from intentional historical/migration references.
+
+### Change implemented
+Commits:
+- `c68f55000d2cd5485c666514bab05fb58c664e50`
+- `26d8e63e3d0d3034f9e88dc99fc8262024e02484`
+
+Files:
+- `src/app/documentation/page.tsx`
+- `src/app/disclaimer/page.tsx`
+
+Changed active visible identity from `ROI Calculator` to `SIP Calculator` while retaining the canonical `/tools/calculator/sip-calculator` destination.
+
+Documentation now consistently presents the SIP Calculator as SIP, including the quick-link label and Finance Calculator entry. Disclaimer now presents the same active destination as SIP Calculator.
+
+No legacy redirect was removed. No new ROI page was created.
+
+### Google guidance applied
+Google's current canonicalization guidance says canonicalization uses multiple signals including redirects, sitemap inclusion, and `rel="canonical"`, and that canonical preference is a hint rather than a rule. Google's current site-move guidance recommends updating internal links to the preferred destination while retaining appropriate permanent redirects.
+
+Official Google guidance checked on 2026-08-23:
+- https://developers.google.com/search/docs/crawling-indexing/canonicalization
+- https://developers.google.com/search/docs/crawling-indexing/canonicalization-troubleshooting
+- https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes
+- https://developers.google.com/search/updates
+
+### Validation
+- [x] Documentation active SIP URL now has SIP identity.
+- [x] Disclaimer active SIP URL now has SIP identity.
+- [x] Legacy `/tools/calculator/roi-calculator` redirect remains preserved.
+- [x] No active ROI page created.
+- [x] No sitemap change.
+- [x] No canonical change.
+- [x] No redirect change.
+- [x] Repository comparison from the pre-change state shows only the two intended page files changed: Documentation `+4/-4`, Disclaimer `+2/-2`.
+- [x] Temporary validation workflow removed; no temporary workflow remains in `.github/workflows/`.
+- [ ] Production deployment verification pending through the normal deployment pipeline.
+- [ ] Search Console post-recrawl measurement pending.
+
 ## 2026-08-23 — Finance hub legacy ROI identity cleanup
 
 ### Evidence reviewed
@@ -36,8 +81,8 @@ Official Google guidance checked on 2026-08-23:
 - [x] No sitemap change.
 - [x] No canonical change.
 - [x] No redirect change.
-- [ ] Documentation page legacy ROI label/link still requires the same semantic cleanup.
-- [ ] Disclaimer page legacy ROI label/link still requires the same semantic cleanup.
+- [x] Documentation page legacy ROI label/link still requires the same semantic cleanup.
+- [x] Disclaimer page legacy ROI label/link still requires the same semantic cleanup.
 
 ## 2026-08-23 — Calculator hub SIP internal-link audit correction
 
