@@ -5,7 +5,7 @@ import { FilterToolHubPage } from "@/sharedUI/filterToolHubPage";
 export const metadata = {
   title: "All Free Online Tools - PDF, Image, Calculator, EMI and Finance Tools",
   description:
-    "Explore free online tools including PDF tools, image converters, compressors, Finance tools and calculators.",
+    "Explore free online tools including PDF tools, image converters, compressors, finance tools, calculators, date and time utilities, QR tools, and privacy tools.",
   alternates: {
     canonical: `${serverConfig.siteUrl}/tools`,
   },
@@ -13,11 +13,6 @@ export const metadata = {
     index: true,
     follow: true,
   },
-};
-
-type PageProps = {
-  params: Promise<{}>;
-  searchParams: Promise<{ categoryId?: string }>;
 };
 
 export default async function Page({
@@ -33,10 +28,15 @@ export default async function Page({
     (Array.isArray(categoryId) ? categoryId[0] : categoryId)
       ?.trim()
       .toLowerCase() ?? "all";
+
   return (
     <div className="app-shell px-6">
       <div className="app-container page-section">
-        <FilterToolHubPage filterKey={filterKey} showCategoryBar={true} />
+        <FilterToolHubPage
+          filterKey={filterKey}
+          showCategoryBar={true}
+          title="All Free Online Tools for PDF, Images, Finance, Math and More"
+        />
         <Footer />
       </div>
     </div>
