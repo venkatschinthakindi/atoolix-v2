@@ -196,13 +196,14 @@ These are **source-of-truth URLs already established during the SEO work**. Do n
 | QR Code Generator | `/tools/qrcode/qr-code-generator` | Priority |
 | ROI Calculator | `/tools/calculator/roi-calculator` | Priority |
 | Personal Loan EMI | `/tools/calculator/personal-loan-emi-calculator` | Priority |
-| Retirement/SIP calculator | `/tools/calculator/retirement-calculator` | Established |
+| SIP Calculator | `/tools/calculator/sip-calculator` | Established |
+| Retirement Calculator | `/tools/calculator/retirement-calculator` | Established |
 | FD Calculator | `/tools/calculator/fd-calculator` | Priority |
 | EMI Calculator | `/tools/calculator/emi-calculator` | Priority |
 | Home Loan EMI | `/tools/calculator/home-loan-emi-calculator` | Priority |
 | Car Loan EMI | `/tools/calculator/car-loan-emi-calculator` | Priority |
 
-**Important historical URL clarification:** `/tools/calculator` and `/tools/converter` are real tool routes and must not be removed/reverted merely because they are not the same as category paths discussed elsewhere.
+**Important URL clarification:** `/tools/calculator/sip-calculator` and `/tools/calculator/retirement-calculator` are separate registered tools. The SIP Calculator canonical is `/tools/calculator/sip-calculator`; the Retirement Calculator canonical is `/tools/calculator/retirement-calculator`. Do not conflate them in future SEO work. `/tools/calculator` and `/tools/converter` are also real tool routes and must not be removed/reverted merely because they are not the same as category paths discussed elsewhere.
 
 ## 4. Search Console baseline captured during this SEO program
 
@@ -231,7 +232,7 @@ The supplied Search Console snapshot showed the site beginning to receive meanin
 - QR Code Generator had **42 impressions, 0 clicks, average position 78.50**.
 - Passport Photo Resizer had **37 impressions, 0 clicks, average position 70.97**.
 - File Analyzer had **25 impressions, 0 clicks, average position 60.76**.
-- Retirement/SIP calculator had **22 impressions, 0 clicks, average position 57.36**.
+- The supplied snapshot previously grouped **Retirement/SIP** together at **22 impressions, 0 clicks, average position 57.36**. This grouping is now treated as ambiguous because the repository confirms SIP and Retirement are separate routes. A fresh Search Console export should be used before assigning that metric to either URL.
 
 These numbers are the historical baseline supplied in the SEO conversations. Future analysis should compare against newer Search Console exports rather than assuming these values remain current.
 
@@ -256,12 +257,14 @@ These numbers are the historical baseline supplied in the SEO conversations. Fut
 - [x] Passport Photo Resizer — Search Console intent + content gap + internal link + canonical audit.
 - [x] Additional tool-level SEO reviews were performed across the ongoing audit sequence; continue checking this table and Git history before repeating work.
 
-### Most recent justified change
+### Most recent justified changes
 
 - [x] Privacy & Security hub received a contextual, crawlable internal link to `/tools/privacysecurity/file-analyzer` from an "Inspect file metadata" section.
-- [x] Change was committed with: `a2426c7f99e41d95d22526b2270b4543b9274e2a`.
-- [x] Commit message: `seo: strengthen privacy hub to file analyzer internal link`.
-- [x] No sitemap or canonical change was made because none was justified by the audit.
+- [x] QR Generator received page-specific metadata aligned to demonstrated generator/scanner intent.
+- [x] Personal Loan EMI received page-specific metadata aligned to demonstrated Search Console intent.
+- [x] Finance hub received contextual internal-link improvements for ROI and savings-calculator intent.
+- [x] Calculator hub SIP internal-link audit identified and corrected a mistaken internal-link change: the visible `SIP Calculator` anchor must point to `/tools/calculator/sip-calculator`, because the repository's tool registry defines that as the SIP Calculator canonical. `/tools/calculator/retirement-calculator` is a separate Retirement Calculator.
+- [x] Correction commit: `b038e00cef64051afaa33aeb60c5fae95e34eb49`.
 
 ## 6. Current work queue
 
@@ -491,6 +494,11 @@ Search Console → identify opportunity → inspect page → identify genuine ga
 | File Analyzer | Content/internal/canonical | ✅ Audited | Search Console + content + internal-link + canonical review | Git history |
 | Passport Photo Resizer | Content/internal/canonical | ✅ Audited | Search Console + content + internal-link + canonical review | Git history |
 | Privacy hub → File Analyzer | Internal links | ✅ Completed | Added contextual crawlable link | `a2426c7f99e41d95d22526b2270b4543b9274e2a` |
+| QR generator metadata | Search appearance | ✅ Completed | Intent-aligned title/description | `28888b6910b9e67ad5b0f291760cb008938121c6` |
+| Personal Loan EMI metadata | Search appearance | ✅ Completed | Intent-aligned title/description | `9232d6793e41ddcada5e885d617cd7a9a1a7fcbf` |
+| Finance hub ROI context | Internal links | ✅ Completed | Added contextual ROI link/explanation | `15816869a185104b1eed7e298358e585418f2c62` |
+| Finance hub savings context | Content/internal | ✅ Completed | Added savings-calculator intent context | `2a056d7427425113b08e08899ddeb2c6526c10bc` |
+| Calculator hub SIP link | Canonical/internal link | ✅ Corrected | Restored direct link to registered SIP canonical; retirement is separate | `b038e00cef64051afaa33aeb60c5fae95e34eb49` |
 | Full route ↔ sitemap ↔ canonical reconciliation | Technical | ⏳ Next | Pending fresh latest-Git audit | — |
 | Full orphan-page audit | Architecture | ⏳ Pending | — | — |
 | Full title/H1/meta audit | On-page | ⏳ Pending | — | — |
@@ -509,6 +517,10 @@ Created this document as the central SEO source of truth so future conversations
 ### 2026-08-23 — Privacy hub internal-link improvement
 
 Added a contextual crawlable link from the Privacy & Security hub to the File Analyzer because the relationship is directly relevant to users inspecting file metadata. No canonical or sitemap change was justified.
+
+### 2026-08-23 — SIP vs Retirement URL clarification
+
+A site-wide internal-link audit exposed an incorrect assumption in the tracking documentation: the repository's actual tool registry defines `/tools/calculator/sip-calculator` as the SIP Calculator canonical and `/tools/calculator/retirement-calculator` as a separate Retirement Calculator. The production SIP link was restored to `/tools/calculator/sip-calculator`. Future Search Console analysis must not combine those routes without fresh evidence.
 
 ## 13. Success measurement
 
