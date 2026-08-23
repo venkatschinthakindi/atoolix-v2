@@ -15,17 +15,17 @@ const IMAGE_TARGET_SIZE_METADATA: Record<
   "image/compress-image-to-100kb": {
     title: "Compress Image to 100 KB Online Free | JPG, PNG & WebP | Atoolix",
     description:
-      "Compress JPG, JPEG, PNG, and WebP images toward 100 KB online for free. Set a target size, resize dimensions when needed, preview the result, and download.",
+      "Compress an image to a 100 KB target online. Choose JPG, PNG, or WebP, adjust dimensions or quality when needed, preview the result, and download it in your browser.",
   },
   "image/compress-image-to-50kb": {
     title: "Compress Image to 50 KB Online Free | JPG, PNG & WebP | Atoolix",
     description:
-      "Compress JPG, JPEG, PNG, and WebP images toward 50 KB online for free. Set a target size, resize dimensions when needed, preview the result, and download.",
+      "Compress an image to a 50 KB target online. Choose JPG, PNG, or WebP, adjust dimensions or quality when needed, preview the result, and download it in your browser.",
   },
   "image/compress-image-to-20kb": {
     title: "Compress Image to 20 KB Online Free | JPG, PNG & WebP | Atoolix",
     description:
-      "Compress JPG, JPEG, PNG, and WebP images toward 20 KB online for free. Set a target size, resize dimensions when needed, preview the result, and download.",
+      "Compress an image to a 20 KB target online. Choose JPG, PNG, or WebP, adjust dimensions or quality when needed, preview the result, and download it in your browser.",
   },
 };
 
