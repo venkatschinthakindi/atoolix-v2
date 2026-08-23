@@ -10,28 +10,11 @@ const CAR_LOAN_PUBLIC_PATH = "/tools/calculator/car-loan-emi-calculator";
 const PERSONAL_LOAN_PUBLIC_PATH = "/tools/calculator/personal-loan-emi-calculator";
 const QR_CODE_PUBLIC_PATH = "/tools/qrcode/qr-code-generator";
 
-// Keep the registry's internal tool id stable while exposing the corrected
-// public SIP URL. This lets the existing investment implementation continue
-// to resolve the same tool while the old public URL is permanently redirected.
-const TOOL_ID_ALIASES: Record<string, string> = {
-  "calculator/sip-calculator": "calculator/roi-calculator",
-};
-
 function withPublicCanonical(
   toolId: string,
   tool: ToolRegistryEntry | undefined,
 ): ToolRegistryEntry | undefined {
   if (!tool) return tool;
-
-  if (toolId === "calculator/roi-calculator") {
-    return {
-      ...tool,
-      alternates: {
-        ...tool.alternates,
-        canonical: `${tool.alternates.canonical.replace(/\/$/, "").replace(/\/tools\/calculator\/roi-calculator$/, "")}${SIP_PUBLIC_PATH}`,
-      },
-    };
-  }
 
   // The QR tool serves two closely related intents: creating QR codes and
   // scanning existing QR codes. Keep one canonical URL while making the
@@ -147,11 +130,10 @@ export function getTool(toolId: string | string[]) {
       ? toolId.toLowerCase()
       : toolId.join("/").toLowerCase();
 
-  const resolvedToolId = TOOL_ID_ALIASES[normalizedToolId] ?? normalizedToolId;
-  const tool = withPublicCanonical(resolvedToolId, toolMap.get(resolvedToolId));
+  const tool = withPublicCanonical(normalizedToolId, toolMap.get(normalizedToolId));
 
   return {
-    toolId: tool ? resolvedToolId : "not-found",
+    toolId: tool ? normalizedToolId : "not-found",
     tool,
   };
 }
