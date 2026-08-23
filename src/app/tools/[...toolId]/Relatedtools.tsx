@@ -294,8 +294,11 @@ export async function RelatedTools({
   description,
   icon,
   maxItems = 8,
-  includeArchived = true,
-  includeComingSoon = true,
+  // Safe defaults: generic registry-driven related links should only surface
+  // current destinations. Archived/coming-soon tools require an explicit
+  // opt-in by the caller; curated clusters above are already active-only.
+  includeArchived = false,
+  includeComingSoon = false,
   className,
 }: RelatedToolsProps) {
   const currentTool = tools.find((t: any) => t.id === toolId);
