@@ -58,7 +58,7 @@ const quickLinks = [
   },
   {
     href: "/tools/calculator/sip-calculator",
-    label: "ROI Calculator",
+    label: "SIP Calculator",
   },
   {
     href: "/tools/pdf/merge-pdf",
