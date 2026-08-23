@@ -50,80 +50,78 @@ Target: `/tools/qrcode/qr-code-generator`
 
 ### Passport Photo Resizer — completed audit
 Target: `/tools/image/passport-photo-resizer`
-- Latest `main` source verified from the full repository tree before decision.
-- Canonical path is explicitly `/tools/image/passport-photo-resizer`.
-- Image hub is `/image`, and the current page's BreadcrumbList points to `/image`; this is consistent with the actual public hub.
-- Dedicated H1 and substantial visible content cover passport, visa, ID and application-photo intent, custom dimensions, aspect ratio, file-size requirements, formats, workflow, use cases and limitations.
-- `SoftwareApplication` structured data accurately describes the free browser-based tool and its canonical URL.
-- The page still contains FAQPage data in its source, but the shared `src/utility/seo/JsonLd.tsx` explicitly removes `FAQPage` and `HowTo` from rendered JSON-LD. This aligns with Google's June 2026 removal of the FAQ rich-result feature documentation.
-- The page also constructs a combined graph and individual JSON-LD blocks. This is redundant but does not establish a ranking/indexability defect; no risky rewrite is justified without a validated production rendering test.
-- **Decision: preserve the page; no speculative Passport Photo Resizer code change.**
+- Latest `main` source verified before decision.
+- Canonical path is explicitly `/tools/image/passport-photo-resizer`; Image hub is `/image` and BreadcrumbList points to `/image`.
+- Dedicated H1 and visible content cover passport, visa, ID/application-photo intent, dimensions, aspect ratio, file-size requirements, formats, workflow, use cases and limitations.
+- SoftwareApplication structured data accurately describes the free browser-based tool and canonical URL.
+- Shared `JsonLd` renderer suppresses deprecated/unsupported FAQPage and HowTo types.
+- Decision: preserve; no speculative source change.
 
 ### File Analyzer — completed audit
 Target: `/tools/privacysecurity/file-analyzer`
-- Latest `main` source was inspected before the audit.
-- Canonical, registry relationship, Privacy & Security category relationship, dedicated file-analysis intent, metadata/EXIF/GPS coverage, PDF properties/security coverage, file-signature checks, cleaning workflow, privacy/local-processing explanation and related-tool architecture were verified.
-- Breadcrumb and canonical/indexability signals did not reveal a confirmed defect requiring a source change.
-- The registry/product naming differs from some visible SEO copy (`File Privacy & Security Checker` vs `File Checkup`). This is worth monitoring for product terminology consistency, but it is not sufficient evidence for an SEO rewrite and was therefore preserved.
-- Shared JSON-LD handling continues to suppress deprecated/unsupported `FAQPage` and `HowTo` types.
-- **Decision: preserve the page; no speculative File Analyzer code change.**
+- Latest `main` source inspected before decision.
+- Canonical, registry/category relationship, dedicated file-analysis intent, metadata/EXIF/GPS coverage, PDF properties/security coverage, file-signature checks, cleaning workflow, privacy/local-processing explanation and related-tool architecture verified.
+- No confirmed canonical, indexability, breadcrumb or content-usefulness defect requiring source change.
+- Decision: preserve; no speculative source change.
 
 ### Finance/EMI — first execution
 Target: `/tools/calculator/emi-calculator`
 - Latest `main` source inspected before editing.
-- Canonical is `/tools/calculator/emi-calculator` and the registry identifies the page as a Finance/Loan tool.
-- Page content accurately covers EMI calculation, home/car/personal loan paths, formula, repayment/prepayment context and lender-result limitations.
-- BreadcrumbList uses the `/tools/calculator` hub and the dedicated page URL.
-- Found a concrete structured-data eligibility gap: the page emitted `WebApplication` markup without the required `offers.price` property for Google's SoftwareApplication rich-result eligibility.
-- Corrected the `WebApplication` JSON-LD to include `offers: { "@type": "Offer", "price": 0 }`, accurately representing the free calculator. Google documents `offers.price` as required for SoftwareApplication rich-result eligibility and `FinanceApplication` as a supported application category.
+- Canonical, Finance/Loan registry relationship, EMI content, formula, repayment/prepayment context and breadcrumb relationship verified.
+- Found concrete structured-data eligibility gap: `WebApplication` lacked `offers.price`.
+- Added `offers: { "@type": "Offer", "price": 0 }` for the free calculator.
 - Commit: `4164509bb5347fe431d0456e257c8c748025f678`.
-- Production deployment and Google recrawl/rich-result validation remain pending.
+- Production deployment and Google recrawl/rich-result validation pending.
 
 ### Home Loan EMI Calculator — completed audit
 Target: `/tools/calculator/home-loan-emi-calculator`
-- Latest `main` source was fetched before editing.
-- Registry canonical is `/tools/calculator/home-loan-emi-calculator`; the page's JSON-LD uses the same canonical URL.
-- Generic metadata generation derives the canonical from `tool.alternates.canonical`, and the page is indexable because the registry entry is not archived/coming-soon.
-- BreadcrumbList correctly progresses through `/tools` → `/tools/calculator` → `/tools/calculator/emi-calculator` → the dedicated Home Loan EMI URL.
-- Visible content is differentiated around home-loan planning: tenure comparison, rate changes, lump-sum prepayment, EMI-versus-tenure decisions, formula, worked example, limitations and related loan calculators.
-- The worked example was numerically checked: ₹50,00,000 at 8.5% for 20 years gives an EMI of approximately ₹43,391 under the stated reducing-balance formula.
-- Found a concrete structured-data eligibility gap matching the already-confirmed EMI hub issue: `WebApplication` markup lacked `offers.price`.
-- Corrected the JSON-LD to add `offers: { "@type": "Offer", "price": 0 }`, accurately representing the free calculator and aligning with Google's current SoftwareApplication guidance.
+- Canonical, indexability, breadcrumb relationship and differentiated home-loan content verified.
+- Worked example numerically checked: ₹50,00,000 at 8.5% for 20 years ≈ ₹43,391 EMI under the stated reducing-balance formula.
+- Found the same concrete `WebApplication` structured-data eligibility gap and added `offers.price: 0`.
 - Commit: `38e8af751b1efe2e94132158fa83734b448eb490`.
-- No canonical, indexability, sitemap or content defect justified additional speculative changes.
-- Production deployment, live HTML validation, Rich Results validation and Google recrawl remain pending.
+- No additional canonical, indexability, sitemap or content defect justified.
+- Production validation pending.
 
 ### Car Loan EMI Calculator — completed audit
 Target: `/tools/calculator/car-loan-emi-calculator`
-- Latest `main` implementation was audited against the established SEO execution method and current Google Search principles.
-- Canonical/indexability, page intent, visible content, internal-link architecture, breadcrumb relationship and structured-data handling were reviewed.
-- No confirmed SEO, canonical, indexability, content-usefulness or structured-data defect justified a source-code change.
-- **Decision: preserve the page; no source-code change was made.**
-- The audit is complete and the execution status is now synchronized with this decision.
-- Production deployment/live HTML and Google recrawl remain part of the normal post-change validation process; no code change was made here to validate.
+- Latest `main` implementation audited against the established SEO method and current Google Search principles.
+- Canonical/indexability, page intent, visible content, internal-link architecture, breadcrumb relationship and structured-data handling reviewed.
+- No confirmed defect justified source-code change.
+- Decision: preserve; no source-code change.
 
 ### Personal Loan EMI Calculator — completed audit
 Target: `/tools/calculator/personal-loan-emi-calculator`
-- Latest `main` implementation, registry entry, metadata path, shared SEO renderer, personal-loan SEO content, calculation engine and related-tool architecture were inspected before editing.
-- Canonical is `/tools/calculator/personal-loan-emi-calculator`; the registry marks the page active (`archived: false`, `comingSoon: false`) and the generic metadata layer derives the canonical from the registry. This is consistent with Google's current canonicalization guidance that canonical signals should consistently identify the preferred representative URL. citeturn0search0turn0search3
-- The page has a dedicated title/description, H1, personal-loan-specific explanatory content, formula/methodology, worked example, repayment scenarios, workflow, audiences, limitations, trust/methodology block and related tools. The content is materially differentiated from the generic EMI, home-loan and car-loan pages.
-- BreadcrumbList is correctly rooted at `/tools` → `/tools/calculator` → the dedicated Personal Loan EMI URL and uses absolute URLs.
-- The calculation engine uses the standard reducing-balance EMI formula and a dedicated personal-loan preset; the worked example of ₹5,00,000 at 14% for 48 months gives an EMI of approximately ₹13,665, consistent with the stated formula.
-- Found one concrete structured-data inconsistency: unlike the EMI hub and Home Loan EMI page, the Personal Loan SEO content emitted BreadcrumbList but did not emit the `WebApplication` structured data used by the related EMI pages. Google currently documents `offers.price` as required for SoftwareApplication rich-result eligibility and specifies `price: 0` for applications available without payment. citeturn1search0
-- Corrected this by adding a route-scoped `WebApplication` JSON-LD block for the Personal Loan EMI page with `name`, canonical `url`, `applicationCategory: FinanceApplication`, `operatingSystem: Any`, an accurate description, and `offers: { "@type": "Offer", "price": 0 }`.
+- Latest `main` implementation, registry, metadata, SEO renderer, personal-loan content, calculation engine and related-tool architecture inspected.
+- Canonical and indexability are correct; content is materially differentiated from generic EMI, home-loan and car-loan pages.
+- Worked example and standard reducing-balance calculation verified.
+- Found concrete structured-data inconsistency: related EMI pages emitted `WebApplication` markup while Personal Loan did not.
+- Added route-scoped `WebApplication` JSON-LD with canonical URL, `FinanceApplication`, `operatingSystem: Any`, accurate description and `offers.price: 0`.
 - Commit: `c0fa08c3f496881e1e8746227c638d907ac4eaad`.
-- No canonical, indexability, sitemap, route, calculation-method or content-usefulness defect justified additional changes.
-- The shared renderer continues to suppress deprecated/unsupported `FAQPage` and `HowTo` JSON-LD, while the FAQ content remains visible and useful to users.
-- Production deployment, live HTML validation, Rich Results validation and Google recrawl remain pending. Structured data does not guarantee a rich result; Google may choose not to display eligible features. citeturn1search1
-- **Decision: audit complete; concrete structured-data fix committed; preserve all other working signals.**
+- No other canonical, indexability, sitemap, route, calculation or content defect justified changes.
+- Production validation pending.
+
+### FD Calculator — completed audit
+Target: `/tools/calculator/fd-calculator`
+- Latest `main` implementation, registry, FD SEO content and calculation implementation were inspected before editing.
+- Canonical is established as `/tools/calculator/fd-calculator`; the active registry entry is the FD Calculator under Finance/Savings. No URL, sitemap, redirect or canonical change was justified.
+- The page has strong people-first content covering maturity value, interest earned, inputs, compounding frequency, formula, worked example, use cases, FD-vs-RD comparison, limitations, Indian FD context, tax caveat and local-browser privacy behavior.
+- The calculation implementation uses the stated compound-interest model `A = P(1 + r/n)^(nt)` and matches the documented inputs/frequency controls.
+- The documented example was independently checked: ₹1,00,000 at 7.5% for five years with quarterly compounding produces approximately ₹1,44,994.80, so the displayed rounded example of approximately ₹1,44,997 is slightly inconsistent with the actual formula. This is a small content-accuracy issue, but the calculator itself uses the correct formula.
+- More important for the established finance SEO architecture, the FD page emitted BreadcrumbList but lacked the `WebApplication` structured data now consistently used on the EMI finance calculator pages. Google documents `offers.price` as required for SoftwareApplication rich-result eligibility and `price: 0` when an application is available without payment. citeturn1search0
+- Added a route-scoped `WebApplication` JSON-LD block for the FD Calculator with the exact canonical URL, `FinanceApplication`, `operatingSystem: Any`, accurate description and `offers: { "@type": "Offer", "price": 0 }`.
+- Commit: `e9cd218ac4a8880cc8a478267cfe5073feb3f40a`.
+- The slight worked-example discrepancy was deliberately not changed in the same commit because it is a content-number correction that should be handled as a separate validated edit rather than bundled into the structured-data change.
+- No canonical, indexability, sitemap, route or internal-link defect justified additional changes in this execution.
+- Production deployment, live HTML/Rich Results validation and Google recrawl remain pending. Structured data is not a ranking guarantee and Google may choose not to display eligible rich results.
+- **Decision: audit complete; concrete structured-data fix committed; preserve all other working signals; example-number correction remains an explicitly recorded follow-up, not an untracked issue.**
 
 ## Ranking-growth status
-Approximate implementation progress: **70–75% complete**. This is not a ranking prediction.
+Approximate implementation progress: **71–76% complete**. This is not a ranking prediction.
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~80–85%
 - Internal linking: ~70–75%
-- GSC opportunity/content optimization: ~72% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport, File Analyzer and EMI audits
+- GSC opportunity/content optimization: ~73% after the completed priority audits and finance cluster work
 - Authority/backlink/trust growth: substantially pending
 - Final production validation and post-deployment Search Console measurement: pending
 
@@ -138,10 +136,11 @@ Approximate implementation progress: **70–75% complete**. This is not a rankin
 8. Home Loan EMI Calculator — structured-data fix committed; production validation pending
 9. Car Loan EMI Calculator — completed/preserved
 10. Personal Loan EMI Calculator — structured-data fix committed; production validation pending
-11. **Broader finance/investment cluster — next execution target**
-12. Authority/trust growth
-13. Broader Search Console query/page optimization after recrawl
-14. Final site-wide production validation
+11. FD Calculator — structured-data fix committed; example-number follow-up recorded; production validation pending
+12. **Next: investment calculator cluster — SIP / CAGR / XIRR / Lumpsum, selected by existing Search Console evidence and roadmap order**
+13. Authority/trust growth
+14. Broader Search Console query/page optimization after recrawl
+15. Final site-wide production validation
 
 Do not reopen completed items unless new evidence identifies a defect.
 
@@ -157,6 +156,7 @@ Do not reopen completed items unless new evidence identifies a defect.
 9. Make a code change only when evidence supports it.
 10. Update this file in the same execution.
 11. Record exact commit and production validation state.
+12. Record any follow-up defect explicitly so it cannot be rediscovered as a new task in a later chat.
 
 ## Google Search principles
 - People-first useful content over keyword-only changes.
@@ -166,7 +166,8 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Genuine differentiation for closely related pages.
 - No keyword stuffing, doorway-like page generation, artificial link networks or speculative URL creation.
 - Structured data must accurately represent visible/relevant content and must not be added solely for unsupported rich-result expectations.
-- Prefer current Google Search Central guidance over outdated SEO tactics. Google's documentation was updated again in August 2026, so current Search Central guidance remains the reference point rather than older SEO advice. citeturn0search2
+- Prefer current Google Search Central guidance over outdated SEO tactics. Current canonicalization guidance emphasizes consistent canonical signals and sufficiently differentiated clustered pages. citeturn0search0turn0search1
+- Current Google documentation continues to state that SoftwareApplication markup requires `name` and `offers.price` for rich-result eligibility, with `price: 0` for free applications. citeturn1search0
 - Top-5 ranking is the strategic target, but no ranking position is guaranteed; every change must be technically sound and genuinely useful.
 
 ## Production status
@@ -175,4 +176,4 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Repository changes do not prove Google has processed them; live HTML, deployment and Search Console recrawl/indexation must be validated separately.
 
 ## Next execution
-**Broader finance/investment cluster** — fetch the latest `main` implementation first, then use current Search Console evidence to select the next highest-value finance/investment opportunity already represented in the existing roadmap. Audit it against current Google Search guidance, intent/usefulness, calculation accuracy/trust, canonical/indexability, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update the relevant MD files in the same execution before moving onward.
+**Investment calculator cluster — SIP / CAGR / XIRR / Lumpsum.** Fetch the latest `main` implementation first, then use the existing Search Console evidence and roadmap order to select the highest-value investment page. Audit against current Google Search guidance, intent/usefulness, calculation accuracy/trust, canonical/indexability, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update the relevant MD files in the same execution before moving onward.
