@@ -142,7 +142,7 @@ export default function CalculatorSeoContent() {
         </p>
         <div className="flex flex-wrap gap-3">
           <Link href="/tools/calculator/emi-calculator" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10">EMI Calculator</Link>
-          <Link href="/tools/calculator/retirement-calculator" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10">SIP Calculator</Link>
+          <Link href="/tools/calculator/sip-calculator" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10">SIP Calculator</Link>
           <Link href="/tools/calculator/cagr-calculator" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10">CAGR Calculator</Link>
           <Link href="/tools/calculator/xirr-calculator" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10">XIRR Calculator</Link>
           <Link href="/tools/calculator/lumpsum-calculator" className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10">Lumpsum Calculator</Link>
