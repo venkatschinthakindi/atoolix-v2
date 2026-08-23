@@ -6,7 +6,7 @@ Google Search Central's current canonicalization guidance (updated 2026-08-20) s
 Google's current site-move guidance (updated 2026-08-20) specifically recommends updating internal links, using direct server-side permanent redirects where possible, avoiding redirect chains, and keeping redirects in place for at least one year. These recommendations govern this reconciliation.
 
 ## Current confirmed state
-The Documentation source on `seo/documentation-link-reconciliation` still contains these legacy internal destinations:
+The Documentation source on `seo/documentation-link-reconciliation` previously contained these legacy internal destinations:
 - `/tools/image/jpg-to-pdf`
 - `/tools/image/png-to-pdf`
 - `/tools/image/webp-to-pdf`
@@ -14,7 +14,7 @@ The Documentation source on `seo/documentation-link-reconciliation` still contai
 The preferred consolidated destination is:
 - `/tools/image/image-to-pdf`
 
-The three legacy strings are present in `src/app/documentation/page.tsx`. Repository search also finds historical references in SEO audit/reconciliation Markdown files; those documentation references are not active navigation and must not be removed merely because they contain the historical URLs.
+The three legacy strings were present in `src/app/documentation/page.tsx` before the source change. Repository search also finds historical references in SEO audit/reconciliation Markdown files; those documentation references are not active navigation and must not be removed merely because they contain the historical URLs.
 
 ## Required source change
 Keep the single active Documentation entry:
@@ -32,11 +32,9 @@ Do not remove the legacy route redirects. They are required compatibility/migrat
 ## Execution status
 The dedicated working branch remains `seo/documentation-link-reconciliation` and is intentionally retained until this task is actually completed and validated.
 
-PR #8 remains a working mechanism only; its current diff contains reconciliation/MD work, but the actual `src/app/documentation/page.tsx` source change has not been applied. It must not be merged to `main` in this state.
+PR #8 remains a working mechanism only until validation passes. The actual `src/app/documentation/page.tsx` source change is now committed, but the branch must not yet be merged to `main` because repository-wide link validation, build/typecheck, redirect verification, canonical/sitemap verification, and production validation are still required.
 
-The current Documentation blob is fully retrievable by SHA (`1b986831b1eaf0067a0df0ebb43eb0fb837538f2`), which removes the previous read/truncation uncertainty. However, the GitHub contents update API still requires a complete replacement file. No partial or reconstructed source has been blindly overwritten.
-
-A safe branch-scoped GitHub Actions reconciliation workflow was added at `.github/workflows/documentation-link-reconciliation.yml` in commit `33f6fabae8e6dd02fe421457cc452375faeb789d`. The workflow is designed to apply only the four expected source transformations and then synchronize this MD. The workflow has **not produced a verified source change** yet; `page.tsx` remains at the known-good blob SHA above. No false completion is recorded.
+The current Documentation source was fully retrievable by SHA (`1b986831b1eaf0067a0df0ebb43eb0fb837538f2`) before the change. A safe direct GitHub contents write was then used with the complete known-good file and only the approved Documentation reconciliation applied.
 
 ## Anti-loop execution log
 This section is the authoritative checkpoint intended to prevent repeating the same analysis without repository progress.
@@ -45,18 +43,27 @@ This section is the authoritative checkpoint intended to prevent repeating the s
 - Confirmed repository: `venkatschinthakindi/atoolix-v2`.
 - Confirmed default/production branch: `main`.
 - Confirmed working branch: `seo/documentation-link-reconciliation`.
-- Compared `main` with the working branch: branch is **diverged**, `ahead_by=6`, `behind_by=2` at the prior checkpoint.
 - Confirmed latest repository history includes the safe branch-scoped reconciliation workflow addition; this is a real tooling-state change.
-- Re-read the complete Documentation blob by SHA and confirmed the three legacy entries and legacy related links are still present.
-- Confirmed the source has not changed after the workflow addition.
-- **Conclusion: the SEO source task is still incomplete. The workflow mechanism is now the next execution path; do not repeat another analysis-only/status-only cycle.**
+- Re-read the complete Documentation blob by SHA and confirmed the three legacy entries and legacy related links were present before the source change.
+- Confirmed the source had not changed after the workflow addition.
+- **Conclusion at that checkpoint: the SEO source task was incomplete.**
+
+### 2026-08-24 — actual source reconciliation committed
+- Applied the approved surgical change directly to `src/app/documentation/page.tsx` using the complete known-good source as the replacement base.
+- Removed the standalone `JPG to PDF`, `PNG to PDF`, and `WebP to PDF` Documentation entries.
+- Kept `Image to PDF` as the single active image-to-PDF Documentation destination.
+- Replaced its legacy related links with active PDF destinations: merge, split, and compress.
+- Source commit: `89b97a10f71b74efddfe67171949bf8bad354a67`.
+- New `page.tsx` blob: `077bdc00002eb02bee7d0a894e199c39bffc5fac`.
+- Verified the resulting source section contains only the consolidated Image-to-PDF entry and the intended active PDF related destinations.
+- **This is the actual source milestone. Do not create another status-only checkpoint before the next validation state changes.**
 
 ### Execution rule from this checkpoint
 Do not create another MD-only checkpoint unless one of these materially changes:
-1. `src/app/documentation/page.tsx` is actually changed;
+1. repository-wide legacy-link audit produces a new result;
 2. build/typecheck/validation produces a new result;
-3. the branch/PR state changes;
-4. a concrete GitHub capability blocker changes; or
+3. redirect/canonical/sitemap/production state changes;
+4. the branch/PR state changes; or
 5. the task is closed/merged.
 
 If none of these changes, stop repeating the same analysis and move to the next actionable repository operation.
@@ -78,16 +85,21 @@ Consolidate duplicate/near-duplicate intent into the strongest useful page rathe
 Google's canonicalization troubleshooting guidance (updated 2026-08-21) says clustered pages should be sufficiently different and that after fixing content/technical issues Google may take time to re-evaluate a cluster. Once the source change is live, the most important preferred URL should be monitored in Search Console and re-indexing requested only where appropriate.
 
 ## Next phase
-Complete the actual Documentation source reconciliation first. After successful build and production validation, continue to measured production HTML and Core Web Vitals/performance work, followed by Search Console measurement.
+Complete repository-wide legacy-link validation, then run build/typecheck and verify redirects, canonical, sitemap, and rendered production HTML. After successful production validation, continue to measured Core Web Vitals/performance work followed by Search Console measurement.
 
 ## 2026-08-23 — anti-loop synchronization after workflow addition
-- The branch now contains the safe reconciliation workflow, so this is a materially changed repository/tooling state and this MD entry is justified.
+- The branch contains the safe reconciliation workflow, so that tooling-state change was previously recorded.
 - The workflow is intentionally scoped to `seo/documentation-link-reconciliation` and refuses to modify `page.tsx` if any expected source pattern is missing.
-- It is not considered an SEO completion mechanism until GitHub Actions produces a verified commit changing `src/app/documentation/page.tsx`.
-- **Do not add another status-only MD checkpoint while the source remains unchanged.** The next checkpoint must contain the actual source commit, a concrete workflow failure/blocker, or validation evidence.
+- It is no longer the primary execution path because the direct GitHub source write has now successfully produced the actual source commit.
+- **Do not add another status-only MD checkpoint while the current validation state remains unchanged.**
 
 ## 2026-08-24 — execution trigger synchronized
-- The MD is synchronized with the verified pre-reconciliation state.
-- This push is intentionally being used to activate the already-committed branch-scoped reconciliation workflow; it is **not** being counted as SEO completion.
-- The workflow must now perform the surgical source change, synchronize this MD with the resulting evidence, and push the actual source commit.
-- No merge to `main` is authorized until the source change and validation gates pass.
+- The previous trigger was intentionally used to attempt activation of the branch-scoped reconciliation workflow and was not counted as SEO completion.
+- The workflow did not produce the source commit; the direct GitHub contents write was subsequently used instead.
+- No merge to `main` is authorized until the source change and all validation gates pass.
+
+## 2026-08-24 — source milestone synchronized
+- `src/app/documentation/page.tsx` is now actually changed and committed on `seo/documentation-link-reconciliation`.
+- Commit: `89b97a10f71b74efddfe67171949bf8bad354a67`.
+- The source change is limited to the approved Documentation consolidation; no unrelated SEO/source changes were included.
+- **Next action is validation, not another planning/status cycle.**
