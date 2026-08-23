@@ -9,6 +9,7 @@ const financeLinks = [
   ["/tools/calculator/xirr-calculator", "XIRR Calculator"],
   ["/tools/calculator/cagr-calculator", "CAGR Calculator"],
   ["/tools/calculator/lumpsum-calculator", "Lumpsum Calculator"],
+  ["/tools/calculator/roi-calculator", "ROI Calculator"],
   ["/tools/calculator/retirement-calculator", "Retirement Calculator"],
   ["/tools/calculator/fd-calculator", "Fixed Deposit Calculator"],
 ] as const;
@@ -26,7 +27,7 @@ export function FinanceHubSeoContent() {
           </p>
           <p className="mt-4 leading-7">
             Each calculator is intended for a specific type of financial calculation. Choosing the right tool matters:
-            an EMI calculator models loan repayments, while SIP, XIRR, CAGR, Lumpsum, and fixed-deposit calculators
+            an EMI calculator models loan repayments, while SIP, XIRR, CAGR, ROI, Lumpsum, and fixed-deposit calculators
             answer different investment or savings questions.
           </p>
         </div>
@@ -55,7 +56,8 @@ export function FinanceHubSeoContent() {
           <h3 className="text-lg font-semibold">Investment Return Calculators</h3>
           <p className="mt-3 text-sm leading-6">
             SIP is suited to recurring contributions, XIRR to cash flows occurring on different dates, CAGR to
-            annualized growth between two values, and Lumpsum to one-time investment growth under an assumed return.
+            annualized growth between two values, ROI to total gain or loss relative to an investment, and Lumpsum to
+            one-time investment growth under an assumed return.
           </p>
         </article>
         <article className="rounded-2xl border border-slate-200 p-6">
@@ -73,6 +75,7 @@ export function FinanceHubSeoContent() {
           <p><strong>SIP Calculator:</strong> use it when you invest a fixed amount at regular intervals and want to estimate the future value of those contributions.</p>
           <p><strong>XIRR Calculator:</strong> use it when investments, withdrawals, or other cash flows occur on different dates and you need an annualized return based on those dates.</p>
           <p><strong>CAGR Calculator:</strong> use it to calculate the annualized growth rate between an initial value and a final value over a defined period.</p>
+          <p><strong>ROI Calculator:</strong> use it to estimate the total percentage gain or loss relative to an initial investment. Basic ROI does not annualize the result, so CAGR or XIRR may be more appropriate when time or irregular cash flows matter.</p>
           <p><strong>Lumpsum Calculator:</strong> use it to estimate how a one-time investment may grow over a chosen period at an assumed annual return.</p>
         </div>
       </div>
