@@ -6,7 +6,7 @@ import { FinanceHubSeoContent } from "./FinanceHubSeoContent";
 const siteUrl = serverConfig.siteUrl;
 const siteName = serverConfig.siteName;
 const title = "Free Finance Calculators – EMI, Investment, FD & Retirement";
-const description = "Free online finance calculators for home loan EMI, investments, fixed deposits, compound interest, ROI, retirement and FIRE planning. Compare scenarios instantly in your browser.";
+const description = "Free online finance calculators for home loan EMI, investments, SIP, lumpsum, fixed deposits, compound interest, retirement and FIRE planning. Compare scenarios instantly in your browser.";
 
 export const metadata = {
   title,
