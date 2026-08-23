@@ -59,13 +59,22 @@ Target: `/tools/image/passport-photo-resizer`
 - The page also constructs a combined graph and individual JSON-LD blocks. This is redundant but does not establish a ranking/indexability defect; no risky rewrite is justified without a validated production rendering test.
 - **Decision: preserve the page; no speculative Passport Photo Resizer code change.**
 
+### File Analyzer — completed audit
+Target: `/tools/privacysecurity/file-analyzer`
+- Latest `main` source was inspected before the audit.
+- Canonical, registry relationship, Privacy & Security category relationship, dedicated file-analysis intent, metadata/EXIF/GPS coverage, PDF properties/security coverage, file-signature checks, cleaning workflow, privacy/local-processing explanation and related-tool architecture were verified.
+- Breadcrumb and canonical/indexability signals did not reveal a confirmed defect requiring a source change.
+- The registry/product naming differs from some visible SEO copy (`File Privacy & Security Checker` vs `File Checkup`). This is worth monitoring for product terminology consistency, but it is not sufficient evidence for an SEO rewrite and was therefore preserved.
+- Shared JSON-LD handling continues to suppress deprecated/unsupported `FAQPage` and `HowTo` types.
+- **Decision: preserve the page; no speculative File Analyzer code change.**
+
 ## Ranking-growth status
-Approximate implementation progress: **65–70% complete**. This is not a ranking prediction.
+Approximate implementation progress: **67–72% complete**. This is not a ranking prediction.
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~80–85%
 - Internal linking: ~70–75%
-- GSC opportunity/content optimization: ~65% after the 20 KB, 50 KB, Meeting Time Finder, QR and Passport audits
+- GSC opportunity/content optimization: ~68% after the 20 KB, 50 KB, Meeting Time Finder, QR, Passport and File Analyzer audits
 - Authority/backlink/trust growth: substantially pending
 - Final production validation and post-deployment Search Console measurement: pending
 
@@ -75,8 +84,8 @@ Approximate implementation progress: **65–70% complete**. This is not a rankin
 3. Meeting Time Finder — completed; breadcrumb corrected
 4. QR Code Generator — completed/preserved
 5. Passport Photo Resizer — completed/preserved
-6. **File Analyzer — next execution target**
-7. Finance/EMI cluster
+6. File Analyzer — completed/preserved
+7. **Finance/EMI cluster — next execution target**
 8. Authority/trust growth
 9. Broader Search Console query/page optimization after recrawl
 10. Final site-wide production validation
@@ -113,4 +122,4 @@ Do not reopen completed items unless new evidence identifies a defect.
 - Repository changes do not prove Google has processed them; live HTML, deployment and Search Console recrawl/indexation must be validated separately.
 
 ## Next execution
-**File Analyzer** — fetch the latest `main` implementation first, then audit it against current Search Console evidence, current Google Search guidance, canonical/indexability state, content usefulness, internal-link architecture and structured-data validity. Preserve working signals and make a code change only when evidence supports it. Update this file before moving to the Finance/EMI cluster.
+**Finance/EMI cluster** — fetch the latest `main` implementation first, then audit the highest-value finance page(s) against current Search Console evidence, current Google Search guidance, canonical/indexability state, content usefulness, internal-link architecture and structured-data validity. Finance pages receive additional accuracy/trust scrutiny because users rely on them for financial calculations. Preserve working signals and make a code change only when evidence supports it. Update this file before moving to authority/trust growth.
