@@ -2,6 +2,59 @@
 
 This file records incremental execution updates that must be reconciled into `SEO_ROADMAP.md` when the central roadmap is next edited. `SEO_ROADMAP.md` remains the primary strategy/source of truth; this changelog prevents execution history from being lost between chats while preserving the full roadmap unchanged.
 
+## 2026-08-23 — QR generator Search Console intent/metadata alignment
+
+### Evidence reviewed
+- Supplied Search Console baseline showed `/tools/qrcode/qr-code-generator` receiving 42 impressions, 0 clicks, 0.00% CTR, average position 78.50.
+- The query `qr code generator scanner online` generated an impression at average position 94, with additional scanner/generator intent queries appearing in the supplied query export.
+- The QR tool already has substantial people-first SEO content covering URL, text, email, phone, SMS, WhatsApp, WiFi, vCard, location, event, customization, error correction, exports, camera/image scanning, mobile use, privacy behavior, and scanning safety.
+- The dedicated `/qrcode` hub already has its own canonical URL and useful generator/scanner context, so creating another QR keyword page was not justified.
+- The tool route's shared metadata path did not have an explicit page-specific title/description override for the high-opportunity QR generator/scanner intent.
+
+### Google guidance applied
+Google Search Essentials recommends using words people use to find the content in prominent locations such as the title and main heading, while keeping content people-first and avoiding search-engine-first keyword stuffing. Google also recommends crawlable, useful links and logical site structure. The canonical URL was deliberately left unchanged because Google treats canonical signals as hints and the existing route/canonical relationship did not present evidence requiring a migration.
+
+Current official Google guidance checked on 2026-08-23:
+- Google Search Essentials: https://developers.google.com/search/docs/essentials
+- SEO Starter Guide: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+- Helpful, reliable, people-first content: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
+- Canonicalization: https://developers.google.com/search/docs/crawling-indexing/canonicalization
+- Latest documentation updates: https://developers.google.com/search/updates
+
+### Change implemented
+Commit: `28888b6910b9e67ad5b0f291760cb008938121c6`
+
+File:
+`src/app/tools/[...toolId]/page.tsx`
+
+Added explicit metadata for:
+`/tools/qrcode/qr-code-generator`
+
+Title:
+`QR Code Generator & Scanner – Create, Scan & Download | Atoolix`
+
+Description:
+`Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan QR codes with a camera or image and export PNG, SVG, or PDF in your browser.`
+
+The same page-specific title and description are applied to Open Graph and Twitter metadata to keep the primary descriptive signals consistent.
+
+### Why this was justified
+The page already satisfies the broader topic and tool functionality, so adding more repetitive content would not be a good people-first improvement. The actual gap was metadata alignment with the demonstrated generator + scanner intent. This is a small, low-risk change that improves the search-result representation without changing the URL, canonical, sitemap, content architecture, or creating a keyword variant.
+
+### Validation / non-changes
+- [x] Existing QR tool URL preserved.
+- [x] Existing canonical strategy preserved.
+- [x] Sitemap unchanged.
+- [x] No redirect change.
+- [x] No duplicate page created.
+- [x] No keyword-variant page created.
+- [x] No structured-data change.
+- [x] No additional FAQ content added solely for SEO.
+- [x] Metadata accurately reflects the visible QR generator/scanner functionality.
+- [x] Git commit created.
+- [ ] Production deployment verification pending.
+- [ ] Search Console post-recrawl measurement pending.
+
 ## 2026-08-23 — Personal Loan EMI metadata intent alignment
 
 ### Evidence reviewed
@@ -133,6 +186,6 @@ This is a small but genuine internal-architecture and intent-context improvement
 - [ ] Post-recrawl Search Console measurement pending.
 
 ## Next action
-Continue from commit `15816869a185104b1eed7e298358e585418f2c62`. Audit the next highest-opportunity Search Console page/cluster using the established full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance. Make a change only when a genuine gap exists, including legitimate small improvements.
+Continue from commit `28888b6910b9e67ad5b0f291760cb008938121c6`. Audit the next highest-opportunity Search Console page/cluster using the established full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance. Make a change only when a genuine gap exists, including legitimate small improvements.
 
 Minor legitimate improvements must continue to be captured rather than ignored, but no change should be made without a concrete user, technical, relevance, crawlability, or Search Console rationale.
