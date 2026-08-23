@@ -26,14 +26,14 @@ export default function Page() {
           <section>
             <h2 className="text-2xl font-semibold tracking-tight">Free Date, Time and Time Zone Utilities</h2>
             <p className="mt-4 text-base leading-7 text-muted-foreground">
-              Atoolix provides browser-based date and time utilities for everyday scheduling and calculation tasks. Use a time zone converter when participants are in different locations, a meeting-time tool when you need to compare availability, and date calculators when you need to work out dates or time intervals.
+              Atoolix provides browser-based date and time utilities for everyday scheduling and calculation tasks. Use a <Link className="underline" href="/tools/datetime/timezone-converter">time zone converter</Link> when participants are in different locations, a <Link className="underline" href="/tools/datetime/meeting-time-finder">meeting-time tool</Link> when you need to compare availability, and date calculators when you need to work out dates or time intervals.
             </p>
           </section>
           <section>
             <h2 className="text-2xl font-semibold tracking-tight">Choose a Date or Time Tool</h2>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <div><h3 className="font-semibold">Time zone conversion</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Convert a time between locations and check the local time before scheduling calls, events, or deadlines.</p></div>
-              <div><h3 className="font-semibold">Meeting time planning</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Compare locations and find practical meeting times when people work across different time zones.</p></div>
+              <div><h3 className="font-semibold"><Link className="underline" href="/tools/datetime/timezone-converter">Time zone conversion</Link></h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Convert a time between locations and check the local time before scheduling calls, events, or deadlines.</p></div>
+              <div><h3 className="font-semibold"><Link className="underline" href="/tools/datetime/meeting-time-finder">Meeting time planning</Link></h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Compare locations and find practical meeting times when people work across different time zones.</p></div>
               <div><h3 className="font-semibold">Date calculations</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Use date-focused calculators when you need to calculate dates, intervals, durations, or other calendar-based values supported by the available tools.</p></div>
               <div><h3 className="font-semibold">Everyday scheduling</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">Check time differences and calendar information directly in your browser without installing a separate desktop utility.</p></div>
             </div>
