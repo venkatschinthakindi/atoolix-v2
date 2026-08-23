@@ -63,21 +63,23 @@ Source correction commit: `c69f2f52df67504fb26343d3182e0241c872ad3b`
 
 - Current `main` was re-read through the GitHub connector.
 - The FD source remains present at `src/components/tools/financeSuite/savings/fixedDepositCalculator.tsx`.
-- Comparing `c69f2f52df67504fb26343d3182e0241c872ad3b` to current `main` shows exactly one later commit, adding this FD audit MD; no later application/source change was detected in that comparison.
+- Comparing `c69f2f52df67504fb26343d3182e0241c872ad3b` to current `main` shows the FD source correction followed by documentation-only synchronization; no later application/source change was detected in that comparison.
 - Therefore the FD source correction and its audit MD remain synchronized.
 
 ### CI/deployment evidence
 
-- The GitHub connector's commit-workflow lookup for current `main` returned no workflow runs. This connector view is limited to pull-request-triggered runs, so this absence is **not** treated as proof that no other GitHub Actions/deployment run exists.
-- The latest known successful Documentation SEO Validation run available in the repository records is Run #28 (`32665202622`) for PR #9 head `41baa6c8e1035ba0a9ff876bff5f1c1788b2aae4`, not the current `main` commit. It therefore cannot be used as proof that the current FD commit was deployed successfully.
-- No FD-specific production deployment/version relationship was established by the available evidence.
+- `main` contains `.github/workflows/deploy.yml` (`Deploy Atoolix`). The workflow is explicitly triggered by `push` to `main`, runs `npm run deploy-build`, uploads the resulting deployment archive to the configured VPS, switches the VPS `current` symlink to a new release, and restarts `atoolix.service`.
+- This establishes the repository's intended production deployment path: pushes to `main` are intended to deploy to the Atoolix VPS.
+- The available GitHub connector cannot retrieve the repository-wide Actions run listing for this push-triggered deployment workflow. Its commit workflow lookup is limited to pull-request-triggered runs, and direct Actions workflow-run API retrieval is rejected by the connector.
+- The latest known successful Documentation SEO Validation run available through the connector is Run #28 (`32665202622`) for PR #9 head `41baa6c8e1035ba0a9ff876bff5f1c1788b2aae4`, not the current `main` commit. Its successful validation therefore cannot establish that the current FD commit was deployed.
+- No verifiable deployment run, deployment artifact, release identifier, or production version marker tying the FD source correction to the VPS has been obtained.
 
 ### Production validation evidence
 
-- Public search rendering confirms that Atoolix currently exposes an FD Calculator in its finance-tool architecture and on the tools/home surfaces.
+- Public search rendering currently exposes an Atoolix FD Calculator in the site's finance-tool architecture. Atoolix's public documentation describes the FD Calculator as estimating fixed-deposit maturity amount and interest, and the public tools/home surfaces expose the Fixed Deposit Calculator. citeturn1search0turn1search1turn1search4
 - The exact `/tools/calculator/fd-calculator` page was not returned as a directly retrievable search result in this validation pass.
-- Direct raw HTTP access to arbitrary Atoolix production routes is unavailable through the current web execution path, so the following exact production assertions remain **unverified**: HTTP status, `robots`/X-Robots-Tag, rendered canonical, rendered title/meta description, rendered H1, structured data, visible corrected worked-example values, rendered internal links, and direct sitemap membership.
-- The public documentation does describe the FD Calculator and its purpose, but this is not equivalent to validating the target page's rendered HTML.
+- Direct raw HTTP access from the current execution environment could not resolve/retrieve the target production route. Therefore the following exact production assertions remain **unverified**: HTTP status, `robots`/X-Robots-Tag, rendered canonical, rendered title/meta description, rendered H1, structured data, visible corrected worked-example values, rendered internal links, and direct sitemap membership.
+- The public documentation and search-rendered site presence are evidence that the FD Calculator exists publicly, but they are not equivalent to validating the target page's rendered HTML or proving which source commit is deployed.
 
 ### Gate decision
 
@@ -87,7 +89,7 @@ No source-code change is justified from this checkpoint. No unrelated SEO item i
 
 ### Next required evidence
 
-Establish a verifiable deployment/version relationship for the current FD source correction, then validate the target production URL directly for:
+Obtain a verifiable deployment/version relationship for the current `main`/FD source correction through an accessible deployment-run, server-release, or production-version signal, then validate the target production URL directly for:
 
 1. HTTP status
 2. indexability / robots
