@@ -109,6 +109,15 @@ Updated dedicated audit commit:
 - Dedicated audit: `SEO_METADATA_H1_AUDIT_2026-08-23.md`.
 - Audit commit: `06ae36d3b47ad2f703a5cb2d254c7722285641d6`.
 
+## Image SEO audit — latest state
+- Audited the latest `main` for image discoverability, descriptive filenames, alt text, landing-page context, preferred-image metadata and image-related accessibility/SEO defects.
+- `src/components/ui/toolCard.tsx` uses `IconResolver` for interface icons rather than substantive `<img>` elements, so there is no missing alt-text defect in that component.
+- Descriptive tool-image assets already exist under `public/toolimages/`, including dedicated compressor, converter, date/time and QR assets. No artificial image insertion was made solely to create image-search signals.
+- `src/app/layout.tsx` already supplies `og:image` using `/logo.png` with descriptive image alt metadata, and the site JSON-LD exposes the logo as an `ImageObject` for the Organization.
+- No confirmed image SEO defect justified a source-code change. Important images should be validated in rendered production HTML after deployment rather than assuming asset existence means Google will index them.
+- Dedicated audit: `SEO_IMAGE_SEO_AUDIT_2026-08-23.md`.
+- Audit commit: `40fad8dad64f967c658186cabb3dc712809521b2`.
+
 ### Validation state
 - [x] Latest `main` inspected before reconciliation.
 - [x] Registry canonical source inspected.
@@ -118,20 +127,23 @@ Updated dedicated audit commit:
 - [x] Repository searches for selected legacy internal destinations completed.
 - [x] Archived sitemap/indexability policy corrected and synchronized.
 - [x] Metadata/title/H1 architecture audited.
+- [x] Image SEO/accessibility architecture audited.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
 - [ ] Production rendered title/H1 comparison after deployment.
+- [ ] Production image/og:image validation after deployment.
 - [ ] Google URL Inspection / selected-canonical validation after deployment.
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
 
 ## Overall implementation status
-Approximate implementation progress: **81–86% complete**. This is implementation progress, not a ranking prediction.
+Approximate implementation progress: **82–87% complete**. This is implementation progress, not a ranking prediction.
 
-- Technical SEO foundation: ~88–92%
+- Technical SEO foundation: ~89–93%
 - Route/canonical/sitemap reconciliation: ~92%
 - Metadata optimization: ~85–89%
 - Internal linking: ~75–79%
 - Search Console opportunity/content optimization: ~85%
+- Image SEO foundation: ~90%; production image validation remains pending
 - Authority/trust foundation: substantially improved; legitimate earned external authority remains pending
 - Production validation and Search Console measurement: pending
 
@@ -172,6 +184,7 @@ Priority rules:
 - Site-wide indexability audit record: `393aef3fbfd0b2ba7712e83e85523bdd8bb12b51`
 - Route reconciliation documentation correction: `18562f57018e001cb28491a4f4a73ac6316e69d6`
 - Metadata/H1 audit: `06ae36d3b47ad2f703a5cb2d254c7722285641d6`
+- Image SEO audit: `40fad8dad64f967c658186cabb3dc712809521b2`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
