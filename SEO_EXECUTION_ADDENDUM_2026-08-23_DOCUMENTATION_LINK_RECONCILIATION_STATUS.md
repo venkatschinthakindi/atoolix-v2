@@ -103,3 +103,12 @@ Complete repository-wide legacy-link validation, then run build/typecheck and ve
 - Commit: `89b97a10f71b74efddfe67171949bf8bad354a67`.
 - The source change is limited to the approved Documentation consolidation; no unrelated SEO/source changes were included.
 - **Next action is validation, not another planning/status cycle.**
+
+## 2026-08-24 — validation checkpoint
+- Confirmed the `page.tsx` source commit diff is limited to removing the three standalone legacy Documentation entries and replacing their related links with active PDF destinations.
+- Confirmed the resulting `page.tsx` section on `seo/documentation-link-reconciliation` has `Image to PDF` as the only image-to-PDF Documentation entry and links directly to merge/split/compress PDF tools.
+- Repository search for `/tools/image/jpg-to-pdf` returned only historical/audit/route-reconciliation references plus the source/configuration references; the changed Documentation page is no longer an active result.
+- The current branch `next.config.ts` visibly contains a permanent redirect for `/tools/image/jpg-to-pdf` → `/tools/image/image-to-pdf`. The current visible redirect configuration does not show PNG/WebP PDF redirects, so those two legacy routes are **not yet counted as verified permanent redirects**. This is a validation finding, not an assumption that they are safe.
+- The commit has **no CI status checks** attached. The repository's visible deployment workflow runs only on pushes to `main`, so it cannot be used as proof that this PR source change has passed `npm ci`/`npm run build`.
+- Therefore build/typecheck, PNG/WebP redirect behavior, canonical, sitemap, and production HTML remain pending and the PR must not be merged yet.
+- **Next actionable operation: resolve the redirect validation finding and obtain an actual build/validation result; do not create another status-only checkpoint unless one of those states changes.**
