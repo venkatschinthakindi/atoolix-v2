@@ -42,7 +42,10 @@ export async function generateMetadata(params: any): Promise<Metadata> {
     ? CALCULATOR_CANONICAL
     : tool.alternates.canonical.replace(/\/$/, "");
 
-  const isIndexable = !tool.comingSoon;
+  // Archived tools should not remain eligible for organic search while their
+  // routes may still be reachable for legacy/internal links. `noindex` keeps
+  // the URL accessible without presenting obsolete tools as current results.
+  const isIndexable = !tool.comingSoon && !tool.archived;
 
   return {
     title,
