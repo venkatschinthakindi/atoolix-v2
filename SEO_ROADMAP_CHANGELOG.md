@@ -93,7 +93,46 @@ This is a deliberately small improvement rather than a page-wide content expansi
 - [ ] Production deployment verification pending.
 - [ ] Search Console post-recrawl measurement pending.
 
+## 2026-08-23 — Finance hub ROI internal-link/context improvement
+
+### Evidence reviewed
+- Supplied Search Console baseline: `/tools/calculator/roi-calculator` had 54 impressions, 0 clicks, 0.00% CTR, average position 71.46.
+- The Finance hub already linked to SIP, XIRR, CAGR and Lumpsum, but did not link directly to the ROI Calculator.
+- The ROI page already contains substantial intent-matching content: ROI definition, formula, net-profit relationship, examples, limitations, ROI-vs-CAGR comparison, audience/use cases, related investment calculators, FAQ content, and a financial disclaimer.
+- Therefore adding another large content block to the ROI page was not justified. The stronger gap was hub-level internal context and discovery.
+
+### Google guidance applied
+Google recommends useful, logical site structure and crawlable links rather than creating keyword-variant pages. Internal links should help users and search engines understand relationships between pages. Canonicalization remains a signal system; no canonical change was justified here.
+
+Current Google Search Central guidance was checked on 2026-08-23, including canonicalization, canonical troubleshooting, third-party SEO advice, and documentation updates.
+
+### Change implemented
+Commit: `15816869a185104b1eed7e298358e585418f2c62`
+
+File:
+`src/app/finance/FinanceHubSeoContent.tsx`
+
+Changes:
+- Added a direct crawlable `ROI Calculator` link to the Finance hub calculator list.
+- Added ROI to the hub's investment-return explanation.
+- Added a concise ROI use-case explanation alongside SIP/XIRR/CAGR/Lumpsum so users can distinguish total ROI from annualized/time-sensitive measures.
+
+### Why this was justified
+This is a small but genuine internal-architecture and intent-context improvement. It strengthens discovery of an already-indexable, already-impression-generating page without changing its URL, creating a duplicate, or stuffing keywords.
+
+### Validation / non-changes
+- [x] Existing ROI URL preserved.
+- [x] Existing ROI canonical strategy preserved.
+- [x] No sitemap change.
+- [x] No redirect change.
+- [x] No new keyword page.
+- [x] No structured-data change.
+- [x] No unsupported financial claim.
+- [x] Direct descriptive internal link added.
+- [ ] Production deployment verification pending.
+- [ ] Post-recrawl Search Console measurement pending.
+
 ## Next action
-Continue from commit `2a056d7427425113b08e08899ddeb2c6526c10bc` and audit the next highest-opportunity Search Console page/cluster. For every page, check technical indexability, canonical, sitemap membership, search intent, content usefulness, internal links, accessibility, structured data, performance implications, and duplicate/parameter URL risk before changing anything.
+Continue from commit `15816869a185104b1eed7e298358e585418f2c62`. Audit the next highest-opportunity Search Console page/cluster using the established full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance. Make a change only when a genuine gap exists, including legitimate small improvements.
 
 Minor legitimate improvements must continue to be captured rather than ignored, but no change should be made without a concrete user, technical, relevance, crawlability, or Search Console rationale.
