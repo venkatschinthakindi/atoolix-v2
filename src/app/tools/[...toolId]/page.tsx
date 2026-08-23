@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
 import { ToolRegistryEntry } from "@/data/tools";
-import { ToolRendererClient } from "@/components/tools/toolRendererClient";
+import ToolRendererClient from "@/components/tools/toolRendererClient";
 import { FloatingDock } from "@/components/layout/floatingDock";
 import { Footer } from "@/app/footer/footer";
 import { ToolHeaderFavorite } from "@/components/favorites/toolHeaderFavorite";
