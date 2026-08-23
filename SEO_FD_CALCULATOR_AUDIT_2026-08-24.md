@@ -76,38 +76,55 @@ Source correction commit: `c69f2f52df67504fb26343d3182e0241c872ad3b`
 
 ### Production validation evidence
 
-- Public search rendering currently exposes an Atoolix FD Calculator in the site's finance-tool architecture. Atoolix's public documentation describes the FD Calculator as estimating fixed-deposit maturity amount and interest, and the public tools/home surfaces expose the Fixed Deposit Calculator.
-- The exact `/tools/calculator/fd-calculator` page was not returned as a directly retrievable search result in the automated validation pass.
-- Direct raw HTTP access from the current execution environment could not resolve/retrieve the target production route.
-- A user-provided production screenshot of the exact FD Calculator page now provides direct visual evidence of the rendered calculator state. The screenshot visibly shows the page heading `FD Calculator for Fixed Deposit Maturity Value and Interest Earned`, the Fixed deposit calculator interface, and the live preview values `₹1,44,994.80` maturity value and `+₹44,994.80 earned`.
-- The screenshot's exact values are mathematically consistent with the source calculator model for ₹1,00,000 principal, 7.5% annual rate, 5 years, and quarterly compounding. The source/MD rounded worked-example values are ₹1,44,995 maturity and ₹44,995 interest; the production UI displays the unrounded result to two decimal places, which is consistent rather than a new discrepancy.
-- The screenshot therefore verifies that the corrected calculation state is visibly present in production, but it does not independently verify semantic HTML or HTTP headers.
-- The following exact production assertions remain **unverified** from the available evidence: HTTP status, `robots`/X-Robots-Tag, rendered canonical, rendered title/meta description, semantic H1 markup, structured data, rendered internal links, and direct sitemap membership.
-- The screenshot also does not expose a deployment commit/version marker, so the exact source-commit-to-production provenance remains unverified even though the corrected calculator output is visibly live.
+- Public search rendering exposes an Atoolix FD Calculator in the site's finance-tool architecture. Atoolix documentation also describes the FD Calculator as estimating fixed-deposit maturity amount and interest.
+- Direct live-page retrieval is now available for `https://atoolix.com/tools/calculator/fd-calculator`, allowing the rendered page content to be inspected rather than relying only on search snippets.
+- The live page exposes the semantic page heading `FD Calculator for Fixed Deposit Maturity Value and Interest Earned` and the page description: `Calculate fixed deposit maturity value and interest earned using your deposit amount, interest rate, duration, and compounding frequency with an instant growth projection.`
+- The live page exposes the calculator state with maturity `₹1,44,994.80`, interest `+₹44,994.80 earned`, deposit `₹1,00,000.00`, rate `7.5%`, and quarterly compounding. This is consistent with the corrected source/MD rounded worked example of approximately `₹1,44,995` maturity and `₹44,995` interest.
+- The live page contains substantial unique explanatory content covering FD maturity, interest, inputs, calculation steps, formula, worked example, use cases, factors affecting returns, FD vs RD, related calculators, and FAQ content.
+- The live page exposes the standard compound-interest formula and explicitly states that actual bank calculations can differ because of institution-specific conventions, payout structures, rounding, taxes, fees, and product terms.
+- The live page exposes internal links to Simple Interest, Compound Interest, Fixed Deposit, Recurring Deposit, SIP, and other Atoolix finance calculators, plus broader site navigation. Therefore the internal-link presence check is now verified from live rendered content.
+- The live page also exposes authorship/review information: `Written & reviewed by Venkatesh, Atoolix` and `Reviewed for calculation accuracy on 2026-08-22`.
+- The live page title surfaced by the browser retrieval is `FD Calculator | Fixed Deposit Maturity and Interest | atoolix`.
+- The live page retrieval does not expose the raw `<head>` sufficiently to independently verify the exact canonical element, `robots`/`X-Robots-Tag`, or JSON-LD blocks. The visible page content therefore cannot be treated as proof of those head-level assertions.
+- Direct sitemap membership was not independently verified in this pass.
+- The live page retrieval also does not expose a deployment commit/version marker, so source-commit-to-production provenance remains unverified.
+
+### Production SEO evidence status after live-page retrieval
+
+| Check | Status | Evidence |
+|---|---|---|
+| Production page accessible | ✅ | Exact target URL retrieved and rendered content inspected |
+| Corrected FD values visible | ✅ | Live maturity/interest values match corrected calculation |
+| Semantic H1 content | ✅ | Exact FD heading is exposed as the page H1 |
+| Title | ✅ | Browser retrieval exposes `FD Calculator \| Fixed Deposit Maturity and Interest \| atoolix` |
+| Meta description | 🟡 | Page description is exposed in rendered page metadata/content, but raw `<meta name="description">` was not independently inspected |
+| Internal links | ✅ | Multiple related finance/tool links are exposed on the live page |
+| Canonical | 🟡 | Raw `<link rel="canonical">` not independently exposed by live-page retrieval |
+| Robots / X-Robots-Tag | 🟡 | Head/HTTP header evidence not independently exposed |
+| JSON-LD / structured data | 🟡 | Raw JSON-LD block not independently exposed |
+| Sitemap membership | 🟡 | Not independently verified |
+| Source → production provenance | 🟡 | No deployment/version marker exposed |
 
 ### Gate decision
 
-**FD production gate remains OPEN / NOT COMPLETE.**
+**FD production SEO gate remains OPEN / NOT COMPLETE.**
 
-The most important functional production assertion — the corrected FD calculation is visibly live — is now supported by the user-provided production screenshot. However, the full production SEO gate cannot be marked complete because the remaining HTTP/metadata/robots/schema/link/sitemap assertions are not directly evidenced.
+The live-page retrieval materially advances the evidence and closes the visible content, H1, title, corrected-value, and internal-link checks. However, the remaining head/HTTP-level canonical, robots, structured-data, sitemap, and deployment-provenance assertions are not directly evidenced. The gate must not be marked complete until those assertions are verified or otherwise evidenced through an authoritative production artifact.
 
-No source-code change is justified from this checkpoint. No unrelated SEO item is being started. The MD is synchronized with the actual evidence above rather than marking production validation complete without proof.
+No application/source-code change is justified from this checkpoint. The MD is synchronized with the newly obtained live-page evidence rather than marking production SEO complete without proof.
 
 ### Next required evidence
 
-Obtain an accessible browser View Source/HTML or equivalent page inspection for `/tools/calculator/fd-calculator` to verify:
+Obtain either raw production HTML/View Source or equivalent authoritative response-header/head inspection for `/tools/calculator/fd-calculator` to verify:
 
-1. HTTP status
-2. indexability / robots
-3. canonical
-4. title and meta description
-5. semantic H1
-6. structured data
-7. visible FD worked-example values — **now visually verified**
-8. internal links
-9. sitemap presence
+1. canonical
+2. robots / X-Robots-Tag
+3. exact meta description tag
+4. JSON-LD / structured data
+5. sitemap membership
+6. deployment/version provenance if available
 
-Once the remaining production SEO checks are evidenced, mark the FD item complete and select the highest-value unresolved SEO opportunity from the existing roadmap.
+Once those remaining production assertions are evidenced, re-evaluate the FD gate. Only after the FD gate is closed should the highest-value unresolved SEO opportunity from the existing roadmap be selected.
 
 ## 2026-08-24 manual production screenshot checkpoint
 
@@ -118,3 +135,28 @@ A user-provided screenshot of the live FD Calculator was reviewed. It confirms t
 - Interest earned: `+₹44,994.80`
 
 These values correspond to the exact compound-interest result underlying the documented rounded example (`₹1,44,995` / `₹44,995`). This closes the previously unverified **visible corrected worked-example** sub-check, but does not close the overall production gate because metadata, headers, semantic markup, structured data, internal links, and sitemap membership remain unverified.
+
+## 2026-08-24 live URL HTML/content validation checkpoint
+
+The exact production URL was successfully retrieved and inspected. This is stronger evidence than the prior search-only checkpoint.
+
+Verified from the live page:
+
+- Page H1: `FD Calculator for Fixed Deposit Maturity Value and Interest Earned`
+- Browser-retrieved page title: `FD Calculator | Fixed Deposit Maturity and Interest | atoolix`
+- Page description text is present and matches the intended FD-calculator purpose.
+- Corrected production values are live: `₹1,44,994.80` maturity and `+₹44,994.80` interest.
+- Default inputs shown are ₹1,00,000 deposit, 7.5% annual rate, five-year scenario, and quarterly compounding.
+- Internal links to related financial calculators are present.
+- The page contains the corrected worked example and the standard compound-interest formula.
+- The page contains substantial people-first explanatory content, use cases, formula explanation, limitations/disclaimer, and FAQ content.
+
+Not independently verified from the live retrieval:
+
+- raw `<link rel="canonical">`
+- `robots` meta / `X-Robots-Tag`
+- raw JSON-LD block(s)
+- direct sitemap membership
+- production deployment commit/version marker
+
+Therefore the FD production SEO gate remains **OPEN** pending those remaining authoritative checks.
