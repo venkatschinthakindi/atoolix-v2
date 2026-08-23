@@ -3,6 +3,7 @@ import { cloneElement, isValidElement } from "react";
 import { InvestmentCalculatorGuide } from "./InvestmentCalculatorGuide";
 import { Compress100SearchIntentSection } from "@/components/tools/image/imageCompressor/compress100SearchIntentSection";
 import { CompressTargetSizeGuidance } from "@/components/tools/image/imageCompressor/compressTargetSizeGuidance";
+import { JsonLd } from "@/utility/seo/JsonLd";
 
 type SeoComponent = ComponentType<any>;
 type SeoLoader = () => Promise<{ default: SeoComponent }>;
@@ -104,6 +105,21 @@ const investmentGuideByTool: Record<string, "sip" | "lumpsum" | "cagr" | "xirr" 
   "calculator/xirr-calculator": "xirr",
 };
 
+const lumpsumApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Lumpsum Calculator",
+  url: "https://atoolix.com/tools/calculator/lumpsum-calculator",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Any",
+  description:
+    "Estimate the future value and potential gain of a one-time investment using an initial amount, assumed annual return, and investment period.",
+  offers: {
+    "@type": "Offer",
+    price: 0,
+  },
+};
+
 export default async function ToolSeoContent({ toolId }: { toolId: string }) {
   const key = toolId.toLowerCase();
   const loader = seoLoaders[key];
@@ -116,6 +132,7 @@ export default async function ToolSeoContent({ toolId }: { toolId: string }) {
   return (
     <div className="my-12 space-y-12">
       {stripDeprecatedStructuredData(<SeoContent />)}
+      {key === "calculator/lumpsum-calculator" && <JsonLd data={lumpsumApplicationSchema} />}
       {key === "image/compress-image-to-100kb" && <Compress100SearchIntentSection />}
       {key === "image/compress-image-to-50kb" && <CompressTargetSizeGuidance target={50} />}
       {key === "image/compress-image-to-20kb" && <CompressTargetSizeGuidance target={20} />}
