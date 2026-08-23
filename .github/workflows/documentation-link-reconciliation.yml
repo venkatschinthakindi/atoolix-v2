@@ -1,140 +1,83 @@
-name: Documentation Link Reconciliation
+name: Documentation SEO Validation
 
 on:
   push:
     branches:
       - seo/documentation-link-reconciliation
+  pull_request:
+    branches:
+      - main
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  reconcile:
-    if: github.actor != 'github-actions[bot]'
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 1
+          node-version: 24
+          cache: npm
 
-      - name: Apply surgical documentation consolidation
-        id: reconcile
-        shell: python
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Production build
+        run: npm run build
+
+      - name: Start production server
         run: |
-          from pathlib import Path
+          npm start > /tmp/atoolix-next.log 2>&1 &
+          echo $! > /tmp/atoolix-next.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/atoolix-next.log
+          exit 1
 
-          path = Path("src/app/documentation/page.tsx")
-          text = path.read_text(encoding="utf-8")
-
-          old_image_related = '''        related: [
-          "/tools/image/jpg-to-pdf",
-          "/tools/image/png-to-pdf",
-          "/tools/image/webp-to-pdf",
-        ],'''
-
-          new_image_related = '''        related: [
-          "/tools/pdf/merge-pdf",
-          "/tools/pdf/split-pdf",
-          "/tools/pdf/compress-pdf",
-        ],'''
-
-          old_jpg = '''      {
-        name: "JPG to PDF",
-        href: "/tools/image/jpg-to-pdf",
-        description:
-          "Convert supported JPG images into PDF documents.",
-        useCases: [
-          "Convert photos to PDF",
-          "Prepare documents for upload",
-          "Create printable files",
-        ],
-        tips:
-          "Use a clear JPG image with the correct orientation.",
-        related: [
-          "/tools/image/image-to-pdf",
-          "/tools/image/png-to-pdf",
-        ],
-      },
-'''
-
-          old_png = '''      {
-        name: "PNG to PDF",
-        href: "/tools/image/png-to-pdf",
-        description:
-          "Convert supported PNG images into PDF documents.",
-        useCases: [
-          "Convert screenshots",
-          "Prepare graphics",
-          "Create printable documents",
-        ],
-        tips:
-          "Check image dimensions and orientation before conversion.",
-        related: [
-          "/tools/image/image-to-pdf",
-          "/tools/image/jpg-to-pdf",
-        ],
-      },
-'''
-
-          old_webp = '''      {
-        name: "WebP to PDF",
-        href: "/tools/image/webp-to-pdf",
-        description:
-          "Convert supported WebP images into PDF documents.",
-        useCases: [
-          "Convert web images",
-          "Prepare files for upload",
-          "Create PDF documents",
-        ],
-        tips:
-          "Use the original WebP image when preserving its source quality matters.",
-        related: [
-          "/tools/image/image-to-pdf",
-          "/tools/image/jpg-to-pdf",
-          "/tools/image/png-to-pdf",
-        ],
-      },
-'''
-
-          required = [old_image_related, old_jpg, old_png, old_webp]
-          missing = [item[:60].replace("\n", " ") for item in required if item not in text]
-          if missing:
-              raise SystemExit("Expected source patterns were not found; refusing to modify page.tsx: " + str(missing))
-
-          text = text.replace(old_image_related, new_image_related, 1)
-          text = text.replace(old_jpg, "", 1)
-          text = text.replace(old_png, "", 1)
-          text = text.replace(old_webp, "", 1)
-          path.write_text(text, encoding="utf-8")
-
-      - name: Sync execution MD
-        shell: bash
+      - name: Validate legacy redirects
         run: |
-          cat >> SEO_EXECUTION_ADDENDUM_2026-08-23_DOCUMENTATION_LINK_RECONCILIATION_STATUS.md <<'EOF'
+          set -euo pipefail
+          for path in \
+            /tools/image/jpg-to-pdf \
+            /tools/image/png-to-pdf \
+            /tools/image/webp-to-pdf; do
+            headers=$(curl -sS -D - -o /dev/null "http://127.0.0.1:3000${path}")
+            echo "${path}"
+            echo "${headers}"
+            echo "${headers}" | grep -Eq '^HTTP/.* 30[18]$'
+            echo "${headers}" | grep -F 'location: /tools/image/image-to-pdf' || \
+              echo "${headers}" | grep -F 'Location: /tools/image/image-to-pdf'
+          done
 
-## 2026-08-23 — Source reconciliation applied
-
-- Applied the planned Documentation consolidation to `src/app/documentation/page.tsx`.
-- Removed active JPG → PDF, PNG → PDF, and WebP → PDF documentation entries.
-- Kept Image to PDF as the consolidated active destination.
-- Replaced the consolidated Image to PDF related links with active PDF destinations.
-- Legacy URLs remain eligible for redirect configuration and historical migration/audit references; this change does not remove redirect mappings.
-- Next gate: repository-wide legacy-link classification, build/typecheck, redirect/canonical/sitemap validation, and rendered production HTML validation.
-- Anti-loop rule remains: no additional status-only MD checkpoints until repository or validation state materially changes.
-EOF
-
-      - name: Commit source and MD changes
-        shell: bash
+      - name: Validate consolidated page
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/app/documentation/page.tsx SEO_EXECUTION_ADDENDUM_2026-08-23_DOCUMENTATION_LINK_RECONCILIATION_STATUS.md
-          if git diff --cached --quiet; then
-            echo "No reconciliation changes to commit."
-            exit 0
+          set -euo pipefail
+          html=$(curl -fsS http://127.0.0.1:3000/tools/image/image-to-pdf)
+          echo "$html" | grep -F 'Image to PDF'
+          echo "$html" | grep -F 'rel="canonical"'
+          if echo "$html" | grep -Eq 'jpg-to-pdf|png-to-pdf|webp-to-pdf'; then
+            echo 'Legacy PDF converter URLs leaked into consolidated page HTML.'
+            exit 1
           fi
-          git commit -m "seo: consolidate documentation PDF links"
-          git push
 
-# Intentionally touch workflow to trigger the reconciliation on the next push.
+      - name: Cleanup
+        if: always()
+        run: |
+          if [ -f /tmp/atoolix-next.pid ]; then
+            kill "$(cat /tmp/atoolix-next.pid)" || true
+          fi
