@@ -71,47 +71,54 @@ Do not reopen these unless new evidence identifies a real defect.
 - Preserve the existing migration behavior and active SIP destination.
 - Commit: `a32cfa7af00e3eb22e8ebcfb67601f0a93cba6d4`.
 
-## New site-wide canonical/indexability audit — 2026-08-23
-### Concrete defect found
-`src/app/sitemap.ts` intentionally excludes archived tools with `!tool.comingSoon && !tool.archived`, but `src/utility/metadata.ts` previously calculated robots indexability as only `!tool.comingSoon`.
+## Site-wide route/canonical/indexability reconciliation — latest state
+### Concrete defect fixed
+`src/app/sitemap.ts` excludes archived tools with `!tool.comingSoon && !tool.archived`. `src/utility/metadata.ts` now uses the same condition for robots indexability.
 
-That allowed an archived tool with `comingSoon: false` to remain `index` eligible while being excluded from the XML sitemap. This contradicted the repository's stated archived-tool policy.
+Previously, an archived tool with `comingSoon: false` could remain indexable while being excluded from the sitemap. That contradictory state has been corrected.
 
-### Fix implemented
-`src/utility/metadata.ts` now uses:
+### Current policy
+**archived = noindex + excluded from sitemap**
 
-`const isIndexable = !tool.comingSoon && !tool.archived;`
+The policy is now implemented consistently in:
+- `src/utility/metadata.ts`: `const isIndexable = !tool.comingSoon && !tool.archived;`
+- `src/app/sitemap.ts`: `.filter((tool) => !tool.comingSoon && !tool.archived)`
 
-The source comment explicitly explains that archived tools are excluded from both sitemap submission and indexability.
+### Related route/URL checks
+- Active registry canonical URLs remain the canonical source for tools.
+- Sitemap canonical values are taken directly from the registry and validated for origin and duplicates.
+- Legacy ROI remains a permanent redirect to SIP and is not an active product URL.
+- Legacy retirement/fixed-deposit/JPEG-to-PDF URLs remain redirect-only compatibility routes and are not used as active canonical destinations.
+- Repository search found no current internal-link usage of `/calculator/retirement-planning-calculator` or `/calculator/fixed-deposit-calculator` beyond the redirect configuration, and no `href="/calculator...` internal links were found.
+- The route page delegates canonical metadata to the shared metadata generator; route-specific title/description overrides do not replace the canonical URL.
+- The QR public canonical is normalized consistently to `/tools/qrcode/qr-code-generator` by the existing `getTool` normalization layer and registry.
 
-### Why this is SEO-correct
-Google's current canonicalization guidance says canonicalization is a collection of signals including sitemap presence, redirects and `rel="canonical"`, and Google may select a different canonical. Google's current troubleshooting guidance recommends fixing technical canonicalization issues and ensuring clustered pages are sufficiently differentiated. A contradictory `index` state for archived pages is therefore a concrete technical consistency defect, not a speculative ranking tweak.
+### MD synchronization correction
+The earlier `SEO_ROUTE_RECONCILIATION_2026-08-23.md` incorrectly stated that archived tools remained eligible for the XML sitemap. That documentation defect has now been corrected and synchronized with the actual latest code.
 
-Google's current documentation also clarifies `noindex` behavior and JavaScript processing; indexability controls should be explicit in the original HTML/meta path when pages should not be indexed.
-
-### Commits
-- Code fix: `ff5824301dae38a09376e8ba595545eb7753320e`
-- Audit record: `393aef3fbfd0b2ba7712e83e85523bdd8bb12b51`
-- Audit file: `SEO_SITEWIDE_CANONICAL_INDEXABILITY_AUDIT_2026-08-23.md`
+Updated dedicated audit commit:
+`18562f57018e001cb28491a4f4a73ac6316e69d6` — `docs: correct route reconciliation indexability policy`
 
 ### Validation state
-- [x] Latest `main` inspected before change.
-- [x] Sitemap archived-tool exclusion verified.
-- [x] Metadata/indexability mismatch identified.
-- [x] Fix committed to `main`.
-- [x] MD audit synchronized.
-- [ ] Production deployment/live HTML validation pending.
-- [ ] Production sitemap/robots validation pending.
-- [ ] Google URL Inspection/indexation validation pending.
-- [ ] Search Console post-recrawl measurement pending.
+- [x] Latest `main` inspected before reconciliation.
+- [x] Registry canonical source inspected.
+- [x] Sitemap generation inspected.
+- [x] Metadata/indexability inspected.
+- [x] Legacy redirect mappings inspected.
+- [x] Repository searches for selected legacy internal destinations completed.
+- [x] Archived sitemap/indexability policy corrected and synchronized.
+- [ ] Production HTML validation after deployment.
+- [ ] Production sitemap/robots validation after deployment.
+- [ ] Google URL Inspection / selected-canonical validation after deployment.
+- [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
 
 ## Overall implementation status
 Approximate implementation progress: **80–85% complete**. This is implementation progress, not a ranking prediction.
 
 - Technical SEO foundation: ~88–92%
-- Route/canonical/sitemap reconciliation: ~90%
+- Route/canonical/sitemap reconciliation: ~92%
 - Metadata optimization: ~84–88%
-- Internal linking: ~72–77%
+- Internal linking: ~74–78%
 - Search Console opportunity/content optimization: ~85%
 - Authority/trust foundation: substantially improved; legitimate earned external authority remains pending
 - Production validation and Search Console measurement: pending
@@ -151,6 +158,7 @@ Priority rules:
 - Legacy ROI audit: `a32cfa7af00e3eb22e8ebcfb67601f0a93cba6d4`
 - Archived indexability code fix: `ff5824301dae38a09376e8ba595545eb7753320e`
 - Site-wide indexability audit record: `393aef3fbfd0b2ba7712e83e85523bdd8bb12b51`
+- Route reconciliation documentation correction: `18562f57018e001cb28491a4f4a73ac6316e69d6`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
