@@ -20,6 +20,7 @@ const staticRoutes = [
   "pdf",
   "qrcode",
   "privacysecurity",
+  "tools/calculator",
   "tools/converter",
 ];
 
