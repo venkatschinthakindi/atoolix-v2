@@ -53,15 +53,14 @@ jobs:
       - name: Validate legacy redirects
         run: |
           set -euo pipefail
+          expected='308|http://127.0.0.1:3000/tools/image/image-to-pdf'
           for path in \
             /tools/image/jpg-to-pdf \
             /tools/image/png-to-pdf \
             /tools/image/webp-to-pdf; do
-            headers=$(curl -sS -D - -o /dev/null "http://127.0.0.1:3000${path}")
-            echo "${path}"
-            echo "${headers}"
-            echo "${headers}" | grep -Eq '^HTTP/.*30[18]( |$)'
-            echo "${headers}" | grep -Eiq '^location: https?://[^[:space:]]*/tools/image/image-to-pdf/?$|^location: /tools/image/image-to-pdf/?$'
+            response=$(curl -sS -o /dev/null -w '%{http_code}|%{redirect_url}' "http://127.0.0.1:3000${path}")
+            echo "${path} -> ${response}"
+            test "${response}" = "${expected}"
           done
 
       - name: Validate consolidated page
