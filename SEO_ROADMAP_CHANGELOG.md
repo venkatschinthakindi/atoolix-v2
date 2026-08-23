@@ -2,6 +2,46 @@
 
 This file records incremental execution updates that must be reconciled into `SEO_ROADMAP.md` when the central roadmap is next edited. `SEO_ROADMAP.md` remains the primary strategy/source of truth; this changelog prevents execution history from being lost between chats while preserving the full roadmap unchanged.
 
+## 2026-08-23 — Date/time hub contextual links for Search Console opportunity cluster
+
+### Evidence reviewed
+- Supplied Search Console data shows `/tools/datetime/timezone-converter` as a leading current opportunity page with 97 impressions, 0 clicks, 0.00% CTR, and average position 71.77.
+- `/tools/datetime/meeting-time-finder` also has meaningful visibility with 54 impressions, 1 click, 1.85% CTR, and average position 53.65.
+- The dedicated Time Zone Converter page already has page-specific metadata, substantial intent-matching content, and a canonical `/tools/datetime/timezone-converter`.
+- The dedicated Meeting Time Finder page already has its established canonical/content implementation.
+- The `/datetime` hub described these use cases but did not provide explicit contextual links to either priority tool in the explanatory sections. The generic tool-hub component still exists separately; this change adds useful contextual links in the hub copy rather than relying only on generic navigation.
+
+### Change implemented
+Commit: `98f15fcf34785446398745c6341f82b8c1cf5972`
+
+File: `src/app/datetime/page.tsx`
+
+Added direct, descriptive contextual links from the Date/Time hub to:
+- `/tools/datetime/timezone-converter`
+- `/tools/datetime/meeting-time-finder`
+
+The links are placed in the explanatory text and tool-selection section so users can move directly from the relevant use case to the appropriate tool.
+
+### Google guidance applied
+Google's current Search Central guidance recommends crawlable links with descriptive anchor text and using internal links to help Google discover important pages and understand site structure. The canonical URL guidance also recommends that internal links point to the preferred URL rather than alternate/duplicate destinations.
+
+Official Google guidance checked on 2026-08-23:
+- https://developers.google.com/search/docs/crawling-indexing/links-crawlable
+- https://developers.google.com/search/docs/crawling-indexing/canonicalization
+- https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes
+
+### Validation
+- [x] Both links use the established canonical production paths.
+- [x] Anchor text describes the destination/use case naturally.
+- [x] No new URL created.
+- [x] No canonical change.
+- [x] No sitemap change.
+- [x] No redirect change.
+- [x] No keyword-variant page created.
+- [x] Change is limited to the Date/Time hub.
+- [ ] Production deployment verification pending through the normal deployment pipeline.
+- [ ] Search Console post-recrawl measurement pending.
+
 ## 2026-08-23 — Legacy ROI visible-identity cleanup completed
 
 ### Evidence reviewed
