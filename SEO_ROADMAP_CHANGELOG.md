@@ -2,16 +2,18 @@
 
 This file records incremental execution updates that must be reconciled into `SEO_ROADMAP.md` when the central roadmap is next edited. `SEO_ROADMAP.md` remains the primary strategy/source of truth; this changelog prevents execution history from being lost between chats while preserving the full roadmap unchanged.
 
-## 2026-08-23 — Calculator hub SIP internal-link canonical consistency fix
+## 2026-08-23 — Calculator hub SIP internal-link audit correction
 
 ### Evidence reviewed
-- The established SEO roadmap identifies `/tools/calculator/retirement-calculator` as the source-of-truth URL for the Retirement/SIP calculator.
-- `src/components/tools/calculator/calculatorSeoContent.tsx` was linking the visible **SIP Calculator** anchor to `/tools/calculator/sip-calculator` instead.
-- The page therefore contained an internal-link signal that did not match the established canonical/source-of-truth route. This is exactly the kind of small consistency issue that can weaken URL consolidation and crawl paths even when the destination is otherwise functional.
-- The calculator page already has useful related-calculator links, so the justified change was to correct the existing link rather than add more links or content.
+- The production repository's actual `src/data/tools.ts` registry defines `calculator/sip-calculator` as the **SIP Calculator** tool and sets its canonical to `/tools/calculator/sip-calculator`.
+- The repository also contains a separate Retirement Calculator route at `/tools/calculator/retirement-calculator`, with retirement-specific implementation/content.
+- `src/components/tools/calculator/calculatorSeoContent.tsx` had previously been changed to link the visible **SIP Calculator** anchor to `/tools/calculator/retirement-calculator`.
+- That previous change was therefore incorrect. The visible anchor text was not the problem; the destination URL was.
+- The Finance hub already correctly links `SIP Calculator` to `/tools/calculator/sip-calculator` and separately links `Retirement Calculator` to `/tools/calculator/retirement-calculator`.
+- The SIP SEO content itself also declares `TOOL_PATH = "/tools/calculator/sip-calculator"`, confirming the route at the implementation level.
 
 ### Google guidance applied
-Google's current canonicalization guidance says canonical selection is based on multiple signals including redirects, sitemap URLs, and `rel="canonical"`, and its site-move guidance explicitly recommends updating internal links to the new/preferred URLs rather than continuing to link through old URLs. Google also emphasizes logical crawlable site structure and descriptive links.
+Google's current canonicalization guidance says canonical selection is based on multiple signals including redirects, sitemap URLs, and `rel="canonical"`; canonical preference is a hint rather than a rule. Google's site-move guidance also recommends updating internal links so they point directly to the intended/preferred URLs. The correct application here is therefore to make internal links agree with the repository's actual registered canonical, not to infer a canonical from the anchor label.
 
 Official Google guidance checked on 2026-08-23:
 - What is URL canonicalization: https://developers.google.com/search/docs/crawling-indexing/canonicalization
@@ -19,35 +21,35 @@ Official Google guidance checked on 2026-08-23:
 - Site moves / update internal links: https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes
 - Latest Search documentation updates: https://developers.google.com/search/updates
 
-### Change implemented
-Primary implementation commit: `ba9428acd784632c5a006f22b6fbeeb6247a982a`
-Follow-up cleanup commit: `346505623defcbb8dd0ef7675163ef96936e241d`
+### Production correction
+Commit: `b038e00cef64051afaa33aeb60c5fae95e34eb49`
 
-File:
-`src/components/tools/calculator/calculatorSeoContent.tsx`
+File: `src/components/tools/calculator/calculatorSeoContent.tsx`
 
-Changed the visible SIP Calculator internal link from:
-`/tools/calculator/sip-calculator`
+Restored:
+`href="/tools/calculator/sip-calculator"`
 
-to the established route:
-`/tools/calculator/retirement-calculator`
+The visible anchor remains `SIP Calculator`.
 
-The visible anchor text remains `SIP Calculator`, because the destination is the site's established SIP/retirement calculator page and the text accurately describes the user intent.
+This is the correct pairing because the registered SIP Calculator destination is `/tools/calculator/sip-calculator`. The separate Retirement Calculator remains `/tools/calculator/retirement-calculator`.
 
-### Why this was justified
-This is a small, concrete technical/internal-link SEO improvement. It aligns an existing crawlable internal link with the site's established canonical/source-of-truth URL instead of creating a new page, redirect chain, keyword variant, or additional SEO copy.
+### Documentation correction
+Commit: `016463a22e3552a1991e8d87462da8ed96dae38a`
+
+Updated `SEO_ROADMAP.md` so its established URL table no longer incorrectly conflates SIP and Retirement. The historical Search Console metric previously labeled "Retirement/SIP" is now marked ambiguous pending a fresh Search Console export.
 
 ### Validation / non-changes
-- [x] Existing calculator page retained.
-- [x] Existing established SIP/retirement URL retained.
-- [x] Internal link now points directly to the established route.
-- [x] No new URL created.
-- [x] No canonical tag changed.
+- [x] SIP internal link now points to the actual registered SIP canonical.
+- [x] Retirement Calculator remains a separate route.
+- [x] Finance hub SIP/Retirement links were inspected and are correctly separated.
+- [x] SIP SEO content declares `/tools/calculator/sip-calculator`.
+- [x] No URL migration performed.
 - [x] No sitemap change.
 - [x] No redirect change.
+- [x] No canonical tag change.
+- [x] No new page created.
 - [x] No keyword stuffing.
-- [x] No duplicate content created.
-- [x] Accidental duplicate Tailwind class introduced during the first write was immediately corrected in the follow-up commit.
+- [x] Central roadmap corrected to prevent future model/chat confusion.
 - [ ] Production deployment verification pending.
 - [ ] Search Console post-recrawl measurement pending.
 
@@ -60,181 +62,64 @@ This is a small, concrete technical/internal-link SEO improvement. It aligns an 
 - The dedicated `/qrcode` hub already has its own canonical URL and useful generator/scanner context, so creating another QR keyword page was not justified.
 - The tool route's shared metadata path did not have an explicit page-specific title/description override for the high-opportunity QR generator/scanner intent.
 
-### Google guidance applied
-Google Search Essentials recommends using words people use to find the content in prominent locations such as the title and main heading, while keeping content people-first and avoiding search-engine-first keyword stuffing. Google also recommends crawlable, useful links and logical site structure. The canonical URL was deliberately left unchanged because Google treats canonical signals as hints and the existing route/canonical relationship did not present evidence requiring a migration.
-
-Current official Google guidance checked on 2026-08-23:
-- Google Search Essentials: https://developers.google.com/search/docs/essentials
-- SEO Starter Guide: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
-- Helpful, reliable, people-first content: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
-- Canonicalization: https://developers.google.com/search/docs/crawling-indexing/canonicalization
-- Latest documentation updates: https://developers.google.com/search/updates
-
 ### Change implemented
 Commit: `28888b6910b9e67ad5b0f291760cb008938121c6`
 
-File:
-`src/app/tools/[...toolId]/page.tsx`
+File: `src/app/tools/[...toolId]/page.tsx`
 
-Added explicit metadata for:
-`/tools/qrcode/qr-code-generator`
+Added explicit metadata for `/tools/qrcode/qr-code-generator`:
+- Title: `QR Code Generator & Scanner – Create, Scan & Download | Atoolix`
+- Description: `Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan QR codes with a camera or image and export PNG, SVG, or PDF in your browser.`
 
-Title:
-`QR Code Generator & Scanner – Create, Scan & Download | Atoolix`
-
-Description:
-`Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan QR codes with a camera or image and export PNG, SVG, or PDF in your browser.`
-
-The same page-specific title and description are applied to Open Graph and Twitter metadata to keep the primary descriptive signals consistent.
-
-### Why this was justified
-The page already satisfies the broader topic and tool functionality, so adding more repetitive content would not be a good people-first improvement. The actual gap was metadata alignment with the demonstrated generator + scanner intent. This is a small, low-risk change that improves the search-result representation without changing the URL, canonical, sitemap, content architecture, or creating a keyword variant.
-
-### Validation / non-changes
-- [x] Existing QR tool URL preserved.
-- [x] Existing canonical strategy preserved.
-- [x] Sitemap unchanged.
-- [x] No redirect change.
-- [x] No duplicate page created.
-- [x] No keyword-variant page created.
-- [x] No structured-data change.
-- [x] No additional FAQ content added solely for SEO.
-- [x] Metadata accurately reflects the visible QR generator/scanner functionality.
-- [x] Git commit created.
-- [ ] Production deployment verification pending.
-- [ ] Search Console post-recrawl measurement pending.
+The same page-specific values are applied to Open Graph and Twitter metadata. No URL, canonical, sitemap, redirect, structured-data, or content-architecture change was made.
 
 ## 2026-08-23 — Personal Loan EMI metadata intent alignment
 
 ### Evidence reviewed
-- Historical Search Console data supplied during the SEO program showed the Personal Loan EMI Calculator receiving impressions for queries including `personal loan emi calculator`, `how to calculate emi for personal loan`, and related variants, while ranking around positions 92–95 for several of those queries.
+- Historical Search Console data showed the Personal Loan EMI Calculator receiving impressions for `personal loan emi calculator`, `how to calculate emi for personal loan`, and related variants, while ranking around positions 92–95 for several queries.
 - The page already had substantial people-first calculator content, methodology, examples, limitations, and financial-context explanations.
-- The existing page-level H1 is `Personal Loan EMI Calculator`, but the generic metadata path was not explicitly controlled for this high-opportunity page.
-
-### Google guidance applied
-Google Search Essentials recommends using words people use to find the content in prominent locations such as the title and main heading, while avoiding search-engine-first keyword stuffing. The page therefore receives one concise, intent-aligned title and description rather than additional keyword sections.
-
-Official references checked on 2026-08-23:
-- Google Search Essentials: https://developers.google.com/search/docs/essentials
-- Google SEO Starter Guide: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
-- Helpful, reliable, people-first content: https://developers.google.com/search/docs/fundamentals/creating-helpful-content
-- AI features guidance: https://developers.google.com/search/docs/appearance/ai-features
+- The existing H1 is `Personal Loan EMI Calculator`, but the generic metadata path was not explicitly controlled for this high-opportunity page.
 
 ### Change implemented
 Commit: `9232d6793e41ddcada5e885d617cd7a9a1a7fcbf`
 
-File:
-`src/app/tools/[...toolId]/page.tsx`
+File: `src/app/tools/[...toolId]/page.tsx`
 
-Added explicit metadata for:
-`/tools/calculator/personal-loan-emi-calculator`
+Title: `Personal Loan EMI Calculator – EMI, Interest & Prepayment | Atoolix`
 
-Title:
-`Personal Loan EMI Calculator – EMI, Interest & Prepayment | Atoolix`
+Description: `Calculate personal loan EMI from loan amount, interest rate, and tenure. Compare total interest and model one-time or recurring prepayments in your browser.`
 
-Description:
-`Calculate personal loan EMI from loan amount, interest rate, and tenure. Compare total interest and model one-time or recurring prepayments in your browser.`
-
-The same page-specific values are applied to Open Graph and Twitter metadata so the page's primary descriptive signals remain consistent.
-
-### Why this was justified
-This is a small but evidence-based improvement: the page has demonstrated Search Console demand for the exact primary intent, the H1 already targets that intent, and explicit metadata now makes the search-result description more directly representative of the page's actual functionality. No URL, canonical, sitemap, content structure, or keyword-variant page was created.
-
-### Validation status
-- [x] URL unchanged.
-- [x] Canonical strategy unchanged.
-- [x] Sitemap unchanged.
-- [x] H1 unchanged.
-- [x] No duplicate page created.
-- [x] No keyword stuffing added.
-- [x] Metadata accurately reflects visible functionality.
-- [x] Git commit verified.
-- [ ] Production deployment verification pending.
-- [ ] Search Console post-recrawl measurement pending.
+No URL, canonical, sitemap, H1, content structure, or keyword-variant page was changed.
 
 ## 2026-08-23 — Finance hub FD search-intent/internal-context improvement
 
 ### Evidence reviewed
-- The supplied Search Console baseline includes the FD cluster, including `fd formula` and related fixed-deposit calculator intent, while the FD Calculator page had demonstrated impressions around position 67.
-- The FD Calculator page already contains substantial useful, specific content covering maturity value, interest, compounding, formula, examples, limitations, Indian FD context, tax caveat, and privacy behavior. Adding another large keyword section to that page was therefore not justified.
-- The Finance hub already links directly to `/tools/calculator/fd-calculator`, but its explanatory content did not explicitly explain when a user should choose an FD calculator. This created a small but genuine semantic/internal-context gap between the hub's navigation and its explanatory copy.
-- The hub also discussed SIP/XIRR/CAGR/Lumpsum as distinct investment intents but did not provide an equivalent explanation for the savings calculator family.
-
-### Google guidance applied
-The change follows Google's people-first approach: improve the page's usefulness and clarity for users, use descriptive natural language, and strengthen logical site architecture rather than adding keyword-stuffed variants. Google also states that title/content/link signals help it understand and represent pages, while canonicalization should be supported by consistent site signals rather than used as a shortcut.
-
-Official Google guidance checked on 2026-08-23:
-- Google Search documentation updates: https://developers.google.com/search/updates
-- What is URL canonicalization: https://developers.google.com/search/docs/crawling-indexing/canonicalization
-- SEO guidance / hiring SEO: https://developers.google.com/search/docs/fundamentals/do-i-need-seo
+- Supplied Search Console baseline included the FD cluster, including `fd formula` and related fixed-deposit calculator intent, while the FD Calculator page had demonstrated impressions around position 67.
+- The FD Calculator already contained substantial specific content covering maturity value, interest, compounding, formula, examples, limitations, Indian FD context, tax caveat, and privacy behavior.
+- The Finance hub already linked directly to `/tools/calculator/fd-calculator`, but its explanatory content did not explicitly explain when a user should choose an FD calculator.
 
 ### Change implemented
 Commit: `2a056d7427425113b08e08899ddeb2c6526c10bc`
 
-File:
-`src/app/finance/FinanceHubSeoContent.tsx`
+File: `src/app/finance/FinanceHubSeoContent.tsx`
 
-Changes:
-- Clarified the finance hub's introductory paragraph so fixed-deposit calculators are explicitly identified as a distinct savings calculation intent.
-- Added a dedicated `Which Savings Calculator Should You Use?` section.
-- Added concise explanations for FD, compound-interest, and RD calculators.
-- Kept the existing direct crawlable FD link unchanged: `/tools/calculator/fd-calculator`.
-
-### Why this was justified
-This is a deliberately small improvement rather than a page-wide content expansion. It closes a real contextual gap on an important finance hub, makes the existing FD internal link more understandable, and helps users choose the correct calculator without creating a new URL or repeating FD keywords unnaturally.
-
-### Validation status
-- [x] Existing FD canonical URL unchanged.
-- [x] Existing sitemap URL unchanged.
-- [x] Existing FD internal link retained.
-- [x] No new URL created.
-- [x] No keyword-variant page created.
-- [x] No structured-data change.
-- [x] No unsupported financial claim added.
-- [x] Git commit created.
-- [ ] Production deployment verification pending.
-- [ ] Search Console post-recrawl measurement pending.
+Added concise FD/savings-calculator intent context and a `Which Savings Calculator Should You Use?` section while retaining the existing direct FD link. No new URL, canonical, sitemap, structured-data, or keyword-variant page was created.
 
 ## 2026-08-23 — Finance hub ROI internal-link/context improvement
 
 ### Evidence reviewed
 - Supplied Search Console baseline: `/tools/calculator/roi-calculator` had 54 impressions, 0 clicks, 0.00% CTR, average position 71.46.
-- The Finance hub already linked to SIP, XIRR, CAGR and Lumpsum, but did not link directly to the ROI Calculator.
-- The ROI page already contains substantial intent-matching content: ROI definition, formula, net-profit relationship, examples, limitations, ROI-vs-CAGR comparison, audience/use cases, related investment calculators, FAQ content, and a financial disclaimer.
-- Therefore adding another large content block to the ROI page was not justified. The stronger gap was hub-level internal context and discovery.
-
-### Google guidance applied
-Google recommends useful, logical site structure and crawlable links rather than creating keyword-variant pages. Internal links should help users and search engines understand relationships between pages. Canonicalization remains a signal system; no canonical change was justified here.
-
-Current Google Search Central guidance was checked on 2026-08-23, including canonicalization, canonical troubleshooting, third-party SEO advice, and documentation updates.
+- The Finance hub linked to SIP, XIRR, CAGR and Lumpsum but did not link directly to ROI.
+- The ROI page already contained substantial intent-matching content, so a large content expansion was not justified.
 
 ### Change implemented
 Commit: `15816869a185104b1eed7e298358e585418f2c62`
 
-File:
-`src/app/finance/FinanceHubSeoContent.tsx`
+File: `src/app/finance/FinanceHubSeoContent.tsx`
 
-Changes:
-- Added a direct crawlable `ROI Calculator` link to the Finance hub calculator list.
-- Added ROI to the hub's investment-return explanation.
-- Added a concise ROI use-case explanation alongside SIP/XIRR/CAGR/Lumpsum so users can distinguish total ROI from annualized/time-sensitive measures.
-
-### Why this was justified
-This is a small but genuine internal-architecture and intent-context improvement. It strengthens discovery of an already-indexable, already-impression-generating page without changing its URL, creating a duplicate, or stuffing keywords.
-
-### Validation / non-changes
-- [x] Existing ROI URL preserved.
-- [x] Existing ROI canonical strategy preserved.
-- [x] No sitemap change.
-- [x] No redirect change.
-- [x] No new keyword page.
-- [x] No structured-data change.
-- [x] No unsupported financial claim.
-- [x] Direct descriptive internal link added.
-- [ ] Production deployment verification pending.
-- [ ] Post-recrawl Search Console measurement pending.
+Added a direct crawlable ROI link and concise ROI context so users can distinguish total ROI from annualized/time-sensitive measures. No URL, canonical, sitemap, redirect, or duplicate-page change was made.
 
 ## Next action
-Continue from commit `346505623defcbb8dd0ef7675163ef96936e241d`. Audit the next highest-opportunity Search Console page/cluster using the established full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance. Make a change only when a genuine gap exists, including legitimate small improvements.
+Continue from the latest Git state after correcting the SIP/Retirement URL distinction. Run the site-wide route → registry → sitemap → canonical → internal-link reconciliation first, because the audit just demonstrated that an incorrect URL assumption can create a real SEO regression. Then use the fresh Search Console opportunity queue to select the next highest-value page/cluster. For each candidate, apply the full standard: technical indexability, canonical, sitemap, intent, content usefulness, internal links, accessibility, structured data, performance, duplicate/parameter URL risk, and current Google Search Central guidance.
 
-Minor legitimate improvements must continue to be captured rather than ignored, but no change should be made without a concrete user, technical, relevance, crawlability, or Search Console rationale.
+Make a production change only when a genuine gap exists, including legitimate small improvements. Do not infer Search Console metrics for SIP versus Retirement from the previously combined "Retirement/SIP" baseline; obtain fresh page-level Search Console evidence before prioritizing one over the other.
