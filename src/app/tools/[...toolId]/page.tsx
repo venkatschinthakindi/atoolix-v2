@@ -31,6 +31,10 @@ const PERSONAL_LOAN_TITLE =
   "Personal Loan EMI Calculator – EMI, Interest & Prepayment | Atoolix";
 const PERSONAL_LOAN_DESCRIPTION =
   "Calculate personal loan EMI from loan amount, interest rate, and tenure. Compare total interest and model one-time or recurring prepayments in your browser.";
+const QR_GENERATOR_TITLE =
+  "QR Code Generator & Scanner – Create, Scan & Download | Atoolix";
+const QR_GENERATOR_DESCRIPTION =
+  "Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan QR codes with a camera or image and export PNG, SVG, or PDF in your browser.";
 
 export async function generateMetadata({
   params,
@@ -94,6 +98,24 @@ export async function generateMetadata({
         ...metadata.twitter,
         title: PERSONAL_LOAN_TITLE,
         description: PERSONAL_LOAN_DESCRIPTION,
+      },
+    };
+  }
+
+  if (normalizedToolId === "qrcode/qr-code-generator") {
+    return {
+      ...metadata,
+      title: QR_GENERATOR_TITLE,
+      description: QR_GENERATOR_DESCRIPTION,
+      openGraph: {
+        ...metadata.openGraph,
+        title: QR_GENERATOR_TITLE,
+        description: QR_GENERATOR_DESCRIPTION,
+      },
+      twitter: {
+        ...metadata.twitter,
+        title: QR_GENERATOR_TITLE,
+        description: QR_GENERATOR_DESCRIPTION,
       },
     };
   }
