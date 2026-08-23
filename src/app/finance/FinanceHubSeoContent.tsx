@@ -26,8 +26,8 @@ export function FinanceHubSeoContent() {
           </p>
           <p className="mt-4 leading-7">
             Each calculator is intended for a specific type of financial calculation. Choosing the right tool matters:
-            an EMI calculator models loan repayments, while SIP, XIRR, CAGR, and Lumpsum calculators answer different
-            investment-return questions.
+            an EMI calculator models loan repayments, while SIP, XIRR, CAGR, Lumpsum, and fixed-deposit calculators
+            answer different investment or savings questions.
           </p>
         </div>
 
@@ -74,6 +74,15 @@ export function FinanceHubSeoContent() {
           <p><strong>XIRR Calculator:</strong> use it when investments, withdrawals, or other cash flows occur on different dates and you need an annualized return based on those dates.</p>
           <p><strong>CAGR Calculator:</strong> use it to calculate the annualized growth rate between an initial value and a final value over a defined period.</p>
           <p><strong>Lumpsum Calculator:</strong> use it to estimate how a one-time investment may grow over a chosen period at an assumed annual return.</p>
+        </div>
+      </div>
+
+      <div className="mt-10 max-w-4xl">
+        <h2 className="text-2xl font-semibold tracking-tight">Which Savings Calculator Should You Use?</h2>
+        <div className="mt-5 space-y-4 leading-7">
+          <p><strong>FD Calculator:</strong> use it when you have a lump sum and want to estimate fixed-deposit maturity value and interest earned using an assumed interest rate, tenure, and compounding frequency.</p>
+          <p><strong>Compound Interest Calculator:</strong> use it when you want to model compound growth independently of a specific fixed-deposit product.</p>
+          <p><strong>RD Calculator:</strong> use it when you plan to make recurring deposits and want to estimate the resulting maturity value and interest.</p>
         </div>
       </div>
 
