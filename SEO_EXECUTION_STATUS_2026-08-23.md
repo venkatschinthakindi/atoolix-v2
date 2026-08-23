@@ -156,6 +156,50 @@ Source commit:
 
 Note: the tool registry still contains historical `relatedTools` references for some archived PDF-format variants. Those registry relationships are not rendered by the Image-to-PDF cluster because the dedicated active cluster takes precedence. A broader registry relationship cleanup can be considered during the next full route-graph pass; it is not required to leave the active Image-to-PDF page linking to archived destinations.
 
+## Related-tools architecture — latest state
+
+### Audit
+`src/app/tools/[...toolId]/Relatedtools.tsx` was audited for active internal navigation, registry-driven fallback behavior, and the relationship between `relatedTools`, `archived`, `comingSoon`, canonical and redirect state.
+
+The curated Image-to-PDF cluster remains active-only and directly links to useful destinations. Dedicated image-converter, target-size compressor and finance clusters remain contextual rather than all-to-all link networks.
+
+### Concrete source fix
+The generic `RelatedTools` fallback previously defaulted to:
+
+```ts
+includeArchived = true,
+includeComingSoon = true,
+```
+
+That allowed a registry-driven fallback to surface archived or coming-soon tools unless callers explicitly opted out. The defaults are now:
+
+```ts
+includeArchived = false,
+includeComingSoon = false,
+```
+
+This makes normal related-tool navigation active-only by default while preserving an explicit opt-in for callers that genuinely need non-active entries.
+
+Repository searches for `RelatedTools(`, `includeArchived`, and `includeComingSoon` did not reveal a separate caller-level requirement for the previous permissive defaults. The dynamic tool rendering path is the primary usage pattern, so this was treated as a safe consistency fix rather than a mass registry rewrite.
+
+### Google rationale
+Google's current guidance recommends crawlable internal links, descriptive anchor text, and updating internal links after URL changes. Google also uses redirects, sitemap inclusion and canonical annotations as canonicalization signals, while canonicalization remains a hint rather than a rule. Keeping generic active navigation pointed at current destinations avoids unnecessary redirect/archived paths and gives crawlers a cleaner site graph.
+
+### Status
+- [x] Image-to-PDF active cluster cleaned.
+- [x] Generic related-tool defaults now exclude archived tools.
+- [x] Generic related-tool defaults now exclude coming-soon tools.
+- [x] Related-tools audit MD synchronized.
+- [ ] Full explicit `relatedTools` registry graph cleanup remains pending and must be evidence-based.
+- [ ] Build/type/lint validation after this source change.
+- [ ] Production rendered-link validation after deployment.
+
+Source commit:
+`93cf6c57c456fb7843efad25d431edc9e5cdf1d2` — `seo: make related-tool links active-only by default`
+
+Dedicated audit:
+`SEO_RELATED_TOOLS_AUDIT_2026-08-23.md`
+
 ## Validation state
 - [x] Latest `main` inspected before JPG recovery decision.
 - [x] Registry canonical source inspected.
@@ -169,6 +213,8 @@ Note: the tool registry still contains historical `relatedTools` references for 
 - [x] JPG/JPEG duplicate-intent candidate audited.
 - [x] JPG/JPEG legacy redirects consolidated to the active Image-to-PDF route.
 - [x] Active Image-to-PDF rendered related-link configuration cleaned of archived/redirect-only PDF variants.
+- [x] Generic RelatedTools fallback changed to active-only defaults.
+- [x] Dedicated related-tools audit synchronized.
 - [ ] Full registry `relatedTools` graph cleanup.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
@@ -179,12 +225,12 @@ Note: the tool registry still contains historical `relatedTools` references for 
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
 
 ## Overall implementation status
-Approximate implementation progress: **84–89% complete**. This is implementation progress, not a ranking prediction.
+Approximate implementation progress: **85–90% complete**. This is implementation progress, not a ranking prediction.
 
 - Technical SEO foundation: ~90–94%
 - Route/canonical/sitemap reconciliation: ~94%
 - Metadata optimization: ~85–89%
-- Internal linking: ~78–82%
+- Internal linking: ~80–84%
 - Search Console opportunity/content optimization: ~85%
 - Image SEO foundation: ~90%; production image validation remains pending
 - Authority/trust foundation: substantially improved; legitimate earned external authority remains pending
@@ -194,7 +240,7 @@ Approximate implementation progress: **84–89% complete**. This is implementati
 Continue the **broader Search Console + site-wide technical reconciliation** from the latest `main`.
 
 Immediate priority:
-1. Reconcile remaining active-route → registry → canonical → sitemap → internal-link relationships, with special attention to registry `relatedTools` references that still name archived routes.
+1. Reconcile remaining explicit `relatedTools` registry relationships against current `archived`, `comingSoon`, canonical and redirect state; do not mass-edit useful active relationships.
 2. Continue using fresh Search Console/query evidence where available.
 3. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
 4. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
@@ -231,6 +277,8 @@ Immediate priority:
 - JPG/JPEG consolidation: `680f9f4275010884d1333f07eaab916e26097706`
 - JPG/JPEG audit documentation: `57223cc71821c348df48eb5b83e95547db58dcad`
 - Image-to-PDF internal-link cleanup: `b1dfb36aadbcc9f1c48b2a73279ce0a1d779375c`
+- Related-tools audit documentation: `c2f868afab5cc116b9ea1ac0f1b0fe2c6c3e13ff`
+- Related-tools active-only defaults: `93cf6c57c456fb7843efad25d431edc9e5cdf1d2`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
