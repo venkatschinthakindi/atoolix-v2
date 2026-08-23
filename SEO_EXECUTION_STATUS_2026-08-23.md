@@ -89,19 +89,44 @@ Do not reopen these calculator audits unless new evidence identifies a real defe
 - Authority/trust **foundation audit is complete**; legitimate earned mentions/links and useful non-commodity resources remain ongoing growth activities rather than speculative code changes.
 - Commit: **`e2daa385caea975f70eca355c3f55babd4966360`**.
 
+## Search Console opportunity audits
+
+### 100 KB Image Compressor — audited/preserved
+Target: `/tools/image/compress-image-to-100kb`
+- Dedicated 100 KB intent, canonical, metadata, visible content, format guidance, target-size/resize functionality and Image-hub contextual navigation were reviewed.
+- The page already has meaningful intent differentiation and useful supporting content; no title/content rewrite was justified without new query-level evidence.
+- Decision: preserve; no speculative source-code change.
+- Audit recorded in `SEO_GSC_OPPORTUNITY_AUDIT_2026-08-23.md`.
+- Commit: **`14358e89dcc2ca115cd7a1a9d01ca754ea88e432`**.
+
+### Time Zone Converter — audited/preserved
+Target: `/tools/datetime/timezone-converter`
+- Latest `main` implementation reviewed for canonical, breadcrumb, metadata, search intent, content usefulness, differentiation from Meeting Time Finder, internal-link architecture and structured-data architecture.
+- Canonical is `/tools/datetime/timezone-converter`; BreadcrumbList correctly uses `/datetime` as the Date & Time hub and the exact canonical tool URL.
+- Route-specific metadata is already present: `Time Zone Converter – Convert Time Between Time Zones | Atoolix`, with a description covering date, city/country, multiple locations, UTC offsets, day differences and daylight saving changes.
+- The page has substantial intent-specific content covering multi-zone conversion, city/country search, date-aware offsets, DST, day differences, copying/sharing, international calls, remote work, travel, events and deadlines. This is materially different from Meeting Time Finder, which serves the separate meeting-scheduling intent.
+- Repository search did not establish a route-scoped `WebApplication` schema for this page. No schema was added because doing so without validating the shared rendered-schema architecture and live HTML would be speculative; existing BreadcrumbList was preserved.
+- No canonical, sitemap, route, breadcrumb, indexability or content-differentiation defect justified a source-code change.
+- Decision: **audit complete; preserve current implementation.**
+- Full audit record: `SEO_TIMEZONE_CONVERTER_AUDIT_2026-08-23.md`.
+- Audit commit: **`9d576f77c9ce604be3a7fe086ddfab179d01f967`**.
+- Production deployment/live validation and Search Console post-recrawl measurement remain pending.
+
 ## Overall implementation status
-Approximate implementation progress: **76–81% complete**. This is an implementation estimate, not a ranking prediction.
+Approximate implementation progress: **77–82% complete**. This is an implementation estimate, not a ranking prediction.
 
 - Technical SEO foundation: ~85–90%
 - Route/canonical/sitemap reconciliation: ~85–90%
 - Metadata optimization: ~82–86%
 - Internal linking: ~70–75%
-- Search Console opportunity/content optimization: ~78%
+- Search Console opportunity/content optimization: ~80%
 - Authority/trust foundation: substantially improved; earned external authority still pending
 - Final production validation and post-deployment Search Console measurement: pending
 
 ## Next planned work — do not deviate
-**Broader Search Console query/page optimization workstream** is next.
+**Broader Search Console query/page optimization workstream** continues.
+
+Next execution: **Meeting Time Finder**.
 
 The next execution must:
 1. Start from the latest `main`.
@@ -125,6 +150,8 @@ The next execution must:
 - XIRR status synchronization: `a415d9349e52302c3edd9ee1ebf18ce713e64bce`
 - Lumpsum structured-data fix: `ade320242f82af8e7587eb68e9aa98b765f2a9ab`
 - Authority/trust audit record: `e2daa385caea975f70eca355c3f55babd4966360`
+- 100 KB Search Console audit record: `14358e89dcc2ca115cd7a1a9d01ca754ea88e432`
+- Time Zone Converter audit record: `9d576f77c9ce604be3a7fe086ddfab179d01f967`
 
 ## Rule for future chats
 Continue from the latest `main` and this status file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
