@@ -169,61 +169,9 @@ const toolGroups = [
         tips:
           "Check image order, orientation, and readability before downloading.",
         related: [
-          "/tools/image/jpg-to-pdf",
-          "/tools/image/png-to-pdf",
-          "/tools/image/webp-to-pdf",
-        ],
-      },
-      {
-        name: "JPG to PDF",
-        href: "/tools/image/jpg-to-pdf",
-        description:
-          "Convert supported JPG images into PDF documents.",
-        useCases: [
-          "Convert photos to PDF",
-          "Prepare documents for upload",
-          "Create printable files",
-        ],
-        tips:
-          "Use a clear JPG image with the correct orientation.",
-        related: [
-          "/tools/image/image-to-pdf",
-          "/tools/image/png-to-pdf",
-        ],
-      },
-      {
-        name: "PNG to PDF",
-        href: "/tools/image/png-to-pdf",
-        description:
-          "Convert supported PNG images into PDF documents.",
-        useCases: [
-          "Convert screenshots",
-          "Prepare graphics",
-          "Create printable documents",
-        ],
-        tips:
-          "Check image dimensions and orientation before conversion.",
-        related: [
-          "/tools/image/image-to-pdf",
-          "/tools/image/jpg-to-pdf",
-        ],
-      },
-      {
-        name: "WebP to PDF",
-        href: "/tools/image/webp-to-pdf",
-        description:
-          "Convert supported WebP images into PDF documents.",
-        useCases: [
-          "Convert web images",
-          "Prepare files for upload",
-          "Create PDF documents",
-        ],
-        tips:
-          "Use the original WebP image when preserving its source quality matters.",
-        related: [
-          "/tools/image/image-to-pdf",
-          "/tools/image/jpg-to-pdf",
-          "/tools/image/png-to-pdf",
+          "/tools/pdf/merge-pdf",
+          "/tools/pdf/split-pdf",
+          "/tools/pdf/compress-pdf",
         ],
       },
     ],
