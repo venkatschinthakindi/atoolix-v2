@@ -1,0 +1,89 @@
+name: Documentation SEO Validation
+
+on:
+  push:
+    branches:
+      - seo/documentation-link-reconciliation
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint (informational; repository baseline)
+        continue-on-error: true
+        run: npm run lint
+
+      - name: Production build
+        run: npm run build
+
+      - name: Start production server
+        run: |
+          npm start > /tmp/atoolix-next.log 2>&1 &
+          echo $! > /tmp/atoolix-next.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat /tmp/atoolix-next.log
+          exit 1
+
+      - name: Validate legacy redirects
+        run: |
+          set -euo pipefail
+          expected='308|http://127.0.0.1:3000/tools/image/image-to-pdf'
+          for path in \
+            /tools/image/jpg-to-pdf \
+            /tools/image/png-to-pdf \
+            /tools/image/webp-to-pdf; do
+            response=$(curl -sS -o /dev/null -w '%{http_code}|%{redirect_url}' "http://127.0.0.1:3000${path}")
+            echo "${path} -> ${response}"
+            test "${response}" = "${expected}"
+          done
+
+      - name: Validate consolidated page
+        run: |
+          set -euo pipefail
+          html=$(curl -fsS http://127.0.0.1:3000/tools/image/image-to-pdf)
+          echo "$html" | grep -F 'Image to PDF'
+          echo "$html" | grep -F 'rel="canonical"'
+          echo "$html" | grep -F 'rel="canonical" href="https://atoolix.com/tools/image/image-to-pdf"'
+
+          # Validate actual rendered links, not arbitrary occurrences in the
+          # HTML payload. Legacy route strings may legitimately remain in
+          # serialized registry/config data while the active page navigation
+          # correctly avoids linking to redirect-only destinations.
+          links=$(printf '%s' "$html" | grep -Eo 'href="[^"]+"' || true)
+          if printf '%s' "$links" | grep -Eq 'href="[^"]*(jpg-to-pdf|png-to-pdf|webp-to-pdf)([/?"]|$)'; then
+            echo 'Legacy PDF converter URLs are linked from the consolidated page.'
+            exit 1
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          if [ -f /tmp/atoolix-next.pid ]; then
+            kill "$(cat /tmp/atoolix-next.pid)" || true
+          fi

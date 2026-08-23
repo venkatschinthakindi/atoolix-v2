@@ -60,6 +60,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/tools/image/png-to-pdf",
+        destination: "/tools/image/image-to-pdf",
+        permanent: true,
+      },
+      {
+        source: "/tools/image/webp-to-pdf",
+        destination: "/tools/image/image-to-pdf",
+        permanent: true,
+      },
+      {
         source: "/calculator/retirement-planning-calculator",
         destination: "/tools/calculator/retirement-calculator",
         permanent: true,
