@@ -29,6 +29,12 @@ const IMAGE_TARGET_SIZE_METADATA: Record<
   },
 };
 
+const PASSPORT_PHOTO_METADATA = {
+  title: "Passport Photo Resizer Online – Resize & Compress Photos | Atoolix",
+  description:
+    "Resize passport, visa, ID, and application photos online. Set custom dimensions, reduce file size, adjust quality, preview the result, and download the image in your browser.",
+};
+
 const TIMEZONE_CONVERTER_TITLE =
   "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
 const TIMEZONE_CONVERTER_DESCRIPTION =
@@ -58,16 +64,25 @@ export async function generateMetadata(params: any): Promise<Metadata> {
 
   const isCalculatorHub = normalizedToolId === "calculator";
   const targetSizeMetadata = IMAGE_TARGET_SIZE_METADATA[normalizedToolId];
+  const isPassportPhotoResizer = normalizedToolId === "image/passport-photo-resizer";
   const isTimezoneConverter = normalizedToolId === "datetime/timezone-converter";
 
   const title = isCalculatorHub
     ? CALCULATOR_TITLE
     : targetSizeMetadata?.title ??
-      (isTimezoneConverter ? TIMEZONE_CONVERTER_TITLE : tool.title);
+      (isPassportPhotoResizer
+        ? PASSPORT_PHOTO_METADATA.title
+        : isTimezoneConverter
+          ? TIMEZONE_CONVERTER_TITLE
+          : tool.title);
   const description = isCalculatorHub
     ? CALCULATOR_DESCRIPTION
     : targetSizeMetadata?.description ??
-      (isTimezoneConverter ? TIMEZONE_CONVERTER_DESCRIPTION : tool.description);
+      (isPassportPhotoResizer
+        ? PASSPORT_PHOTO_METADATA.description
+        : isTimezoneConverter
+          ? TIMEZONE_CONVERTER_DESCRIPTION
+          : tool.description);
   const canonical = isCalculatorHub
     ? CALCULATOR_CANONICAL
     : tool.alternates.canonical.replace(/\/$/, "");
