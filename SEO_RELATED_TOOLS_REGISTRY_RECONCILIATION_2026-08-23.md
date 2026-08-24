@@ -18,7 +18,7 @@ The archived registry entries themselves remain `archived: true` and their relat
 
 ## Documentation
 
-The current branch-vs-`main` PR diff contains no `src/app/documentation/page.tsx` change, confirming there is no additional documentation-source modification required on this branch. The existing Documentation SEO Validation workflow has already verified that the public documentation source contains no `jpg-to-pdf`, `png-to-pdf`, or `webp-to-pdf` legacy URLs.
+The final branch diff contains no `src/app/documentation/page.tsx` change. Documentation SEO Validation verified that the public documentation source contains no `jpg-to-pdf`, `png-to-pdf`, or `webp-to-pdf` legacy URLs.
 
 ## Google guidance applied
 
@@ -43,25 +43,11 @@ For the active Image-to-PDF page itself, the dedicated curated cluster remains:
 - Compress PDF
 - File Privacy & Security Checker
 
-## Why no blanket registry rewrite
+## Final source / merge status — 2026-08-24
 
-The registry is a large source file and the explicit relationship graph includes many legitimate contextual relationships. A blanket string replacement would risk changing valid historical compatibility references, loader mappings, or unrelated documentation semantics.
+PR #12 was reviewed and merged as commit `a49b9b8c0b3c1ada544601efa6b795397ef272c4`.
 
-The cleanup was therefore limited to the confirmed 8 active relationships.
-
-## Branch reconciliation status — 2026-08-24
-
-The dedicated branch `seo/related-tools-registry-cleanup` was safely reconciled with the current `main` history without force-resetting or creating a duplicate branch.
-
-Reconciliation merge commit:
-
-`b1e3d1613d2d87ce6ba28e0f1c8fb8c1c0d9ae7b`
-
-The branch is current with `main` and is not behind it.
-
-## Source diff verification
-
-The final `src/data/tools.ts` diff against `main` contains only the intended active relationship cleanup:
+The final `src/data/tools.ts` diff contained only the intended active relationship cleanup:
 
 - `pdf/merge-pdf`: 3 removals
 - `pdf/split-pdf`: 2 removals
@@ -69,37 +55,38 @@ The final `src/data/tools.ts` diff against `main` contains only the intended act
 - **Total: 8 removals**
 - **Archived JPG/PNG/WebP-to-PDF entries: 0 changes**
 
-No unrelated application source change is present in `tools.ts`.
+No unrelated application source change was present in `tools.ts`.
 
 ## Validation
 
-- [x] Generic RelatedTools fallback is active-only by default.
-- [x] Active Image-to-PDF curated cluster is clean.
-- [x] Archived JPG/PNG/WebP PDF registry entries identified.
-- [x] Branch reconciled with current `main` without force reset.
 - [x] Exactly 8 stale active registry relationship references removed.
-- [x] Zero archived registry relationship changes in the final `tools.ts` diff.
-- [x] Current documentation source requires no additional change on this branch.
-- [x] Documentation SEO Validation passed, including typecheck, lint, production build, legacy redirect validation, and consolidated-page validation.
-- [x] Temporary one-time reconciliation workflows removed from the branch after validation.
-- [ ] Final PR CI after cleanup commits.
-- [ ] Merge PR only after final CI is green.
-- [ ] Production rendered-link validation after deployment.
-- [ ] Production redirect validation for all three legacy routes.
-- [ ] Final MD synchronization after production validation.
+- [x] Zero archived registry relationship changes in final `tools.ts` diff.
+- [x] Documentation source contains no legacy JPG/PNG/WebP-to-PDF URLs.
+- [x] Temporary one-time reconciliation workflows removed.
+- [x] Final Documentation SEO Validation passed.
+- [x] Typecheck, lint, and production build passed.
+- [x] PR #12 merged only after final intended source/MD diff review.
+- [x] Production `/tools/pdf/merge-pdf` returned HTTP 200.
+- [x] Production `/tools/pdf/split-pdf` returned HTTP 200.
+- [x] Production `/tools/image/image-to-pdf` returned HTTP 200.
+- [x] Production `/tools/image/jpg-to-pdf` directly redirects to `/tools/image/image-to-pdf`.
+- [x] Production `/tools/image/png-to-pdf` directly redirects to `/tools/image/image-to-pdf`.
+- [x] Production `/tools/image/webp-to-pdf` directly redirects to `/tools/image/image-to-pdf`.
 
-## CI evidence
+## Production evidence
 
-Documentation SEO Validation run #42 for the correction commit passed all validation stages, including typecheck, lint, production build, legacy redirect validation, and consolidated-page validation.
+Production validation completed 2026-08-24. The three active consolidated pages returned HTTP 200, and all three legacy JPG/PNG/WebP PDF-format URLs redirected directly to `/tools/image/image-to-pdf` without an intermediate redirect.
 
-The earlier dedicated reconciliation workflow also successfully verified the 8-reference state and build before its generated commit encountered a push race. The branch was subsequently corrected so the final source diff preserves archived entries and contains only the intended 8 active removals.
+## Closure
+
+**Related Tools Registry Cleanup — CLOSED.**
+
+The implementation, source diff, CI, merge, production active-page validation, and legacy redirect validation are complete. No archived page was restored and no keyword-variant pages were introduced.
 
 ## Next step
 
-Run/inspect the final normal CI after the cleanup and temporary-workflow removal commits. If green, review the final PR diff and merge only the intended source/MD changes.
+Inspect the existing SEO execution roadmap and select the highest-value unresolved SEO opportunity using current Google guidance and evidence. The top-5 organic ranking objective remains the optimization target, not a guaranteed ranking outcome.
 
-After merge:
+Process for the next item:
 
-**production rendered-link validation → verify the three legacy URLs redirect directly to `/tools/image/image-to-pdf` → final MD synchronization → next highest-value SEO opportunity.**
-
-No new keyword-variant pages, no restoration of archived pages, and no unrelated SEO changes.
+**Google guidance → SERP/competitor evidence where useful → source audit → identify actual defect/opportunity → minimal justified change → CI → production validation → MD synchronization.**
