@@ -787,7 +787,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "pdf/merge-pdf",
     archived: false,
-    relatedTools: ["pdf/split-pdf", "pdf/compress-pdf", "image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf"],
+    relatedTools: ["pdf/split-pdf", "pdf/compress-pdf", "image/image-to-pdf", ],
     //loader: () => import("@/components/tools/pdf/mergePdf/mergePdf"),
     toolShortName: "Merge PDF",
     title: "Merge PDF Files Online for Free | PDF Merger",
@@ -818,7 +818,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "pdf/split-pdf",
     archived: false,
-    relatedTools: ["pdf/merge-pdf", "pdf/compress-pdf", "image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf"],
+    relatedTools: ["pdf/merge-pdf", "pdf/compress-pdf", "image/image-to-pdf", ],
     //loader: () => import("@/components/tools/pdf/splitPdf/splitPdf"),
     title: "Split PDF Files Online Free | Extract PDF Pages",
     toolShortName: "Split PDF",
@@ -849,7 +849,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/image-to-pdf",
     archived: false,
-    relatedTools: ["pdf/merge-pdf", "pdf/split-pdf", "pdf/compress-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf", "image/compress-image"],
+    relatedTools: ["pdf/merge-pdf", "pdf/split-pdf", "pdf/compress-pdf", "image/compress-image"],
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "Image to PDF",
@@ -878,7 +878,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/jpg-to-pdf",
     archived: true,
-    relatedTools: ["image/image-to-pdf", "image/png-to-pdf", "image/webp-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
+    relatedTools: ["image/image-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "JPG to PDF",
@@ -940,7 +940,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/png-to-pdf",
     archived: true,
-    relatedTools: ["image/image-to-pdf", "image/jpg-to-pdf", "image/webp-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
+    relatedTools: ["image/image-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "PNG to PDF",
@@ -1434,7 +1434,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/webp-to-pdf",
     archived: true,
-    relatedTools: ["image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
+    relatedTools: ["image/image-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "WEBP to PDF",
