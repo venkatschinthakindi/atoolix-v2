@@ -35,7 +35,7 @@ Fixed execution-count reconciliation for the current SEO program. Google Search 
 23. Legitimate external authority/trust audit — **CLOSED for available evidence; no repository defect proven**
 24. Full TypeScript/build validation after latest source fixes — **CLOSED; successful deployment build**
 25. Normal deployment/production rollout of latest validated changes — **CLOSED; successful run #216 / ID 32753180758**
-26. Production CAGR FAQ validation — **CLOSED; exact live HTML source directly provided and verified**
+26. Production CAGR FAQ validation — **CLOSED; exact live HTML directly provided and verified**
 27. Production HTML validation for important rendered content/title/H1 — **CLOSED; Merge PDF production evidence supplied and verified**
 28. Production legacy JPG/JPEG redirects + destination validation — **CLOSED; previously validated as redirects to the current Image-to-PDF tool**
 
@@ -64,6 +64,12 @@ The legacy JPG/JPEG URL behavior has already been validated in the prior reposit
 
 Conclusion: **CLOSED / no change.** No new redirect code is justified.
 
+## Unit 29 checkpoint — 2026-08-24
+
+The requested production sitemap URL is `https://atoolix.com/sitemap.xml`. A direct production fetch was attempted, but the available web fetch returned a cache-miss/internal fetch failure, and the container network could not resolve the production hostname. Search results surfaced the live Atoolix homepage/tools/documentation, but did not expose the sitemap XML itself. Therefore the sitemap contents, HTTP status, URL count, canonical consistency, and robots/sitemap relationship are **not yet independently verified** in this checkpoint.
+
+No sitemap defect is inferred from the failed fetch. No source change is justified. This is an access/evidence limitation, not a site defect.
+
 ## Fixed progress
 
 - Closed: **28 / 30 = 93.3%**
@@ -73,9 +79,9 @@ This is execution progress, not a ranking prediction.
 
 ## Next action
 
-**Unit 29: validate production canonical → robots directives/headers → robots.txt → sitemap.xml → compare with repository policy → synchronize this MD.**
+Obtain the actual production response/content for `https://atoolix.com/sitemap.xml` (and, if needed, `https://atoolix.com/robots.txt`) from an accessible browser/View Source/network response, then validate canonical/robots/sitemap consistency and synchronize this MD. Do not reopen closed work.
 
-Then validate rendered images/`og:image` as the final remaining unit.
+After Unit 29 is closed, validate rendered images/`og:image` as the final remaining unit.
 
 ## Anti-loop / synchronization rules
 
