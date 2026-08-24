@@ -44,24 +44,54 @@ Fixed execution-count reconciliation for the current SEO program. Google Search 
 29. Production rendered image/`og:image` validation — **PENDING**
 30. Production validation of legacy JPG/JPEG redirects and active destinations — **PENDING**
 
-## Current evidence checkpoint — 2026-08-24
+## Current production evidence — Merge PDF page — 2026-08-24
 
-Unit 27 was evaluated without reopening or double-counting the already-closed CAGR evidence. The supplied CAGR production HTML proves title, H1 and important content for that page, but it cannot by itself establish a broader site-level production HTML validation.
+The user supplied production page content for:
 
-No additional independent production-page HTML evidence has been supplied in this checkpoint. Therefore Unit 27 remains **PENDING / NO CHANGE**, with no concrete defect established and no source change justified.
+`https://atoolix.com/tools/pdf/merge-pdf`
 
-Existing Search Console evidence remains unchanged; no fresh query-level dataset establishes a new high-value unresolved cluster. No new CWV measurement or authority/trust evidence establishes a new defect.
+The supplied live page evidence verifies:
+
+- Title: `Merge PDF Files Online for Free | PDF Merger | atoolix`
+- Meta description: `Merge multiple PDF files into one document online for free. Combine, arrange, and download PDFs instantly, no installation required.`
+- The same description is present in `og:description` and `twitter:description`.
+- Canonical: `https://atoolix.com/tools/pdf/merge-pdf`
+- H1: `Merge PDF Files Online for Free`
+- A 20-question visible FAQ block is present.
+- Major visible content sections are present: hero/intro, advanced-control section, merge options, feature cards, page-selection controls, header/footer/text/PDF overlay sections, 8-step how-to, key features, audience section, related PDF tools and FAQ.
+
+The supplied fetch is rendered/markdown extraction rather than raw page source. Therefore it **does not prove the presence or absence of JSON-LD**. The user explicitly reports that the extraction strips `application/ld+json` blocks, so structured-data status remains unverified.
+
+### Unit 27 decision
+
+This is independent non-CAGR production evidence and is sufficient to close the **content/title/H1 portion** of Unit 27 for the Merge PDF page. No concrete title, description, canonical or H1 defect was found.
+
+It does **not** by itself close Unit 28 (canonical/robots/sitemap site-level validation), Unit 29 (rendered image/`og:image` validation), or any JSON-LD-specific validation. Those remain separate evidence requirements.
+
+**No source change is justified.**
+
+## Search Console checkpoint
+
+Existing Search Console evidence remains unchanged; no fresh query-level dataset establishes a new high-value unresolved cluster. Wait for genuinely fresh GSC data before another query-cluster optimization.
+
+## Performance checkpoint
+
+No fresh Chrome DevTools/Lighthouse/CrUX measurement proves a new CWV defect. No performance source change is justified.
+
+## Authority/trust checkpoint
+
+No new authority/trust evidence establishes a repository defect. No source change is justified.
 
 ## Fixed progress
 
-- Closed: **26 / 30 = 86.7%**
-- Remaining: **4 / 30 = 13.3%**
+- Closed: **27 / 30 = 90.0%**
+- Remaining: **3 / 30 = 10.0%**
 
 This is execution progress, not a ranking prediction.
 
 ## Next action
 
-**Obtain raw HTML/View Source for one important non-CAGR production page → validate title, meta description, H1 and important visible content → synchronize this MD → proceed to Unit 28 canonical/robots/sitemap validation.**
+**Unit 28 — production canonical/robots/sitemap validation.** Verify the live canonical, robots directives/headers and sitemap availability/content against the repository's intended policy. Then synchronize this MD and proceed to Unit 29 rendered image/`og:image` validation.
 
 No GSC wait. No source change unless a concrete production defect is proven.
 
