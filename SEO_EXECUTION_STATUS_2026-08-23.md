@@ -31,14 +31,14 @@
 - EMI, Home Loan EMI and Personal Loan EMI structured-data gaps fixed with free `WebApplication` markup where justified.
 - FD Calculator structured-data gap fixed; its small worked-example discrepancy remains separately recorded.
 - SIP metadata + `WebApplication` structured data completed.
-- CAGR audited/preserved, with a separate confirmed content mismatch recorded below.
+- CAGR audited/preserved; the confirmed FAQ input-contract mismatch is now corrected.
 - XIRR audited/preserved, including dated cash-flow validation and solver/fallback review.
 - Lumpsum structured-data gap fixed.
 - Authority/trust foundation audited; no artificial trust signals, fake reviews, fabricated entities or link schemes introduced.
 
 ## Investment cluster
 1. SIP — complete
-2. CAGR — audited; content correction pending safe targeted write
+2. CAGR — audited; confirmed FAQ content correction committed
 3. XIRR — complete/preserved
 4. Lumpsum — complete; structured-data fix committed
 
@@ -211,28 +211,34 @@ Dedicated audit/closure:
 ## CAGR content correction — latest state
 
 ### Confirmed defect
-The current CAGR SEO content contains two claims that do not match the current calculator input contract:
-1. The FAQ says CAGR can be calculated for less than one year.
-2. The FAQ says the measurement period can be converted from months into years.
+The current CAGR SEO content contained two claims that did not match the current calculator input contract:
+1. The FAQ said CAGR could be calculated for less than one year.
+2. The FAQ said the measurement period could be converted from months into years.
 
-The shared calculator engine currently enforces `cagrYears: { min: 1, max: 100 }`, so the current UI does not accept a sub-one-year period.
+The shared calculator engine enforces `cagrYears: { min: 1, max: 100 }`, so the current UI does not accept a sub-one-year period or a month-based/fractional-year input.
 
 ### Decision
-**Confirmed content-only correction is justified.**
+**Confirmed content-only correction was justified and has now been applied.**
 
-Do not change the CAGR calculation engine merely for SEO. Do not add unrelated keywords, FAQs or pages.
+No CAGR calculation-engine change was made and no unrelated keywords, FAQs or pages were added.
 
 ### Implementation status
-A genuinely patch-capable repository path is now available through Git tree/blob operations. This checkpoint is therefore **executable**: no CAGR application source change has been made yet, and no CI run has been triggered for the correction.
+The two confirmed FAQ answers were corrected in:
+`src/components/tools/financeSuite/investment/cagrSeoContent.tsx`
+
+Source commit:
+`6ae8eb7584cafe74db18047b78c46ca56e686cf4` — `seo: correct CAGR FAQ input claims`
+
+The correction is intentionally limited to the two FAQ answers and now matches the current UI input contract.
 
 Dedicated status record:
 `SEO_CAGR_CONTENT_CORRECTION_STATUS_2026-08-24.md`
 
-### Intended minimal correction
-- Rewrite the FAQ `Can CAGR be calculated for less than one year?` so it does not claim that the current calculator supports sub-one-year input.
-- Rewrite the FAQ `Can CAGR be calculated using months?` so it does not imply that the current calculator accepts month-based/fractional-year input.
-
-Do not repeat the audit. Apply only these two confirmed content corrections, then validate and synchronize this MD again.
+### Validation state
+- [x] Defect confirmed against calculator input contract.
+- [x] Minimal two-FAQ correction applied.
+- [ ] Full TypeScript/build/lint validation after the correction.
+- [ ] Production CAGR page validation after deployment.
 
 ## Build error — CommandPalette type narrowing
 
@@ -276,7 +282,7 @@ Source commit:
 - [x] CommandPalette TypeScript error fixed with explicit union narrowing.
 - [x] CommandPalette deployment/build coverage confirmed; direct interaction remains unverified.
 - [x] CAGR content mismatch audited and documented.
-- [ ] Safe targeted CAGR content correction.
+- [x] Safe targeted CAGR content correction committed.
 - [ ] Full Next.js TypeScript/build/lint validation after the latest fixes.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
@@ -302,15 +308,16 @@ Approximate implementation progress: **~90% complete / ~10% pending**. This is i
 Continue the broader Search Console + site-wide technical reconciliation from the latest `main`.
 
 Immediate priority:
-1. Apply the two confirmed CAGR FAQ corrections using the patch-capable Git tree/blob path; do not use a whole-file workaround.
-2. Synchronize this master MD immediately after the CAGR source change, then run full TypeScript/build/lint validation from the resulting `main` and act only on actual results.
-3. Continue using fresh Search Console/query evidence where available.
-4. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
-5. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
-6. Keep canonical, sitemap, redirects and internal-link signals consistent.
-7. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
-8. Validate production and Search Console after Google has had time to recrawl.
-9. Then continue the planned Next.js rendering/performance audit based on measured evidence.
+1. Run full TypeScript/build/lint validation from the latest `main` after the CAGR correction and inspect the actual CI result.
+2. If validation passes, validate the deployed CAGR page and synchronize production evidence into this MD.
+3. If validation reports a genuine defect, fix only that defect and synchronize this MD in the same execution cycle.
+4. Continue using fresh Search Console/query evidence where available.
+5. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
+6. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
+7. Keep canonical, sitemap, redirects and internal-link signals consistent.
+8. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
+9. Validate production and Search Console after Google has had time to recrawl.
+10. Then continue the planned Next.js rendering/performance audit based on measured evidence.
 
 ## Historical execution commits
 - Meeting Time Finder breadcrumb correction: `7082ca169f40a2143b1aa9ae30f9d90df8d6aee9`
@@ -342,6 +349,7 @@ Immediate priority:
 - Explicit relatedTools closure: `a49b9b8c0b3c1ada544601efa6b795397ef272c4`
 - CommandPalette TypeScript narrowing: `918995dfb251696845652114b078c0c54f0f7546`
 - CAGR correction status: `e68b07842b7b627a3eb9e136845f93b705d59e9f`
+- CAGR FAQ correction: `6ae8eb7584cafe74db18047b78c46ca56e686cf4`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
