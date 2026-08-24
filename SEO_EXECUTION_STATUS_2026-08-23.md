@@ -11,7 +11,7 @@
 - Keep canonical, sitemap, redirects, internal links and indexability signals consistent. Google treats canonical declarations as hints and may choose another canonical.
 - Closely related pages must have meaningful differences; do not create doorway/keyword-variant pages.
 - Use descriptive internal-link anchor text and point links at the preferred canonical URL.
-- Use descriptive, concise, unique title elements and accurate visible headings. Google may construct title links from the `<title>`, H1/main heading, prominent text, `og:title`, links and other sources.
+- Use descriptive, concise, unique title elements and accurate visible headings.
 - Meta descriptions should accurately summarize important pages; Google may use page content instead of the meta description for snippets.
 - Structured data must accurately represent relevant visible content. Do not fabricate reviews/ratings or add duplicate markup merely to chase rich results.
 - Visible FAQs/how-to guidance can remain useful, but deprecated/unsupported rich-result markup must not be added.
@@ -31,18 +31,18 @@
 - EMI, Home Loan EMI and Personal Loan EMI structured-data gaps fixed with free `WebApplication` markup where justified.
 - FD Calculator structured-data gap fixed; its small worked-example discrepancy remains separately recorded.
 - SIP metadata + `WebApplication` structured data completed.
-- CAGR audited/preserved.
+- CAGR audited/preserved, with a separate confirmed content mismatch recorded below.
 - XIRR audited/preserved, including dated cash-flow validation and solver/fallback review.
 - Lumpsum structured-data gap fixed.
 - Authority/trust foundation audited; no artificial trust signals, fake reviews, fabricated entities or link schemes introduced.
 
 ## Investment cluster
 1. SIP — complete
-2. CAGR — complete/preserved
+2. CAGR — audited; content correction pending safe targeted write
 3. XIRR — complete/preserved
 4. Lumpsum — complete; structured-data fix committed
 
-Do not reopen these unless new evidence identifies a real defect.
+Do not reopen completed implementation unless new evidence identifies a real defect.
 
 ## Search Console opportunity audits
 ### 100 KB Image Compressor
@@ -123,7 +123,7 @@ Updated dedicated audit commit:
 ### Assessment
 The legacy `/tools/image/jpg-to-pdf` route was re-evaluated from the latest `main` after repository access was restored.
 
-The route is currently `archived: true` and uses the same image-to-PDF engine/helper as the active `/tools/image/image-to-pdf` route. The active route already accepts JPG/JPEG/PNG/WEBP. The legacy page's `JpgToPdfSeoContent.tsx` contains substantial visible content, but its primary information architecture substantially overlaps the active Image-to-PDF page: supported formats, multiple-image conversion, ordering, page settings, browser processing, use cases, audiences, mobile guidance, FAQ and download workflow.
+The route is currently `archived: true` and uses the same image-to-PDF engine/helper as the active `/tools/image/image-to-pdf` route. The legacy page's `JpgToPdfSeoContent.tsx` contains substantial visible content, but its primary information architecture substantially overlaps the active Image-to-PDF page: supported formats, multiple-image conversion, ordering, page settings, browser processing, use cases, audiences, mobile guidance, FAQ and download workflow.
 
 The JPG route therefore does not currently provide enough distinct primary functionality or sufficiently significant primary-content differentiation to justify becoming a separate indexed keyword-variant page.
 
@@ -154,87 +154,106 @@ Google recommends crawlable internal links with descriptive, relevant anchor tex
 Source commit:
 `b1dfb36aadbcc9f1c48b2a73279ce0a1d779375c` — `seo: clean Image-to-PDF internal links`
 
-Note: the tool registry still contains historical `relatedTools` references for some archived PDF-format variants. Those registry relationships are not rendered by the Image-to-PDF cluster because the dedicated active cluster takes precedence. A broader registry relationship cleanup can be considered during the next full route-graph pass; it is not required to leave the active Image-to-PDF page linking to archived destinations.
-
 ## Related-tools architecture — latest state
 
-### Audit
+### Audit and closure
 `src/app/tools/[...toolId]/Relatedtools.tsx` was audited for active internal navigation, registry-driven fallback behavior, and the relationship between `relatedTools`, `archived`, `comingSoon`, canonical and redirect state.
 
 The curated Image-to-PDF cluster remains active-only and directly links to useful destinations. Dedicated image-converter, target-size compressor and finance clusters remain contextual rather than all-to-all link networks.
 
-### Concrete source fix
-The generic `RelatedTools` fallback previously defaulted to:
-
-```ts
-includeArchived = true,
-includeComingSoon = true,
-```
-
-That allowed a registry-driven fallback to surface archived or coming-soon tools unless callers explicitly opted out. The defaults are now:
+The generic `RelatedTools` fallback now defaults to:
 
 ```ts
 includeArchived = false,
 includeComingSoon = false,
 ```
 
-This makes normal related-tool navigation active-only by default while preserving an explicit opt-in for callers that genuinely need non-active entries.
+This makes normal related-tool navigation active-only by default while preserving explicit opt-in for callers that genuinely need non-active entries.
 
-### Google rationale
-Google's current guidance recommends crawlable internal links, descriptive anchor text, and updating internal links after URL changes. Google also uses redirects, sitemap inclusion and canonical annotations as canonicalization signals, while canonicalization remains a hint rather than a rule. Keeping generic active navigation pointed at current destinations avoids unnecessary redirect/archived paths and gives crawlers a cleaner site graph.
+### Explicit registry graph reconciliation — COMPLETED
+A complete explicit `relatedTools` registry audit was performed against current `archived`, `comingSoon`, canonical and redirect state.
+
+Exactly eight stale active-registry relationships were confirmed, all pointing from active tools to archived PDF-format variants:
+- `pdf/merge-pdf` → `image/jpg-to-pdf`
+- `pdf/merge-pdf` → `image/png-to-pdf`
+- `pdf/merge-pdf` → `image/webp-to-pdf`
+- `pdf/split-pdf` → `image/jpg-to-pdf`
+- `pdf/split-pdf` → `image/png-to-pdf`
+- `image/image-to-pdf` → `image/jpg-to-pdf`
+- `image/image-to-pdf` → `image/png-to-pdf`
+- `image/image-to-pdf` → `image/webp-to-pdf`
+
+All eight were removed. No useful active relationship or archived product definition was modified.
+
+Closure commit:
+`a49b9b8c0b3c1ada544601efa6b795397ef272c4`
+
+Dedicated closure record:
+`SEO_EXECUTION_ADDENDUM_2026-08-24_RELATED_TOOLS_CLOSURE.md`
+
+Validation recorded for the closure included TypeScript, lint, production build, Documentation SEO Validation, active PDF HTTP 200 checks, and legacy JPG/PNG/WebP PDF redirects to the active Image-to-PDF destination.
 
 ### Status
 - [x] Image-to-PDF active cluster cleaned.
-- [x] Generic related-tool defaults now exclude archived tools.
-- [x] Generic related-tool defaults now exclude coming-soon tools.
+- [x] Generic related-tool defaults exclude archived tools.
+- [x] Generic related-tool defaults exclude coming-soon tools.
+- [x] Explicit `relatedTools` registry graph reconciled.
 - [x] Related-tools audit MD synchronized.
-- [ ] Full explicit `relatedTools` registry graph cleanup remains pending and must be evidence-based.
-- [ ] Build/type/lint validation after this source change.
-- [ ] Production rendered-link validation after deployment.
+- [x] Related-tools closure recorded.
+- [ ] Production rendered-link validation after subsequent deployments.
 
 Source commit:
-`93cf6c57c456fb7843efad25d431edc9e5cdf1d2` — `seo: make related-tool links active-only by default`
+`93cf6c57c456fb7843efad25d431ed9e5cdf1d2` — `seo: make related-tool links active-only by default`
 
-Dedicated audit:
-`SEO_RELATED_TOOLS_AUDIT_2026-08-23.md`
+Dedicated audit/closure:
+`SEO_EXECUTION_ADDENDUM_2026-08-24_RELATED_TOOLS_CLOSURE.md`
+
+## CAGR content correction — latest state
+
+### Confirmed defect
+The current CAGR SEO content contains two claims that do not match the current calculator input contract:
+1. The FAQ says CAGR can be calculated for less than one year.
+2. The FAQ says the measurement period can be converted from months into years.
+
+The shared calculator engine currently enforces `cagrYears: { min: 1, max: 100 }`, so the current UI does not accept a sub-one-year period.
+
+### Decision
+**Confirmed content-only correction is justified.**
+
+Do not change the CAGR calculation engine merely for SEO. Do not add unrelated keywords, FAQs or pages.
+
+### Implementation status
+The targeted correction is currently blocked because the available repository write path replaces the complete UTF-8 file and no safe textual patch operation is exposed by the current connector. No application source change has been made and no CI run has been triggered for this correction.
+
+Dedicated status record:
+`SEO_CAGR_CONTENT_CORRECTION_STATUS_2026-08-24.md`
+
+### Intended minimal correction
+- Rewrite the FAQ `Can CAGR be calculated for less than one year?` so it does not claim that the current calculator supports sub-one-year input.
+- Rewrite the FAQ `Can CAGR be calculated using months?` so it does not imply that the current calculator accepts month-based/fractional-year input.
+
+Do not repeat the audit or use a whole-file workaround. Reopen implementation only when a genuinely patch-capable repository write path is available.
 
 ## Build error — CommandPalette type narrowing
 
 ### Reported failure
 The production Next.js TypeScript check failed at `src/components/ui/CommandPalette.tsx` because `results` is a union of `CategoryInfo` and `ToolRegistryEntry`, while `getCanonicalToolPath()` accepts only `ToolRegistryEntry`.
 
-The failing expression was the keyboard Enter handler calling `getCanonicalToolPath(item)` without narrowing the union.
-
 ### Root cause
 `dataSource` intentionally switches between the tool registry and category registry depending on `searchTools`. TypeScript cannot infer from that boolean that `results[selectedIndex]` is a `ToolRegistryEntry` at the later call site.
 
 ### Fix
-The Enter handler now narrows the result before calling the canonical-path helper:
-
-```ts
-if (searchTools && "alternates" in item) {
-  router.push(getCanonicalToolPath(item));
-} else if (!searchTools) {
-  router.push(`/tools/${item.title}`);
-}
-```
-
-This preserves the existing behavior while satisfying the actual `ToolRegistryEntry` contract. No `any`, unsafe cast, or weakened prop/type definition was introduced.
-
-The canonical path helper itself correctly requires a `ToolRegistryEntry` because it reads `tool.alternates.canonical`; that source-of-truth behavior was preserved.
+The Enter handler now narrows the result before calling the canonical-path helper. No `any`, unsafe cast, or weakened prop/type definition was introduced.
 
 Source commit:
 `918995dfb251696845652114b078c0c54f0f7546` — `fix: narrow command palette search result types`
-
-### SEO impact
-This is primarily a build correctness fix, but it also protects the site's canonical internal navigation: tool-search Enter navigation continues to use `getCanonicalToolPath()` rather than constructing a potentially non-canonical path. This keeps command-palette navigation aligned with the registry canonical URL source.
 
 ### Validation state
 - [x] Exact failing file inspected.
 - [x] `getCanonicalToolPath()` contract inspected.
 - [x] Root cause confirmed as union-type narrowing.
 - [x] Type-safe source fix committed.
-- [ ] Full Next.js TypeScript/build validation after this fix.
+- [ ] Full Next.js TypeScript/build/lint validation after this fix.
 - [ ] Production command-palette navigation validation.
 
 ## Validation state
@@ -252,8 +271,10 @@ This is primarily a build correctness fix, but it also protects the site's canon
 - [x] Active Image-to-PDF rendered related-link configuration cleaned of archived/redirect-only PDF variants.
 - [x] Generic RelatedTools fallback changed to active-only defaults.
 - [x] Dedicated related-tools audit synchronized.
+- [x] Explicit relatedTools registry graph reconciled and closed.
 - [x] CommandPalette TypeScript error fixed with explicit union narrowing.
-- [ ] Full registry `relatedTools` graph cleanup.
+- [x] CAGR content mismatch audited and documented.
+- [ ] Safe targeted CAGR content correction.
 - [ ] Full Next.js TypeScript/build/lint validation after the latest fixes.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
@@ -264,23 +285,23 @@ This is primarily a build correctness fix, but it also protects the site's canon
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
 
 ## Overall implementation status
-Approximate implementation progress: **85–90% complete**. This is implementation progress, not a ranking prediction.
+Approximate implementation progress: **~90% complete / ~10% pending**. This is implementation progress, not a ranking prediction.
 
 - Technical SEO foundation: ~90–94%
 - Route/canonical/sitemap reconciliation: ~94%
 - Metadata optimization: ~85–89%
-- Internal linking: ~80–84%
+- Internal linking: ~85–89% after related-tools closure
 - Search Console opportunity/content optimization: ~85%
 - Image SEO foundation: ~90%; production image validation remains pending
 - Authority/trust foundation: substantially improved; legitimate earned external authority remains pending
 - Production validation and Search Console measurement: pending
 
 ## Next planned work — do not deviate
-Continue the **broader Search Console + site-wide technical reconciliation** from the latest `main`.
+Continue the broader Search Console + site-wide technical reconciliation from the latest `main`.
 
 Immediate priority:
-1. Re-run full TypeScript/build/lint validation from the latest `main` and fix the next genuine build defect if reported.
-2. Reconcile remaining explicit `relatedTools` registry relationships against current `archived`, `comingSoon`, canonical and redirect state; do not mass-edit useful active relationships.
+1. Use a genuinely patch-capable repository operation to make only the two confirmed CAGR FAQ corrections; do not use a whole-file workaround.
+2. Then re-run full TypeScript/build/lint validation from the latest `main` and fix the next genuine build defect if reported.
 3. Continue using fresh Search Console/query evidence where available.
 4. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
 5. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
@@ -315,8 +336,10 @@ Immediate priority:
 - JPG/JPEG audit documentation: `57223cc71821c348df48eb5b83e95547db58dcad`
 - Image-to-PDF internal-link cleanup: `b1dfb36aadbcc9f1c48b2a73279ce0a1d779375c`
 - Related-tools audit documentation: `c2f868afab5cc116b9ea1ac0f1b0fe2c6c3e13ff`
-- Related-tools active-only defaults: `93cf6c57c456fb7843efad25d431edc9e5cdf1d2`
+- Related-tools active-only defaults: `93cf6c57c456fb7843efad25d431ed9e5cdf1d2`
+- Explicit relatedTools closure: `a49b9b8c0b3c1ada544601efa6b795397ef272c4`
 - CommandPalette TypeScript narrowing: `918995dfb251696845652114b078c0c54f0f7546`
+- CAGR correction status: `e68b07842b7b627a3eb9e136845f93b705d59e9f`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
