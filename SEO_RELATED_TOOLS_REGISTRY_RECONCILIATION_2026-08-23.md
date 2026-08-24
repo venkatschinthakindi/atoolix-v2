@@ -86,3 +86,8 @@ After a real green validation:
 **CI → inspect exact source/MD diff → merge only if green → production rendered-link validation → verify the three legacy URLs redirect directly to `/tools/image/image-to-pdf` → final MD synchronization → next highest-value SEO opportunity.**
 
 No new keyword-variant pages, no restoration of archived pages, and no unrelated SEO changes.
+
+
+## Archive-preservation correction — 2026-08-24
+
+The reconciliation branch was corrected after review found that the prior generated source commit also modified the three archived JPG/PNG/WebP-to-PDF registry relationship arrays. Those archived entries are restored to their prior relationships. The intended cleanup remains limited to exactly 8 stale references in the three active tools: 3 in `pdf/merge-pdf`, 2 in `pdf/split-pdf`, and 3 in `image/image-to-pdf`. No archived page is restored.

@@ -878,7 +878,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/jpg-to-pdf",
     archived: true,
-    relatedTools: ["image/image-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
+    relatedTools: ["image/image-to-pdf", "image/png-to-pdf", "image/webp-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "JPG to PDF",
@@ -940,7 +940,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/png-to-pdf",
     archived: true,
-    relatedTools: ["image/image-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
+    relatedTools: ["image/image-to-pdf", "image/jpg-to-pdf", "image/webp-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "PNG to PDF",
@@ -1434,7 +1434,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/webp-to-pdf",
     archived: true,
-    relatedTools: ["image/image-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
+    relatedTools: ["image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"],
     icon: "FileImage",
     ...getDefaultIamgeToPdfConverterRegistry(
       "WEBP to PDF",
