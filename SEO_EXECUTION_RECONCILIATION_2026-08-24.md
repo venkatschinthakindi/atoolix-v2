@@ -75,7 +75,9 @@ Conclusion: **no application source change is justified by the currently availab
 24. Full TypeScript/build/lint validation after the latest source fixes — **CI PENDING**
 25. Normal deployment/production rollout of the latest validated changes — **DEPLOYMENT PENDING**
 
-The main trigger checkpoint is `88f63f0d2ae892f9c356b310ad55b399f59a5af1`. GitHub currently exposes no workflow run for that checkpoint through the available commit-workflow endpoint. The latest combined commit status also contains no status entries. The older successful deployment `32734791868` checked out `2002d2e5e4a4dbd9176dcdc813cf6972c44146d3`, so it does not prove inclusion of the CAGR correction or the new checkout-SHA protection.
+The main trigger checkpoint is `88f63f0d2ae892f9c356b310ad55b399f59a5af1`. The available GitHub commit-workflow endpoint still does not expose a run for that checkpoint, and its combined status has no entries. The older successful deployment `32734791868` checked out `2002d2e5e4a4dbd9176dcdc813cf6972c44146d3`, so that run does not prove inclusion of the CAGR correction or the new checkout-SHA protection.
+
+**User-reported new deployment evidence (2026-08-24):** the user reports that a new Actions run has now run successfully and published. This is new evidence but the run number and exact checkout SHA have not yet been captured through the available GitHub API surface. Therefore CI/deployment remains **pending definitive SHA-level verification**, not blocked. Do not repeat the stale endpoint indefinitely; inspect the newly published run when its run ID is available.
 
 ### C. Production-validation-pending — 5 / 30
 
@@ -118,15 +120,15 @@ This is execution work remaining, not a prediction of ranking improvement.
 
 ## Current checkpoint — 2026-08-24
 
-A fresh check was performed against the current CI checkpoint. There is still no workflow run for `88f63f0d2ae892f9c356b310ad55b399f59a5af1`, and its combined commit status has no entries. This is an unchanged evidence state, not a reason to repeat the same Actions lookup indefinitely.
+A fresh CI check was attempted after the user's report of a newly published deployment. The connected GitHub endpoint still does not expose the new run ID or checkout SHA, while the known older run remains successful but is not sufficient evidence for the current CAGR deployment. This checkpoint therefore records the user's new deployment evidence without falsely upgrading it to SHA-verified CI evidence.
 
 The next actionable evidence event is either:
 
-1. a genuinely new CI/deployment run for current `main`; or
+1. the run ID/details for the newly published CI/deployment run so its expected SHA and actual checkout SHA can be verified; or
 2. fresh production evidence; or
 3. a new Search Console dataset.
 
-When a fresh CI run appears, inspect **expected deployment SHA = actual checkout SHA** first, then build/typecheck → deployment → production CAGR validation → MD synchronization.
+When the new CI run is identifiable, inspect **expected deployment SHA = actual checkout SHA** first, then build/typecheck → deployment → production CAGR validation → MD synchronization.
 
 ## Evidence rules for future chats
 
