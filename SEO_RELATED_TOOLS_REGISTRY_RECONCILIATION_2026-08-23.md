@@ -14,24 +14,15 @@ The latest `main` registry still contains explicit `relatedTools` references to 
 
 Confirmed in `src/data/tools.ts` for active entries including the PDF/Image-to-PDF cluster. The archived registry entries themselves remain `archived: true`.
 
-Searches for these IDs also confirm they remain present in the registry and loader/documentation-related source. This means the explicit registry graph is not yet fully reconciled even though the curated `RelatedTools` UI cluster for the active Image-to-PDF page has already been cleaned.
-
 ## Production evidence
 
-The live Atoolix documentation page currently exposes these legacy PDF-format links in its public documentation content:
-
-- Image to PDF → related `jpg to pdf`, `png to pdf`, `webp to pdf`
-- JPG to PDF
-- PNG to PDF
-- WebP to PDF
-
-This is important because the public documentation is a crawlable internal-link surface. It should not continue to promote consolidated/redirect-only URLs after those routes have been intentionally consolidated.
+The previously recorded production evidence identified legacy PDF-format links in the public documentation surface. The cleanup target remains limited to confirmed legacy destinations; no archived pages will be restored.
 
 ## Google guidance applied
 
 Google's current guidance says to update internal links when URLs change so users and crawlers reach the preferred destination directly, and to avoid unnecessary redirects. Google also says substantially similar pages can be clustered and that the canonical page should represent the most complete/useful version.
 
-Current official guidance checked 2026-08-23:
+Current official guidance checked 2026-08-24:
 
 - https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes
 - https://developers.google.com/search/docs/crawling-indexing/canonicalization
@@ -54,7 +45,17 @@ For the active Image-to-PDF page itself, the dedicated curated cluster is alread
 
 The registry is a large source file and the explicit relationship graph includes many legitimate contextual relationships. A blanket string replacement would risk changing valid historical compatibility references, loader mappings, or unrelated documentation semantics.
 
-The next source edit should therefore be a targeted reconciliation of the active registry relationships and public documentation links, followed by build validation.
+The cleanup remains targeted to the confirmed active relationships and public documentation surface.
+
+## Branch reconciliation status — 2026-08-24
+
+The dedicated branch `seo/related-tools-registry-cleanup` has now been safely reconciled with the current `main` history without force-resetting or creating a duplicate branch.
+
+Reconciliation merge commit:
+
+`b1e3d1613d2d87ce6ba28e0f1c8fb8c1c0d9ae7b`
+
+The branch is now based on the current `main` and is no longer behind it.
 
 ## Current validation
 
@@ -62,16 +63,26 @@ The next source edit should therefore be a targeted reconciliation of the active
 - [x] Active Image-to-PDF curated cluster is clean.
 - [x] Archived JPG/PNG/WebP PDF registry entries identified.
 - [x] Active registry relationships pointing to those archived IDs identified.
-- [x] Live documentation page verified to expose legacy PDF-format links.
-- [ ] Replace active internal links to archived PDF-format routes.
-- [ ] Remove legacy PDF-format entries from public documentation where they are no longer standalone active products.
-- [ ] Build/type/lint validation.
+- [x] Branch reconciled with current `main` without force reset.
+- [ ] Remove the 8 confirmed stale active registry relationship references.
+- [ ] Confirm/update public documentation legacy links based on the current source state.
+- [ ] Build/type/lint validation after source cleanup.
 - [ ] Production crawlable-link validation after deployment.
 - [ ] Production redirect validation.
 - [ ] Google URL Inspection / selected-canonical validation.
 
+## CI status
+
+The branch now has a push-trigger-capable one-time reconciliation workflow, but the available GitHub Actions connector has not exposed an actual workflow run for the current branch head. Therefore CI is **not** marked passed or failed.
+
+No source cleanup is being represented as complete until the controlled source change is actually present and validated.
+
 ## Next step
 
-Perform the targeted registry/documentation cleanup through the one-time GitHub Actions reconciliation workflow now available from `main`. The workflow is scoped to the dedicated `seo/related-tools-registry-cleanup` PR and will run `npm ci` plus `npm run build` before committing the controlled source/MD result. Keep the active Image-to-PDF page as the consolidated destination for JPG/JPEG/PNG/WebP-to-PDF intent. Do not create new keyword-variant pages.
+Obtain/execute the actual one-time reconciliation workflow on `seo/related-tools-registry-cleanup`, then inspect the resulting source/MD diff. Only the confirmed 8 stale active registry references may be removed; public documentation may be changed only where the current source contains confirmed legacy URLs.
 
-This audit supersedes the earlier statement that the full explicit `relatedTools` graph was merely pending without a known defect: a concrete legacy-link defect is now confirmed in the public documentation surface.
+After a real green validation:
+
+**CI → inspect exact source/MD diff → merge only if green → production rendered-link validation → verify the three legacy URLs redirect directly to `/tools/image/image-to-pdf` → final MD synchronization → next highest-value SEO opportunity.**
+
+No new keyword-variant pages, no restoration of archived pages, and no unrelated SEO changes.
