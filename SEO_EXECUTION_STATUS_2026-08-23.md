@@ -223,7 +223,7 @@ The shared calculator engine currently enforces `cagrYears: { min: 1, max: 100 }
 Do not change the CAGR calculation engine merely for SEO. Do not add unrelated keywords, FAQs or pages.
 
 ### Implementation status
-The targeted correction is currently blocked because the available repository write path replaces the complete UTF-8 file and no safe textual patch operation is exposed by the current connector. No application source change has been made and no CI run has been triggered for this correction.
+A genuinely patch-capable repository path is now available through Git tree/blob operations. This checkpoint is therefore **executable**: no CAGR application source change has been made yet, and no CI run has been triggered for the correction.
 
 Dedicated status record:
 `SEO_CAGR_CONTENT_CORRECTION_STATUS_2026-08-24.md`
@@ -232,7 +232,7 @@ Dedicated status record:
 - Rewrite the FAQ `Can CAGR be calculated for less than one year?` so it does not claim that the current calculator supports sub-one-year input.
 - Rewrite the FAQ `Can CAGR be calculated using months?` so it does not imply that the current calculator accepts month-based/fractional-year input.
 
-Do not repeat the audit or use a whole-file workaround. Reopen implementation only when a genuinely patch-capable repository write path is available.
+Do not repeat the audit. Apply only these two confirmed content corrections, then validate and synchronize this MD again.
 
 ## Build error — CommandPalette type narrowing
 
@@ -253,8 +253,9 @@ Source commit:
 - [x] `getCanonicalToolPath()` contract inspected.
 - [x] Root cause confirmed as union-type narrowing.
 - [x] Type-safe source fix committed.
-- [ ] Full Next.js TypeScript/build/lint validation after this fix.
-- [ ] Production command-palette navigation validation.
+- [x] Deployment/build coverage confirmed in successful deployment run `32734791868` on deployed revision `2002d2e5e4a4dbd9176dcdc813cf6972c44146d3`.
+- [ ] Full lint validation after this fix.
+- [ ] Direct production command-palette interaction/navigation validation.
 
 ## Validation state
 - [x] Latest `main` inspected before JPG recovery decision.
@@ -273,6 +274,7 @@ Source commit:
 - [x] Dedicated related-tools audit synchronized.
 - [x] Explicit relatedTools registry graph reconciled and closed.
 - [x] CommandPalette TypeScript error fixed with explicit union narrowing.
+- [x] CommandPalette deployment/build coverage confirmed; direct interaction remains unverified.
 - [x] CAGR content mismatch audited and documented.
 - [ ] Safe targeted CAGR content correction.
 - [ ] Full Next.js TypeScript/build/lint validation after the latest fixes.
@@ -300,8 +302,8 @@ Approximate implementation progress: **~90% complete / ~10% pending**. This is i
 Continue the broader Search Console + site-wide technical reconciliation from the latest `main`.
 
 Immediate priority:
-1. Use a genuinely patch-capable repository operation to make only the two confirmed CAGR FAQ corrections; do not use a whole-file workaround.
-2. Then re-run full TypeScript/build/lint validation from the latest `main` and fix the next genuine build defect if reported.
+1. Apply the two confirmed CAGR FAQ corrections using the patch-capable Git tree/blob path; do not use a whole-file workaround.
+2. Synchronize this master MD immediately after the CAGR source change, then run full TypeScript/build/lint validation from the resulting `main` and act only on actual results.
 3. Continue using fresh Search Console/query evidence where available.
 4. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
 5. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
