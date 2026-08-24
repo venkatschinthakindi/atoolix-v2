@@ -131,3 +131,7 @@ Do not wait for fresh Search Console data for these production checks.
 - Do not invent GSC, CWV, production or ranking evidence.
 - Do not manufacture source changes merely to trigger CI.
 - Every response should state the next action and the fixed remaining-work percentage.
+
+## Latest checkpoint sync — 2026-08-24
+
+The Unit 27 no-change/pending decision was re-confirmed after refreshing the current MD blob SHA. The earlier attempted MD write encountered a concurrent SHA mismatch and therefore did not create a commit; this checkpoint is now being written using the freshly fetched blob SHA. No source change or SEO change is justified.
