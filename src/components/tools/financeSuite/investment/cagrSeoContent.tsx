@@ -114,7 +114,7 @@ const faqItems = [
   },
   {
     q: "Can CAGR be calculated for less than one year?",
-    a: "This calculator expects the measurement period in years, so a period shorter than one year cannot be entered directly. For a sub-year period, convert it to years before using the calculator, and interpret the annualized result carefully.",
+    a: "This calculator requires a measurement period of at least one year, so a period shorter than one year cannot be entered directly. Use the calculator only when the measurement period meets its supported input range.",
   },
   {
     q: "Can CAGR be calculated for multiple years?",
@@ -122,7 +122,7 @@ const faqItems = [
   },
   {
     q: "Can CAGR be calculated using months?",
-    a: "This calculator accepts the measurement period in years rather than months. If your period is stated in months, convert the period to years before entering it.",
+    a: "This calculator accepts the measurement period in years and does not provide a months input. Enter a supported whole-year measurement period rather than a month-based or fractional-year value.",
   },
   {
     q: "Is this CAGR calculator free?",
