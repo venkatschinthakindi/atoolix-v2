@@ -35,13 +35,13 @@ Fixed execution-count reconciliation for the current SEO program. Google Search 
 23. Legitimate external authority/trust audit — **CLOSED for available evidence; no repository defect proven**
 24. Full TypeScript/build validation after latest source fixes — **CLOSED; successful deployment build**
 25. Normal deployment/production rollout of latest validated changes — **CLOSED; successful run #216 / ID 32753180758**
-26. Production CAGR FAQ validation — **CLOSED; exact live HTML directly provided and verified**
+26. Production CAGR FAQ validation — **CLOSED; exact live HTML source directly provided and verified**
 27. Production HTML validation for important rendered content/title/H1 — **CLOSED; Merge PDF production evidence supplied and verified**
 28. Production legacy JPG/JPEG redirects + destination validation — **CLOSED; previously validated as redirects to the current Image-to-PDF tool**
 
 ## Remaining production validation — 2 / 30
 
-29. Production canonical/robots/sitemap validation — **PENDING**
+29. Production canonical/robots/sitemap validation — **PENDING; sitemap XML now directly supplied and partially validated; canonical/robots still pending**
 30. Production rendered image/`og:image` validation — **PENDING**
 
 ## Unit 27 evidence — 2026-08-24
@@ -58,17 +58,30 @@ Merge PDF production evidence supplied by the user confirmed:
 
 Conclusion: **Unit 27 CLOSED with no concrete production title/H1/content defect found.**
 
+## Unit 29 sitemap evidence — 2026-08-24
+
+The user directly supplied the current production XML from:
+
+`https://atoolix.com/sitemap.xml`
+
+The response is a valid `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` containing the site's principal pages, category pages, active calculator routes, PDF/image/QR/date-time tools and the active image conversion/compression tools.
+
+Important observations:
+
+- The canonical current CAGR URL is present.
+- The canonical current Merge PDF URL is present.
+- The canonical current Image-to-PDF URL is present.
+- The active converter routes listed are consistent with the current tool family rather than the already-validated legacy JPG/JPEG redirect routes.
+- No obsolete legacy JPG/JPEG-to-PDF redirect URL was observed in the supplied sitemap.
+- The sitemap does not provide HTTP status/canonical/robots-header evidence by itself, so those checks remain open.
+
+Conclusion: **Sitemap portion of Unit 29 is validated with no concrete sitemap defect found. Unit 29 remains pending until canonical and robots production evidence are also verified.**
+
 ## Unit 30 evidence — legacy JPG/JPEG redirects
 
 The legacy JPG/JPEG URL behavior has already been validated in the prior repository/production work. These legacy routes redirect to the current **Image-to-PDF** tool rather than serving obsolete duplicate content. Therefore Unit 30 does not need to be reopened.
 
 Conclusion: **CLOSED / no change.** No new redirect code is justified.
-
-## Unit 29 checkpoint — 2026-08-24
-
-The requested production sitemap URL is `https://atoolix.com/sitemap.xml`. A direct production fetch was attempted, but the available web fetch returned a cache-miss/internal fetch failure, and the container network could not resolve the production hostname. Search results surfaced the live Atoolix homepage/tools/documentation, but did not expose the sitemap XML itself. Therefore the sitemap contents, HTTP status, URL count, canonical consistency, and robots/sitemap relationship are **not yet independently verified** in this checkpoint.
-
-No sitemap defect is inferred from the failed fetch. No source change is justified. This is an access/evidence limitation, not a site defect.
 
 ## Fixed progress
 
@@ -79,9 +92,9 @@ This is execution progress, not a ranking prediction.
 
 ## Next action
 
-Obtain the actual production response/content for `https://atoolix.com/sitemap.xml` (and, if needed, `https://atoolix.com/robots.txt`) from an accessible browser/View Source/network response, then validate canonical/robots/sitemap consistency and synchronize this MD. Do not reopen closed work.
+**Finish Unit 29: verify production canonical and robots directives/headers, then synchronize this MD.** After Unit 29 closes, validate rendered images/`og:image` as the final remaining unit.
 
-After Unit 29 is closed, validate rendered images/`og:image` as the final remaining unit.
+No GSC wait. No source change unless a concrete production defect is proven.
 
 ## Anti-loop / synchronization rules
 
