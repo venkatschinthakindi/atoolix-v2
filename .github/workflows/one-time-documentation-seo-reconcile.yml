@@ -28,31 +28,60 @@ jobs:
           path = Path("src/data/tools.ts")
           text = path.read_text(encoding="utf-8")
 
-          replacements = {
-              'id: "pdf/merge-pdf",\n    archived: false,\n    relatedTools: ["pdf/split-pdf", "pdf/compress-pdf", "image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf"]':
-                  'id: "pdf/merge-pdf",\n    archived: false,\n    relatedTools: ["pdf/split-pdf", "pdf/compress-pdf", "image/image-to-pdf"]',
-              'id: "pdf/split-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/compress-pdf", "image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf"]':
-                  'id: "pdf/split-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/compress-pdf", "image/image-to-pdf"]',
-              'id: "image/image-to-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/split-pdf", "pdf/compress-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf", "image/compress-image"]':
-                  'id: "image/image-to-pdf",\n    archived: false,\n    relatedTools: ["pdf/merge-pdf", "pdf/split-pdf", "pdf/compress-pdf", "image/compress-image"]',
+          active_ids = ["pdf/merge-pdf", "pdf/split-pdf", "image/image-to-pdf"]
+          legacy_ids = ("image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf")
+          expected_removals = {
+              "pdf/merge-pdf": 3,
+              "pdf/split-pdf": 2,
+              "image/image-to-pdf": 3,
           }
 
-          for old, new in replacements.items():
-              if text.count(old) != 1:
-                  raise SystemExit(f"Expected exactly one active registry block for replacement; found {text.count(old)}")
-              text = text.replace(old, new, 1)
-
-          active_ids = ["pdf/merge-pdf", "pdf/split-pdf", "image/image-to-pdf"]
+          total_removed = 0
           for tool_id in active_ids:
-              pattern = r'id: "' + re.escape(tool_id) + r'",.*?(?=\n  \{)'
-              match = re.search(pattern, text, flags=re.S)
+              block_pattern = r'id: "' + re.escape(tool_id) + r'",.*?(?=\n  \{)'
+              match = re.search(block_pattern, text, flags=re.S)
               if not match:
                   raise SystemExit(f"Active tool block not found: {tool_id}")
+
               block = match.group(0)
-              if any(legacy in block for legacy in ("image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf")):
+              related_match = re.search(r'(relatedTools:\s*\[)(.*?)(\])', block, flags=re.S)
+              if not related_match:
+                  raise SystemExit(f"relatedTools array not found: {tool_id}")
+
+              related_body = related_match.group(2)
+              new_body = related_body
+              removed = 0
+              for legacy_id in legacy_ids:
+                  new_body, count = re.subn(
+                      r'(["\'])' + re.escape(legacy_id) + r'\1\s*,?\s*',
+                      '',
+                      new_body,
+                  )
+                  removed += count
+
+              if removed != expected_removals[tool_id]:
+                  raise SystemExit(
+                      f"Expected {expected_removals[tool_id]} stale references in {tool_id}; found {removed}"
+                  )
+
+              new_block = block[:related_match.start(2)] + new_body + block[related_match.end(2):]
+              text = text[:match.start()] + new_block + text[match.end():]
+              total_removed += removed
+
+          if total_removed != 8:
+              raise SystemExit(f"Expected exactly 8 stale relationship removals; found {total_removed}")
+
+          for tool_id in active_ids:
+              block_pattern = r'id: "' + re.escape(tool_id) + r'",.*?(?=\n  \{)'
+              match = re.search(block_pattern, text, flags=re.S)
+              if not match:
+                  raise SystemExit(f"Active tool block not found after cleanup: {tool_id}")
+              block = match.group(0)
+              if any(legacy_id in block for legacy_id in legacy_ids):
                   raise SystemExit(f"Legacy PDF-format relationship remains in active block: {tool_id}")
 
           path.write_text(text, encoding="utf-8")
+          print("Applied exactly 8 targeted relatedTools removals.")
 
       - name: Verify public documentation source has no legacy PDF-format links
         shell: bash
