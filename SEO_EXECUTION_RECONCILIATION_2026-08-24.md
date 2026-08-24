@@ -94,10 +94,16 @@ This directly resolves the prior production-access limitation. **CAGR implementa
 
 ## Remaining production validation — 4 / 30
 
-27. Production HTML validation for important rendered content/title/H1 — **PENDING**
+27. Production HTML validation for important rendered content/title/H1 — **PENDING broader production-page evidence; CAGR page already verified and must not be counted twice**
 28. Production canonical/robots/sitemap validation — **PENDING**
 29. Production rendered image/`og:image` validation — **PENDING**
 30. Production validation of legacy JPG/JPEG redirects and active destinations — **PENDING**
+
+## Unit 27 checkpoint — 2026-08-24
+
+The supplied production CAGR HTML already proves title, H1 and important rendered content for that page, but it is the same evidence already used to close the CAGR production-validation item. It would be double-counting to declare the broader Unit 27 complete from the same page alone.
+
+No additional production page HTML was supplied or directly retrievable through the available web path in this checkpoint. Therefore **Unit 27 remains pending**, with no defect inferred and no source change made.
 
 ## Fixed progress calculation
 
@@ -108,11 +114,13 @@ This is execution progress, not a prediction of ranking improvement.
 
 ## Current checkpoint — 2026-08-24
 
-The new Actions evidence resolved the CI/deployment uncertainty, and the directly supplied production HTML resolved the CAGR FAQ validation uncertainty. No source change was required from the production verification.
+Unit 27 was evaluated without reopening the already-closed CAGR evidence. The current evidence is insufficient to make a broader site-level production HTML claim, so the correct result is **no-change / pending**, not a speculative closure.
 
 ### Next action
 
-Proceed directly to **Unit 27: production HTML validation for important rendered content/title/H1**, then synchronize this MD and continue Units 28–30. Do not wait for fresh Search Console data for these production checks.
+Obtain one or more additional directly accessible production HTML sources for important non-CAGR pages, then verify title/H1/important content and synchronize this MD. Once Unit 27 has independent evidence, continue to Unit 28 canonical/robots/sitemap validation.
+
+Do not wait for fresh Search Console data for these production checks.
 
 ## Anti-loop / synchronization rules
 
