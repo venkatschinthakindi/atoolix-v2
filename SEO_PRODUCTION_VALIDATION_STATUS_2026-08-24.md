@@ -4,6 +4,24 @@
 
 Continue the SEO execution roadmap with production validation without reopening completed source audits or making speculative changes.
 
+## Current CI/deployment checkpoint
+
+### CAGR correction
+
+- CAGR FAQ correction commit: `6ae8eb7584cafe74db18047b78c46ca56e686cf4`.
+- Deployment checkout fix commit: `a3f657206590f5751af216e1e5e749b123824283`.
+- Main push trigger checkpoint: `88f63f0d2ae892f9c356b310ad55b399f59a5af1`.
+- The deployment workflow was changed to check out `${{ github.sha }}` and fail if the actual checkout SHA differs from the expected SHA.
+- GitHub currently reports **0 workflow runs associated with `88f63f0d2ae892f9c356b310ad55b399f59a5af1`** through the available commit-workflow endpoint.
+- Therefore the new checkout-SHA verification, CAGR build/typecheck, deployment, and production CAGR validation are **not yet proven**.
+- The older successful deployment run `32734791868` checked out `2002d2e5e4a4dbd9176dcdc813cf6972c44146d3`, so it does **not** prove inclusion of the CAGR correction or the new checkout-SHA protection.
+
+### Current decision
+
+**No application source change.**
+
+The current blocker is CI execution/trigger visibility, not a newly identified SEO defect. Do not make another source change merely to generate a workflow run.
+
 ## Requested validation
 
 1. Validate representative production HTML.
@@ -38,12 +56,13 @@ Any one of the following is sufficient to resume:
 - accessible production HTML for representative routes;
 - Cloudflare/Web Analytics or Search Console evidence;
 - a user-supplied production HTML/source capture;
-- an environment with DNS/network access to `atoolix.com`.
+- an environment with DNS/network access to `atoolix.com`;
+- a fresh GitHub Actions run for the current `main` push checkpoint that proves the expected SHA was checked out and the CAGR correction was built/deployed.
 
 ## Anti-loop rule
 
-Do not repeatedly retry the same unavailable production URLs from this environment. Reopen when new production evidence or network access becomes available.
+Do not repeatedly retry the same unavailable production URLs or Actions listing endpoint from this environment. Reopen when new production/CI evidence becomes available.
 
 ## Next action
 
-Move to the next repository-backed SEO opportunity rather than looping on unavailable production validation. Keep production HTML/sitemap/robots/structured-data validation queued for the next environment with working production access.
+Wait for or obtain a fresh Actions run for current `main`. When a run exists, first verify **Expected deployment SHA == Actual checkout SHA**, then inspect `npm ci`, `npm run deploy-build`, deployment, and production CAGR validation. Synchronize this MD immediately after that evidence is obtained. If no run exists, keep this blocker recorded and move only to a genuinely independent repository-backed SEO opportunity rather than looping.
