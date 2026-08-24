@@ -1,0 +1,80 @@
+name: One-time Related Tools Archive Preservation Fix
+
+on:
+  push:
+    branches:
+      - seo/related-tools-registry-cleanup
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore archived registry relationships only
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          path = Path("src/data/tools.ts")
+          text = path.read_text(encoding="utf-8")
+
+          expected = {
+              "image/jpg-to-pdf": '["image/image-to-pdf", "image/png-to-pdf", "image/webp-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"]',
+              "image/png-to-pdf": '["image/image-to-pdf", "image/jpg-to-pdf", "image/webp-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"]',
+              "image/webp-to-pdf": '["image/image-to-pdf", "image/jpg-to-pdf", "image/png-to-pdf", "pdf/merge-pdf", "pdf/compress-pdf"]',
+          }
+
+          for tool_id, related in expected.items():
+              pattern = r'(id:\s*"' + re.escape(tool_id) + r'",\s*archived:\s*true,\s*relatedTools:\s*)\[[^\]]*\]'
+              text, count = re.subn(pattern, r'\1' + related, text, count=1, flags=re.S)
+              if count != 1:
+                  raise SystemExit(f"Expected exactly one archived registry block for {tool_id}; found {count}")
+
+          # Verify the intended active cleanup remains intact.
+          active_expected = {
+              "pdf/merge-pdf": ("image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf"),
+              "pdf/split-pdf": ("image/jpg-to-pdf", "image/png-to-pdf"),
+              "image/image-to-pdf": ("image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf"),
+          }
+          for tool_id, legacy_ids in active_expected.items():
+              m = re.search(r'id:\s*"' + re.escape(tool_id) + r'",\s*archived:\s*false,.*?(?=\n  \{)', text, flags=re.S)
+              if not m:
+                  raise SystemExit(f"Active tool block not found: {tool_id}")
+              if any(x in m.group(0) for x in legacy_ids):
+                  raise SystemExit(f"Active stale relationship unexpectedly restored: {tool_id}")
+
+          path.write_text(text, encoding="utf-8")
+          print("PASS: restored only the three archived registry relationship arrays; active 8-removal cleanup remains intact.")
+
+      - name: Sync reconciliation MD
+        shell: python
+        run: |
+          from pathlib import Path
+          path = Path("SEO_RELATED_TOOLS_REGISTRY_RECONCILIATION_2026-08-23.md")
+          text = path.read_text(encoding="utf-8")
+          marker = "## Archive-preservation correction — 2026-08-24"
+          if marker not in text:
+              text += "\n\n" + marker + "\n\nThe reconciliation branch was corrected after review found that the prior generated source commit also modified the three archived JPG/PNG/WebP-to-PDF registry relationship arrays. Those archived entries are restored to their prior relationships. The intended cleanup remains limited to exactly 8 stale references in the three active tools: 3 in `pdf/merge-pdf`, 2 in `pdf/split-pdf`, and 3 in `image/image-to-pdf`. No archived page is restored.\n"
+          path.write_text(text, encoding="utf-8")
+
+      - name: Verify diff and build
+        run: |
+          git diff --check
+          git diff -- src/data/tools.ts SEO_RELATED_TOOLS_REGISTRY_RECONCILIATION_2026-08-23.md
+          npm ci
+          npm run build
+
+      - name: Commit correction and remove one-time workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/data/tools.ts SEO_RELATED_TOOLS_REGISTRY_RECONCILIATION_2026-08-23.md .github/workflows/one-time-related-tools-archive-preservation-fix.yml
+          git diff --cached --check
+          git commit -m 'SEO: preserve archived related-tool registry entries'
+          git push
