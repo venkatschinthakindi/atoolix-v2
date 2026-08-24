@@ -93,9 +93,11 @@ This is execution progress, not a prediction of ranking improvement.
 
 The new Actions evidence resolves the previous CI/deployment uncertainty. The exact triggering commit was checked out, SHA verification passed, the production build and TypeScript validation passed, and the deployment completed successfully.
 
+The live CAGR FAQ validation was attempted as the next step, but the available web/runtime network path could not retrieve `https://www.atoolix.com/tools/calculator/cagr-calculator`. Therefore no live-page claim is being made from that failed retrieval. This is a validation-access limitation, not a source defect.
+
 ### Next action
 
-**Production validation now — start with live CAGR FAQ validation**, then continue through units 26–30. Do not wait for fresh Search Console data for these production checks.
+**Obtain a directly accessible production response for the CAGR page**, then verify the live FAQ content against the deployed source. Once verified, synchronize MD and continue through units 26–30. Do not wait for fresh Search Console data for these production checks.
 
 ## Anti-loop / synchronization rules
 
