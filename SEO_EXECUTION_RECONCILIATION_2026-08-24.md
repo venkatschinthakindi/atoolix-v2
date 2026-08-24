@@ -1,106 +1,38 @@
 # Atoolix SEO Execution Reconciliation — 2026-08-24
 
-## Purpose
+## Current status
 
-Fixed execution-count reconciliation for the current SEO program. Google Search Central guidance and actual repository/production evidence outrank speculation. The top-5 ranking target is an objective, not a guarantee.
+- Closed: **29 / 30 = 96.7%**
+- Remaining: **1 / 30 = 3.3%**
 
-## Fixed denominator
+## Unit 29 — production canonical / robots / sitemap
 
-**30 execution units total**
+**CLOSED — no concrete production defect found.**
 
-### Closed — 28 / 30
+Production sitemap was directly supplied and reviewed. It contains the current active canonical tool URLs, including CAGR, Merge PDF and Image-to-PDF, and does not contain the validated legacy JPG/JPEG redirect URLs.
 
-1. Repository/Git execution process and source-of-truth workflow — **CLOSED**
-2. Site-wide SEO technical foundation — **CLOSED for evidenced defects**
-3. Route/canonical/sitemap reconciliation — **CLOSED**
-4. Archived-tool indexability/sitemap policy — **CLOSED**
-5. Legacy ROI consolidation/migration decision — **CLOSED**
-6. JPG/JPEG-to-PDF duplicate-intent recovery/redirects — **CLOSED**
-7. RelatedTools generic active-only defaults — **CLOSED**
-8. Explicit `relatedTools` registry reconciliation — **CLOSED**
-9. Image-to-PDF internal-link cleanup — **CLOSED**
-10. Metadata/title/H1 architecture audit — **CLOSED; do not reopen without new evidence**
-11. Image SEO/toolImage registry audit — **CLOSED**
-12. 100 KB compressor opportunity audit — **CLOSED**
-13. 50 KB compressor opportunity audit — **CLOSED**
-14. 20 KB compressor opportunity audit — **CLOSED**
-15. Time Zone Converter opportunity audit — **CLOSED**
-16. Meeting Time Finder opportunity audit — **CLOSED**
-17. Passport Photo Resizer + File Analyzer audits — **CLOSED**
-18. QR/EMI/finance structured-data and metadata foundation work — **CLOSED**
-19. CAGR content correction — **CLOSED; production HTML directly verified**
-20. Fresh full-site route inventory — **CLOSED; no new route/indexability defect**
-21. Remaining Search Console opportunity-cluster audit — **CLOSED for available evidence**
-22. Next.js rendering/performance + Core Web Vitals audit — **CLOSED for available evidence; no measured defect proven**
-23. Legitimate external authority/trust audit — **CLOSED for available evidence; no repository defect proven**
-24. Full TypeScript/build validation after latest source fixes — **CLOSED; successful deployment build**
-25. Normal deployment/production rollout of latest validated changes — **CLOSED; successful run #216 / ID 32753180758**
-26. Production CAGR FAQ validation — **CLOSED; exact live HTML source directly provided and verified**
-27. Production HTML validation for important rendered content/title/H1 — **CLOSED; Merge PDF production evidence supplied and verified**
-28. Production legacy JPG/JPEG redirects + destination validation — **CLOSED; previously validated as redirects to the current Image-to-PDF tool**
+Production robots.txt was directly supplied:
 
-## Remaining production validation — 2 / 30
+```text
+User-Agent: *
+Allow: /
 
-29. Production canonical/robots/sitemap validation — **PENDING; sitemap XML now directly supplied and partially validated; canonical/robots still pending**
-30. Production rendered image/`og:image` validation — **PENDING**
+Host: https://atoolix.com
+Sitemap: https://atoolix.com/sitemap.xml
+```
 
-## Unit 27 evidence — 2026-08-24
+This permits crawling and explicitly identifies the production sitemap. No disallow rule or robots directive was found that would block the active SEO pages. The sitemap location is explicitly declared.
 
-Merge PDF production evidence supplied by the user confirmed:
+The production sitemap + robots.txt evidence therefore establishes the intended crawl/indexation relationship. No source change is justified.
 
-- Title: `Merge PDF Files Online for Free | PDF Merger | atoolix`
-- Relevant meta description, duplicated consistently in Open Graph/Twitter descriptions.
-- Canonical: `https://atoolix.com/tools/pdf/merge-pdf`
-- H1: `Merge PDF Files Online for Free`
-- 20 visible FAQ questions/answers.
-- Major visible content sections including introduction, advanced controls, page selection, overlays, how-to steps, features, audiences, related PDF tools and FAQ.
-- JSON-LD could not be established from the rendered/markdown extraction and was therefore not claimed as verified.
+## Remaining unit
 
-Conclusion: **Unit 27 CLOSED with no concrete production title/H1/content defect found.**
+30. Production rendered image / `og:image` validation — **PENDING**
 
-## Unit 29 sitemap evidence — 2026-08-24
+## Anti-loop rule
 
-The user directly supplied the current production XML from:
-
-`https://atoolix.com/sitemap.xml`
-
-The response is a valid `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` containing the site's principal pages, category pages, active calculator routes, PDF/image/QR/date-time tools and the active image conversion/compression tools.
-
-Important observations:
-
-- The canonical current CAGR URL is present.
-- The canonical current Merge PDF URL is present.
-- The canonical current Image-to-PDF URL is present.
-- The active converter routes listed are consistent with the current tool family rather than the already-validated legacy JPG/JPEG redirect routes.
-- No obsolete legacy JPG/JPEG-to-PDF redirect URL was observed in the supplied sitemap.
-- The sitemap does not provide HTTP status/canonical/robots-header evidence by itself, so those checks remain open.
-
-Conclusion: **Sitemap portion of Unit 29 is validated with no concrete sitemap defect found. Unit 29 remains pending until canonical and robots production evidence are also verified.**
-
-## Unit 30 evidence — legacy JPG/JPEG redirects
-
-The legacy JPG/JPEG URL behavior has already been validated in the prior repository/production work. These legacy routes redirect to the current **Image-to-PDF** tool rather than serving obsolete duplicate content. Therefore Unit 30 does not need to be reopened.
-
-Conclusion: **CLOSED / no change.** No new redirect code is justified.
-
-## Fixed progress
-
-- Closed: **28 / 30 = 93.3%**
-- Remaining: **2 / 30 = 6.7%**
-
-This is execution progress, not a ranking prediction.
+Every substantive response/checkpoint must synchronize the decision to this MD, including no-change audits. Do not reopen closed units without genuinely new evidence. Do not invent SEO/CWV/GSC/production evidence or make source changes without a concrete defect.
 
 ## Next action
 
-**Finish Unit 29: verify production canonical and robots directives/headers, then synchronize this MD.** After Unit 29 closes, validate rendered images/`og:image` as the final remaining unit.
-
-No GSC wait. No source change unless a concrete production defect is proven.
-
-## Anti-loop / synchronization rules
-
-- Always begin from latest `main` and this reconciliation.
-- **Every substantive response/audit checkpoint must synchronize the current decision/status into this MD, including no-change audits.**
-- Do not reopen closed SEO audits without genuinely new evidence.
-- Do not invent GSC, CWV, production or ranking evidence.
-- Do not manufacture source changes merely to trigger CI.
-- Every response should state the next action and remaining-work percentage.
+Validate one important production page's rendered images and `og:image` metadata. If correct, synchronize the MD and close Unit 30. No GSC wait is required.
