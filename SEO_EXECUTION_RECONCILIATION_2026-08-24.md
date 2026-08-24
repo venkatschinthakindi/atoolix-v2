@@ -75,7 +75,7 @@ Conclusion: **no application source change is justified by the currently availab
 24. Full TypeScript/build/lint validation after the latest source fixes — **CI PENDING**
 25. Normal deployment/production rollout of the latest validated changes — **DEPLOYMENT PENDING**
 
-The main trigger checkpoint is `88f63f0d2ae892f9c356b310ad55b399f59a5af1`. GitHub currently exposes no workflow run for that checkpoint through the available commit-workflow endpoint. The older successful deployment `32734791868` checked out `2002d2e5e4a4dbd9176dcdc813cf6972c44146d3`, so it does not prove inclusion of the CAGR correction or the new checkout-SHA protection.
+The main trigger checkpoint is `88f63f0d2ae892f9c356b310ad55b399f59a5af1`. GitHub currently exposes no workflow run for that checkpoint through the available commit-workflow endpoint. The latest combined commit status also contains no status entries. The older successful deployment `32734791868` checked out `2002d2e5e4a4dbd9176dcdc813cf6972c44146d3`, so it does not prove inclusion of the CAGR correction or the new checkout-SHA protection.
 
 ### C. Production-validation-pending — 5 / 30
 
@@ -114,11 +114,11 @@ This is execution work remaining, not a prediction of ranking improvement.
 - Fresh route/canonical/sitemap/indexability inventory completed above
 - Remaining Search Console opportunity-cluster audit completed above for currently available evidence
 - Next.js rendering/performance and Core Web Vitals audit completed above for currently available evidence; do not invent or infer CWV defects without measurements
-- Authority/trust audit completed above for currently available repository evidence; do not reopen without new evidence
+- Authority/trust audit completed above for currently available evidence; do not reopen without new evidence
 
 ## Current checkpoint — 2026-08-24
 
-No fresh CI/deployment run is currently exposed for `88f63f0d2ae892f9c356b310ad55b399f59a5af1`. This is an unchanged evidence state, not a reason to repeat the same Actions lookup indefinitely.
+A fresh check was performed against the current CI checkpoint. There is still no workflow run for `88f63f0d2ae892f9c356b310ad55b399f59a5af1`, and its combined commit status has no entries. This is an unchanged evidence state, not a reason to repeat the same Actions lookup indefinitely.
 
 The next actionable evidence event is either:
 
