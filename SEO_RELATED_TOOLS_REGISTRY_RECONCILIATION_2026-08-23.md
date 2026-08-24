@@ -4,19 +4,21 @@
 
 Continue the Google-first internal-link audit after the generic `RelatedTools` fallback was changed to active-only defaults.
 
-## New evidence
+## Confirmed defect and intended scope
 
-The latest `main` registry still contains explicit `relatedTools` references to archived PDF-format routes:
+The active registry contained 8 stale `relatedTools` references to archived PDF-format routes:
 
-- `image/jpg-to-pdf`
-- `image/png-to-pdf`
-- `image/webp-to-pdf`
+- `pdf/merge-pdf`: 3 stale references removed — `image/jpg-to-pdf`, `image/png-to-pdf`, `image/webp-to-pdf`
+- `pdf/split-pdf`: 2 stale references removed — `image/jpg-to-pdf`, `image/png-to-pdf`
+- `image/image-to-pdf`: 3 stale references removed — `image/jpg-to-pdf`, `image/png-to-pdf`, `image/webp-to-pdf`
 
-Confirmed in `src/data/tools.ts` for active entries including the PDF/Image-to-PDF cluster. The archived registry entries themselves remain `archived: true`.
+**Total: exactly 8 active relationship removals.**
 
-## Production evidence
+The archived registry entries themselves remain `archived: true` and their relationship arrays are preserved. No archived page is restored.
 
-The previously recorded production evidence identified legacy PDF-format links in the public documentation surface. The cleanup target remains limited to confirmed legacy destinations; no archived pages will be restored.
+## Documentation
+
+The current branch-vs-`main` PR diff contains no `src/app/documentation/page.tsx` change, confirming there is no additional documentation-source modification required on this branch. The existing Documentation SEO Validation workflow has already verified that the public documentation source contains no `jpg-to-pdf`, `png-to-pdf`, or `webp-to-pdf` legacy URLs.
 
 ## Google guidance applied
 
@@ -32,9 +34,9 @@ Current official guidance checked 2026-08-24:
 
 **Do not restore the archived JPG/PNG/WebP PDF pages.**
 
-The correct direction is to remove or replace explicit internal references to those routes with the active `/tools/image/image-to-pdf` destination or other directly relevant active PDF workflows.
+The correct direction is to remove explicit active-registry references to those archived routes and keep `/tools/image/image-to-pdf` as the consolidated active destination.
 
-For the active Image-to-PDF page itself, the dedicated curated cluster is already correct and must remain:
+For the active Image-to-PDF page itself, the dedicated curated cluster remains:
 
 - Merge PDF
 - Split PDF
@@ -45,49 +47,59 @@ For the active Image-to-PDF page itself, the dedicated curated cluster is alread
 
 The registry is a large source file and the explicit relationship graph includes many legitimate contextual relationships. A blanket string replacement would risk changing valid historical compatibility references, loader mappings, or unrelated documentation semantics.
 
-The cleanup remains targeted to the confirmed active relationships and public documentation surface.
+The cleanup was therefore limited to the confirmed 8 active relationships.
 
 ## Branch reconciliation status — 2026-08-24
 
-The dedicated branch `seo/related-tools-registry-cleanup` has now been safely reconciled with the current `main` history without force-resetting or creating a duplicate branch.
+The dedicated branch `seo/related-tools-registry-cleanup` was safely reconciled with the current `main` history without force-resetting or creating a duplicate branch.
 
 Reconciliation merge commit:
 
 `b1e3d1613d2d87ce6ba28e0f1c8fb8c1c0d9ae7b`
 
-The branch is now based on the current `main` and is no longer behind it.
+The branch is current with `main` and is not behind it.
 
-## Current validation
+## Source diff verification
+
+The final `src/data/tools.ts` diff against `main` contains only the intended active relationship cleanup:
+
+- `pdf/merge-pdf`: 3 removals
+- `pdf/split-pdf`: 2 removals
+- `image/image-to-pdf`: 3 removals
+- **Total: 8 removals**
+- **Archived JPG/PNG/WebP-to-PDF entries: 0 changes**
+
+No unrelated application source change is present in `tools.ts`.
+
+## Validation
 
 - [x] Generic RelatedTools fallback is active-only by default.
 - [x] Active Image-to-PDF curated cluster is clean.
 - [x] Archived JPG/PNG/WebP PDF registry entries identified.
-- [x] Active registry relationships pointing to those archived IDs identified.
 - [x] Branch reconciled with current `main` without force reset.
-- [ ] Remove the 8 confirmed stale active registry relationship references.
-- [ ] Confirm/update public documentation legacy links based on the current source state.
-- [ ] Build/type/lint validation after source cleanup.
-- [ ] Production crawlable-link validation after deployment.
-- [ ] Production redirect validation.
-- [ ] Google URL Inspection / selected-canonical validation.
+- [x] Exactly 8 stale active registry relationship references removed.
+- [x] Zero archived registry relationship changes in the final `tools.ts` diff.
+- [x] Current documentation source requires no additional change on this branch.
+- [x] Documentation SEO Validation passed, including typecheck, lint, production build, legacy redirect validation, and consolidated-page validation.
+- [x] Temporary one-time reconciliation workflows removed from the branch after validation.
+- [ ] Final PR CI after cleanup commits.
+- [ ] Merge PR only after final CI is green.
+- [ ] Production rendered-link validation after deployment.
+- [ ] Production redirect validation for all three legacy routes.
+- [ ] Final MD synchronization after production validation.
 
-## CI status
+## CI evidence
 
-The branch now has a push-trigger-capable one-time reconciliation workflow, but the available GitHub Actions connector has not exposed an actual workflow run for the current branch head. Therefore CI is **not** marked passed or failed.
+Documentation SEO Validation run #42 for the correction commit passed all validation stages, including typecheck, lint, production build, legacy redirect validation, and consolidated-page validation.
 
-No source cleanup is being represented as complete until the controlled source change is actually present and validated.
+The earlier dedicated reconciliation workflow also successfully verified the 8-reference state and build before its generated commit encountered a push race. The branch was subsequently corrected so the final source diff preserves archived entries and contains only the intended 8 active removals.
 
 ## Next step
 
-Obtain/execute the actual one-time reconciliation workflow on `seo/related-tools-registry-cleanup`, then inspect the resulting source/MD diff. Only the confirmed 8 stale active registry references may be removed; public documentation may be changed only where the current source contains confirmed legacy URLs.
+Run/inspect the final normal CI after the cleanup and temporary-workflow removal commits. If green, review the final PR diff and merge only the intended source/MD changes.
 
-After a real green validation:
+After merge:
 
-**CI → inspect exact source/MD diff → merge only if green → production rendered-link validation → verify the three legacy URLs redirect directly to `/tools/image/image-to-pdf` → final MD synchronization → next highest-value SEO opportunity.**
+**production rendered-link validation → verify the three legacy URLs redirect directly to `/tools/image/image-to-pdf` → final MD synchronization → next highest-value SEO opportunity.**
 
 No new keyword-variant pages, no restoration of archived pages, and no unrelated SEO changes.
-
-
-## Archive-preservation correction — 2026-08-24
-
-The reconciliation branch was corrected after review found that the prior generated source commit also modified the three archived JPG/PNG/WebP-to-PDF registry relationship arrays. Those archived entries are restored to their prior relationships. The intended cleanup remains limited to exactly 8 stale references in the three active tools: 3 in `pdf/merge-pdf`, 2 in `pdf/split-pdf`, and 3 in `image/image-to-pdf`. No archived page is restored.
