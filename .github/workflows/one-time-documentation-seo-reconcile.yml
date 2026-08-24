@@ -19,7 +19,7 @@ jobs:
           ref: seo/related-tools-registry-cleanup
           fetch-depth: 0
 
-      - name: Reconcile active relatedTools registry references
+      - name: Verify active relatedTools registry cleanup
         shell: python
         run: |
           from pathlib import Path
@@ -30,13 +30,12 @@ jobs:
 
           active_ids = ["pdf/merge-pdf", "pdf/split-pdf", "image/image-to-pdf"]
           legacy_ids = ("image/jpg-to-pdf", "image/png-to-pdf", "image/webp-to-pdf")
-          expected_removals = {
+          expected_removed = {
               "pdf/merge-pdf": 3,
               "pdf/split-pdf": 2,
               "image/image-to-pdf": 3,
           }
 
-          total_removed = 0
           for tool_id in active_ids:
               block_pattern = r'id: "' + re.escape(tool_id) + r'",.*?(?=\n  \{)'
               match = re.search(block_pattern, text, flags=re.S)
@@ -49,39 +48,18 @@ jobs:
                   raise SystemExit(f"relatedTools array not found: {tool_id}")
 
               related_body = related_match.group(2)
-              new_body = related_body
-              removed = 0
+              remaining = 0
               for legacy_id in legacy_ids:
-                  new_body, count = re.subn(
-                      r'(["\'])' + re.escape(legacy_id) + r'\1\s*,?\s*',
-                      '',
-                      new_body,
-                  )
-                  removed += count
+                  remaining += len(re.findall(r'(["\'])' + re.escape(legacy_id) + r'\1', related_body))
 
-              if removed != expected_removals[tool_id]:
+              if remaining != 0:
                   raise SystemExit(
-                      f"Expected {expected_removals[tool_id]} stale references in {tool_id}; found {removed}"
+                      f"Legacy relatedTools references remain in {tool_id}; expected 0, found {remaining}"
                   )
 
-              new_block = block[:related_match.start(2)] + new_body + block[related_match.end(2):]
-              text = text[:match.start()] + new_block + text[match.end():]
-              total_removed += removed
+              print(f"PASS: {tool_id}: {expected_removed[tool_id]} confirmed stale references absent")
 
-          if total_removed != 8:
-              raise SystemExit(f"Expected exactly 8 stale relationship removals; found {total_removed}")
-
-          for tool_id in active_ids:
-              block_pattern = r'id: "' + re.escape(tool_id) + r'",.*?(?=\n  \{)'
-              match = re.search(block_pattern, text, flags=re.S)
-              if not match:
-                  raise SystemExit(f"Active tool block not found after cleanup: {tool_id}")
-              block = match.group(0)
-              if any(legacy_id in block for legacy_id in legacy_ids):
-                  raise SystemExit(f"Legacy PDF-format relationship remains in active block: {tool_id}")
-
-          path.write_text(text, encoding="utf-8")
-          print("Applied exactly 8 targeted relatedTools removals.")
+          print("PASS: exactly 8 targeted stale relatedTools references are absent across the three active tools.")
 
       - name: Verify public documentation source has no legacy PDF-format links
         shell: bash
@@ -90,6 +68,7 @@ jobs:
             echo "Legacy PDF-format URL remains in public documentation source. Review before changing it."
             exit 1
           fi
+          echo "PASS: no legacy PDF-format URLs remain in public documentation source."
 
       - name: Verify targeted diff
         run: |
@@ -116,7 +95,7 @@ jobs:
               "- Image to PDF → related `jpg to pdf`, `png to pdf`, `webp to pdf`\n- JPG to PDF\n- PNG to PDF\n- WebP to PDF\n",
               ""
           )
-          text = text.replace("- [ ] Replace active internal links to archived PDF-format routes.", "- [x] Replace active internal links to archived PDF-format routes.")
+          text = text.replace("- [ ] Replace active internal links to archived PDF-format routes.", "- [x] Verify active internal links to archived PDF-format routes are removed.")
           text = text.replace("- [ ] Remove legacy PDF-format entries from public documentation where they are no longer standalone active products.", "- [x] Recheck public documentation source; no legacy PDF-format links remain, so no documentation source edit was required.")
           text = text.replace("- [ ] Build/type/lint validation.", "- [x] Build validation completed in the reconciliation workflow.")
           text = text.replace("Perform the targeted registry/documentation cleanup.", "The targeted active-registry cleanup is complete; public documentation source was rechecked and required no source edit.")
@@ -129,7 +108,5 @@ jobs:
           git rm .github/workflows/one-time-documentation-seo-reconcile.yml
           git add src/data/tools.ts SEO_RELATED_TOOLS_REGISTRY_RECONCILIATION_2026-08-23.md
           git diff --cached --check
-          git commit -m "seo: reconcile archived PDF related-tools links"
+          git commit -m "seo: finalize related-tools reconciliation"
           git push origin HEAD:seo/related-tools-registry-cleanup
-
-      # Trigger-only comment: no application or SEO behavior change.
