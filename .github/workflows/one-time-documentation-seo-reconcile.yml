@@ -44,7 +44,8 @@ jobs:
 
           active_ids = ["pdf/merge-pdf", "pdf/split-pdf", "image/image-to-pdf"]
           for tool_id in active_ids:
-              match = re.search(rf'id: "{re.escape(tool_id)}",.*?(?=\n  \{)', text, flags=re.S)
+              pattern = r'id: "' + re.escape(tool_id) + r'",.*?(?=\n  \{)'
+              match = re.search(pattern, text, flags=re.S)
               if not match:
                   raise SystemExit(f"Active tool block not found: {tool_id}")
               block = match.group(0)
