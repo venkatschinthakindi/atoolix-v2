@@ -101,3 +101,5 @@ jobs:
           git diff --cached --check
           git commit -m "seo: reconcile archived PDF related-tools links"
           git push origin HEAD:seo/related-tools-registry-cleanup
+
+      # Trigger-only comment: no application or SEO behavior change.
