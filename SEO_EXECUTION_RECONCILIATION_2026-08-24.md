@@ -93,7 +93,7 @@ This is execution progress, not a prediction of ranking improvement.
 
 The new Actions evidence resolves the previous CI/deployment uncertainty. The exact triggering commit was checked out, SHA verification passed, the production build and TypeScript validation passed, and the deployment completed successfully.
 
-A fresh public-web check can reach Atoolix's live tools, documentation and homepage, and those pages identify the Investment Returns/SIP/CAGR/XIRR tool. However, the exact production CAGR URL `https://www.atoolix.com/tools/calculator/cagr-calculator` is still not retrievable through the available direct production fetch path. Therefore no live FAQ content claim is being made. This remains a validation-access limitation, not a source defect.
+A fresh public-web check can reach Atoolix's live tools, documentation and homepage, and those pages identify the Investment Returns/SIP/CAGR/XIRR tool. However, the exact production CAGR URL `https://www.atoolix.com/tools/calculator/cagr-calculator` is still not retrievable through the available direct production fetch path. A direct URL-open attempt was rejected by the web safety layer because the exact URL was not present in a search result or user-supplied URL. Therefore no live FAQ content claim is being made. This remains a validation-access limitation, not a source defect.
 
 ### Next action
 
