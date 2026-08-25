@@ -15,30 +15,41 @@ The caching fix remains correct and is not being modified:
 
 The evidence continues to point to **Hathway/ISP → Cloudflare Anycast path selection or peering**, not the Atoolix origin, Nginx, application cache, or a general TLS configuration defect.
 
-## Independent-network comparison
+## Latest network verification
 
-The latest test was intended to be the decisive independent-ISP comparison. However, the output itself is **materially identical to the previous Hathway baseline**: `104.21.96.81` is healthy while `172.67.175.84` remains substantially slower and intermittently unreachable.
+The latest public-IP verification explicitly confirms the client is still on Hathway:
 
-Because the reported output does not identify or prove that the connection was actually switched to a different ISP/network, this result **must not be classified as an independent-network confirmation**. It is valid as another controlled forced-IP observation, but the ISP-isolation question remains open.
+- Public IPv4: `27.6.13.114`
+- Hostname: `13.6.27.114.hathway.com`
+- ASN/ISP: `AS17488 Hathway IP Over Cable Internet`
+- Location: Hyderabad, Telangana, India
 
-Latest 10-request sample:
+Therefore the latest forced-IP comparison is **another Hathway measurement**, not an independent-ISP test. The independent-network isolation remains open.
+
+## Latest controlled forced-IP evidence
 
 ### `104.21.96.81`
 
+10 forced-IP HTTPS requests to `/cdn-cgi/trace`:
+
 - 10/10 HTTP 200.
-- Connect: approximately `46–72 ms`.
-- TLS: approximately `102–244 ms` in the sample.
-- TTFB: mostly `149–202 ms`; one `0.649 s` outlier.
-- Typical successful requests remain around `0.15–0.20 s`.
+- Connect: approximately `46–55 ms`.
+- TLS: approximately `106–255 ms`, with some elevated samples.
+- TTFB: mostly `155–355 ms`; two notable outliers around `0.405 s` and `0.721 s`.
+- Typical requests remain approximately `0.15–0.20 s`.
 
 ### `172.67.175.84`
 
+10 forced-IP HTTPS requests:
+
 - 8/10 HTTP 200.
 - 2/10 connection timeouts at ~5 seconds (`code=000`, `connect=0`).
-- Successful connect: approximately `118–141 ms`.
-- TLS: approximately `251–886 ms`.
-- TTFB: mostly `371–402 ms`, with requests 6–7 reaching approximately `0.923–1.024 s`.
-- This remains materially worse than `104.21.96.81`.
+- Successful connect: approximately `127–152 ms`.
+- TLS: approximately `264–307 ms` in normal successful samples.
+- TTFB: approximately `388–450 ms` in normal successful samples.
+- The two failed requests never established TCP (`connect=0`), so their delay is not a TLS handshake delay.
+
+This strengthens the conclusion that the problem is **upstream of TLS on the failing attempts**, because some `172.67` requests fail before TCP connection establishment.
 
 ## Route/path evidence
 
@@ -82,15 +93,15 @@ The earlier `pathping` runs did not reach the destination and therefore do not e
 
 ## What is next
 
-**Do not make a Cloudflare production change yet.** The next decisive step is to obtain a genuinely independent network measurement.
+**Do not make a Cloudflare production change yet.** The next decisive step remains a genuinely independent network measurement.
 
-Use one of:
+Use:
 
 1. Phone/mobile hotspot with Wi-Fi disconnected from the Hathway connection.
 2. A second broadband ISP.
 3. A remote test machine/server on another network.
 
-First verify the external/public IP and ISP on that network, then run the same forced-IP test against both Cloudflare addresses. The verification matters because the latest output cannot prove that the network actually changed.
+First verify the external/public IP and ISP on that network. It must not show `AS17488 Hathway`. Then repeat the same forced-IP HTTPS test against both `104.21.96.81` and `172.67.175.84`.
 
 Interpretation after verified ISP change:
 
@@ -114,16 +125,16 @@ until the client-edge path is isolated further.
 ## Evidence snapshot
 
 ```text
-Previous Hathway baseline:
-104.21.96.81 — 20/20 successful, typically ~0.15–0.21 s
-172.67.175.84 — 14/20 successful, 6 connection timeouts, typically ~0.37–0.44 s
+Public network:
+27.6.13.114 — AS17488 Hathway — NOT independent
 
-Latest sample (network identity not independently verified):
-104.21.96.81 — 10/10 successful, mostly ~0.15–0.20 s, one ~0.649 s outlier
-172.67.175.84 — 8/10 successful, 2 connection timeouts, mostly ~0.37–0.40 s
+Latest Hathway forced-IP sample:
+104.21.96.81 — 10/10 successful, mostly ~0.15–0.20 s
+172.67.175.84 — 8/10 successful, 2/10 TCP connection timeouts, successful requests ~0.39–0.45 s
 
 Conclusion:
 - IP-specific degradation remains reproducible.
+- Failed 172.67 requests can fail before TCP establishment, so this is not simply TLS configuration overhead.
 - Independent-ISP isolation is NOT yet proven.
 - Next: verify a genuinely different ISP/network, then repeat the two forced-IP tests.
 ```
