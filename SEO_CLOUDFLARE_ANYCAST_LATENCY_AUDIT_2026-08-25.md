@@ -13,61 +13,52 @@ The caching fix remains correct and is not being modified:
 
 ## Current diagnosis
 
-The evidence currently points to **Hathway/ISP → Cloudflare Anycast path selection or peering**, not the Atoolix origin, Nginx, application cache, or TLS configuration.
+The evidence continues to point to **Hathway/ISP → Cloudflare Anycast path selection or peering**, not the Atoolix origin, Nginx, application cache, or a general TLS configuration defect.
 
-The same hostname behaves materially differently when the Cloudflare destination IP is forced:
+## Independent-network comparison
 
-- `104.21.96.81`: healthy path, typically ~150–210 ms total, 20/20 successful.
-- `172.67.175.84`: degraded path, typically ~370–440 ms total when successful, with repeated TCP connection timeouts.
+The latest test was intended to be the decisive independent-ISP comparison. However, the output itself is **materially identical to the previous Hathway baseline**: `104.21.96.81` is healthy while `172.67.175.84` remains substantially slower and intermittently unreachable.
 
-The TLS delay is therefore currently treated as a symptom of the slower network path, not as proof of a Cloudflare TLS configuration defect.
+Because the reported output does not identify or prove that the connection was actually switched to a different ISP/network, this result **must not be classified as an independent-network confirmation**. It is valid as another controlled forced-IP observation, but the ISP-isolation question remains open.
 
-## Latest controlled evidence
+Latest 10-request sample:
 
-### Cloudflare IPv4 `104.21.96.81`
+### `104.21.96.81`
 
-20 forced-IP HTTPS requests to `/cdn-cgi/trace` using `--resolve atoolix.com:443:104.21.96.81`:
+- 10/10 HTTP 200.
+- Connect: approximately `46–72 ms`.
+- TLS: approximately `102–244 ms` in the sample.
+- TTFB: mostly `149–202 ms`; one `0.649 s` outlier.
+- Typical successful requests remain around `0.15–0.20 s`.
 
-- TCP connect: approximately `45–73 ms` in normal samples.
-- TLS completion: mostly `103–153 ms`.
-- TTFB: mostly `151–214 ms`.
-- One TLS/TTFB outlier: request 5, TLS `0.606 s`, TTFB `0.812 s`.
-- All 20 requests completed successfully with HTTP 200.
-- Typical total time is approximately `0.15–0.21 s`.
+### `172.67.175.84`
 
-### Cloudflare IPv4 `172.67.175.84`
-
-20 forced-IP HTTPS requests to `/cdn-cgi/trace` using `--resolve atoolix.com:443:172.67.175.84`:
-
-- Successful TCP connect: approximately `120–150 ms`.
-- TLS completion: approximately `248–300 ms`.
-- TTFB: approximately `368–442 ms`.
-- 6 of 20 requests timed out at the 5-second connection timeout (`code=000`, `connect=0`).
-- Successful requests consistently take roughly `0.37–0.44 s`.
+- 8/10 HTTP 200.
+- 2/10 connection timeouts at ~5 seconds (`code=000`, `connect=0`).
+- Successful connect: approximately `118–141 ms`.
+- TLS: approximately `251–886 ms`.
+- TTFB: mostly `371–402 ms`, with requests 6–7 reaching approximately `0.923–1.024 s`.
+- This remains materially worse than `104.21.96.81`.
 
 ## Route/path evidence
 
-Fresh `tracert -4` measurements show that the two Cloudflare anycast destinations take materially different upstream paths from the same Hathway connection.
+The same Hathway traces previously showed materially different paths:
 
-### `104.21.96.81` path
+### `104.21.96.81`
 
 ```text
 Hathway
   ↓
 103.198.140.170        ~14–16 ms
   ↓
-103.198.140.209        ~47–48 ms (one 178 ms sample)
+103.198.140.209        ~47–48 ms
   ↓
-162.158.160.241        ~48–65 ms
-  ↓
-172.69.117.39           ~47–48 ms
-  ↓
-172.69.117.93           ~47–56 ms
+Cloudflare path         ~47–65 ms
   ↓
 104.21.96.81            ~47 ms
 ```
 
-### `172.67.175.84` path
+### `172.67.175.84`
 
 ```text
 Hathway
@@ -76,50 +67,36 @@ Hathway
   ↓
 103.198.140.54         ~123–128 ms
   ↓
-103.198.140.54         ~122–125 ms
-  ↓
 149.6.154.130          ~120–126 ms
   ↓
-162.158.20.53           ~120–140 ms
+162.158.20.53          ~120–140 ms
   ↓
-172.67.175.84           no response in traceroute
+172.67.175.84           no traceroute response
 ```
 
-The major divergence is around the Hathway/ISP path: the `104.21` route reaches the subsequent path at roughly 47–50 ms, while the `172.67` route reaches `103.198.140.54` at roughly 123–128 ms. This aligns closely with the forced-IP TCP/TLS/TTFB difference.
+The route divergence remains the strongest explanation for the IP-specific behavior.
 
-### Pathping result — important limitation
+## Pathping limitation
 
-`pathping` did **not** reach the Cloudflare destination in this run, so it does **not** provide end-to-end loss statistics.
-
-For `104.21.96.81`, the run stopped after hop 1 during route computation. It showed:
-
-- Local host → router: `0%` loss, ~3 ms.
-- Hop 2 did not respond.
-
-For `172.67.175.84`, the run reached hop 4 and then stopped. It showed:
-
-- Local host → router: `0%` loss, ~5 ms.
-- `115.98.82.1` reported `100%` ICMP response loss, but downstream hops `202.88.173.105` and `136.232.28.173` showed `0%` loss.
-
-Therefore the `100%` result at `115.98.82.1` is **ICMP response suppression/filtering**, not evidence that the actual traffic path loses 100% of packets. Likewise, the absence of later pathping results must not be interpreted as end-to-end packet loss.
-
-The earlier direct ping tests remain relevant: `103.198.140.209` had 0% loss but high jitter (47–203 ms), while `103.198.140.170` showed 5% loss and very high jitter (14–374 ms).
+The earlier `pathping` runs did not reach the destination and therefore do not establish end-to-end packet loss. The `100%` ICMP response loss at `115.98.82.1` is contradicted by downstream responding hops and should be treated as ICMP filtering/suppression.
 
 ## What is next
 
-**Next decisive test: compare the two Cloudflare IPs from an independent network/ISP.**
+**Do not make a Cloudflare production change yet.** The next decisive step is to obtain a genuinely independent network measurement.
 
-Use a mobile hotspot or another broadband connection and repeat the same forced-IP HTTPS test against:
+Use one of:
 
-- `104.21.96.81`
-- `172.67.175.84`
+1. Phone/mobile hotspot with Wi-Fi disconnected from the Hathway connection.
+2. A second broadband ISP.
+3. A remote test machine/server on another network.
 
-The goal is to distinguish:
+First verify the external/public IP and ISP on that network, then run the same forced-IP test against both Cloudflare addresses. The verification matters because the latest output cannot prove that the network actually changed.
 
-1. **Hathway-specific routing/peering problem** — another ISP reaches both IPs normally.
-2. **Broader Cloudflare Anycast/prefix issue** — independent ISPs reproduce the `172.67` degradation.
+Interpretation after verified ISP change:
 
-Do not repeat more local `pathping` runs unless the independent-network comparison changes the diagnosis; the current pathping results are limited by ICMP filtering.
+- **Both IPs become healthy:** strong evidence for Hathway-specific routing/peering.
+- **172.67 remains degraded while 104.21 remains healthy:** evidence shifts toward a broader Cloudflare Anycast/prefix/path issue.
+- **Both become degraded:** investigate the new network's path or broader Internet conditions.
 
 ## Important conclusion
 
@@ -137,23 +114,16 @@ until the client-edge path is isolated further.
 ## Evidence snapshot
 
 ```text
-104.21.96.81 — 20/20 successful
-Typical connect: ~0.045–0.073 s
-Typical TLS:     ~0.103–0.153 s
-Typical TTFB:    ~0.151–0.214 s
-One outlier:     TTFB ~0.812 s
+Previous Hathway baseline:
+104.21.96.81 — 20/20 successful, typically ~0.15–0.21 s
+172.67.175.84 — 14/20 successful, 6 connection timeouts, typically ~0.37–0.44 s
 
-172.67.175.84 — 14/20 successful, 6/20 connection timeouts
-Successful connect: ~0.120–0.150 s
-Successful TLS:     ~0.248–0.300 s
-Successful TTFB:    ~0.368–0.442 s
-Failures:           5 s connection timeout, connect=0
+Latest sample (network identity not independently verified):
+104.21.96.81 — 10/10 successful, mostly ~0.15–0.20 s, one ~0.649 s outlier
+172.67.175.84 — 8/10 successful, 2 connection timeouts, mostly ~0.37–0.40 s
 
-Pathping:
-- 104.21: stopped before useful downstream statistics; local hop 0% loss.
-- 172.67: stopped at hop 4; 115.98.82.1 showed 100% ICMP response loss but downstream responding hops showed 0%, so this is not proof of packet loss.
-
-Next:
-- Run the same forced-IP test from another ISP/network.
-- Classify as Hathway routing/peering-specific or broader Cloudflare Anycast behavior.
+Conclusion:
+- IP-specific degradation remains reproducible.
+- Independent-ISP isolation is NOT yet proven.
+- Next: verify a genuinely different ISP/network, then repeat the two forced-IP tests.
 ```
