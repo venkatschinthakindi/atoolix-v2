@@ -269,59 +269,115 @@ Source commit:
 The live `/tools/privacysecurity/file-analyzer` route was measured through three paths:
 - Direct Next.js: TTFB ~28 ms, total ~50 ms.
 - Local Nginx → Next.js: TTFB ~36 ms, total ~51 ms.
-- Public Cloudflare path: latest TTFB ~331 ms, total ~368 ms.
+- Public Cloudflare path before edge caching: latest TTFB ~331 ms, total ~368 ms.
 
-This isolates the VPS, Next.js process and local Nginx path as healthy. The local reverse proxy adds only about 8 ms over direct Next.js. Earlier external tests around ~1.2 s TTFB therefore represent public-path variability rather than an inherently slow origin.
+This isolates the VPS, Next.js process and local Nginx path as healthy. The local reverse proxy adds only about 8 ms over direct Next.js.
 
-### Confirmed response-header evidence
-Production responses also exposed:
+### Initial public caching defect
+Before the fix, production responses exposed:
 - `cache-control: private, no-cache, no-store, max-age=0, must-revalidate`
 - `cache-control: no-cache, no-store, must-revalidate`
 - `pragma: no-cache`
 - `expires: 0`
 - `cf-cache-status: DYNAMIC`
 
-The second `Cache-Control` policy is explicitly added by the Nginx catch-all configuration; the first is from Next.js. The public HTML is therefore not currently eligible for normal edge caching.
+The first `Cache-Control` policy was from Next.js and the second was explicitly added by the Nginx catch-all configuration. This prevented the public HTML from being normally edge-cacheable.
 
-### Route-source finding
-`src/app/tools/[...toolId]/page.tsx` was inspected on the latest `main`. It is an App Router catch-all route, uses the static tool registry through `getTool()`, and did **not** define `generateStaticParams()`. The registry exposes `tools` as a static array and `getCachedTools()` simply returns that array.
+### Route-generation finding
+`src/app/tools/[...toolId]/page.tsx` was inspected on `main`. It is an App Router catch-all route, uses the static tool registry through `getTool()`, and initially did not define `generateStaticParams()`. The registry exposes `tools` as a static array and `getCachedTools()` simply returns that array.
 
-`next.config.ts` uses `output: "standalone"` and contains no route-level setting that explains the dynamic classification. The missing `generateStaticParams()` is therefore a concrete route-generation gap for the known tool paths, not a speculative dependency or hardware issue.
-
-### Minimal implementation
-`generateStaticParams()` was added to `src/app/tools/[...toolId]/page.tsx` and derives catch-all segments directly from the existing `tools` registry:
-
-```ts
-export function generateStaticParams() {
-  return tools.map((tool: ToolRegistryEntry) => ({
-    toolId: tool.id.split("/"),
-  }));
-}
-```
-
-No PWA routes, static assets, Nginx cache rules, calculator logic, metadata overrides or tool registry entries were changed.
+A minimal `generateStaticParams()` implementation was added to derive catch-all segments directly from the existing `tools` registry. The aggregate comparison from baseline `b68f5a3baa5fb495253a8bc618d6570ce9d50233` to the patched code contained exactly one changed file: `src/app/tools/[...toolId]/page.tsx`.
 
 Source commit chain:
 - `712c775033f8ee0050fe60b236cb6908cf8fee12` — initial targeted route-generation patch
 - `4f193779c920796de7792d813538d5d09eecc811` — corrected registry import/implementation
 
-Aggregate comparison from baseline `b68f5a3baa5fb495253a8bc618d6570ce9d50233` to the current code contains **exactly one changed file**: `src/app/tools/[...toolId]/page.tsx`.
+### Nginx cache-header correction
+The active Nginx configuration was identified as `/etc/nginx/sites-enabled/atoolix` (not the empty `/etc/nginx/sites-available/atoolix.com` path initially opened).
+
+The catch-all `location /` block was changed by removing only:
+- `expires off;`
+- `add_header Cache-Control "no-cache, no-store, must-revalidate";`
+- `add_header Pragma "no-cache";`
+- `add_header Expires "0";`
+
+The dedicated `/sw.js` and `/site.webmanifest` no-cache policies, hashed static-file caching, and image/font caching rules were left unchanged.
+
+After reload, the public response changed to a single origin cache policy:
+- `cache-control: s-maxage=31536000`
+- `cf-cache-status: DYNAMIC`
+
+This proved the Nginx catch-all no-store policy was removed successfully, while Cloudflare still required an explicit HTML cache rule.
+
+### Cloudflare edge-cache correction
+A Cloudflare **Cache Rule** was created for public tool pages with the condition:
+
+```text
+(http.host eq "atoolix.com" and starts_with(http.request.uri.path, "/tools/"))
+```
+
+The rule sets **Cache eligibility → Eligible for cache** and leaves Edge TTL, Browser TTL, Cache key, Vary and other optional settings at their defaults.
+
+After deployment, production responses changed from `cf-cache-status: DYNAMIC` to:
+- First request: `cf-cache-status: MISS`
+- Subsequent request: `cf-cache-status: HIT`
+- `Age: 1` immediately after the first cache fill
+
+The response retained:
+- `cache-control: max-age=14400, s-maxage=31536000`
+- `x-nextjs-cache: HIT`
+- `x-nextjs-prerender: 1`
+
+A later production check showed `Age: 241`, `cf-cache-status: HIT`, and `CF-RAY: a30b996bba2ae22c-MRS`.
+
+### Post-fix Windows benchmark
+Ten Windows PowerShell requests to the cached production page all returned HTTP 200. TTFB measurements were:
+- 0.656566 s
+- 0.643630 s
+- 0.681507 s
+- 0.700711 s
+- 0.643906 s
+- 0.818160 s
+- 0.653209 s
+- 0.670068 s
+- 0.658775 s
+- 1.027929 s
+
+The typical observed TTFB was ~0.64–0.70 s, with one ~1.03 s outlier. These Windows measurements used an installed `curl.exe` without HTTP/2 support and therefore are not equivalent to a modern browser's HTTP/2/HTTP/3 connection behavior.
+
+A direct header check confirmed:
+- `cf-cache-status: HIT`
+- `Age: 241`
+- `CF-RAY: a30b996bba2ae22c-MRS`
+- `cache-control: max-age=14400, s-maxage=31536000`
+- `x-nextjs-cache: HIT`
+- `x-nextjs-prerender: 1`
+- measured Windows TTFB: 0.608679 s, total 1.230330 s
+
+### Current conclusion
+**The public HTML caching objective is complete.** Next.js static generation, origin response caching, Nginx pass-through and Cloudflare edge caching are now all evidenced as working. The remaining ~0.6–0.7 s Windows client-observed TTFB must not be attributed to the VPS, Nginx or a cache miss because the request is a confirmed Cloudflare `HIT`.
+
+The remaining investigation is therefore **client → Cloudflare edge/network/protocol path**, with no further Nginx, Next.js or PWA cache configuration changes justified at this stage.
 
 ### Validation status
 - [x] Direct Next.js latency isolated.
 - [x] Local Nginx latency isolated.
 - [x] Public Cloudflare latency measured.
-- [x] Production no-cache/DYNAMIC headers captured.
+- [x] Initial production no-cache/DYNAMIC headers captured.
 - [x] Catch-all route inspected.
 - [x] Static tool registry inspected.
 - [x] Minimal `generateStaticParams()` source change applied.
 - [x] Aggregate code diff verified to contain exactly one changed file.
-- [ ] Production TypeScript/build classification validation after the patch.
-- [ ] Production response-header validation after deployment.
-- [ ] Repeat 10-request public benchmark after deployment.
+- [x] Active Nginx configuration identified and catch-all no-store policy removed.
+- [x] Nginx syntax/reload completed successfully after the cache-header change.
+- [x] Cloudflare Cache Rule deployed for `/tools/*`.
+- [x] Cloudflare `MISS → HIT` behavior confirmed.
+- [x] Post-fix 10-request Windows benchmark captured.
+- [x] Confirmed cached production header check captured.
+- [ ] Client → Cloudflare edge/network/protocol latency investigation.
 
 ### Decision
-**The performance problem is now narrowed to public caching/rendering architecture, with a concrete route-generation defect fixed.** Do not change Nginx caching or PWA caching rules yet. First prove the build classifies the tool routes as static/prerendered and then re-measure production.
+**Caching/rendering architecture is no longer the unresolved performance blocker.** Do not change the now-correct Nginx, Next.js static-generation or Cloudflare Cache Rule configuration without new evidence. The next performance action is to isolate the remaining client-to-Cloudflare latency.
 
 ## Validation state
 - [x] Latest `main` inspected before JPG recovery decision.
@@ -345,16 +401,18 @@ Aggregate comparison from baseline `b68f5a3baa5fb495253a8bc618d6570ce9d50233` to
 - [x] Safe targeted CAGR content correction committed.
 - [x] Performance origin-path isolation completed.
 - [x] Concrete catch-all static-generation gap identified and minimally patched.
+- [x] Public HTML caching architecture fixed and evidenced.
+- [x] Nginx catch-all no-store policy removed without changing dedicated PWA/static-asset policies.
+- [x] Cloudflare Cache Rule for `/tools/*` deployed and verified with `MISS → HIT`.
+- [x] Post-fix production benchmark completed.
+- [ ] Client → Cloudflare edge/network/protocol latency investigation.
 - [ ] Full Next.js TypeScript/build/lint validation after the latest fixes.
-- [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
 - [ ] Production rendered title/H1 comparison after deployment.
 - [ ] Production image/og:image validation after deployment.
 - [ ] Production redirect validation for legacy JPG/JPEG URLs.
 - [ ] Google URL Inspection / selected-canonical validation after deployment.
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
-- [ ] Production response-header validation after static-generation patch.
-- [ ] Repeat 10-request public latency benchmark after static-generation patch.
 
 ## Overall implementation status
 Approximate implementation progress: **~90% complete / ~10% pending**. This is implementation progress, not a ranking prediction.
@@ -372,16 +430,16 @@ Approximate implementation progress: **~90% complete / ~10% pending**. This is i
 Continue the broader Search Console + site-wide technical reconciliation from the latest `main`.
 
 Immediate priority:
-1. Run full TypeScript/build/lint validation from the latest `main` after the CAGR correction and inspect the actual CI result.
-2. If validation passes, validate the deployed CAGR page and synchronize production evidence into this MD.
-3. If validation reports a genuine defect, fix only that defect and synchronize this MD in the same execution cycle.
-4. Continue using fresh Search Console/query evidence where available.
-5. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
-6. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
-7. Keep canonical, sitemap, redirects and internal-link signals consistent.
-8. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
-9. Validate production and Search Console after Google has had time to recrawl.
-10. Then continue the planned Next.js rendering/performance audit based on measured evidence.
+1. Investigate the remaining client → Cloudflare edge/network/protocol latency using controlled measurements; do not change the now-correct Nginx, Next.js static-generation or Cloudflare Cache Rule configuration without new evidence.
+2. Use the confirmed `CF-RAY` edge location and protocol behavior as evidence when comparing client paths; do not infer origin slowness from the Windows ~0.6–0.7 s TTFB.
+3. Keep the caching architecture unchanged while isolating the network variable.
+4. Run full TypeScript/build/lint validation from the latest `main` and inspect the actual CI result.
+5. Continue using fresh Search Console/query evidence where available.
+6. Prioritize impressions with realistic CTR/position opportunity and concrete technical/content defects.
+7. Inspect exact query intent before changing titles, descriptions, H1s, content or links.
+8. Keep canonical, sitemap, redirects and internal-link signals consistent.
+9. Do not create keyword variants, doorway pages, artificial backlinks, fake reviews or fabricated authority.
+10. Validate production and Search Console after Google has had time to recrawl.
 
 ## Historical execution commits
 - Meeting Time Finder breadcrumb correction: `7082ca169f40a2143b1aa9ae30f9d90df8d6aee9`
@@ -415,6 +473,7 @@ Immediate priority:
 - CAGR correction status: `e68b07842b7b627a3eb9e136845f93b705d59e9f`
 - CAGR FAQ correction: `6ae8eb7584cafe74db18047b78c46ca56e686cf4`
 - Tool-route static generation patch: `4f193779c920796de7792d813538d5d09eecc811`
+- Cloudflare caching performance synchronization: `pending — current documentation commit`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
