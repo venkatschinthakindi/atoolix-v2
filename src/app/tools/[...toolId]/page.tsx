@@ -45,6 +45,15 @@ const RETIREMENT_CALCULATOR_TITLE =
 const RETIREMENT_CALCULATOR_DESCRIPTION =
   "Estimate your retirement corpus, FIRE target, withdrawal needs, and monthly savings using expenses, inflation, return, and retirement assumptions.";
 
+export function generateStaticParams() {
+  return [
+    { toolId: "calculator" },
+    ...require("@/data/tools").tools.map((tool: ToolRegistryEntry) => ({
+      toolId: tool.id.split("/"),
+    })),
+  ];
+}
+
 export async function generateMetadata({
   params,
 }: {
