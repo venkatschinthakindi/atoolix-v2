@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTool } from "@/utility/getTool";
 import { generateMetadata as createMetadata } from "@/utility/metadata";
-import { ToolRegistryEntry } from "@/data/tools";
+import { ToolRegistryEntry, tools } from "@/data/tools";
 import { serverConfig } from "@/config/server";
 import { JsonLd } from "@/utility/seo/JsonLd";
 import { LOAN_PAGE_COPY } from "@/components/tools/emiCalculator/core/Config";
@@ -46,12 +46,9 @@ const RETIREMENT_CALCULATOR_DESCRIPTION =
   "Estimate your retirement corpus, FIRE target, withdrawal needs, and monthly savings using expenses, inflation, return, and retirement assumptions.";
 
 export function generateStaticParams() {
-  return [
-    { toolId: "calculator" },
-    ...require("@/data/tools").tools.map((tool: ToolRegistryEntry) => ({
-      toolId: tool.id.split("/"),
-    })),
-  ];
+  return tools.map((tool: ToolRegistryEntry) => ({
+    toolId: tool.id.split("/"),
+  }));
 }
 
 export async function generateMetadata({
