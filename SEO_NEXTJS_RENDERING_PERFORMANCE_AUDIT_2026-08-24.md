@@ -4,6 +4,25 @@
 
 Continue the SEO execution roadmap without reopening completed work. This audit evaluates the current `main` rendering architecture against current Google Search guidance and production network evidence before any source change.
 
+## Current Cloudflare network evidence update — 2026-08-25
+
+A second-ISP test was performed from Airtel IPv4 `106.221.183.37`, identified as AS45609 Bharti Airtel Ltd., Hyderabad. This is important because it changes the earlier hypothesis from a purely Hathway-specific fault.
+
+The Airtel connection repeatedly reached Cloudflare and showed substantial latency/jitter:
+
+- `172.67.175.84` was selected for all 10 normal requests in the latest sample.
+- TTFB ranged from about `0.376s` to `3.139s`.
+- TCP connect ranged from about `0.109s` to `0.936s`.
+- TLS completion ranged from about `0.235s` to `2.379s`.
+- No hard timeout occurred in this particular 10-request normal sample, but earlier Airtel tests showed timeouts and requests taking up to the 5–8 second limits.
+- Cloudflare `/cdn-cgi/trace` reported `colo=SIN`, `loc=IN`, HTTP/1.1, TLS 1.3.
+
+This means the problem is **not proven to be exclusively Hathway → Cloudflare**. Airtel also experiences elevated and variable latency, and the normal DNS-selected endpoint can land on `172.67.175.84`.
+
+The strongest current classification is therefore: **Cloudflare Anycast edge/path selection or upstream Internet routing/peering toward the selected Cloudflare edge, with a particularly bad 172.67.175.84 path from the original Hathway connection.** The evidence does not implicate the Next.js origin, Nginx TLS configuration, or application code because the delays/timeouts occur in TCP/TLS establishment or before a stable response, and `/cdn-cgi/trace` is a Cloudflare-generated endpoint.
+
+The latest Airtel result also makes the next experiment clear: test the two pinned Cloudflare addresses from Airtel separately. That will distinguish (a) Airtel's general path to Cloudflare from (b) the specific Anycast address/path selected for `172.67.175.84`.
+
 ## Google guidance applied
 
 Google Search processes JavaScript through crawling, rendering, and indexing. Content that is not present in rendered HTML cannot be indexed. Google recommends validating the rendered result with URL Inspection/Rich Results testing rather than assuming client-side code will be rendered as intended.
@@ -48,11 +67,11 @@ The current configuration also contains permanent redirects for known retired/le
 
 ### 5. Production Cloudflare latency investigation: TLS is not the primary defect
 
-Production tests from the user's Hathway IPv4 connection (`27.6.13.114`, AS17488) were run directly against two Cloudflare anycast IPv4 addresses returned for `atoolix.com`.
+Production tests from the user's original Hathway IPv4 connection (`27.6.13.114`, AS17488) were run directly against two Cloudflare anycast IPv4 addresses returned for `atoolix.com`.
 
 #### 104.21.96.81
 
-Repeated 20-request tests generally completed around 150–210 ms TTFB/total, with occasional spikes up to approximately 0.45–0.81 s. TCP connect time was generally about 45–75 ms. The path traced through Hathway and then Cloudflare and completed at `104.21.96.81`.
+Repeated tests generally completed around 150–210 ms TTFB/total, with occasional spikes up to approximately 0.45–0.81 s. TCP connect time was generally about 45–75 ms. The path traced through Hathway and then Cloudflare and completed at `104.21.96.81`.
 
 #### 172.67.175.84
 
@@ -72,30 +91,31 @@ With `104.21.96.81` pinned using `--resolve`:
 
 The TLS 1.2 and TLS 1.3 results are both healthy and close to each other. Therefore changing Nginx cipher suites, minimum TLS version, or Cloudflare TLS mode is not justified by this evidence.
 
-### 7. Current working diagnosis: Cloudflare Anycast / ISP path asymmetry
+### 7. Current diagnosis: Cloudflare Anycast / upstream path variability, not the origin
 
-The strongest current explanation is a routing/path-quality problem between Hathway AS17488 and the Cloudflare anycast path selected for `172.67.175.84`, not an application server delay and not a TLS-version problem.
+The new Airtel evidence rules out a confident claim that the defect is exclusively the Hathway AS17488-to-Cloudflare path. Airtel AS45609 also shows significant latency and jitter to the Cloudflare endpoint, while Cloudflare reports `colo=SIN` for the normal Airtel request.
 
-Cloudflare documents that proxied hostnames use shared anycast IPs and that routing can select a data center that is not geographically closest when reliability/traffic-engineering considerations require it. Therefore the two Cloudflare IPs must not be interpreted as two fixed physical Cloudflare servers; they represent anycast destinations whose selected edge/path can differ.
+The strongest current explanation is **variable Internet routing/peering to the Cloudflare Anycast edge selected for the client**, with `172.67.175.84` demonstrably worse than `104.21.96.81` from Hathway and the normal Airtel path also showing high variability. The exact responsibility boundary between ISP upstream routing and Cloudflare's edge selection is not yet proven.
 
-This also explains why the problem cannot be reliably fixed by changing the Next.js application or origin Nginx configuration: the observed failures occur before a successful connection reaches the application/origin path.
+This does not look like an origin/Nginx/TLS-version defect: the test target is `/cdn-cgi/trace`, the connection itself can stall before TCP completion, and pinned 104.21 TLS 1.2/1.3 tests are healthy when the path is healthy.
 
 ## Decision
 
 **No application source change is justified by the current performance evidence.**
 
-The immediate performance defect is now classified as a **network-path/Cloudflare Anycast issue affecting the Hathway connection**, with `172.67.175.84` substantially worse than `104.21.96.81` from the tested client.
+The performance symptom is classified as a **network-path / Cloudflare Anycast edge-selection problem**, with a particularly degraded `172.67.175.84` path from Hathway and meaningful variability from Airtel as well.
 
 Do not change Next.js rendering, application caching, Nginx TLS settings, or application code merely to address this evidence.
 
 ## Remediation / next investigation
 
-1. Treat `104.21.96.81` vs `172.67.175.84` asymmetry as the confirmed reproducible network symptom.
+1. Treat the 104.21 vs 172.67 asymmetry and Airtel variability as the confirmed reproducible network symptom.
 2. Do not attempt to force a Cloudflare anycast IP through application configuration; proxied Cloudflare addresses are shared anycast addresses.
-3. Check Cloudflare-side traffic/edge telemetry for the affected requests if account telemetry is available, especially colo/edge and connection-error indicators.
-4. Compare the same hostname from another ISP/mobile network and, if available, another Hyderabad/India vantage point. If the problem disappears outside Hathway, the evidence becomes strong enough to escalate to Hathway as an AS17488-to-Cloudflare routing/peering issue.
-5. If Cloudflare telemetry shows the same edge/path degradation across multiple networks, escalate to Cloudflare support rather than changing the origin.
-6. A structural workaround such as bypassing Cloudflare would be a last resort because it changes security/CDN architecture and is not justified yet.
+3. **Next: from the Airtel connection, pin `104.21.96.81` and `172.67.175.84` separately for 10 requests each.** This is the highest-value remaining test because it isolates the address/path variable on the second ISP.
+4. If Airtel is healthy to 104.21 but poor to 172.67, the evidence strongly favors a route/edge-specific problem rather than a general Airtel-to-Cloudflare issue.
+5. If both pinned addresses are poor from Airtel, compare Cloudflare colo/edge behavior and investigate the common ISP/upstream route.
+6. If multiple independent networks reproduce the same edge degradation, escalate to Cloudflare; if only one ISP/path reproduces it, escalate to that ISP/upstream provider.
+7. A structural workaround such as bypassing Cloudflare is a last resort because it changes security/CDN architecture and is not justified yet.
 
 ## Validation still required
 
@@ -104,8 +124,10 @@ Do not change Next.js rendering, application caching, Nginx TLS settings, or app
 - rendered SEO-content presence check;
 - production sitemap and robots validation;
 - production structured-data validation where applicable;
-- repeat network-path comparison from a second ISP/mobile network;
-- Cloudflare edge/colo telemetry if available.
+- **Airtel pinned 104.21 vs 172.67 comparison**;
+- Cloudflare edge/colo telemetry if available;
+- full TypeScript/build/lint validation after the latest historical fixes;
+- route-level CWV validation when data becomes available.
 
 These are validation/remediation tasks, not reasons to make speculative application changes.
 
@@ -120,23 +142,26 @@ These are validation/remediation tasks, not reasons to make speculative applicat
 - [x] Existing metadata duplication audit considered.
 - [x] Existing CWV evidence considered.
 - [x] Hathway public IPv4/ASN identified as AS17488.
+- [x] Airtel public IPv4/ASN identified as AS45609.
 - [x] Cloudflare anycast 104.21.96.81 path tested repeatedly.
 - [x] Cloudflare anycast 172.67.175.84 path tested repeatedly.
 - [x] TCP timeout asymmetry reproduced against 172.67.175.84.
 - [x] TLS 1.2 vs TLS 1.3 comparison completed against 104.21.96.81.
 - [x] TLS-version configuration defect ruled out as primary cause.
-- [x] Current working diagnosis classified as Cloudflare Anycast / Hathway path asymmetry.
+- [x] Second-ISP normal-path comparison completed from Airtel.
+- [x] Cloudflare trace colo observed as SIN from Airtel.
+- [x] Current diagnosis refined to Cloudflare Anycast / upstream path variability.
 - [x] No application source change made.
-- [ ] Second-ISP/mobile comparison.
+- [ ] Airtel pinned 104.21 vs 172.67 comparison.
 - [ ] Cloudflare edge/colo telemetry review.
 - [ ] Production rendered HTML validation.
 - [ ] Full TypeScript/build/lint validation after the latest historical fixes.
-- [ ] Route-level CWV validation when data becomes available.
+- [ ] Route-level CWV validation.
 
 ## Anti-loop rule
 
-Do not repeat the same 104.21 vs 172.67 curl/tracert/pathping tests unless the network conditions change or a new hypothesis requires a targeted measurement. The current evidence is sufficient to classify the symptom as path-specific. The next useful evidence must come from a different network vantage point or Cloudflare edge telemetry.
+Do not repeat the same unpinned curl/tracert/pathping tests. The evidence is already sufficient to classify the symptom as network-path/Anycast variability. The next measurement must isolate the two Cloudflare addresses from the second ISP or use Cloudflare telemetry.
 
 ## Next action
 
-**Obtain a second-ISP/mobile-network comparison for `https://atoolix.com/cdn-cgi/trace`.** If the second network is healthy, escalate the reproducible AS17488/Hathway-to-Cloudflare path issue to Hathway; if multiple networks reproduce the same Cloudflare-edge asymmetry, investigate/escalate with Cloudflare. No Next.js/Nginx/TLS code change is justified before that comparison.
+**From the current Airtel connection, run the same 10-request pinned comparison against `104.21.96.81` and `172.67.175.84`.** This is the next decisive test. Do not change application, Nginx, TLS, or Cloudflare configuration before that result.
