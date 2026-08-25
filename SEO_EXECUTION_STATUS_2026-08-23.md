@@ -263,6 +263,66 @@ Source commit:
 - [ ] Full lint validation after this fix.
 - [ ] Direct production command-palette interaction/navigation validation.
 
+## Performance isolation — 2026-08-25
+
+### Confirmed origin-path evidence
+The live `/tools/privacysecurity/file-analyzer` route was measured through three paths:
+- Direct Next.js: TTFB ~28 ms, total ~50 ms.
+- Local Nginx → Next.js: TTFB ~36 ms, total ~51 ms.
+- Public Cloudflare path: latest TTFB ~331 ms, total ~368 ms.
+
+This isolates the VPS, Next.js process and local Nginx path as healthy. The local reverse proxy adds only about 8 ms over direct Next.js. Earlier external tests around ~1.2 s TTFB therefore represent public-path variability rather than an inherently slow origin.
+
+### Confirmed response-header evidence
+Production responses also exposed:
+- `cache-control: private, no-cache, no-store, max-age=0, must-revalidate`
+- `cache-control: no-cache, no-store, must-revalidate`
+- `pragma: no-cache`
+- `expires: 0`
+- `cf-cache-status: DYNAMIC`
+
+The second `Cache-Control` policy is explicitly added by the Nginx catch-all configuration; the first is from Next.js. The public HTML is therefore not currently eligible for normal edge caching.
+
+### Route-source finding
+`src/app/tools/[...toolId]/page.tsx` was inspected on the latest `main`. It is an App Router catch-all route, uses the static tool registry through `getTool()`, and did **not** define `generateStaticParams()`. The registry exposes `tools` as a static array and `getCachedTools()` simply returns that array.
+
+`next.config.ts` uses `output: "standalone"` and contains no route-level setting that explains the dynamic classification. The missing `generateStaticParams()` is therefore a concrete route-generation gap for the known tool paths, not a speculative dependency or hardware issue.
+
+### Minimal implementation
+`generateStaticParams()` was added to `src/app/tools/[...toolId]/page.tsx` and derives catch-all segments directly from the existing `tools` registry:
+
+```ts
+export function generateStaticParams() {
+  return tools.map((tool: ToolRegistryEntry) => ({
+    toolId: tool.id.split("/"),
+  }));
+}
+```
+
+No PWA routes, static assets, Nginx cache rules, calculator logic, metadata overrides or tool registry entries were changed.
+
+Source commit chain:
+- `712c775033f8ee0050fe60b236cb6908cf8fee12` — initial targeted route-generation patch
+- `4f193779c920796de7792d813538d5d09eecc811` — corrected registry import/implementation
+
+Aggregate comparison from baseline `b68f5a3baa5fb495253a8bc618d6570ce9d50233` to the current code contains **exactly one changed file**: `src/app/tools/[...toolId]/page.tsx`.
+
+### Validation status
+- [x] Direct Next.js latency isolated.
+- [x] Local Nginx latency isolated.
+- [x] Public Cloudflare latency measured.
+- [x] Production no-cache/DYNAMIC headers captured.
+- [x] Catch-all route inspected.
+- [x] Static tool registry inspected.
+- [x] Minimal `generateStaticParams()` source change applied.
+- [x] Aggregate code diff verified to contain exactly one changed file.
+- [ ] Production TypeScript/build classification validation after the patch.
+- [ ] Production response-header validation after deployment.
+- [ ] Repeat 10-request public benchmark after deployment.
+
+### Decision
+**The performance problem is now narrowed to public caching/rendering architecture, with a concrete route-generation defect fixed.** Do not change Nginx caching or PWA caching rules yet. First prove the build classifies the tool routes as static/prerendered and then re-measure production.
+
 ## Validation state
 - [x] Latest `main` inspected before JPG recovery decision.
 - [x] Registry canonical source inspected.
@@ -283,6 +343,8 @@ Source commit:
 - [x] CommandPalette deployment/build coverage confirmed; direct interaction remains unverified.
 - [x] CAGR content mismatch audited and documented.
 - [x] Safe targeted CAGR content correction committed.
+- [x] Performance origin-path isolation completed.
+- [x] Concrete catch-all static-generation gap identified and minimally patched.
 - [ ] Full Next.js TypeScript/build/lint validation after the latest fixes.
 - [ ] Production HTML validation after deployment.
 - [ ] Production sitemap/robots validation after deployment.
@@ -291,6 +353,8 @@ Source commit:
 - [ ] Production redirect validation for legacy JPG/JPEG URLs.
 - [ ] Google URL Inspection / selected-canonical validation after deployment.
 - [ ] Search Console re-crawl/indexation measurement after sufficient processing time.
+- [ ] Production response-header validation after static-generation patch.
+- [ ] Repeat 10-request public latency benchmark after static-generation patch.
 
 ## Overall implementation status
 Approximate implementation progress: **~90% complete / ~10% pending**. This is implementation progress, not a ranking prediction.
@@ -350,6 +414,7 @@ Immediate priority:
 - CommandPalette TypeScript narrowing: `918995dfb251696845652114b078c0c54f0f7546`
 - CAGR correction status: `e68b07842b7b627a3eb9e136845f93b705d59e9f`
 - CAGR FAQ correction: `6ae8eb7584cafe74db18047b78c46ca56e686cf4`
+- Tool-route static generation patch: `4f193779c920796de7792d813538d5d09eecc811`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
