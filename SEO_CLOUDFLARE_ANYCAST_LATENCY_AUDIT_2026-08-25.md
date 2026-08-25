@@ -11,6 +11,17 @@ The caching fix remains correct and is not being modified:
 - Origin/local Nginx timing previously measured at approximately 28–36 ms.
 - The remaining latency is therefore being investigated as a client → Cloudflare edge/path issue.
 
+## Current diagnosis
+
+The evidence currently points to **Hathway/ISP → Cloudflare Anycast path selection or peering**, not the Atoolix origin, Nginx, application cache, or TLS configuration.
+
+The same hostname behaves materially differently when the Cloudflare destination IP is forced:
+
+- `104.21.96.81`: healthy path, typically ~150–210 ms total, 20/20 successful.
+- `172.67.175.84`: degraded path, typically ~370–440 ms total when successful, with repeated TCP connection timeouts.
+
+The TLS delay is therefore currently treated as a symptom of the slower network path, not as proof of a Cloudflare TLS configuration defect.
+
 ## Latest controlled evidence
 
 ### Cloudflare IPv4 `104.21.96.81`
@@ -90,23 +101,25 @@ For `172.67.175.84`, the run reached hop 4 and then stopped. It showed:
 - Local host → router: `0%` loss, ~5 ms.
 - `115.98.82.1` reported `100%` ICMP response loss, but downstream hops `202.88.173.105` and `136.232.28.173` showed `0%` loss.
 
-Therefore the `100%` result at `115.98.82.1` is **ICMP response suppression/filtering**, not evidence that the actual traffic path loses 100% of packets there. Likewise, the absence of later pathping results must not be interpreted as end-to-end packet loss.
+Therefore the `100%` result at `115.98.82.1` is **ICMP response suppression/filtering**, not evidence that the actual traffic path loses 100% of packets. Likewise, the absence of later pathping results must not be interpreted as end-to-end packet loss.
 
 The earlier direct ping tests remain relevant: `103.198.140.209` had 0% loss but high jitter (47–203 ms), while `103.198.140.170` showed 5% loss and very high jitter (14–374 ms).
 
-## Interpretation
+## What is next
 
-This is strong evidence that the remaining latency is **not an origin/Nginx/cache-generation problem**.
+**Next decisive test: compare the two Cloudflare IPs from an independent network/ISP.**
 
-The same hostname and same Cloudflare service show materially different behavior depending on the Cloudflare Anycast destination IP:
+Use a mobile hotspot or another broadband connection and repeat the same forced-IP HTTPS test against:
 
-`104.21.96.81` → normally ~150–210 ms total
+- `104.21.96.81`
+- `172.67.175.84`
 
-`172.67.175.84` → normally ~370–440 ms total + repeated TCP connection failures
+The goal is to distinguish:
 
-The route evidence shows that this difference begins on the ISP/Anycast path rather than at the origin. The TLS measurements appear to reflect the higher-latency network path rather than proving a Cloudflare TLS configuration defect.
+1. **Hathway-specific routing/peering problem** — another ISP reaches both IPs normally.
+2. **Broader Cloudflare Anycast/prefix issue** — independent ISPs reproduce the `172.67` degradation.
 
-The `/cdn-cgi/trace` output identified the active Cloudflare colo as `SIN` for the normal path. Therefore the current investigation is specifically focused on **ISP → Cloudflare Anycast routing / edge selection / path quality**, not on production cache or origin configuration.
+Do not repeat more local `pathping` runs unless the independent-network comparison changes the diagnosis; the current pathping results are limited by ICMP filtering.
 
 ## Important conclusion
 
@@ -120,14 +133,6 @@ Do **not** change:
 - TLS configuration
 
 until the client-edge path is isolated further.
-
-## Next investigation
-
-1. Treat `pathping` as inconclusive for end-to-end loss because intermediate routers suppress ICMP responses.
-2. Compare the same forced-IP measurements from another network/ISP, if available, to distinguish local Hathway routing from Cloudflare-side behavior.
-3. If another network reaches both addresses normally, classify the problem as Hathway/ISP-to-Cloudflare routing/peering specific.
-4. If multiple independent networks reproduce the `172.67` degradation, investigate whether Cloudflare's anycast route/prefix behavior is involved.
-5. Only after this evidence is established should any Cloudflare routing/traffic-steering option be considered.
 
 ## Evidence snapshot
 
@@ -147,4 +152,8 @@ Failures:           5 s connection timeout, connect=0
 Pathping:
 - 104.21: stopped before useful downstream statistics; local hop 0% loss.
 - 172.67: stopped at hop 4; 115.98.82.1 showed 100% ICMP response loss but downstream responding hops showed 0%, so this is not proof of packet loss.
+
+Next:
+- Run the same forced-IP test from another ISP/network.
+- Classify as Hathway routing/peering-specific or broader Cloudflare Anycast behavior.
 ```
