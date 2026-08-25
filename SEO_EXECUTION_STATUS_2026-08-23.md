@@ -473,7 +473,7 @@ Immediate priority:
 - CAGR correction status: `e68b07842b7b627a3eb9e136845f93b705d59e9f`
 - CAGR FAQ correction: `6ae8eb7584cafe74db18047b78c46ca56e686cf4`
 - Tool-route static generation patch: `4f193779c920796de7792d813538d5d09eecc811`
-- Cloudflare caching performance synchronization: `pending — current documentation commit`
+- Cloudflare caching performance synchronization: `21e04a866938d6c66619aa49d83c4316cd9d433a`
 
 ## Rule for future chats
 Continue from the latest `main` and this file. Do not restart the SEO audit from zero and do not reopen completed items without new evidence. Google Search Central guidance remains the governing standard; the strategic target remains top-5 visibility through technically correct, useful, differentiated pages and legitimate authority growth.
