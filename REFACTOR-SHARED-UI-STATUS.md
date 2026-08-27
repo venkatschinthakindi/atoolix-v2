@@ -28,12 +28,13 @@
 - Calculator foundation family created: `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, and `ResultSummary`.
 - Image foundation family created: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, and `FormatSelector`.
 - PDF foundation family created: `PdfFileList`, `PdfPageSelector`, and `PdfPreview`.
+- Feedback foundation family created: `ErrorMessage`, `SuccessMessage`, `PrivacyNotice`, and `LoadingState`.
 
 ## Phase 1 — Foundation only
-Status: IN PROGRESS
+Status: FOUNDATION CREATION COMPLETE; VALIDATION/AUDIT PENDING
 
 ### Consumer migration constraint
-No existing tool/component consumer is being migrated or modified during Phase 1.
+No existing tool/component consumer is being migrated or modified during Phase 1 foundation creation.
 
 ### Foundation families
 - `tool`: page shell/header/action bar/result/processing/empty states — IMPLEMENTED
@@ -41,21 +42,22 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 - `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary — IMPLEMENTED
 - `image`: preview/settings/quality/dimensions/format controls — IMPLEMENTED
 - `pdf`: file list/page selector/preview — IMPLEMENTED
-- `feedback`: error/success/privacy/loading states — PENDING
+- `feedback`: error/success/privacy/loading states — IMPLEMENTED
 
 ## Current design contract
 Shared components expose a small stable base API plus optional advanced capability groups/slots. Common Tailwind classes are centralized in the component layer. Variants are controlled and intentional. Components should not accumulate one-off business rules. Heavy functionality must not be pulled into lightweight components.
 
 ## Current implementation batch
-### PDF family
+### Feedback family
 Status: IMPLEMENTED
 Commits:
-- `8c6252762387c8ebf64faaf5bef2fffd486b995d` — PdfFileList
-- `344bb37331d1b833a338c2eaa5b8312c62e67016` — PdfPageSelector
-- `cc441b987d24bd34e00e1be588bb29bc483b8548` — PdfPreview
+- `33d0c170dabda023ed6b163c97b4b228db4a7564` — ErrorMessage
+- `5e7ce21f094b3eecdcad1cd684fc24dbfdd63fb3` — SuccessMessage
+- `edf9f480f9b36c641ec4aaffb0d28a5893b50eee` — PrivacyNotice
+- `b7dcace507659df90d6eb54c1d77f2dfd571e439` — LoadingState
 
 ## Validation note
-The PDF-family source files were created independently of consumers. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
+All six planned foundation families now exist independently of consumers. Full TypeScript/lint/build validation and a cross-component API/style/accessibility/performance audit remain pending. No consumer migration is permitted until that validation/audit passes.
 
 ## Next action
-Implement the `feedback` foundation family only: `ErrorMessage`, `SuccessMessage`, `PrivacyNotice`, and `LoadingState`. Do not modify consumers. Sync this status file after the batch before completing Phase 1 validation.
+Run the Phase 1 foundation validation/audit only: inspect all sharedUI files for TypeScript/API consistency, duplicate Tailwind styling, responsive/accessibility issues, client/server boundaries, unnecessary dependencies, and obvious build/lint problems. Do not migrate consumers. Sync this status file with findings before any remediation batch.
