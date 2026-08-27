@@ -7,52 +7,51 @@
 - Phase 1 is foundation-only: create reusable components; **do not migrate or modify consumers yet**.
 
 ## Requirements
-- Build reusable sharedUI components with basic and optional advanced capabilities.
-- Reuse common Tailwind classes/styles rather than duplicating consumer styling.
+- Basic + optional advanced capabilities.
+- Shared reusable Tailwind styling; avoid consumer-specific style duplication.
 - Responsive mobile/tablet/desktop behavior.
-- Accessibility and semantic HTML.
-- High performance: minimize client JavaScript, avoid unnecessary dependencies, preserve server rendering where possible.
-- SEO-friendly semantic structure and rendering.
-- Keep business/domain logic in feature-specific code.
-- Components must support simple consumers without forcing advanced features.
-- Advanced features must be explicit and optional; avoid uncontrolled boolean-prop/API growth.
-- Validate each implementation batch before proceeding.
-- Synchronize this status file at every step, including no-change audits.
+- Accessible, semantic HTML.
+- High performance; minimize client JS and unnecessary dependencies.
+- SEO-friendly semantic rendering.
+- Business/domain logic stays outside sharedUI.
+- Components remain independently importable.
+- Sync this status after every step, including no-change audits.
 
 ## Completed
-- Created isolated branch from `main`.
-- Created this master status file.
+- Isolated branch created from `main`.
 - Initial reuse audit completed.
-- Confirmed existing sharedUI primitives include `explainerPanel`, `filterToolHubPage`, `iconResolver`, `sectionHeader`, and `statCard`; existing primitives must be evaluated before adding duplicates.
-- Confirmed duplicated/reusable patterns across StatCard, SectionHeader, file/dropzone UI, tool shell/header patterns, calculator controls, result/progress UI, and image/PDF primitives.
+- SharedUI inventory identified existing primitives and duplication clusters.
+- `sharedUI/StatCard` upgraded with controlled variants and optional hint/icon/truncation capabilities.
+- `sharedUI/SectionHeader` upgraded with optional icon, subtitle, actions, children, className, and heading-level support.
 
-## Phase 1 — Shared foundation
+## Phase 1 — Foundation only
 Status: IN PROGRESS
 
-### Explicit constraint
-No existing tool/component consumer will be migrated during Phase 1. The foundation is created and validated independently first.
+### Consumer migration constraint
+No existing tool/component consumer is being migrated or modified during Phase 1.
 
-### Planned shared families
+### Foundation families
 - `tool`: page shell/header/action bar/result/processing/empty states
 - `file`: dropzone/list/item/metadata/preview
 - `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary
 - `image`: preview/settings/quality/dimensions/format controls
 - `pdf`: file list/page selector/preview
 - `feedback`: error/success/privacy/loading states
-- SEO/support utilities where appropriate, without moving tool-specific content or business logic into sharedUI
-
-### Existing components to evolve/reuse rather than duplicate
-- `src/sharedUI/statCard.tsx`
-- `src/sharedUI/sectionHeader.tsx`
-- `src/sharedUI/explainerPanel.tsx`
-- `src/sharedUI/filterToolHubPage.tsx`
-- `src/sharedUI/iconResolver.tsx`
 
 ## Current design contract
-Shared components should expose a small stable base API plus optional advanced capability groups/slots. Styling should be centralized through reusable Tailwind class constants/utilities where practical, while allowing controlled visual variants. Components should remain independently importable to avoid creating a large client bundle.
+Shared components expose a small stable base API plus optional advanced capability groups/slots. Common Tailwind classes are centralized in the component layer. Variants are controlled and intentional. Components should not accumulate one-off business rules. Heavy functionality must not be pulled into lightweight components.
 
-## Audit result before implementation
-Existing sharedUI contains five primitives already. The new foundation must extend/reuse these rather than duplicate them. Phase 1 now moves from audit into implementation. Consumer migration is explicitly deferred until the entire foundation is complete and validated.
+## Current implementation batch
+### StatCard
+Status: IMPLEMENTED
+Commit: `fa4aeb1d79d799171b7bb43a0fc1ab98b76493fa`
+
+### SectionHeader
+Status: IMPLEMENTED
+Commit: `8b78b1d1c92fce30f0de89d8539d0f1b2b6581f9`
+
+## Validation note
+GitHub content writes are complete for the two foundation primitives. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
 
 ## Next action
-Implement the shared foundation components only, beginning with the existing `StatCard`/`SectionHeader` primitives and then the tool, file, calculator, image, PDF, and feedback families. After each implementation batch, sync this status file before continuing. Do not change consumers.
+Implement the `tool` family only: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, and `EmptyState`. Do not modify consumers. Sync this status file after the batch before continuing to the next family.
