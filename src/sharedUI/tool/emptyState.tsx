@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
 
 export interface EmptyStateProps {
   title: ReactNode;
@@ -10,7 +10,7 @@ export interface EmptyStateProps {
 }
 
 export function EmptyState({ title, description, icon, action, className = "", headingLevel = 2 }: EmptyStateProps) {
-  const Heading = `h${headingLevel}` as keyof JSX.IntrinsicElements;
+  const Heading = `h${headingLevel}` as ElementType;
   return (
     <div className={`flex min-h-32 flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-6 text-center ${className}`.trim()}>
       {icon ? <div className="mb-3 text-white/50" aria-hidden="true">{icon}</div> : null}
