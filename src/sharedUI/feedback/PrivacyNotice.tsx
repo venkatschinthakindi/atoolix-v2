@@ -1,0 +1,4 @@
+import type { ReactNode } from "react";
+
+export interface PrivacyNoticeProps { children?: ReactNode; title?: ReactNode; icon?: ReactNode; action?: ReactNode; className?: string; }
+export function PrivacyNotice({ children = "Your files are processed locally in your browser and are not uploaded.", title = "Privacy first", icon, action, className = "" }: PrivacyNoticeProps) { return <aside className={`rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-white/70 ${className}`.trim()} aria-label={typeof title === "string" ? title : "Privacy notice"}><div className="flex items-start gap-3">{icon ? <span aria-hidden="true" className="shrink-0">{icon}</span> : null}<div className="min-w-0 flex-1"><p className="font-medium text-white">{title}</p><p className="mt-1 text-xs leading-5 text-white/55 sm:text-sm">{children}</p></div>{action ? <div className="shrink-0">{action}</div> : null}</div></aside>; }
