@@ -17,6 +17,6 @@ export interface CurrencyInputProps {
   name?: string;
 }
 
-export function CurrencyInput({ label, value, onChange, currency = "₹", ...props }: CurrencyInputProps) {
+export function CurrencyInput({ label, value, onChange, currency, ...props }: CurrencyInputProps) {
   return <NumberInput {...props} label={label} value={value} onChange={onChange} suffix={currency} />;
 }
