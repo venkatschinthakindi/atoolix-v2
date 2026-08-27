@@ -51,18 +51,18 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 2. `src/sharedUI/filterToolHubPage.tsx` called `filterKey.toPascalCase()` without an explicit local/imported helper and declared unused `showCategoryBar`. Remediated in an earlier batch with a local typed helper and removal of unused handling.
 
 ### HIGH — API/accessibility correctness
-3. `FileDropzoneProps` exposed unused `files?: File[]`. **Remediated in current batch by removing the unused prop; the unused input ref was also removed.**
-4. `FileItemProps` exposed unused `index` and `reorderable`. **Remediated in current batch by removing both unused API properties and rendering non-selectable content without an inert button.**
+3. `FileDropzoneProps` exposed unused `files?: File[]`. Remediated by removing the unused prop and unused input ref.
+4. `FileItemProps` exposed unused `index` and `reorderable`. Remediated by removing both unused API properties and rendering non-selectable content without an inert button.
 5. `Field` generated IDs from labels could collide. Remediated with React `useId()` and optional explicit IDs; description/error relationships now use the generated field ID.
 6. `QualityControl` hard-coded `image-quality-control`; multiple instances could produce duplicate IDs. Remediated with React `useId()` and optional explicit ID.
 7. `DimensionsControl` hard-coded `image-dimensions-width/height`; multiple instances could produce duplicate IDs. Remediated with React `useId()` and optional explicit base ID.
-8. `PdfFileList` had advanced interaction/focus concerns around reorder/remove controls and lacked a disabled API. **Remediated in current batch with `disabled`, disabled-state propagation, conditional selection button rendering, pressed state, and focus-visible controls.**
+8. `PdfFileList` had advanced interaction/focus concerns around reorder/remove controls and lacked a disabled API. Remediated with `disabled`, disabled-state propagation, conditional selection semantics, `aria-pressed`, and focus-visible controls.
 
 ### HIGH — semantic/SEO correctness
-9. `ToolHeader` always renders `h1`. Pending configurable heading-level remediation.
-10. `EmptyState` always renders `h2`. Pending configurable heading-level remediation.
-11. `ImageSettings` always renders `h2`. Pending configurable heading-level remediation.
-12. `ResultSummary` uses item labels as React keys. Pending stable-key remediation.
+9. `ToolHeader` always rendered `h1`. **Remediated in current batch with configurable `headingLevel` (default `1`).**
+10. `EmptyState` always rendered `h2`. **Remediated in current batch with configurable `headingLevel` (default `2`).**
+11. `ImageSettings` always rendered `h2`. **Remediated in current batch with configurable `headingLevel` (default `2`).**
+12. `ResultSummary` used item labels as React keys. **Remediated in current batch by requiring a stable `id` per item and using it as the key.**
 
 ### MEDIUM — deferred until HIGH remediation completes
 13. Repeated visual Tailwind tokens should be centralized.
@@ -81,9 +81,10 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 22. Newly created foundation primitives do not intentionally import heavy feature libraries. Existing sharedUI imports `lucide-react` in `ExplainerPanel`/`IconResolver`; dependency removal is deferred until the import graph is validated.
 
 ## Remediation completed in current batch
-- `FileDropzone`: removed unused `files` API and unused input ref.
-- `FileItem`: removed unused `index`/`reorderable` API and corrected non-interactive rendering semantics.
-- `PdfFileList`: added disabled-state support, correct conditional selection semantics, `aria-pressed`, and keyboard focus-visible treatment for controls.
+- `ToolHeader`: configurable semantic heading level.
+- `EmptyState`: configurable semantic heading level.
+- `ImageSettings`: configurable semantic heading level.
+- `ResultSummary`: stable explicit item identity for React keys.
 
 ## Validation limitations
 - Source audit and remediation were performed through GitHub.
@@ -94,10 +95,10 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 - No consumer migration in Phase 1.
 - No `main` changes.
 - One controlled remediation batch at a time.
-- Sync this status after every step, including no-change audits.
+- Sync this MD after every step, including no-change audits.
 
 ## Current result
-**NOT READY FOR CONSUMER MIGRATION.** Remaining HIGH findings must be remediated and source-audited before proceeding to MEDIUM findings or consumer migration.
+**HIGH semantic/API remediation complete. NOT READY FOR CONSUMER MIGRATION.** The remaining work is MEDIUM/type-quality audit plus executable TypeScript/lint/build validation.
 
 ## Next action
-Refresh and verify this status-only commit, then remediate the remaining HIGH semantic/API findings: configurable heading levels for `ToolHeader`, `EmptyState`, and `ImageSettings`, followed by stable keys in `ResultSummary`. Do not migrate consumers.
+Perform a fresh source-level audit of the remediated HIGH components, then begin the MEDIUM findings one controlled batch at a time. Keep consumer migration prohibited until TypeScript/lint/build validation is available and the complete Phase 1 audit passes.
