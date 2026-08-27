@@ -2,13 +2,13 @@
 
 ## Scope
 - Branch: `refactor/shared-ui-foundation`
-- Base: `main` at `77453723cefda4768084541ba246629bb1daab1c`
-- `main` must remain untouched until the user manually merges the completed branch.
-- Phase 1 is foundation-only: create reusable components; **do not migrate or modify consumers yet**.
+- Base: `main` at `77453723cefda4768084541ba246629bb1daab1c`.
+- `main` remains untouched until manual merge by the user.
+- Phase 1 is foundation-only: reusable components are created and validated; no consumer migrations are permitted yet.
 
 ## Requirements
 - Basic + optional advanced capabilities.
-- Shared reusable Tailwind styling; avoid consumer-specific style duplication.
+- Shared reusable Tailwind styling; avoid consumer-specific duplication.
 - Responsive mobile/tablet/desktop behavior.
 - Accessible, semantic HTML.
 - High performance; minimize client JS and unnecessary dependencies.
@@ -17,90 +17,69 @@
 - Components remain independently importable.
 - Sync this status after every step, including no-change audits.
 
-## Completed
-- Isolated branch created from `main`.
-- Initial reuse audit completed.
-- SharedUI inventory identified existing primitives and duplication clusters.
-- `sharedUI/StatCard` upgraded with controlled variants and optional hint/icon/truncation capabilities.
-- `sharedUI/SectionHeader` upgraded with optional icon, subtitle, actions, children, className, and heading-level support.
-- Tool foundation family created: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, and `EmptyState`.
-- File foundation family created: `FileDropzone`, `FileList`, `FileItem`, `FileMetadata`, and `FilePreview`.
-- Calculator foundation family created: `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, and `ResultSummary`.
-- Image foundation family created: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, and `FormatSelector`.
-- PDF foundation family created: `PdfFileList`, `PdfPageSelector`, and `PdfPreview`.
-- Feedback foundation family created: `ErrorMessage`, `SuccessMessage`, `PrivacyNotice`, and `LoadingState`.
+## Foundation families implemented
+- `tool`: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, `EmptyState`.
+- `file`: `FileDropzone`, `FileList`, `FileItem`, `FileMetadata`, `FilePreview`.
+- `calculator`: `StatCard`, `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, `ResultSummary`.
+- `image`: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, `FormatSelector`.
+- `pdf`: `PdfFileList`, `PdfPageSelector`, `PdfPreview`.
+- `feedback`: `ErrorMessage`, `SuccessMessage`, `PrivacyNotice`, `LoadingState`.
 
-## Phase 1 — Foundation only
-Status: MEDIUM REMEDIATION IN PROGRESS
+## Phase 1 status
+**Foundation remediation complete at source level; final executable validation is still required. NOT READY FOR CONSUMER MIGRATION.**
 
 ### Consumer migration constraint
-No existing tool/component consumer is being migrated or modified during Phase 1 foundation validation/remediation.
+No existing tool/component consumer has been migrated or modified during foundation creation or remediation.
 
-### Foundation families
-- `tool`: page shell/header/action bar/result/processing/empty states — IMPLEMENTED; remediation/audit ongoing
-- `file`: dropzone/list/item/metadata/preview — IMPLEMENTED; remediation/audit ongoing
-- `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary — IMPLEMENTED; remediation/audit ongoing
-- `image`: preview/settings/quality/dimensions/format controls — IMPLEMENTED; remediation/audit ongoing
-- `pdf`: file list/page selector/preview — IMPLEMENTED; remediation/audit ongoing
-- `feedback`: error/success/privacy/loading states — IMPLEMENTED; remediation/audit ongoing
-
-## Validation / audit findings
+## Resolved findings
 
 ### BLOCKER — build/client boundary
-1. `src/sharedUI/explainerPanel.tsx` uses `useState` but had no `"use client"` directive and used `explainers:any`. Remediated with an explicit client boundary and typed explainer data.
-2. `src/sharedUI/filterToolHubPage.tsx` called `filterKey.toPascalCase()` without an explicit local/imported helper and declared unused `showCategoryBar`. Remediated with a local typed helper and removal of unused handling.
+1. `ExplainerPanel`: added explicit `"use client"` boundary and replaced `any` explainer data with typed content.
+2. `FilterToolHubPage`: replaced ambient `String.prototype.toPascalCase()` usage with a local typed helper and removed unused handling.
 
 ### HIGH — API/accessibility correctness
-3. `FileDropzoneProps` exposed unused `files?: File[]`. Remediated by removing the unused prop and unused input ref.
-4. `FileItemProps` exposed unused `index` and `reorderable`. Remediated by removing both unused API properties and rendering non-selectable content without an inert button.
-5. `Field` generated IDs from labels could collide. Remediated with React `useId()` and optional explicit IDs; description/error relationships now use the generated field ID.
-6. `QualityControl` hard-coded `image-quality-control`; multiple instances could produce duplicate IDs. Remediated with React `useId()` and optional explicit ID.
-7. `DimensionsControl` hard-coded `image-dimensions-width/height`; multiple instances could produce duplicate IDs. Remediated with React `useId()` and optional explicit base ID.
-8. `PdfFileList` had advanced interaction/focus concerns around reorder/remove controls and lacked a disabled API. Remediated with `disabled`, disabled-state propagation, conditional selection semantics, `aria-pressed`, and focus-visible controls.
+3. `FileDropzone`: removed unused `files` prop and unused input ref.
+4. `FileItem`: removed unused `index`/`reorderable` API and inert selection button behavior.
+5. `Field`: replaced label-derived IDs with React `useId()`, while preserving explicit ID override and description/error relationships.
+6. `QualityControl`: replaced hard-coded ID with `useId()` and optional explicit ID.
+7. `DimensionsControl`: replaced hard-coded width/height IDs with `useId()` and optional explicit base ID.
+8. `PdfFileList`: corrected disabled/focus/selection semantics and propagated disabled state to controls.
+9. `ToolHeader`: configurable `headingLevel`, default `1`.
+10. `EmptyState`: configurable `headingLevel`, default `2`.
+11. `ImageSettings`: configurable `headingLevel`, default `2`.
+12. `ResultSummary`: requires stable item `id` and uses it as React key.
 
-### HIGH — semantic/SEO correctness
-9. `ToolHeader` always rendered `h1`. Remediated with configurable `headingLevel` (default `1`).
-10. `EmptyState` always rendered `h2`. Remediated with configurable `headingLevel` (default `2`).
-11. `ImageSettings` always rendered `h2`. Remediated with configurable `headingLevel` (default `2`).
-12. `ResultSummary` used item labels as React keys. Remediated by requiring a stable `id` per item and using it as the key.
+### MEDIUM — visual/performance/API
+13. Repeated shared visual Tailwind tokens centralized in `src/sharedUI/sharedStyles.ts` and adopted by shared primitives.
+14. `LoadingState` progress fill no longer relies on inherited `currentColor`; uses explicit `bg-white`.
+15. `ImagePreview` exposes consumer-controlled `loading` and `decoding`, retaining `lazy`/`async` defaults.
+16. `FilePreview` exposes consumer-controlled `loading` and `decoding`, retaining `lazy`/`async` defaults.
+17. `CurrencyInput` no longer imposes a region-specific default; explicit `currency` remains supported.
 
-### MEDIUM — current remediation batch
-13. Repeated shared visual Tailwind tokens: **REMEDIATED in current batch** via `src/sharedUI/sharedStyles.ts`, with reusable surface/field/muted-text tokens and adoption by shared primitives.
-14. `LoadingState` progress fill used inherited `currentColor`: **REMEDIATED in current batch** with an explicit `bg-white` visual token; no inherited text color dependency remains for the progress fill.
+### TYPE/API quality
+18. `IconResolver`: replaced `React.ComponentType<any>` and untyped registry with `LucideIcon` typing and explicit props.
+19. `FileList`: removed index from React key generation and added optional `getFileKey` for caller-provided stable identity; deterministic file metadata is the fallback.
+20. `PercentageInput`: added configurable `suffix`, default `%`, so the primitive can support alternate presentation without consumer duplication.
+21. `DurationInput`: added `formatUnit` for localized/custom unit presentation while retaining typed `DurationUnit`.
 
-### MEDIUM — remaining
-15. `ImagePreview` loading behavior should remain consumer-controlled for LCP/above-the-fold usage.
-16. `FilePreview` should expose loading control rather than hard-code lazy loading.
-17. `CurrencyInput` should not impose a region-specific currency default in a generic primitive.
+## Dependency review
+- Foundation primitives do not intentionally introduce heavy feature dependencies.
+- `lucide-react` remains used by icon-based shared primitives; it was not removed because the actual import graph must be validated before changing the dependency strategy.
 
-### Type/API quality — deferred
-18. `ExplainerPanel` weak typing was addressed in an earlier remediation batch.
-19. `IconResolver` uses `React.ComponentType<any>` and an untyped icon registry; pending later type-quality pass.
-20. `FileList` should prefer stable file identity over mutable metadata plus index keys; pending API review.
-21. `PercentageInput`/`DurationInput` need a stable generalized unit/formatter contract before consumer migration.
-
-### Dependency review
-22. Newly created foundation primitives do not intentionally import heavy feature libraries. Existing sharedUI imports `lucide-react` in `ExplainerPanel`/`IconResolver`; dependency removal is deferred until the import graph is validated.
-
-## Remediation completed in current batch
-- Added `src/sharedUI/sharedStyles.ts` for shared visual tokens.
-- Applied the shared surface/muted-text tokens to `LoadingState`.
-- Applied the shared surface token to `ImageSettings`.
-- Replaced `LoadingState` progress `currentColor` with explicit `bg-white`.
-
-## Validation limitations
-- Source audit and remediation were performed through GitHub.
+## Validation limitations / remaining gate
+- Source-level audit and remediation are complete through GitHub.
 - The current GitHub execution path does not provide local `npm run lint`, TypeScript compiler, or production build execution.
-- Therefore no green-build claim is made.
+- The latest commit has no reported GitHub commit statuses, so this is **not** evidence of a passing build.
+- Therefore Phase 1 cannot yet be declared fully validated or migration-ready.
 
 ## Guardrails
 - No consumer migration in Phase 1.
 - No `main` changes.
 - One controlled remediation batch at a time.
-- Sync this MD after every step, including no-change audits.
+- Sync this status after every step, including no-change audits.
 
 ## Current result
-**HIGH remediation complete. First MEDIUM batch complete. NOT READY FOR CONSUMER MIGRATION.** Remaining MEDIUM/type-quality findings and executable TypeScript/lint/build validation remain.
+**All previously documented source-level BLOCKER, HIGH, MEDIUM, and deferred TYPE/API findings have been addressed. Consumer migration remains blocked pending executable TypeScript/lint/build validation and final whole-family audit.**
 
 ## Next action
-Perform the next controlled MEDIUM batch: make `ImagePreview` and `FilePreview` loading behavior explicitly consumer-controlled without changing consumers. Then sync and verify this MD before addressing `CurrencyInput` or later type-quality findings.
+Perform the final whole-family validation gate: inspect every foundation component for cross-component API consistency, accessibility, responsive behavior, client/server boundaries, dependency usage, and obvious build/type hazards; then execute available CI/typecheck/lint/build validation. Sync the MD with the verified results before any consumer migration.
