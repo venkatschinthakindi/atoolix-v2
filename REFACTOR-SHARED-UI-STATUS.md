@@ -47,15 +47,15 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 ## Validation / audit findings
 
 ### BLOCKER — build/client boundary
-1. `src/sharedUI/explainerPanel.tsx` uses `useState` but had no `"use client"` directive and used `explainers:any`. Remediated in this batch with an explicit client boundary and typed explainer data.
-2. `src/sharedUI/filterToolHubPage.tsx` called `filterKey.toPascalCase()` without an explicit local/imported helper and declared unused `showCategoryBar`. Remediated in this batch with a local typed helper and removal of unused handling.
+1. `src/sharedUI/explainerPanel.tsx` uses `useState` but had no `"use client"` directive and used `explainers:any`. Remediated in an earlier batch with an explicit client boundary and typed explainer data.
+2. `src/sharedUI/filterToolHubPage.tsx` called `filterKey.toPascalCase()` without an explicit local/imported helper and declared unused `showCategoryBar`. Remediated in an earlier batch with a local typed helper and removal of unused handling.
 
 ### HIGH — API/accessibility correctness
 3. `FileDropzoneProps` exposes `files?: File[]`, but the implementation does not consume it. It also creates an unused `inputRef`. Pending remediation.
 4. `FileItemProps` exposes `index` and `reorderable`, but the component does not use either capability. Pending remediation.
-5. `Field` derives an ID from the label when no ID is supplied. Multiple fields with the same label can generate duplicate DOM IDs. Pending remediation.
-6. `QualityControl` hard-codes `image-quality-control`; multiple instances produce duplicate IDs. Pending remediation.
-7. `DimensionsControl` hard-codes `image-dimensions-width/height`; multiple instances produce duplicate IDs. Pending remediation.
+5. `Field` generated IDs from labels could collide. **Remediated in current batch with React `useId()` and optional explicit IDs; description/error relationships now use the generated field ID.**
+6. `QualityControl` hard-coded `image-quality-control`; multiple instances could produce duplicate IDs. **Remediated in current batch with React `useId()` and optional explicit ID.**
+7. `DimensionsControl` hard-coded `image-dimensions-width/height`; multiple instances could produce duplicate IDs. **Remediated in current batch with React `useId()` and optional explicit base ID.**
 8. `PdfFileList` has advanced interaction/focus concerns around reorder/remove controls and lacks a disabled API. Pending remediation.
 
 ### HIGH — semantic/SEO correctness
@@ -72,7 +72,7 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 17. `CurrencyInput` should not impose a region-specific currency default in a generic primitive.
 
 ### Type/API quality — deferred where not already addressed
-18. `ExplainerPanel` weak typing was addressed in the current remediation batch.
+18. `ExplainerPanel` weak typing was addressed in an earlier remediation batch.
 19. `IconResolver` uses `React.ComponentType<any>` and an untyped icon registry; pending later type-quality pass.
 20. `FileList` should prefer stable file identity over mutable metadata plus index keys; pending API review.
 21. `PercentageInput`/`DurationInput` need a stable generalized unit/formatter contract before consumer migration.
@@ -81,9 +81,9 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 22. Newly created foundation primitives do not intentionally import heavy feature libraries. Existing sharedUI imports `lucide-react` in `ExplainerPanel`/`IconResolver`; dependency removal is deferred until the import graph is validated.
 
 ## Remediation completed in current batch
-- `ExplainerPanel`: explicit client boundary + strong TypeScript types.
-- `LoadingState`: accessible progressbar semantics with bounded values.
-- `FilterToolHubPage`: removed ambient `String.prototype.toPascalCase()` dependency and unused `showCategoryBar` handling.
+- `Field`: stable unique generated IDs plus explicit `id` support and associated description/error IDs.
+- `QualityControl`: stable unique generated IDs plus explicit `id` support.
+- `DimensionsControl`: stable unique generated IDs plus explicit base `id` support.
 
 ## Validation limitations
 - Source audit and remediation were performed through GitHub.
@@ -94,10 +94,10 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 - No consumer migration in Phase 1.
 - No `main` changes.
 - One controlled remediation batch at a time.
-- Sync this MD after every step, including no-change audits.
+- Sync this status after every step, including no-change audits.
 
 ## Current result
 **NOT READY FOR CONSUMER MIGRATION.** Remaining HIGH findings must be remediated and source-audited before proceeding to MEDIUM findings or consumer migration.
 
 ## Next action
-Remediate the remaining confirmed HIGH API/accessibility/semantic findings, starting with stable unique IDs and configurable heading-level APIs. Then synchronize this MD and verify the status-only commit before proceeding further.
+Remediate the remaining confirmed HIGH API/accessibility/semantic findings, starting with `FileDropzone`, `FileItem`, and `PdfFileList`. Then synchronize this MD and verify the status-only commit before proceeding to heading/API findings.
