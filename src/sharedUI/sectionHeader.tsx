@@ -1,21 +1,44 @@
+import type { ElementType, ReactNode } from "react";
+
+export interface SectionHeaderProps {
+  title: string;
+  subtitle?: ReactNode;
+  icon?: ElementType;
+  actions?: ReactNode;
+  children?: ReactNode;
+  className?: string;
+  titleAs?: "h2" | "h3" | "h4";
+}
+
+const containerClass = "flex items-start gap-3";
+const iconClass = "rounded-xl bg-white/5 p-2 text-blue-300";
+const titleClass = "text-base font-semibold tracking-tight text-white sm:text-lg";
+const subtitleClass = "mt-1 text-sm text-white/60";
+
 export function SectionHeader({
   title,
   subtitle,
   icon: Icon,
-}: {
-  title: string;
-  subtitle: string;
-  icon: React.ElementType;
-}) {
+  actions,
+  children,
+  className = "",
+  titleAs: Title = "h2",
+}: SectionHeaderProps) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="rounded-xl bg-white/5 p-2 text-blue-300">
-        <Icon className="h-5 w-5" />
+    <div className={`${containerClass} ${className}`.trim()}>
+      {Icon ? (
+        <div className={iconClass} aria-hidden="true">
+          <Icon className="h-5 w-5" />
+        </div>
+      ) : null}
+
+      <div className="min-w-0 flex-1">
+        <Title className={titleClass}>{title}</Title>
+        {subtitle ? <div className={subtitleClass}>{subtitle}</div> : null}
+        {children}
       </div>
-      <div>
-        <h2 className="text-base font-semibold tracking-tight text-white sm:text-lg">{title}</h2>
-        <p className="mt-1 text-sm text-white/60">{subtitle}</p>
-      </div>
+
+      {actions ? <div className="shrink-0">{actions}</div> : null}
     </div>
   );
 }
