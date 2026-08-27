@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ToolCard } from "@/components/ui/toolCard";
 import { getCachedTools } from "@/data/tools";
 import { getCanonicalToolPath } from "@/utility/getTool";
 import { QuickAccessSection } from "./quickAccessSection";
@@ -13,7 +12,6 @@ export function FeaturedTools() {
   const router = useRouter();
   const tools = getCachedTools();
   const featured = tools[0];
-  const others = tools.slice(1, 10);
 
   return (
     <>
@@ -29,25 +27,27 @@ export function FeaturedTools() {
             </Link>
           </div>
 
-          <div
-            onClick={() => router.push(getCanonicalToolPath(featured))}
-            className="surface-card-light group relative cursor-pointer overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)] opacity-20" />
-            <div className="relative z-10">
-              <div className="flex items-center gap-2">
-                <span className="rounded-full bg-violet-500/15 px-3 py-1 text-xs text-violet-300">Most Used</span>
+          {featured ? (
+            <div
+              onClick={() => router.push(getCanonicalToolPath(featured))}
+              className="surface-card-light group relative cursor-pointer overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_#7c3aed,_transparent_40%)] opacity-20" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-2">
+                  <span className="rounded-full bg-violet-500/15 px-3 py-1 text-xs text-violet-300">Most Used</span>
+                </div>
+                <div className="absolute right-0 top-0">
+                  <Link href="/tools" onClick={(e) => e.stopPropagation()} className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/80 transition hover:bg-white/20">
+                    View All Tools
+                  </Link>
+                </div>
+                <h3 className="mt-3 text-2xl font-semibold text-white">{featured.title}</h3>
+                <p className="mt-2 max-full text-sm text-zinc-400">{featured.description}</p>
+                <div className="badge-pill inline-flex items-center">Try Tool →</div>
               </div>
-              <div className="absolute right-0 top-0">
-                <Link href="/tools" onClick={(e) => e.stopPropagation()} className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/80 transition hover:bg-white/20">
-                  View All Tools
-                </Link>
-              </div>
-              <h3 className="mt-3 text-2xl font-semibold text-white">{featured.title}</h3>
-              <p className="mt-2 max-full text-sm text-zinc-400">{featured.description}</p>
-              <div className="badge-pill inline-flex items-center">Try Tool →</div>
             </div>
-          </div>
+          ) : null}
         </div>
       </section>
       <QuickAccessSection
