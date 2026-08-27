@@ -16,7 +16,7 @@ export default function OfflinePage() {
         <div className="mb-6 text-6xl">📡</div>
 
         <h1 className="text-3xl font-bold">
-          You're Offline
+          You&apos;re Offline
         </h1>
 
         <p className="mt-3 text-muted-foreground">
