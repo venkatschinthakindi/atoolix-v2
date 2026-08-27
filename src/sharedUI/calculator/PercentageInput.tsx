@@ -8,6 +8,7 @@ export interface PercentageInputProps {
   min?: number;
   max?: number;
   step?: number;
+  suffix?: ReactNode;
   hint?: ReactNode;
   error?: ReactNode;
   required?: boolean;
@@ -16,6 +17,6 @@ export interface PercentageInputProps {
   name?: string;
 }
 
-export function PercentageInput({ label, value, onChange, min = 0, max = 100, step = 0.01, ...props }: PercentageInputProps) {
-  return <NumberInput {...props} label={label} value={value} onChange={onChange} min={min} max={max} step={step} suffix="%" />;
+export function PercentageInput({ label, value, onChange, min = 0, max = 100, step = 0.01, suffix = "%", ...props }: PercentageInputProps) {
+  return <NumberInput {...props} label={label} value={value} onChange={onChange} min={min} max={max} step={step} suffix={suffix} />;
 }
