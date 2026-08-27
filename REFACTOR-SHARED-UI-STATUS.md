@@ -26,6 +26,7 @@
 - Tool foundation family created: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, and `EmptyState`.
 - File foundation family created: `FileDropzone`, `FileList`, `FileItem`, `FileMetadata`, and `FilePreview`.
 - Calculator foundation family created: `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, and `ResultSummary`.
+- Image foundation family created: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, and `FormatSelector`.
 
 ## Phase 1 — Foundation only
 Status: IN PROGRESS
@@ -37,7 +38,7 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 - `tool`: page shell/header/action bar/result/processing/empty states — IMPLEMENTED
 - `file`: dropzone/list/item/metadata/preview — IMPLEMENTED
 - `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary — IMPLEMENTED
-- `image`: preview/settings/quality/dimensions/format controls — PENDING
+- `image`: preview/settings/quality/dimensions/format controls — IMPLEMENTED
 - `pdf`: file list/page selector/preview — PENDING
 - `feedback`: error/success/privacy/loading states — PENDING
 
@@ -45,18 +46,17 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 Shared components expose a small stable base API plus optional advanced capability groups/slots. Common Tailwind classes are centralized in the component layer. Variants are controlled and intentional. Components should not accumulate one-off business rules. Heavy functionality must not be pulled into lightweight components.
 
 ## Current implementation batch
-### Calculator family
+### Image family
 Status: IMPLEMENTED
 Commits:
-- `695a68bc0116ec8b0e1668c49cb04d619fb8f3a1` — Field
-- `d8565e830a2f8e6aa307d0874f2d867f5f5b6d68` — NumberInput
-- `79e62b22d312339b18df6f02c4f7760ec6010c10` — PercentageInput
-- `0e5c5e3d773f76ce29cfaf3f63e0e9ab4ad87838` — CurrencyInput
-- `a3af684864ea7b90aea5622b25a47f93670581c8` — DurationInput
-- `ff3be32842464bb0ec53046362a479703240e4be` — ResultSummary
+- `94d88b94c9219ce9c74b7773d37e75a92bac8c4d` — ImagePreview
+- `89d9efb6c9f00552c6d70ee7b2452c5eefa0f2f1` — QualityControl
+- `c520535e39c9cefcb7829532b2fa4d173e281ec6` — DimensionsControl
+- `2d1e20d650cbe733154ac7183ad7e2edcfd2cf6f` — FormatSelector
+- `9eb0e7b4419634431b5245a0eda6d5ecd2891f92` — ImageSettings
 
 ## Validation note
-The calculator-family source files were created independently of consumers. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
+The image-family source files were created independently of consumers. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
 
 ## Next action
-Implement the `image` foundation family only: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, and `FormatSelector`. Do not modify consumers. Sync this status file after the batch before continuing to the next family.
+Implement the `pdf` foundation family only: `PdfFileList`, `PdfPageSelector`, and `PdfPreview`. Do not modify consumers. Sync this status file after the batch before continuing to the feedback family.
