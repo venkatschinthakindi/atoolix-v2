@@ -8,6 +8,7 @@ export interface DurationInputProps {
   value?: number | string;
   onChange?: (value: number | undefined) => void;
   unit?: DurationUnit;
+  formatUnit?: (unit: DurationUnit) => ReactNode;
   min?: number;
   max?: number;
   step?: number;
@@ -19,6 +20,7 @@ export interface DurationInputProps {
   name?: string;
 }
 
-export function DurationInput({ label, value, onChange, unit = "years", ...props }: DurationInputProps) {
-  return <NumberInput {...props} label={label} value={value} onChange={onChange} suffix={unit} />;
+export function DurationInput({ label, value, onChange, unit = "years", formatUnit, ...props }: DurationInputProps) {
+  const suffix = formatUnit ? formatUnit(unit) : unit;
+  return <NumberInput {...props} label={label} value={value} onChange={onChange} suffix={suffix} />;
 }
