@@ -41,7 +41,7 @@ export default function Page() {
           <section>
             <h2 className="text-2xl font-semibold tracking-tight">Privacy Checks Are Not the Same as Security Guarantees</h2>
             <p className="mt-4 text-base leading-7 text-muted-foreground">
-              A metadata or file inspection can reveal specific properties that a tool knows how to detect, but it cannot guarantee that a file is completely free of every possible privacy or security risk. Review the individual tool's supported formats, checks, and processing behavior before relying on its results.
+              A metadata or file inspection can reveal specific properties that a tool knows how to detect, but it cannot guarantee that a file is completely free of every possible privacy or security risk. Review the individual tool&apos;s supported formats, checks, and processing behavior before relying on its results.
             </p>
           </section>
           <section>
