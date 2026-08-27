@@ -24,6 +24,7 @@
 - `sharedUI/StatCard` upgraded with controlled variants and optional hint/icon/truncation capabilities.
 - `sharedUI/SectionHeader` upgraded with optional icon, subtitle, actions, children, className, and heading-level support.
 - Tool foundation family created: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, and `EmptyState`.
+- File foundation family created: `FileDropzone`, `FileList`, `FileItem`, `FileMetadata`, and `FilePreview`.
 
 ## Phase 1 — Foundation only
 Status: IN PROGRESS
@@ -33,7 +34,7 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 
 ### Foundation families
 - `tool`: page shell/header/action bar/result/processing/empty states — IMPLEMENTED
-- `file`: dropzone/list/item/metadata/preview — PENDING
+- `file`: dropzone/list/item/metadata/preview — IMPLEMENTED
 - `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary — PARTIAL
 - `image`: preview/settings/quality/dimensions/format controls — PENDING
 - `pdf`: file list/page selector/preview — PENDING
@@ -61,8 +62,18 @@ Commits:
 - `df198af6b355a741d25a5cc86b4ec7b3cce4049b` — ProcessingState
 - `583e24eebbd8d40e9c0ac82839378564427623a2` — EmptyState
 
+### File family
+Status: IMPLEMENTED
+Commits:
+- `259cdf3efd12b9a1a9fa180a525d9132857c30a3` — FileMetadata
+- `ea2675c37c19d6aabd1e1ddfc531953e691ea3d5` — FilePreview initial implementation
+- `a77a6503fc05c36537e33eb33074426ae974bcdb` — FilePreview render-safety correction
+- `1b0b648449bccac79d710ffaff383562384f0de1` — FileItem
+- `4083f7a999f6b7893c56c7619d99c771ed533716` — FileList
+- `7cb426f6f4cf4b06b8f212bed246bf765a134bfd` — FileDropzone
+
 ## Validation note
-The tool-family source files have been created independently of consumers. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
+The file-family source files were created independently of consumers. `FilePreview` was corrected to avoid creating object URLs during render. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
 
 ## Next action
-Implement the `file` family only: `FileDropzone`, `FileList`, `FileItem`, `FileMetadata`, and `FilePreview`. Do not modify consumers. Sync this status file after the batch before continuing to the next family.
+Implement the `calculator` foundation family only: `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, and `ResultSummary`. `StatCard` is already implemented. Do not modify consumers. Sync this status file after the batch before continuing to the next family.
