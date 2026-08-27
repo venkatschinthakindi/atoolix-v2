@@ -43,7 +43,7 @@ export default function Page() {
             <ul className="mt-4 space-y-3 text-sm leading-6 text-muted-foreground">
               <li>• Confirm the location and date before comparing times because daylight-saving rules can change the offset.</li>
               <li>• Share the exact date with meeting participants rather than relying only on a clock time.</li>
-              <li>• For international meetings, check both the organizer's and attendee's local times before sending an invitation.</li>
+              <li>• For international meetings, check both the organizer&apos;s and attendee&apos;s local times before sending an invitation.</li>
             </ul>
           </section>
           <section>
