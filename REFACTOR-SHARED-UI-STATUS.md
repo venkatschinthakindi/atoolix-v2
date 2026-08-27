@@ -31,7 +31,7 @@
 - Feedback foundation family created: `ErrorMessage`, `SuccessMessage`, `PrivacyNotice`, and `LoadingState`.
 
 ## Phase 1 — Foundation only
-Status: BLOCKER/HIGH REMEDIATION IN PROGRESS
+Status: MEDIUM REMEDIATION IN PROGRESS
 
 ### Consumer migration constraint
 No existing tool/component consumer is being migrated or modified during Phase 1 foundation validation/remediation.
@@ -47,8 +47,8 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 ## Validation / audit findings
 
 ### BLOCKER — build/client boundary
-1. `src/sharedUI/explainerPanel.tsx` uses `useState` but had no `"use client"` directive and used `explainers:any`. Remediated in an earlier batch with an explicit client boundary and typed explainer data.
-2. `src/sharedUI/filterToolHubPage.tsx` called `filterKey.toPascalCase()` without an explicit local/imported helper and declared unused `showCategoryBar`. Remediated in an earlier batch with a local typed helper and removal of unused handling.
+1. `src/sharedUI/explainerPanel.tsx` uses `useState` but had no `"use client"` directive and used `explainers:any`. Remediated with an explicit client boundary and typed explainer data.
+2. `src/sharedUI/filterToolHubPage.tsx` called `filterKey.toPascalCase()` without an explicit local/imported helper and declared unused `showCategoryBar`. Remediated with a local typed helper and removal of unused handling.
 
 ### HIGH — API/accessibility correctness
 3. `FileDropzoneProps` exposed unused `files?: File[]`. Remediated by removing the unused prop and unused input ref.
@@ -59,19 +59,21 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 8. `PdfFileList` had advanced interaction/focus concerns around reorder/remove controls and lacked a disabled API. Remediated with `disabled`, disabled-state propagation, conditional selection semantics, `aria-pressed`, and focus-visible controls.
 
 ### HIGH — semantic/SEO correctness
-9. `ToolHeader` always rendered `h1`. **Remediated in current batch with configurable `headingLevel` (default `1`).**
-10. `EmptyState` always rendered `h2`. **Remediated in current batch with configurable `headingLevel` (default `2`).**
-11. `ImageSettings` always rendered `h2`. **Remediated in current batch with configurable `headingLevel` (default `2`).**
-12. `ResultSummary` used item labels as React keys. **Remediated in current batch by requiring a stable `id` per item and using it as the key.**
+9. `ToolHeader` always rendered `h1`. Remediated with configurable `headingLevel` (default `1`).
+10. `EmptyState` always rendered `h2`. Remediated with configurable `headingLevel` (default `2`).
+11. `ImageSettings` always rendered `h2`. Remediated with configurable `headingLevel` (default `2`).
+12. `ResultSummary` used item labels as React keys. Remediated by requiring a stable `id` per item and using it as the key.
 
-### MEDIUM — deferred until HIGH remediation completes
-13. Repeated visual Tailwind tokens should be centralized.
-14. Progress fill styling should use an explicit shared visual token rather than inherited `currentColor`.
+### MEDIUM — current remediation batch
+13. Repeated shared visual Tailwind tokens: **REMEDIATED in current batch** via `src/sharedUI/sharedStyles.ts`, with reusable surface/field/muted-text tokens and adoption by shared primitives.
+14. `LoadingState` progress fill used inherited `currentColor`: **REMEDIATED in current batch** with an explicit `bg-white` visual token; no inherited text color dependency remains for the progress fill.
+
+### MEDIUM — remaining
 15. `ImagePreview` loading behavior should remain consumer-controlled for LCP/above-the-fold usage.
 16. `FilePreview` should expose loading control rather than hard-code lazy loading.
 17. `CurrencyInput` should not impose a region-specific currency default in a generic primitive.
 
-### Type/API quality — deferred where not already addressed
+### Type/API quality — deferred
 18. `ExplainerPanel` weak typing was addressed in an earlier remediation batch.
 19. `IconResolver` uses `React.ComponentType<any>` and an untyped icon registry; pending later type-quality pass.
 20. `FileList` should prefer stable file identity over mutable metadata plus index keys; pending API review.
@@ -81,10 +83,10 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 22. Newly created foundation primitives do not intentionally import heavy feature libraries. Existing sharedUI imports `lucide-react` in `ExplainerPanel`/`IconResolver`; dependency removal is deferred until the import graph is validated.
 
 ## Remediation completed in current batch
-- `ToolHeader`: configurable semantic heading level.
-- `EmptyState`: configurable semantic heading level.
-- `ImageSettings`: configurable semantic heading level.
-- `ResultSummary`: stable explicit item identity for React keys.
+- Added `src/sharedUI/sharedStyles.ts` for shared visual tokens.
+- Applied the shared surface/muted-text tokens to `LoadingState`.
+- Applied the shared surface token to `ImageSettings`.
+- Replaced `LoadingState` progress `currentColor` with explicit `bg-white`.
 
 ## Validation limitations
 - Source audit and remediation were performed through GitHub.
@@ -98,7 +100,7 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 - Sync this MD after every step, including no-change audits.
 
 ## Current result
-**HIGH semantic/API remediation complete. NOT READY FOR CONSUMER MIGRATION.** The remaining work is MEDIUM/type-quality audit plus executable TypeScript/lint/build validation.
+**HIGH remediation complete. First MEDIUM batch complete. NOT READY FOR CONSUMER MIGRATION.** Remaining MEDIUM/type-quality findings and executable TypeScript/lint/build validation remain.
 
 ## Next action
-Perform a fresh source-level audit of the remediated HIGH components, then begin the MEDIUM findings one controlled batch at a time. Keep consumer migration prohibited until TypeScript/lint/build validation is available and the complete Phase 1 audit passes.
+Perform the next controlled MEDIUM batch: make `ImagePreview` and `FilePreview` loading behavior explicitly consumer-controlled without changing consumers. Then sync and verify this MD before addressing `CurrencyInput` or later type-quality findings.
