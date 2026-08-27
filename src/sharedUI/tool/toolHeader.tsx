@@ -10,7 +10,7 @@ export interface ToolHeaderProps {
 }
 
 export function ToolHeader({ title, description, icon: Icon, actions, className = "", headingLevel = 1 }: ToolHeaderProps) {
-  const Heading = `h${headingLevel}` as keyof JSX.IntrinsicElements;
+  const Heading = `h${headingLevel}` as ElementType;
   return (
     <header className={`flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between ${className}`.trim()}>
       <div className="flex min-w-0 items-start gap-3">
