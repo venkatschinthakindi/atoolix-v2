@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 
 export interface FilePreviewProps {
-  file?: File | null;
   src?: string;
   alt?: string;
   kind?: "image" | "custom";
@@ -11,7 +10,6 @@ export interface FilePreviewProps {
 }
 
 export function FilePreview({
-  file,
   src,
   alt = "File preview",
   kind = "image",
@@ -19,13 +17,11 @@ export function FilePreview({
   className = "",
   imageClassName = "",
 }: FilePreviewProps) {
-  const url = src ?? (file && kind === "image" ? URL.createObjectURL(file) : undefined);
-
   return (
     <div className={`overflow-hidden rounded-xl bg-black/20 ${className}`.trim()}>
-      {url && kind === "image" ? (
+      {src && kind === "image" ? (
         <img
-          src={url}
+          src={src}
           alt={alt}
           loading="lazy"
           decoding="async"
