@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ImgHTMLAttributes, ReactNode } from "react";
 
 export interface FilePreviewProps {
   src?: string;
@@ -7,6 +7,8 @@ export interface FilePreviewProps {
   children?: ReactNode;
   className?: string;
   imageClassName?: string;
+  loading?: ImgHTMLAttributes<HTMLImageElement>["loading"];
+  decoding?: ImgHTMLAttributes<HTMLImageElement>["decoding"];
 }
 
 export function FilePreview({
@@ -16,6 +18,8 @@ export function FilePreview({
   children,
   className = "",
   imageClassName = "",
+  loading = "lazy",
+  decoding = "async",
 }: FilePreviewProps) {
   return (
     <div className={`overflow-hidden rounded-xl bg-black/20 ${className}`.trim()}>
@@ -23,8 +27,8 @@ export function FilePreview({
         <img
           src={src}
           alt={alt}
-          loading="lazy"
-          decoding="async"
+          loading={loading}
+          decoding={decoding}
           className={`max-h-80 w-full object-contain ${imageClassName}`.trim()}
         />
       ) : (
