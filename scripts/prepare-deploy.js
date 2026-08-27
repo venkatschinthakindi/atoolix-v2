@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "node:fs";
+import path from "node:path";
 
 const deployDir = "deploy";
 
@@ -23,10 +23,10 @@ fs.cpSync(".next/standalone", deployDir, {
 });
 
 // Copy static assets
-const sorceDir = path.join(".next", "static");
+const sourceDir = path.join(".next", "static");
 const destinationDir = path.join(deployDir, ".next", "static");
 
-fs.cpSync(sorceDir, destinationDir, {
+fs.cpSync(sourceDir, destinationDir, {
   recursive: true,
 });
 
@@ -41,8 +41,5 @@ if (fs.existsSync("web.config")) {
 }
 
 if (fs.existsSync("package.json")) {
-  fs.copyFileSync(
-    "package.json",
-    path.join(deployDir, "package.json")
-  );
+  fs.copyFileSync("package.json", path.join(deployDir, "package.json"));
 }
