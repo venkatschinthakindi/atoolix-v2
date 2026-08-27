@@ -51,12 +51,12 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 2. `src/sharedUI/filterToolHubPage.tsx` called `filterKey.toPascalCase()` without an explicit local/imported helper and declared unused `showCategoryBar`. Remediated in an earlier batch with a local typed helper and removal of unused handling.
 
 ### HIGH — API/accessibility correctness
-3. `FileDropzoneProps` exposes `files?: File[]`, but the implementation does not consume it. It also creates an unused `inputRef`. Pending remediation.
-4. `FileItemProps` exposes `index` and `reorderable`, but the component does not use either capability. Pending remediation.
-5. `Field` generated IDs from labels could collide. **Remediated in current batch with React `useId()` and optional explicit IDs; description/error relationships now use the generated field ID.**
-6. `QualityControl` hard-coded `image-quality-control`; multiple instances could produce duplicate IDs. **Remediated in current batch with React `useId()` and optional explicit ID.**
-7. `DimensionsControl` hard-coded `image-dimensions-width/height`; multiple instances could produce duplicate IDs. **Remediated in current batch with React `useId()` and optional explicit base ID.**
-8. `PdfFileList` has advanced interaction/focus concerns around reorder/remove controls and lacks a disabled API. Pending remediation.
+3. `FileDropzoneProps` exposed unused `files?: File[]`. **Remediated in current batch by removing the unused prop; the unused input ref was also removed.**
+4. `FileItemProps` exposed unused `index` and `reorderable`. **Remediated in current batch by removing both unused API properties and rendering non-selectable content without an inert button.**
+5. `Field` generated IDs from labels could collide. Remediated with React `useId()` and optional explicit IDs; description/error relationships now use the generated field ID.
+6. `QualityControl` hard-coded `image-quality-control`; multiple instances could produce duplicate IDs. Remediated with React `useId()` and optional explicit ID.
+7. `DimensionsControl` hard-coded `image-dimensions-width/height`; multiple instances could produce duplicate IDs. Remediated with React `useId()` and optional explicit base ID.
+8. `PdfFileList` had advanced interaction/focus concerns around reorder/remove controls and lacked a disabled API. **Remediated in current batch with `disabled`, disabled-state propagation, conditional selection button rendering, pressed state, and focus-visible controls.**
 
 ### HIGH — semantic/SEO correctness
 9. `ToolHeader` always renders `h1`. Pending configurable heading-level remediation.
@@ -81,9 +81,9 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 22. Newly created foundation primitives do not intentionally import heavy feature libraries. Existing sharedUI imports `lucide-react` in `ExplainerPanel`/`IconResolver`; dependency removal is deferred until the import graph is validated.
 
 ## Remediation completed in current batch
-- `Field`: stable unique generated IDs plus explicit `id` support and associated description/error IDs.
-- `QualityControl`: stable unique generated IDs plus explicit `id` support.
-- `DimensionsControl`: stable unique generated IDs plus explicit base `id` support.
+- `FileDropzone`: removed unused `files` API and unused input ref.
+- `FileItem`: removed unused `index`/`reorderable` API and corrected non-interactive rendering semantics.
+- `PdfFileList`: added disabled-state support, correct conditional selection semantics, `aria-pressed`, and keyboard focus-visible treatment for controls.
 
 ## Validation limitations
 - Source audit and remediation were performed through GitHub.
@@ -100,4 +100,4 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 **NOT READY FOR CONSUMER MIGRATION.** Remaining HIGH findings must be remediated and source-audited before proceeding to MEDIUM findings or consumer migration.
 
 ## Next action
-Remediate the remaining confirmed HIGH API/accessibility/semantic findings, starting with `FileDropzone`, `FileItem`, and `PdfFileList`. Then synchronize this MD and verify the status-only commit before proceeding to heading/API findings.
+Refresh and verify this status-only commit, then remediate the remaining HIGH semantic/API findings: configurable heading levels for `ToolHeader`, `EmptyState`, and `ImageSettings`, followed by stable keys in `ResultSummary`. Do not migrate consumers.
