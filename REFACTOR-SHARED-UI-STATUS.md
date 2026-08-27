@@ -25,6 +25,7 @@
 - `sharedUI/SectionHeader` upgraded with optional icon, subtitle, actions, children, className, and heading-level support.
 - Tool foundation family created: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, and `EmptyState`.
 - File foundation family created: `FileDropzone`, `FileList`, `FileItem`, `FileMetadata`, and `FilePreview`.
+- Calculator foundation family created: `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, and `ResultSummary`.
 
 ## Phase 1 — Foundation only
 Status: IN PROGRESS
@@ -35,7 +36,7 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 ### Foundation families
 - `tool`: page shell/header/action bar/result/processing/empty states — IMPLEMENTED
 - `file`: dropzone/list/item/metadata/preview — IMPLEMENTED
-- `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary — PARTIAL
+- `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary — IMPLEMENTED
 - `image`: preview/settings/quality/dimensions/format controls — PENDING
 - `pdf`: file list/page selector/preview — PENDING
 - `feedback`: error/success/privacy/loading states — PENDING
@@ -44,36 +45,18 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 Shared components expose a small stable base API plus optional advanced capability groups/slots. Common Tailwind classes are centralized in the component layer. Variants are controlled and intentional. Components should not accumulate one-off business rules. Heavy functionality must not be pulled into lightweight components.
 
 ## Current implementation batch
-### StatCard
-Status: IMPLEMENTED
-Commit: `fa4aeb1d79d799171b7bb43a0fc1ab98b76493fa`
-
-### SectionHeader
-Status: IMPLEMENTED
-Commit: `8b78b1d1c92fce30f0de89d8539d0f1b2b6581f9`
-
-### Tool family
+### Calculator family
 Status: IMPLEMENTED
 Commits:
-- `4df2cc2754387a5fa80ab248ca9d8cdc40f89ae6` — ToolPageShell
-- `c617e3629458090cd5b4934bccdb688066ea822e` — ToolHeader
-- `079ab96e3199ebe873a1eeda9920e9d453611f10` — ToolActionBar
-- `4c494ad56470bad68a88cb3f608023cc2bad97ef` — ToolResult
-- `df198af6b355a741d25a5cc86b4ec7b3cce4049b` — ProcessingState
-- `583e24eebbd8d40e9c0ac82839378564427623a2` — EmptyState
-
-### File family
-Status: IMPLEMENTED
-Commits:
-- `259cdf3efd12b9a1a9fa180a525d9132857c30a3` — FileMetadata
-- `ea2675c37c19d6aabd1e1ddfc531953e691ea3d5` — FilePreview initial implementation
-- `a77a6503fc05c36537e33eb33074426ae974bcdb` — FilePreview render-safety correction
-- `1b0b648449bccac79d710ffaff383562384f0de1` — FileItem
-- `4083f7a999f6b7893c56c7619d99c771ed533716` — FileList
-- `7cb426f6f4cf4b06b8f212bed246bf765a134bfd` — FileDropzone
+- `695a68bc0116ec8b0e1668c49cb04d619fb8f3a1` — Field
+- `d8565e830a2f8e6aa307d0874f2d867f5f5b6d68` — NumberInput
+- `79e62b22d312339b18df6f02c4f7760ec6010c10` — PercentageInput
+- `0e5c5e3d773f76ce29cfaf3f63e0e9ab4ad87838` — CurrencyInput
+- `a3af684864ea7b90aea5622b25a47f93670581c8` — DurationInput
+- `ff3be32842464bb0ec53046362a479703240e4be` — ResultSummary
 
 ## Validation note
-The file-family source files were created independently of consumers. `FilePreview` was corrected to avoid creating object URLs during render. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
+The calculator-family source files were created independently of consumers. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
 
 ## Next action
-Implement the `calculator` foundation family only: `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, and `ResultSummary`. `StatCard` is already implemented. Do not modify consumers. Sync this status file after the batch before continuing to the next family.
+Implement the `image` foundation family only: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, and `FormatSelector`. Do not modify consumers. Sync this status file after the batch before continuing to the next family.
