@@ -27,6 +27,7 @@
 - File foundation family created: `FileDropzone`, `FileList`, `FileItem`, `FileMetadata`, and `FilePreview`.
 - Calculator foundation family created: `Field`, `NumberInput`, `PercentageInput`, `CurrencyInput`, `DurationInput`, and `ResultSummary`.
 - Image foundation family created: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, and `FormatSelector`.
+- PDF foundation family created: `PdfFileList`, `PdfPageSelector`, and `PdfPreview`.
 
 ## Phase 1 — Foundation only
 Status: IN PROGRESS
@@ -39,24 +40,22 @@ No existing tool/component consumer is being migrated or modified during Phase 1
 - `file`: dropzone/list/item/metadata/preview — IMPLEMENTED
 - `calculator`: StatCard/Field/number/percentage/currency/duration inputs/result summary — IMPLEMENTED
 - `image`: preview/settings/quality/dimensions/format controls — IMPLEMENTED
-- `pdf`: file list/page selector/preview — PENDING
+- `pdf`: file list/page selector/preview — IMPLEMENTED
 - `feedback`: error/success/privacy/loading states — PENDING
 
 ## Current design contract
 Shared components expose a small stable base API plus optional advanced capability groups/slots. Common Tailwind classes are centralized in the component layer. Variants are controlled and intentional. Components should not accumulate one-off business rules. Heavy functionality must not be pulled into lightweight components.
 
 ## Current implementation batch
-### Image family
+### PDF family
 Status: IMPLEMENTED
 Commits:
-- `94d88b94c9219ce9c74b7773d37e75a92bac8c4d` — ImagePreview
-- `89d9efb6c9f00552c6d70ee7b2452c5eefa0f2f1` — QualityControl
-- `c520535e39c9cefcb7829532b2fa4d173e281ec6` — DimensionsControl
-- `2d1e20d650cbe733154ac7183ad7e2edcfd2cf6f` — FormatSelector
-- `9eb0e7b4419634431b5245a0eda6d5ecd2891f92` — ImageSettings
+- `8c6252762387c8ebf64faaf5bef2fffd486b995d` — PdfFileList
+- `344bb37331d1b833a338c2eaa5b8312c62e67016` — PdfPageSelector
+- `cc441b987d24bd34e00e1be588bb29bc483b8548` — PdfPreview
 
 ## Validation note
-The image-family source files were created independently of consumers. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
+The PDF-family source files were created independently of consumers. Full TypeScript/lint/build validation still needs to be performed through a local/CI-capable execution path before Phase 1 is declared validated.
 
 ## Next action
-Implement the `pdf` foundation family only: `PdfFileList`, `PdfPageSelector`, and `PdfPreview`. Do not modify consumers. Sync this status file after the batch before continuing to the feedback family.
+Implement the `feedback` foundation family only: `ErrorMessage`, `SuccessMessage`, `PrivacyNotice`, and `LoadingState`. Do not modify consumers. Sync this status file after the batch before completing Phase 1 validation.
