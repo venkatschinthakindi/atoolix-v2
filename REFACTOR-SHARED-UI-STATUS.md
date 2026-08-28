@@ -43,6 +43,15 @@
 5. `simpleInterestDepositsSuite.tsx` — `1ed8ea97993513b1c2a4ad1f1676f707277ffeeb`
 6. `ImageConverterClient.tsx` — `7eca3667941b26babc0798e3cf5ed9758eb2006d`
 7. `EmiCalculatorHubPage.tsx` — `5d077253beb53c1d86d9a961217b5556438ab3b0`
+8. `retirementWealthSuite.tsx` — `e3bfbd08dc3adf00749e9489283af25ce0a4491f`
+
+### Retirement StatCard consumer
+- Consumer commit: `e3bfbd08dc3adf00749e9489283af25ce0a4491f`.
+- File: `src/components/tools/financeSuite/retirement/retirementWealthSuite.tsx`.
+- Removed the local `StatCard` implementation and imported `@/sharedUI/statCard`.
+- Existing `StatCard` call sites were preserved; no calculation/business logic changed.
+- Capability check: the former local implementation exposed `accent`, `tone`, and `hint`; the shared `StatCard` already supports these as optional props, so no additional consumer tagging or shared capability change was required.
+- No extra `accent`/`tone` props were invented where the existing consumer did not explicitly use them.
 
 ## Completed SectionHeader consumers
 - `compoundInterestCalculator.tsx`
@@ -60,8 +69,8 @@
 
 ## Remaining consumer audit
 - `src/components/tools/calculator/SmartCalculator.tsx` — **DEFERRED** because the current GitHub connector returns a truncated source representation, while the safe write operation requires the complete current file. Required migration remains: local `SectionHeader` → shared `SectionHeader`, preserving the existing right-side action (`action` → shared `actions`) and card layout. Do not overwrite until the current complete blob is available.
-- `src/components/tools/financeSuite/retirement/retirementWealthSuite.tsx` — inspect next when a complete current source is available; preserve all existing calculation/presentation behavior.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
+- Continue the broader `src/sharedUI/` consumer matrix audit one shared component at a time; do not infer consumers from stale code-search results.
 
 ## Rules
 - Preserve original working behavior; do not invent or redesign business logic.
@@ -71,6 +80,7 @@
 - Sync this MD after every repository step, including no-change/status-only steps.
 - No consumer migration may silently remove an existing capability.
 - A Git retrieval/write limitation on one consumer must not block progress on other verified consumers.
+- Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-SmartCalculator is explicitly deferred for now. Continue with the next verified current consumer that can be safely patched, keeping each consumer change isolated and synchronizing this MD after the step.
+`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. Continue with the next sharedUI component in the one-component-at-a-time matrix, starting with `SectionHeader`, while keeping `SmartCalculator` explicitly deferred until a safe complete source is available.
