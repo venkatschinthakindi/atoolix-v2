@@ -62,88 +62,85 @@
 24. `DurationInput`: added `formatUnit` for localized/custom unit presentation while retaining typed `DurationUnit`.
 
 ## Consumer-to-shared capability matrix audit
-This audit compares the currently implemented shared families with the legacy/local UI implementations that are still present on the branch. The rule is to preserve existing working behavior; a legacy component with no legitimate shared counterpart is not silently rewritten or forced into an unrelated primitive.
+The matrix compares implemented shared families with legacy/local UI implementations. Existing working behavior is the source of truth; a local component without a proven shared counterpart is not forced into an unrelated primitive.
 
 | Existing family / local implementation | Shared target | Capability result | Action |
 |---|---|---|---|
-| Image `statCard` | `sharedUI/StatCard` | Covered: label, value, icon; shared also has optional hint/variant/title/truncation | Ready for migration |
-| Image `emptyState` | `sharedUI/EmptyState` | Covered as generic empty state; heading level is optional | Ready for consumer mapping |
-| Image `sectionHeader` | `sharedUI/SectionHeader` | Covered conceptually; existing title/subtitle/icon behavior must be mapped without changing presentation | Consumer verification required |
-| Image `successBanner` | `sharedUI/SuccessMessage` | Not a proven one-to-one equivalent: legacy banner has title/subtitle/icon and specific visual structure | Do not migrate until exact behavior comparison |
-| Image `metadataCard` | `sharedUI/FileMetadata` | Different contracts: legacy consumes `ImageMetadata` + `File` and renders dimensions/size/type; shared file metadata contract must be compared before migration | Capability gap must be proven from consumer usage before changing shared code |
-| Image `metadataGrid` | no direct shared equivalent verified | Tiny layout wrapper; no behavior to merge without consumer evidence | Leave unchanged until consumer mapping |
-| Image `previewCard` | `sharedUI/ImagePreview` | Same broad responsibility, but legacy uses async Next Image and `src: string | null`; exact rendering/props must be compared | Do not rewrite logic |
-| Image `downloadCard` | no direct shared equivalent verified | Composite behavior: image + arbitrary children + download callback/button | Keep as feature-specific composite unless multiple consumers prove reusable capability |
-| Image `toolButton` | `sharedUI/ToolActionBar` is not a one-to-one button replacement | Legacy button has five variants, icon, click, disabled, full-width styling | No forced migration; preserve existing button behavior |
-| Image `toolLayout` | `sharedUI/ToolPageShell` | Potential shell overlap, but exact children/header/result layout must be compared first | Consumer verification required |
-| Calculator `Field` | `sharedUI/calculator/Field` | Covered with broader native input attributes plus optional hint/error/suffix/description | Ready |
-| Calculator `NumberInput` | `sharedUI/calculator/NumberInput` | Covered: numeric value/change/min/max/step and presentation props | Ready |
-| Calculator `CurrencyInput` | `sharedUI/calculator/CurrencyInput` | Covered; currency remains optional | Ready |
+| Image `statCard` | `sharedUI/StatCard` | Covered: label, value, icon; shared also has optional hint/variant/title/truncation | Ready / migrations underway |
+| Image `emptyState` | `sharedUI/EmptyState` | Covered as generic empty state; heading level optional | Ready for consumer mapping |
+| Image `sectionHeader` | `sharedUI/SectionHeader` | Covered conceptually; title/subtitle/icon mapping requires presentation verification | Consumer verification required |
+| Image `successBanner` | `sharedUI/SuccessMessage` | Not proven one-to-one; legacy title/subtitle/icon/visual structure must be preserved | Deferred |
+| Image `metadataCard` | `sharedUI/FileMetadata` | Contracts differ; exact consumer usage must be compared | Deferred |
+| Image `metadataGrid` | no direct shared equivalent verified | Layout wrapper without proven shared behavior | Leave unchanged |
+| Image `previewCard` | `sharedUI/ImagePreview` | Broad overlap, but exact async/null-src/rendering behavior requires comparison | Deferred |
+| Image `downloadCard` | no direct shared equivalent verified | Composite behavior; retain as feature-specific until reuse is proven | Leave unchanged |
+| Image `toolButton` | no one-to-one `ToolActionBar` replacement | Existing five variants/icon/click/disabled/full-width behavior must remain | Leave unchanged |
+| Image `toolLayout` | `sharedUI/ToolPageShell` | Potential shell overlap; exact layout must be compared | Deferred |
+| Calculator `Field` | `sharedUI/calculator/Field` | Covered with broader native attributes and optional hint/error/suffix/description | Ready |
+| Calculator `NumberInput` | `sharedUI/calculator/NumberInput` | Covered | Ready |
+| Calculator `CurrencyInput` | `sharedUI/calculator/CurrencyInput` | Covered; currency optional | Ready |
 | Calculator `DurationInput` | `sharedUI/calculator/DurationInput` | Covered; typed unit + optional formatter | Ready |
 | Calculator `PercentageInput` | `sharedUI/calculator/PercentageInput` | Covered; configurable suffix/default `%` | Ready |
-| Calculator result/stat cards | `sharedUI/ResultSummary` / `StatCard` | Must select based on actual existing consumer semantics; no automatic substitution | Consumer mapping required |
-| File drop/list/item | shared file family | Existing API corrections are already represented | Ready after consumer verification |
-| Image controls | shared image family | `useId`/client-boundary fixes are present; existing control behavior preserved | Ready |
-| PDF list/page/preview | shared PDF family | Existing documented behavior is represented by the current contracts; consumer verification remains required | Ready after mapping |
-| Feedback/loading | shared feedback family | Existing shared contracts cover the documented behavior | Ready after mapping |
-| Tool shell/header/action/result/state | shared tool family | Shared primitives cover the common structural/state operations; feature-specific behavior must remain optional in consumers | Ready after mapping |
-
-### Matrix conclusion
-- The shared foundation is **not declared universally feature-complete merely because every family has a component**.
-- Confirmed direct coverage exists for the calculator primitives, image controls, file primitives, feedback primitives, and the simple image `StatCard`/empty-state cases.
-- Several legacy image composites (`DownloadCard`, `MetadataGrid`, `ToolButton`) do not have proven one-to-one shared targets. They are **not defects by themselves** and must not be rewritten or collapsed into unrelated primitives without consumer evidence.
-- `MetadataCard`, `PreviewCard`, `SuccessBanner`, `SectionHeader`, and `ToolLayout` require exact consumer-level mapping before migration because their existing behavior may be more specific than the generic shared primitive.
-- No new business logic or replacement implementation was introduced during this matrix audit.
+| Calculator result/stat cards | `sharedUI/ResultSummary` / `StatCard` | Selection depends on actual existing semantics | Consumer mapping required |
+| File drop/list/item | shared file family | Existing API corrections represented | Ready after consumer verification |
+| Image controls | shared image family | `useId`/client-boundary fixes present | Ready |
+| PDF list/page/preview | shared PDF family | Documented behavior represented; consumer verification remains | Ready after mapping |
+| Feedback/loading | shared feedback family | Existing shared contracts cover documented behavior | Ready after mapping |
+| Tool shell/header/action/result/state | shared tool family | Common structural/state operations covered; feature-specific behavior remains optional | Ready after mapping |
 
 ## Final source-level audit
 - Shared image controls have unique generated IDs and explicit client boundaries where hooks are used.
 - Calculator primitives have the required client boundary and typed contracts.
-- Tool primitives remain server-safe or explicitly client-safe according to their actual APIs.
-- File/PDF primitives retain the documented API and accessibility corrections.
-- Existing consumer behavior is the source of truth for reusable APIs; shared components must not drop existing working features during migration.
+- Tool primitives remain server-safe or explicitly client-safe according to their APIs.
+- File/PDF primitives retain documented API and accessibility corrections.
+- Existing consumer behavior remains the source of truth for reusable APIs.
 
 ## Validation
-- CI workflow was intentionally changed to skip the known repository-wide ESLint baseline and expose TypeScript/build failures.
-- User-reported latest CI result: **TypeScript/typecheck and production build succeeded** with lint skipped.
-- No build failure is currently blocking Phase 1.
-- ESLint remains explicitly deferred and is not treated as a Phase 1 migration blocker.
+- CI workflow intentionally skips the known repository-wide ESLint baseline so TypeScript/build failures remain visible.
+- Latest user-reported CI result: TypeScript/typecheck and production build succeeded with lint skipped.
+- ESLint remains deferred and is not a Phase 1 migration blocker.
 
 ## Consumer migration protocol
 For every consumer:
 1. Inspect the complete existing local/consumer implementation.
-2. Map every currently used prop and behavior to the shared component.
-3. If an existing behavior is missing, add it to the shared component as an optional capability using the existing working logic.
+2. Map every used prop and behavior to the shared component.
+3. If an existing behavior is missing, add it to the shared component as an optional capability using the original working logic.
 4. Do not invent or redesign behavior.
 5. Migrate one consumer only.
 6. Verify the exact diff is limited to the intended migration/change.
 7. Run CI/typecheck/build.
 8. Sync this MD immediately, including when there is no code change.
-9. Proceed to the next consumer only after validation is clean.
+9. Proceed only after validation is clean.
 
 ## Consumer migration log
 
 ### Completed
 - `ImageCompressorClient.tsx` migrated from the legacy image `StatCard` import to `@/sharedUI/statCard`.
 - Commit: `bbe435d3af9428158fc7d69229b25f5610078945`.
-- Exact diff verified: **one file, one import-line change**; no compressor logic or unrelated code changed.
-- Commit has no PR-triggered workflow run reported by GitHub at the time of this sync; CI must still be checked from the user's branch/Actions view as appropriate.
+- Exact diff: one file, one import-line change.
 - `fixedDepositCalculator.tsx` migrated from `./core/statCard` to `@/sharedUI/statCard`.
 - Commit: `e23c2a5bf26cff70d3ffd2183f5a58ade8fb7594`.
-- Exact diff verified: **one file, one import-line change**; no calculation/UI logic changed.
+- Exact diff: one file, one import-line change.
 - `recurringDepositCalculator.tsx` migrated from `./core/statCard` to `@/sharedUI/statCard`.
 - Commit: `02e9ea415239d63b4a92d8cea0c7e978d0f64bef`.
-- Exact diff verified: **one file, one import-line change**; no calculation/UI logic changed.
+- Exact diff: one file, one import-line change.
 - `compoundInterestCalculator.tsx` migrated from `./core/statCard` to `@/sharedUI/statCard`.
 - Commit: `0a51c8d6d2a3ed07df551c59c8a61b37474da860`.
-- Exact diff verified: **one file, one import-line change**; no calculation/UI logic changed.
+- Exact diff: one file, one import-line change.
+- `simpleInterestDepositsSuite.tsx` migrated from `./core/statCard` to `@/sharedUI/statCard`.
+- Commit: `1ed8ea97993513b1c2a4ad1f1676f707277ffeeb`.
+- Exact diff: one file, one import-line change.
+- `ImageConverterClient.tsx` migrated from the legacy image `StatCard` import to `@/sharedUI/statCard`.
+- Commit: `7eca3667941b26babc0798e3cf5ed9758eb2006d`.
+- Exact diff: one file, one import-line change.
 
 ### Deferred / revisit later
-- EMI calculator: do not migrate until existing `accent`/`tone` behavior is represented by the shared API using the original working implementation.
+- EMI calculator: local `StatCard` has `accent`/`tone` behavior; compare its complete implementation against shared API before migration and preserve that behavior as optional if needed.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain pending exact consumer mapping.
-- `ImageToPDFClient` currently does not import the legacy image `StatCard`; do not force a StatCard migration.
+- `ImageToPDFClient` is not a confirmed legacy `StatCard` consumer and must not be forced into this migration.
 
 ## Current result
-**Four confirmed `StatCard` consumer migrations are complete: `ImageCompressorClient`, `fixedDepositCalculator`, `recurringDepositCalculator`, and `compoundInterestCalculator`. Each consumer commit was verified as one file/one import-line change. No speculative shared-component changes were made. The master MD is synchronized after this migration checkpoint.**
+**Six confirmed `StatCard` consumer migrations are complete: `ImageCompressorClient`, `fixedDepositCalculator`, `recurringDepositCalculator`, `compoundInterestCalculator`, `simpleInterestDepositsSuite`, and `ImageConverterClient`. Each consumer commit was verified as one file/one import-line change. No speculative shared-component changes were made.**
 
-## Current next consumer
-`simpleInterestCalculator.tsx` — inspect its existing `StatCard` usage and migrate only that consumer to `@/sharedUI/statCard` if the exact existing finance behavior remains represented. Preserve all calculation/UI logic. One consumer/file commit, exact diff verification, CI, then MD sync.
+## Current next phase
+Continue the full consumer-to-shared capability matrix across all reusable families. Do not assume a local component is a consumer merely because it has a similar name. For each confirmed consumer, provide the exact file and replacement to the user, verify their one-file commit, then synchronize this MD before moving on. Revisit deferred feature-specific components only after the straightforward confirmed consumers are complete.
