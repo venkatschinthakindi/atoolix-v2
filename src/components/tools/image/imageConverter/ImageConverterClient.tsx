@@ -27,7 +27,7 @@ import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 import { FeatureBadge } from "../../../ui/featureBadge";
 import { WorkspaceCard } from "../../../ui/imageToolUI/workspaceCard";
 import { MetadataGrid } from "../../../ui/imageToolUI/metadataGrid";
-import { StatCard } from "../../../ui/imageToolUI/statCard";
+import { StatCard } from "@/sharedUI/statCard";
 import { EmptyState } from "../../../ui/imageToolUI/emptyState";
 import { ToolButton } from "../../../ui/imageToolUI/toolButton";
 import { SuccessBanner } from "../../../ui/imageToolUI/successBanner";
