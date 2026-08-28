@@ -127,15 +127,23 @@ For every consumer:
 - Commit: `bbe435d3af9428158fc7d69229b25f5610078945`.
 - Exact diff verified: **one file, one import-line change**; no compressor logic or unrelated code changed.
 - Commit has no PR-triggered workflow run reported by GitHub at the time of this sync; CI must still be checked from the user's branch/Actions view as appropriate.
+- `fixedDepositCalculator.tsx` migrated from `./core/statCard` to `@/sharedUI/statCard`.
+- Commit: `e23c2a5bf26cff70d3ffd2183f5a58ade8fb7594`.
+- Exact diff verified: **one file, one import-line change**; no calculation/UI logic changed.
+- `recurringDepositCalculator.tsx` migrated from `./core/statCard` to `@/sharedUI/statCard`.
+- Commit: `02e9ea415239d63b4a92d8cea0c7e978d0f64bef`.
+- Exact diff verified: **one file, one import-line change**; no calculation/UI logic changed.
+- `compoundInterestCalculator.tsx` migrated from `./core/statCard` to `@/sharedUI/statCard`.
+- Commit: `0a51c8d6d2a3ed07df551c59c8a61b37474da860`.
+- Exact diff verified: **one file, one import-line change**; no calculation/UI logic changed.
 
 ### Deferred / revisit later
-- Finance savings calculators using `./core/statCard`: capability-compatible with shared `StatCard` using the existing finance presentation, but migrate one consumer at a time.
 - EMI calculator: do not migrate until existing `accent`/`tone` behavior is represented by the shared API using the original working implementation.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain pending exact consumer mapping.
-- `ImageToPDFClient` currently does not import the legacy image `StatCard`; do not force a StatCard migration there.
+- `ImageToPDFClient` currently does not import the legacy image `StatCard`; do not force a StatCard migration.
 
 ## Current result
-**`ImageCompressorClient` is the first completed consumer migration. The exact one-file/one-line diff was verified. The branch is now at `bbe435d3af9428158fc7d69229b25f5610078945`. The master MD is synchronized after that migration. No speculative shared-component changes were made.**
+**Four confirmed `StatCard` consumer migrations are complete: `ImageCompressorClient`, `fixedDepositCalculator`, `recurringDepositCalculator`, and `compoundInterestCalculator`. Each consumer commit was verified as one file/one import-line change. No speculative shared-component changes were made. The master MD is synchronized after this migration checkpoint.**
 
 ## Current next consumer
-`fixedDepositCalculator.tsx` — inspect its existing `./core/statCard` usage and migrate only that consumer to `@/sharedUI/statCard` if the exact existing finance behavior remains represented. Preserve all calculation/UI logic. One consumer/file commit, exact diff verification, CI, then MD sync.
+`simpleInterestCalculator.tsx` — inspect its existing `StatCard` usage and migrate only that consumer to `@/sharedUI/statCard` if the exact existing finance behavior remains represented. Preserve all calculation/UI logic. One consumer/file commit, exact diff verification, CI, then MD sync.
