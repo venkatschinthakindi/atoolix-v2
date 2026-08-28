@@ -61,12 +61,15 @@
 - `ImageToPDFClient.tsx`
 - `percentageOf.tsx` — `bcad81f7e341ca6230b1615248057d182e8fcb57`
 - `basicPercentage.tsx` — `39dbadbf17ff4dfa775457ac41881d3a7c384645`
+- `SmartCalculator.tsx` — `7edd9e476429e9744eb00fae8ecf2a21f7a90e90`
 
 ### SectionHeader capability verification
 - The shared component accepts `icon?: ElementType | ReactNode`, so component-type and already-rendered icon values are both supported.
 - `variant="card"` is available where a consumer's original local header used the calculator card presentation.
-- `actions?: ReactNode` is the shared API for right-side action content; the legacy SmartCalculator local API uses singular `action` and therefore requires `action` → `actions` during migration.
-- Do not add `variant`, `actions`, or other props to consumers unless the original consumer actually needs that behavior.
+- `actions?: ReactNode` is the shared API for right-side action content.
+- `SmartCalculator.tsx` required the legacy singular `action` prop to be corrected to `actions`; this is now complete in consumer commit `7edd9e476429e9744eb00fae8ecf2a21f7a90e90`.
+- `icon={History}` is preserved and is valid with the shared icon resolver.
+- Do not add `accent`, `tone`, or `hint` to `SectionHeader`; those are `StatCard` capabilities.
 - Do not add decorative props merely for visual consistency.
 
 ## Audit corrections
@@ -74,17 +77,7 @@
 - `EquationSolver.tsx` local `StatCard` was not an active consumer; no migration is claimed.
 - `basicPercentage.tsx` local `ResultBox` remains feature-specific and was not migrated.
 
-## Latest SmartCalculator verification
-- Consumer commit: `77fd51e0d1e7e2b1592fa75c268ce0e48b816234`.
-- File: `src/components/tools/calculator/SmartCalculator.tsx`.
-- Local `SectionHeader` was removed and the shared import was added.
-- `variant="card"` was correctly added to the History header to preserve the original card presentation.
-- **Correction required:** the migrated History header still passes the old singular `action={...}` prop. The shared component API is `actions?: ReactNode`, so this must be changed to `actions={...}` before the consumer can be considered complete.
-- No `accent`/`tone` props are applicable to `SectionHeader`; those are `StatCard` capabilities. Do not add them here.
-- No calculation/business logic change is required.
-
 ## Remaining consumer audit
-- `src/components/tools/calculator/SmartCalculator.tsx` — **CORRECTION REQUIRED**: change the History `SectionHeader` prop from `action={...}` to `actions={...}`. The current complete-file write is not safely available through the connector, so do not overwrite the file from a truncated representation.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
 - Continue the broader `src/sharedUI/` consumer matrix audit one shared component at a time; do not infer consumers from stale code-search results.
 
@@ -99,4 +92,4 @@
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. `SectionHeader` migration in `SmartCalculator.tsx` is structurally complete but requires one API correction: `action` → `actions`. After that correction is pushed, verify CI/build and continue with `CurrencyInput` as component 3/30. `REFACTOR-SHARED-UI-STATUS.md` was synchronized after this verification.
+`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. `SectionHeader` is now complete through `SmartCalculator.tsx` at `7edd9e476429e9744eb00fae8ecf2a21f7a90e90`, including the required `action` → `actions` API correction. Continue with `CurrencyInput` as component 3/30, carrying forward the rule to preserve every demonstrated optional capability and add props only where the consumer genuinely requires them.
