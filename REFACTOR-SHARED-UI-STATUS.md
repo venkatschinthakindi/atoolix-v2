@@ -129,8 +129,14 @@
 - Complete-file replacement is the working process for consumer changes; do not provide partial patch instructions.
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
+## Status-only synchronization — 2026-08-28
+- This commit is documentation-only; no application source, shared component, business logic, route, SEO, or workflow code is changed.
+- Current branch: `refactor/shared-ui-foundation`.
+- The master status has been explicitly synchronized so the workflow does not repeat the same MD/status step.
+- `ImageConverterClient.tsx` is already recorded as a completed shared `StatCard` consumer; do not re-run that migration.
+- The next work item must be selected from the actual current branch tree after confirming shared-component equivalence, with the next eligible consumer migrated only after exact source/diff inspection.
+
 ## Next
-- CI-validated documentation checkpoint: `47ff0092df84bc8c0c01ad96ab2ddd36bdf68123`.
-- `47ff0092...` is the current CI-passed MD synchronization checkpoint.
-- No consumer change is being claimed for `ImageToPDFClient.tsx`; its remaining legacy components lack confirmed shared equivalents.
+- Treat the status-only synchronization above as complete and do not loop back to MD synchronization before the next actual repository step.
 - Next consumer must be selected from the actual current branch tree by confirmed shared-component equivalence, not from stale search results.
+- CI/build remains the validation gate; repository-wide ESLint remains intentionally deferred.
