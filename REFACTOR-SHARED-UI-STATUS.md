@@ -140,3 +140,4 @@
 - Treat the status-only synchronization above as complete and do not loop back to MD synchronization before the next actual repository step.
 - Next consumer must be selected from the actual current branch tree by confirmed shared-component equivalence, not from stale search results.
 - CI/build remains the validation gate; repository-wide ESLint remains intentionally deferred.
+- **Current sync checkpoint:** the master MD was re-written now from the current branch contents as an explicit status-only synchronization step.
