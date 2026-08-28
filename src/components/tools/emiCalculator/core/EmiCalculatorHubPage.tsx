@@ -16,7 +16,7 @@ import {
   getLoanPreset,
 } from "@/components/tools/emiCalculator/core/Engine";
 import { ROUTE_MAP } from "@/components/tools/emiCalculator/core/Config";
-
+import { StatCard } from "@/sharedUI/statCard";
 /**
  * ToolRendererClient does:
  *   mergedProps = { ...toolMeta.defaultProps, ...toolMeta }
@@ -145,39 +145,6 @@ function SliderField({
       <div className="flex justify-between text-[11px] text-white/35">
         <span>{formatValue ? formatValue(min) : min}</span>
         <span>{formatValue ? formatValue(max) : max}</span>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-  accent,
-  tone,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-  tone?: "positive" | "neutral";
-}) {
-  return (
-    <div
-      className={`rounded-2xl border p-4 py-3 ${
-        tone === "positive"
-          ? "border-emerald-400/30 bg-emerald-400/5"
-          : accent
-          ? "border-blue-400/30 bg-blue-400/5"
-          : "border-white/10 bg-white/5"
-      }`}
-    >
-      <div className="text-xs text-white/60 mb-1">{label}</div>
-      <div
-        className={`text-lg font-semibold ${
-          tone === "positive" ? "text-emerald-300" : "text-white"
-        }`}
-      >
-        {value}
       </div>
     </div>
   );
@@ -638,12 +605,14 @@ export default function EmiCalculatorHubPage({
               <div className="min-w-0">
                 <StatCard
                   label="Total Interest"
+                  accent
                   value={fmt(base.cumulativeInterest.at(-1) ?? 0)}
                 />
               </div>
 
               <div className="min-w-0">
                 <StatCard
+                  accent
                   label="Total Payment"
                   value={fmt(base.totalPayment ?? base.emi * base.monthsUsed)}
                 />
@@ -953,6 +922,7 @@ export default function EmiCalculatorHubPage({
 
                 <div className="grid gap-3 sm:grid-cols-2">
                   <StatCard
+                    accent
                     label="Total Prepayments Applied"
                     value={fmt(totalPrepaymentAmount)}
                   />
@@ -962,11 +932,13 @@ export default function EmiCalculatorHubPage({
                     accent
                   />
                   <StatCard
+                    accent
                     label="Interest Saved"
                     value={fmt(interestSaved)}
                     tone="positive"
                   />
                   <StatCard
+                    accent
                     label="Months Saved"
                     value={String(monthsSaved)}
                     tone="positive"
