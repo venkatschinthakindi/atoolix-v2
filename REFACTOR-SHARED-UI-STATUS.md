@@ -45,6 +45,28 @@
 - `7fb3bb043237623f05a3911a11e37b8207a1cd4b` — object-valued Lucide/forwardRef icon compatibility after prerender failure.
 - `3aa904c12745fb6f1489e049ed08afdc9fb728ea` — restored calculator card layout and optional right-side actions.
 
+### UnitConverter SectionHeader migration
+- Consumer commit: `66ee51e659dc9401160eb5ffc92743ed2df9d178`.
+- File: `src/components/tools/converter/UnitConverter.tsx`.
+- Replaced the local `SectionHeader` implementation with `@/sharedUI/sectionHeader`.
+- Removed the local header implementation while preserving the existing converter behavior and presentation intent.
+- The commit also contains source-formatting normalization; no converter business logic was intentionally changed.
+
+### ImageCompressor StatCard checkpoint
+- Consumer commit: `823a89a7e22d0d2213c14ca0172773d628e1cecd`.
+- File: `src/components/tools/image/imageCompressor/ImageCompressorClient.tsx`.
+- Added/confirmed the shared `@/sharedUI/statCard` import for the compressor's StatCard usage.
+- The commit also contains substantial source-formatting normalization in the same consumer; this is recorded as repository history rather than being represented as a one-line-only migration.
+- No new shared capability was introduced by this commit.
+
+### Passport photo resizer/compressor shared StatCard checkpoint
+- Consumer commit: `adbe84b6cb6ba385a6e08a70d04d37e4243f2259`.
+- File: `src/components/tools/image/passpoerPhotoResizer/passportPhotoCompressorClient.tsx`.
+- Added/confirmed the shared `@/sharedUI/statCard` import for the passport photo resizer/compressor consumer.
+- Existing resize/compression behavior remains the source of truth.
+- The commit also contains substantial source-formatting normalization; this is recorded as repository history rather than being represented as an exact one-line migration.
+- No new shared capability was introduced by this commit.
+
 ## Completed StatCard consumers
 1. `ImageCompressorClient.tsx` — `bbe435d3af9428158fc7d69229b25f5610078945`
 2. `fixedDepositCalculator.tsx` — `e23c2a5bf26cff70d3ffd2183f5a58ade8fb7594`
@@ -54,6 +76,8 @@
 6. `ImageConverterClient.tsx` — `7eca3667941b26babc0798e3cf5ed9758eb2006d`
 7. `EmiCalculatorHubPage.tsx` — `5d077253beb53c1d86d9a961217b5556438ab3b0`
 8. `retirementWealthSuite.tsx` — `e3bfbd08dc3adf00749e9489283af25ce0a4491f`
+9. `ImageCompressorClient.tsx` — shared import reconfirmed in `823a89a7e22d0d2213c14ca0172773d628e1cecd`
+10. `passportPhotoCompressorClient.tsx` — shared import added/confirmed in `adbe84b6cb6ba385a6e08a70d04d37e4243f2259`
 
 ### Retirement StatCard consumer
 - Consumer commit: `e3bfbd08dc3adf00749e9489283af25ce0a4491f`.
@@ -86,6 +110,7 @@
 - `basicPercentage.tsx` — `39dbadbf17ff4dfa775457ac41881d3a7c384645`
 - `SmartCalculator.tsx` — `7edd9e476429e9744eb00fae8ecf2a21f7a90e90`
 - `EquationSolver.tsx` — `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81`
+- `UnitConverter.tsx` — `66ee51e659dc9401160eb5ffc92743ed2df9d178`
 
 ### SectionHeader capability verification
 - The shared component accepts `icon?: ElementType | ReactNode`, so component-type and already-rendered icon values are both supported.
@@ -97,13 +122,14 @@
 - Do not add decorative props merely for visual consistency.
 
 ## Audit corrections
-- `UnitConverter.tsx` local `StatCard` was not an active consumer; no migration is claimed.
+- `UnitConverter.tsx` local `StatCard` was not an active consumer; its confirmed reusable change is the local `SectionHeader` replacement recorded in commit `66ee51e659dc9401160eb5ffc92743ed2df9d178`.
 - `EquationSolver.tsx` local `StatCard` was not an active consumer; no migration is claimed.
 - `basicPercentage.tsx` local `ResultBox` remains feature-specific and was not migrated.
 
 ## Remaining consumer audit
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
 - Continue the broader `src/sharedUI/` consumer matrix audit one shared component at a time; do not infer consumers from stale code-search results.
+- The latest branch history also confirms the passport photo resizer/compressor consumer has reached a shared `StatCard` checkpoint; further reusable-component work must start from that current source state.
 
 ## Rules
 - Preserve original working behavior; do not invent or redesign business logic.
@@ -117,7 +143,8 @@
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-- Latest authoritative checkpoint: `ab364fea62de3222ef8dbcacc54b4b1d1fffb6d3` on `refactor/shared-ui-foundation`.
-- `ab364fea...` is the documentation-only synchronization commit whose parent is the calculator/EquationSolver consumer commit `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81`.
+- Latest authoritative branch checkpoint: `adbe84b6cb6ba385a6e08a70d04d37e4243f2259` on `refactor/shared-ui-foundation`.
+- `adbe84b6...` is the latest repository commit and follows the `UnitConverter` shared `SectionHeader` checkpoint and the `ImageCompressorClient` shared `StatCard` checkpoint.
+- The MD was stale relative to these three repository commits; this synchronization records those changes.
 - Before selecting the next consumer, refresh against the current branch tree rather than stale repository search results.
 - Continue with the next verified consumer only after exact source/capability comparison, using complete-file replacement and syncing this MD immediately after the repository step.
