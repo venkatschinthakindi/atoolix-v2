@@ -7,7 +7,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import { CURRENCIES, CurrencyCode } from "./core/currencyCode";
-import { StatCard } from "./core/statCard";
+import { StatCard } from "@/sharedUI/statCard";
 import { CalculatorNavigation } from "./core/calculatorNavigation";
 import { SectionHeader } from "./core/sectionHeader";
 import { Field } from "./core/field";
