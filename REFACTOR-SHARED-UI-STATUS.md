@@ -113,11 +113,11 @@
 - Sync this MD after every repository step, including no-change/status-only steps.
 - No consumer migration may silently remove an existing capability.
 - A Git retrieval/write limitation on one consumer must not block progress on other verified consumers.
-- Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 - Complete-file replacement is the working process for consumer changes; do not provide partial patch instructions.
+- Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-- Latest authoritative checkpoint: `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81` on `refactor/shared-ui-foundation`.
-- The latest calculator/EquationSolver step has been synchronized into this master status document.
+- Latest authoritative checkpoint: `ab364fea62de3222ef8dbcacc54b4b1d1fffb6d3` on `refactor/shared-ui-foundation`.
+- `ab364fea...` is the documentation-only synchronization commit whose parent is the calculator/EquationSolver consumer commit `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81`.
 - Before selecting the next consumer, refresh against the current branch tree rather than stale repository search results.
 - Continue with the next verified consumer only after exact source/capability comparison, using complete-file replacement and syncing this MD immediately after the repository step.
