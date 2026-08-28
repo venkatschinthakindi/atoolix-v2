@@ -2,8 +2,8 @@
 
 ## Current status
 - Shared UI foundation remediation is complete through the confirmed BLOCKER/HIGH findings and validated build fixes.
-- `SectionHeader` now preserves both rendered React-node icons and component-type icons, including object-valued Lucide/forwardRef components.
-- `StatCard` now preserves the EMI local `accent` and `tone` behaviors as optional shared capabilities.
+- `SectionHeader` preserves both rendered React-node icons and component-type icons, including object-valued Lucide/forwardRef components.
+- `StatCard` preserves the EMI local `accent` and `tone` behaviors as optional shared capabilities.
 - EMI `StatCard` consumer migration is complete in `src/components/tools/emiCalculator/core/EmiCalculatorHubPage.tsx`.
 - Consumer migration continues only after exact capability comparison against the original working implementation.
 - CI/build is the validation gate; repository-wide ESLint baseline remains intentionally deferred.
@@ -26,6 +26,13 @@
 - Existing `<StatCard>` usages were preserved; no new `accent`/`tone` usage was invented.
 - CI passed.
 
+### UnitConverter audit correction
+- `UnitConverter.tsx` contained a local `StatCard` implementation that had no confirmed active consumer usage in the current source.
+- An attempted migration commit `29e16b6d21410e8b6f0f5e68b879b512ff1d6ede` was therefore corrected rather than counted as a consumer migration.
+- The local unused `StatCard` and its unused shared import were removed in the follow-up commit `f9a22305798f3e668e52b9bb8a208bf2ba645bb4`.
+- The temporary unproven converter-specific shared capability was reverted in `e490623a51ff4493c4f4acc951b7133b801f3d0b`.
+- No UnitConverter `StatCard` consumer migration is claimed.
+
 ## Completed StatCard consumers
 1. `ImageCompressorClient.tsx` — `bbe435d3af9428158fc7d69229b25f5610078945`
 2. `fixedDepositCalculator.tsx` — `e23c2a5bf26cff70d3ffd2183f5a58ade8fb7594`
@@ -47,7 +54,6 @@
 The remaining local/shared candidates must be mapped from their actual source before migration. Do not blindly replace feature-specific composites.
 
 ### Confirmed candidates requiring capability comparison
-- `src/components/tools/converter/UnitConverter.tsx` — local `StatCard` has icon component + ReactNode value semantics and its own presentation.
 - `src/components/tools/calculator/EquationSolver.tsx` — local result/stat presentation requires exact comparison.
 - `src/components/tools/calculator/percentage/basicPercentage.tsx` — local calculator result presentation requires exact comparison.
 - `src/components/tools/calculator/percentage/percentageOf.tsx` — local calculator result presentation requires exact comparison.
