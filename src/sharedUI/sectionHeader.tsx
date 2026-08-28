@@ -20,7 +20,7 @@ const containerClass = "flex items-start gap-3";
 const iconClass = "rounded-xl bg-white/5 p-2 text-blue-300";
 const titleClass = "text-base font-semibold tracking-tight text-white sm:text-lg";
 const subtitleClass = "mt-1 text-sm text-white/60";
-const cardClass = "border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4";
+const cardClass = "flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4";
 const cardIconClass = "inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85";
 const cardTitleClass = "text-base font-semibold tracking-tight text-white sm:text-md";
 const cardSubtitleClass = "mt-1 text-xs text-white/60 sm:text-sm";
@@ -37,7 +37,7 @@ export function SectionHeader({
 }: SectionHeaderProps) {
   const isCard = variant === "card";
   const rootClass = isCard ? `${cardClass} ${className}`.trim() : `${containerClass} ${className}`.trim();
-  const contentClass = isCard ? "flex items-center gap-2" : "min-w-0 flex-1";
+  const contentClass = isCard ? "min-w-0 flex-1" : "min-w-0 flex-1";
 
   return (
     <div className={rootClass}>
