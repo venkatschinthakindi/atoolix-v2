@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { ArrowRightLeft, Plus, Trash2, Sparkles } from "lucide-react";
 import { getConvertUnits } from "@/lib/convertUnitsUtility";
 import { useSearchParams } from "next/navigation";
-import { StatCard } from "@/sharedUI/statCard";
 
 type UnitOption = { abbr: string; name: string; measure?: string };
 type Theme = "light" | "dark";
