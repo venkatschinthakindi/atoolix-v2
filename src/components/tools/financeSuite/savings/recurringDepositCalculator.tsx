@@ -17,7 +17,7 @@ import {
 import { CURRENCIES, CurrencyCode } from "./core/currencyCode";
 import { CalculatorNavigation } from "./core/calculatorNavigation";
 import { SectionHeader } from "./core/sectionHeader";
-import { StatCard } from "./core/statCard";
+import { StatCard } from "@/sharedUI/statCard";
 import { Field } from "./core/field";
 import { CurrencySelector } from "./core/currencySelector";
 import { createCurrencyFormatter } from "./core/currencyFormatter";
