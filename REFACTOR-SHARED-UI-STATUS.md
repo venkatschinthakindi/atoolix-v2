@@ -62,13 +62,20 @@
 - `percentageOf.tsx` — `bcad81f7e341ca6230b1615248057d182e8fcb57`
 - `basicPercentage.tsx` — `39dbadbf17ff4dfa775457ac41881d3a7c384645`
 
+### SectionHeader capability verification
+- The shared component accepts `icon?: ElementType | ReactNode`, so component-type and already-rendered icon values are both supported.
+- `variant="card"` is available where a consumer's original local header used the calculator card presentation.
+- `actions?: ReactNode` is the shared API for right-side action content; the legacy SmartCalculator local API uses singular `action` and therefore requires `action` → `actions` during migration.
+- Do not add `variant`, `actions`, or other props to consumers unless the original consumer actually needs that behavior.
+- Do not add decorative props merely for visual consistency.
+
 ## Audit corrections
 - `UnitConverter.tsx` local `StatCard` was not an active consumer; no migration is claimed.
 - `EquationSolver.tsx` local `StatCard` was not an active consumer; no migration is claimed.
 - `basicPercentage.tsx` local `ResultBox` remains feature-specific and was not migrated.
 
 ## Remaining consumer audit
-- `src/components/tools/calculator/SmartCalculator.tsx` — **DEFERRED** because the current GitHub connector returns a truncated source representation, while the safe write operation requires the complete current file. Required migration remains: local `SectionHeader` → shared `SectionHeader`, preserving the existing right-side action (`action` → shared `actions`) and card layout. Do not overwrite until the current complete blob is available.
+- `src/components/tools/calculator/SmartCalculator.tsx` — **DEFERRED** because the current GitHub connector returns a truncated source representation, while the safe write operation requires the complete current file. Required migration remains: local `SectionHeader` → shared `SectionHeader`, preserving the existing right-side action (`action` → shared `actions`) and card layout (`variant="card"`). Do not overwrite until the current complete blob is available.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
 - Continue the broader `src/sharedUI/` consumer matrix audit one shared component at a time; do not infer consumers from stale code-search results.
 
@@ -83,4 +90,4 @@
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. Continue with the next sharedUI component in the one-component-at-a-time matrix, starting with `SectionHeader`, while keeping `SmartCalculator` explicitly deferred until a safe complete source is available.
+`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. `SectionHeader` audit is now recorded: seven consumers completed, with `SmartCalculator.tsx` explicitly deferred pending safe complete-source access. Continue with the next sharedUI component in the one-component-at-a-time matrix, carrying forward the rule to add optional props only when an existing consumer demonstrates a real requirement.
