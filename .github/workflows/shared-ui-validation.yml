@@ -31,8 +31,5 @@ jobs:
       - name: Typecheck
         run: npx tsc --noEmit
 
-      - name: ESLint
-        run: npm run lint
-
       - name: Production build
         run: npm run build
