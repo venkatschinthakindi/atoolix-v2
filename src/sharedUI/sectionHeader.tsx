@@ -36,33 +36,33 @@ export function SectionHeader({
   variant = "default",
 }: SectionHeaderProps) {
   const isCard = variant === "card";
+  const rootClass = isCard ? `${cardClass} ${className}`.trim() : `${containerClass} ${className}`.trim();
+  const contentClass = isCard ? "flex items-center gap-2" : "min-w-0 flex-1";
 
   return (
-    <div className={`${isCard ? cardClass : containerClass} ${className}`.trim()}>
-      <div className={isCard ? "flex items-center gap-2" : "contents"}>
-        {Icon ? (
-          <div className={isCard ? cardIconClass : iconClass} aria-hidden="true">
-            {isValidElement(Icon)
-              ? Icon
-              : typeof Icon === "function" ||
-                  (typeof Icon === "object" && Icon !== null)
-                ? createElement(Icon as ElementType, {
-                    className: isCard ? "h-4 w-4" : "h-5 w-5",
-                  })
-                : Icon}
-          </div>
-        ) : null}
-
-        <div className={isCard ? "" : "min-w-0 flex-1"}>
-          <Title className={isCard ? cardTitleClass : titleClass}>{title}</Title>
-          {subtitle ? (
-            <div className={isCard ? cardSubtitleClass : subtitleClass}>{subtitle}</div>
-          ) : null}
-          {children}
+    <div className={rootClass}>
+      {Icon ? (
+        <div className={isCard ? cardIconClass : iconClass} aria-hidden="true">
+          {isValidElement(Icon)
+            ? Icon
+            : typeof Icon === "function" ||
+                (typeof Icon === "object" && Icon !== null)
+              ? createElement(Icon as ElementType, {
+                  className: isCard ? "h-4 w-4" : "h-5 w-5",
+                })
+              : Icon}
         </div>
+      ) : null}
 
-        {actions ? <div className="shrink-0">{actions}</div> : null}
+      <div className={contentClass}>
+        <Title className={isCard ? cardTitleClass : titleClass}>{title}</Title>
+        {subtitle ? (
+          <div className={isCard ? cardSubtitleClass : subtitleClass}>{subtitle}</div>
+        ) : null}
+        {children}
       </div>
+
+      {actions ? <div className="shrink-0">{actions}</div> : null}
     </div>
   );
 }
