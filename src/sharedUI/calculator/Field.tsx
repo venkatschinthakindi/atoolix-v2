@@ -1,3 +1,5 @@
+"use client";
+
 import { useId, type InputHTMLAttributes, type ReactNode } from "react";
 
 export interface FieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "title"> {
