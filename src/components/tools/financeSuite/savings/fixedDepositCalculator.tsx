@@ -18,6 +18,9 @@ import { StatCard } from "@/sharedUI/statCard";
 import { CalculatorNavigation } from "./core/calculatorNavigation";
 import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { Field } from "./core/field";
+import { CurrencyInput } from "@/sharedUI/calculator/CurrencyInput";
+import { NumberInput } from "@/sharedUI/calculator/NumberInput";
+import { DurationInput } from "@/sharedUI/calculator/DurationInput";
 import { CurrencySelector } from "./core/currencySelector";
 import { createCurrencyFormatter } from "./core/currencyFormatter";
 
@@ -92,9 +95,6 @@ function computeFD({
     frequency,
   });
 }
-
-const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
 
 function QuickStartStrip() {
   const steps = [
@@ -483,85 +483,51 @@ export default function FixedDepositCalculator() {
           <div className="grid gap-5 sm:grid-cols-2">
 
             <div>
-              <Field
+              <CurrencyInput
                 label={`Deposit amount (${currencyMeta.symbol})`}
-              >
-                <input
-                  type="number"
-                  min={0}
-                  step="1"
-                  inputMode="decimal"
-                  value={fdAmount}
-                  onChange={(e) =>
-                    setFdAmount(
-                      Math.max(
-                        0,
-                        Number(e.target.value)
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                The one-time amount you deposit today.
-              </div>
+                value={fdAmount}
+                onChange={(value) =>
+                  setFdAmount(Math.max(0, value ?? 0))
+                }
+                currency={currencyMeta.symbol}
+                min={0}
+                step={1}
+                hint="The one-time amount you deposit today."
+              />
             </div>
 
             <div>
-              <Field label="Interest rate (%)">
-                <input
-                  type="number"
-                  min={0}
-                  step="0.01"
-                  inputMode="decimal"
-                  value={fdRate}
-                  onChange={(e) =>
-                    setFdRate(
-                      Math.max(
-                        0,
-                        Number(e.target.value)
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                Annual FD rate.
-              </div>
+              <NumberInput
+                label="Interest rate (%)"
+                value={fdRate}
+                onChange={(value) =>
+                  setFdRate(Math.max(0, value ?? 0))
+                }
+                min={0}
+                step={0.01}
+                hint="Annual FD rate."
+              />
             </div>
 
             <div>
-              <Field
+              <DurationInput
                 label="Duration (years)"
-                hint={`Max ${MAX_YEARS}`}
-              >
-                <input
-                  type="number"
-                  min={0}
-                  max={MAX_YEARS}
-                  step="1"
-                  inputMode="decimal"
-                  value={fdYears}
-                  onChange={(e) =>
-                    setFdYears(
-                      clamp(
-                        Number(e.target.value),
-                        0,
-                        MAX_YEARS
-                      )
+                value={fdYears}
+                onChange={(value) =>
+                  setFdYears(
+                    clamp(
+                      value ?? 0,
+                      0,
+                      MAX_YEARS
                     )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                How long the deposit stays invested.
-              </div>
+                  )
+                }
+                unit="years"
+                min={0}
+                max={MAX_YEARS}
+                step={1}
+                hint={`Max ${MAX_YEARS}. How long the deposit stays invested.`}
+              />
             </div>
 
             <div>
