@@ -74,8 +74,17 @@
 - `EquationSolver.tsx` local `StatCard` was not an active consumer; no migration is claimed.
 - `basicPercentage.tsx` local `ResultBox` remains feature-specific and was not migrated.
 
+## Latest SmartCalculator verification
+- Consumer commit: `77fd51e0d1e7e2b1592fa75c268ce0e48b816234`.
+- File: `src/components/tools/calculator/SmartCalculator.tsx`.
+- Local `SectionHeader` was removed and the shared import was added.
+- `variant="card"` was correctly added to the History header to preserve the original card presentation.
+- **Correction required:** the migrated History header still passes the old singular `action={...}` prop. The shared component API is `actions?: ReactNode`, so this must be changed to `actions={...}` before the consumer can be considered complete.
+- No `accent`/`tone` props are applicable to `SectionHeader`; those are `StatCard` capabilities. Do not add them here.
+- No calculation/business logic change is required.
+
 ## Remaining consumer audit
-- `src/components/tools/calculator/SmartCalculator.tsx` — **DEFERRED** because the current GitHub connector returns a truncated source representation, while the safe write operation requires the complete current file. Required migration remains: local `SectionHeader` → shared `SectionHeader`, preserving the existing right-side action (`action` → shared `actions`) and card layout (`variant="card"`). Do not overwrite until the current complete blob is available.
+- `src/components/tools/calculator/SmartCalculator.tsx` — **CORRECTION REQUIRED**: change the History `SectionHeader` prop from `action={...}` to `actions={...}`. The current complete-file write is not safely available through the connector, so do not overwrite the file from a truncated representation.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
 - Continue the broader `src/sharedUI/` consumer matrix audit one shared component at a time; do not infer consumers from stale code-search results.
 
@@ -90,4 +99,4 @@
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. `SectionHeader` audit is now recorded: seven consumers completed, with `SmartCalculator.tsx` explicitly deferred pending safe complete-source access. Continue with the next sharedUI component in the one-component-at-a-time matrix, carrying forward the rule to add optional props only when an existing consumer demonstrates a real requirement.
+`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. `SectionHeader` migration in `SmartCalculator.tsx` is structurally complete but requires one API correction: `action` → `actions`. After that correction is pushed, verify CI/build and continue with `CurrencyInput` as component 3/30. `REFACTOR-SHARED-UI-STATUS.md` was synchronized after this verification.
