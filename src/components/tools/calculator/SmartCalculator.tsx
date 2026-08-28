@@ -681,7 +681,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
               title="History"
               subtitle="Reuse, copy, or delete any past calculation."
               variant="card"
-              action={
+              actions={
                 history.length > 0 ? (
                   <KeyButton onClick={clearHistory} className="px-3 py-2 text-xs" aria-label="Clear history">
                     <Trash2 className="mr-1.5 h-3.5 w-3.5" />
