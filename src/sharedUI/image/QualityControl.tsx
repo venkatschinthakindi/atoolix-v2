@@ -1,3 +1,5 @@
+"use client";
+
 import { useId, type ChangeEvent, type ReactNode } from "react";
 
 export interface QualityControlProps {
