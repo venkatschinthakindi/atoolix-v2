@@ -1,4 +1,9 @@
-import { createElement, isValidElement, type ElementType, type ReactNode } from "react";
+import {
+  createElement,
+  isValidElement,
+  type ElementType,
+  type ReactNode,
+} from "react";
 
 export interface SectionHeaderProps {
   title: string;
@@ -30,8 +35,9 @@ export function SectionHeader({
         <div className={iconClass} aria-hidden="true">
           {isValidElement(Icon)
             ? Icon
-            : typeof Icon === "function"
-              ? createElement(Icon, { className: "h-5 w-5" })
+            : typeof Icon === "function" ||
+                (typeof Icon === "object" && Icon !== null)
+              ? createElement(Icon as ElementType, { className: "h-5 w-5" })
               : Icon}
         </div>
       ) : null}
