@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { ArrowRightLeft, Plus, Trash2, Sparkles } from "lucide-react";
 import { getConvertUnits } from "@/lib/convertUnitsUtility";
 import { useSearchParams } from "next/navigation";
+import { StatCard } from "@/sharedUI/statCard";
 
 type UnitOption = { abbr: string; name: string; measure?: string };
 type Theme = "light" | "dark";
@@ -60,30 +61,6 @@ function SectionHeader({
         <div>
           <h2 className="text-base font-semibold tracking-tight text-white">{title}</h2>
           <p className="mt-1 text-xs text-white/60 sm:text-sm">{subtitle}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3 backdrop-blur-sm">
-      <div className="flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center text-blue-200">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">{label}</p>
-          <p className="truncate text-sm font-semibold text-white">{value}</p>
         </div>
       </div>
     </div>
