@@ -2,7 +2,8 @@
 
 ## Current status
 - Shared UI foundation remediation is complete through the confirmed BLOCKER/HIGH findings and validated build fixes.
-- `SectionHeader` preserves both rendered React-node icons and component-type icons, including object-valued Lucide/forwardRef components.
+- `SectionHeader` preserves rendered React-node icons and component-type icons, including object-valued Lucide/forwardRef components.
+- `SectionHeader` now also has an optional `variant="card"` capability derived from the existing calculator consumer presentation; default behavior remains unchanged.
 - `StatCard` preserves the EMI local `accent` and `tone` behaviors as optional shared capabilities.
 - EMI `StatCard` consumer migration is complete in `src/components/tools/emiCalculator/core/EmiCalculatorHubPage.tsx`.
 - Consumer migration continues only after exact capability comparison against the original working implementation.
@@ -13,6 +14,9 @@
 - Shared compatibility fix: `7fb3bb043237623f05a3911a11e37b8207a1cd4b`.
 - Exact changed file: `src/sharedUI/sectionHeader.tsx`.
 - Production prerender failure was caused by attempting to render object-valued component types as React children; fixed with `createElement` handling.
+- Card-variant capability commits: `dbc39991b8928fdb1c1ef0d14f8eb1681fc6ece0`, `2dbaa4af9f50ed53fd2a59827195878ec919cde4`, and `e27a6642f42745c6ee4875595380864076c12b4f`.
+- Final `e27a664...` state restores the original default structure while adding the optional card presentation variant.
+- No calculator consumer has been migrated to the new variant yet.
 
 ### StatCard capability
 - Shared capability commit: `0a0a04f0282458760060bbdbd75cbd03c48ec1c7`.
@@ -28,9 +32,7 @@
 
 ### UnitConverter audit correction
 - `UnitConverter.tsx` contained a local `StatCard` implementation that had no confirmed active consumer usage in the current source.
-- An attempted migration commit `29e16b6d21410e8b6f0f5e68b879b512ff1d6ede` was therefore corrected rather than counted as a consumer migration.
-- The local unused `StatCard` and its unused shared import were removed in the follow-up commit `f9a22305798f3e668e52b9bb8a208bf2ba645bb4`.
-- The temporary unproven converter-specific shared capability was reverted in `e490623a51ff4493c4f4acc951b7133b801f3d0b`.
+- An attempted migration was corrected rather than counted as a consumer migration.
 - No UnitConverter `StatCard` consumer migration is claimed.
 
 ## Completed StatCard consumers
@@ -54,10 +56,10 @@
 The remaining local/shared candidates must be mapped from their actual source before migration. Do not blindly replace feature-specific composites.
 
 ### Confirmed candidates requiring capability comparison
-- `src/components/tools/calculator/EquationSolver.tsx` — local result/stat presentation requires exact comparison.
-- `src/components/tools/calculator/percentage/basicPercentage.tsx` — local calculator result presentation requires exact comparison.
-- `src/components/tools/calculator/percentage/percentageOf.tsx` — local calculator result presentation requires exact comparison.
-- `src/components/tools/calculator/SmartCalculator.tsx` — local calculator result presentation requires exact comparison.
+- `src/components/tools/calculator/EquationSolver.tsx` — contains local `SectionHeader` and an unused local `StatCard`; the `StatCard` is not an active consumer and must not be counted as a migration.
+- `src/components/tools/calculator/percentage/basicPercentage.tsx` — contains local `SectionHeader`; its result UI is a feature-specific `ResultBox`, not a `StatCard` consumer.
+- `src/components/tools/calculator/percentage/percentageOf.tsx` — contains local `SectionHeader`; result UI must be compared before any migration.
+- `src/components/tools/calculator/SmartCalculator.tsx` — local calculator presentation requires exact comparison.
 - `src/components/tools/financeSuite/retirement/retirementWealthSuite.tsx` — local calculator presentation requires exact comparison.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
 
@@ -70,4 +72,4 @@ The remaining local/shared candidates must be mapped from their actual source be
 - No consumer migration may silently remove an existing capability.
 
 ## Next
-Proceed with the next confirmed local `StatCard` consumer only after comparing its exact API/behavior with `src/sharedUI/statCard.tsx`. If a capability is missing, patch the shared component first, validate CI/build, sync this MD, then migrate the consumer.
+Migrate the next actual active consumer of a shared family, not merely an unused local component. For calculator `SectionHeader` consumers, use the new optional `variant="card"` only where it reproduces the existing working presentation. Continue one consumer per commit, validate CI/build, then sync this MD.
