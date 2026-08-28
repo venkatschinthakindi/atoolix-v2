@@ -60,7 +60,7 @@
 22. `FileList`: removed index from React key generation and added optional `getFileKey` for caller-provided stable identity; deterministic file metadata is the fallback.
 23. `PercentageInput`: added configurable `suffix`, default `%`, so the primitive can support alternate presentation without consumer duplication.
 24. `DurationInput`: added `formatUnit` for localized/custom unit presentation while retaining typed `DurationUnit`.
-25. `SectionHeader`: preserved both component-type icons and already-rendered React-node icons without changing consumer presentation semantics.
+25. `SectionHeader`: preserves both component-type icons and already-rendered React-node icons. Follow-up commit `7fb3bb043237623f05a3911a11e37b8207a1cd4b` corrected object-valued component handling for Lucide/forwardRef-style icons after a production prerender failure.
 
 ## Consumer-to-shared capability matrix audit
 The matrix compares implemented shared families with legacy/local UI implementations. Existing working behavior is the source of truth; a local component without a proven shared counterpart is not forced into an unrelated primitive.
@@ -69,8 +69,8 @@ The matrix compares implemented shared families with legacy/local UI implementat
 |---|---|---|---|
 | Image `statCard` | `sharedUI/StatCard` | Covered: label, value, icon; shared also has optional hint/variant/title/truncation | Completed for confirmed consumers |
 | Image `emptyState` | `sharedUI/EmptyState` | Covered as generic empty state; heading level optional | Ready for verified consumer mapping |
-| Image `sectionHeader` | `sharedUI/SectionHeader` | Shared now accepts both `ElementType` and rendered `ReactNode` icons | SectionHeader migration underway |
-| Finance savings `sectionHeader` | `sharedUI/SectionHeader` | Component-type icon usage is compatible with shared API | SectionHeader migration underway |
+| Image `sectionHeader` | `sharedUI/SectionHeader` | Shared accepts both `ElementType` and rendered `ReactNode` icons; object-valued component types are handled through `createElement` | Migrated confirmed consumers; build fix applied |
+| Finance savings `sectionHeader` | `sharedUI/SectionHeader` | Component-type icon usage is compatible with shared API | Migrated confirmed consumers |
 | Image `successBanner` | `sharedUI/SuccessMessage` | Not proven one-to-one; legacy title/subtitle/icon/visual structure must be preserved | Deferred |
 | Image `metadataCard` | `sharedUI/FileMetadata` | Contracts differ; exact consumer usage must be compared | Deferred |
 | Image `metadataGrid` | no direct shared equivalent verified | Layout wrapper without proven shared behavior | Leave unchanged |
@@ -93,15 +93,16 @@ The matrix compares implemented shared families with legacy/local UI implementat
 ## Final source-level audit
 - Shared image controls have unique generated IDs and explicit client boundaries where hooks are used.
 - Calculator primitives have the required client boundary and typed contracts.
-- `SectionHeader` preserves both existing icon input styles.
+- `SectionHeader` preserves both existing icon input styles and object-valued component types.
 - Tool primitives remain server-safe or explicitly client-safe according to their APIs.
 - File/PDF primitives retain documented API and accessibility corrections.
 - Existing consumer behavior remains the source of truth for reusable APIs.
 
 ## Validation
 - CI workflow intentionally skips the known repository-wide ESLint baseline so TypeScript/build failures remain visible.
-- Latest user-reported CI result before the SectionHeader change: TypeScript/typecheck and production build succeeded with lint skipped.
-- The SectionHeader compatibility change must be validated by the next CI run before being considered fully validated.
+- The user reported a production-build prerender failure on `/tools/calculator/simple-interest-calculator` after the initial SectionHeader compatibility change: `Objects are not valid as a React child`.
+- Commit `7fb3bb043237623f05a3911a11e37b8207a1cd4b` patched object-valued SectionHeader icon handling. The commit changes exactly one file: `src/sharedUI/sectionHeader.tsx`. fileciteturn256file0
+- A fresh CI/build result after `7fb3bb...` is still required before declaring this blocker fully validated.
 - ESLint remains deferred and is not a Phase 1 migration blocker.
 
 ## Consumer migration protocol
@@ -138,7 +139,7 @@ For every consumer:
 - Commit: `7eca3667941b26babc0798e3cf5ed9758eb2006d`.
 - Exact diff: one file, one import-line change.
 
-### Completed in latest SectionHeader commit — grouped commit, not one-file discipline
+### Completed in grouped SectionHeader migration commit
 - `compoundInterestCalculator.tsx` → `@/sharedUI/sectionHeader`.
 - `fixedDepositCalculator.tsx` → `@/sharedUI/sectionHeader`.
 - `recurringDepositCalculator.tsx` → `@/sharedUI/sectionHeader`.
@@ -146,7 +147,12 @@ For every consumer:
 - `ImageToPDFClient.tsx` → `@/sharedUI/sectionHeader`.
 - Shared `src/sharedUI/sectionHeader.tsx` updated to preserve rendered-node and component-type icons.
 - Commit: `558d7d373a0466c7c0271777864b5c5c50da994a`.
-- This commit intentionally contains six changed files and therefore is **not** an example of the one-file consumer discipline. It is recorded as-is rather than misreported.
+- This commit contains six changed files and therefore is explicitly recorded as a grouped commit rather than one-file consumer discipline.
+
+### Shared compatibility fix
+- `src/sharedUI/sectionHeader.tsx` updated to handle object-valued component types used by Lucide/forwardRef icons.
+- Commit: `7fb3bb043237623f05a3911a11e37b8207a1cd4b`.
+- Exact diff: one file, shared component only. fileciteturn256file0
 
 ### Deferred / revisit later
 - EMI calculator: local `StatCard` has `accent`/`tone` behavior; compare its complete implementation against shared API before migration and preserve that behavior as optional if needed.
@@ -154,7 +160,7 @@ For every consumer:
 - Any local calculator `StatCard` implementation remains feature-specific until complete capability comparison proves a safe shared mapping.
 
 ## Current result
-**Six confirmed `StatCard` consumer migrations were completed with one-file/one-import commits. The latest `SectionHeader` commit also migrated five consumers and updated the shared API, but was grouped into one six-file commit; this deviation is explicitly recorded.**
+**Six confirmed `StatCard` consumer migrations were completed with one-file/one-import commits. Five SectionHeader consumers were migrated in grouped commit `558d7d...`, followed by a one-file shared compatibility fix `7fb3bb...` after the reported production prerender failure. The latest SectionHeader fix still requires fresh CI/build confirmation.**
 
 ## Current next phase
-Validate the latest `SectionHeader` compatibility/build result, then continue the full consumer-to-shared capability matrix. For every remaining consumer, provide the exact file, exact existing code, exact replacement, and commit message. Do not force local feature-specific implementations into shared components until their complete working behavior has been mapped.
+Run CI/build against `7fb3bb043237623f05a3911a11e37b8207a1cd4b`. If clean, continue the full consumer-to-shared capability matrix. For every remaining consumer, provide the exact file, exact existing code, exact replacement, and commit message. Do not force local feature-specific implementations into shared components until their complete working behavior has been mapped.
