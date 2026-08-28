@@ -29,7 +29,7 @@ import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 import { ToolHero } from "@/components/ui/toolhero";
 import { WorkspaceCard } from "@/components/ui/imageToolUI/workspaceCard";
 import { MetadataGrid } from "@/components/ui/imageToolUI/metadataGrid";
-import { StatCard } from "@/components/ui/imageToolUI/statCard";
+import { StatCard } from "@/sharedUI/statCard";
 import { SectionHeader } from "@/components/ui/imageToolUI/sectionHeader";
 import { ToolButton } from "@/components/ui/imageToolUI/toolButton";
 import { EmptyState } from "@/components/ui/imageToolUI/emptyState";
