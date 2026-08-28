@@ -120,8 +120,22 @@ For every consumer:
 8. Sync this MD immediately, including when there is no code change.
 9. Proceed to the next consumer only after validation is clean.
 
+## Consumer migration log
+
+### Completed
+- `ImageCompressorClient.tsx` migrated from the legacy image `StatCard` import to `@/sharedUI/statCard`.
+- Commit: `bbe435d3af9428158fc7d69229b25f5610078945`.
+- Exact diff verified: **one file, one import-line change**; no compressor logic or unrelated code changed.
+- Commit has no PR-triggered workflow run reported by GitHub at the time of this sync; CI must still be checked from the user's branch/Actions view as appropriate.
+
+### Deferred / revisit later
+- Finance savings calculators using `./core/statCard`: capability-compatible with shared `StatCard` using the existing finance presentation, but migrate one consumer at a time.
+- EMI calculator: do not migrate until existing `accent`/`tone` behavior is represented by the shared API using the original working implementation.
+- Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain pending exact consumer mapping.
+- `ImageToPDFClient` currently does not import the legacy image `StatCard`; do not force a StatCard migration there.
+
 ## Current result
-**Capability matrix audit completed and synchronized. No shared component was changed speculatively. Existing working behavior remains the source of truth. Directly covered components are migration-ready; feature-specific composites remain pending exact consumer mapping. CI typecheck/build has passed with ESLint intentionally skipped.**
+**`ImageCompressorClient` is the first completed consumer migration. The exact one-file/one-line diff was verified. The branch is now at `bbe435d3af9428158fc7d69229b25f5610078945`. The master MD is synchronized after that migration. No speculative shared-component changes were made.**
 
 ## Current next consumer
-`ImageCompressorClient` — migrate its existing local `StatCard` to `@/sharedUI/statCard` only after confirming every existing `StatCard` behavior is represented by the shared API. No compression logic or unrelated code changes are permitted.
+`fixedDepositCalculator.tsx` — inspect its existing `./core/statCard` usage and migrate only that consumer to `@/sharedUI/statCard` if the exact existing finance behavior remains represented. Preserve all calculation/UI logic. One consumer/file commit, exact diff verification, CI, then MD sync.
