@@ -4,10 +4,11 @@
 - Branch: `refactor/shared-ui-foundation`
 - Base: `main` at `77453723cefda4768084541ba246629bb1daab1c`.
 - `main` remains untouched until manual merge by the user.
-- Phase 1 is foundation-only: reusable components are created and validated; no consumer migrations are permitted yet.
+- Phase 1 foundation work is complete; consumer migration now proceeds one consumer at a time.
 
 ## Requirements
 - Basic + optional advanced capabilities.
+- Preserve all previously working consumer behavior; no invented/reworked business logic.
 - Shared reusable Tailwind styling; avoid consumer-specific duplication.
 - Responsive mobile/tablet/desktop behavior.
 - Accessible, semantic HTML.
@@ -15,6 +16,7 @@
 - SEO-friendly semantic rendering.
 - Business/domain logic stays outside sharedUI.
 - Components remain independently importable.
+- Before migration, compare the complete existing consumer/local implementation against the shared component and expose existing feature-specific behavior as optional shared capabilities.
 - Sync this status after every step, including no-change audits.
 
 ## Foundation families implemented
@@ -24,12 +26,6 @@
 - `image`: `ImagePreview`, `ImageSettings`, `QualityControl`, `DimensionsControl`, `FormatSelector`.
 - `pdf`: `PdfFileList`, `PdfPageSelector`, `PdfPreview`.
 - `feedback`: `ErrorMessage`, `SuccessMessage`, `PrivacyNotice`, `LoadingState`.
-
-## Phase 1 status
-**Foundation remediation complete at source level; final executable validation is still required. NOT READY FOR CONSUMER MIGRATION.**
-
-### Consumer migration constraint
-No existing tool/component consumer has been migrated or modified during foundation creation or remediation.
 
 ## Resolved findings
 
@@ -66,31 +62,32 @@ No existing tool/component consumer has been migrated or modified during foundat
 24. `DurationInput`: added `formatUnit` for localized/custom unit presentation while retaining typed `DurationUnit`.
 
 ## Final source-level audit
-- Rechecked shared image controls: `DimensionsControl` and `QualityControl` now have both unique generated IDs and explicit client boundaries.
-- Rechecked calculator primitives: `Field` now has the required client boundary; `NumberInput`, `CurrencyInput`, `DurationInput`, and `PercentageInput` delegate to the corrected `Field`/`NumberInput` contracts without introducing additional client-only APIs.
-- Rechecked tool primitives: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, and `EmptyState` remain server-safe or explicitly client-safe according to their actual APIs; no additional source-level BLOCKER/HIGH was identified.
-- Rechecked file/PDF primitives: the documented `FileDropzone`, `FileItem`, `FileList`, and `PdfFileList` API/accessibility corrections are present; no additional source-level BLOCKER/HIGH was identified.
-- Consumer inspection has not identified a remaining confirmed foundation BLOCKER/HIGH that warrants a speculative consumer change.
-- No consumer migration has been performed.
+- Shared image controls have unique generated IDs and explicit client boundaries where hooks are used.
+- Calculator primitives have the required client boundary and typed contracts.
+- Tool primitives remain server-safe or explicitly client-safe according to their actual APIs.
+- File/PDF primitives retain the documented API and accessibility corrections.
+- Existing consumer behavior is the source of truth for reusable APIs; shared components must not drop existing working features during migration.
 
-## Dependency review
-- Foundation primitives do not intentionally introduce heavy feature dependencies.
-- `lucide-react` remains used by icon-based shared primitives; it was not removed because the actual import graph must be validated before changing the dependency strategy.
+## Validation
+- CI workflow was intentionally changed to skip the known repository-wide ESLint baseline and expose TypeScript/build failures.
+- User-reported latest CI result: **TypeScript/typecheck and production build succeeded** with lint skipped.
+- No build failure is currently blocking Phase 1.
+- ESLint remains explicitly deferred and is not treated as a Phase 1 migration blocker.
 
-## Validation limitations / remaining gate
-- Source-level audit and remediation are complete through GitHub.
-- The current GitHub execution path does not provide local `npm run lint`, TypeScript compiler, or production build execution.
-- The latest commit has no reported GitHub commit statuses, so this is **not** evidence of a passing build.
-- Therefore Phase 1 cannot yet be declared fully validated or migration-ready.
-
-## Guardrails
-- No consumer migration in Phase 1.
-- No `main` changes.
-- One controlled remediation batch at a time.
-- Sync this status after every step, including no-change audits.
+## Consumer migration protocol
+For every consumer:
+1. Inspect the complete existing local/consumer implementation.
+2. Map every currently used prop and behavior to the shared component.
+3. If an existing behavior is missing, add it to the shared component as an optional capability using the existing working logic.
+4. Do not invent or redesign behavior.
+5. Migrate one consumer only.
+6. Verify the exact diff is limited to the intended migration/change.
+7. Run CI/typecheck/build.
+8. Sync this MD immediately, including when there is no code change.
+9. Proceed to the next consumer only after validation is clean.
 
 ## Current result
-**All previously documented source-level BLOCKER, HIGH, MEDIUM, and deferred TYPE/API findings have been addressed. The additional React client-boundary defects discovered during final verification are also fixed. Consumer migration remains blocked pending executable TypeScript/lint/build validation.**
+**Foundation remediation is complete and CI typecheck/build has passed with ESLint intentionally skipped. Consumer migration is now authorized, subject to the capability-preservation protocol above.**
 
-## Next action
-Execute the available CI/typecheck/lint/build validation gate. If executable validation passes, perform the final consumer-readiness check and then begin the first consumer migration. If validation fails, fix only the verified failure and resync this MD before continuing.
+## Current next consumer
+`ImageCompressorClient` — migrate its existing local `StatCard` to `@/sharedUI/statCard` only after confirming every existing `StatCard` behavior is represented by the shared API. No compression logic or unrelated code changes are permitted.
