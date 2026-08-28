@@ -9,11 +9,19 @@
 - CI/build is the validation gate; repository-wide ESLint baseline remains intentionally deferred.
 
 ## Latest completed work
+### Basic percentage calculator SectionHeader
+- Consumer commit: `39dbadbf17ff4dfa775457ac41881d3a7c384645`.
+- File: `src/components/tools/calculator/percentage/basicPercentage.tsx`.
+- Removed the local `SectionHeader` implementation and imported `@/sharedUI/sectionHeader`.
+- Added `variant="card"` to the existing SectionHeader usage to preserve the original presentation.
+- No calculation/business logic was changed.
+- Exact consumer commit changed one file. fileciteturn307file0
+
 ### Percentage calculator SectionHeader
 - Consumer commit: `bcad81f7e341ca6230b1615248057d182e8fcb57`.
 - File: `src/components/tools/calculator/percentage/percentageOf.tsx`.
 - Removed the local `SectionHeader` implementation and imported `@/sharedUI/sectionHeader`.
-- Added `variant="card"` to both existing SectionHeader usages so the original card presentation is preserved.
+- Added `variant="card"` to both existing SectionHeader usages.
 - No calculation/business logic was changed.
 - Exact consumer commit changed one file.
 
@@ -46,19 +54,20 @@
 - `simpleInterestDepositsSuite.tsx`
 - `ImageToPDFClient.tsx`
 - `percentageOf.tsx`
+- `basicPercentage.tsx` — `39dbadbf17ff4dfa775457ac41881d3a7c384645`
 - Grouped commit for first five: `558d7d373a0466c7c0271777864b5c5c50da994a`.
 - Percentage consumer commit: `bcad81f7e341ca6230b1615248057d182e8fcb57`.
 
 ## Audit corrections
 - `UnitConverter.tsx` local `StatCard` was not an active consumer; no migration is claimed.
 - `EquationSolver.tsx` local `StatCard` was not an active consumer; no migration is claimed.
-- `basicPercentage.tsx` uses feature-specific `ResultBox`; no StatCard migration is claimed.
+- `basicPercentage.tsx` local `ResultBox` remains feature-specific and was not migrated.
 
 ## Remaining consumer audit
-- `src/components/tools/calculator/percentage/basicPercentage.tsx` — local SectionHeader remains; compare exact active usage against shared `SectionHeader` before migration.
 - `src/components/tools/calculator/SmartCalculator.tsx` — local calculator presentation requires exact comparison.
 - `src/components/tools/financeSuite/retirement/retirementWealthSuite.tsx` — local calculator presentation requires exact comparison.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
+- Any additional local implementations discovered during source audit must be verified as active consumers before migration is claimed.
 
 ## Rules
 - Preserve original working behavior; do not invent or redesign business logic.
@@ -69,4 +78,4 @@
 - No consumer migration may silently remove an existing capability.
 
 ## Next
-Proceed with the next actual active consumer. Prefer direct patching when the complete current source is available; never overwrite a file from truncated content. Verify the consumer diff, run CI/build, and synchronize this MD before moving on.
+Run CI/build for consumer commit `39dbadbf17ff4dfa775457ac41881d3a7c384645`. If clean, continue with the next actual active consumer, using complete source comparison and direct patching where safe. Verify the consumer diff, then synchronize this MD before moving on.
