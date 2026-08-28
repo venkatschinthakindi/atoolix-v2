@@ -14,6 +14,7 @@ import {
   Trash2,
   CornerDownLeft,
 } from "lucide-react";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
 
 type SmartCalculatorProps = {
   initialExpression: string | undefined;
@@ -45,33 +46,6 @@ function ShellCard({
     >
       {children}
     </section>
-  );
-}
-
-function SectionHeader({
-  icon: Icon,
-  title,
-  subtitle,
-  action,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  subtitle: string;
-  action?: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-      <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div>
-          <h2 className="text-base font-semibold tracking-tight text-white sm:text-md">{title}</h2>
-          <p className="mt-1 text-xs text-white/60 sm:text-sm">{subtitle}</p>
-        </div>
-      </div>
-      {action}
-    </div>
   );
 }
 
@@ -706,6 +680,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
               icon={History}
               title="History"
               subtitle="Reuse, copy, or delete any past calculation."
+              variant="card"
               action={
                 history.length > 0 ? (
                   <KeyButton onClick={clearHistory} className="px-3 py-2 text-xs" aria-label="Clear history">
