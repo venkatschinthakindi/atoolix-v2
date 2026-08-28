@@ -27,7 +27,7 @@ import CustomSelect from "@/components/ui/customSelect";
 // so reusing it here (not re-inventing markup) is what actually keeps the
 // two tools visually identical.
 import { ToolHero } from "@/components/ui/toolhero";
-import { SectionHeader } from "@/components/ui/imageToolUI/sectionHeader";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { ToolButton } from "@/components/ui/imageToolUI/toolButton";
 import { SuccessBanner } from "@/components/ui/imageToolUI/successBanner";
 import { ToolProgress } from "@/components/ui/imageToolUI/toolProgress";
