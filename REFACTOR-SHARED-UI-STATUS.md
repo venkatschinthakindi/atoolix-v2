@@ -36,31 +36,42 @@ No existing tool/component consumer has been migrated or modified during foundat
 ### BLOCKER — build/client boundary
 1. `ExplainerPanel`: added explicit `"use client"` boundary and replaced `any` explainer data with typed content.
 2. `FilterToolHubPage`: replaced ambient `String.prototype.toPascalCase()` usage with a local typed helper and removed unused handling.
+3. `Field`: added explicit `"use client"` boundary because the shared primitive uses React `useId()`.
+4. `QualityControl`: added explicit `"use client"` boundary because the shared primitive uses React `useId()`.
+5. `DimensionsControl`: added explicit `"use client"` boundary because the shared primitive uses React `useId()`.
 
 ### HIGH — API/accessibility correctness
-3. `FileDropzone`: removed unused `files` prop and unused input ref.
-4. `FileItem`: removed unused `index`/`reorderable` API and inert selection button behavior.
-5. `Field`: replaced label-derived IDs with React `useId()`, while preserving explicit ID override and description/error relationships.
-6. `QualityControl`: replaced hard-coded ID with `useId()` and optional explicit ID.
-7. `DimensionsControl`: replaced hard-coded width/height IDs with `useId()` and optional explicit base ID.
-8. `PdfFileList`: corrected disabled/focus/selection semantics and propagated disabled state to controls.
-9. `ToolHeader`: configurable `headingLevel`, default `1`.
-10. `EmptyState`: configurable `headingLevel`, default `2`.
-11. `ImageSettings`: configurable `headingLevel`, default `2`.
-12. `ResultSummary`: requires stable item `id` and uses it as React key.
+6. `FileDropzone`: removed unused `files` prop and unused input ref.
+7. `FileItem`: removed unused `index`/`reorderable` API and inert selection button behavior.
+8. `Field`: replaced label-derived IDs with React `useId()`, while preserving explicit ID override and description/error relationships.
+9. `QualityControl`: replaced hard-coded ID with `useId()` and optional explicit ID.
+10. `DimensionsControl`: replaced hard-coded width/height IDs with `useId()` and optional explicit base ID.
+11. `PdfFileList`: corrected disabled/focus/selection semantics and propagated disabled state to controls.
+12. `ToolHeader`: configurable `headingLevel`, default `1`.
+13. `EmptyState`: configurable `headingLevel`, default `2`.
+14. `ImageSettings`: configurable `headingLevel`, default `2`.
+15. `ResultSummary`: requires stable item `id` and uses it as React key.
 
 ### MEDIUM — visual/performance/API
-13. Repeated shared visual Tailwind tokens centralized in `src/sharedUI/sharedStyles.ts` and adopted by shared primitives.
-14. `LoadingState` progress fill no longer relies on inherited `currentColor`; uses explicit `bg-white`.
-15. `ImagePreview` exposes consumer-controlled `loading` and `decoding`, retaining `lazy`/`async` defaults.
-16. `FilePreview` exposes consumer-controlled `loading` and `decoding`, retaining `lazy`/`async` defaults.
-17. `CurrencyInput` no longer imposes a region-specific default; explicit `currency` remains supported.
+16. Repeated shared visual Tailwind tokens centralized in `src/sharedUI/sharedStyles.ts` and adopted by shared primitives.
+17. `LoadingState` progress fill no longer relies on inherited `currentColor`; uses explicit `bg-white`.
+18. `ImagePreview` exposes consumer-controlled `loading` and `decoding`, retaining `lazy`/`async` defaults.
+19. `FilePreview` exposes consumer-controlled `loading` and `decoding`, retaining `lazy`/`async` defaults.
+20. `CurrencyInput` no longer imposes a region-specific default; explicit `currency` remains supported.
 
 ### TYPE/API quality
-18. `IconResolver`: replaced `React.ComponentType<any>` and untyped registry with `LucideIcon` typing and explicit props.
-19. `FileList`: removed index from React key generation and added optional `getFileKey` for caller-provided stable identity; deterministic file metadata is the fallback.
-20. `PercentageInput`: added configurable `suffix`, default `%`, so the primitive can support alternate presentation without consumer duplication.
-21. `DurationInput`: added `formatUnit` for localized/custom unit presentation while retaining typed `DurationUnit`.
+21. `IconResolver`: replaced `React.ComponentType<any>` and untyped registry with `LucideIcon` typing and explicit props.
+22. `FileList`: removed index from React key generation and added optional `getFileKey` for caller-provided stable identity; deterministic file metadata is the fallback.
+23. `PercentageInput`: added configurable `suffix`, default `%`, so the primitive can support alternate presentation without consumer duplication.
+24. `DurationInput`: added `formatUnit` for localized/custom unit presentation while retaining typed `DurationUnit`.
+
+## Final source-level audit
+- Rechecked shared image controls: `DimensionsControl` and `QualityControl` now have both unique generated IDs and explicit client boundaries.
+- Rechecked calculator primitives: `Field` now has the required client boundary; `NumberInput`, `CurrencyInput`, `DurationInput`, and `PercentageInput` delegate to the corrected `Field`/`NumberInput` contracts without introducing additional client-only APIs.
+- Rechecked tool primitives: `ToolPageShell`, `ToolHeader`, `ToolActionBar`, `ToolResult`, `ProcessingState`, and `EmptyState` remain server-safe or explicitly client-safe according to their actual APIs; no additional source-level BLOCKER/HIGH was identified.
+- Rechecked file/PDF primitives: the documented `FileDropzone`, `FileItem`, `FileList`, and `PdfFileList` API/accessibility corrections are present; no additional source-level BLOCKER/HIGH was identified.
+- Consumer inspection has not identified a remaining confirmed foundation BLOCKER/HIGH that warrants a speculative consumer change.
+- No consumer migration has been performed.
 
 ## Dependency review
 - Foundation primitives do not intentionally introduce heavy feature dependencies.
@@ -79,7 +90,7 @@ No existing tool/component consumer has been migrated or modified during foundat
 - Sync this status after every step, including no-change audits.
 
 ## Current result
-**All previously documented source-level BLOCKER, HIGH, MEDIUM, and deferred TYPE/API findings have been addressed. Consumer migration remains blocked pending executable TypeScript/lint/build validation and final whole-family audit.**
+**All previously documented source-level BLOCKER, HIGH, MEDIUM, and deferred TYPE/API findings have been addressed. The additional React client-boundary defects discovered during final verification are also fixed. Consumer migration remains blocked pending executable TypeScript/lint/build validation.**
 
 ## Next action
-Perform the final whole-family validation gate: inspect every foundation component for cross-component API consistency, accessibility, responsive behavior, client/server boundaries, dependency usage, and obvious build/type hazards; then execute available CI/typecheck/lint/build validation. Sync the MD with the verified results before any consumer migration.
+Execute the available CI/typecheck/lint/build validation gate. If executable validation passes, perform the final consumer-readiness check and then begin the first consumer migration. If validation fails, fix only the verified failure and resync this MD before continuing.
