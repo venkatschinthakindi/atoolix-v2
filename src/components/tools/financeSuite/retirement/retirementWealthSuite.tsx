@@ -22,6 +22,7 @@ import {
 
 import CustomSelect from "@/components/ui/customSelect";
 import { useSearchParams } from "next/navigation";
+import { StatCard } from "@/sharedUI/statCard";
 
 /* ─────────────────────────────────────────────
    Types
@@ -511,42 +512,6 @@ function NumberField({
     <div className="flex items-center rounded-xl border border-white/10 bg-white/5 focus-within:border-blue-400/50 overflow-hidden">
       {inputEl}
       <span className="pr-4 text-xs text-white/40">{suffix}</span>
-    </div>
-  );
-}
-
-function StatCard({
-  label,
-  value,
-  accent,
-  tone,
-  hint,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-  tone?: "positive" | "neutral";
-  hint?: string;
-}) {
-  return (
-    <div
-      className={`rounded-2xl border p-4 py-3 ${
-        tone === "positive"
-          ? "border-emerald-400/30 bg-emerald-400/5"
-          : accent
-          ? "border-blue-400/30 bg-blue-400/5"
-          : "border-white/10 bg-white/5"
-      }`}
-    >
-      <div className="text-xs text-white/60 mb-1">{label}</div>
-      <div
-        className={`text-lg font-semibold break-words ${
-          tone === "positive" ? "text-emerald-300" : "text-white"
-        }`}
-      >
-        {value}
-      </div>
-      {hint && <div className="text-[11px] text-white/35 mt-1">{hint}</div>}
     </div>
   );
 }
