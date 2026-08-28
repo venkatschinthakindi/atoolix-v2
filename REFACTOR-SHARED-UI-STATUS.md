@@ -4,20 +4,12 @@
 - Shared UI foundation remediation is complete through the confirmed BLOCKER/HIGH findings and validated build fixes.
 - `SectionHeader` preserves rendered React-node icons and component-type icons, including object-valued Lucide/forwardRef components.
 - `SectionHeader` has optional `variant="card"` capability derived from existing calculator presentation.
-- The `card` variant now preserves the original calculator layout: icon + vertically stacked title/subtitle + optional right-side actions.
+- The `card` variant preserves the original calculator layout: icon + vertically stacked title/subtitle + optional right-side actions.
 - `StatCard` preserves the EMI local `accent` and `tone` behaviors as optional shared capabilities.
 - Consumer migration continues only after exact capability comparison against the original working implementation.
 - CI/build is the validation gate; repository-wide ESLint baseline remains intentionally deferred.
 
 ## Latest completed work
-### SectionHeader card-layout compatibility fix
-- Commit: `3aa904c12745fb6f1489e049ed08afdc9fb728ea`.
-- File: `src/sharedUI/sectionHeader.tsx`.
-- Corrected the `variant="card"` structure to preserve the existing local calculator SectionHeader layout and support optional right-side actions.
-- This was necessary before migrating consumers such as `SmartCalculator`, whose local SectionHeader includes an action area.
-- No business/calculation logic changed.
-- CI/build validation is required for this shared-component change.
-
 ### Basic percentage calculator SectionHeader
 - Consumer commit: `39dbadbf17ff4dfa775457ac41881d3a7c384645`.
 - File: `src/components/tools/calculator/percentage/basicPercentage.tsx`.
@@ -39,10 +31,9 @@
 - File: `src/components/tools/emiCalculator/core/EmiCalculatorHubPage.tsx`.
 - Local StatCard removed; existing usages preserved.
 
-### SectionHeader build fix
-- Commit: `7fb3bb043237623f05a3911a11e37b8207a1cd4b`.
-- File: `src/sharedUI/sectionHeader.tsx`.
-- Fixed object-valued component types such as Lucide/forwardRef icons after the prerender failure.
+### SectionHeader compatibility/build fixes
+- `7fb3bb043237623f05a3911a11e37b8207a1cd4b` — object-valued Lucide/forwardRef icon compatibility after prerender failure.
+- `3aa904c12745fb6f1489e049ed08afdc9fb728ea` — restored calculator card layout and optional right-side actions.
 
 ## Completed StatCard consumers
 1. `ImageCompressorClient.tsx` — `bbe435d3af9428158fc7d69229b25f5610078945`
@@ -59,7 +50,7 @@
 - `recurringDepositCalculator.tsx`
 - `simpleInterestDepositsSuite.tsx`
 - `ImageToPDFClient.tsx`
-- `percentageOf.tsx`
+- `percentageOf.tsx` — `bcad81f7e341ca6230b1615248057d182e8fcb57`
 - `basicPercentage.tsx` — `39dbadbf17ff4dfa775457ac41881d3a7c384645`
 
 ## Audit corrections
@@ -68,8 +59,8 @@
 - `basicPercentage.tsx` local `ResultBox` remains feature-specific and was not migrated.
 
 ## Remaining consumer audit
-- `src/components/tools/calculator/SmartCalculator.tsx` — local SectionHeader has `action?: ReactNode`; shared `SectionHeader` now supports equivalent `actions` behavior through `variant="card"`. Ready for exact consumer migration.
-- `src/components/tools/financeSuite/retirement/retirementWealthSuite.tsx` — local calculator presentation requires exact comparison.
+- `src/components/tools/calculator/SmartCalculator.tsx` — **DEFERRED** because the current GitHub connector returns a truncated source representation, while the safe write operation requires the complete current file. Required migration remains: local `SectionHeader` → shared `SectionHeader`, preserving the existing right-side action (`action` → shared `actions`) and card layout. Do not overwrite until the current complete blob is available.
+- `src/components/tools/financeSuite/retirement/retirementWealthSuite.tsx` — inspect next when a complete current source is available; preserve all existing calculation/presentation behavior.
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
 
 ## Rules
@@ -79,6 +70,7 @@
 - Inspect exact source and diff before each patch.
 - Sync this MD after every repository step, including no-change/status-only steps.
 - No consumer migration may silently remove an existing capability.
+- A Git retrieval/write limitation on one consumer must not block progress on other verified consumers.
 
 ## Next
-Run CI/build for `3aa904c12745fb6f1489e049ed08afdc9fb728ea`. If clean, migrate `SmartCalculator.tsx` as the next one-file consumer. Map `action` to shared `actions` without changing behavior, then verify the one-file consumer diff and sync this MD.
+SmartCalculator is explicitly deferred for now. Continue with the next verified current consumer that can be safely patched, keeping each consumer change isolated and synchronizing this MD after the step.
