@@ -112,24 +112,11 @@
 - `EquationSolver.tsx` — `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81`
 - `UnitConverter.tsx` — `66ee51e659dc9401160eb5ffc92743ed2df9d178`
 
-### SectionHeader capability verification
-- The shared component accepts `icon?: ElementType | ReactNode`, so component-type and already-rendered icon values are both supported.
-- `variant="card"` is available where a consumer's original local header used the calculator card presentation.
-- `actions?: ReactNode` is the shared API for right-side action content.
-- `SmartCalculator.tsx` required the legacy singular `action` prop to be corrected to `actions`; this is now complete in consumer commit `7edd9e476429e9744eb00fae8ecf2a21f7a90e90`.
-- `icon={History}` is preserved and is valid with the shared icon resolver.
-- Do not add `accent`, `tone`, or `hint` to `SectionHeader`; those are `StatCard` capabilities.
-- Do not add decorative props merely for visual consistency.
-
-## Audit corrections
-- `UnitConverter.tsx` local `StatCard` was not an active consumer; its confirmed reusable change is the local `SectionHeader` replacement recorded in commit `66ee51e659dc9401160eb5ffc92743ed2df9d178`.
-- `EquationSolver.tsx` local `StatCard` was not an active consumer; no migration is claimed.
-- `basicPercentage.tsx` local `ResultBox` remains feature-specific and was not migrated.
-
 ## Remaining consumer audit
 - Legacy image composites (`SuccessBanner`, `MetadataCard`, `MetadataGrid`, `PreviewCard`, `DownloadCard`, `ToolButton`, `ToolLayout`) remain deferred until exact shared capability equivalence is proven.
+- `ImageToPDFClient.tsx` already uses the shared `@/sharedUI/sectionHeader`; its remaining `ToolButton`, `SuccessBanner`, and `ToolProgress` imports have no confirmed `@/sharedUI` replacements, so it is not a valid migration target yet.
 - Continue the broader `src/sharedUI/` consumer matrix audit one shared component at a time; do not infer consumers from stale code-search results.
-- The latest branch history also confirms the passport photo resizer/compressor consumer has reached a shared `StatCard` checkpoint; further reusable-component work must start from that current source state.
+- The latest branch history confirms the passport photo resizer/compressor consumer has reached a shared `StatCard` checkpoint; further reusable-component work must start from that current source state.
 
 ## Rules
 - Preserve original working behavior; do not invent or redesign business logic.
@@ -143,8 +130,7 @@
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-- Latest authoritative branch checkpoint: `adbe84b6cb6ba385a6e08a70d04d37e4243f2259` on `refactor/shared-ui-foundation`.
-- `adbe84b6...` is the latest repository commit and follows the `UnitConverter` shared `SectionHeader` checkpoint and the `ImageCompressorClient` shared `StatCard` checkpoint.
-- The MD was stale relative to these three repository commits; this synchronization records those changes.
-- Before selecting the next consumer, refresh against the current branch tree rather than stale repository search results.
-- Continue with the next verified consumer only after exact source/capability comparison, using complete-file replacement and syncing this MD immediately after the repository step.
+- CI-validated documentation checkpoint: `47ff0092df84bc8c0c01ad96ab2ddd36bdf68123`.
+- `47ff0092...` is the current CI-passed MD synchronization checkpoint.
+- No consumer change is being claimed for `ImageToPDFClient.tsx`; its remaining legacy components lack confirmed shared equivalents.
+- Next consumer must be selected from the actual current branch tree by confirmed shared-component equivalence, not from stale search results.
