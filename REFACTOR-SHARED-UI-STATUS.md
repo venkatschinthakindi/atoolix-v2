@@ -53,6 +53,19 @@
 - Capability check: the former local implementation exposed `accent`, `tone`, and `hint`; the shared `StatCard` already supports these as optional props, so no additional consumer tagging or shared capability change was required.
 - No extra `accent`/`tone` props were invented where the existing consumer did not explicitly use them.
 
+### Savings calculator batch — latest checkpoint
+- Batch commit: `6c7c6fc352f5293be5b1236fd6bc80947c1c95e9`.
+- Files completed in this commit:
+  - `src/components/tools/financeSuite/savings/fixedDepositCalculator.tsx`
+  - `src/components/tools/financeSuite/savings/recurringDepositCalculator.tsx`
+  - `src/components/tools/financeSuite/savings/simpleInterestDepositsSuite.tsx`
+  - `src/components/tools/financeSuite/savings/compoundInterestCalculator.tsx`
+- Existing local `StatCard` usage was preserved through `@/sharedUI/statCard`.
+- Existing calculator input implementations in these consumers were also replaced with the confirmed shared `CurrencyInput`, `NumberInput`, and `DurationInput` components.
+- Existing min/max/step constraints, hints, currency display, and value clamping were preserved at the consumer call sites.
+- No calculation/business logic, routes, SEO, state, API, or functionality changes were introduced by this batch.
+- The authoritative branch checkpoint is `6c7c6fc352f5293be5b1236fd6bc80947c1c95e9`.
+
 ## Completed SectionHeader consumers
 - `compoundInterestCalculator.tsx`
 - `fixedDepositCalculator.tsx`
@@ -92,4 +105,4 @@
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
 
 ## Next
-`StatCard` retirement migration is complete at `e3bfbd08dc3adf00749e9489283af25ce0a4491f`. `SectionHeader` is now complete through `SmartCalculator.tsx` at `7edd9e476429e9744eb00fae8ecf2a21f7a90e90`, including the required `action` → `actions` API correction. Continue with `CurrencyInput` as component 3/30, carrying forward the rule to preserve every demonstrated optional capability and add props only where the consumer genuinely requires them.
+The latest authoritative checkpoint is `6c7c6fc352f5293be5b1236fd6bc80947c1c95e9`, which completed the four savings-calculator consumers listed above and introduced their confirmed shared calculator input usage. Before selecting the next consumer, refresh against the current branch tree rather than stale repository search results. Continue with the next verified consumer only after exact source/capability comparison, using complete-file replacement and syncing this MD immediately after the repository step.
