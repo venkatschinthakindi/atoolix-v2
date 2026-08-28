@@ -1,103 +1,100 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { SmartCalculator } from "@/components/tools/calculator/SmartCalculator";
 import { AdvancedEquationSolverPage } from "@/components/tools/calculator/EquationSolver";
 import { PercentageCalculator } from "@/components/tools/calculator/percentage/percentageCalculator";
-import { useSearchParams } from "next/navigation";
 
 type CalculatorToolProps = {
-  initialExpression?: string;
-  theme?: "light" | "dark";
+initialExpression?: string;
+theme?: "light" | "dark";
 };
 
 type Tab = "calc" | "solve" | "percentage";
 
 export default function CalculatorTool({
-  initialExpression = "",
-  theme = "dark",
+initialExpression = "",
+theme = "dark",
 }: CalculatorToolProps) {
-  return (
-    <TabbedCalculator
-      initialExpression={initialExpression}
-      theme={theme}
-    />
-  );
+return (
+<TabbedCalculator
+   initialExpression={initialExpression}
+   theme={theme}
+ />
+);
 }
 
 function TabbedCalculator({
-  initialExpression,
-  theme,
+initialExpression,
+theme,
 }: CalculatorToolProps) {
-  const searchParams = useSearchParams();
+const searchParams = useSearchParams();
 
-  const getInitialActiveTab = ():Tab  => {
-    const tool = searchParams.get("category")?.toLowerCase() || "";
+const getInitialActiveTab = (): Tab => {
+const category = searchParams.get("category")?.toLowerCase();
 
-    if (tool === "percentage") {
-      return "percentage";
-    } else if (tool === "equation") {
-      return "solve";
-    } else if (tool === "basic") {
-      return "calc";
-    }
-
+switch (category) {
+  case "percentage":
     return "percentage";
-  };
-  const [activeTab, setActiveTab] = useState<Tab>(() => getInitialActiveTab());
-  
-  const tabs: { id: Tab; label: string }[] = [
-    { id: "percentage", label: "Percentage Calculator" },
-    { id: "calc", label: "Calculator" },
-    { id: "solve", label: "Equation Solver" }
-  ];
-  
-  return (
-    <div>
-      <div className="flex justify-center">
-        <div className="tab-group">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`tab-button ${
+
+  case "equation":
+    return "solve";
+
+  case "basic":
+    return "calc";
+
+  default:
+    return "percentage";
+}
+
+};
+
+const [activeTab, setActiveTab] = useState<Tab>(() =>
+getInitialActiveTab()
+);
+
+const tabs: { id: Tab; label: string }[] = [
+{
+id: "percentage",
+label: "Percentage Calculator",
+},
+{
+id: "calc",
+label: "Calculator",
+},
+{
+id: "solve",
+label: "Equation Solver",
+},
+];
+
+return ( <div> <div className="flex justify-center"> <div className="tab-group">
+{tabs.map((tab) => (
+<button
+key={tab.id}
+type="button"
+onClick={() => setActiveTab(tab.id)}
+className={`tab-button ${
                 activeTab === tab.id ? "tab-button-active" : ""
               }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
+>
+{tab.label} </button>
+))} </div> </div>
 
-      <div className="transition-opacity duration-500 ease-in-out">
-        {renderTab({ initialExpression, theme }, activeTab)}
-      </div>
-    </div>
-  );
+  <div className="transition-opacity duration-500 ease-in-out">
+    {activeTab === "percentage" && <PercentageCalculator />}
+
+    {activeTab === "calc" && (
+      <SmartCalculator
+        initialExpression={initialExpression}
+        theme={theme}
+      />
+    )}
+
+    {activeTab === "solve" && <AdvancedEquationSolverPage />}
+  </div>
+</div>
+
+);
 }
-
-function renderTab(calculatorToolProps: CalculatorToolProps, activeTab: Tab) {
-  switch (activeTab) {
-    case "percentage":
-      return <PercentageCalculator/>;
-    case "calc":
-      return (
-        <SmartCalculator
-            initialExpression={calculatorToolProps.initialExpression}
-            theme={calculatorToolProps.theme}
-          />
-      );
-    case "solve":
-      return <AdvancedEquationSolverPage />;
-    
-    default:
-      return null;
-  }
-}
-
-
-
-
-
-
