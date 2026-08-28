@@ -23,6 +23,16 @@
 - Removed the local `SectionHeader` implementation and imported `@/sharedUI/sectionHeader`.
 - Added `variant="card"` to both existing SectionHeader usages.
 
+### Calculator tab / Equation Solver SectionHeader batch
+- Consumer commit: `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81`.
+- Files:
+  - `src/components/tools/calculator/Calculator.tsx`
+  - `src/components/tools/calculator/EquationSolver.tsx`
+- `Calculator.tsx` was normalized to use the explicit `switch` category mapping and direct tab rendering while preserving the existing calculator, equation-solver, and percentage tabs.
+- `EquationSolver.tsx` removed its local `SectionHeader` implementation and imported `@/sharedUI/sectionHeader`.
+- The local `StatCard` in `EquationSolver.tsx` was not migrated because it is not an active consumer.
+- No calculation/business logic was intentionally changed by the shared UI migration.
+
 ### StatCard / EMI
 - Shared capability commit: `0a0a04f0282458760060bbdbd75cbd03c48ec1c7`.
 - Added optional `accent?: boolean` and `tone?: "positive" | "neutral"` using existing EMI behavior.
@@ -64,7 +74,7 @@
 - Existing calculator input implementations in these consumers were also replaced with the confirmed shared `CurrencyInput`, `NumberInput`, and `DurationInput` components.
 - Existing min/max/step constraints, hints, currency display, and value clamping were preserved at the consumer call sites.
 - No calculation/business logic, routes, SEO, state, API, or functionality changes were introduced by this batch.
-- The authoritative branch checkpoint is `6c7c6fc352f5293be5b1236fd6bc80947c1c95e9`.
+- The authoritative branch checkpoint before the calculator/EquationSolver update was `6c7c6fc352f5293be5b1236fd6bc80947c1c95e9`.
 
 ## Completed SectionHeader consumers
 - `compoundInterestCalculator.tsx`
@@ -75,6 +85,7 @@
 - `percentageOf.tsx` — `bcad81f7e341ca6230b1615248057d182e8fcb57`
 - `basicPercentage.tsx` — `39dbadbf17ff4dfa775457ac41881d3a7c384645`
 - `SmartCalculator.tsx` — `7edd9e476429e9744eb00fae8ecf2a21f7a90e90`
+- `EquationSolver.tsx` — `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81`
 
 ### SectionHeader capability verification
 - The shared component accepts `icon?: ElementType | ReactNode`, so component-type and already-rendered icon values are both supported.
@@ -103,6 +114,10 @@
 - No consumer migration may silently remove an existing capability.
 - A Git retrieval/write limitation on one consumer must not block progress on other verified consumers.
 - Preserve consumer-specific semantic props such as `accent`, `tone`, `hint`, `variant`, and `actions` whenever they are actually used; do not add decorative props without an evidence-based need.
+- Complete-file replacement is the working process for consumer changes; do not provide partial patch instructions.
 
 ## Next
-The latest authoritative checkpoint is `6c7c6fc352f5293be5b1236fd6bc80947c1c95e9`, which completed the four savings-calculator consumers listed above and introduced their confirmed shared calculator input usage. Before selecting the next consumer, refresh against the current branch tree rather than stale repository search results. Continue with the next verified consumer only after exact source/capability comparison, using complete-file replacement and syncing this MD immediately after the repository step.
+- Latest authoritative checkpoint: `b6a7a5ffa50271a5fc12312bb0d316f132f2ff81` on `refactor/shared-ui-foundation`.
+- The latest calculator/EquationSolver step has been synchronized into this master status document.
+- Before selecting the next consumer, refresh against the current branch tree rather than stale repository search results.
+- Continue with the next verified consumer only after exact source/capability comparison, using complete-file replacement and syncing this MD immediately after the repository step.
