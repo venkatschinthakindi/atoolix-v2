@@ -1,16 +1,3 @@
-import dynamic from "next/dynamic";
-const InvestmentReturnsHubPage = dynamic(
-  () =>
-    import(
-      "@/components/tools/financeSuite/investment/core/InvestmentReturnsHubPage"
-    ),
-  { ssr: true }
-);
+import { createInvestmentReturnsPage } from "@/sharedUI/calculator/createInvestmentReturnsPage";
 
-export default function Page() {
-  return (
-    <main>
-      <InvestmentReturnsHubPage defaultTab="sip" />
-    </main>
-  );
-}
+export default createInvestmentReturnsPage("sip");
