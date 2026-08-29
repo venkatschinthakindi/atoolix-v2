@@ -320,24 +320,20 @@ next session doesn't have to re-derive them.
   owner whether `basicPercentage.tsx` / `percentageOf.tsx` are intentional
   work-in-progress before spending effort deduping unused code.
 - **`src/components/tools/pdf/*Client.tsx`** (merge, split, compress,
-  image-to-pdf) — `formatBytes`/margin-slider (image-to-pdf) and
-  `premiumShellClass`/`GlassIcon`/`formatBytes` (merge/split/compress)
-  duplication deduped this session (see above). Not yet checked: any
-  duplicated file-list-row markup between mergePdfClient's `FileRow`
-  usage and splitPdfClient's own PDF-item list rendering — worth a
-  pass.
+  image-to-pdf) — `formatBytes`/margin-slider (image-to-pdf),
+  `premiumShellClass`/`GlassIcon`/`formatBytes` (merge/split/compress),
+  and the file-list-row comparison (merge vs split — not a fit, see
+  below) are all now checked. This tool family is done.
 - **`src/components/tools/qrCode/`** — `qrGeneratorPanel.tsx` (825 lines)
   has no shared-ui imports, but it wasn't compared against another
   QR-specific consumer since there's only one QR tool; likely just a large
   single component rather than duplicated code. Lower priority.
 - **`src/components/tools/image/passpoerPhotoResizer/` vs
-  `signatureResizer/`** — both are small wrapper + one big client pattern.
-  Not yet diffed against each other for shared crop/resize UI; worth a
-  pass.
+  `signatureResizer/`** — checked (see below): already correctly
+  deduped, nothing to do.
 - **`src/components/tools/financeSuite/retirement/retirementWealthSuite.tsx`**
-  (2132 lines, single file, no sibling to dedupe against directly) — worth
-  checking whether it could adopt the `src/sharedUI/calculator/*` pieces
-  already built for savings/investment, even without a second consumer.
+  — checked (see below): must NOT adopt `sharedUI/calculator/*`'s
+  `NumberInput`/`CurrencyInput` — would reintroduce a fixed bug.
 
 - **`src/sharedUI/{feedback,file,image,pdf,tool}/`** — merged in from
   `refactor/shared-ui-foundation` but confirmed this session to have
@@ -354,6 +350,41 @@ next session doesn't have to re-derive them.
   update. Before wiring any of them in elsewhere, check the target
   consumer's actual current markup/styling first — don't assume they'll
   fit just because the domain matches.
+
+### File-list-row comparison (mergePdf vs splitPdf) — checked, not a fit
+Compared `mergePdfClient.tsx`'s use of the shared `FileRow` component
+against `splitPdfClient.tsx`'s own inline per-item card. They are
+**not safe duplicates**: `FileRow` supports reordering (move up/down)
+and removing files, plus a truncated page-preview badge with a title
+tooltip; splitPdf's cards have none of that (no reordering makes sense
+there — you're not sequencing multiple files into one output) and show
+a different "Selected pages: X" summary line instead of a badge.
+Unifying them would mean adding or removing real interactive features,
+not just deduping markup — left alone.
+
+### `retirementWealthSuite.tsx` adopting `sharedUI/calculator/*` — checked, do not do this
+Checked whether its local numeric `Field`/`inputCls` pattern could
+adopt the shared `CurrencyInput`/`NumberInput`/`DurationInput` used by
+the savings calculators. **It must not.** This file has its own
+`NumberField` component with a deliberate, documented behavior: it
+keeps a local draft string while focused and only clamps the value on
+blur/Enter, specifically to fix a real bug where per-keystroke
+clamping would snap the field back to a bound mid-edit (e.g. turning
+30 into 31 by retyping a middle digit). The shared `NumberInput`/
+`CurrencyInput` components clamp on every keystroke via `onChange` —
+swapping to them would silently reintroduce that exact bug. Left
+alone; this file's local input handling is intentional, not
+duplicated cruft.
+
+### `signatureCompressor.tsx` vs `passportPhotoCompressorClient.tsx` — already deduped
+Checked the signature-resizer tool against the passport-photo tool.
+`signatureCompressor.tsx` (31 lines) is already just a thin
+`CompressorConfig` wrapper that renders `PassportPhotoCompressorClient`
+directly with signature-specific copy/labels — there's no duplicate
+markup left to extract; this was already done correctly before this
+refactor effort started. (Its sibling `signatureResizerSeoContent.tsx`
+was not opened, per the standing rule to never touch `*SeoContent*`
+files.)
 
 ## Explicitly excluded from this refactor (per instructions)
 - Every `*SeoContent*.tsx` file (list confirmed via
