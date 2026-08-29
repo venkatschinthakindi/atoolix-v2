@@ -3,6 +3,7 @@
 import { ImageFormat } from "@/types/imageConverter.types";
 import {
   useCallback,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -29,55 +30,83 @@ export function DropZone({
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Track the fake-progress interval and the completion timeout so they
+  // can be cancelled if the component unmounts mid-"upload" (e.g. the
+  // user resets the tool or navigates away within the 2s window) -
+  // otherwise these would fire setState calls on an unmounted component.
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const openPicker = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
   useImperativeHandle(ref, () => ({
     openFilePicker: () => openPicker(),
   }));
 
-  const validatePDF = (file: File) => {
-    const allowedMimeTypes = ["application/pdf"];
+  const validatePDF = useCallback(
+    (file: File) => {
+      const allowedMimeTypes = ["application/pdf"];
 
-    const allowedExtensions = validFileTypes
-      .split(",")
-      .map((ext) => ext.trim().toLowerCase());
+      const allowedExtensions = validFileTypes
+        .split(",")
+        .map((ext) => ext.trim().toLowerCase());
 
-    const fileName = file.name.toLowerCase();
+      const fileName = file.name.toLowerCase();
 
-    const isValidMime = allowedMimeTypes.includes(file.type);
+      const isValidMime = allowedMimeTypes.includes(file.type);
 
-    const isValidExtension = allowedExtensions.some((ext) =>
-      fileName.endsWith(ext)
-    );
+      const isValidExtension = allowedExtensions.some((ext) =>
+        fileName.endsWith(ext)
+      );
 
-    return isValidMime || isValidExtension;
-  };
+      return isValidMime || isValidExtension;
+    },
+    [validFileTypes]
+  );
 
-  const handleFiles = (files: File[]) => {
-    const pdfFiles = files.filter(validatePDF);
+  const handleFiles = useCallback(
+    (files: File[]) => {
+      const pdfFiles = files.filter(validatePDF);
 
-    if (pdfFiles.length === 0) {
-      setError(`Invalid file type. Only ${validFileTypes} files are allowed.`);
-      return;
-    }
+      if (pdfFiles.length === 0) {
+        setError(`Invalid file type. Only ${validFileTypes} files are allowed.`);
+        return;
+      }
 
-    setError(null);
-    setIsUploading(true);
-    setUploadProgress(0);
+      setError(null);
+      setIsUploading(true);
+      setUploadProgress(0);
 
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        if (prev >= 90) {
-          clearInterval(interval);
-          return 100;
-        }
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-        return prev + 10;
-      });
-    }, 200);
-    setTimeout(() => {
-      setIsUploading(false);
-      onFiles(pdfFiles);
-    }, 2000); // 10 steps × 200ms
-  };
+      intervalRef.current = setInterval(() => {
+        setUploadProgress((prev) => {
+          if (prev >= 90) {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            return 100;
+          }
+
+          return prev + 10;
+        });
+      }, 200);
+
+      timeoutRef.current = setTimeout(() => {
+        setIsUploading(false);
+        onFiles(pdfFiles);
+      }, 2000); // 10 steps × 200ms
+    },
+    [onFiles, validFileTypes, validatePDF]
+  );
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
@@ -88,12 +117,8 @@ export function DropZone({
 
       handleFiles(files);
     },
-    []
+    [handleFiles]
   );
-
-  const openPicker = () => {
-    fileInputRef.current?.click();
-  };
 
   return (
     <div className="space-y-4 pt-4">
