@@ -41,11 +41,11 @@ rendered content and existing audits:
 `src/app/robots.ts` allows all crawlers, no accidental blocking.
 
 ## Conclusion
-**No code change made in this branch.** The on-page/technical SEO for
-these pages is already sound, confirmed independently rather than
-assumed. Impressions rising with flat clicks is explained by domain age,
-not a fixable bug — positions in the 50–90 range don't get clicks
-regardless of title/meta quality.
+The on-page/technical SEO for these three pages was already sound,
+confirmed independently rather than assumed. Impressions rising with
+flat clicks is explained by domain age, not a fixable bug — positions
+in the 50–90 range don't get clicks regardless of title/meta quality.
+One genuine, verifiable gap was found and fixed (see log below).
 
 ## What actually moves the needle from here
 1. **Backlinks** — directory submissions, "best free tools" roundup posts,
@@ -61,3 +61,18 @@ regardless of title/meta quality.
 ## Next review
 Re-pull GSC Performance export in ~3–4 weeks and compare position deltas
 on the pages listed above before deciding on further code work.
+
+## Commit cadence
+Each discrete unit of work gets its own commit at the time it's done,
+and this file is updated in the same commit — not batched at the end.
+No new dated audit files; this file is edited in place.
+
+## Status log
+| Date | Commit | What | Owner |
+|---|---|---|---|
+| 2026-08-29 | `e87bc38` | GSC investigation + verification of 3 top pages, no defect found | Done |
+| 2026-08-29 | `c2e29e1` | Added `lastModified` to all sitemap entries (was missing on all 52 URLs) | Done |
+| 2026-08-29 | — | Push branch to GitHub, open PR | Pending — needs a scoped token from repo owner |
+| — | — | Submit to Product Hunt, AlternativeTo, SaaSHub | Pending — repo owner (needs their accounts) |
+| — | — | Pitch 3–5 relevant roundup blogs / awesome-lists | Pending — repo owner |
+| ~2026-09-26 | — | Re-pull GSC export, compare position deltas | Pending — scheduled review |
