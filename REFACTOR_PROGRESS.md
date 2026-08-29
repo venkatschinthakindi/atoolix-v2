@@ -26,9 +26,7 @@ Hard rules for anyone continuing this work:
 
 ---
 
-## Already done (before this session — commits `d8db5f2` and `ffee72b` on this branch)
-
-**`d8db5f2` — refactor(finance/savings): extract shared UI for calculator family**
+## Already done (before this session — commits `d8db5f2` and `ffee72b` on this branch)**
 
 Deduped the 4 savings calculators (compound interest, fixed deposit,
 recurring deposit, simple interest) into `src/sharedUI/calculator/`:
@@ -60,6 +58,57 @@ before). Deliberately kept as 4 separate files rather than one shared
 component/route, because each needs its own module path for the per-tool
 code-splitting done by `src/data/clientToolLoaders.ts` — collapsing them
 into one file would break that code-splitting setup.
+
+**`1c43c11` + `4064003` — merge in a parallel branch's shared component
+library and consumer migrations (this session)**
+
+A sibling branch, `refactor/shared-ui-foundation`, had independently done
+144 commits of complementary work — targeting the *input-field level*
+(`CurrencyInput`, `NumberInput`, `DurationInput`, plus enhanced shared
+`StatCard`/`SectionHeader` with `variant`/`accent`/`tone` props) while
+this branch's `d8db5f2`/`ffee72b` had targeted the *hero/onboarding
+section level*. No shared-component filename collisions between the two.
+
+What was merged in, in order:
+- `1c43c11` — adopted the foundation branch's enhanced `sectionHeader.tsx`
+  and `statCard.tsx` (verified safe first: `sectionHeader`'s only
+  existing consumer, `InvestmentReturnsHubPage.tsx`, renders identically
+  under the new `default` variant; the generic `statCard.tsx` had zero
+  consumers before this commit). Also copied in the new
+  `calculator/{CurrencyInput,DurationInput,Field,NumberInput,
+  PercentageInput,ResultSummary}.tsx` primitives and the `feedback/`,
+  `file/`, `image/`, `pdf/`, `tool/` component folders — all additive,
+  zero consumers wired up yet.
+- `4064003` — brought in 12 consumer files the foundation branch had
+  migrated that this branch hadn't touched (`Calculator.tsx`,
+  `EquationSolver.tsx`, `SmartCalculator.tsx`,
+  `percentage/basicPercentage.tsx`, `percentage/percentageOf.tsx`,
+  `UnitConverter.tsx`, `EmiCalculatorHubPage.tsx`,
+  `retirementWealthSuite.tsx`, `ImageCompressorClient.tsx`,
+  `ImageConverterClient.tsx`, `passportPhotoCompressorClient.tsx`,
+  `ImageToPDFClient.tsx`) verbatim — confirmed zero prior changes to
+  these files on this branch first, `tsc` clean, lint error count
+  unchanged vs. `main` (23 pre-existing errors, same before/after). Then
+  manually reconciled the 4 savings-calculator files both branches had
+  touched (`compoundInterestCalculator.tsx`, `fixedDepositCalculator.tsx`,
+  `recurringDepositCalculator.tsx`, `simpleInterestDepositsSuite.tsx`):
+  layered the foundation branch's field-level swap (local
+  `StatCard`/`SectionHeader`/`inputCls` → shared imports; the 3
+  duplicated numeric fields → `CurrencyInput`/`NumberInput`/
+  `DurationInput`; any remaining dropdown stayed on the local `Field`
+  since it wraps a `CustomSelect`) on top of this branch's existing
+  hero-section extraction, since the two sets of changes touched
+  non-overlapping regions of the same files. Verified every
+  `compute*()` function is still byte-identical to `main` across all 4
+  files afterward.
+
+**Caveat found during this merge:** `percentage/basicPercentage.tsx` and
+`percentage/percentageOf.tsx` (migrated in `4064003` above) were
+independently confirmed via repo-wide grep to still be unimported/dead
+code, matching this file's earlier note below under "Remaining
+candidates surveyed" — the migration is harmless (no live page is
+affected) but low-value. Worth confirming with the repo owner whether
+these files are intentional work-in-progress.
 
 **Also already in place before this session** (not from a single dedicated
 commit — part of the broader existing shared kit):
