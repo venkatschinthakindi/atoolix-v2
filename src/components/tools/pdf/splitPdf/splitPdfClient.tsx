@@ -283,6 +283,13 @@ export default function PdfSpliterClient({ config }: Props) {
     });
   }, []);
 
+  const handleZipBlob = async (zipBlob: Blob) => {
+    const parsedEntries = await readZipEntries(zipBlob as File);
+    setZipEntries(parsedEntries);
+    setZipUrl(URL.createObjectURL(zipBlob));
+    setShowModal(true);
+  };
+
   const openPreview = useCallback(
     (blob: Blob) => {
       const url = URL.createObjectURL(blob);
@@ -411,13 +418,6 @@ export default function PdfSpliterClient({ config }: Props) {
       setProcessingLabel("Preparing files...");
     }
   }, [pdfs, splitOption, autoOptimize, openPreview]);
-
-  const handleZipBlob = async (zipBlob: Blob) => {
-    const parsedEntries = await readZipEntries(zipBlob as File);
-    setZipEntries(parsedEntries);
-    setZipUrl(URL.createObjectURL(zipBlob));
-    setShowModal(true);
-  };
 
   const downloadProcessedFile = useCallback(async () => {
     if (!downloadableContent) return;

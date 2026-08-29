@@ -383,14 +383,11 @@ next session doesn't have to re-derive them.
   `git fetch` + fast-forward before starting new work and re-run
   `tsc --noEmit` across the whole repo after syncing, not just on the files
   you touched — this is cheap and catches cross-session drift immediately.
-- **Found during a validation pass, not caused by this session's changes:**
-  `src/components/tools/pdf/splitPdf/splitPdfClient.tsx` has a real
-  ESLint error — `handleZipBlob` is referenced (inside a `useCallback` body)
-  before it's declared further down in the same component. In practice this
-  likely doesn't crash today, since the callback is only invoked after the
-  component has fully rendered and `handleZipBlob` has been assigned — but
-  it's a genuine temporal-dead-zone smell worth fixing (move the
-  `handleZipBlob` declaration above its first use) rather than leaving it.
-  Not fixed in this session since it's outside the scope of what was asked
-  (pure dedup) and isn't a duplicate-code issue — flagging for whoever
-  touches that file next.
+- **Fixed in this session:** the `handleZipBlob`-used-before-declared issue
+  in `splitPdfClient.tsx` noted above has been fixed — `handleZipBlob` was
+  moved to directly above its first use (`openPreview`), with no other
+  change. Verified: the specific ESLint error is gone, `tsc --noEmit` stays
+  clean, and the file's remaining 8 lint warnings are the same pre-existing
+  ones as before (unused icon imports, etc.) — confirmed via diff that
+  this was a pure move (7 lines removed from one spot, added verbatim
+  above `openPreview`, nothing else touched).
