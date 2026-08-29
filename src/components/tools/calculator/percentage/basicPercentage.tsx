@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Copy, RotateCcw, Calculator } from "lucide-react";
 import { percentageOf, round } from "@/lib/percentage/percentage";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
 
 function ShellCard({
   children,
@@ -17,30 +18,6 @@ function ShellCard({
     >
       {children}
     </section>
-  );
-}
-
-function SectionHeader({
-  icon: Icon,
-  title,
-  subtitle,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  subtitle: string;
-}) {
-  return (
-    <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-      <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div>
-          <h2 className="text-base font-semibold tracking-tight text-white sm:text-md">{title}</h2>
-          <p className="mt-1 text-xs text-white/60 sm:text-sm">{subtitle}</p>
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -126,6 +103,7 @@ export default function BasicPercentage() {
           icon={Calculator}
           title="Basic percentage"
           subtitle="Find the percentage value with the same spacing, font sizes, and colors as the compressor UI."
+          variant="card"
         />
 
         <div className="space-y-4 p-3 sm:p-4 md:p-5">

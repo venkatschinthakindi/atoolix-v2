@@ -29,7 +29,7 @@ import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 import { ToolHero } from "@/components/ui/toolhero";
 import { WorkspaceCard } from "@/components/ui/imageToolUI/workspaceCard";
 import { MetadataGrid } from "@/components/ui/imageToolUI/metadataGrid";
-import { StatCard } from "@/components/ui/imageToolUI/statCard";
+import { StatCard } from "@/sharedUI/statCard";
 import { SectionHeader } from "@/components/ui/imageToolUI/sectionHeader";
 import { ToolButton } from "@/components/ui/imageToolUI/toolButton";
 import { EmptyState } from "@/components/ui/imageToolUI/emptyState";
@@ -44,21 +44,28 @@ type ModalVariant = "preview" | "download";
 
 const ESTIMATE_DEBOUNCE_MS = 450;
 
-// ---- helpers ---------------------------------------------------------
-
 function formatBytes(size: number) {
   if (!Number.isFinite(size)) return "—";
-  if (size >= 1024 * 1024) return `${(size / 1024 / 1024).toFixed(2)} MB`;
+
+  if (size >= 1024 * 1024) {
+    return `${(size / 1024 / 1024).toFixed(2)} MB`;
+  }
+
   return `${(size / 1024).toFixed(2)} KB`;
 }
 
-function getImageDimensionsFromBlob(blob: Blob): Promise<{ width: number; height: number }> {
+function getImageDimensionsFromBlob(
+  blob: Blob
+): Promise<{ width: number; height: number }> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(blob);
     const img = new Image();
 
     img.onload = () => {
-      resolve({ width: img.width, height: img.height });
+      resolve({
+        width: img.width,
+        height: img.height,
+      });
       URL.revokeObjectURL(url);
     };
 
@@ -77,16 +84,22 @@ function getPrettyFormat(format?: string) {
 
 function getOutputExtension(blob: Blob, fallback = "jpg") {
   const mime = blob.type.toLowerCase();
+
   if (mime.includes("png")) return "png";
   if (mime.includes("webp")) return "webp";
   if (mime.includes("jpeg") || mime.includes("jpg")) return "jpg";
   if (mime.includes("avif")) return "avif";
+
   return fallback;
 }
 
 function savingsPercentOf(originalSize: number, newSize: number) {
   if (!originalSize) return null;
-  return Math.max(0, Math.round((1 - newSize / originalSize) * 100));
+
+  return Math.max(
+    0,
+    Math.round((1 - newSize / originalSize) * 100)
+  );
 }
 
 function progressStageLabel(progress: number) {
@@ -94,10 +107,9 @@ function progressStageLabel(progress: number) {
   if (progress < 35) return "Analyzing image";
   if (progress < 75) return "Reducing size";
   if (progress < 100) return "Finalizing output";
+
   return "Done";
 }
-
-// ---- component ---------------------------------------------------------
 
 export default function ImageCompressorClient({ config }: Props) {
   const [metadata, setMetadata] = useState<ImageMetadata | null>(null);
@@ -112,20 +124,24 @@ export default function ImageCompressorClient({ config }: Props) {
 
   const [outputUrl, setOutputUrl] = useState<string | null>(null);
   const [outputBlob, setOutputBlob] = useState<Blob | null>(null);
-  const [outputDimensions, setOutputDimensions] = useState<{ width: number; height: number }>({
+  const [outputDimensions, setOutputDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({
     width: 0,
     height: 0,
   });
 
-  // Live estimate (runs quietly while the user drags the slider, before they commit)
   const [estimatedSize, setEstimatedSize] = useState<number | null>(null);
   const [estimating, setEstimating] = useState(false);
+
   const estimateRequestId = useRef(0);
   const estimateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [modalVariant, setModalVariant] = useState<ModalVariant>("preview");
+  const [modalVariant, setModalVariant] =
+    useState<ModalVariant>("preview");
   const [dropzoneKey, setDropzoneKey] = useState(0);
 
   const validFileTypes = useMemo(
@@ -134,64 +150,80 @@ export default function ImageCompressorClient({ config }: Props) {
   );
 
   const outputFormat = useMemo(() => {
-    if (outputBlob) return getOutputExtension(outputBlob, "jpg");
+    if (outputBlob) {
+      return getOutputExtension(outputBlob, "jpg");
+    }
+
     return "jpg";
   }, [outputBlob]);
-
-  // -- object URL lifecycle --
 
   useEffect(() => {
     if (!file) {
       setPreviewUrl(null);
       return;
     }
+
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
+
     return () => URL.revokeObjectURL(url);
   }, [file]);
 
   useEffect(() => {
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
     };
   }, [previewUrl]);
 
   useEffect(() => {
     return () => {
-      if (outputUrl) URL.revokeObjectURL(outputUrl);
+      if (outputUrl) {
+        URL.revokeObjectURL(outputUrl);
+      }
     };
   }, [outputUrl]);
 
   useEffect(() => {
     if (!showModal) return;
+
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setShowModal(false);
+      if (e.key === "Escape") {
+        setShowModal(false);
+      }
     };
+
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [showModal]);
 
   useEffect(() => {
     let cancelled = false;
+
     const run = async () => {
       if (!outputBlob) return;
+
       try {
         const dimensions = await getImageDimensionsFromBlob(outputBlob);
-        if (!cancelled) setOutputDimensions(dimensions);
+
+        if (!cancelled) {
+          setOutputDimensions(dimensions);
+        }
       } catch {
-        // non-fatal — dimensions are a nice-to-have, don't block the flow
+        // Dimensions are non-critical.
       }
     };
+
     run();
+
     return () => {
       cancelled = true;
     };
   }, [outputBlob]);
-
-  // -- live estimate while adjusting settings --
-  // Debounced, cancellable, and never touches the "real" output/download state.
-  // If it fails for any reason, it fails silently — the actual Compress button
-  // is the source of truth and is unaffected.
 
   useEffect(() => {
     if (!file) {
@@ -199,7 +231,9 @@ export default function ImageCompressorClient({ config }: Props) {
       return;
     }
 
-    if (estimateTimer.current) clearTimeout(estimateTimer.current);
+    if (estimateTimer.current) {
+      clearTimeout(estimateTimer.current);
+    }
 
     const requestId = ++estimateRequestId.current;
     setEstimating(true);
@@ -212,6 +246,7 @@ export default function ImageCompressorClient({ config }: Props) {
           targetKB: config.targetKB ?? targetKB,
           lockTarget: config.lockTarget,
         });
+
         if (estimateRequestId.current === requestId) {
           setEstimatedSize(result.blob.size);
         }
@@ -227,24 +262,33 @@ export default function ImageCompressorClient({ config }: Props) {
     }, ESTIMATE_DEBOUNCE_MS);
 
     return () => {
-      if (estimateTimer.current) clearTimeout(estimateTimer.current);
+      if (estimateTimer.current) {
+        clearTimeout(estimateTimer.current);
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [file, quality, targetKB, config.mode, config.targetKB, config.lockTarget]);
-
-  // -- core handlers (unchanged behavior, hardened) --
+  }, [
+    file,
+    quality,
+    targetKB,
+    config.mode,
+    config.targetKB,
+    config.lockTarget,
+  ]);
 
   const handleFiles = useCallback(
     async (files: File[]) => {
       try {
         const selected = files[0];
+
         if (!selected) return;
 
         validateImage(selected);
 
         const normalized = normalizeFile(selected);
+
         if (
-          !!normalized.format &&
+          normalized.format &&
           config.allowedFormats?.length &&
           !config.allowedFormats.includes(normalized.format)
         ) {
@@ -254,7 +298,9 @@ export default function ImageCompressorClient({ config }: Props) {
 
         const imageMetadata = await getImageMetadata(selected);
 
-        if (outputUrl) URL.revokeObjectURL(outputUrl);
+        if (outputUrl) {
+          URL.revokeObjectURL(outputUrl);
+        }
 
         setOutputUrl(null);
         setOutputBlob(null);
@@ -267,8 +313,11 @@ export default function ImageCompressorClient({ config }: Props) {
         setShowModal(false);
         setModalVariant("preview");
       } catch (err) {
-        if (err instanceof Error) setError(err.message);
-        else setError("Invalid file");
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Invalid file");
+        }
       }
     },
     [outputUrl, config.allowedFormats]
@@ -284,26 +333,32 @@ export default function ImageCompressorClient({ config }: Props) {
 
       validateImage(file);
 
-      const compressionResult: CompressionResult = await compressImage(file, {
-        mode: config.mode ?? "quality",
-        quality: quality / 100,
-        targetKB: config.targetKB ?? targetKB,
-        lockTarget: config.lockTarget,
-      });
+      const compressionResult: CompressionResult =
+        await compressImage(file, {
+          mode: config.mode ?? "quality",
+          quality: quality / 100,
+          targetKB: config.targetKB ?? targetKB,
+          lockTarget: config.lockTarget,
+        });
 
       setProgress(85);
 
-      if (outputUrl) URL.revokeObjectURL(outputUrl);
+      if (outputUrl) {
+        URL.revokeObjectURL(outputUrl);
+      }
 
       const url = URL.createObjectURL(compressionResult.blob);
+
       setOutputUrl(url);
       setOutputBlob(compressionResult.blob);
       setProgress(100);
-      
+
       setModalVariant("preview");
       setShowModal(true);
     } catch {
-      setError("Failed to compress image. Please try again or use a different file.");
+      setError(
+        "Failed to compress image. Please try again or use a different file."
+      );
     } finally {
       setProcessing(false);
     }
@@ -311,14 +366,23 @@ export default function ImageCompressorClient({ config }: Props) {
 
   const handleDownload = useCallback(async () => {
     if (!outputUrl || !file || !outputBlob) return;
+
     const extension = getOutputExtension(outputBlob, "jpg");
-    const fileName = generateFileName(file.name || "image", "compressed", extension);
+    const fileName = generateFileName(
+      file.name || "image",
+      "compressed",
+      extension
+    );
+
     const saveAs = await asyncGetFileSaverLib();
     saveAs(outputUrl, fileName);
   }, [outputUrl, file, outputBlob]);
 
   const resetTool = useCallback(() => {
-    if (outputUrl) URL.revokeObjectURL(outputUrl);
+    if (outputUrl) {
+      URL.revokeObjectURL(outputUrl);
+    }
+
     setMetadata(null);
     setFile(null);
     setProgress(0);
@@ -330,23 +394,28 @@ export default function ImageCompressorClient({ config }: Props) {
     setPreviewUrl(null);
     setShowModal(false);
     setModalVariant("preview");
-    setDropzoneKey((p) => p + 1);
+    setDropzoneKey((previous) => previous + 1);
   }, [outputUrl]);
 
   const canCompress = !!file && !processing;
 
   const finalSavingsPercent = useMemo(() => {
     if (!file || !outputBlob) return null;
+
     return savingsPercentOf(file.size, outputBlob.size);
   }, [file, outputBlob]);
 
   const estimatedSavingsPercent = useMemo(() => {
     if (!file || estimatedSize == null) return null;
+
     return savingsPercentOf(file.size, estimatedSize);
   }, [file, estimatedSize]);
 
   const ImagePreviewModal = dynamic(
-    () => import("@/components/ui/image/imagePreviewModal").then((m) => m.ImagePreviewModal),
+    () =>
+      import("@/components/ui/image/imagePreviewModal").then(
+        (module) => module.ImagePreviewModal
+      ),
     { ssr: false }
   );
 
@@ -369,8 +438,9 @@ export default function ImageCompressorClient({ config }: Props) {
               <strong className="text-white">
                 {(config.allowedFormats || []).join(", ").toUpperCase()}
               </strong>{" "}
-              files without losing the quality that matters. Everything happens securely inside your
-              browser. No uploads. No waiting. No registration.
+              files without losing the quality that matters. Everything
+              happens securely inside your browser. No uploads. No waiting.
+              No registration.
             </>
           )
         }
@@ -380,10 +450,30 @@ export default function ImageCompressorClient({ config }: Props) {
           { label: "📤 No Upload", color: "purple" },
         ]}
         stats={[
-          { label: "Input", value: (config.allowedFormats || []).join(", ").toUpperCase() || "IMAGE" },
-          { label: "Mode", value: getPrettyFormat(config.mode) },
-          { label: "Processing", value: "Local Browser", color: "emerald" },
-          { label: "Status", value: processing ? "Processing" : file ? "Ready" : "Waiting", color: "blue" },
+          {
+            label: "Input",
+            value:
+              (config.allowedFormats || []).join(", ").toUpperCase() ||
+              "IMAGE",
+          },
+          {
+            label: "Mode",
+            value: getPrettyFormat(config.mode),
+          },
+          {
+            label: "Processing",
+            value: "Local Browser",
+            color: "emerald",
+          },
+          {
+            label: "Status",
+            value: processing
+              ? "Processing"
+              : file
+                ? "Ready"
+                : "Waiting",
+            color: "blue",
+          },
         ]}
       />
 
@@ -401,9 +491,14 @@ export default function ImageCompressorClient({ config }: Props) {
                 <header className="border-b border-white/10 px-6 py-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h2 className="text-xl font-semibold text-white">Preview</h2>
-                      <p className="mt-1 text-sm text-slate-400">Original image before compression.</p>
+                      <h2 className="text-xl font-semibold text-white">
+                        Preview
+                      </h2>
+                      <p className="mt-1 text-sm text-slate-400">
+                        Original image before compression.
+                      </p>
                     </div>
+
                     <button
                       type="button"
                       onClick={resetTool}
@@ -413,8 +508,9 @@ export default function ImageCompressorClient({ config }: Props) {
                     </button>
                   </div>
                 </header>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-                  <div className="flex rounded-[24px] justify-center p-3 sm:p-4">
+
+                <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+                  <div className="flex justify-center rounded-[24px] p-3 sm:p-4">
                     {previewUrl ? (
                       <img
                         src={previewUrl}
@@ -430,27 +526,51 @@ export default function ImageCompressorClient({ config }: Props) {
                       />
                     )}
                   </div>
-                  <div className="px-6 py-3 rounded-[24px] m-4 bg-gradient-to-b from-slate-950 to-slate-900">
-                    <h3 className="text-lg font-semibold text-white">File Information</h3>
+
+                  <div className="m-4 rounded-[24px] bg-gradient-to-b from-slate-950 to-slate-900 px-6 py-3">
+                    <h3 className="text-lg font-semibold text-white">
+                      File Information
+                    </h3>
+
                     <div className="flex items-center gap-2 py-4">
                       <MetadataGrid>
-                        <StatCard label="File Name" value={file.name} icon={<FileIcon className="h-4 w-4" />} />
+                        <StatCard
+                          label="File Name"
+                          value={file.name}
+                          icon={<FileIcon className="h-4 w-4" />}
+                        />
+
                         <StatCard
                           label="Dimensions"
-                          value={metadata ? `${metadata.width} × ${metadata.height}` : "—"}
+                          value={
+                            metadata
+                              ? `${metadata.width} × ${metadata.height}`
+                              : "—"
+                          }
                           icon={<Maximize2 className="h-4 w-4" />}
                         />
+
                         <StatCard
                           label="File Size"
-                          value={metadata ? formatBytes(metadata.size) : "—"}
+                          value={
+                            metadata
+                              ? formatBytes(metadata.size)
+                              : "—"
+                          }
                           icon={<FileUp className="h-4 w-4" />}
                         />
+
                         <StatCard
                           label="Format"
                           value={(file.type || "unknown").toUpperCase()}
                           icon={<ImageIcon className="h-4 w-4" />}
                         />
-                        <StatCard label="Privacy" value="Local Processing" icon={<ShieldCheck className="h-4 w-4" />} />
+
+                        <StatCard
+                          label="Privacy"
+                          value="Local Processing"
+                          icon={<ShieldCheck className="h-4 w-4" />}
+                        />
                       </MetadataGrid>
                     </div>
                   </div>
@@ -460,28 +580,47 @@ export default function ImageCompressorClient({ config }: Props) {
 
             <aside className="space-y-5">
               <section className="sticky top-12 rounded-[24px] border border-white/10 bg-slate-900/70 p-5 backdrop-blur-xl">
-                <SectionHeader title="Compression" subtitle="" icon={<Gauge className="h-5 w-5" />} />
+                <SectionHeader
+                  title="Compression"
+                  subtitle=""
+                  icon={<Gauge className="h-5 w-5" />}
+                />
 
                 <div className="mt-8 space-y-5">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="rounded-2xl bg-slate-950/60 p-4">
                       <div className="text-sm text-slate-500">Input</div>
                       <div className="mt-2 font-semibold text-white">
-                        {(config.allowedFormats || []).join(", ").toUpperCase() || "IMAGE"}
+                        {(config.allowedFormats || [])
+                          .join(", ")
+                          .toUpperCase() || "IMAGE"}
                       </div>
                     </div>
+
                     <div className="rounded-xl bg-slate-950/60 p-4">
                       <div className="text-sm text-slate-500">Mode</div>
-                      <div className="mt-2 font-semibold text-white">{getPrettyFormat(config.mode)}</div>
+                      <div className="mt-2 font-semibold text-white">
+                        {getPrettyFormat(config.mode)}
+                      </div>
                     </div>
+
                     <div className="rounded-xl bg-slate-950/60 p-4">
-                      <div className="text-sm text-slate-500">Processing</div>
-                      <div className="mt-2 font-semibold text-emerald-300">Local Browser</div>
+                      <div className="text-sm text-slate-500">
+                        Processing
+                      </div>
+                      <div className="mt-2 font-semibold text-emerald-300">
+                        Local Browser
+                      </div>
                     </div>
+
                     <div className="rounded-xl bg-slate-950/60 p-4">
                       <div className="text-sm text-slate-500">Status</div>
                       <div className="mt-2 font-semibold text-blue-300">
-                        {processing ? "Processing" : file ? "Ready" : "Waiting"}
+                        {processing
+                          ? "Processing"
+                          : file
+                            ? "Ready"
+                            : "Waiting"}
                       </div>
                     </div>
                   </div>
@@ -490,16 +629,22 @@ export default function ImageCompressorClient({ config }: Props) {
                     <div className="rounded-2xl bg-slate-950/60 p-4">
                       <div className="flex items-center justify-between text-sm text-slate-400">
                         <span>Compression Quality</span>
-                        <span className="font-semibold text-white">{quality}%</span>
+                        <span className="font-semibold text-white">
+                          {quality}%
+                        </span>
                       </div>
+
                       <input
                         type="range"
                         min={10}
                         max={100}
                         value={quality}
-                        onChange={(e) => setQuality(Number(e.target.value))}
+                        onChange={(e) =>
+                          setQuality(Number(e.target.value))
+                        }
                         className="mt-3 w-full"
                       />
+
                       <EstimateRow
                         originalSize={file.size}
                         estimating={estimating}
@@ -513,17 +658,23 @@ export default function ImageCompressorClient({ config }: Props) {
                     <div className="rounded-2xl bg-slate-950/60 p-4">
                       <div className="flex items-center justify-between text-sm text-slate-400">
                         <span>Target Size</span>
-                        <span className="font-semibold text-white">{targetKB} KB</span>
+                        <span className="font-semibold text-white">
+                          {targetKB} KB
+                        </span>
                       </div>
+
                       <input
                         type="range"
                         min={1}
                         max={10000}
                         value={targetKB}
                         disabled={config.lockTarget}
-                        onChange={(e) => setTargetKB(Number(e.target.value))}
+                        onChange={(e) =>
+                          setTargetKB(Number(e.target.value))
+                        }
                         className="mt-3 w-full"
                       />
+
                       <EstimateRow
                         originalSize={file.size}
                         estimating={estimating}
@@ -533,8 +684,15 @@ export default function ImageCompressorClient({ config }: Props) {
                     </div>
                   )}
 
-                  <ToolButton onClick={handleCompress} disabled={!canCompress} variant="primary" icon={<Gauge className="h-5 w-5" />}>
-                    {processing ? "Compressing..." : "Compress Image"}
+                  <ToolButton
+                    onClick={handleCompress}
+                    disabled={!canCompress}
+                    variant="primary"
+                    icon={<Gauge className="h-5 w-5" />}
+                  >
+                    {processing
+                      ? "Compressing..."
+                      : "Compress Image"}
                   </ToolButton>
 
                   <div className="rounded-[24px] border border-white/10 bg-slate-950/60 p-4">
@@ -542,9 +700,14 @@ export default function ImageCompressorClient({ config }: Props) {
                       <div className="rounded-2xl bg-blue-500/10 p-3">
                         <ShieldCheck className="h-5 w-5 text-blue-400" />
                       </div>
+
                       <div>
-                        <div className="text-sm font-medium text-white">Privacy first</div>
-                        <div className="mt-1 text-sm text-slate-400">No server upload. No account needed.</div>
+                        <div className="text-sm font-medium text-white">
+                          Privacy first
+                        </div>
+                        <div className="mt-1 text-sm text-slate-400">
+                          No server upload. No account needed.
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -554,7 +717,12 @@ export default function ImageCompressorClient({ config }: Props) {
           </section>
         )}
 
-        {processing && <ToolProgress progress={progress} processingMessage={`${progressStageLabel(progress)}...`} />}
+        {processing && (
+          <ToolProgress
+            progress={progress}
+            processingMessage={`${progressStageLabel(progress)}...`}
+          />
+        )}
 
         {outputUrl && outputBlob && file && (
           <div className="space-y-6">
@@ -564,13 +732,19 @@ export default function ImageCompressorClient({ config }: Props) {
               icon={<CheckCircle2 className="h-10 w-10" />}
             />
 
-            {/* Before/after is the hero of the result screen — the payoff of using a compressor */}
             <section className="rounded-[24px] border border-emerald-500/20 bg-emerald-500/5 p-6 text-center">
               <div className="flex flex-wrap items-center justify-center gap-4 text-2xl font-bold sm:text-3xl">
-                <span className="text-slate-400 line-through decoration-slate-600">{formatBytes(file.size)}</span>
+                <span className="text-slate-400 line-through decoration-slate-600">
+                  {formatBytes(file.size)}
+                </span>
+
                 <ArrowRight className="h-6 w-6 text-emerald-400" />
-                <span className="text-white">{formatBytes(outputBlob.size)}</span>
+
+                <span className="text-white">
+                  {formatBytes(outputBlob.size)}
+                </span>
               </div>
+
               {finalSavingsPercent !== null && (
                 <div className="mt-2 text-lg font-semibold text-emerald-300">
                   {finalSavingsPercent}% smaller
@@ -578,39 +752,80 @@ export default function ImageCompressorClient({ config }: Props) {
               )}
             </section>
 
-            {/* Side-by-side so users can judge quality before committing to download */}
             <section className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
                 <div className="mb-2 flex items-center justify-between text-xs text-white/50">
                   <span>Original</span>
                   <span>{formatBytes(file.size)}</span>
                 </div>
-                <div className="flex items-center justify-center overflow-hidden rounded-xl bg-black/30" style={{ aspectRatio: "4 / 3" }}>
+
+                <div
+                  className="flex items-center justify-center overflow-hidden rounded-xl bg-black/30"
+                  style={{ aspectRatio: "4 / 3" }}
+                >
                   {previewUrl && (
-                    <img src={previewUrl} alt="original" className="h-full w-full object-contain" draggable={false} />
+                    <img
+                      src={previewUrl}
+                      alt="original"
+                      className="h-full w-full object-contain"
+                      draggable={false}
+                    />
                   )}
                 </div>
               </div>
+
               <div className="rounded-2xl border border-emerald-500/20 bg-black/20 p-3">
                 <div className="mb-2 flex items-center justify-between text-xs text-emerald-300/80">
                   <span>Compressed</span>
                   <span>{formatBytes(outputBlob.size)}</span>
                 </div>
-                <div className="flex items-center justify-center overflow-hidden rounded-xl bg-black/30" style={{ aspectRatio: "4 / 3" }}>
-                  <img src={outputUrl} alt="compressed" className="h-full w-full object-contain" draggable={false} />
+
+                <div
+                  className="flex items-center justify-center overflow-hidden rounded-xl bg-black/30"
+                  style={{ aspectRatio: "4 / 3" }}
+                >
+                  <img
+                    src={outputUrl}
+                    alt="compressed"
+                    className="h-full w-full object-contain"
+                    draggable={false}
+                  />
                 </div>
               </div>
             </section>
 
             <div className="grid gap-5 md:grid-cols-4">
-              <StatCard label="Output" value={getPrettyFormat(outputFormat)} icon={<ImageIcon className="h-4 w-4" />} />
-              <StatCard label="File Size" value={formatBytes(outputBlob.size)} icon={<FileUp className="h-4 w-4" />} />
+              <StatCard
+                label="Output"
+                value={getPrettyFormat(outputFormat)}
+                icon={<ImageIcon className="h-4 w-4" />}
+              />
+
+              <StatCard
+                label="File Size"
+                value={formatBytes(outputBlob.size)}
+                icon={<FileUp className="h-4 w-4" />}
+              />
+
               <StatCard
                 label="Resolution"
-                value={outputDimensions.width ? `${outputDimensions.width}×${outputDimensions.height}` : "—"}
+                value={
+                  outputDimensions.width
+                    ? `${outputDimensions.width}×${outputDimensions.height}`
+                    : "—"
+                }
                 icon={<Maximize2 className="h-4 w-4" />}
               />
-              <StatCard label="Savings" value={finalSavingsPercent !== null ? `${finalSavingsPercent}%` : "—"} icon={<Gauge className="h-4 w-4" />} />
+
+              <StatCard
+                label="Savings"
+                value={
+                  finalSavingsPercent !== null
+                    ? `${finalSavingsPercent}%`
+                    : "—"
+                }
+                icon={<Gauge className="h-4 w-4" />}
+              />
             </div>
 
             <section className="grid gap-3 sm:grid-cols-2">
@@ -644,7 +859,11 @@ export default function ImageCompressorClient({ config }: Props) {
         <ImagePreviewModal
           url={outputUrl}
           onClose={() => setShowModal(false)}
-          documentName={generateFileName(file?.name || "image", "compressed", outputFormat)}
+          documentName={generateFileName(
+            file?.name || "image",
+            "compressed",
+            outputFormat
+          )}
           variant={modalVariant}
           onDownload={handleDownload}
         />
@@ -653,7 +872,6 @@ export default function ImageCompressorClient({ config }: Props) {
   );
 }
 
-// Small presentational helper for the live-estimate row under each slider.
 function EstimateRow({
   originalSize,
   estimating,
@@ -668,12 +886,15 @@ function EstimateRow({
   return (
     <div className="mt-3 flex items-center justify-between rounded-xl bg-black/20 px-3 py-2 text-xs">
       <span className="text-slate-500">Estimated result</span>
+
       {estimating ? (
         <span className="text-slate-400">Calculating…</span>
       ) : estimatedSize != null ? (
         <span className="font-medium text-emerald-300">
           {formatBytes(estimatedSize)}
-          {estimatedSavingsPercent !== null ? ` · ${estimatedSavingsPercent}% smaller` : ""}
+          {estimatedSavingsPercent !== null
+            ? ` · ${estimatedSavingsPercent}% smaller`
+            : ""}
         </span>
       ) : (
         <span className="text-slate-500">—</span>

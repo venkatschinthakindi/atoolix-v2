@@ -5,8 +5,14 @@ import dynamic from "next/dynamic";
 import { ArrowRightLeft, Plus, Trash2, Sparkles } from "lucide-react";
 import { getConvertUnits } from "@/lib/convertUnitsUtility";
 import { useSearchParams } from "next/navigation";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
 
-type UnitOption = { abbr: string; name: string; measure?: string };
+type UnitOption = {
+  abbr: string;
+  name: string;
+  measure?: string;
+};
+
 type Theme = "light" | "dark";
 
 type UnitConverterProps = {
@@ -15,7 +21,10 @@ type UnitConverterProps = {
 };
 
 const UnitCombobox = dynamic(
-  () => import("@/components/ui/fromToUnitConverterCombobox").then((mod) => mod.UnitCombobox),
+  () =>
+    import("@/components/ui/fromToUnitConverterCombobox").then(
+      (mod) => mod.UnitCombobox
+    ),
   { ssr: false }
 );
 
@@ -23,7 +32,12 @@ export default function UnitConverterTool({
   initialExpression = "",
   theme = "dark",
 }: UnitConverterProps) {
-  return <UnitConverter initialExpression={initialExpression} theme={theme} />;
+  return (
+    <UnitConverter
+      initialExpression={initialExpression}
+      theme={theme}
+    />
+  );
 }
 
 function ShellCard({
@@ -42,55 +56,10 @@ function ShellCard({
   );
 }
 
-function SectionHeader({
-  icon: Icon,
-  title,
-  subtitle,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  subtitle: string;
-}) {
-  return (
-    <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-      <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div>
-          <h2 className="text-base font-semibold tracking-tight text-white">{title}</h2>
-          <p className="mt-1 text-xs text-white/60 sm:text-sm">{subtitle}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3 backdrop-blur-sm">
-      <div className="flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center text-blue-200">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">{label}</p>
-          <p className="truncate text-sm font-semibold text-white">{value}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverterProps) {
+function UnitConverter({
+  initialExpression = "",
+  theme = "dark",
+}: UnitConverterProps) {
   const [values, setValues] = useState(initialExpression);
   const [from, setFrom] = useState<string | null>("l");
   const [to, setTo] = useState<string | null>("mL");
@@ -101,14 +70,16 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
   const [queryFrom, setQueryFrom] = useState("");
   const [queryTo, setQueryTo] = useState("");
   const [isConverting, setIsConverting] = useState(false);
-  const [openFrom, setOpenFrom] = useState(false);
-  const [openTo, setOpenTo] = useState(false);
   const [unitData, setUnitData] = useState<{
     standardUnits: UnitOption[];
     unitMeasureMap: Record<string, string>;
-  }>({ standardUnits: [], unitMeasureMap: {} });
+  }>({
+    standardUnits: [],
+    unitMeasureMap: {},
+  });
 
   const searchParams = useSearchParams();
+
   useEffect(() => {
     const tool = searchParams.get("unit")?.toLowerCase() || "";
 
@@ -132,21 +103,29 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
 
     (async () => {
       const convert = await getConvertUnits();
+
       const standardUnits: UnitOption[] = convert()
         .measures()
         .flatMap((measure: string) =>
-          convert().list(measure).map((u: any) => ({
-            abbr: u.abbr,
-            name: u.plural,
-            measure,
-          }))
+          convert()
+            .list(measure)
+            .map((u: any) => ({
+              abbr: u.abbr,
+              name: u.plural,
+              measure,
+            }))
         );
 
       const unitMeasureMap = Object.fromEntries(
         standardUnits.map((u) => [u.abbr, u.measure ?? ""])
       ) as Record<string, string>;
 
-      if (mounted) setUnitData({ standardUnits, unitMeasureMap });
+      if (mounted) {
+        setUnitData({
+          standardUnits,
+          unitMeasureMap,
+        });
+      }
     })();
 
     return () => {
@@ -155,11 +134,13 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
   }, []);
 
   const allUnits = useMemo<UnitOption[]>(() => {
-    const customUnitOptions: UnitOption[] = Object.keys(customUnits).map((name) => ({
-      abbr: name,
-      name: `Custom (${customUnits[name]})`,
-      measure: "custom",
-    }));
+    const customUnitOptions: UnitOption[] = Object.keys(customUnits).map(
+      (name) => ({
+        abbr: name,
+        name: `Custom (${customUnits[name]})`,
+        measure: "custom",
+      })
+    );
 
     return [...unitData.standardUnits, ...customUnitOptions];
   }, [customUnits, unitData.standardUnits]);
@@ -167,12 +148,19 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
   const getFilteredUnits = useCallback(
     (query: string, relatedMeasure?: string) => {
       const q = query.toLowerCase();
+
       return allUnits.filter((u) => {
         const matchesQuery =
-          query === "" || u.abbr.toLowerCase().includes(q) || u.name.toLowerCase().includes(q);
+          query === "" ||
+          u.abbr.toLowerCase().includes(q) ||
+          u.name.toLowerCase().includes(q);
+
         if (!matchesQuery) return false;
+
         if (!relatedMeasure) return true;
+
         const measure = unitData.unitMeasureMap[u.abbr] ?? "custom";
+
         return measure === relatedMeasure || measure === "custom";
       });
     },
@@ -180,18 +168,27 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
   );
 
   const filteredFrom = useMemo(
-    () => getFilteredUnits(queryFrom, to ? unitData.unitMeasureMap[to] : undefined),
+    () =>
+      getFilteredUnits(
+        queryFrom,
+        to ? unitData.unitMeasureMap[to] : undefined
+      ),
     [getFilteredUnits, queryFrom, to, unitData.unitMeasureMap]
   );
 
   const filteredTo = useMemo(
-    () => getFilteredUnits(queryTo, from ? unitData.unitMeasureMap[from] : undefined),
+    () =>
+      getFilteredUnits(
+        queryTo,
+        from ? unitData.unitMeasureMap[from] : undefined
+      ),
     [getFilteredUnits, queryTo, from, unitData.unitMeasureMap]
   );
 
   const handleSetFrom = useCallback(
     (value: string) => {
       setFrom(value);
+
       if (
         to &&
         unitData.unitMeasureMap[value] &&
@@ -207,6 +204,7 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
   const handleSetTo = useCallback(
     (value: string) => {
       setTo(value);
+
       if (
         from &&
         unitData.unitMeasureMap[value] &&
@@ -222,9 +220,14 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
   const addCustomUnit = useCallback(() => {
     const name = newUnitName.trim();
     const def = newUnitDef.trim();
+
     if (!name || !def) return;
 
-    setCustomUnits((prev) => ({ ...prev, [name]: def }));
+    setCustomUnits((prev) => ({
+      ...prev,
+      [name]: def,
+    }));
+
     setNewUnitName("");
     setNewUnitDef("");
   }, [newUnitName, newUnitDef]);
@@ -250,24 +253,36 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
 
       Object.entries(customUnits).forEach(([name, definition]) => {
         try {
-          createUnit(name, definition, { override: true });
+          createUnit(name, definition, {
+            override: true,
+          });
         } catch {}
       });
 
       const convert = await getConvertUnits();
-      const items = values.split(",").map((v) => v.trim()).filter(Boolean);
+      const items = values
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean);
+
       const output: string[] = [];
 
       for (const val of items) {
         try {
-          const basicResult = convert(parseFloat(val)).from(from as any).to(to as any);
+          const basicResult = convert(parseFloat(val))
+            .from(from as any)
+            .to(to as any);
+
           output.push(`${val} ${from} → ${basicResult} ${to}`);
         } catch {
           try {
             const advancedResult = unit(`${val} ${from}`).to(to);
+
             output.push(`${val} ${from} → ${advancedResult.toString()}`);
           } catch {
-            output.push(`${val} ${from} → Conversion not available`);
+            output.push(
+              `${val} ${from} → Conversion not available`
+            );
           }
         }
       }
@@ -279,7 +294,11 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
   }, [customUnits, from, to, values]);
 
   const count = useMemo(
-    () => values.split(",").map((v) => v.trim()).filter(Boolean).length,
+    () =>
+      values
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean).length,
     [values]
   );
 
@@ -303,11 +322,15 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
               <Sparkles className="h-3.5 w-3.5" />
               Unit converter
             </div>
+
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
               Convert Units Fast
             </h2>
+
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
-              Transform length, weight, volume, temperature, and more with effortless conversions — all powered by a sleek, user‑friendly interface.
+              Transform length, weight, volume, temperature, and more with
+              effortless conversions — all powered by a sleek, user-friendly
+              interface.
             </p>
           </div>
         </div>
@@ -323,19 +346,24 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
 
           <div className="space-y-4 p-3 sm:p-4 md:p-5">
             <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">Result</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">
+                Result
+              </p>
+
               <div className="mt-2 min-h-[56px] space-y-2">
                 {results.length > 0 ? (
-                  results.map((r, i) => (
+                  results.map((result, index) => (
                     <div
-                      key={i}
+                      key={index}
                       className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-white"
                     >
-                      {r}
+                      {result}
                     </div>
                   ))
                 ) : (
-                  <div className="text-2xl font-semibold text-white/70">0</div>
+                  <div className="text-2xl font-semibold text-white/70">
+                    0
+                  </div>
                 )}
               </div>
             </div>
@@ -349,35 +377,27 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
                   className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-blue-400/35 focus:bg-black/15"
                 />
 
-                <div onFocusCapture={() => setOpenFrom(true)} onBlurCapture={() => setTimeout(() => setOpenFrom(false), 120)}>
-                  <UnitCombobox
-                    value={from}
-                    onChange={handleSetFrom}
-                    query={queryFrom}
-                    setQuery={setQueryFrom}
-                    options={filteredFrom}
-                    placeholder="From unit"
-                    // open={openFrom}
-                    // setOpen={setOpenFrom}
-                  />
-                </div>
+                <UnitCombobox
+                  value={from}
+                  onChange={handleSetFrom}
+                  query={queryFrom}
+                  setQuery={setQueryFrom}
+                  options={filteredFrom}
+                  placeholder="From unit"
+                />
 
                 <div className="flex items-center justify-center text-white/50">
                   <ArrowRightLeft className="h-5 w-5" />
                 </div>
 
-                <div onFocusCapture={() => setOpenTo(true)} onBlurCapture={() => setTimeout(() => setOpenTo(false), 120)}>
-                  <UnitCombobox
-                    value={to}
-                    onChange={handleSetTo}
-                    query={queryTo}
-                    setQuery={setQueryTo}
-                    options={filteredTo}
-                    placeholder="To unit"
-                    // open={openTo}
-                    // setOpen={setOpenTo}
-                  />
-                </div>
+                <UnitCombobox
+                  value={to}
+                  onChange={handleSetTo}
+                  query={queryTo}
+                  setQuery={setQueryTo}
+                  options={filteredTo}
+                  placeholder="To unit"
+                />
               </div>
 
               <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
@@ -417,12 +437,14 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
                 placeholder="Unit name, e.g. coffee"
                 className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-blue-400/35 focus:bg-black/15"
               />
+
               <input
                 value={newUnitDef}
                 onChange={(e) => setNewUnitDef(e.target.value)}
                 placeholder="Definition, e.g. 250 ml"
                 className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-blue-400/35 focus:bg-black/15"
               />
+
               <button
                 type="button"
                 onClick={addCustomUnit}
@@ -433,19 +455,26 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
             </div>
 
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.16em] text-white/45">Saved units</p>
+              <p className="text-xs uppercase tracking-[0.16em] text-white/45">
+                Saved units
+              </p>
 
               {Object.keys(customUnits).length > 0 ? (
                 <div className="space-y-2">
-                  {Object.entries(customUnits).map(([name, def]) => (
+                  {Object.entries(customUnits).map(([name, definition]) => (
                     <div
                       key={name}
                       className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-white">{name}</p>
-                        <p className="truncate text-xs text-white/50">{def}</p>
+                        <p className="truncate text-sm font-semibold text-white">
+                          {name}
+                        </p>
+                        <p className="truncate text-xs text-white/50">
+                          {definition}
+                        </p>
                       </div>
+
                       <button
                         type="button"
                         onClick={() => removeCustomUnit(name)}
@@ -469,3 +498,4 @@ function UnitConverter({ initialExpression = "", theme = "dark" }: UnitConverter
     </div>
   );
 }
+

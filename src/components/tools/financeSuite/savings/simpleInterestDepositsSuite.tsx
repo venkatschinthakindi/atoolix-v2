@@ -7,13 +7,15 @@ import {
   BarChart3,
 } from "lucide-react";
 import { CURRENCIES, CurrencyCode } from "./core/currencyCode";
-import { StatCard } from "./core/statCard";
+import { StatCard } from "@/sharedUI/statCard";
 import { CalculatorNavigation } from "./core/calculatorNavigation";
-import { SectionHeader } from "./core/sectionHeader";
-import { Field } from "./core/field";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
+import { CurrencyInput } from "@/sharedUI/calculator/CurrencyInput";
+import { NumberInput } from "@/sharedUI/calculator/NumberInput";
+import { DurationInput } from "@/sharedUI/calculator/DurationInput";
 import { CurrencySelector } from "./core/currencySelector";
 import { createCurrencyFormatter } from "./core/currencyFormatter";
-import { clamp, inputCls } from "@/sharedUI/calculator/calculatorHelpers";
+import { clamp } from "@/sharedUI/calculator/calculatorHelpers";
 import { QuickStartStrip } from "@/sharedUI/calculator/QuickStartStrip";
 import { MethodologyNote } from "@/sharedUI/calculator/MethodologyNote";
 import { EstimateDisclaimer } from "@/sharedUI/calculator/EstimateDisclaimer";
@@ -285,87 +287,43 @@ export default function SimpleInterestCalculator() {
 
           <div className="grid gap-5 sm:grid-cols-2">
 
-            <div>
-              <Field
-                label={`Principal (${currencyMeta.symbol})`}
-              >
-                <input
-                  type="number"
-                  min={0}
-                  step="1"
-                  inputMode="decimal"
-                  value={principal}
-                  onChange={(e) =>
-                    setPrincipal(
-                      Math.max(
-                        0,
-                        Number(e.target.value)
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
+            <CurrencyInput
+              label={`Principal (${currencyMeta.symbol})`}
+              value={principal}
+              onChange={(value) =>
+                setPrincipal(Math.max(0, value ?? 0))
+              }
+              currency={currencyMeta.symbol}
+              min={0}
+              step={1}
+              hint="The starting amount you invest or deposit."
+            />
 
-              <div className="text-[11px] text-white/35 mt-1">
-                The starting amount you invest or deposit.
-              </div>
-            </div>
+            <NumberInput
+              label="Interest rate (%)"
+              value={simpleRate}
+              onChange={(value) =>
+                setSimpleRate(Math.max(0, value ?? 0))
+              }
+              min={0}
+              step={0.01}
+              hint="Annual simple interest rate."
+            />
 
-            <div>
-              <Field label="Interest rate (%)">
-                <input
-                  type="number"
-                  min={0}
-                  step="0.01"
-                  inputMode="decimal"
-                  value={simpleRate}
-                  onChange={(e) =>
-                    setSimpleRate(
-                      Math.max(
-                        0,
-                        Number(e.target.value)
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                Annual simple interest rate.
-              </div>
-            </div>
-
-            <div>
-              <Field
-                label="Duration (years)"
-                hint={`Max ${MAX_YEARS}`}
-              >
-                <input
-                  type="number"
-                  min={0}
-                  max={MAX_YEARS}
-                  step="1"
-                  inputMode="decimal"
-                  value={simpleYears}
-                  onChange={(e) =>
-                    setSimpleYears(
-                      clamp(
-                        Number(e.target.value),
-                        0,
-                        MAX_YEARS
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                How long the money stays invested.
-              </div>
-            </div>
+            <DurationInput
+              label="Duration (years)"
+              value={simpleYears}
+              onChange={(value) =>
+                setSimpleYears(
+                  clamp(value ?? 0, 0, MAX_YEARS)
+                )
+              }
+              unit="years"
+              min={0}
+              max={MAX_YEARS}
+              step={1}
+              hint={`Max ${MAX_YEARS}. How long the money stays invested.`}
+            />
 
           </div>
 

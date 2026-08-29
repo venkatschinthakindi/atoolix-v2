@@ -14,12 +14,15 @@ import {
 } from "lucide-react";
 import { CURRENCIES, CurrencyCode } from "./core/currencyCode";
 import { CalculatorNavigation } from "./core/calculatorNavigation";
-import { SectionHeader } from "./core/sectionHeader";
-import { StatCard } from "./core/statCard";
+import { SectionHeader } from "@/sharedUI/sectionHeader";
+import { StatCard } from "@/sharedUI/statCard";
 import { Field } from "./core/field";
+import { CurrencyInput } from "@/sharedUI/calculator/CurrencyInput";
+import { NumberInput } from "@/sharedUI/calculator/NumberInput";
+import { DurationInput } from "@/sharedUI/calculator/DurationInput";
 import { CurrencySelector } from "./core/currencySelector";
 import { createCurrencyFormatter } from "./core/currencyFormatter";
-import { clamp, inputCls } from "@/sharedUI/calculator/calculatorHelpers";
+import { clamp } from "@/sharedUI/calculator/calculatorHelpers";
 import { QuickStartStrip } from "@/sharedUI/calculator/QuickStartStrip";
 import { MethodologyNote } from "@/sharedUI/calculator/MethodologyNote";
 import { EstimateDisclaimer } from "@/sharedUI/calculator/EstimateDisclaimer";
@@ -335,85 +338,47 @@ export default function RecurringDepositCalculator() {
           <div className="grid gap-5 sm:grid-cols-2">
 
             <div>
-              <Field
+              <CurrencyInput
                 label={`Monthly deposit (${currencyMeta.symbol})`}
-              >
-                <input
-                  type="number"
-                  min={0}
-                  step="1"
-                  inputMode="decimal"
-                  value={rdAmount}
-                  onChange={(e) =>
-                    setRdAmount(
-                      Math.max(
-                        0,
-                        Number(e.target.value)
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                The amount you deposit every month.
-              </div>
+                value={rdAmount}
+                onChange={(value) =>
+                  setRdAmount(Math.max(0, value ?? 0))
+                }
+                currency={currencyMeta.symbol}
+                min={0}
+                step={1}
+                hint="The amount you deposit every month."
+              />
             </div>
 
             <div>
-              <Field label="Interest rate (%)">
-                <input
-                  type="number"
-                  min={0}
-                  step="0.01"
-                  inputMode="decimal"
-                  value={rdRate}
-                  onChange={(e) =>
-                    setRdRate(
-                      Math.max(
-                        0,
-                        Number(e.target.value)
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                Annual RD rate.
-              </div>
+              <NumberInput
+                label="Interest rate (%)"
+                value={rdRate}
+                onChange={(value) =>
+                  setRdRate(Math.max(0, value ?? 0))
+                }
+                min={0}
+                step={0.01}
+                hint="Annual RD rate."
+              />
             </div>
 
             <div>
-              <Field
+              <DurationInput
                 label="Term (months)"
-                hint={`Max ${MAX_RD_MONTHS}`}
-              >
-                <input
-                  type="number"
-                  min={1}
-                  max={MAX_RD_MONTHS}
-                  step={1}
-                  inputMode="numeric"
-                  value={rdMonths}
-                  onChange={(e) =>
-                    setRdMonths(
-                      clamp(
-                        Number(e.target.value),
-                        1,
-                        MAX_RD_MONTHS
-                      )
-                    )
-                  }
-                  className={inputCls}
-                />
-              </Field>
-
-              <div className="text-[11px] text-white/35 mt-1">
-                How many months you keep depositing.
-              </div>
+                value={rdMonths}
+                onChange={(value) =>
+                  setRdMonths(
+                    clamp(value ?? 1, 1, MAX_RD_MONTHS)
+                  )
+                }
+                unit="months"
+                min={1}
+                max={MAX_RD_MONTHS}
+                step={1}
+                hint={`Max ${MAX_RD_MONTHS}. How many months you keep depositing.`}
+              />
             </div>
 
             <div>

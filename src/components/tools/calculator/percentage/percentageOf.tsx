@@ -1,5 +1,5 @@
 "use client";
-
+import { SectionHeader } from "@/sharedUI/sectionHeader";
 import { useMemo, useState } from "react";
 import {
   Copy,
@@ -256,30 +256,6 @@ function ShellCard({
   );
 }
 
-function SectionHeader({
-  icon: Icon,
-  title,
-  subtitle,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  subtitle: string;
-}) {
-  return (
-    <div className="border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4">
-      <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-          <Icon className="h-4 w-4" />
-        </span>
-        <div>
-          <h2 className="text-base font-semibold tracking-tight text-white sm:text-md">{title}</h2>
-          <p className="mt-1 text-xs text-white/60 sm:text-sm">{subtitle}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function InputField({
   id,
   label,
@@ -358,6 +334,7 @@ export default function PercentageOf() {
     <div className="space-y-4">
       <ShellCard>
         <SectionHeader
+          variant="card"
           icon={Calculator}
           title={activeMode.label}
           subtitle={activeMode.description ?? "Choose a mode and calculate instantly."}
@@ -450,6 +427,7 @@ export default function PercentageOf() {
 
       <ShellCard>
         <SectionHeader
+          variant="card"
           icon={FileText}
           title="Calculation modes"
           subtitle="Discount, GST, markup, profit, loss, ROI, and reverse calculations are available here."
