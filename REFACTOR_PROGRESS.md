@@ -250,6 +250,33 @@ consumer files: 25 problems (8 errors, 17 warnings) — confirmed
 identical count before and after via `git stash` (all pre-existing,
 none introduced by this change).
 
+### PDF tool family: premiumShellClass/GlassIcon + 5th formatBytes copy
+**Files:**
+- New: `src/sharedUI/tool/premiumShell.ts`, `src/sharedUI/tool/GlassIcon.tsx`
+- Changed: `CompressClient.tsx`, `mergePdfClient.tsx`, `splitPdfClient.tsx`
+
+Continuing the pdf tool family item from the "remaining candidates"
+list below. Found two genuine, safe duplicates across all 3 files:
+
+- `premiumShellClass()` and `GlassIcon` — byte-identical across all 3
+  (splitPdfClient.tsx had one stray double-space in its className
+  string, which has no rendering effect — not a meaningful divergence).
+  Extracted verbatim into `src/sharedUI/tool/premiumShell.ts` and
+  `src/sharedUI/tool/GlassIcon.tsx`.
+- `CompressClient.tsx` had its own **5th independent** `formatBytes()`
+  implementation (distinct from the 4 already consolidated above).
+  Folded into the same canonical `src/sharedUI/formatBytes.ts`,
+  consistent with the standardization already approved for this
+  utility.
+
+No slider pattern in `CompressClient.tsx` — it uses discrete preset
+level cards, not a continuous range input, so `SliderCard` doesn't
+apply there. Nothing force-fit.
+
+**Verification:** `npx tsc --noEmit` clean. `npx eslint` on the 3
+files: 34 problems (12 errors, 22 warnings) — confirmed identical
+count before/after via `git stash` (all pre-existing).
+
 ---
 
 ## Remaining candidates surveyed but not yet acted on
@@ -269,11 +296,12 @@ next session doesn't have to re-derive them.
   owner whether `basicPercentage.tsx` / `percentageOf.tsx` are intentional
   work-in-progress before spending effort deduping unused code.
 - **`src/components/tools/pdf/*Client.tsx`** (merge, split, compress,
-  image-to-pdf) — already reuse the shared kit (`DropZone`, `ProgressBar`,
-  `ToolHero`, `imageToolUI/*`) extensively. `image-to-pdf`'s `formatBytes`
-  and margin slider were deduped this session (see above); merge/split/
-  compress variants haven't been checked yet for the same patterns —
-  worth a pass.
+  image-to-pdf) — `formatBytes`/margin-slider (image-to-pdf) and
+  `premiumShellClass`/`GlassIcon`/`formatBytes` (merge/split/compress)
+  duplication deduped this session (see above). Not yet checked: any
+  duplicated file-list-row markup between mergePdfClient's `FileRow`
+  usage and splitPdfClient's own PDF-item list rendering — worth a
+  pass.
 - **`src/components/tools/qrCode/`** — `qrGeneratorPanel.tsx` (825 lines)
   has no shared-ui imports, but it wasn't compared against another
   QR-specific consumer since there's only one QR tool; likely just a large
