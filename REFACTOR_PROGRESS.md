@@ -207,6 +207,49 @@ session** — flagged as the next candidate. Recommend a `variant: "basic" |
 `showWorkingHoursBadges?`) so each consumer opts into exactly what it
 currently renders, with no visual change to either page.
 
+### Image tool family: formatBytes + slider markup dedup
+**Files:**
+- New: `src/sharedUI/formatBytes.ts`, `src/sharedUI/tool/sliderCard.tsx`
+- Changed: `ImageCompressorClient.tsx`, `ImageConverterClient.tsx`,
+  `passportPhotoCompressorClient.tsx`, `ImageToPDFClient.tsx`,
+  `src/sharedUI/file/FileMetadata.tsx`
+
+**What was checked first:** whether the `sharedUI/{feedback,file,image,
+pdf,tool}` component folders (merged in from `refactor/shared-ui-
+foundation` earlier this session) could be consumed by these 4 files.
+Found they don't fit — these files already use an established
+`@/components/ui/*` kit (`DropZone`, `ToolHero`, `WorkspaceCard`,
+`MetadataGrid`, `SectionHeader`, `ToolButton`, `EmptyState`,
+`SuccessBanner`, `ToolProgress`, `ProgressBar`). Swapping in the newer,
+less-integrated `sharedUI/` components here would have been a
+downgrade, not a dedup. Confirmed and left alone.
+
+**What was genuinely duplicated:**
+- `formatBytes()` — 4 independently-evolved copies (Image Compressor,
+  Image Converter, Image-to-PDF, and `sharedUI/file/FileMetadata`'s
+  private copy), each with different unit ranges, rounding, and
+  edge-case handling (not byte-identical, unlike the dateTime helpers
+  above). Consolidated into `src/sharedUI/formatBytes.ts` using the
+  most robust behavior found, **with explicit user approval to
+  standardize output** (this changes displayed rounding/edge-case text
+  in 3 of the 4 original call sites — e.g. Image Compressor no longer
+  shows a bare `—` for invalid sizes).
+- Quality/target-size/margin sliders — 5 occurrences (Image Compressor
+  x2, passport photo tool x2, Image-to-PDF x1) with different container
+  styling, text sizing, and accent-color presence. Extracted into
+  `src/sharedUI/tool/sliderCard.tsx` (`SliderCard`), **with explicit
+  user approval to standardize visuals** on the majority-matching style
+  (rounded-2xl card, `text-sm` label, `font-semibold` value,
+  `accent-blue-400` thumb). Passport photo's sliders gain a card
+  background they didn't have before; Image Compressor's sliders gain
+  the accent color they were missing — both cosmetic-only, no behavior
+  change to the actual compression/sizing logic.
+
+**Verification:** `npx tsc --noEmit` clean. `npx eslint` on the 4
+consumer files: 25 problems (8 errors, 17 warnings) — confirmed
+identical count before and after via `git stash` (all pre-existing,
+none introduced by this change).
+
 ---
 
 ## Remaining candidates surveyed but not yet acted on
@@ -227,9 +270,10 @@ next session doesn't have to re-derive them.
   work-in-progress before spending effort deduping unused code.
 - **`src/components/tools/pdf/*Client.tsx`** (merge, split, compress,
   image-to-pdf) — already reuse the shared kit (`DropZone`, `ProgressBar`,
-  `ToolHero`, `imageToolUI/*`) extensively. A pass to check for any
-  remaining local duplication (e.g. per-file file-list-row markup) would be
-  the next reasonable target here, but nothing conclusive found yet.
+  `ToolHero`, `imageToolUI/*`) extensively. `image-to-pdf`'s `formatBytes`
+  and margin slider were deduped this session (see above); merge/split/
+  compress variants haven't been checked yet for the same patterns —
+  worth a pass.
 - **`src/components/tools/qrCode/`** — `qrGeneratorPanel.tsx` (825 lines)
   has no shared-ui imports, but it wasn't compared against another
   QR-specific consumer since there's only one QR tool; likely just a large
@@ -242,6 +286,22 @@ next session doesn't have to re-derive them.
   (2132 lines, single file, no sibling to dedupe against directly) — worth
   checking whether it could adopt the `src/sharedUI/calculator/*` pieces
   already built for savings/investment, even without a second consumer.
+
+- **`src/sharedUI/{feedback,file,image,pdf,tool}/`** — merged in from
+  `refactor/shared-ui-foundation` but confirmed this session to have
+  **zero safe fit** in the image/pdf consumer files checked so far
+  (they already use the more-integrated `@/components/ui/*` kit — see
+  above). `formatBytes` and `SliderCard` were added to `sharedUI/` this
+  session as genuinely-needed new pieces, not from that merged batch.
+  The rest of the merged batch (`FileDropzone`, `FileList`, `FileItem`,
+  `ImagePreview`, `QualityControl`, `DimensionsControl`,
+  `FormatSelector`, `ImageSettings`, `ErrorMessage`, `LoadingState`,
+  `SuccessMessage`, `PrivacyNotice`, `PdfFileList`, `PdfPageSelector`,
+  `PdfPreview`, `toolHeader`, `toolPageShell`, `toolActionBar`,
+  `toolResult`, `processingState`) still has zero consumers as of this
+  update. Before wiring any of them in elsewhere, check the target
+  consumer's actual current markup/styling first — don't assume they'll
+  fit just because the domain matches.
 
 ## Explicitly excluded from this refactor (per instructions)
 - Every `*SeoContent*.tsx` file (list confirmed via
