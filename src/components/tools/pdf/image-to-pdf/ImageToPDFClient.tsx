@@ -19,6 +19,8 @@ import {
 
 import { imagesToPDF, PageSize, Orientation } from "@/utility/imageFileToPdf";
 import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { formatBytes } from "@/sharedUI/formatBytes";
+import { SliderCard } from "@/sharedUI/tool/sliderCard";
 import { Props } from "@/types/props";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 import CustomSelect from "@/components/ui/customSelect";
@@ -36,18 +38,6 @@ const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
   { loading: () => null, ssr: false }
 );
-
-function formatBytes(bytes: number) {
-  if (!Number.isFinite(bytes) || bytes <= 0) return "0 KB";
-  const units = ["B", "KB", "MB", "GB"];
-  let value = bytes;
-  let i = 0;
-  while (value >= 1024 && i < units.length - 1) {
-    value /= 1024;
-    i += 1;
-  }
-  return `${value.toFixed(value >= 10 || i === 0 ? 0 : 1)} ${units[i]}`;
-}
 
 type ImageMeta = {
   file: File;
@@ -392,20 +382,14 @@ export default function ImageToPDFClient({ config }: Props) {
                       }} options={fitOptions} />
                     </div>
 
-                    <div className="rounded-xl bg-slate-950/60 p-4">
-                      <div className="flex items-center justify-between text-sm text-slate-400">
-                        <span>Margin</span>
-                        <span className="font-semibold text-white">{margin}px</span>
-                      </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={64}
-                        value={margin}
-                        onChange={(e) => setMargin(Number(e.target.value))}
-                        className="mt-3 w-full accent-blue-400"
-                      />
-                    </div>
+                    <SliderCard
+                      label="Margin"
+                      valueLabel={`${margin}px`}
+                      value={margin}
+                      min={0}
+                      max={64}
+                      onChange={setMargin}
+                    />
                     {/* <div className="rounded-xl bg-slate-950/60 p-4">
                       <div className="text-sm text-slate-500">Processing</div>
                       <div className="mt-2 font-semibold text-emerald-300">Local Browser</div>

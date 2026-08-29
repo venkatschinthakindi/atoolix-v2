@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { formatBytes } from "@/sharedUI/formatBytes";
 import { ToolConfig } from "@/types/imageConverter.types";
 import { convertImage } from "@/features/imageConverter/converters/convertImage";
 import { validateImage } from "@/features/imageConverter/validateImage";
@@ -44,20 +45,6 @@ interface Props {
 }
 
 type ModalVariant = "preview" | "download";
-
-function formatBytes(bytes: number) {
-  if (!bytes) return "0 B";
-  const units = ["B", "KB", "MB", "GB"];
-  let value = bytes;
-  let unit = 0;
-
-  while (value >= 1024 && unit < units.length - 1) {
-    value /= 1024;
-    unit += 1;
-  }
-
-  return `${value.toFixed(value >= 100 ? 0 : value >= 10 ? 1 : 2)} ${units[unit]}`;
-}
 
 function getPrettyFormat(format?: string) {
   return (format || "").toUpperCase() || "—";

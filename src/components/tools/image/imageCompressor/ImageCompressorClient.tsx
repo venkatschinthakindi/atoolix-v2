@@ -16,6 +16,8 @@ import {
 import dynamic from "next/dynamic";
 
 import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { formatBytes } from "@/sharedUI/formatBytes";
+import { SliderCard } from "@/sharedUI/tool/sliderCard";
 import { CompressorConfig } from "@/types/imageCompressor.types";
 import { validateImage } from "@/features/imageConverter/validateImage";
 import { normalizeFile } from "@/features/imageConverter/normalizeFile";
@@ -43,16 +45,6 @@ interface Props {
 type ModalVariant = "preview" | "download";
 
 const ESTIMATE_DEBOUNCE_MS = 450;
-
-function formatBytes(size: number) {
-  if (!Number.isFinite(size)) return "—";
-
-  if (size >= 1024 * 1024) {
-    return `${(size / 1024 / 1024).toFixed(2)} MB`;
-  }
-
-  return `${(size / 1024).toFixed(2)} KB`;
-}
 
 function getImageDimensionsFromBlob(
   blob: Blob
@@ -626,62 +618,40 @@ export default function ImageCompressorClient({ config }: Props) {
                   </div>
 
                   {config.mode === "quality" && (
-                    <div className="rounded-2xl bg-slate-950/60 p-4">
-                      <div className="flex items-center justify-between text-sm text-slate-400">
-                        <span>Compression Quality</span>
-                        <span className="font-semibold text-white">
-                          {quality}%
-                        </span>
-                      </div>
-
-                      <input
-                        type="range"
-                        min={10}
-                        max={100}
-                        value={quality}
-                        onChange={(e) =>
-                          setQuality(Number(e.target.value))
-                        }
-                        className="mt-3 w-full"
-                      />
-
+                    <SliderCard
+                      label="Compression Quality"
+                      valueLabel={`${quality}%`}
+                      value={quality}
+                      min={10}
+                      max={100}
+                      onChange={setQuality}
+                    >
                       <EstimateRow
                         originalSize={file.size}
                         estimating={estimating}
                         estimatedSize={estimatedSize}
                         estimatedSavingsPercent={estimatedSavingsPercent}
                       />
-                    </div>
+                    </SliderCard>
                   )}
 
                   {config.mode === "target-size" && (
-                    <div className="rounded-2xl bg-slate-950/60 p-4">
-                      <div className="flex items-center justify-between text-sm text-slate-400">
-                        <span>Target Size</span>
-                        <span className="font-semibold text-white">
-                          {targetKB} KB
-                        </span>
-                      </div>
-
-                      <input
-                        type="range"
-                        min={1}
-                        max={10000}
-                        value={targetKB}
-                        disabled={config.lockTarget}
-                        onChange={(e) =>
-                          setTargetKB(Number(e.target.value))
-                        }
-                        className="mt-3 w-full"
-                      />
-
+                    <SliderCard
+                      label="Target Size"
+                      valueLabel={`${targetKB} KB`}
+                      value={targetKB}
+                      min={1}
+                      max={10000}
+                      disabled={config.lockTarget}
+                      onChange={setTargetKB}
+                    >
                       <EstimateRow
                         originalSize={file.size}
                         estimating={estimating}
                         estimatedSize={estimatedSize}
                         estimatedSavingsPercent={estimatedSavingsPercent}
                       />
-                    </div>
+                    </SliderCard>
                   )}
 
                   <ToolButton

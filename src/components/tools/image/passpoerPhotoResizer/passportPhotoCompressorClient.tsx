@@ -30,6 +30,7 @@ import dynamic from "next/dynamic";
 
 import { ToolHero } from "@/components/ui/toolhero";
 import { StatCard } from "@/sharedUI/statCard";
+import { SliderCard } from "@/sharedUI/tool/sliderCard";
 
 const ImagePreviewModal = dynamic(
 () =>
@@ -604,44 +605,28 @@ color: "blue",
               </p>
 
               {config.mode === "quality" && (
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center justify-between text-xs text-white/70">
-                    <span>Compression Quality</span>
-                    <span>{quality}%</span>
-                  </div>
-
-                  <input
-                    type="range"
-                    min={10}
-                    max={100}
-                    value={quality}
-                    onChange={(e) =>
-                      setQuality(Number(e.target.value))
-                    }
-                    className="w-full accent-blue-400"
-                  />
-                </div>
+                <SliderCard
+                  label="Compression Quality"
+                  valueLabel={`${quality}%`}
+                  value={quality}
+                  min={10}
+                  max={100}
+                  onChange={setQuality}
+                  className="mt-4"
+                />
               )}
 
               {config.mode === "target-size" && (
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center justify-between text-xs text-white/70">
-                    <span>Target Size</span>
-                    <span>{targetKB} KB</span>
-                  </div>
-
-                  <input
-                    type="range"
-                    min={1}
-                    max={10000}
-                    value={targetKB}
-                    disabled={config.lockTarget}
-                    onChange={(e) =>
-                      setTargetKB(Number(e.target.value))
-                    }
-                    className="w-full accent-blue-400"
-                  />
-                </div>
+                <SliderCard
+                  label="Target Size"
+                  valueLabel={`${targetKB} KB`}
+                  value={targetKB}
+                  min={1}
+                  max={10000}
+                  disabled={config.lockTarget}
+                  onChange={setTargetKB}
+                  className="mt-4"
+                />
               )}
 
               <div className="mt-4 rounded-2xl border border-white/10 bg-black/10 p-4">
