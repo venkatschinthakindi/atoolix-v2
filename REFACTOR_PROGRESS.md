@@ -366,6 +366,49 @@ other call sites to account for.
 plus the new one: identical 3 pre-existing problems before/after (confirmed
 via `git stash`), 0 new issues, new file itself is fully clean.
 
+### `premiumShellClass`/`GlassIcon` — 4th consumer found and deduped (`backgroundRemoverClient.tsx`) — DONE this session
+A fresh full-repo scan (see "Broader scan" note below) turned up a 4th
+byte-identical copy of `premiumShellClass`/`GlassIcon` beyond the 3 already
+deduped in the PDF tool family (commit `4a745ad`): the background remover
+tool had its own local copies of both, confirmed byte-identical to
+`src/sharedUI/tool/premiumShell.ts` / `src/sharedUI/tool/GlassIcon.tsx` by
+direct comparison. Removed the local copies from
+`backgroundRemoverClient.tsx` and pointed its 5 call sites (1×
+`premiumShellClass()`, 4× `<GlassIcon>`) at the existing shared module — no
+new shared file needed, this tool just joins the existing one. Also dropped
+one line of dead commented-out code that lived inside the old local
+`premiumShellClass()` function (a stale alternate class-string comment with
+no effect on behavior).
+
+**Verification:** `tsc --noEmit` 0 errors repo-wide. `eslint`: identical 7
+pre-existing problems before/after (confirmed via `git stash`).
+
+**Separately noted, not touched:** `src/components/ui/glassIcon.tsx`
+(lowercase filename) is a *different*, unrelated `GlassIcon` — different
+sizing/styling, `icon: any` typed — with **zero consumers anywhere in the
+app** (repo-wide grep). It's dead code that happens to share a name with
+the real shared component, not a live duplicate; flagging rather than
+deleting, consistent with how the other orphaned files
+(`basicPercentage.tsx`/`percentageOf.tsx`) have been handled — worth
+confirming with the repo owner whether it's safe to remove.
+
+### Broader scan: confirmed every top-level tool category is now checked
+Walked all 9 top-level folders under `src/components/tools/` explicitly
+this session, not just the ones with open questions:
+`calculator` ✓ (ShellCard deduped above), `converter` ✓ (single file,
+`UnitConverter.tsx`, no sibling to dedupe against), `dateTime` ✓ (fully
+done, see above), `emiCalculator` ✓ (done, prior commit), `financeSuite`
+✓ (savings/investment done, retirement checked-do-not-touch),
+`image` ✓ (compressor/converter done, passport/signature already correct,
+**backgroundRemover fixed this session** — see above), `pdf` ✓ (done,
+prior commits), `privacysecurity` ✓ (single tool, `fileAnalyzer.tsx` +
+2 small helpers, nothing to dedupe against), `qrCode` ✓ (6 sub-components
+checked for name/structure overlap — `Field` vs `ColorField`/`FontField`
+etc. are genuinely different fields for different purposes, not
+duplicates; confirmed nothing to do). Only `backgroundRemover` turned up
+a real, previously-missed duplicate; everything else confirms prior
+sessions' findings.
+
 ## Remaining candidates surveyed but not yet acted on
 
 These were scanned for duplication opportunities; noting findings so the

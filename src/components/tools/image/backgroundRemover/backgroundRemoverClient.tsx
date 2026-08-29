@@ -15,6 +15,8 @@ import {
 
 import { getAcceptString } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { premiumShellClass } from "@/sharedUI/tool/premiumShell";
+import { GlassIcon } from "@/sharedUI/tool/GlassIcon";
 import { generateFileName } from "@/features/imageConverter/generateFileName";
 import { asyncGetFileSaverLib } from "@/lib/fileSaverUtility";
 
@@ -48,19 +50,6 @@ const COLOR_PRESETS: { label: string; value: string }[] = [
   { label: "Rose", value: "#ec4899" },
   { label: "Indigo", value: "#6366f1" },
 ];
-
-function premiumShellClass() {
-  // return "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06]";
-  return "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
-}
-
-function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
-  return (
-    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-      <Icon className="h-4 w-4" />
-    </span>
-  );
-}
 
 function toKB(bytes: number) {
   return `${(bytes / 1024).toFixed(2)} KB`;
