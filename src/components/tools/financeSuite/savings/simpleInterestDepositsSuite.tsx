@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, type ReactNode, type ComponentType } from "react";
+import { useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import {
   PiggyBank,
@@ -13,6 +13,11 @@ import { SectionHeader } from "./core/sectionHeader";
 import { Field } from "./core/field";
 import { CurrencySelector } from "./core/currencySelector";
 import { createCurrencyFormatter } from "./core/currencyFormatter";
+import { clamp, inputCls } from "@/sharedUI/calculator/calculatorHelpers";
+import { QuickStartStrip } from "@/sharedUI/calculator/QuickStartStrip";
+import { MethodologyNote } from "@/sharedUI/calculator/MethodologyNote";
+import { EstimateDisclaimer } from "@/sharedUI/calculator/EstimateDisclaimer";
+import { CalculatorHero } from "@/sharedUI/calculator/CalculatorHero";
 
 const FinanceChart = dynamic(
   () =>
@@ -35,11 +40,6 @@ const FinancePdfExport = dynamic(
 
 const MAX_YEARS = 100;
 
-function clamp(value: number, min: number, max: number) {
-  if (!Number.isFinite(value)) return min;
-  return Math.min(max, Math.max(min, value));
-}
-
 function computeSimpleInterest(
   principal: number,
   ratePct: number,
@@ -55,94 +55,6 @@ function computeSimpleInterest(
     interest,
     value: p + interest,
   };
-}
-
-const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
-
-function QuickStartStrip() {
-  const steps = [
-    {
-      icon: "🧮",
-      title: "Enter your numbers",
-      body: "Add your principal, interest rate, and investment duration.",
-    },
-    {
-      icon: "📊",
-      title: "See the result",
-      body: "Get total interest and maturity value instantly.",
-    },
-    {
-      icon: "📄",
-      title: "Export your report",
-      body: "Download a PDF summary of your calculation.",
-    },
-  ];
-
-  return (
-    <div className="grid gap-3 sm:grid-cols-3 mb-8">
-      {steps.map((s, i) => (
-        <div
-          key={s.title}
-          className="rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
-        >
-          <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
-            {s.icon}
-          </div>
-
-          <div>
-            <div className="text-xs font-semibold text-white/80">
-              {i + 1}. {s.title}
-            </div>
-
-            <div className="text-[11px] text-white/45 mt-0.5 leading-snug">
-              {s.body}
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function MethodologyNote() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
-      >
-        <span className="text-xs font-medium text-white/60">
-          ⓘ How this is calculated
-        </span>
-
-        <span className="text-white/40 text-sm">
-          {open ? "−" : "+"}
-        </span>
-      </button>
-
-      {open && (
-        <div className="px-5 pb-4 pt-1 text-xs text-white/50 leading-relaxed space-y-2 border-t border-white/10">
-          <p>
-            <strong>Simple interest:</strong> Calculated as
-            Principal × Rate × Time. Interest is only earned on the
-            original principal amount.
-          </p>
-
-          <p className="text-white/40">
-            This is a standard mathematical estimate. Actual financial
-            products may include fees, taxes, timing rules, or different
-            calculation methods. Confirm exact figures with your financial
-            institution.
-          </p>
-        </div>
-      )}
-    </div>
-  );
 }
 
 export default function SimpleInterestCalculator() {
@@ -265,167 +177,83 @@ export default function SimpleInterestCalculator() {
   return (
     <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
 
-      <section className="mb-5 px-5 py-6 sm:px-6 lg:px-8 rounded-3xl border border-white/10 bg-slate-950/60">
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+      <CalculatorHero
+        badgeIcon={BarChart3}
+        accentGlow="bg-blue-400/30"
+        accentBorder="border-blue-400/30"
+        accentBg="bg-blue-400/15"
+        accentText="text-blue-200"
+        title="Simple interest calculator"
+        description="Calculate simple interest, total interest earned, and maturity value instantly. No accounts, no tracking, just calculations."
+        variant="detailed"
+        detailedFeatures={[
+          {
+            icon: "🔒",
+            iconBg: "bg-blue-500/20 border border-blue-400/30",
+            title: "100% Private",
+            body: "Calculations run locally in your browser",
+          },
+          {
+            icon: "📄",
+            iconBg: "bg-emerald-500/20 border border-emerald-400/30",
+            title: "Export Reports",
+            body: "Download PDF summaries instantly",
+          },
+          {
+            icon: "🌍",
+            iconBg: "bg-violet-500/20 border border-violet-400/30",
+            title: "Global Currencies",
+            body: "Display results in 9 major currencies",
+          },
+          {
+            icon: "⚡",
+            iconBg: "bg-amber-500/20 border border-amber-400/30",
+            title: "Instant Results",
+            body: "Real-time calculations as you type",
+          },
+        ]}
+        gradientClass="from-blue-500/10 via-violet-500/10 to-fuchsia-500/10"
+        previewTitle="Simple interest projection"
+        previewValue={fmt(simpleCalc.value)}
+        previewNote={`+${fmt(simpleCalc.interest)} interest`}
+        previewStats={[
+          { label: "Principal", value: fmt(principal), icon: "💵" },
+          { label: "Interest", value: fmt(simpleCalc.interest), icon: "💹" },
+        ]}
+      >
+        <CurrencySelector value={currency} onChange={setCurrency} />
+      </CalculatorHero>
 
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2">
-              <div className="relative">
-                <div className="absolute inset-0 bg-blue-400/30 blur-md rounded-full animate-pulse" />
+      <QuickStartStrip
+        steps={[
+          {
+            icon: "🧮",
+            title: "Enter your numbers",
+            body: "Add your principal, interest rate, and investment duration.",
+          },
+          {
+            icon: "📊",
+            title: "See the result",
+            body: "Get total interest and maturity value instantly.",
+          },
+          {
+            icon: "📄",
+            title: "Export your report",
+            body: "Download a PDF summary of your calculation.",
+          },
+        ]}
+      />
 
-                <div className="relative inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/15 px-3 py-1.5 text-xs font-medium text-blue-200">
-                  <BarChart3 className="h-3.5 w-3.5" />
-                  <span>Private finance workspace</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-                Simple interest calculator
-              </h1>
-
-              <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-xl">
-                Calculate simple interest, total interest earned,
-                and maturity value instantly. No accounts, no tracking,
-                just calculations.
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-3">
-              <div className="group rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-lg">
-                    🔒
-                  </div>
-
-                  <div>
-                    <div className="text-sm font-semibold text-white/90">
-                      100% Private
-                    </div>
-
-                    <div className="text-xs text-white/50 mt-0.5">
-                      Calculations run locally in your browser
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-lg">
-                    📄
-                  </div>
-
-                  <div>
-                    <div className="text-sm font-semibold text-white/90">
-                      Export Reports
-                    </div>
-
-                    <div className="text-xs text-white/50 mt-0.5">
-                      Download PDF summaries instantly
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-violet-500/20 border border-violet-400/30 flex items-center justify-center text-lg">
-                    🌍
-                  </div>
-
-                  <div>
-                    <div className="text-sm font-semibold text-white/90">
-                      Global Currencies
-                    </div>
-
-                    <div className="text-xs text-white/50 mt-0.5">
-                      Display results in 9 major currencies
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="flex items-start gap-3">
-                  <div className="shrink-0 w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-lg">
-                    ⚡
-                  </div>
-
-                  <div>
-                    <div className="text-sm font-semibold text-white/90">
-                      Instant Results
-                    </div>
-
-                    <div className="text-xs text-white/50 mt-0.5">
-                      Real-time calculations as you type
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative min-w-0">
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 rounded-3xl blur-2xl" />
-
-            <div className="relative rounded-3xl border border-white/10 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs text-white/50 uppercase tracking-wide">
-                    Live preview
-                  </div>
-
-                  <div className="text-sm font-semibold text-white/90">
-                    Simple interest projection
-                  </div>
-                </div>
-
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <div className="text-xs text-white/50 mb-2">
-                  Maturity value
-                </div>
-
-                <div className="text-2xl sm:text-3xl font-bold text-white">
-                  {fmt(simpleCalc.value)}
-                </div>
-
-                <div className="text-xs text-emerald-400 mt-2">
-                  +{fmt(simpleCalc.interest)} interest
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <StatCard
-                  label="Principal"
-                  value={fmt(principal)}
-                  icon="💵"
-                />
-
-                <StatCard
-                  label="Interest"
-                  value={fmt(simpleCalc.interest)}
-                  icon="💹"
-                  // tone="positive"
-                />
-              </div>
-
-              <CurrencySelector
-                value={currency}
-                onChange={setCurrency}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <QuickStartStrip />
-
-      <MethodologyNote />
+      <MethodologyNote
+        description={
+          <>
+            <strong>Simple interest:</strong> Calculated as
+            Principal × Rate × Time. Interest is only earned on the
+            original principal amount.
+          </>
+        }
+        caveat="This is a standard mathematical estimate. Actual financial products may include fees, taxes, timing rules, or different calculation methods. Confirm exact figures with your financial institution."
+      />
 
       <CalculatorNavigation toolRoute="/tools/calculator/simple-interest-calculator" />
 
@@ -589,13 +417,7 @@ export default function SimpleInterestCalculator() {
         </section>
       </div>
 
-      <p className="text-center text-sm text-emerald-300 px-2">
-        <b>Note: </b>
-        Estimates only, based on standard interest formulas. Actual
-        financial products may differ due to product terms, taxes,
-        fees, or calculation methods. Confirm exact figures with your
-        financial institution.
-      </p>
+      <EstimateDisclaimer />
     </div>
   );
 }

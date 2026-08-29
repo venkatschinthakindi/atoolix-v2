@@ -4,15 +4,12 @@ import {
   useMemo,
   useRef,
   useState,
-  type ReactNode,
-  type ComponentType,
 } from "react";
 import dynamic from "next/dynamic";
 import CustomSelect from "@/components/ui/customSelect";
 import {
   TrendingUp,
   BarChart3,
-  PiggyBank,
 } from "lucide-react";
 import { CalculatorNavigation } from "./core/calculatorNavigation";
 import { CURRENCIES, CurrencyCode } from "./core/currencyCode";
@@ -21,6 +18,11 @@ import { SectionHeader } from "./core/sectionHeader";
 import { Field } from "./core/field";
 import { CurrencySelector } from "./core/currencySelector";
 import { createCurrencyFormatter } from "./core/currencyFormatter";
+import { clamp, inputCls } from "@/sharedUI/calculator/calculatorHelpers";
+import { QuickStartStrip } from "@/sharedUI/calculator/QuickStartStrip";
+import { MethodologyNote } from "@/sharedUI/calculator/MethodologyNote";
+import { EstimateDisclaimer } from "@/sharedUI/calculator/EstimateDisclaimer";
+import { CalculatorHero } from "@/sharedUI/calculator/CalculatorHero";
 
 const FinanceChart = dynamic(
   () =>
@@ -42,11 +44,6 @@ const FinancePdfExport = dynamic(
 );
 
 const MAX_YEARS = 100;
-
-function clamp(value: number, min: number, max: number) {
-  if (!Number.isFinite(value)) return min;
-  return Math.min(max, Math.max(min, value));
-}
 
 function computeCompoundInterest({
   principal,
@@ -73,93 +70,6 @@ function computeCompoundInterest({
     value: amount,
     interest,
   };
-}
-
-const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
-
-function QuickStartStrip() {
-  const steps = [
-    {
-      icon: "💰",
-      title: "Enter your principal",
-      body: "Add your starting investment, rate, and duration.",
-    },
-    {
-      icon: "📈",
-      title: "Choose compounding",
-      body: "Select annual, semi-annual, quarterly, or monthly.",
-    },
-    {
-      icon: "📊",
-      title: "See compound growth",
-      body: "View your projected maturity value and interest.",
-    },
-  ];
-
-  return (
-    <div className="grid gap-3 sm:grid-cols-3 mb-8">
-      {steps.map((s, i) => (
-        <div
-          key={s.title}
-          className="rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
-        >
-          <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
-            {s.icon}
-          </div>
-
-          <div>
-            <div className="text-xs font-semibold text-white/80">
-              {i + 1}. {s.title}
-            </div>
-
-            <div className="text-[11px] text-white/45 mt-0.5 leading-snug">
-              {s.body}
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function MethodologyNote() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
-      >
-        <span className="text-xs font-medium text-white/60">
-          ⓘ How this is calculated
-        </span>
-
-        <span className="text-white/40 text-sm">
-          {open ? "−" : "+"}
-        </span>
-      </button>
-
-      {open && (
-        <div className="px-5 pb-4 pt-1 text-xs text-white/50 leading-relaxed space-y-2 border-t border-white/10">
-          <p>
-            <strong>Compound interest:</strong> Uses the formula
-            A = P(1 + r/n)^(nt). Interest compounds and is added
-            to principal each period.
-          </p>
-
-          <p className="text-white/40">
-            These are standard mathematical estimates. Actual
-            financial products may include fees, taxes, timing rules,
-            or different compounding methods.
-          </p>
-        </div>
-      )}
-    </div>
-  );
 }
 
 export default function CompoundInterestCalculator() {
@@ -309,129 +219,63 @@ export default function CompoundInterestCalculator() {
   return (
     <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
 
-      <section className="mb-5 px-5 py-6 sm:px-6 lg:px-8 rounded-3xl border border-white/10 bg-slate-950/60">
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+      <CalculatorHero
+        badgeIcon={TrendingUp}
+        accentGlow="bg-violet-400/30"
+        accentBorder="border-violet-400/30"
+        accentBg="bg-violet-400/15"
+        accentText="text-violet-200"
+        title="Compound interest calculator"
+        description="Calculate how your investment grows when interest is added back to the principal over time."
+        variant="compact"
+        compactFeatures={[
+          { label: "🔒 100% Private", body: "Calculations run locally in your browser" },
+          { label: "📄 PDF Reports", body: "Export your calculation instantly" },
+          { label: "🌍 9 Currencies", body: "Choose your preferred display currency" },
+          { label: "⚡ Instant Results", body: "Updates as you type" },
+        ]}
+        gradientClass="from-blue-500/10 via-violet-500/10 to-fuchsia-500/10"
+        previewTitle="Compound growth projection"
+        previewValue={fmt(compoundCalc.value)}
+        previewNote={`+${fmt(compoundCalc.interest)} interest`}
+        previewStats={[
+          { label: "Principal", value: fmt(compoundPrincipal), icon: "💵" },
+          { label: "Rate", value: `${compoundRate}%`, icon: "📈" },
+        ]}
+      >
+        <CurrencySelector value={currency} onChange={setCurrency} />
+      </CalculatorHero>
 
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2">
-              <div className="relative">
-                <div className="absolute inset-0 bg-violet-400/30 blur-md rounded-full animate-pulse" />
+      <QuickStartStrip
+        steps={[
+          {
+            icon: "💰",
+            title: "Enter your principal",
+            body: "Add your starting investment, rate, and duration.",
+          },
+          {
+            icon: "📈",
+            title: "Choose compounding",
+            body: "Select annual, semi-annual, quarterly, or monthly.",
+          },
+          {
+            icon: "📊",
+            title: "See compound growth",
+            body: "View your projected maturity value and interest.",
+          },
+        ]}
+      />
 
-                <div className="relative inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-400/15 px-3 py-1.5 text-xs font-medium text-violet-200">
-                  <TrendingUp className="h-3.5 w-3.5" />
-                  <span>Private finance workspace</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
-                Compound interest calculator
-              </h1>
-
-              <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-xl">
-                Calculate how your investment grows when interest
-                is added back to the principal over time.
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-3">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="text-sm font-semibold text-white/90">
-                  🔒 100% Private
-                </div>
-                <div className="text-xs text-white/50 mt-1">
-                  Calculations run locally in your browser
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="text-sm font-semibold text-white/90">
-                  📄 PDF Reports
-                </div>
-                <div className="text-xs text-white/50 mt-1">
-                  Export your calculation instantly
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="text-sm font-semibold text-white/90">
-                  🌍 9 Currencies
-                </div>
-                <div className="text-xs text-white/50 mt-1">
-                  Choose your preferred display currency
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div className="text-sm font-semibold text-white/90">
-                  ⚡ Instant Results
-                </div>
-                <div className="text-xs text-white/50 mt-1">
-                  Updates as you type
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 rounded-3xl blur-2xl" />
-
-            <div className="relative rounded-3xl border border-white/10 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 space-y-6">
-
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs text-white/50 uppercase tracking-wide">
-                    Live preview
-                  </div>
-
-                  <div className="text-sm font-semibold text-white/90">
-                    Compound growth projection
-                  </div>
-                </div>
-
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <div className="text-xs text-white/50">
-                  Maturity value
-                </div>
-
-                <div className="text-2xl sm:text-3xl font-bold text-white mt-2">
-                  {fmt(compoundCalc.value)}
-                </div>
-
-                <div className="text-xs text-emerald-400 mt-2">
-                  +{fmt(compoundCalc.interest)} interest
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <StatCard
-                  label="Principal"
-                  value={fmt(compoundPrincipal)}
-                  icon="💵"
-                />
-
-                <StatCard
-                  label="Rate"
-                  value={`${compoundRate}%`}
-                  icon="📈"
-                />
-              </div>
-              <CurrencySelector
-                value={currency}
-                onChange={setCurrency}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <QuickStartStrip />
-
-      <MethodologyNote />
+      <MethodologyNote
+        description={
+          <>
+            <strong>Compound interest:</strong> Uses the formula
+            A = P(1 + r/n)^(nt). Interest compounds and is added
+            to principal each period.
+          </>
+        }
+        caveat="These are standard mathematical estimates. Actual financial products may include fees, taxes, timing rules, or different compounding methods."
+      />
 
       <CalculatorNavigation toolRoute="/tools/calculator/compound-interest-calculator" />
 
@@ -627,13 +471,7 @@ export default function CompoundInterestCalculator() {
         </section>
       </div>
 
-      <p className="text-center text-sm text-emerald-300 px-2">
-        <b>Note: </b>
-        Estimates only, based on standard interest formulas. Actual
-        financial products may differ due to product terms, taxes,
-        fees, or calculation methods. Confirm exact figures with your
-        financial institution.
-      </p>
+      <EstimateDisclaimer />
     </div>
   );
 }
