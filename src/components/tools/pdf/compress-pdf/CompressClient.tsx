@@ -24,6 +24,9 @@ import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
 // Same shared hero used across the image tools — confirmed real, reused
 // here instead of hand-rolling the top section again.
 import { ToolHero } from "@/components/ui/toolhero";
+import { formatBytes } from "@/sharedUI/formatBytes";
+import { premiumShellClass } from "@/sharedUI/tool/premiumShell";
+import { GlassIcon } from "@/sharedUI/tool/GlassIcon";
 
 const PdfViewerModal = dynamic(
   () => import("@/components/ui/pdf/pdfViewerModal"),
@@ -67,14 +70,6 @@ const LEVELS: Record<CompressionLevel, LevelConfig> = {
     expectedRange: "60–80%",
   },
 };
-
-function formatBytes(bytes: number): string {
-  if (bytes === 0) return "0 B";
-  const k = 1024;
-  const units = ["B", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${units[i]}`;
-}
 
 function saveBlobAs(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
@@ -142,18 +137,6 @@ async function compressPdf(
   }
 
   return outDoc.save({ useObjectStreams: true, addDefaultPage: false });
-}
-
-function premiumShellClass() {
-  return "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
-}
-
-function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
-  return (
-    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-      <Icon className="h-4 w-4" />
-    </span>
-  );
 }
 
 function LevelCard({

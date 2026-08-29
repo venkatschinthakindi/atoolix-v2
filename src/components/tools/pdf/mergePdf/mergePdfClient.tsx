@@ -39,6 +39,8 @@ import { MergeOptionCard } from "@/components/ui/mergePdf/ui/mergeOptionCard";
 // Same shared hero used across the other tools — confirmed real, reused
 // here instead of hand-rolling the top section again.
 import { ToolHero } from "@/components/ui/toolhero";
+import { premiumShellClass } from "@/sharedUI/tool/premiumShell";
+import { GlassIcon } from "@/sharedUI/tool/GlassIcon";
 
 // ─── Lazy-loaded heavy modules ───────────────────────────────────────────────
 const PdfViewerModal = dynamic(
@@ -71,18 +73,6 @@ function createFileItem(file: File): FileItem {
     input: "all",
     totalPages: undefined,
   };
-}
-
-function premiumShellClass() {
-  return "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
-}
-
-function GlassIcon({ icon: Icon }: { icon: React.ComponentType<{ className?: string }> }) {
-  return (
-    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
-      <Icon className="h-4 w-4" />
-    </span>
-  );
 }
 
 // ─── oklch sanitiser (lazy — only imported when actually needed) ─────────────
