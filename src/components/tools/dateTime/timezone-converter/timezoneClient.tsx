@@ -22,7 +22,6 @@ import { TimeZone } from "@vvo/tzdb";
 import {
   MAX_TARGETS,
   type TargetRow,
-  type ZoneOption,
   isValidTz,
   stableId,
   normalizeDate,
@@ -38,6 +37,8 @@ import {
   encodeZones,
   buildTargets,
   highlightMatch,
+  dayDifference,
+  searchZones,
 } from "@/lib/dateTime/timezoneShared";
 import { TimezoneCards } from "@/components/ui/dateTime/TimezoneCards";
 
@@ -98,51 +99,6 @@ const QUICK_ADD_ZONES = [
   { label: "Auckland", zone: "Pacific/Auckland" },
   { label: "UTC", zone: "UTC" },
 ];
-
-function dayDifference(sourceZone: string, targetZone: string, instant: Date) {
-  const sourceDay = formatInTimeZone(instant, sourceZone, "yyyy-MM-dd");
-  const targetDay = formatInTimeZone(instant, targetZone, "yyyy-MM-dd");
-  if (sourceDay === targetDay) return "Same day";
-  return targetDay > sourceDay ? "+1 day" : "-1 day";
-}
-
-function searchZones(
-  options: ZoneOption[],
-  query: string,
-  selected: Set<string>,
-  sourceZone: string
-) {
-  const q = query.trim().toLowerCase();
-
-  const pool = options.filter(
-    (z) => z.value !== sourceZone && !selected.has(z.value)
-  );
-
-  if (!q) {
-    return pool
-      .sort((a, b) => a.country.localeCompare(b.country) || a.city.localeCompare(b.city))
-      .slice(0, 15);
-  }
-
-  return pool
-    .map((z) => {
-      let score = 999;
-      if (z.cityLower === q || z.valueLower === q) score = 0;
-      else if (z.countryLower === q) score = 1;
-      else if (z.cityLower.startsWith(q)) score = 2;
-      else if (z.countryLower.startsWith(q)) score = 3;
-      else if (z.searchKey.includes(q)) score = 4;
-      return { z, score };
-    })
-    .filter((x) => x.score < 999)
-    .sort((a,b)=>
-        a.score-b.score ||
-        a.z.country.localeCompare(b.z.country) ||
-        a.z.city.localeCompare(b.z.city)
-    )
-    .slice(0, 15)
-    .map((x) => x.z);
-}
 
 function noteForTarget(instant: Date, sourceZone: string, targetZone: string) {
   const targetWeekday = weekdayName(instant, targetZone);

@@ -22,7 +22,6 @@ import { TimeZone } from "@vvo/tzdb";
 import {
   MAX_TARGETS,
   type TargetRow,
-  type ZoneOption,
   isValidTz,
   stableId,
   normalizeDate,
@@ -38,6 +37,8 @@ import {
   encodeZones,
   buildTargets,
   highlightMatch,
+  dayDifference,
+  searchZones,
 } from "@/lib/dateTime/timezoneShared";
 import { TimezoneCards } from "@/components/ui/dateTime/TimezoneCards";
 
@@ -177,72 +178,6 @@ const QUICK_ADD_ZONES = [
 // Used to let people search "EST", "PST", "IST", "CET", etc. and get a
 // sensible zone back, even though the live abbreviation shown for a zone
 // changes with DST (e.g. America/New_York shows EDT in summer).
-const COMMON_ABBREVIATIONS: Record<string, string[]> = {
-  EST: ["America/New_York"],
-  EDT: ["America/New_York"],
-  ET: ["America/New_York"],
-  CST: ["America/Chicago"],
-  CDT: ["America/Chicago"],
-  CT: ["America/Chicago"],
-  MST: ["America/Denver"],
-  MDT: ["America/Denver"],
-  MT: ["America/Denver"],
-  PST: ["America/Los_Angeles"],
-  PDT: ["America/Los_Angeles"],
-  PT: ["America/Los_Angeles"],
-  AKST: ["America/Anchorage"],
-  AKDT: ["America/Anchorage"],
-  HST: ["Pacific/Honolulu"],
-  AST: ["America/Halifax"],
-  ADT: ["America/Halifax"],
-  BRT: ["America/Sao_Paulo"],
-  GMT: ["UTC", "Europe/London"],
-  UTC: ["UTC"],
-  BST: ["Europe/London"],
-  WET: ["Europe/Lisbon"],
-  CET: ["Europe/Paris", "Europe/Berlin", "Europe/Madrid", "Europe/Rome"],
-  CEST: ["Europe/Paris", "Europe/Berlin"],
-  EET: ["Europe/Athens"],
-  EEST: ["Europe/Athens"],
-  MSK: ["Europe/Moscow"],
-  IST: ["Asia/Kolkata"],
-  PKT: ["Asia/Karachi"],
-  GST: ["Asia/Dubai"],
-  ICT: ["Asia/Bangkok"],
-  SGT: ["Asia/Singapore"],
-  HKT: ["Asia/Hong_Kong"],
-  CST_CHINA: ["Asia/Shanghai"],
-  JST: ["Asia/Tokyo"],
-  KST: ["Asia/Seoul"],
-  WIB: ["Asia/Jakarta"],
-  AEST: ["Australia/Sydney"],
-  AEDT: ["Australia/Sydney"],
-  ACST: ["Australia/Adelaide"],
-  AWST: ["Australia/Perth"],
-  NZST: ["Pacific/Auckland"],
-  NZDT: ["Pacific/Auckland"],
-  WAT: ["Africa/Lagos"],
-  CAT: ["Africa/Johannesburg"],
-  EAT: ["Africa/Nairobi"],
-};
-
-function dayDifference(sourceZone: string, targetZone: string, instant: Date) {
-  const sourceDay = formatInTimeZone(instant, sourceZone, "yyyy-MM-dd");
-  const targetDay = formatInTimeZone(instant, targetZone, "yyyy-MM-dd");
-  if (sourceDay === targetDay) return "Same day";
-  // Compare the actual calendar dates rather than just their string order, so
-  // pairs of zones with an extreme offset gap (e.g. UTC-12 to UTC+14, a
-  // 26-hour spread) correctly show "+2 days" instead of being capped at ±1.
-  const [sy, sm, sd] = sourceDay.split("-").map(Number);
-  const [ty, tm, td] = targetDay.split("-").map(Number);
-  const sourceMidnight = Date.UTC(sy, sm - 1, sd);
-  const targetMidnight = Date.UTC(ty, tm - 1, td);
-  const diffDays = Math.round((targetMidnight - sourceMidnight) / 86400000);
-  if (diffDays === 1) return "+1 day";
-  if (diffDays === -1) return "-1 day";
-  return diffDays > 0 ? `+${diffDays} days` : `${diffDays} days`;
-}
-
 function downloadTextFile(content: string, filename: string, mime: string) {
   const blob = new Blob([content], { type: mime });
   const url = URL.createObjectURL(blob);
@@ -286,57 +221,11 @@ function icsEscape(text: string) {
     .replace(/\r?\n/g, "\\n");
 }
 
-function searchZones(
-  options: ZoneOption[],
-  query: string,
-  selected: Set<string>,
-  sourceZone: string
-) {
-  const q = query.trim().toLowerCase();
-
-  const pool = options.filter(
-    (z) => z.value !== sourceZone && !selected.has(z.value)
-  );
-
-  if (!q) {
-    return pool
-      .sort((a, b) => a.country.localeCompare(b.country) || a.city.localeCompare(b.city))
-      .slice(0, 15);
-  }
-
-  // Abbreviation lookup: "EST", "PST", "IST", "CET"... resolves to canonical
-  // zone(s) regardless of the zone's *current* live abbreviation (which
-  // shifts with DST, e.g. EST -> EDT in summer for America/New_York).
-  const abbrevMatches = COMMON_ABBREVIATIONS[query.trim().toUpperCase()] ?? [];
-  const abbrevZoneSet = new Set(abbrevMatches);
-
-  return pool
-    .map((z) => {
-      let score = 999;
-      if (abbrevZoneSet.has(z.value)) score = -1;
-      else if (z.cityLower === q || z.valueLower === q) score = 0;
-      else if (z.abbreviation.toLowerCase() === q) score = 0.5;
-      else if (z.countryLower === q) score = 1;
-      else if (z.cityLower.startsWith(q)) score = 2;
-      else if (z.countryLower.startsWith(q)) score = 3;
-      else if (z.searchKey.includes(q)) score = 4;
-      return { z, score };
-    })
-    .filter((x) => x.score < 999)
-    .sort((a,b)=>
-        a.score-b.score ||
-        a.z.country.localeCompare(b.z.country) ||
-        a.z.city.localeCompare(b.z.city)
-    )
-    .slice(0, 15)
-    .map((x) => x.z);
-}
-
 function noteForTarget(instant: Date, sourceZone: string, targetZone: string) {
   const targetWeekday = weekdayName(instant, targetZone);
   const targetLabel = localDateLabel(instant, targetZone);
   const dst = abbreviation(instant, targetZone).toUpperCase();
-  const dayDiff = dayDifference(sourceZone, targetZone, instant);
+  const dayDiff = dayDifference(sourceZone, targetZone, instant, { extendedRange: true });
   return `${targetWeekday} · ${targetLabel} · ${dayDiff} · ${dst || "TZ"}`;
 }
 
@@ -1001,7 +890,7 @@ export default function MeetingTimeFinderClient() {
   }, [selectedInstant, state.sourceZone, state.targets, workingHours]);
   const selectedZones = useMemo(() => new Set(state.targets.map((t) => t.zone)), [state.targets]);
   const suggestions = useMemo(
-    () => searchZones(zoneOptions, query, selectedZones, state.sourceZone),
+    () => searchZones(zoneOptions, query, selectedZones, state.sourceZone, { matchAbbreviations: true }),
     [zoneOptions, query, selectedZones, state.sourceZone]
   );
 

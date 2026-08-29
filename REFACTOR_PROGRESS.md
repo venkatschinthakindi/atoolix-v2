@@ -158,40 +158,52 @@ plus one new unused-import fix applied (`getTimezoneOffset` in
 `timezoneClient.tsx`, no longer used directly after its only two callers
 moved into the shared module).
 
-### Flagged, not merged (needs a human/product decision, not a silent merge)
-Two more functions have identical *names* in both files but are **not**
-identical in logic, so they were deliberately left local to each file:
+### `dayDifference` / `searchZones` unified behind capability flags — DONE this session
+Previously flagged as "needs a human/product decision before implementing."
+User confirmed to proceed.
 
-- **`dayDifference`** — the Timezone Converter's version only reports
-  `"Same day" / "+1 day" / "-1 day"`. The Meeting Time Finder's version
-  computes the real day delta (`"+2 days"`, etc.) to correctly handle
-  extreme offset pairs like UTC-12 ↔ UTC+14.
-- **`searchZones`** — the Meeting Time Finder's version additionally matches
-  on common timezone abbreviations (EST, PST, IST, ...) via a
-  `COMMON_ABBREVIATIONS` lookup table; the Timezone Converter's version does
-  not.
-- **`noteForTarget`** (text itself is identical in both files) was also kept
-  local to each file rather than shared, because it internally calls
-  `dayDifference` — if it were shared, both files would silently start
-  calling whichever `dayDifference` the shared module exports, which would
-  either regress the Meeting Time Finder's accuracy or change the Timezone
-  Converter's current output. This is exactly the kind of "looks like a
-  dupe by name, isn't by behavior" trap worth flagging.
+**Files:** `src/lib/dateTime/timezoneShared.tsx`, `timezoneClient.tsx`,
+`meetingTimeFinderClient.tsx`.
 
-**Recommended next step if you want these unified too** (this is the
-"basic vs advanced — combine and use as needed" case from the original
-ask): give the shared `dayDifference`/`searchZones` an explicit capability
-flag, e.g. `dayDifference(sourceZone, targetZone, instant, { extendedRange: boolean })`
-and `searchZones(options, query, selected, sourceZone, { matchAbbreviations: boolean })`,
-with the Timezone Converter passing `false`/`false` (preserving its exact
-current behavior) and the Meeting Time Finder passing `true`/`true`
-(preserving its exact current behavior). That gets both files onto one
-shared implementation with **zero output change for either**, which is
-different from what a naive "just delete one copy" merge would do. This was
-not done yet in this session — flagging it here rather than doing it
-silently, since it touches logic surface even though the net behavior is
-unchanged, and the user's "no logic changes" instruction should be
-explicitly re-confirmed before implementing this.
+**What was done:**
+- `dayDifference(sourceZone, targetZone, instant, options?)` — the two
+  previously-separate function bodies are now selected by
+  `options.extendedRange` (`false`/omitted = Timezone Converter's original
+  ±1-day-only string comparison; `true` = Meeting Time Finder's original
+  real day-delta math for extreme offset pairs).
+- `searchZones(options, query, selected, sourceZone, opts?)` — selected by
+  `opts.matchAbbreviations` (`false`/omitted = Timezone Converter's
+  original name/searchKey-only matching; `true` = Meeting Time Finder's
+  original `COMMON_ABBREVIATIONS`-aware matching). `COMMON_ABBREVIATIONS`
+  itself moved into the shared module as a private constant.
+- Both consumer files now import these from the shared module instead of
+  keeping local copies. `timezoneClient.tsx`'s call sites pass no options
+  (defaults reproduce its exact original behavior). `meetingTimeFinderClient.tsx`'s
+  call sites pass `{ extendedRange: true }` and `{ matchAbbreviations: true }`
+  respectively, reproducing its exact original behavior.
+- `noteForTarget` stays local to each file (unchanged) — it's 5 lines of
+  glue calling `dayDifference`, not worth a shared export on its own.
+
+**Verification — beyond just tsc/eslint this time:**
+- `npx tsc --noEmit`: 0 errors repo-wide.
+- `npx eslint` on all three touched files: identical problem count
+  before/after (43 problems: 37 errors, 6 warnings on the two client
+  files, 0 on the shared module) — confirmed via `git stash` comparison.
+  One incidental fix included: removed a `ZoneOption` type import that
+  became unused in both files once the last function using it moved to
+  the shared module.
+- **Behavioral equivalence test** (not just code review): wrote small
+  standalone scripts reimplementing the old basic/advanced/new versions of
+  both functions and ran them against multiple zone pairs (including a
+  ~26-hour-gap pair to specifically exercise the extended-range branch)
+  and multiple queries (empty, abbreviation, partial city/country, no
+  match) across several instants (including a DST-transition date). Old
+  basic output == new output with no options, and old advanced output ==
+  new output with the flags set, in every case tested — confirms the
+  merge is output-identical for both tools, not just "looks the same by
+  inspection."
+
+
 
 ### TimezoneCards component — DONE this session
 Previously flagged as "not attempted, needs a variant prop." Done now.
