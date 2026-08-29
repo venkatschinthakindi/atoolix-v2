@@ -301,6 +301,35 @@ apply there. Nothing force-fit.
 files: 34 problems (12 errors, 22 warnings) — confirmed identical
 count before/after via `git stash` (all pre-existing).
 
+### EMI calculator loan-type route wrappers + Home Loan intro fix
+**Files:**
+- New: `src/sharedUI/calculator/createEmiLoanPage.tsx`
+- Changed: `CarLoanEmiCalculatorPage.tsx`, `HomeLoanEmiCalculatorPage.tsx`,
+  `PersonalLoanEmiCalculatorPage.tsx`
+
+Same route-wrapper pattern as `createInvestmentReturnsPage` — the 3
+loan-type pages were near-identical dynamic-import + intro-paragraph +
+`EmiCalculatorHubPage` wrappers. Extracted into
+`createEmiLoanPage(loanType)`; each route file is now a 2-line call.
+Also removed genuinely dead code found while comparing the 3 files:
+Car and Personal imported `Metadata`, `Link`, `getCachedTools`,
+`HUB_ROUTE`, `ROUTE_MAP` and declared a `REGISTRY_ID` constant, none of
+which were referenced anywhere in either file.
+
+**Content fix, explicit user approval (not a silent change):** Home
+Loan's page was showing the generic 3-loan-type hub intro
+(`HUB_COPY.intro`) instead of its own dedicated home-loan intro
+(`LOAN_PAGE_COPY.home.intro`) — Car and Personal correctly used their
+own type-specific copy, so this was a real mismatch, not intentional
+design. Asked the user before touching it; approved fix applied. The
+shared factory now sources every loan type's intro from
+`LOAN_PAGE_COPY[type]` consistently. This is the only behavior/content
+change in that commit — the wrapper dedup itself is behavior-preserving
+for Car and Personal.
+
+**Verification:** `npx tsc --noEmit` clean; `npx eslint` clean on all 4
+touched/new files.
+
 ---
 
 ## Remaining candidates surveyed but not yet acted on
@@ -324,10 +353,23 @@ next session doesn't have to re-derive them.
   `premiumShellClass`/`GlassIcon`/`formatBytes` (merge/split/compress),
   and the file-list-row comparison (merge vs split — not a fit, see
   below) are all now checked. This tool family is done.
-- **`src/components/tools/qrCode/`** — `qrGeneratorPanel.tsx` (825 lines)
-  has no shared-ui imports, but it wasn't compared against another
-  QR-specific consumer since there's only one QR tool; likely just a large
-  single component rather than duplicated code. Lower priority.
+- **`src/components/tools/qrCode/`** — checked. `qrGeneratorPanel.tsx`
+  has one `type="range"` slider, but it's a single isolated occurrence
+  styled to match its local `Field`-wrapped siblings (green accent for
+  QR branding, no card wrapper) — no duplicate sibling to extract
+  against, and forcing the `SliderCard` pattern in would actually break
+  visual consistency with the surrounding fields. No other known
+  duplication patterns found. Confirmed: nothing to do here.
+- **`src/components/tools/privacysecurity/`** and
+  **`src/components/tools/converter/`** — checked for the known
+  duplication patterns (`formatBytes`, `premiumShellClass`/`GlassIcon`,
+  sliders, local `SectionHeader`/`StatCard`); none found. Both are
+  single-tool families with no sibling to dedupe against. Confirmed:
+  nothing to do here.
+- **`src/components/tools/emiCalculator/calculators/`** — done this
+  session (see above): 3 loan-type route wrappers deduped via
+  `createEmiLoanPage`, plus a real Home Loan intro-copy bug found and
+  fixed with approval.
 - **`src/components/tools/image/passpoerPhotoResizer/` vs
   `signatureResizer/`** — checked (see below): already correctly
   deduped, nothing to do.
