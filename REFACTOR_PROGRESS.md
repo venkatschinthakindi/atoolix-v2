@@ -26,17 +26,44 @@ Hard rules for anyone continuing this work:
 
 ---
 
-## Already done (before this session — prior agent work on this branch)
+## Already done (before this session — commits `d8db5f2` and `ffee72b` on this branch)
 
-- `src/sharedUI/calculator/` — `CalculatorHero`, `EstimateDisclaimer`,
-  `MethodologyNote`, `QuickStartStrip`, `calculatorHelpers.ts`,
-  `createInvestmentReturnsPage.tsx`. Consumed by the savings calculators
-  (`compoundInterestCalculator`, `fixedDepositCalculator`,
-  `recurringDepositCalculator`, `simpleInterestDepositsSuite`) and the
-  investment calculators (`cagrCalculator`, `lumpsumCalculator`,
-  `xirrCalculator`, `investmentReturnsSuite`) via a shared page-builder
-  wrapper.
-- `src/components/ui/` already has a substantial shared kit in active use
+**`d8db5f2` — refactor(finance/savings): extract shared UI for calculator family**
+
+Deduped the 4 savings calculators (compound interest, fixed deposit,
+recurring deposit, simple interest) into `src/sharedUI/calculator/`:
+- `calculatorHelpers.ts` — shared `clamp()` + shared input className constant.
+- `QuickStartStrip.tsx` — the generic 3-step onboarding strip.
+- `MethodologyNote.tsx` — the generic collapsible "how this is calculated" note.
+- `EstimateDisclaimer.tsx` — the identical closing disclaimer paragraph.
+- `CalculatorHero.tsx` — hero section that unifies the **compact** 3-item
+  feature strip (used by compound interest / FD / RD — the "basic" style)
+  and the **detailed** 2×2 icon-box variant (used by simple interest — the
+  "richer" style) behind one `variant` prop. This is the concrete example
+  of the "basic vs advanced UI merged into one, consumed per need" pattern.
+
+No calculation logic touched — every `compute*()` function and hook (aside
+from `MethodologyNote`'s own open/close toggle, which now just lives inside
+the shared component instead of being copy-pasted 4 times) was preserved
+exactly. Net effect: -671 lines across the 4 consumer files. Verified with
+`tsc --noEmit` and `eslint` (both clean per the commit message).
+
+**`ffee72b` — refactor(finance/investment): dedupe route-wrapper components**
+
+The 4 investment calculator route wrappers (CAGR, XIRR, lumpsum, SIP) were
+identical dynamic-import boilerplate around `InvestmentReturnsHubPage`,
+differing only in the `defaultTab` value passed in. Extracted into a single
+`createInvestmentReturnsPage(tab)` factory in `src/sharedUI/calculator/`;
+each of the 4 route files is now just a 2-line call into that factory
+(same `dynamic()` call, same `ssr: true` option, same `<main>` wrapper as
+before). Deliberately kept as 4 separate files rather than one shared
+component/route, because each needs its own module path for the per-tool
+code-splitting done by `src/data/clientToolLoaders.ts` — collapsing them
+into one file would break that code-splitting setup.
+
+**Also already in place before this session** (not from a single dedicated
+commit — part of the broader existing shared kit):
+- `src/components/ui/` — a substantial shared kit already in active use
   across the PDF tools, image tools, and QR tool: `DropZone`, `ProgressBar`,
   `ToolHero`, `customSelect`, `imageToolUI/*` (sectionHeader, toolButton,
   successBanner, toolProgress, toolLayout, statCard, previewCard,
