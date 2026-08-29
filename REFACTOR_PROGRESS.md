@@ -193,19 +193,43 @@ silently, since it touches logic surface even though the net behavior is
 unchanged, and the user's "no logic changes" instruction should be
 explicitly re-confirmed before implementing this.
 
-### TimezoneCards component (UI, not just utility functions)
-Both files also each define their own `TimezoneCards` component. They are
-**not safely mergeable as pure extraction** — the Meeting Time Finder's
-version renders extra working-hours badges and a diff-from-source pill that
-the Timezone Converter's version doesn't have, and the Timezone Converter's
-version has a "Copy" button per row that the Meeting Time Finder's doesn't.
-Different background shades and hover states too. Merging these requires an
-actual small design decision (a `variant` prop or optional
-render-slot pattern), not just a copy-paste extraction. **Not attempted this
-session** — flagged as the next candidate. Recommend a `variant: "basic" |
-"advanced"` prop (or individually-optional props like `onCopy?`,
-`showWorkingHoursBadges?`) so each consumer opts into exactly what it
-currently renders, with no visual change to either page.
+### TimezoneCards component — DONE this session
+Previously flagged as "not attempted, needs a variant prop." Done now.
+
+**Files:**
+- New: `src/components/ui/dateTime/TimezoneCards.tsx`
+- Changed: `timezoneClient.tsx`, `meetingTimeFinderClient.tsx` (both now import
+  the shared component instead of defining their own copy)
+
+**What was done:** merged the two `TimezoneCards` components behind a
+`variant?: "basic" | "advanced"` prop plus two optional callbacks/flags:
+- `variant="advanced"` picks the Meeting Time Finder's darker card
+  background, cyan hover states on Up/Down, and rose-tinted Remove button.
+  Default (`"basic"`) is the Timezone Converter's original plain styling.
+- `onCopy?: (id: string) => void` — Timezone Converter passes its real
+  `copyRow` handler and gets its Copy button back exactly as before;
+  Meeting Time Finder doesn't pass it, so no Copy button renders there,
+  matching its current behavior.
+- `showStatusBadges?: boolean` — Meeting Time Finder passes `true` and gets
+  its diff-from-source / working-hours badge row back exactly as before;
+  Timezone Converter omits it (defaults `false`) and renders with no badges,
+  as before.
+
+Every class string and JSX structure was copied verbatim from whichever
+file it came from — this is a straight `if (isAdvanced) { ... } else { ... }`
+branch inside one component, not a redesign. Both call sites were updated
+to pass exactly the props needed to reproduce their pre-existing look
+(`variant="basic"` is the default so the Timezone Converter's JSX didn't
+need to change at all beyond removing the now-shared function).
+
+**Verification:** `npx tsc --noEmit` clean (0 errors repo-wide).
+`npx eslint` on all three files shows only pre-existing warnings/errors
+(confirmed line-by-line — the only "new" lint hits were in my own draft of
+`TimezoneCards.tsx` itself, which were fixed before commit: a `require()`
+import replaced with a proper `import dynamic from "next/dynamic"`, and
+the loose `selectOptions: any[]` replaced with the real exported
+`TimezoneOption[]` type from `timezoneSelect.tsx`).
+
 
 ### Image tool family: formatBytes + slider markup dedup
 **Files:**
@@ -353,3 +377,20 @@ next session doesn't have to re-derive them.
   code problem. `npx tsc --noEmit` and `npx eslint` are the reliable
   correctness checks available in this environment; a full `next build`
   should still be run in CI/locally before merging.
+- **Concurrent work on this branch:** other sessions have been pushing to
+  `refactor/shared-ui-components-v2` in parallel (savings/investment
+  calculators, PDF/image tool dedup, calculator input components). Always
+  `git fetch` + fast-forward before starting new work and re-run
+  `tsc --noEmit` across the whole repo after syncing, not just on the files
+  you touched — this is cheap and catches cross-session drift immediately.
+- **Found during a validation pass, not caused by this session's changes:**
+  `src/components/tools/pdf/splitPdf/splitPdfClient.tsx` has a real
+  ESLint error — `handleZipBlob` is referenced (inside a `useCallback` body)
+  before it's declared further down in the same component. In practice this
+  likely doesn't crash today, since the callback is only invoked after the
+  component has fully rendered and `handleZipBlob` has been assigned — but
+  it's a genuine temporal-dead-zone smell worth fixing (move the
+  `handleZipBlob` declaration above its first use) rather than leaving it.
+  Not fixed in this session since it's outside the scope of what was asked
+  (pure dedup) and isn't a duplicate-code issue — flagging for whoever
+  touches that file next.

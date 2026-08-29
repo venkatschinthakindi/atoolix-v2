@@ -39,6 +39,7 @@ import {
   buildTargets,
   highlightMatch,
 } from "@/lib/dateTime/timezoneShared";
+import { TimezoneCards } from "@/components/ui/dateTime/TimezoneCards";
 
 const TimezoneSelect = dynamic(
   () => import("@/components/tools/dateTime/timezone-converter/timezoneSelect").then((m) => m.default),
@@ -648,121 +649,6 @@ const MemoRow = memo(function MemoRow({
     </tr>
   );
 });
-
-function TimezoneCards({
-  rows,
-  resultMap,
-  resultsAreStale,
-  onUpdate,
-  onMove,
-  onRemove,
-  onMakeSource,
-  selectOptions,
-}: {
-  rows: TargetRow[];
-  resultMap: Map<string, ResultRow>;
-  resultsAreStale: boolean;
-  onUpdate: (id: string, value: string) => void;
-  onMove: (id: string, dir: -1 | 1) => void;
-  onRemove: (id: string) => void;
-  onMakeSource: (zone: string) => void;
-  selectOptions: any[];
-}) {
-  return (
-    <div className="grid gap-3 md:hidden">
-      {rows.map((row, index) => {
-        const result = resultMap.get(row.id);
-        return (
-          <div key={row.id} className="rounded-2xl border border-white/10 bg-black/30 p-4">
-            <div className="flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <div className="text-xs uppercase tracking-wide text-zinc-400">Zone {index + 1}</div>
-                <div className="truncate text-base font-semibold text-white">{row.zone}</div>
-              </div>
-            </div>
-
-            <div className="mt-3">
-              <TimezoneSelect
-                value={row.zone}
-                onChange={(value) => onUpdate(row.id, value)}
-                options={selectOptions}
-                placeholder="Search timezone..."
-              />
-            </div>
-
-            <button type="button" onClick={() => onMakeSource(row.zone)} className="mt-3 text-left">
-              <div className={`text-sm ${resultsAreStale ? "text-zinc-500" : "text-zinc-200"}`}>
-                {result?.display ?? "Waiting for valid input"}
-              </div>
-              <div className="mt-1 text-xs text-zinc-400">{result?.details ?? ""}</div>
-            </button>
-
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {result?.diff ? (
-                <span
-                  className={`inline-flex rounded-full px-2 py-1 text-xs font-medium tabular-nums ${
-                    resultsAreStale
-                      ? "bg-white/5 text-zinc-500"
-                      : result.diff === "Same time"
-                        ? "bg-emerald-500/15 text-emerald-300"
-                        : "bg-indigo-500/15 text-indigo-300"
-                  }`}
-                >
-                  {result.diff} vs source
-                </span>
-              ) : null}
-              {result ? (
-                <span
-                  className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
-                    result.inHours
-                      ? "bg-emerald-500/15 text-emerald-300"
-                      : "bg-white/5 text-zinc-500"
-                  }`}
-                >
-                  {result.inHours ? "● Working hours" : "○ Outside hours"}
-                </span>
-              ) : null}
-            </div>
-
-            <div className="mt-3 space-y-1 text-sm text-zinc-300">
-              <div>{result?.offset ?? ""}</div>
-              <div>{result?.abbreviation ?? ""}</div>
-              <div>{result?.localTime ?? ""}</div>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => onMove(row.id, -1)}
-                disabled={index === 0}
-                className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs text-zinc-200 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30"
-              >
-                Up
-              </button>
-              <button
-                type="button"
-                onClick={() => onMove(row.id, 1)}
-                disabled={index === rows.length - 1}
-                className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs text-zinc-200 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30"
-              >
-                Down
-              </button>
-              {index !== 0 ? (
-                <button
-                  type="button"
-                  onClick={() => onRemove(row.id)}
-                  className="rounded-full border border-rose-400/20 bg-rose-400/5 px-3 py-2 text-xs text-rose-300 transition hover:border-rose-400/40 hover:bg-rose-400/15"
-                >
-                  Remove
-                </button>
-              ) : null}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
 
 /** Numbered step badge used to make each section's place in the flow obvious
  *  at a glance, without changing any of the section's own logic. */
@@ -2195,6 +2081,8 @@ export default function MeetingTimeFinderClient() {
             onRemove={removeTarget}
             onMakeSource={makeSource}
             selectOptions={selectOptions}
+            showStatusBadges
+            variant="advanced"
           />
         </section>
 
