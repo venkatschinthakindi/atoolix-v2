@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ShellCard } from "@/components/ui/calculator/ShellCard";
 import {
 BookOpenCheck,
 HelpCircle,
@@ -98,21 +99,6 @@ return ( <div className="mx-auto w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:
 </div>
 
 
-);
-}
-
-function ShellCard({
-children,
-className = "",
-}: {
-children: React.ReactNode;
-className?: string;
-}) {
-return (
-<section
-className={`relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06] ${className}`}
->
-{children} </section>
 );
 }
 

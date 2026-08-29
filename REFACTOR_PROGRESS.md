@@ -26,7 +26,7 @@ Hard rules for anyone continuing this work:
 
 ---
 
-## Already done (before this session — commits `d8db5f2` and `ffee72b` on this branch)**
+## Already done (before this session — commits `d8db5f2` and `ffee72b` on this branch)
 
 Deduped the 4 savings calculators (compound interest, fixed deposit,
 recurring deposit, simple interest) into `src/sharedUI/calculator/`:
@@ -343,6 +343,28 @@ for Car and Personal.
 touched/new files.
 
 ---
+
+### Calculator ShellCard (Equation Solver ↔ Smart Calculator) — DONE this session
+**Files:**
+- New: `src/components/ui/calculator/ShellCard.tsx`
+- Changed: `EquationSolver.tsx`, `SmartCalculator.tsx`
+
+**What was found:** both components (consumed via `Calculator.tsx`) defined
+an identical local `ShellCard` — a presentational wrapper `<section>` with
+no props beyond `children`/`className` and no logic at all. Confirmed
+byte-identical via `diff -w` (only indentation/formatting differed —
+`EquationSolver.tsx` had no indentation throughout the file, a pre-existing
+quirk unrelated to this change).
+
+**What was done:** extracted verbatim into
+`src/components/ui/calculator/ShellCard.tsx`; both files now import it.
+Checked `percentageCalculator.tsx` and `Calculator.tsx` too — neither
+defines or uses `ShellCard`, so this is a clean two-consumer dedup with no
+other call sites to account for.
+
+**Verification:** `tsc --noEmit` 0 errors repo-wide. `eslint` on both files
+plus the new one: identical 3 pre-existing problems before/after (confirmed
+via `git stash`), 0 new issues, new file itself is fully clean.
 
 ## Remaining candidates surveyed but not yet acted on
 
