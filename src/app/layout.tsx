@@ -6,6 +6,7 @@ import "@/utility/pascalCase";
 import { serverConfig } from "@/config/server";
 import { PwaProvider } from "@/components/pwa/PwaProvider";
 import InstallButton from "@/components/pwa/InstallButton";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -96,7 +97,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#000000",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
 };
 
 const siteJsonLd = {
@@ -138,6 +142,7 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
+      suppressHydrationWarning
       className={cn(
         "h-full",
         "antialiased",
@@ -153,16 +158,18 @@ export default function RootLayout({
         ></script>
       </head>
       <body className="min-h-full flex flex-col">
-        <PwaProvider>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(siteJsonLd),
-            }}
-          />
-          <InstallButton />
-          <main>{children}</main>
-        </PwaProvider>
+        <ThemeProvider>
+          <PwaProvider>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(siteJsonLd),
+              }}
+            />
+            <InstallButton />
+            <main>{children}</main>
+          </PwaProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

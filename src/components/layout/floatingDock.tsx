@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import { navigationItems } from "@/data/navigation";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export function FloatingDock() {
   return (
@@ -22,6 +23,13 @@ export function FloatingDock() {
               </Link>
             );
           })}
+
+          <span
+            aria-hidden="true"
+            className="mx-1 h-6 w-px bg-border-strong/40"
+          />
+
+          <ThemeToggle />
         </div>
       </div>
     </nav>
