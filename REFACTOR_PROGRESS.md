@@ -26,7 +26,7 @@ Hard rules for anyone continuing this work:
 
 ---
 
-## Already done (before this session — commits `d8db5f2` and `ffee72b` on this branch)**
+## Already done (before this session — commits `d8db5f2` and `ffee72b` on this branch)
 
 Deduped the 4 savings calculators (compound interest, fixed deposit,
 recurring deposit, simple interest) into `src/sharedUI/calculator/`:
@@ -158,40 +158,52 @@ plus one new unused-import fix applied (`getTimezoneOffset` in
 `timezoneClient.tsx`, no longer used directly after its only two callers
 moved into the shared module).
 
-### Flagged, not merged (needs a human/product decision, not a silent merge)
-Two more functions have identical *names* in both files but are **not**
-identical in logic, so they were deliberately left local to each file:
+### `dayDifference` / `searchZones` unified behind capability flags — DONE this session
+Previously flagged as "needs a human/product decision before implementing."
+User confirmed to proceed.
 
-- **`dayDifference`** — the Timezone Converter's version only reports
-  `"Same day" / "+1 day" / "-1 day"`. The Meeting Time Finder's version
-  computes the real day delta (`"+2 days"`, etc.) to correctly handle
-  extreme offset pairs like UTC-12 ↔ UTC+14.
-- **`searchZones`** — the Meeting Time Finder's version additionally matches
-  on common timezone abbreviations (EST, PST, IST, ...) via a
-  `COMMON_ABBREVIATIONS` lookup table; the Timezone Converter's version does
-  not.
-- **`noteForTarget`** (text itself is identical in both files) was also kept
-  local to each file rather than shared, because it internally calls
-  `dayDifference` — if it were shared, both files would silently start
-  calling whichever `dayDifference` the shared module exports, which would
-  either regress the Meeting Time Finder's accuracy or change the Timezone
-  Converter's current output. This is exactly the kind of "looks like a
-  dupe by name, isn't by behavior" trap worth flagging.
+**Files:** `src/lib/dateTime/timezoneShared.tsx`, `timezoneClient.tsx`,
+`meetingTimeFinderClient.tsx`.
 
-**Recommended next step if you want these unified too** (this is the
-"basic vs advanced — combine and use as needed" case from the original
-ask): give the shared `dayDifference`/`searchZones` an explicit capability
-flag, e.g. `dayDifference(sourceZone, targetZone, instant, { extendedRange: boolean })`
-and `searchZones(options, query, selected, sourceZone, { matchAbbreviations: boolean })`,
-with the Timezone Converter passing `false`/`false` (preserving its exact
-current behavior) and the Meeting Time Finder passing `true`/`true`
-(preserving its exact current behavior). That gets both files onto one
-shared implementation with **zero output change for either**, which is
-different from what a naive "just delete one copy" merge would do. This was
-not done yet in this session — flagging it here rather than doing it
-silently, since it touches logic surface even though the net behavior is
-unchanged, and the user's "no logic changes" instruction should be
-explicitly re-confirmed before implementing this.
+**What was done:**
+- `dayDifference(sourceZone, targetZone, instant, options?)` — the two
+  previously-separate function bodies are now selected by
+  `options.extendedRange` (`false`/omitted = Timezone Converter's original
+  ±1-day-only string comparison; `true` = Meeting Time Finder's original
+  real day-delta math for extreme offset pairs).
+- `searchZones(options, query, selected, sourceZone, opts?)` — selected by
+  `opts.matchAbbreviations` (`false`/omitted = Timezone Converter's
+  original name/searchKey-only matching; `true` = Meeting Time Finder's
+  original `COMMON_ABBREVIATIONS`-aware matching). `COMMON_ABBREVIATIONS`
+  itself moved into the shared module as a private constant.
+- Both consumer files now import these from the shared module instead of
+  keeping local copies. `timezoneClient.tsx`'s call sites pass no options
+  (defaults reproduce its exact original behavior). `meetingTimeFinderClient.tsx`'s
+  call sites pass `{ extendedRange: true }` and `{ matchAbbreviations: true }`
+  respectively, reproducing its exact original behavior.
+- `noteForTarget` stays local to each file (unchanged) — it's 5 lines of
+  glue calling `dayDifference`, not worth a shared export on its own.
+
+**Verification — beyond just tsc/eslint this time:**
+- `npx tsc --noEmit`: 0 errors repo-wide.
+- `npx eslint` on all three touched files: identical problem count
+  before/after (43 problems: 37 errors, 6 warnings on the two client
+  files, 0 on the shared module) — confirmed via `git stash` comparison.
+  One incidental fix included: removed a `ZoneOption` type import that
+  became unused in both files once the last function using it moved to
+  the shared module.
+- **Behavioral equivalence test** (not just code review): wrote small
+  standalone scripts reimplementing the old basic/advanced/new versions of
+  both functions and ran them against multiple zone pairs (including a
+  ~26-hour-gap pair to specifically exercise the extended-range branch)
+  and multiple queries (empty, abbreviation, partial city/country, no
+  match) across several instants (including a DST-transition date). Old
+  basic output == new output with no options, and old advanced output ==
+  new output with the flags set, in every case tested — confirms the
+  merge is output-identical for both tools, not just "looks the same by
+  inspection."
+
+
 
 ### TimezoneCards component — DONE this session
 Previously flagged as "not attempted, needs a variant prop." Done now.
@@ -331,6 +343,71 @@ for Car and Personal.
 touched/new files.
 
 ---
+
+### Calculator ShellCard (Equation Solver ↔ Smart Calculator) — DONE this session
+**Files:**
+- New: `src/components/ui/calculator/ShellCard.tsx`
+- Changed: `EquationSolver.tsx`, `SmartCalculator.tsx`
+
+**What was found:** both components (consumed via `Calculator.tsx`) defined
+an identical local `ShellCard` — a presentational wrapper `<section>` with
+no props beyond `children`/`className` and no logic at all. Confirmed
+byte-identical via `diff -w` (only indentation/formatting differed —
+`EquationSolver.tsx` had no indentation throughout the file, a pre-existing
+quirk unrelated to this change).
+
+**What was done:** extracted verbatim into
+`src/components/ui/calculator/ShellCard.tsx`; both files now import it.
+Checked `percentageCalculator.tsx` and `Calculator.tsx` too — neither
+defines or uses `ShellCard`, so this is a clean two-consumer dedup with no
+other call sites to account for.
+
+**Verification:** `tsc --noEmit` 0 errors repo-wide. `eslint` on both files
+plus the new one: identical 3 pre-existing problems before/after (confirmed
+via `git stash`), 0 new issues, new file itself is fully clean.
+
+### `premiumShellClass`/`GlassIcon` — 4th consumer found and deduped (`backgroundRemoverClient.tsx`) — DONE this session
+A fresh full-repo scan (see "Broader scan" note below) turned up a 4th
+byte-identical copy of `premiumShellClass`/`GlassIcon` beyond the 3 already
+deduped in the PDF tool family (commit `4a745ad`): the background remover
+tool had its own local copies of both, confirmed byte-identical to
+`src/sharedUI/tool/premiumShell.ts` / `src/sharedUI/tool/GlassIcon.tsx` by
+direct comparison. Removed the local copies from
+`backgroundRemoverClient.tsx` and pointed its 5 call sites (1×
+`premiumShellClass()`, 4× `<GlassIcon>`) at the existing shared module — no
+new shared file needed, this tool just joins the existing one. Also dropped
+one line of dead commented-out code that lived inside the old local
+`premiumShellClass()` function (a stale alternate class-string comment with
+no effect on behavior).
+
+**Verification:** `tsc --noEmit` 0 errors repo-wide. `eslint`: identical 7
+pre-existing problems before/after (confirmed via `git stash`).
+
+**Separately noted, not touched:** `src/components/ui/glassIcon.tsx`
+(lowercase filename) is a *different*, unrelated `GlassIcon` — different
+sizing/styling, `icon: any` typed — with **zero consumers anywhere in the
+app** (repo-wide grep). It's dead code that happens to share a name with
+the real shared component, not a live duplicate; flagging rather than
+deleting, consistent with how the other orphaned files
+(`basicPercentage.tsx`/`percentageOf.tsx`) have been handled — worth
+confirming with the repo owner whether it's safe to remove.
+
+### Broader scan: confirmed every top-level tool category is now checked
+Walked all 9 top-level folders under `src/components/tools/` explicitly
+this session, not just the ones with open questions:
+`calculator` ✓ (ShellCard deduped above), `converter` ✓ (single file,
+`UnitConverter.tsx`, no sibling to dedupe against), `dateTime` ✓ (fully
+done, see above), `emiCalculator` ✓ (done, prior commit), `financeSuite`
+✓ (savings/investment done, retirement checked-do-not-touch),
+`image` ✓ (compressor/converter done, passport/signature already correct,
+**backgroundRemover fixed this session** — see above), `pdf` ✓ (done,
+prior commits), `privacysecurity` ✓ (single tool, `fileAnalyzer.tsx` +
+2 small helpers, nothing to dedupe against), `qrCode` ✓ (6 sub-components
+checked for name/structure overlap — `Field` vs `ColorField`/`FontField`
+etc. are genuinely different fields for different purposes, not
+duplicates; confirmed nothing to do). Only `backgroundRemover` turned up
+a real, previously-missed duplicate; everything else confirms prior
+sessions' findings.
 
 ## Remaining candidates surveyed but not yet acted on
 

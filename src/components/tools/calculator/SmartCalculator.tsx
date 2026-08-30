@@ -1,6 +1,7 @@
 "use client";
 
 import { getMath } from "@/lib/mathJsUtility";
+import { ShellCard } from "@/components/ui/calculator/ShellCard";
 import { useEffect, useRef, useState } from "react";
 import {
   Calculator,
@@ -32,22 +33,6 @@ type ToastState = { message: string; tone: "error" | "success" } | null;
 /* ------------------------------------------------------------------ */
 /* Presentational helpers                                              */
 /* ------------------------------------------------------------------ */
-
-function ShellCard({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <section
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06] ${className}`}
-    >
-      {children}
-    </section>
-  );
-}
 
 function KeyButton({
   children,
