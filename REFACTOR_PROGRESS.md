@@ -409,6 +409,45 @@ duplicates; confirmed nothing to do). Only `backgroundRemover` turned up
 a real, previously-missed duplicate; everything else confirms prior
 sessions' findings.
 
+### Full-codebase bug review (separate from dedup work) — DONE this session
+Ran a broader pass looking for actual bugs, not just duplication:
+full `tsc --noEmit` (0 errors repo-wide), full `eslint` across `src/`
+(380 problems categorized by rule), plus targeted checks for security
+anti-patterns (`eval`, hardcoded secrets, `dangerouslySetInnerHTML`
+usage — none found beyond static/SEO content and one low-risk
+self-XSS-only case in the local, single-user PDF header/footer editor
+preview in `tiptapEditor.tsx`).
+
+Two real bugs found and fixed (both approved before/during the work):
+- **`src/components/ui/DropZone.tsx`** (commit `1fc70cd`) — used by
+  nearly every upload-based tool. `handleFiles()` started a
+  `setInterval`/`setTimeout` pair with no cleanup; unmounting mid-
+  "upload" (reset/navigate within the 2s window) leaked the timers and
+  called `setState`/`onFiles` on an unmounted component. Also,
+  `handleDrop`'s `useCallback(..., [])` was frozen to a stale
+  `handleFiles` closure — if a consumer's `onFiles`/`validFileTypes`
+  prop changed after mount, drag-and-drop could use stale values while
+  the file-picker path stayed current. Fixed: timers tracked in refs
+  and cleared on unmount (and before starting a new run);
+  `handleFiles`/`validatePDF` properly memoized with correct deps;
+  `openPicker` moved above the `useImperativeHandle` call that
+  references it (same TDZ-avoidance pattern as the earlier
+  `splitPdfClient` fix). No visual/behavioral change while mounted.
+- **`useQrCode.ts`** and **`favoriteToolsStore.ts`** (commit `28f47ea`)
+  — a dead statement (`ref.current?.innerHTML;` — read and discarded,
+  no effect) and a ternary used purely for side effects instead of
+  `if`/`else`. Both harmless as written, cleaned up for clarity/
+  robustness. Both files now have 0 eslint problems.
+
+Everything else in the 380-problem eslint count is type-safety/
+cleanliness debt, not bugs: 109 `any` types, 109 unused vars/imports,
+86 unescaped-JSX-entity warnings (cosmetic), 32 `<img>` tags instead of
+`next/image` (perf/SEO best practice, not broken), and the remaining
+`react-hooks/exhaustive-deps`/`set-state-in-effect` warnings were spot-
+checked and are intentional patterns (e.g. mount-only URL-param
+hydration effects — adding the "missing" dependency would actually
+introduce a bug by resetting user input on every URL change).
+
 ## Remaining candidates surveyed but not yet acted on
 
 These were scanned for duplication opportunities; noting findings so the
