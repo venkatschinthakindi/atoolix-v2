@@ -567,16 +567,13 @@ These were scanned for duplication opportunities; noting findings so the
 next session doesn't have to re-derive them.
 
 - **`src/components/tools/calculator/percentage/`** — `basicPercentage.tsx`
-  and `percentageOf.tsx` share large amounts of near-identical UI
-  (`ShellCard`, `SectionHeader`, `InputField`, result/button block) —
-  exactly the "basic vs advanced" pattern. **However, neither file is
-  imported anywhere in the app** (confirmed via repo-wide grep) — they
-  appear to be orphaned/dead code. Only `percentageCalculator.tsx` is
-  actually wired up (via `Calculator.tsx`), and its layout is meaningfully
-  different (tabs, different Field component, side-by-side grid), not a
-  simple duplicate of the other two. Recommend confirming with the repo
-  owner whether `basicPercentage.tsx` / `percentageOf.tsx` are intentional
-  work-in-progress before spending effort deduping unused code.
+  and `percentageOf.tsx` were orphaned (zero consumers anywhere in the
+  app, confirmed via repo-wide grep) and have since been **deleted** as
+  part of the dead-code removal pass (see below). Only
+  `percentageCalculator.tsx` remains, and it's actively wired up via
+  `Calculator.tsx` with a meaningfully different layout (tabs, different
+  Field component, side-by-side grid) — not a duplicate of anything.
+  Resolved, nothing further to do here.
 - **`src/components/tools/pdf/*Client.tsx`** (merge, split, compress,
   image-to-pdf) — `formatBytes`/margin-slider (image-to-pdf),
   `premiumShellClass`/`GlassIcon`/`formatBytes` (merge/split/compress),
