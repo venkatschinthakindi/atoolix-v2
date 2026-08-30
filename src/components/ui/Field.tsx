@@ -11,7 +11,7 @@ export function Field({
 }: FieldProps) {
   return (
     <div data-export-field>
-      <label className="block pb-2 text-sm text-white/80">
+      <label className="block pb-2 text-sm text-foreground-secondary">
         {label}
       </label>
 
