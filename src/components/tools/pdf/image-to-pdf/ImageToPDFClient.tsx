@@ -123,7 +123,6 @@ export default function ImageToPDFClient({ config }: Props) {
     setOutputSize(null);
     setError("");
     setDropzoneKey((prev) => prev + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [previewUrl]);
 
   useEffect(() => {

@@ -258,7 +258,6 @@ export default function ImageCompressorClient({ config }: Props) {
         clearTimeout(estimateTimer.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     file,
     quality,
