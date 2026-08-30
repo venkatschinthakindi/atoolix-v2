@@ -396,6 +396,21 @@ kept here so the per-file reasoning isn't lost to git history alone.
    background is a similar contrast risk and needs the same treatment,
    not a blind token swap.
 
+**Checked, intentionally NOT migrated:**
+- `toolCard.tsx` — its `bg-white/X` and `text-white` usages sit on top of
+  one of 100 pre-generated saturated per-tool gradient backgrounds
+  (`from-blue-400 to-blue-500`, etc., chosen deterministically by hashing
+  the tool's label), not on the app's theme surface. That gradient doesn't
+  reference any theme token and isn't meant to — every tool card is
+  designed to keep the same colorful identity regardless of app theme.
+  White text/icon contrast against these vivid gradients is consistent in
+  both themes already, since the gradient itself never changes. Migrating
+  this file's `white` usages to theme tokens would be a **regression**,
+  not an improvement — it would make the cards vary by theme when the
+  design intends them not to. Left untouched; noting here so no future
+  session re-flags it as "still has bg-white/text-white, needs migration"
+  without re-deriving this reasoning.
+
 **Verification on every file above:** `tsc --noEmit` clean repo-wide
 (not just the changed file) and `eslint` clean, confirmed before each
 commit.
