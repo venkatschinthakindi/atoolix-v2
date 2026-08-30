@@ -24,9 +24,7 @@ interface PwaContextValue {
   isInstalled: boolean;
   isOnline: boolean;
   registration: ServiceWorkerRegistration | null;
-  // updateAvailable: boolean;
   install(): Promise<void>;
-  // updateApp(): void;
 }
 
 const PwaContext = createContext<PwaContextValue | null>(null);
@@ -45,8 +43,6 @@ export function PwaProvider({
   const [isInstalled, setInstalled] = useState(false);
 
   const [isOnline, setOnline] = useState(true);
-
-  // const [updateAvailable, setUpdateAvailable] = useState(false);
 
   // Guards against reloading twice if controllerchange fires more than once.
   const reloadingRef = useRef(false);
@@ -118,11 +114,6 @@ export function PwaProvider({
     if (!registration) {
       return;
     }
-
-    // Already waiting?
-    // if (registration.waiting) {
-    //   setUpdateAvailable(true);
-    // }
 
     const handleUpdateFound = () => {
       const worker = registration.installing;
@@ -238,22 +229,10 @@ export function PwaProvider({
 
     await installPrompt.prompt();
 
-    const result = await installPrompt.userChoice;
+    await installPrompt.userChoice;
 
     setInstallPrompt(null);
   }, [installPrompt]);
-
-  // const updateApp = useCallback(() => {
-  //   if (!registration?.waiting) {
-  //     return;
-  //   }
-
-  //   registration.waiting.postMessage({
-  //     type: "SKIP_WAITING",
-  //   });
-  //   // Reload is handled by the controllerchange listener above,
-  //   // once the new worker actually takes control.
-  // }, [registration]);
 
   const value = useMemo(
     () => ({
@@ -261,18 +240,14 @@ export function PwaProvider({
       isInstalled,
       isOnline,
       registration,
-      // updateAvailable,
       install,
-      // updateApp,
     }),
     [
       installPrompt,
       isInstalled,
       isOnline,
       registration,
-      // updateAvailable,
       install,
-      // updateApp,
     ]
   );
 

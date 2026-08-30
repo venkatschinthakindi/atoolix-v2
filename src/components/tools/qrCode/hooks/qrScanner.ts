@@ -35,12 +35,12 @@ export function useQrScanner(scannerId: string) {
 
     try {
       await scanner.stop();
-    } catch (e) {
+    } catch {
     }
 
     try {
       await scanner.clear();
-    } catch (e) {
+    } catch {
     }
 
     if (startTokenRef.current === token) {
@@ -97,7 +97,7 @@ export function useQrScanner(scannerId: string) {
       }
       try {
         await scannerRef.current?.clear();
-      } catch (err) {
+      } catch {
       }
       scannerRef.current = null;
       startTokenRef.current = null;
@@ -132,7 +132,7 @@ export function useQrScanner(scannerId: string) {
     } finally {
       try {
         await scanner.clear();
-      } catch (e) {
+      } catch {
       }
       if (imageTokenRef.current === token && mountedRef.current) setLoading(false);
     }

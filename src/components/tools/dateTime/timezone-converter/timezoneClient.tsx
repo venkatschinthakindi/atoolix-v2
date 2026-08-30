@@ -151,7 +151,6 @@ const MemoRow = memo(function MemoRow({
   resultsAreStale,
   onUpdate,
   onMove,
-  onCopy,
   onRemove,
   onMakeSource,
   selectOptions,
@@ -163,7 +162,6 @@ const MemoRow = memo(function MemoRow({
   resultsAreStale: boolean;
   onUpdate: (id: string, value: string) => void;
   onMove: (id: string, dir: -1 | 1) => void;
-  onCopy: (id: string) => void;
   onRemove: (id: string) => void;
   onMakeSource: (zone: string) => void;
   selectOptions: any[];
@@ -509,25 +507,6 @@ export default function TimezoneConverterClient() {
       else showToast("error", "Copy failed.");
     },
     [selectedInstant, resultsAreStale, state.sourceZone, state.targets, state.use24Hour, showToast, zoneMap]
-  );
-
-  const copyAll = useCallback(
-    async () => {
-      if (!selectedInstant || resultsAreStale) return;
-      const fmt = state.use24Hour ? "EEE, MMM d yyyy HH:mm" : "EEE, MMM d yyyy hh:mm a";
-      const text = [
-        `Source: ${state.sourceZone}`,
-        `Selected: ${formatInTimeZone(selectedInstant, state.sourceZone, fmt)}`,
-        ...state.targets.map(
-          (row) =>
-            `${row.zone}: ${formatInTimeZone(selectedInstant, row.zone, fmt)} (${offsetText(selectedInstant, row.zone)}, ${abbreviation(selectedInstant, row.zone)})`
-        ),
-      ].join("\n");
-      const ok = await copyToClipboard(text);
-      if (ok) showToast("note", "All rows copied.");
-      else showToast("error", "Copy failed.");
-    },
-    [selectedInstant, resultsAreStale, state.sourceZone, state.targets, state.use24Hour, showToast]
   );
 
   const copyShareLink = useCallback(async () => {
@@ -935,7 +914,6 @@ export default function TimezoneConverterClient() {
                     resultsAreStale={resultsAreStale}
                     onUpdate={updateTarget}
                     onMove={moveTarget}
-                    onCopy={copyRow}
                     onRemove={removeTarget}
                     onMakeSource={makeSource}
                     selectOptions={selectOptions}

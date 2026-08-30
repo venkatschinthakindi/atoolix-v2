@@ -1,6 +1,7 @@
 "use client";
 import { FieldLabel } from "@/components/ui/fieldLabel";
 import { ArrowDown, ArrowUp, FileText, X } from "lucide-react";
+import type { FileItem } from "@/types/fileItem.types";
 
 export function FileRow({
   item,
@@ -117,13 +118,6 @@ function getSelectedPagesPreview(
   }
 
   return `Selected: ${pages.join(", ")}`;
-  // if (pages.length <= 30) {
-    
-  // }
-
-  // return `Selected: ${pages.slice(0, 30).join(", ")} ... (+${
-  //   pages.length - 30
-  // } more)`;
 }
 
 

@@ -22,7 +22,7 @@ export interface PdfTextAnalysis {
  * detection comes back later, it should be its own opt-in module clearly
  * labeled as a heuristic, not bundled into a check users treat as fact.
  */
-export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer, totalPageCount: number): Promise<PdfTextAnalysis> {
+export async function analyzePdfSearchableText(arrayBuffer: ArrayBuffer): Promise<PdfTextAnalysis> {
   const findings: Finding[] = [];
   const facts: Record<string, string> = {};
 

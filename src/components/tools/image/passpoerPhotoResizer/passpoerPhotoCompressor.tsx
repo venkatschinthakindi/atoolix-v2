@@ -1,14 +1,14 @@
 import { CompressorConfig } from "@/types/imageCompressor.types";
 import PassportPhotoCompressorClient from "@/components/tools/image/passpoerPhotoResizer/passportPhotoCompressorClient";
 
-export default function PasspoerPhotoCompressorTool({ initialExpression, theme, title,description,
+export default function PasspoerPhotoCompressorTool({ title,description,
   allowedFormats, defaultQuality, mode, targetKB, lockTarget, targetWidth, targetHeight }: any) {
-  return <PasspoerPhotoCompressor initialExpression={initialExpression} theme={theme} title={title} 
+  return <PasspoerPhotoCompressor title={title} 
   description={description} allowedFormats={allowedFormats} defaultQuality={defaultQuality} mode={mode} targetKB={targetKB} 
   lockTarget={lockTarget} targetWidth={targetWidth} targetHeight={targetHeight}/>;
 }
 
-export function PasspoerPhotoCompressor({ initialExpression, theme, title, description, allowedFormats,
+export function PasspoerPhotoCompressor({ title, description, allowedFormats,
    defaultQuality, mode, targetKB, lockTarget, targetWidth, targetHeight }: any) {
   const imageConfig: CompressorConfig = {
     title,

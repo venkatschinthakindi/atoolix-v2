@@ -10,7 +10,6 @@ type UnitOption = {
 type Props = {
   value: string | null;
   onChange: (val: string) => void;
-  query: string;
   setQuery: (val: string) => void;
   options: UnitOption[];
   placeholder: string;
@@ -19,7 +18,6 @@ type Props = {
 export function UnitCombobox({
   value,
   onChange,
-  query,
   setQuery,
   options,
   placeholder,

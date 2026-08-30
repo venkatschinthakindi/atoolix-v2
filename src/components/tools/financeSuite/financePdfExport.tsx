@@ -289,8 +289,7 @@ export function FinancePdfExport({
 
           pdf.addImage(chartImage, "PNG", marginX, y, contentW, 86);
           y += 96;
-        } catch (chartError) {
-          //console.warn("Chart export skipped:", chartError);
+        } catch {
         }
       }
 

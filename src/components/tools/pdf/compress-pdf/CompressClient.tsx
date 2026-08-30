@@ -4,9 +4,6 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Props } from "@/types/props";
 import {
-  FileText,
-  CheckCircle2,
-  Wand2,
   RotateCcw,
   Download,
   FileArchive,

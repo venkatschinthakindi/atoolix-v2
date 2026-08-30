@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { CloudUpload, UploadCloud } from "lucide-react";
+import { CloudUpload } from "lucide-react";
 
 export function DropZone({
   onFiles,

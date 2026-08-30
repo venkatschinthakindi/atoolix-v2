@@ -1,6 +1,3 @@
-const LIB_URL = "pdfjs-dist/build/pdf.min.mjs";
-const WORKER_URL = "pdfjs-dist/build/pdf.worker.min.mjs";
-
 export interface PdfjsModule {
   getDocument: (src: { data: ArrayBuffer }) => { promise: Promise<PdfjsDocument> };
   GlobalWorkerOptions: { workerSrc: string };
@@ -28,10 +25,6 @@ export interface PdfjsDocument {
   getMarkInfo: () => Promise<PdfjsMarkInfo | null>;
   destroy: () => Promise<void>;
 }
-
-let pdfjsPromise: Promise<PdfjsModule> | null = null;
-
-
 
 export async function getPdfjs() {
   const pdfjsLib = await import("pdfjs-dist");

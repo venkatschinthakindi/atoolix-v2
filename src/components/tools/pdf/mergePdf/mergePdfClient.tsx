@@ -12,23 +12,18 @@ import {
 import {
   AlertCircle,
   ArrowDownUp,
-  CheckCircle2,
   CircleCheck,
   Download,
   Eye,
   FileText,
-  FileUp,
   Files,
   Loader2,
   PanelBottomOpen,
   PanelTopOpen,
   RotateCcw,
   Wand2,
-  Plus,
-  Trash2,
 } from "lucide-react";
 
-import { DropZone } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Props } from "@/types/props";
 import { asyncGetPdfLib } from "@/lib/pdfLibUtility";
@@ -452,18 +447,6 @@ export default function PdfMergerClient({ config }: Props) {
     [getPdfLib]
   );
 
-  const clearAllFiles = useCallback(() => {
-    setFiles([]);
-    setState("idle");
-    setProgress(0);
-    setMergedBlob(null);
-    setDropzoneKey((prev) => prev + 1);
-    setHeaderMode("none");
-    setFooterMode("none");
-    setAutoDownloadFailed(false);
-    setError(null);
-  }, []);
-
   const moveFile = useCallback((id: string, direction: -1 | 1) => {
     setFiles((prev) => {
       const next = [...prev];
@@ -559,7 +542,7 @@ export default function PdfMergerClient({ config }: Props) {
       setState("done");
       setAutoDownloadFailed(false);
       openPreview(blob);
-    } catch (err) {
+    } catch {
       // Previously unhandled — a failure here left state stuck on
       // "processing" forever with no way to recover except a page refresh.
       setError("Something went wrong while merging your PDFs. Please try again.");
@@ -588,7 +571,7 @@ export default function PdfMergerClient({ config }: Props) {
         setShowModal(false);
         setPreviewUrl(null);
       }, 300);
-    } catch (error) {
+    } catch {
       // Previously set but never rendered anywhere — the user had no idea
       // the download failed. Now surfaced as a banner with a retry button.
       setAutoDownloadFailed(true);
@@ -623,9 +606,6 @@ export default function PdfMergerClient({ config }: Props) {
   }, [files.length, previewUrl]);
 
   const toggleAutoOptimize = useCallback(() => setAutoOptimize((v) => !v), []);
-
-  const dropZoneRef = useRef<any>(null);
-  const openFilePicker = useCallback(() => dropZoneRef.current?.openFilePicker(), []);
 
   const isWorking = state === "processing";
   const isDone = state === "done";

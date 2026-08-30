@@ -19,7 +19,7 @@ export const archiveAnalyzer: Analyzer = {
     try {
       const { unzipSync } = await import('fflate');
       entries = unzipSync(new Uint8Array(ctx.arrayBuffer));
-    } catch (err) {
+    } catch {
       findings.push({
         id: 'zip-corrupt',
         severity: 'critical',

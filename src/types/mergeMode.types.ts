@@ -1,1 +1,1 @@
-type MergeMode = "none" | "text" | "file";
+export type MergeMode = "none" | "text" | "file";

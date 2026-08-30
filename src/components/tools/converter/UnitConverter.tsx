@@ -380,7 +380,6 @@ function UnitConverter({
                 <UnitCombobox
                   value={from}
                   onChange={handleSetFrom}
-                  query={queryFrom}
                   setQuery={setQueryFrom}
                   options={filteredFrom}
                   placeholder="From unit"
@@ -393,7 +392,6 @@ function UnitConverter({
                 <UnitCombobox
                   value={to}
                   onChange={handleSetTo}
-                  query={queryTo}
                   setQuery={setQueryTo}
                   options={filteredTo}
                   placeholder="To unit"

@@ -5,11 +5,9 @@ import BackButton from "@/components/ui/backButton";
 
 export function FilterToolHubPage({
   filterKey,
-  showCategoryBar,
   title,
 }: {
   filterKey: string;
-  showCategoryBar?: boolean;
   title?: string;
 }) {
   const heading = title || `Explore all ${filterKey.toPascalCase()} utilities available on this site.`;

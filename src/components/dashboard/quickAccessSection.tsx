@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Check, Pencil, PencilLine, X } from 'lucide-react';
+import { Check, Pencil, X } from 'lucide-react';
 import { FavoriteTool, RecentTool } from '@/types/favorite/favorite';
 import { IconResolver } from '@/sharedUI/iconResolver';
 import { getCachedTools } from '@/data/tools';

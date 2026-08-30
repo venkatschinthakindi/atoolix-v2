@@ -161,7 +161,6 @@ export default function RootLayout({
             }}
           />
           <InstallButton />
-          {/* <PwaUpdateToast /> */}
           <main>{children}</main>
         </PwaProvider>
       </body>

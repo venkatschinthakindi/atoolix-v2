@@ -19,7 +19,7 @@ export default function AdComponent({
 }: AdComponentProps) {
   const [progress, setProgress] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
-  const [adLoaded, setAdLoaded] = useState(false);
+  const [adLoaded] = useState(false);
 
   // Friendly rotating messages
   const messages = variant === "preview" 
@@ -58,18 +58,6 @@ export default function AdComponent({
       }
     }, 50);
 
-    // Load AdSense after component mounts
-    setTimeout(() => {
-      try {
-        // if (typeof window !== "undefined" && window.adsbygoogle) {
-        //   (window.adsbygoogle as any).push({});
-        //   setAdLoaded(true);
-        // }
-      } catch (e) {
-        //console.log("AdSense not loaded");
-      }
-    }, 100);
-
     return () => {
       clearInterval(interval);
       clearInterval(messageInterval);
@@ -97,23 +85,6 @@ export default function AdComponent({
             data-ad-format="auto"
             data-full-width-responsive="true"
           ></ins>
-          
-          {/* AdSense Script (load once) */}
-          {/* {!adLoaded && (
-            <script
-              async
-              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR-CLIENT-ID"
-              crossOrigin="anonymous"
-              onLoad={() => {
-                try {
-                  (window as any).adsbygoogle.push({});
-                  setAdLoaded(true);
-                } catch (e) {
-                  //console.log("Ad push failed");
-                }
-              }}
-            />
-          )} */}
           
           {/* Fallback if ad doesn't load */}
           {!adLoaded && (

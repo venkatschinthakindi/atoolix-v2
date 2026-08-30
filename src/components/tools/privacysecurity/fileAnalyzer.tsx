@@ -1,4 +1,4 @@
-import { ShieldCheck, Zap, Lock, FileCheck2 } from 'lucide-react';
+import { ShieldCheck, Zap, Lock } from 'lucide-react';
 import { FileCheckupApp } from '@/components/tools/privacysecurity/fileCheckupApp';
 
 export default function HomePage() {

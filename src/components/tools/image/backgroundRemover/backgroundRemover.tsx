@@ -3,9 +3,7 @@
 import { ToolConfig } from "@/types/imageConverter.types";
 import BackgroundRemoverClient from "@/components/tools/image/backgroundRemover/backgroundRemoverClient";
 
-
-
-export default function BackgroundRemover({ initialExpression, theme, title, description, inputFormats, outputFormats }: any) 
+export default function BackgroundRemover({ title, description, inputFormats, outputFormats }: any)
 {
   if (!inputFormats || !outputFormats) {
     return <div className="p-10">

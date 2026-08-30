@@ -34,7 +34,6 @@ export default async function Page({
       <div className="app-container page-section">
         <FilterToolHubPage
           filterKey={filterKey}
-          showCategoryBar={true}
           title="All Free Online Tools for PDF, Images, Finance, Math and More"
         />
         <Footer />

@@ -44,7 +44,7 @@ export const ooxmlAnalyzer: Analyzer = {
     try {
       const { unzipSync } = await import('fflate');
       entries = unzipSync(new Uint8Array(ctx.arrayBuffer));
-    } catch (err) {
+    } catch {
       findings.push({
         id: 'ooxml-unzip-failed',
         severity: 'critical',

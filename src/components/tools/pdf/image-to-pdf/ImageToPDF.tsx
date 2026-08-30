@@ -1,14 +1,14 @@
 import ImageToPDFClient from "@/components/tools/pdf/image-to-pdf/ImageToPDFClient";
 import { PdfToolConfig } from "@/types/imageConverter.types";
 
-export default function PdfConverterTool({ initialExpression, theme, title,description,toolShortName, onPageTitle 
+export default function PdfConverterTool({ title,description,toolShortName, onPageTitle 
 ,allowedFormats, allowMultiple}: any) {
-  return <PdfConverter initialExpression={initialExpression} theme={theme} title={title} description={description} 
+  return <PdfConverter title={title} description={description} 
   toolShortName={toolShortName} onPageTitle = {onPageTitle} 
   allowedFormats={allowedFormats} allowMultiple={allowMultiple}/>;
 }
 
-function PdfConverter({ initialExpression, theme, title,description,toolShortName, onPageTitle, allowedFormats, allowMultiple}: any) {
+function PdfConverter({ title,description,toolShortName, onPageTitle, allowedFormats, allowMultiple}: any) {
   const toolConfig = {
             title: title,
             description: description,

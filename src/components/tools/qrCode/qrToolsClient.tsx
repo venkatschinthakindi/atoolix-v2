@@ -580,7 +580,6 @@ export default function QRToolsClient() {
       open={scanModalOpen}
       text={scanResult}
       onClose={() => setScanModalOpen(false)}
-      onCopy={copyScan}
       onOpen={openScanAction}
       actionType={scanActionType}
     />

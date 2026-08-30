@@ -158,36 +158,6 @@ function calculateFireTarget(annualExpense: number, withdrawalRate: number) {
   return Math.max(0, annualExpense) / (wr / 100);
 }
 
-function calculateFireMonthsToGoal(
-  start: number,
-  contrib: number,
-  annualReturn: number,
-  target: number
-) {
-  const s = Math.max(0, start);
-  const pmt = Math.max(0, contrib);
-  const tgt = Math.max(0, target);
-  if (s >= tgt) return 0;
-
-  const r = monthlyRate(annualReturn);
-  if (r <= 0) {
-    if (pmt <= 0) return Number.POSITIVE_INFINITY;
-    return Math.ceil((tgt - s) / pmt);
-  }
-
-  if (pmt <= 0) {
-    const months = Math.log(tgt / s) / Math.log(1 + r);
-    return Number.isFinite(months) && months >= 0 ? Math.ceil(months) : Number.POSITIVE_INFINITY;
-  }
-
-  const numerator = tgt + pmt / r;
-  const denominator = s + pmt / r;
-  if (numerator <= 0 || denominator <= 0) return Number.POSITIVE_INFINITY;
-
-  const months = Math.log(numerator / denominator) / Math.log(1 + r);
-  return Number.isFinite(months) && months >= 0 ? Math.ceil(months) : Number.POSITIVE_INFINITY;
-}
-
 function calculateSwpWithdrawal(
   corpus: number,
   annualReturn: number,

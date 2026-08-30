@@ -126,8 +126,6 @@ export async function Footer() {
     email: `support@${siteName}.com`,
   };
 
-  const businessEmail = `support@${siteName}.com`;
-
   return (
     <footer
       className="footer-panel relative overflow-hidden"

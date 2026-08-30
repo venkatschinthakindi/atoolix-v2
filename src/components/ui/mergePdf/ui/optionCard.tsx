@@ -1,6 +1,7 @@
 "use client";
 import CustomSelect from "@/components/ui/customSelect";
 import { FieldLabel } from "@/components/ui/fieldLabel";
+import type { MergeMode } from "@/types/mergeMode.types";
 
 export function OptionCard({
   title,

@@ -16,7 +16,7 @@ export const pdfAnalyzer: Analyzer = {
     let doc;
     try {
       doc = await PDFDocument.load(ctx.arrayBuffer, { ignoreEncryption: true, updateMetadata: false });
-    } catch (err) {
+    } catch {
       findings.push({
         id: 'pdf-parse-failed',
         severity: 'critical',
@@ -246,8 +246,7 @@ export const pdfAnalyzer: Analyzer = {
     // and surfaced as its own finding instead of silently vanishing.
     try {
       const { findings: textFindings, facts: textFacts, extractedText } = await analyzePdfSearchableText(
-        ctx.arrayBuffer,
-        doc.getPageCount()
+        ctx.arrayBuffer
       );
       findings.push(...textFindings);
       Object.assign(facts, textFacts);

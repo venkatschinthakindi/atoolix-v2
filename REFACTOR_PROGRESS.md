@@ -448,7 +448,120 @@ checked and are intentional patterns (e.g. mount-only URL-param
 hydration effects — adding the "missing" dependency would actually
 introduce a bug by resetting user input on every URL change).
 
+## Dead / unused / commented code removal pass
+
+A separate pass from the duplication-extraction work above: went through
+the whole non-`*SeoContent*` codebase removing code that had zero effect —
+unused imports/variables, unreachable code, fully-commented-out blocks and
+files, and files with zero consumers anywhere in the app. Every change was
+individually confirmed unused (via eslint's `no-unused-vars`, direct grep
+for consumers, or reading full context) before removal, and validated with
+`tsc --noEmit` after each file.
+
+**Results:** `no-unused-vars` issues went from 109 → 16 (the 16 remaining
+are all inside `*SeoContent*` files, correctly left untouched, plus one
+`_errorMessage` callback param in `qrScanner.ts` that's required by an
+external library's fixed callback signature and can't be removed without
+breaking that API contract). Total ESLint problems repo-wide: 380 → 278,
+with zero new issues introduced anywhere (verified via full `tsc --noEmit`
+after every single file change, not just at the end).
+
+### Two real bugs caught and fixed while doing this
+- **`src/lib/analyzers/pdf.ts`**: while batch-fixing unused `catch (err)`
+  bindings across 3 analyzer files with a single `sed` command, one
+  instance in this file actually *did* use `err` in its body
+  (`console.error('...', err)`). Caught immediately by the mandatory
+  `tsc --noEmit` check after the change (`Cannot find name 'err'`),
+  reverted just that one instance, reconfirmed clean. A reminder of why
+  every change here was individually typechecked rather than trusting a
+  bulk regex.
+- **`src/types/fileItem.types.ts` / `src/types/mergeMode.types.ts`**:
+  these were non-exported (`type Foo = ...`, no `export`) with zero
+  importers per-file — but TypeScript treats a script file with no
+  `import`/`export` statements as a **global script**, not a module, so
+  their type declarations were silently available project-wide as global
+  ambient types. Deleting them broke `fileRow.tsx` and `optionCard.tsx`,
+  which referenced `FileItem`/`MergeMode` with no import at all. Caught by
+  the routine full-repo `tsc --noEmit` (not just checking the file I'd
+  changed), then properly fixed by restoring both types as real exported
+  modules and adding explicit imports to the two consumers — a genuine fix
+  of a latent footgun, not just a revert.
+
+### Complete-but-never-wired features removed (flagging distinctly)
+These aren't typical debris — each is a fully working, self-contained piece
+of functionality that was written but never connected to any UI trigger.
+Removed per the same "remove unused code" instruction since they have zero
+live call sites, but noted here individually since deleting a working
+feature is a different kind of change than deleting a dead import, and any
+of these are easy to recover from git history if they were meant to be
+wired up rather than abandoned:
+- `copyAll` in `timezoneClient.tsx` — a full "copy all rows to clipboard" feature.
+- `resetTool` in `ImageConverterClient.tsx` — a full tool-state reset function.
+- `clearAllFiles` in `mergePdfClient.tsx` — a full "clear all files" reset function.
+- `calculateFireMonthsToGoal` in `retirementWealthSuite.tsx` — a full "months to FIRE goal" calculation.
+- `showCategoryBar` prop on `FilterToolHubPage` — accepted a boolean from
+  its one caller (`src/app/tools/page.tsx`, passing `true`) but had zero
+  supporting implementation anywhere in the component; removed from both.
+- A fully disabled AdSense integration in `adComponent.tsx` — commented-out
+  script tag with a literal placeholder client ID (`YOUR-CLIENT-ID`), plus
+  a `setAdLoaded` setter only ever called from inside that commented block.
+  Zero behavior change: `adLoaded` was already permanently `false` in live
+  code (nothing was calling the setter), so the fallback UI that renders
+  today keeps rendering identically.
+- A fully commented-out "app update available" PWA feature spread across
+  `PwaProvider.tsx` (interface fields, state, effect logic, context value)
+  and a fully-commented, zero-live-code `PwaUpdateToast.tsx` component
+  whose only reference was itself commented out in `layout.tsx`.
+
+### Files deleted entirely (confirmed zero consumers, including dynamic/string-path checks)
+- `src/components/tools/calculator/percentage/basicPercentage.tsx` and
+  `percentageOf.tsx` — the "unused, dead-code candidates" flagged in
+  earlier sessions; confirmed via repo-wide grep and removed now that
+  removal was explicitly requested.
+- `src/components/ui/glassIcon.tsx` — the unrelated, differently-styled
+  `GlassIcon` flagged in an earlier session as dead; confirmed zero
+  consumers, removed.
+- `src/components/ui/premiumButton.tsx` — zero consumers anywhere.
+- `src/utility/compressPDF.ts` — an entire exported `compressPDF()`
+  function + `CompressionLevel` type with zero callers anywhere in the app
+  (the real PDF-compression tool's logic lives elsewhere).
+- `src/components/pwa/PwaUpdateToast.tsx`, `src/components/ui/ToolTitleDesc.tsx`,
+  `src/components/ui/imageToolUI/toolLayout.tsx` — each 100% commented out,
+  zero live code, zero consumers.
+
+### Other commented-out dead code removed (component stayed, dead block didn't)
+- `qrPreviewCard.tsx` — an entire old, superseded implementation (100
+  lines) commented out directly above the live current one; removed the
+  dead half only.
+- `CommandPalette.tsx` — a commented-out `AnimatePresence` wrapper (import
+  + opening/closing tags) and commented-out motion props inside the JSX it
+  used to wrap; the live conditional rendering underneath was untouched.
+- `customSelect.tsx` — an old, superseded `updatePosition` implementation
+  commented out directly above the live current one.
+- `fileRow.tsx` (mergePdf) — unreachable code after a `return` statement
+  (a disabled 30-page truncation branch).
+- `featuredTools.tsx` — a whole dead scroll-carousel apparatus (state,
+  effect, `scroll()` function) with no corresponding buttons left in the
+  render to use it.
+
+### Explicitly left alone (checked, not debris)
+- `src/data/tools.ts` has 3 commented-out tool entries ("Image Resizer",
+  "Image Cropper"). This reads as an intentional "planned but not yet
+  built" staging pattern in a data file, not dead logic — left alone
+  rather than assumed safe to delete.
+- The large multi-line comment blocks found in `src/lib/analyzers/*`,
+  `retirementWealthSuite.tsx`, `investment/core/engine.ts`,
+  `FixAllPanel.tsx`, and `FileReport.tsx` were all individually read and
+  are legitimate explanatory documentation (this codebase has a strong
+  convention of thorough inline "why" comments), not dead code — confirmed
+  via a full sweep of every file with 5+ consecutive commented lines, not
+  skipped based on assumption.
+- `qrScanner.ts`'s `_errorMessage` unused callback parameter — required by
+  an external library's fixed two-argument callback signature; removing it
+  would break that contract even though the parameter itself is unused.
+
 ## Remaining candidates surveyed but not yet acted on
+
 
 These were scanned for duplication opportunities; noting findings so the
 next session doesn't have to re-derive them.

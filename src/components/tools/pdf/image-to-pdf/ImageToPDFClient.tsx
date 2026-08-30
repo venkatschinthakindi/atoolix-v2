@@ -1,24 +1,20 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
 import {
   CheckCircle2,
   Download,
   Eye,
-  FileUp,
   GripVertical,
-  Image as ImageIcon,
-  Layers,
-  Plus,
   ShieldCheck,
   Trash2,
   Wand2,
 } from "lucide-react";
 
 import { imagesToPDF, PageSize, Orientation } from "@/utility/imageFileToPdf";
-import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { getAcceptString } from "@/components/ui/DropZone";
 import { formatBytes } from "@/sharedUI/formatBytes";
 import { SliderCard } from "@/sharedUI/tool/sliderCard";
 import { Props } from "@/types/props";
@@ -67,13 +63,10 @@ export default function ImageToPDFClient({ config }: Props) {
   const [modalVariant, setModalVariant] = useState<ModalVariant>("preview");
   const [outputName] = useState("images-to-pdf.pdf");
 
-  const dropZoneRef = useRef<any>(null);
   const files = useMemo(() => images.map((i) => i.file), [images]);
   const validFileTypes = getAcceptString(config.allowedFormats);
   const heroTitle = `Create a PDF from your image${validFileTypes.length === 1 ? "" : "s"}`;
   const totalSize = useMemo(() => images.reduce((sum, img) => sum + img.size, 0), [images]);
-
-  const openFilePicker = useCallback(() => dropZoneRef.current?.openFilePicker(), []);
 
   // -- loading / cleanup --------------------------------------------------
 

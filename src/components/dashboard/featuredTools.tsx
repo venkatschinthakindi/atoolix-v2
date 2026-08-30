@@ -2,9 +2,6 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ToolCard } from "@/components/ui/toolCard";
 import { getCachedTools } from "@/data/tools";
 import { getCanonicalToolPath } from "@/utility/getTool";
 import { QuickAccessSection } from "./quickAccessSection";
@@ -14,49 +11,8 @@ import { useRecentToolStore } from "@/stores/recentToolsStore";
 export function FeaturedTools() {
   const router = useRouter();
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-const [canScrollLeft, setCanScrollLeft] = useState(false);
-const [canScrollRight, setCanScrollRight] = useState(true);
-
-const scroll = (direction: "left" | "right") => {
-  const el = scrollRef.current;
-  if (!el) return;
-
-  el.scrollBy({
-    left: direction === "left" ? -350 : 350,
-    behavior: "smooth",
-  });
-};
-
-useEffect(() => {
-  const updateButtons = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(
-      el.scrollLeft < el.scrollWidth - el.clientWidth - 5
-    );
-  };
-
-  updateButtons();
-
-  const el = scrollRef.current;
-  if (!el) return;
-
-  el.addEventListener("scroll", updateButtons);
-  window.addEventListener("resize", updateButtons);
-
-  return () => {
-    el.removeEventListener("scroll", updateButtons);
-      window.removeEventListener("resize", updateButtons);
-    };
-  }, []);
-
   const tools = getCachedTools();
   const featured = tools[0];
-  const others = tools.slice(1, 10);
 
   return (
     <>

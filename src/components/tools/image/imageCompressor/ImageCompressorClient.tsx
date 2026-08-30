@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 
-import { DropZone, getAcceptString } from "@/components/ui/DropZone";
+import { getAcceptString } from "@/components/ui/DropZone";
 import { formatBytes } from "@/sharedUI/formatBytes";
 import { SliderCard } from "@/sharedUI/tool/sliderCard";
 import { CompressorConfig } from "@/types/imageCompressor.types";
@@ -627,7 +627,6 @@ export default function ImageCompressorClient({ config }: Props) {
                       onChange={setQuality}
                     >
                       <EstimateRow
-                        originalSize={file.size}
                         estimating={estimating}
                         estimatedSize={estimatedSize}
                         estimatedSavingsPercent={estimatedSavingsPercent}
@@ -646,7 +645,6 @@ export default function ImageCompressorClient({ config }: Props) {
                       onChange={setTargetKB}
                     >
                       <EstimateRow
-                        originalSize={file.size}
                         estimating={estimating}
                         estimatedSize={estimatedSize}
                         estimatedSavingsPercent={estimatedSavingsPercent}
@@ -843,12 +841,10 @@ export default function ImageCompressorClient({ config }: Props) {
 }
 
 function EstimateRow({
-  originalSize,
   estimating,
   estimatedSize,
   estimatedSavingsPercent,
 }: {
-  originalSize: number;
   estimating: boolean;
   estimatedSize: number | null;
   estimatedSavingsPercent: number | null;

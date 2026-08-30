@@ -1,4 +1,4 @@
-import { resolveOutputMimeType, hasTransparency, paintWhiteBackground } from "@/features/imageCompressor/resolveoutputmimetype";
+import { hasTransparency, paintWhiteBackground } from "@/features/imageCompressor/resolveoutputmimetype";
 
 export async function compressByQuality(
   file: File,

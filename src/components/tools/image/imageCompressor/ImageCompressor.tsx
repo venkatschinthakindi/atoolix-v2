@@ -8,7 +8,7 @@ const ImageCompressorClient = dynamic(
   { ssr: false }
 );
 
-export default function ImageCompressor({ initialExpression, theme, title, description, allowedFormats, defaultQuality, mode, targetKB, lockTarget }: any) {
+export default function ImageCompressor({ title, description, allowedFormats, defaultQuality, mode, targetKB, lockTarget }: any) {
   const imageConfig: CompressorConfig = {
     title,
     description,

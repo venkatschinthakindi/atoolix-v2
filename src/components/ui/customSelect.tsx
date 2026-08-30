@@ -72,22 +72,6 @@ export default function CustomSelect<T extends string>({
   useEffect(() => {
     if (!open || !buttonRef.current) return;
 
-
-    // const updatePosition = () => {
-    //   const rect = buttonRef.current!.getBoundingClientRect();
-    //   const maxHeight = 280;
-    //   const spaceBelow = window.innerHeight - rect.bottom;
-    //   const openUp = spaceBelow < maxHeight && rect.top > spaceBelow;
-
-
-    //   setMenuStyle({
-    //     position: "fixed",
-    //     left: rect.left,
-    //     width: rect.width,
-    //     top: openUp ? rect.top - 140 : rect.bottom + 10,
-    //     zIndex: 999999,
-    //   });
-    // };
     const updatePosition = () => {
       if (!buttonRef.current || !rootRef.current) return;
 

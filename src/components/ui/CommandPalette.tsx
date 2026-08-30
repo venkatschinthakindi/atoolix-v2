@@ -1,7 +1,6 @@
 "use client";
 
 import { categoryIcons, getCachedTools } from "@/data/tools";
-// import { AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
@@ -65,19 +64,12 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
         {buttonName}
       </button>
 
-      {/* <AnimatePresence> */}
       {open && (
         <div
-          // initial={{ opacity: 0 }}
-          // animate={{ opacity: 1 }}
-          // exit={{ opacity: 0 }}
           className="fixed inset-0 bg-indigo/50 backdrop-blur-sm flex items-center justify-center z-50"
           onClick={() => setOpen(false)}
         >
           <div
-            // initial={{ scale: 0.95, opacity: 0 }}
-            // animate={{ scale: 1, opacity: 1 }}
-            // exit={{ scale: 0.95, opacity: 0 }}
             className="bg-white/10 w-full max-w-2xl rounded-xl shadow-xl p-6"
             onClick={(e) => e.stopPropagation()}
           >
@@ -145,7 +137,6 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
           </div>
         </div>
       )}
-      {/* </AnimatePresence> */}
     </>
   );
 }

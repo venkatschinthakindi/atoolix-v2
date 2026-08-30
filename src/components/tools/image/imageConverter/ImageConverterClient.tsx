@@ -148,7 +148,7 @@ export default function ImageConverterClient({ config }: Props) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [modalVariant, setModalVariant] = useState<ModalVariant>("preview");
-  const [dropzoneKey, setDropzoneKey] = useState(0);
+  const [dropzoneKey] = useState(0);
 
   useEffect(() => {
     if (!file) {
@@ -253,20 +253,6 @@ export default function ImageConverterClient({ config }: Props) {
     const saveAs = await asyncGetFileSaverLib();
     saveAs(outputUrl, fileName);
   }, [outputUrl, file, config.outputFormats]);
-
-  const resetTool = useCallback(() => {
-    if (outputUrl) URL.revokeObjectURL(outputUrl);
-    setMetadata(null);
-    setFile(null);
-    setProgress(0);
-    setProcessing(false);
-    setError("");
-    setOutputUrl(null);
-    setPreviewUrl(null);
-    setShowModal(false);
-    setModalVariant("preview");
-    setDropzoneKey((p) => p + 1);
-  }, [outputUrl]);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-4 text-white sm:px-6 sm:py-3 lg:px-8">

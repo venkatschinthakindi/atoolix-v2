@@ -2,19 +2,17 @@
 
 import { useEffect } from "react";
 import { ScanActionType } from "@/components/tools/qrCode/qrTypes";
-import { Check, Copy } from "lucide-react";
 import { CopyButton } from "@/components/ui/copyButton";
 
 type Props = {
   open: boolean;
   text: string;
   onClose: () => void;
-  onCopy: () => Promise<void>;
   onOpen: () => void;
   actionType: ScanActionType;
 };
 
-export function ScanResultModal({ open, text, onClose, onCopy, onOpen, actionType }: Props) {
+export function ScanResultModal({ open, text, onClose, onOpen, actionType }: Props) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -54,9 +52,6 @@ export function ScanResultModal({ open, text, onClose, onCopy, onOpen, actionTyp
         <div className="grid gap-4 p-5">
           <textarea readOnly value={text} className="min-h-48 rounded-2xl border border-slate-300 bg-indigo-900/20 px-4 py-3 text-sm outline-none" />
           <div className="flex flex-col gap-3 sm:flex-row">
-            {/* <button onClick={onCopy} className="h-11 flex-1 rounded-xl border border-slate-300 px-4 text-sm font-medium hover:bg-indigo-900/60">
-              Copy
-            </button> */}
             <CopyButton
               value={text}
               label="Copy"

@@ -205,7 +205,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
       const url = URL.createObjectURL(blob);
       setCutoutUrl(url);
       setProgress(100);
-    } catch (err) {
+    } catch {
       setError("Couldn't remove the background from this image. Try a different photo.");
     } finally {
       setProcessing(false);
@@ -241,7 +241,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
         setHasAutoOpened(false);
         setBackgroundMode("transparent");
         setBackgroundImageUrl(null);
-      } catch (err) {
+      } catch {
         setError("Invalid file");
       }
     },

@@ -356,12 +356,6 @@ type Props = {
 export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const TAB_LABELS: Record<keyof typeof ROUTE_MAP, string> = {
-    sip: "🚀 SIP Calculator",
-    lump: "💎 Lump Sum Calculator",
-    cagr: "🎯 CAGR Calculator",
-    xirr: "📈 XIRR Calculator",
-  };
   const getInitialActiveTab = (): InvestmentTabKey => {
     // ?category= is kept for backward compatibility with any existing
     // links; the page's own `defaultTab` (set per dedicated route) is now

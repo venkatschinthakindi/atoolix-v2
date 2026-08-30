@@ -5,21 +5,15 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import {
   ArrowDownUp,
   AlertCircle,
-  CheckCircle2,
-  CircleCheck,
   Download,
   Eye,
   FileText,
-  FileUp,
-  Files,
   Loader2,
   Scissors,
-  ShieldCheck,
   Trash2,
   Wand2,
 } from "lucide-react";
 
-import { DropZone } from "@/components/ui/DropZone";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Props } from "@/types/props";
 import { PDFItem } from "@/types/pdfItem";
@@ -49,16 +43,6 @@ const PdfViewerModal = dynamic(
 );
 
 type SplitMode = "single" | "multiple";
-
-function createPdfItem(file: File): PDFItem {
-  return {
-    file,
-    name: file.name,
-    pages: [],
-    input: "",
-    totalPages: 0,
-  } as PDFItem;
-}
 
 export default function PdfSpliterClient({ config }: Props) {
   const [dropzoneKey, setDropzoneKey] = useState(0);
@@ -408,7 +392,7 @@ export default function PdfSpliterClient({ config }: Props) {
       setProgress(100);
       setProcessingLabel("Done");
       setState("done");
-    } catch (err) {
+    } catch {
       // Previously this silently called resetTool(), wiping the user's
       // uploaded files and page selections with no explanation. Now it
       // surfaces an error and leaves their work in place so they can retry.
