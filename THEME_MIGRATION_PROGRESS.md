@@ -16,8 +16,12 @@ file looking for the other.
 - Never touch any `*SeoContent*.tsx` file.
 - No business/calculation logic changes — styling/theming only. If a file
   mixes logic and styling, touch only the styling.
-- One tool family (or shared-kit slice) per commit; each commit leaves the
-  app in a working, typecheck-clean state.
+- **One file (or one truly atomic small change) per commit, committed and
+  pushed immediately** — not batched until a phase/family feels "done."
+  Verify with `tsc`/`eslint` first, then commit+push right away, then
+  move to the next file. (Updated per explicit instruction during
+  session 2 — supersedes the looser "one tool family per commit"
+  framing below.)
 - `npx tsc --noEmit` after every file change; `npx eslint <changed files>`
   before moving on — not batched at the end.
 - Git workflow: `git fetch` + check `git merge-base --is-ancestor` before
