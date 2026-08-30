@@ -351,11 +351,51 @@ someone needs to:**
 - Phase 3 (full per-file audit was already done in session 1 as part of
   the deliverable, ahead of the brief's phase ordering — see the numbers
   above in this file).
-- Phase 4 (incremental component migration to the new tokens) — nothing
-  in `src/components/ui/`, `src/sharedUI/`, or any tool family has been
-  touched to actually *use* the new tokens yet. Hardcoded colors are
-  still hardcoded everywhere; only the token definitions and toggle
-  infrastructure exist so far.
 - Phase 5 (edge cases: Chart.js color injection for the 2 chart files
   identified in session 1).
 - Phase 6 (regression pass, Lighthouse before/after per family).
+
+---
+
+## Session 3 — phase 4: shared-kit component migration (in progress)
+
+Per the mid-session-2 rule change, each file below is its own commit,
+pushed immediately after `tsc`/`eslint` verification — not batched. Log
+kept here so the per-file reasoning isn't lost to git history alone.
+
+**Shared-kit files migrated so far** (`src/components/ui/` +
+`src/sharedUI/`, ~62 files remaining after these):
+
+1. `Field.tsx` (commit `74b50b1`)
+2. `ProgressBar.tsx` (commit `e6876af`) — generic `bg-blue-500` fill left
+   as a literal utility: a solid mid-tone background fill reads fine on
+   any backdrop, not a family-specific accent worth tokenizing yet.
+3. `fieldLabel.tsx` (commit `22672db`)
+4. `backButton.tsx` (commit `fbee02a`)
+5. `fromToUnitConverterCombobox.tsx` / `UnitCombobox` (commit `a02d6b0`) —
+   used shadcn's existing `popover`/`popover-foreground` pair for the
+   dropdown panel (exactly the floating-panel case that pairing exists
+   for) rather than reusing `--foreground`. `hover:bg-blue-600` left as a
+   literal utility for the same "solid fill, not text" reasoning as #2.
+6. `miniPill.tsx` (commit `34ee757`) — straightforward surface/text/border
+   mapping (`border-border`, `bg-card`, `hover:bg-surface-raised`,
+   `text-muted-foreground`), **but surfaced a real case #2/#5's precedent
+   didn't cover**: the *active* state's `text-blue-200` is light TEXT
+   (not a fill) sitting on a background tint that inverts meaning between
+   themes — `bg-blue-400/10` reads as a subtle dark tint on the dark
+   theme (light text passes contrast easily) but as a near-white pale
+   tint on the light theme (light text would fail WCAG AA). No existing
+   token fits a generic "selected chip" case (family accents are
+   finance/image/qr-specific). Resolved locally with Tailwind's `dark:`
+   variant rather than a new global token: light mode gets
+   `border-blue-300 bg-blue-100 text-blue-700` (verified ≥4.5:1 on
+   white), dark mode keeps the exact original values via `dark:` prefixes
+   — zero change to current dark-mode rendering.
+   **Flagging as a pattern to watch for in remaining files**: any light
+   TEXT color (`text-*-200`, `text-*-300`) paired with a low-opacity tint
+   background is a similar contrast risk and needs the same treatment,
+   not a blind token swap.
+
+**Verification on every file above:** `tsc --noEmit` clean repo-wide
+(not just the changed file) and `eslint` clean, confirmed before each
+commit.
