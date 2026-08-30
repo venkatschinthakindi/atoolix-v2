@@ -12,7 +12,7 @@ interface BackButtonProps {
 export default function BackButton({
   fallbackHref = "/",
   children = " Back",
-  className = "text-md text-white/50 hover:text-white mb-2 flex items-center",
+  className = "text-md text-muted-foreground hover:text-foreground mb-2 flex items-center",
 }: BackButtonProps) {
   const router = useRouter();
 
