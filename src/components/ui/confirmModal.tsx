@@ -38,7 +38,7 @@ export function ConfirmModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-surface-overlay p-4"
       onMouseDown={onCancel}
       role="presentation"
     >
@@ -46,15 +46,15 @@ export function ConfirmModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="confirm-modal-title"
-        className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
+        className="w-full max-w-md rounded-2xl bg-popover p-6 shadow-xl"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <h2 id="confirm-modal-title" className="text-lg font-semibold text-slate-900">
+        <h2 id="confirm-modal-title" className="text-lg font-semibold text-popover-foreground">
           {title}
         </h2>
 
         {message ? (
-          <p className="mt-2 text-sm text-slate-600">{message}</p>
+          <p className="mt-2 text-sm text-muted-foreground">{message}</p>
         ) : null}
 
         {children ? <div className="mt-4">{children}</div> : null}
@@ -63,7 +63,7 @@ export function ConfirmModal({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
           >
             {cancelText}
           </button>
