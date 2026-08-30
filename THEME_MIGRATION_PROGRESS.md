@@ -395,6 +395,20 @@ kept here so the per-file reasoning isn't lost to git history alone.
    TEXT color (`text-*-200`, `text-*-300`) paired with a low-opacity tint
    background is a similar contrast risk and needs the same treatment,
    not a blind token swap.
+7. `confirmModal.tsx` (commit `c70612d`) — this modal was already
+   hardcoded light (`bg-white`/`text-slate-900`) even in the current
+   all-dark app, a pre-existing visual bug; migrating it to `bg-popover`/
+   `text-popover-foreground` fixes that as a side effect. Backdrop
+   `bg-black/50` → `bg-surface-overlay` (slightly more opaque than this
+   modal's own prior value — intended standardization onto the one
+   canonical dialog-backdrop treatment, not a bug). **Second real
+   contrast-direction case found**: checked shadcn's `--primary`/
+   `--primary-foreground` for the confirm button, but dark mode's
+   `--primary` is near-white (the opposite of the original near-black
+   `bg-slate-900` button) — using it would have flipped the button's
+   appearance in dark mode. Left as literal `bg-slate-900 text-white`
+   utilities instead (a self-contained high-contrast choice that already
+   reads fine on both a light and dark panel).
 
 **Checked, intentionally NOT migrated:**
 - `toolCard.tsx` — its `bg-white/X` and `text-white` usages sit on top of
