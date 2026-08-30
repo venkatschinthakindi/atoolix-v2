@@ -26,13 +26,13 @@ export function UnitCombobox({
     <Combobox value={value} onChange={(val) => onChange(val as string)}>
       <div className="relative flex-1">
         <Combobox.Input
-          className="w-full px-3 py-2 rounded-md bg-black/40 text-white"
+          className="w-full px-3 py-2 rounded-md bg-surface-sunken text-foreground"
           displayValue={(u: string) => u}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
         />
 
-        <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-700 text-white shadow-lg z-10">
+        <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-popover text-popover-foreground shadow-lg z-10">
           {options.map((u) => (
             <Combobox.Option
               key={u.abbr}
