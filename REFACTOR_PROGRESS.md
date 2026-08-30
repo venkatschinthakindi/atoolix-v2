@@ -2,6 +2,14 @@
 
 Branch: `refactor/shared-ui-components-v2` (never merge into / touch `main` directly)
 
+**Note:** a separate, unrelated effort — dark/light theme migration — is
+happening on branch `feature/dark-light-theme-migration` (created off this
+branch, merged back manually by the repo owner when ready). That effort
+tracks its own progress in `THEME_MIGRATION_PROGRESS.md` at the repo root,
+not here, since it's a distinct workstream (styling/theming vs.
+deduplication). If you're looking for theme-migration status, check that
+file instead.
+
 Purpose: find UI code that's duplicated across "consumer" pages/components,
 pull it into reusable shared components/utilities, and have every consumer
 import the shared version — **without changing any behavior/logic**. Where
