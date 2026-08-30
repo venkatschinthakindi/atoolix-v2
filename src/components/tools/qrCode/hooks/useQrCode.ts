@@ -53,7 +53,6 @@ export function useQrCode({ type, form, fg, bg, size, ecLevel, logo }: Args) {
     } else {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
       frameRef.current = requestAnimationFrame(() => {
-        ref.current?.innerHTML;
         if(!!ref.current?.innerHTML) {
           ref.current.innerHTML = "";
         }

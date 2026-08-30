@@ -61,7 +61,11 @@ export const useFavoriteToolStore = create<FavoriteStore>()(
         })),
       toggle: (tool) => {
         const exists = get().items.some((i) => i.toolId === tool.id);
-        exists ? get().remove(tool.id) : get().add(tool);
+        if (exists) {
+          get().remove(tool.id);
+        } else {
+          get().add(tool);
+        }
       },
       clear: () => set({ items: [] }),
     }),
