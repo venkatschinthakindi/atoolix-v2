@@ -35,7 +35,7 @@ After the source patch:
 - [x] Defect confirmed against calculator input contract.
 - [x] Minimal correction scope defined.
 - [x] Patch-capable repository path available.
-- [ ] Two FAQ answers corrected.
-- [ ] Master SEO execution MD synchronized after source correction.
+- [x] Two FAQ answers corrected — shipped in commit `6ae8eb7` ("seo: correct CAGR FAQ input claims"), prior to this checklist being marked complete. Verified current source matches the corrected contract on 2026-08-29; see SEO_STATUS.md.
+- [ ] Master SEO execution MD synchronized after source correction. (Superseded — SEO_STATUS.md is now the single tracking file.)
 - [ ] TypeScript/build/lint validation after correction.
 - [ ] Production validation after deployment.

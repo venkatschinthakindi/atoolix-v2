@@ -1,0 +1,40 @@
+# Atoolix
+
+> Free, browser-based online tools for everyday tasks: EMI and investment
+> calculators, image compression and format conversion, PDF utilities,
+> timezone and meeting-time tools, QR code generation, and file privacy
+> checks. Files are processed client-side where possible; no signup
+> required for any tool.
+
+## Calculators
+
+- [EMI Calculator](https://atoolix.com/tools/calculator/emi-calculator): Hub for home, car, and personal loan EMI calculators with amortization and prepayment comparisons.
+- [Home Loan EMI Calculator](https://atoolix.com/tools/calculator/home-loan-emi-calculator): Home loan EMI, total interest, amortization, prepayment scenarios, and Indian tax-benefit context (Section 80C/24(b)).
+- [FD Calculator](https://atoolix.com/tools/calculator/fd-calculator): Fixed deposit maturity value and interest calculator.
+- [SIP Calculator](https://atoolix.com/tools/calculator/sip-calculator): Systematic investment plan returns calculator.
+- [CAGR Calculator](https://atoolix.com/tools/calculator/cagr-calculator): Compound annual growth rate calculator for investments.
+- [Retirement Calculator](https://atoolix.com/tools/calculator/retirement-calculator): Retirement corpus and savings planning calculator.
+
+## Image tools
+
+- [Image Compressor](https://atoolix.com/tools/image/compress-image): Compress JPG, PNG, and WEBP images with adjustable quality, entirely in-browser.
+- [Compress Image to 100KB](https://atoolix.com/tools/image/compress-image-to-100kb): Compress an image to a specific target file size (100KB).
+- [Background Remover](https://atoolix.com/tools/image/background-remover): Remove image backgrounds automatically in the browser.
+- [Passport Photo Resizer](https://atoolix.com/tools/image/passport-photo-resizer): Resize and crop photos to standard passport/ID photo dimensions.
+- [PNG to WEBP](https://atoolix.com/tools/image/png-to-webp): Convert PNG images to WEBP format.
+
+## PDF tools
+
+- [Merge PDF](https://atoolix.com/tools/pdf/merge-pdf): Combine multiple PDF files into one.
+- [Split PDF](https://atoolix.com/tools/pdf/split-pdf): Split a PDF into separate files by page range.
+- [Compress PDF](https://atoolix.com/tools/pdf/compress-pdf): Reduce PDF file size while preserving readability.
+
+## Date & time tools
+
+- [Timezone Converter](https://atoolix.com/tools/datetime/timezone-converter): Convert and compare times across time zones by city or country.
+- [Meeting Time Finder](https://atoolix.com/tools/datetime/meeting-time-finder): Find overlapping meeting times across multiple time zones.
+
+## Other utilities
+
+- [QR Code Generator](https://atoolix.com/tools/qrcode/qr-code-generator): Generate QR codes for text, URLs, and contact info.
+- [File Analyzer](https://atoolix.com/tools/privacysecurity/file-analyzer): Check files for hidden metadata, GPS data, and privacy/security issues.
