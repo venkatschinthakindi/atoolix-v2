@@ -228,3 +228,130 @@ their own, given they already use different gradient combinations today?).
 - No Lighthouse baseline captured yet (should be done before touching
   anything, per the brief's own "before and after" requirement — this is
   the next concrete step once the token vocabulary above is confirmed).
+
+---
+
+## Session 2 — phases 1 & 2: token values + theme infrastructure
+
+### Design decisions confirmed by repo owner before implementation
+- **Finance accents:** one shared `--accent-finance` palette rather than
+  each calculator (savings/investment/retirement) keeping its own
+  distinct gradient. Simplifies the accent surface significantly.
+- **Glass/aurora light-mode values:** designed properly now, not deferred
+  or reused-as-is from dark. See values below.
+
+### Phase 1 — token vocabulary implemented (commit `aa1820b`)
+Extended (not replaced) the existing `:root`/`.dark` blocks in
+`globals.css`. Reused existing shadcn tokens wherever they already fit
+rather than duplicating: `--surface-app` → `--background`,
+`--surface-panel` → `--card`, primary text → `--foreground`, muted text
+→ `--muted-foreground`, default border → `--border`, danger status →
+`--destructive`. Genuinely new tokens added (both themes, registered in
+`@theme inline` for Tailwind utility generation):
+
+- Surfaces: `--surface-raised`, `--surface-sunken`, `--surface-overlay`
+- Text: `--foreground-secondary`, `--foreground-faint`
+- Borders: `--border-strong`
+- Accents: `--accent-finance`/`-soft`, `--accent-image`/`-soft`,
+  `--accent-qr`/`-soft`
+- Status: `--status-success`/`-soft`, `--status-warning`/`-soft`
+
+`--glass-bg`/`--glass-border`/`--aurora-purple`/`--aurora-cyan` moved out
+of the old theme-invariant `:root` block into the real themed blocks,
+with genuinely different (not inverted) light-mode values: a low-opacity
+dark tint for glass (`rgba(15, 23, 42, ...)` instead of white — a
+white-on-white glass effect would be invisible), and softer pastel hues
+for the aurora glow (violet-300/cyan-200-equivalent instead of the dark
+theme's fully saturated violet-500/cyan-500, which would look muddy at
+low opacity on a white backdrop).
+
+**Real bug caught during verification, not by `tsc` (CSS isn't
+type-checked) but by actually running `npm run build`:** an explanatory
+CSS comment containing the literal substring `bg-black/*/bg-white/*`
+accidentally closed and reopened the CSS comment block mid-sentence,
+producing a genuine PostCSS syntax error (`Unknown word --surface-raised`).
+Fixed by rewording the comment. **Lesson for future sessions: `tsc
+--noEmit` does not catch CSS syntax errors — run a real `next build` (or
+at least a standalone PostCSS pass) after any `globals.css` edit, not
+just `tsc`.**
+
+### Phase 2 — theme infrastructure implemented (commit `30da656`)
+- Installed `next-themes@0.4.6`.
+- `src/components/theme/ThemeProvider.tsx` — thin wrapper: `attribute="class"`,
+  `defaultTheme="dark"`, `enableSystem`, `disableTransitionOnChange`.
+- `src/app/layout.tsx` — wraps body content in `ThemeProvider`, added
+  `suppressHydrationWarning` on `<html>` (required, standard, one-node-only
+  fix for the class-attribute mismatch next-themes' blocking script
+  causes before hydration), made `viewport.themeColor` respond to
+  `prefers-color-scheme` via a media-query array instead of one hardcoded
+  black value.
+- `src/components/theme/ThemeToggle.tsx` — a custom "Aurora Eclipse"
+  toggle (not a generic sun/moon icon swap), per the brief's ask for a
+  distinctive design tied to this app's own visual language: the track
+  is tinted with the app's own `--aurora-purple`/`--aurora-cyan` tokens,
+  the knob morphs between a crescent moon (two overlapping circles, no
+  image/mask) with star flecks on the track, and a sun disc with a warm
+  gradient and sparkle accents. No animation library — pure Tailwind +
+  a few inline gradient/shadow styles, keeping bundle size and TBT down.
+  Includes the standard next-themes mounted-guard pattern (fixed-size
+  placeholder, zero CLS on swap-in) and full switch a11y semantics.
+- `src/components/layout/floatingDock.tsx` — added the toggle to the one
+  shared nav dock rendered by `AppShell`.
+
+**Decision flagged for review — toggle placement:** the brief said "every
+page except home page should be aligned... and should have option to
+switch." Confirmed `AppShell` (which renders `FloatingDock`, where the
+toggle now lives) is used by **the home page too** (`src/app/page.tsx`
+line 73). Interpreted "except home page" as applying only to the
+padding/spacing-alignment clause, not the toggle-availability clause —
+i.e., the toggle is available everywhere including home, since excluding
+it there would mean users can't switch theme from the home page at all.
+**If this interpretation is wrong, this is a one-line revert** (remove
+`<ThemeToggle />` from `FloatingDock` and add it to a home-page-specific
+element instead) — not a structural change.
+
+**Decision flagged for review — system-preference vs. dark-default
+priority:** the brief said "respect prefers-color-scheme for first-time
+visitors, but the app's default... should be dark" — genuinely readable
+two ways (does system-light win for a first-time visitor with no stored
+choice, or does dark always win until they manually opt into light?).
+Implemented the standard, industry-common reading: `enableSystem` honors
+OS preference for first-time visitors, `defaultTheme="dark"` is only the
+fallback when system preference can't be determined. **If dark should
+always win over system preference for first-time visitors instead, this
+is a one-line change:** `enableSystem={false}` in `ThemeProvider.tsx`.
+
+**Verification:** `tsc --noEmit` clean on every file; `eslint` clean
+(one justified inline-commented suppression for next-themes' standard,
+unavoidable mounted-guard `setState`-in-effect pattern — this exact
+pattern is the documented way to detect "mounted on client" and has no
+alternative). A full `npm run build` gets past all CSS/JS compilation
+now — the only remaining failure is the pre-existing Google Fonts
+sandbox network restriction (not caused by this work, reproduced on
+unmodified code in earlier sessions of the other refactor effort too).
+
+**Could not do in this sandbox:** any real browser/Lighthouse visual
+check — the sandbox has no network route to fonts.googleapis.com, which
+blocks even `next dev` from fully rendering a page. **Before merging,
+someone needs to:**
+1. Run `npm run dev` locally and manually toggle the theme on a few
+   pages to confirm no visual bugs, confirm zero flash-of-wrong-theme on
+   reload, and confirm the toggle looks right at mobile/tablet/desktop
+   widths.
+2. Run Lighthouse (or equivalent) on at least one page in both themes to
+   establish the baseline the brief asks for, before phase 4 migration
+   begins.
+3. Sanity-check the two flagged interpretation decisions above.
+
+### Not started yet
+- Phase 3 (full per-file audit was already done in session 1 as part of
+  the deliverable, ahead of the brief's phase ordering — see the numbers
+  above in this file).
+- Phase 4 (incremental component migration to the new tokens) — nothing
+  in `src/components/ui/`, `src/sharedUI/`, or any tool family has been
+  touched to actually *use* the new tokens yet. Hardcoded colors are
+  still hardcoded everywhere; only the token definitions and toggle
+  infrastructure exist so far.
+- Phase 5 (edge cases: Chart.js color injection for the 2 chart files
+  identified in session 1).
+- Phase 6 (regression pass, Lighthouse before/after per family).
