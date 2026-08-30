@@ -47,17 +47,37 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ---- Theme migration additions below ----
+   * Everything above this line is pre-existing shadcn wiring, untouched.
+   * New tokens follow the same "--color-<name>: var(--<name>)" pattern so
+   * Tailwind generates bg-<name>/text-<name>/border-<name> utilities.
+   * Surfaces/text/borders that already had a suitable shadcn equivalent
+   * (--background, --card, --muted-foreground, --border, --destructive)
+   * are reused directly in components rather than duplicated here - see
+   * THEME_MIGRATION_PROGRESS.md for the full mapping table.
+   */
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-faint: var(--foreground-faint);
+  --color-border-strong: var(--border-strong);
+  --color-accent-finance: var(--accent-finance);
+  --color-accent-finance-soft: var(--accent-finance-soft);
+  --color-accent-image: var(--accent-image);
+  --color-accent-image-soft: var(--accent-image-soft);
+  --color-accent-qr: var(--accent-qr);
+  --color-accent-qr-soft: var(--accent-qr-soft);
+  --color-status-success: var(--status-success);
+  --color-status-success-soft: var(--status-success-soft);
+  --color-status-warning: var(--status-warning);
+  --color-status-warning-soft: var(--status-warning-soft);
 }
 :root {
   --radius: 1.5rem;
 
   --app-max-width: 1600px;
-
-  --glass-bg: rgba(255,255,255,0.04);
-  --glass-border: rgba(255,255,255,0.08);
-
-  --aurora-purple: 168 85 247;
-  --aurora-cyan: 6 182 212;
 }
 :root {
   --background: oklch(1 0 0);
@@ -92,6 +112,37 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* ---- Theme migration additions: light values ---- */
+  --surface-raised: oklch(0.965 0.003 264);
+  --surface-sunken: oklch(0.95 0.006 264);
+  --surface-overlay: oklch(0.1 0 0 / 45%);
+  --foreground-secondary: oklch(0.145 0 0 / 75%);
+  --foreground-faint: oklch(0.145 0 0 / 40%);
+  --border-strong: oklch(0.65 0 0);
+  --accent-finance: oklch(0.52 0.2 262);
+  --accent-finance-soft: oklch(0.52 0.2 262 / 10%);
+  --accent-image: oklch(0.5 0.19 253);
+  --accent-image-soft: oklch(0.5 0.19 253 / 10%);
+  --accent-qr: oklch(0.5 0.15 148);
+  --accent-qr-soft: oklch(0.5 0.15 148 / 10%);
+  --status-success: oklch(0.5 0.14 155);
+  --status-success-soft: oklch(0.5 0.14 155 / 10%);
+  --status-warning: oklch(0.58 0.15 78);
+  --status-warning-soft: oklch(0.58 0.15 78 / 10%);
+
+  /* Glass/aurora effects were tuned only for a dark backdrop before this
+   * migration. These are genuinely different (not simply inverted)
+   * light-mode values, per the design decision in
+   * THEME_MIGRATION_PROGRESS.md: a light, low-opacity dark tint for
+   * glass (a white-on-white glass effect would be invisible), and
+   * softer pastel hues for the aurora glow (the dark theme's fully
+   * saturated purple-500/cyan-500 would look muddy at low opacity on a
+   * white backdrop). */
+  --glass-bg: rgba(15, 23, 42, 0.035);
+  --glass-border: rgba(15, 23, 42, 0.09);
+  --aurora-purple: 216 180 254;
+  --aurora-cyan: 165 243 252;
 }
 
 .dark {
@@ -126,6 +177,34 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* ---- Theme migration additions: dark values ----
+   * These preserve the app's current visual design intent (the
+   * hardcoded bg-slate-950, bg-black, and bg-white opacity utilities
+   * being migrated away from), re-expressed as reusable tokens. */
+  --surface-raised: oklch(0.28 0.01 264);
+  --surface-sunken: oklch(0.16 0.015 264);
+  --surface-overlay: oklch(0.08 0 0 / 72%);
+  --foreground-secondary: oklch(0.985 0 0 / 78%);
+  --foreground-faint: oklch(0.985 0 0 / 34%);
+  --border-strong: oklch(1 0 0 / 22%);
+  --accent-finance: oklch(0.685 0.19 262);
+  --accent-finance-soft: oklch(0.685 0.19 262 / 15%);
+  --accent-image: oklch(0.66 0.18 253);
+  --accent-image-soft: oklch(0.66 0.18 253 / 15%);
+  --accent-qr: oklch(0.74 0.19 148);
+  --accent-qr-soft: oklch(0.74 0.19 148 / 15%);
+  --status-success: oklch(0.74 0.17 155);
+  --status-success-soft: oklch(0.74 0.17 155 / 14%);
+  --status-warning: oklch(0.79 0.15 78);
+  --status-warning-soft: oklch(0.79 0.15 78 / 14%);
+
+  /* Unchanged from before this migration - already correct for a dark
+   * backdrop. */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --aurora-purple: 168 85 247;
+  --aurora-cyan: 6 182 212;
 }
 
 @layer base {
