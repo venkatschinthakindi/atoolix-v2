@@ -141,6 +141,8 @@
    * white backdrop). */
   --glass-bg: rgba(15, 23, 42, 0.035);
   --glass-border: rgba(15, 23, 42, 0.09);
+  --glass-bg-hover: rgba(15, 23, 42, 0.06);
+  --glass-border-hover: rgba(15, 23, 42, 0.14);
   --aurora-purple: 216 180 254;
   --aurora-cyan: 165 243 252;
 }
@@ -203,6 +205,8 @@
    * backdrop. */
   --glass-bg: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg-hover: rgba(255, 255, 255, 0.07);
+  --glass-border-hover: rgba(255, 255, 255, 0.14);
   --aurora-purple: 168 85 247;
   --aurora-cyan: 6 182 212;
 }
@@ -234,19 +238,19 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-bg);
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
 
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.25),
-    inset 0 1px rgba(255, 255, 255, 0.05);
+    0 8px 32px rgb(0 0 0 / 25%),
+    inset 0 1px var(--glass-border);
   border-radius: 999px;
   transition: all 0.3s ease;
 }
 .glass:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--glass-bg-hover);
+  border: 1px solid var(--glass-border-hover);
 }
 .app-container {
   width: 100%;
