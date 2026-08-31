@@ -428,3 +428,99 @@ kept here so the per-file reasoning isn't lost to git history alone.
 **Verification on every file above:** `tsc --noEmit` clean repo-wide
 (not just the changed file) and `eslint` clean, confirmed before each
 commit.
+
+---
+
+## Session 4 — critical audit-gap found: globals.css itself was never scanned
+
+**Important correction to the session-1 audit:** it only scanned
+`.tsx`/`.ts` files for Tailwind utility-class usage. It never scanned
+`globals.css` itself for hardcoded literal color values inside custom
+CSS classes (`.glass`, `.app-shell`, etc.). This meant several
+widely-used, highly-visible effects were **completely invisible to the
+theme toggle** even after phases 1–3 were "done" — the tokens existed
+and had correct values, but nothing consumed them.
+
+**Verification method used, since this sandbox cannot render a real
+browser:** installed `postcss-cli` (commit `5a0e4f5`) to compile
+`globals.css` standalone and directly inspect the resolved `:root`
+vs `.dark` values for each token — confirms the CSS mechanics are
+correct without needing a live page render. A full `npm run build` was
+also run after every fix to confirm actual PostCSS/Tailwind compilation
+succeeds (this catches real syntax errors that `tsc` cannot, since `tsc`
+does not parse CSS at all — see the `aa1820b` comment-bug lesson).
+
+### Fixes landed this session, in order
+1. **`.app-shell`** (`fef74fd`) — wraps every page; had a fully
+   hardcoded `background:` property (radial-gradient rgba literals +
+   `#05060a` base), completely bypassing every token. This is why
+   nothing would have visibly changed on toggle even with phases 1–3
+   done. Now uses `var(--aurora-purple)`/`var(--aurora-cyan)`/
+   `var(--background)`.
+2. **`BackgroundOrbs`** (`7c0938e`) — same root cause, `bg-purple-500/20`/
+   `bg-cyan-500/20` orb divs. Verified `--aurora-purple`/`--aurora-cyan`
+   are the *exact* RGB values of `purple-500`/`cyan-500`, so the fix is
+   pixel-identical in dark mode.
+3. **`.glass`** (`39b0073`) — used by `FloatingDock` (every page),
+   `CommandPalette`, `heroCommandCenter`. The `--glass-bg`/
+   `--glass-border` tokens from phase 1 were never wired into this
+   class at all. Also added `--glass-bg-hover`/`--glass-border-hover`
+   (phase 1 missed the hover-intensity tier).
+4. **Severity color system** (`66fd2d8`) — 6 files under
+   `src/components/report/` consumed `.bg-severity-*`/
+   `.border-severity-*`/`.text-severity-*` classes that were a
+   hand-authored Tailwind-v3-era polyfill with literal RGB values, zero
+   variable indirection. Added `--status-critical`/`--status-info`
+   (phase 1 only defined success/warning) and rewrote every rule using
+   `var()` for solid fills and `color-mix(in oklch, var(...) N%,
+   transparent)` for opacity variants (`color-mix()` works with any
+   color space, unlike the old RGB-channel-splitting trick which only
+   works for space-separated RGB triples — necessary since these tokens
+   are OKLCH).
+
+### Full re-audit of globals.css — complete selector list, triaged
+Ran a script to extract every CSS selector in the file containing a
+hardcoded color pattern (rgba/hex/hardcoded Tailwind utility), then
+checked each against actual `.tsx` usage (accounting for template-
+literal class construction, which simple `className="..."` greps miss —
+this is how `.chip`/`.chip-active`/`.chip-count` were nearly
+miscategorized as dead). Results:
+
+**Confirmed dead code (0 real consumers) — left untouched:**
+`.aurora-bg`, `.hero-spotlight`, `.gradient-text`, `.spotlight`,
+`.surface-card`, `.surface-card-hover`, `.surface-panel`,
+`.surface-input`, `.pdf-export` (not referenced anywhere, not even
+dynamically), `.form-field`, `.form-select`, `.button-form`,
+`.tool-scroll-fade`, `.full-screen-button`, `.tool-usage-faq`,
+`.tool-card` (a plain, non-suffixed `.tool-card` — do not confuse with
+the live `.tool-card-v2` below; an early grep in this session falsely
+flagged `.tool-card` as live because `\btool-card\b` matches the
+substring inside `tool-card-v2` — it was migrated before this was
+caught, which is harmless since it's dead, but is *not* meaningful
+work; noted so no future session re-derives false confidence from
+seeing it already migrated).
+
+**Confirmed live — still need fixing (next up):**
+`.search-box`, `.surface-card-light`, `.surface-card-light-favorite`
+(the word "light" here means "lower-intensity variant", **not**
+"light theme" — this is not a pre-existing light-mode system, just a
+naming coincidence, confirmed by reading its actual dark gradient
+values), `.footer-panel`, `.card-surface` + `.card-surface:hover`,
+`.card-icon`, `.card-footer`, `.button-primary` /
+`.button-primary-transparent` / `.button-secondary` / `.button-ghost` /
+`.button-ghost-lg` / `.button-ghost-sm` / `.button-danger`,
+`.tab-group` / `.tab-button` / `.tab-button-active`, `.hero-pill` /
+`.hero-title` / `.hero-copy`, `.glass-input`, `.search-field` /
+`.search-overlay` (+ its `::-webkit-scrollbar-thumb` states),
+`.result-item-active` / `.result-item-hover`, `.badge-pill`,
+`.chip` / `.chip:hover` / `.chip-active` / `.chip-count` /
+`.chip-active .chip-count`, `.tools-search` (+ `:focus-within`, `input`,
+`input::placeholder`), `.tools-section-head` / `.tools-section-title` /
+`.tools-section-count`, `.tools-empty`, `.tool-card-v2` (+ `::before`,
+`:hover`, `:focus-visible`) and its children `.tool-card-title` /
+`.tool-card-desc` / `.tool-card-footer`, `.tool-badge`,
+`.section-title` / `.section-copy-strong`.
+
+This list is now the authoritative remaining-work list for
+`globals.css` itself — do not re-derive it from scratch; update this
+list as items are completed instead.
