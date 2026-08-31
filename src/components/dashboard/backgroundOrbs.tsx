@@ -9,7 +9,7 @@ export function BackgroundOrbs() {
           h-72
           w-72
           rounded-full
-          bg-purple-500/20
+          bg-[rgb(var(--aurora-purple)/20%)]
           blur-[120px]
         "
       />
@@ -22,7 +22,7 @@ export function BackgroundOrbs() {
           h-72
           w-72
           rounded-full
-          bg-cyan-500/20
+          bg-[rgb(var(--aurora-cyan)/20%)]
           blur-[120px]
         "
       />
