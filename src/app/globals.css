@@ -73,6 +73,10 @@
   --color-status-success-soft: var(--status-success-soft);
   --color-status-warning: var(--status-warning);
   --color-status-warning-soft: var(--status-warning-soft);
+  --color-status-critical: var(--status-critical);
+  --color-status-critical-soft: var(--status-critical-soft);
+  --color-status-info: var(--status-info);
+  --color-status-info-soft: var(--status-info-soft);
 }
 :root {
   --radius: 1.5rem;
@@ -130,6 +134,10 @@
   --status-success-soft: oklch(0.5 0.14 155 / 10%);
   --status-warning: oklch(0.58 0.15 78);
   --status-warning-soft: oklch(0.58 0.15 78 / 10%);
+  --status-critical: oklch(0.55 0.2 25);
+  --status-critical-soft: oklch(0.55 0.2 25 / 10%);
+  --status-info: oklch(0.55 0.18 250);
+  --status-info-soft: oklch(0.55 0.18 250 / 10%);
 
   /* Glass/aurora effects were tuned only for a dark backdrop before this
    * migration. These are genuinely different (not simply inverted)
@@ -200,6 +208,10 @@
   --status-success-soft: oklch(0.74 0.17 155 / 14%);
   --status-warning: oklch(0.79 0.15 78);
   --status-warning-soft: oklch(0.79 0.15 78 / 14%);
+  --status-critical: oklch(0.74 0.19 25);
+  --status-critical-soft: oklch(0.74 0.19 25 / 14%);
+  --status-info: oklch(0.72 0.15 250);
+  --status-info-soft: oklch(0.72 0.15 250 / 14%);
 
   /* Unchanged from before this migration - already correct for a dark
    * backdrop. */
@@ -310,9 +322,9 @@
 /*
 */
 .tool-card {
-  background: rgba(255,255,255,0.03);
+  background: var(--card);
 
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid var(--border);
 
   transition: all .3s ease;
 
@@ -709,76 +721,59 @@ button {
   }
   
   .bg-severity-success {
-    --tw-bg-opacity: 1;
-    background-color: rgb(52 211 153 / var(--tw-bg-opacity));
+    background-color: var(--status-success);
   }
   .bg-severity-success\/10 {
-    background-color: rgb(52 211 153 / 0.1);
+    background-color: color-mix(in oklch, var(--status-success) 10%, transparent);
   }
   .border-severity-success\/25 {
-    border-color: rgb(52 211 153 / 0.25);
+    border-color: color-mix(in oklch, var(--status-success) 25%, transparent);
   }
 
   .border-severity-critical\/25 {
-    border-color: rgb(248 113 113 / 0.25);
+    border-color: color-mix(in oklch, var(--status-critical) 25%, transparent);
   }
   .border-severity-info\/25 {
-    border-color: rgb(96 165 250 / 0.25);
-  }
-  .border-severity-success\/25 {
-    border-color: rgb(52 211 153 / 0.25);
+    border-color: color-mix(in oklch, var(--status-info) 25%, transparent);
   }
   .border-severity-success\/30 {
-    border-color: rgb(52 211 153 / 0.3);
+    border-color: color-mix(in oklch, var(--status-success) 30%, transparent);
   }
   .border-severity-warning\/25 {
-    border-color: rgb(251 191 36 / 0.25);
+    border-color: color-mix(in oklch, var(--status-warning) 25%, transparent);
   }
   .bg-severity-critical {
-    --tw-bg-opacity: 1;
-    background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+    background-color: var(--status-critical);
   }
   .bg-severity-critical\/10 {
-    background-color: rgb(248 113 113 / 0.1);
+    background-color: color-mix(in oklch, var(--status-critical) 10%, transparent);
   }
   .bg-severity-info\/10 {
-    background-color: rgb(96 165 250 / 0.1);
-  }
-  .bg-severity-success {
-    --tw-bg-opacity: 1;
-    background-color: rgb(52 211 153 / var(--tw-bg-opacity));
-  }
-  .bg-severity-success\/10 {
-    background-color: rgb(52 211 153 / 0.1);
+    background-color: color-mix(in oklch, var(--status-info) 10%, transparent);
   }
   .bg-severity-success\/5 {
-    background-color: rgb(52 211 153 / 0.05);
+    background-color: color-mix(in oklch, var(--status-success) 5%, transparent);
   }
   .bg-severity-success\/90 {
-    background-color: rgb(52 211 153 / 0.9);
+    background-color: color-mix(in oklch, var(--status-success) 90%, transparent);
   }
   .bg-severity-warning {
-    --tw-bg-opacity: 1;
-    background-color: rgb(251 191 36 / var(--tw-bg-opacity));
+    background-color: var(--status-warning);
   }
   .bg-severity-warning\/10 {
-    background-color: rgb(251 191 36 / 0.1);
+    background-color: color-mix(in oklch, var(--status-warning) 10%, transparent);
   }
   .text-severity-critical {
-    --tw-text-opacity: 1;
-    color: rgb(248 113 113 / var(--tw-text-opacity));
+    color: var(--status-critical);
   }
   .text-severity-info {
-    --tw-text-opacity: 1;
-    color: rgb(96 165 250 / var(--tw-text-opacity));
+    color: var(--status-info);
   }
   .text-severity-success {
-    --tw-text-opacity: 1;
-    color: rgb(52 211 153 / var(--tw-text-opacity));
+    color: var(--status-success);
   }
   .text-severity-warning {
-    --tw-text-opacity: 1;
-    color: rgb(251 191 36 / var(--tw-text-opacity));
+    color: var(--status-warning);
   }
   /* @keyframes toast-progress {
     from {
