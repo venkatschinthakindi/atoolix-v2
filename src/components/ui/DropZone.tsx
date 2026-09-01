@@ -134,27 +134,27 @@ export function DropZone({
           ${
             isDragging
               ? "border-blue-500 bg-blue-500/5"
-              : "border-zinc-700 bg-zinc-900/30 hover:border-lime-900/50 hover:bg-lime-900/10"
+              : "border-border bg-surface-panel hover:border-accent-image hover:bg-accent-image-soft"
           }`}
       >
         {isUploading && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center bg-zinc-900/75 backdrop-blur-sm">
-            <div className="w-full max-w-sm rounded-xl border border-zinc-700 bg-zinc-900 p-8 shadow-2xl">
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-surface-overlay backdrop-blur-sm">
+            <div className="w-full max-w-sm rounded-xl border border-border bg-card p-8 shadow-2xl">
               <div className="flex flex-col items-center gap-5">
                 <div className="w-full">
-                  <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
+                  <div className="h-2 overflow-hidden rounded-full bg-surface-sunken">
                     <div
-                      className="h-full rounded-full bg-blue-500 transition-all duration-300"
+                      className="h-full rounded-full bg-accent-image transition-all duration-300"
                       style={{ width: `${uploadProgress}%` }}
                     />
                   </div>
 
-                  <p className="mt-3 text-center text-sm text-zinc-400">
+                  <p className="mt-3 text-center text-sm text-foreground-secondary">
                     {uploadProgress}% Complete
                   </p>
                 </div>
 
-                <p className="text-sm font-medium text-white">
+                <p className="text-sm font-medium text-foreground">
                   Processing your file...
                 </p>
               </div>
@@ -163,7 +163,7 @@ export function DropZone({
         )}
 
         <div className="flex flex-col items-center px-8 py-2 text-center sm:px-12 sm:py-2">
-          <h3 className="mt-2 text-md font-semibold tracking-tight text-white">
+          <h3 className="mt-2 text-md font-semibold tracking-tight text-foreground">
             {isDragging
               ? "Drop files here"
               : `Drag & drop your files ${
@@ -172,10 +172,10 @@ export function DropZone({
           </h3>
 
           <div className="flex gap-2">
-            <CloudUpload className="h-10 w-10 text-green-400"></CloudUpload>
-            <p className="mt-1 max-w-xl text-sm leading-6 text-zinc-400">
+            <CloudUpload className="h-10 w-10 text-status-success"></CloudUpload>
+            <p className="mt-1 max-w-xl text-sm leading-6 text-foreground-secondary">
               or{" "}
-              <span className="font-medium text-blue-400 underline underline-offset-2">
+              <span className="font-medium text-accent-image underline underline-offset-2">
                 browse your device
               </span>
               <span>
@@ -184,7 +184,7 @@ export function DropZone({
             </p>
           </div>
 
-          <p className="pt-2 text-[11px] text-white/30">Processed entirely on your device. Nothing is uploaded.</p>
+          <p className="pt-2 text-[11px] text-foreground-faint">Processed entirely on your device. Nothing is uploaded.</p>
 
         </div>
       </div>
@@ -201,13 +201,13 @@ export function DropZone({
         }}
       />
       {error && (
-        <div className="flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
-          <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500/20">
-            <span className="text-xs font-bold text-red-400">!</span>
+        <div className="flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3">
+          <div className="mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-destructive/20">
+            <span className="text-xs font-bold text-destructive">!</span>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-red-300">
+            <p className="text-sm font-medium text-destructive">
               {error}
             </p>
           </div>
