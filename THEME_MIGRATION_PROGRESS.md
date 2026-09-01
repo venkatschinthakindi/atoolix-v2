@@ -700,3 +700,14 @@ Verification: `npx tsc --noEmit` and editor diagnostics passed. ESLint
 continues to report the two pre-existing `no-explicit-any` errors in the
 component's existing data typing; those unrelated types were left
 unchanged.
+
+## Session 16 — phase 4: shared QuickStartStrip
+
+`src/sharedUI/calculator/QuickStartStrip.tsx` was migrated in commit
+`1c92b2a` and pushed immediately. Its savings-calculator panels, numbered
+accent markers, headings, and supporting text now use central theme-aware
+tokens without changing step rendering.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/calculator/QuickStartStrip.tsx`, and editor diagnostics all
+passed.
