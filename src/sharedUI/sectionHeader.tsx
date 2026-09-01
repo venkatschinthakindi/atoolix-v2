@@ -17,13 +17,13 @@ export interface SectionHeaderProps {
 }
 
 const containerClass = "flex items-start gap-3";
-const iconClass = "rounded-xl bg-white/5 p-2 text-blue-300";
-const titleClass = "text-base font-semibold tracking-tight text-white sm:text-lg";
-const subtitleClass = "mt-1 text-sm text-white/60";
-const cardClass = "flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 sm:px-5 sm:py-4";
-const cardIconClass = "inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85";
-const cardTitleClass = "text-base font-semibold tracking-tight text-white sm:text-md";
-const cardSubtitleClass = "mt-1 text-xs text-white/60 sm:text-sm";
+const iconClass = "rounded-xl bg-accent-image-soft p-2 text-accent-image";
+const titleClass = "text-base font-semibold tracking-tight text-foreground sm:text-lg";
+const subtitleClass = "mt-1 text-sm text-foreground-secondary";
+const cardClass = "flex items-center justify-between gap-3 border-b border-border px-4 py-3 sm:px-5 sm:py-4";
+const cardIconClass = "inline-flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-surface-raised text-foreground-secondary";
+const cardTitleClass = "text-base font-semibold tracking-tight text-foreground sm:text-md";
+const cardSubtitleClass = "mt-1 text-xs text-foreground-secondary sm:text-sm";
 
 export function SectionHeader({
   title,
