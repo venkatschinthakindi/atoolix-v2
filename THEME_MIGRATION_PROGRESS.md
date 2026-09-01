@@ -668,3 +668,13 @@ and gradients.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/calculator/CalculatorHero.tsx`, and editor diagnostics all
 passed.
+
+## Session 13 — phase 4: shared calculator Field
+
+`src/sharedUI/calculator/Field.tsx` was migrated in commit `0d77cad` and
+pushed immediately. Its labels, descriptions, inputs, focus states,
+suffixes, hints, and validation errors now use central theme-aware tokens
+across finance, EMI, percentage, retirement, and QR forms.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/calculator/Field.tsx`, and editor diagnostics all passed.
