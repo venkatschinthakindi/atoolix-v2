@@ -36,10 +36,10 @@ export function SliderCard({
   className = "",
 }: SliderCardProps) {
   return (
-    <div className={`rounded-2xl bg-slate-950/60 p-4 ${className}`.trim()}>
-      <div className="flex items-center justify-between text-sm text-slate-400">
+    <div className={`rounded-2xl bg-surface-sunken p-4 ${className}`.trim()}>
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
         <span>{label}</span>
-        <span className="font-semibold text-white">{valueLabel}</span>
+        <span className="font-semibold text-foreground">{valueLabel}</span>
       </div>
 
       <input
@@ -50,7 +50,7 @@ export function SliderCard({
         value={value}
         disabled={disabled}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-3 w-full accent-blue-400"
+        className="mt-3 w-full accent-accent-image"
       />
 
       {children}
