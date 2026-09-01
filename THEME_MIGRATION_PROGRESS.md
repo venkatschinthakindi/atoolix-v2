@@ -687,6 +687,19 @@ generation or formatting.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/file/FileMetadata.tsx`, and editor diagnostics all passed.
 
+## Session 21 — phase 4: central tools-browser CSS
+
+`src/app/globals.css` was migrated in commit `68e1d1f` and pushed
+immediately. The live tools browser now uses central theme-aware
+variables for search, category chips, section grouping, cards, badges,
+and text while preserving dynamic per-tool accent bars and focus outlines.
+
+Verification: `npx tsc --noEmit` and `npm run build` passed, including
+Tailwind/PostCSS compilation and static generation. Editor diagnostics
+continue to report the known false positives for Tailwind's custom
+`@theme`, `@apply`, and `@custom-variant` directives. The build regenerated
+`public/sw.js`; that unrelated worktree change was left uncommitted.
+
 ## Session 12 — phase 4: shared CalculatorHero
 
 `src/sharedUI/calculator/CalculatorHero.tsx` was migrated in commit
