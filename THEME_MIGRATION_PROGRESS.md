@@ -777,3 +777,14 @@ theme-aware tokens without changing disclosure behavior.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/calculator/MethodologyNote.tsx`, and editor diagnostics all
 passed.
+
+## Session 23 — phase 4: shared estimate disclaimer
+
+`src/sharedUI/calculator/EstimateDisclaimer.tsx` was migrated in commit
+`8477a8a` and pushed immediately. Its shared savings-calculator caution
+text now uses the central warning status token instead of a dark-only
+emerald color.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/calculator/EstimateDisclaimer.tsx`, and editor diagnostics
+all passed.
