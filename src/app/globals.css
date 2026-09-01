@@ -488,7 +488,7 @@ button {
   }
 
   .section-title {
-    @apply text-3xl font-semibold text-white;
+    @apply text-3xl font-semibold text-foreground;
   }
 
   .section-copy {
@@ -496,7 +496,7 @@ button {
   }
 
   .section-copy-strong {
-    @apply mt-2 text-lg text-white/60;
+    @apply mt-2 text-lg text-foreground-secondary;
   }
 
   .card-surface {
@@ -525,10 +525,10 @@ button {
   }
 
   .button-primary {
-    @apply bg-indigo-600 text-white hover:bg-indigo-500;
+    @apply bg-accent-image text-white hover:bg-accent-image/90;
   }
   .button-primary-transparent {
-    @apply bg-transparent rounded-full px-2 text-foreground hover:bg-indigo-900/20;
+    @apply bg-transparent rounded-full px-2 text-foreground hover:bg-accent-image-soft;
   }
 
   .button-secondary {
@@ -548,7 +548,7 @@ button {
   }
 
   .tab-button-active {
-    @apply bg-green-700 text-white font-semibold shadow-md;
+    @apply bg-status-success text-foreground font-semibold shadow-md;
   }
 
   .hero-banner {
@@ -650,19 +650,19 @@ button {
   }
 
   .badge-pill {
-    @apply text-xs px-2 py-1 rounded-full bg-white/10 text-white/70;
+    @apply text-xs px-2 py-1 rounded-full bg-surface-raised text-foreground-secondary;
   }
 
   .button-ghost-lg {
-    @apply px-4 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-lg transition;
+    @apply px-4 py-3 rounded-lg bg-surface-raised hover:bg-foreground/20 text-foreground text-lg transition;
   }
 
   .button-ghost-sm {
-    @apply basis-1/5 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm transition;
+    @apply basis-1/5 px-3 py-2 rounded-lg bg-surface-raised hover:bg-foreground/20 text-foreground text-sm transition;
   }
 
   .button-danger {
-    @apply flex-1 px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold;
+    @apply flex-1 px-4 py-3 rounded-lg bg-destructive hover:bg-destructive/90 text-white font-semibold;
   }
 
   .button-form {
@@ -682,11 +682,11 @@ button {
   }
 
   .surface-card-light {
-    @apply rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-900/20 via-zinc-900 to-indigo-950 p-8 shadow-2xl;
+    @apply rounded-3xl border border-border bg-gradient-to-br from-accent-image-soft via-card to-background p-8 shadow-2xl;
   }
 
   .surface-card-light-favorite {
-    @apply rounded-3xl border border-white/10 bg-gradient-to-br from-indigo-900/60 via-zinc-900 to-indigo-950 p-8 shadow-2xl;
+    @apply rounded-3xl border border-border-strong bg-gradient-to-br from-accent-image/20 via-card to-background p-8 shadow-2xl;
   }
 
   .tool-scroll {
@@ -708,7 +708,7 @@ button {
   }
 
   .footer-panel {
-    @apply relative mt-10  border-t border-white/10 overflow-hidden;
+    @apply relative mt-10 border-t border-border overflow-hidden;
   }
 
   .footer-inner {
