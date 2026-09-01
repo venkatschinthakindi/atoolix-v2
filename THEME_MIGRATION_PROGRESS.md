@@ -657,6 +657,16 @@ passport resizing, and image-to-PDF tools.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/tool/sliderCard.tsx`, and editor diagnostics all passed.
 
+## Session 18 — phase 4: shared ProgressBar accent
+
+`src/components/ui/ProgressBar.tsx` was migrated in commit `8044750`
+and pushed immediately. Its shared image/PDF progress fill now uses the
+central theme-aware image accent token; the track, width calculation, and
+animation remain unchanged.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/components/ui/ProgressBar.tsx`, and editor diagnostics all passed.
+
 ## Session 12 — phase 4: shared CalculatorHero
 
 `src/sharedUI/calculator/CalculatorHero.tsx` was migrated in commit
