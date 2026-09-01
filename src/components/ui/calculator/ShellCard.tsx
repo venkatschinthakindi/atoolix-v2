@@ -13,7 +13,7 @@ export function ShellCard({
 }) {
   return (
     <section
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06] ${className}`}
+      className={`relative overflow-hidden rounded-3xl border border-border bg-card backdrop-blur-md transition-all duration-300 hover:border-accent-image/20 hover:bg-surface-raised ${className}`}
     >
       {children}
     </section>
