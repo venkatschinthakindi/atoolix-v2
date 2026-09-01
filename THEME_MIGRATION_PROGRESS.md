@@ -409,6 +409,66 @@ kept here so the per-file reasoning isn't lost to git history alone.
    appearance in dark mode. Left as literal `bg-slate-900 text-white`
    utilities instead (a self-contained high-contrast choice that already
    reads fine on both a light and dark panel).
+8. `CommandPalette.tsx` (commit `18b9eac`, rebased) — migrated alongside
+   real centralization work in `globals.css` itself, not just this one
+   component:
+   - **Found and fixed a real pre-existing bug**: the backdrop used
+     `bg-indigo/50`, an invalid Tailwind class (no bare `indigo` color
+     exists in this codebase) — it was silently rendering with *zero*
+     background tint, only the blur. Replaced with `bg-surface-overlay`.
+   - **Wired up dormant tokens**: `--glass-bg`/`--glass-border` already
+     existed with light+dark values calibrated almost exactly to
+     `.glass-input`'s hardcoded literals (0.04 vs 0.03, 0.08 vs 0.08) but
+     were never referenced anywhere in the stylesheet. Connected them.
+   - **New tokens added**: `--scrollbar-thumb` / `--scrollbar-thumb-hover`
+     (light+dark) — the same literal `rgba(255,255,255,0.18)`/`0.28` was
+     independently duplicated across 4 separate rules
+     (`.search-overlay`, `.smooth-scroll`, `.toolsSeatchResultSection`,
+     and the webkit scrollbar-thumb rule). Now one token change reaches
+     all four — the exact "change once, reflects everywhere" pattern
+     requested.
+   - `.result-item-active` / `.result-item-hover` → `bg-accent`/
+     `text-accent-foreground` pairing. Verified dark-mode
+     `accent-foreground` (oklch(0.985 0 0)) is near-identical to the
+     original white text; `accent` itself is the same darkness class as
+     the originals with hue neutralized from indigo/gray-tinted to plain
+     neutral gray — an intentional, minor normalization from
+     centralizing, not a contrast/usability regression.
+   - **Hit a real push rejection + conflict during this one**: another
+     session concurrently migrated a *different* rule (`.glass`, not
+     `.glass-input` — confirmed via diff inspection before assuming
+     overlap) using the same `--glass-bg`/`--glass-border` tokens
+     independently, a good sign the tokens are well-designed for reuse.
+     The actual conflict was both sessions touching `.glass-input`'s
+     `box-shadow` line: theirs replaced the inner highlight with
+     `var(--glass-border)` (fully theme-aware), mine had left it as a
+     literal white highlight (a deliberate call at the time, reasoning
+     it was a low-stakes decorative detail). Adopted **theirs** on
+     rebase — more complete and fits the "everywhere, consistently" goal
+     better than my more conservative call.
+   - Also disregarded a block of fabricated narration that appeared in
+     chat mid-session claiming this scrollbar/glass consolidation was
+     already done, including a claimed `--accent-tools` token that does
+     not exist anywhere in the repo. Verified actual repo state via
+     `git status`/`git log` before starting rather than trusting the
+     claim — nothing in it was real.
+
+**Verification on every file above:** `tsc --noEmit` clean repo-wide
+(not just the changed file) and `eslint` clean, confirmed before each
+commit. For file 8 specifically, also ran `npx next build` to check CSS
+validity beyond what `tsc` can catch (a CSS syntax error in phase 2 was
+previously only caught this way) — compiles clean up to the same
+pre-existing sandbox-only Google Fonts network block documented
+elsewhere in this repo.
+
+**Note on `main`:** unrelated to this branch's work, `main` has moved
+independently (now includes a merge from a `seo/gsc-driven-content-aug2026`
+branch plus a small deploy-trigger commit) since this migration started.
+Confirmed via `git merge-base --is-ancestor` that neither
+`feature/dark-light-theme-migration` nor
+`refactor/shared-ui-components-v2` has been affected by or merged into
+that drift — noting it here only so it isn't mistaken for something this
+branch's work touched.
 
 **Checked, intentionally NOT migrated:**
 - `toolCard.tsx` — its `bg-white/X` and `text-white` usages sit on top of
@@ -424,10 +484,6 @@ kept here so the per-file reasoning isn't lost to git history alone.
   design intends them not to. Left untouched; noting here so no future
   session re-flags it as "still has bg-white/text-white, needs migration"
   without re-deriving this reasoning.
-
-**Verification on every file above:** `tsc --noEmit` clean repo-wide
-(not just the changed file) and `eslint` clean, confirmed before each
-commit.
 
 ---
 
