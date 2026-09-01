@@ -634,3 +634,15 @@ across calculator, converter, finance, image, and PDF tools.
 
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/sectionHeader.tsx`, and editor diagnostics all passed.
+
+## Session 10 — phase 4: shared PDF file list
+
+`src/sharedUI/pdf/PdfFileList.tsx` was migrated in commit `c7befbb` and
+pushed immediately. Its empty state, file rows, selected state, preview
+tile, metadata, and controls now use central theme-aware tokens without
+changing file selection, reordering, or removal behavior.
+
+Verification: `npx tsc --noEmit` and editor diagnostics passed. ESLint
+reported one existing `jsx-a11y/role-supports-aria-props` warning for
+`aria-disabled` on the implicit `ul` role; that unrelated attribute was
+left unchanged.
