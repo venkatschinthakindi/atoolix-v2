@@ -138,6 +138,9 @@
   --status-critical-soft: oklch(0.55 0.2 25 / 10%);
   --status-info: oklch(0.55 0.18 250);
   --status-info-soft: oklch(0.55 0.18 250 / 10%);
+  --hero-gradient-1: oklch(0.32 0.03 264);
+  --hero-gradient-2: oklch(0.52 0.2 292);
+  --hero-gradient-3: oklch(0.55 0.14 200);
 
   /* Glass/aurora effects were tuned only for a dark backdrop before this
    * migration. These are genuinely different (not simply inverted)
@@ -212,6 +215,12 @@
   --status-critical-soft: oklch(0.74 0.19 25 / 14%);
   --status-info: oklch(0.72 0.15 250);
   --status-info-soft: oklch(0.72 0.15 250 / 14%);
+  /* Exact original .hero-title gradient stops (#ffffff, #c4b5fd, #67e8f9),
+   * unchanged - only relocated into a token so light mode (below) can
+   * have its own genuinely different, readable-on-white values. */
+  --hero-gradient-1: #ffffff;
+  --hero-gradient-2: #c4b5fd;
+  --hero-gradient-3: #67e8f9;
 
   /* Unchanged from before this migration - already correct for a dark
    * backdrop. */
@@ -484,11 +493,11 @@ button {
   }
 
   .card-surface {
-    @apply cursor-pointer rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 flex flex-col justify-between p-6 gap-4;
+    @apply cursor-pointer rounded-2xl border border-border bg-foreground/5 transition-all duration-300 flex flex-col justify-between p-6 gap-4;
   }
 
   .card-surface:hover {
-    @apply bg-white/10;
+    @apply bg-surface-raised;
   }
 
   .card-surface-sm {
@@ -497,11 +506,11 @@ button {
   }
 
   .card-icon {
-    @apply p-3 rounded-xl bg-white/10;
+    @apply p-3 rounded-xl bg-surface-raised;
   }
 
   .card-footer {
-    @apply text-sm text-white/60 mt-2;
+    @apply text-sm text-muted-foreground mt-2;
   }
 
   .surface-button {
@@ -512,23 +521,23 @@ button {
     @apply bg-indigo-600 text-white hover:bg-indigo-500;
   }
   .button-primary-transparent {
-    @apply bg-transparent rounded-full px-2 text-white hover:bg-indigo-900/20;
+    @apply bg-transparent rounded-full px-2 text-foreground hover:bg-indigo-900/20;
   }
 
   .button-secondary {
-    @apply bg-white/5 text-white/80 border border-white/10 hover:bg-white/10;
+    @apply bg-foreground/5 text-foreground-secondary border border-border hover:bg-surface-raised;
   }
 
   .button-ghost {
-    @apply bg-white/10 text-white/70 hover:bg-white/20;
+    @apply bg-surface-raised text-foreground-secondary hover:bg-foreground/20;
   }
 
   .tab-group {
-    @apply inline-flex rounded-full bg-black/30 p-1;
+    @apply inline-flex rounded-full bg-surface-sunken p-1;
   }
 
   .tab-button {
-    @apply px-6 py-2 rounded-full transition-all duration-300 text-white/70 hover:text-white;
+    @apply px-6 py-2 rounded-full transition-all duration-300 text-foreground-secondary hover:text-foreground;
   }
 
   .tab-button-active {
@@ -540,35 +549,35 @@ button {
   }
 
   .hero-pill {
-    @apply mb-6 px-4 py-2 text-sm text-white/70 font-mono;
+    @apply mb-6 px-4 py-2 text-sm text-foreground-secondary font-mono;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.05);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgb(0 0 0 / 25%), inset 0 1px var(--glass-border);
     border-radius: 999px;
     transition: all 0.3s ease;
   }
 
   .hero-title {
     @apply max-w-5xl text-2xl md:text-5xl font-bold tracking-tight leading-[0.95];
-    background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 40%, #67e8f9 100%);
+    background: linear-gradient(135deg, var(--hero-gradient-1) 0%, var(--hero-gradient-2) 40%, var(--hero-gradient-3) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .hero-copy {
-    @apply mt-6 max-w-4xl text-lg text-white/60;
+    @apply mt-6 max-w-4xl text-lg text-muted-foreground;
   }
 
   .glass-input {
     @apply flex items-center gap-3 px-6 py-5;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.05);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgb(0 0 0 / 25%), inset 0 1px var(--glass-border);
     border-radius: 999px;
     transition: all 0.3s ease;
   }
