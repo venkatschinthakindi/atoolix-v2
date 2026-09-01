@@ -34,9 +34,9 @@ export function FileMetadata({
   return (
     <dl className={`grid grid-cols-1 gap-2 text-sm sm:grid-cols-2 ${className}`.trim()}>
       {data.map((item) => (
-        <div key={item.label} className="min-w-0 rounded-lg bg-white/5 px-3 py-2">
-          <dt className="text-xs text-white/50">{item.label}</dt>
-          <dd className="mt-0.5 truncate text-white/80">{item.value}</dd>
+        <div key={item.label} className="min-w-0 rounded-lg bg-surface-raised px-3 py-2">
+          <dt className="text-xs text-muted-foreground">{item.label}</dt>
+          <dd className="mt-0.5 truncate text-foreground-secondary">{item.value}</dd>
         </div>
       ))}
     </dl>
