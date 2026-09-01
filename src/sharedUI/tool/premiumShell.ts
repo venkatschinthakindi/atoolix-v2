@@ -7,5 +7,5 @@
  * effect - not treated as a meaningful divergence).
  */
 export function premiumShellClass() {
-  return "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  return "relative flex flex-col overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-background via-card to-background";
 }
