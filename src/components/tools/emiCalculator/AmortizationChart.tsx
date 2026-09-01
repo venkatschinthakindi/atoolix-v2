@@ -2,6 +2,7 @@
 
 import { asyncGetReactChartJsLib } from "@/lib/reactChartJsUtility";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
 
 type PieChartData = {
   labels: string[];
@@ -39,6 +40,19 @@ export default function AmortizationChart({
   showPrepayInterest = true,
 }: Props) {
   const chartJsLibRef = useRef<any>(null);
+  const { resolvedTheme } = useTheme();
+  const [chartColors, setChartColors] = useState({ text: "", grid: "" });
+
+  useEffect(() => {
+    const styles = getComputedStyle(document.documentElement);
+    // Chart.js paints canvas text/grid colors directly, so CSS variables
+    // cannot reach them without resolving the active theme here.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setChartColors({
+      text: styles.getPropertyValue("--muted-foreground").trim() || "#9ca3af",
+      grid: styles.getPropertyValue("--border").trim() || "rgba(255,255,255,0.1)",
+    });
+  }, [resolvedTheme]);
 
   const [charts, setCharts] = useState<{
     Line: any;
@@ -194,7 +208,7 @@ export default function AmortizationChart({
       {
         data: pieData?.values ?? [0, 0],
         backgroundColor: pieData?.colors ?? ["#22c55e", "#60a5fa"],
-        borderColor: "#111827",
+        borderColor: chartColors.grid,
         borderWidth: 2,
         hoverOffset: 12,
       },
@@ -213,9 +227,13 @@ export default function AmortizationChart({
         position: "top" as const,
         labels: {
           boxWidth: 12,
+          color: chartColors.text,
         },
       },
       tooltip: {
+        titleColor: chartColors.text,
+        bodyColor: chartColors.text,
+        footerColor: chartColors.text,
         callbacks: {
           title: (items: any[]) => {
             if (chartType === "pie" || chartType === "doughnut") {
@@ -246,20 +264,30 @@ export default function AmortizationChart({
               ticks: {
                 maxRotation: 0,
                 minRotation: 0,
+                color: chartColors.text,
+              },
+              grid: {
+                color: chartColors.grid,
               },
             },
             y: {
               beginAtZero: true,
+              ticks: {
+                color: chartColors.text,
+              },
+              grid: {
+                color: chartColors.grid,
+              },
             },
           },
   };
 
   if (!charts) {
     return (
-      <div className="rounded-md border border-gray-700 bg-gray-800 p-4">
+      <div className="rounded-md border border-border bg-card p-4">
         <div
           style={{ height: 360 }}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center text-foreground-secondary"
         >
           Loading chart...
         </div>
@@ -270,7 +298,7 @@ export default function AmortizationChart({
   const { Line, Bar, Pie, Doughnut } = charts;
 
   return (
-    <div className="rounded-md border border-gray-700 bg-gray-800 p-4">
+    <div className="rounded-md border border-border bg-card p-4">
       <div style={{ height: 360 }}>
         {chartType === "pie" ? (
           <Pie data={pieChart} options={options} />
