@@ -677,6 +677,16 @@ changing its dimensions or icon contract.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/tool/GlassIcon.tsx`, and editor diagnostics all passed.
 
+## Session 20 — phase 4: shared FileMetadata
+
+`src/sharedUI/file/FileMetadata.tsx` was migrated in commit `90fa7c1` and
+pushed immediately. Its reusable metadata tiles and label/value hierarchy
+now use central theme-aware tokens without changing file metadata
+generation or formatting.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/file/FileMetadata.tsx`, and editor diagnostics all passed.
+
 ## Session 12 — phase 4: shared CalculatorHero
 
 `src/sharedUI/calculator/CalculatorHero.tsx` was migrated in commit
