@@ -557,26 +557,38 @@ work; noted so no future session re-derives false confidence from
 seeing it already migrated).
 
 **Confirmed live — still need fixing (next up):**
-`.search-box`, `.surface-card-light`, `.surface-card-light-favorite`
+`.search-box`
 (the word "light" here means "lower-intensity variant", **not**
 "light theme" — this is not a pre-existing light-mode system, just a
 naming coincidence, confirmed by reading its actual dark gradient
-values), `.footer-panel`, `.card-surface` + `.card-surface:hover`,
-`.card-icon`, `.card-footer`, `.button-primary` /
-`.button-primary-transparent` / `.button-secondary` / `.button-ghost` /
-`.button-ghost-lg` / `.button-ghost-sm` / `.button-danger`,
+values), `.button-secondary` / `.button-ghost`,
 `.tab-group` / `.tab-button` / `.tab-button-active`, `.hero-pill` /
 `.hero-title` / `.hero-copy`, `.glass-input`, `.search-field` /
 `.search-overlay` (+ its `::-webkit-scrollbar-thumb` states),
-`.result-item-active` / `.result-item-hover`, `.badge-pill`,
+`.result-item-active` / `.result-item-hover`,
 `.chip` / `.chip:hover` / `.chip-active` / `.chip-count` /
 `.chip-active .chip-count`, `.tools-search` (+ `:focus-within`, `input`,
 `input::placeholder`), `.tools-section-head` / `.tools-section-title` /
 `.tools-section-count`, `.tools-empty`, `.tool-card-v2` (+ `::before`,
 `:hover`, `:focus-visible`) and its children `.tool-card-title` /
-`.tool-card-desc` / `.tool-card-footer`, `.tool-badge`,
-`.section-title` / `.section-copy-strong`.
+`.tool-card-desc` / `.tool-card-footer`, `.tool-badge`.
 
 This list is now the authoritative remaining-work list for
 `globals.css` itself — do not re-derive it from scratch; update this
 list as items are completed instead.
+
+## Session 5 — phase 4: remaining live globals.css migration
+
+`globals.css` was migrated in commit `3f31ae3` and pushed immediately.
+The live shared selectors for section headings, strong section copy,
+primary and transparent-primary buttons, active tabs, badges, ghost
+buttons, danger buttons, both surface-card variants, and the footer
+divider now use the existing theme-aware semantic tokens. Dead rules,
+PDF export rules, and unrelated `public/sw.js` changes were left alone.
+
+Verification: `npx tsc --noEmit` passed and `npm run build` passed,
+including Tailwind/PostCSS compilation and static generation. ESLint
+reported only its existing stylesheet file-ignore warning. The
+standalone `postcss-cli` command documented in the earlier session could
+not run because its executable is unavailable in this checkout; the
+Next.js build provided the CSS compilation check instead.
