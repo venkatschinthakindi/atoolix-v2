@@ -667,6 +667,16 @@ animation remain unchanged.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/components/ui/ProgressBar.tsx`, and editor diagnostics all passed.
 
+## Session 19 — phase 4: shared GlassIcon
+
+`src/sharedUI/tool/GlassIcon.tsx` was migrated in commit `f53092d` and
+pushed immediately. Its shared PDF icon badge now uses central
+theme-aware border, raised-surface, and foreground tokens without
+changing its dimensions or icon contract.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/tool/GlassIcon.tsx`, and editor diagnostics all passed.
+
 ## Session 12 — phase 4: shared CalculatorHero
 
 `src/sharedUI/calculator/CalculatorHero.tsx` was migrated in commit
