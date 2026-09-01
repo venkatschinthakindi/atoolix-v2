@@ -614,3 +614,13 @@ Solver and Smart Calculator consumers.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/components/ui/calculator/ShellCard.tsx`, and editor diagnostics all
 passed.
+
+## Session 8 — phase 4: shared StatCard
+
+`src/sharedUI/statCard.tsx` was migrated in commit `71ad294` and pushed
+immediately. Its card variants, foreground tiers, finance accent, and
+positive-status styling now use central theme-aware tokens while keeping
+the existing props and variant behavior intact.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/statCard.tsx`, and editor diagnostics all passed.
