@@ -85,7 +85,7 @@ export function CalculatorHero({
   children,
 }: CalculatorHeroProps) {
   return (
-    <section className="mb-5 px-5 py-6 sm:px-6 lg:px-8 rounded-3xl border border-white/10 bg-slate-950/60">
+    <section className="mb-5 px-5 py-6 sm:px-6 lg:px-8 rounded-3xl border border-border bg-card">
       <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
         <div className="space-y-6">
           <div className="inline-flex items-center gap-2">
@@ -102,11 +102,11 @@ export function CalculatorHero({
           </div>
 
           <div className="space-y-3">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.15]">
               {title}
             </h1>
 
-            <p className="text-base sm:text-lg text-white/70 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg text-foreground-secondary leading-relaxed max-w-xl">
               {description}
             </p>
           </div>
@@ -116,12 +116,12 @@ export function CalculatorHero({
               {compactFeatures.map((f) => (
                 <div
                   key={f.label}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-4"
+                  className="rounded-2xl border border-border bg-surface-raised p-4"
                 >
-                  <div className="text-sm font-semibold text-white/90">
+                  <div className="text-sm font-semibold text-foreground">
                     {f.label}
                   </div>
-                  <div className="text-xs text-white/50 mt-1">{f.body}</div>
+                  <div className="text-xs text-foreground-faint mt-1">{f.body}</div>
                 </div>
               ))}
             </div>
@@ -130,7 +130,7 @@ export function CalculatorHero({
               {detailedFeatures.map((f) => (
                 <div
                   key={f.title}
-                  className="group rounded-2xl border border-white/10 bg-white/5 p-4"
+                  className="group rounded-2xl border border-border bg-surface-raised p-4"
                 >
                   <div className="flex items-start gap-3">
                     <div
@@ -140,11 +140,11 @@ export function CalculatorHero({
                     </div>
 
                     <div>
-                      <div className="text-sm font-semibold text-white/90">
+                      <div className="text-sm font-semibold text-foreground">
                         {f.title}
                       </div>
 
-                      <div className="text-xs text-white/50 mt-0.5">
+                      <div className="text-xs text-foreground-faint mt-0.5">
                         {f.body}
                       </div>
                     </div>
@@ -160,29 +160,29 @@ export function CalculatorHero({
             className={`absolute inset-0 bg-gradient-to-tr ${gradientClass} rounded-3xl blur-2xl`}
           />
 
-          <div className="relative rounded-3xl border border-white/10 bg-slate-950/80 backdrop-blur-xl p-6 sm:p-8 space-y-6">
+          <div className="relative rounded-3xl border border-border bg-surface-sunken backdrop-blur-xl p-6 sm:p-8 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs text-white/50 uppercase tracking-wide">
+                <div className="text-xs text-foreground-faint uppercase tracking-wide">
                   {previewLabel}
                 </div>
 
-                <div className="text-sm font-semibold text-white/90">
+                <div className="text-sm font-semibold text-foreground">
                   {previewTitle}
                 </div>
               </div>
 
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-status-success animate-pulse" />
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="text-xs text-white/50">Maturity value</div>
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <div className="text-xs text-foreground-faint">Maturity value</div>
 
-              <div className="text-2xl sm:text-3xl font-bold text-white mt-2">
+              <div className="text-2xl sm:text-3xl font-bold text-foreground mt-2">
                 {previewValue}
               </div>
 
-              <div className="text-xs text-emerald-400 mt-2">
+              <div className="text-xs text-status-success mt-2">
                 {previewNote}
               </div>
             </div>
