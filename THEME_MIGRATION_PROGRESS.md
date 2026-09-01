@@ -799,3 +799,14 @@ changing the component API.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/components/ui/imageToolUI/emptyState.tsx`, and editor diagnostics all
 passed.
+
+## Session 25 — phase 4: image WorkspaceCard
+
+`src/components/ui/imageToolUI/workspaceCard.tsx` was migrated in commit
+`32908f5` and pushed immediately. Its shared image compressor/converter
+workspace shell now uses central theme-aware surface and border tokens
+without changing its children contract or geometry.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/components/ui/imageToolUI/workspaceCard.tsx`, and editor diagnostics
+all passed.
