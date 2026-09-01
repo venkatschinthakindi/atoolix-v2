@@ -656,3 +656,15 @@ passport resizing, and image-to-PDF tools.
 
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/tool/sliderCard.tsx`, and editor diagnostics all passed.
+
+## Session 12 — phase 4: shared CalculatorHero
+
+`src/sharedUI/calculator/CalculatorHero.tsx` was migrated in commit
+`ea005fd` and pushed immediately. Its shared shell, feature cards, live
+preview surfaces, text hierarchy, and success state now use central
+theme-aware tokens while preserving caller-provided calculator accents
+and gradients.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/calculator/CalculatorHero.tsx`, and editor diagnostics all
+passed.
