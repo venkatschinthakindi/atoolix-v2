@@ -755,6 +755,18 @@ Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/calculator/QuickStartStrip.tsx`, and editor diagnostics all
 passed.
 
+## Session 22 — phase 4: live section copy CSS
+
+`src/app/globals.css` was migrated in commit `b217959` and pushed
+immediately. The remaining live `.section-copy` selector now uses the
+central muted foreground token; documented dead helpers were left
+unchanged.
+
+Verification: `npx tsc --noEmit` and `npm run build` passed, including
+Tailwind/PostCSS compilation and static generation. Editor diagnostics
+continue to report only the known false positives for Tailwind custom
+directives. The build-generated `public/sw.js` change remains excluded.
+
 ## Session 17 — phase 4: shared MethodologyNote
 
 `src/sharedUI/calculator/MethodologyNote.tsx` was migrated in commit
