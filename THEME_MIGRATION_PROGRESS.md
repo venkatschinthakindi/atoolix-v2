@@ -678,3 +678,13 @@ across finance, EMI, percentage, retirement, and QR forms.
 
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/calculator/Field.tsx`, and editor diagnostics all passed.
+
+## Session 14 — phase 4: shared PDF premium shell
+
+`src/sharedUI/tool/premiumShell.ts` was migrated in commit `f70e7d8` and
+pushed immediately. The shared merge, split, and compress PDF shell now
+uses central theme-aware background and border tokens instead of a fixed
+dark slate gradient.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/tool/premiumShell.ts`, and editor diagnostics all passed.
