@@ -66,15 +66,15 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
 
       {open && (
         <div
-          className="fixed inset-0 bg-indigo/50 backdrop-blur-sm flex items-center justify-center z-50"
+          className="fixed inset-0 bg-surface-overlay backdrop-blur-sm flex items-center justify-center z-50"
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-white/10 w-full max-w-2xl rounded-xl shadow-xl p-6"
+            className="bg-popover w-full max-w-2xl rounded-xl shadow-xl p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="glass-input border-b border-white/10 pb-4">
-              <Search className="w-5 h-5 text-white/40" />
+            <div className="glass-input border-b border-border pb-4">
+              <Search className="w-5 h-5 text-muted-foreground" />
               <input
                 autoFocus
                 placeholder={searchTools === true ? "Search tools..." : "Explore categories..."}
@@ -127,11 +127,11 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                   </div>
                 ))
               ) : (
-                <p className="text-white/60 text-center py-6">No tools found</p>
+                <p className="text-muted-foreground text-center py-6">No tools found</p>
               )}
             </div>
 
-            <div className="mt-4 text-xs text-white/50 text-center">
+            <div className="mt-4 text-xs text-muted-foreground text-center">
               ↵ Enter to select • Esc to close • ↑ ↓ to navigate
             </div>
           </div>

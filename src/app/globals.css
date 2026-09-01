@@ -156,6 +156,11 @@
   --glass-border-hover: rgba(15, 23, 42, 0.14);
   --aurora-purple: 216 180 254;
   --aurora-cyan: 165 243 252;
+  /* Search/result-panel scrollbar thumb. Dark, low-opacity here since a
+   * white thumb (the dark theme's value) would be invisible against a
+   * light track. */
+  --scrollbar-thumb: rgba(15, 23, 42, 0.22);
+  --scrollbar-thumb-hover: rgba(15, 23, 42, 0.34);
 }
 
 .dark {
@@ -230,6 +235,8 @@
   --glass-border-hover: rgba(255, 255, 255, 0.14);
   --aurora-purple: 168 85 247;
   --aurora-cyan: 6 182 212;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.18);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.28);
 }
 
 @layer base {
@@ -583,7 +590,7 @@ button {
   }
 
   .search-field {
-    @apply w-full bg-transparent text-white outline-none;
+    @apply w-full bg-transparent text-foreground outline-none;
   }
 
   .search-overlay {
@@ -595,23 +602,23 @@ button {
     overflow-y: auto;
     scroll-behavior: smooth;
     width: min(100%, 28rem);
-    background-color: #1e1e1e;
+    background-color: var(--popover);
     border-radius: 1rem;
     box-shadow: 0 25px 50px rgba(0,0,0,0.3);
     z-index: 50;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.18) transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
   }
   .smooth-scroll {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.18) transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
   }
   .toolsSeatchResultSection{
     border-radius: 1rem;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
   }
   .search-overlay::-webkit-scrollbar {
     width: 6px;
@@ -622,12 +629,12 @@ button {
   }
 
   .search-overlay::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.18);
+    background: var(--scrollbar-thumb);
     border-radius: 9999px;
   }
 
   .search-overlay::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.28);
+    background: var(--scrollbar-thumb-hover);
   }
 
   .result-item {
@@ -635,11 +642,11 @@ button {
   }
 
   .result-item-active {
-    @apply bg-indigo-900 text-white;
+    @apply bg-accent text-accent-foreground;
   }
 
   .result-item-hover {
-    @apply hover:bg-gray-600 bg-gray-900 text-white;
+    @apply hover:bg-accent bg-transparent text-foreground;
   }
 
   .badge-pill {
