@@ -688,3 +688,15 @@ dark slate gradient.
 
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/tool/premiumShell.ts`, and editor diagnostics all passed.
+
+## Session 15 — phase 4: shared ExplainerPanel
+
+`src/sharedUI/explainerPanel.tsx` was migrated in commit `cd6691c` and
+pushed immediately. Its investment explainer shell, finance accents,
+content text, divider, and bullet marker now use central theme-aware
+tokens without changing expand/collapse or content behavior.
+
+Verification: `npx tsc --noEmit` and editor diagnostics passed. ESLint
+continues to report the two pre-existing `no-explicit-any` errors in the
+component's existing data typing; those unrelated types were left
+unchanged.
