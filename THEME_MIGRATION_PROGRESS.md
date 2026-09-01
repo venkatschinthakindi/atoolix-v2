@@ -592,3 +592,14 @@ reported only its existing stylesheet file-ignore warning. The
 standalone `postcss-cli` command documented in the earlier session could
 not run because its executable is unavailable in this checkout; the
 Next.js build provided the CSS compilation check instead.
+
+## Session 6 — phase 4: sharedUI style constants
+
+`src/sharedUI/sharedStyles.ts` was migrated in commit `dbdd68a` and
+pushed immediately. `SHARED_UI_SURFACE`, `SHARED_UI_FIELD`, and
+`SHARED_UI_MUTED_TEXT` now use central theme-aware utilities, updating
+the loading and image-settings shared primitives without changing their
+public APIs or behavior.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/sharedStyles.ts`, and editor diagnostics all passed.
