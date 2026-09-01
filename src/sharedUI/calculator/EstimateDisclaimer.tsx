@@ -9,7 +9,7 @@ interface EstimateDisclaimerProps {
  */
 export function EstimateDisclaimer({ children }: EstimateDisclaimerProps) {
   return (
-    <p className="text-center text-sm text-emerald-300 px-2">
+    <p className="text-center text-sm text-status-warning px-2">
       <b>Note: </b>
       {children ?? (
         <>
