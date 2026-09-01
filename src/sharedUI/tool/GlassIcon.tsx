@@ -11,7 +11,7 @@ export interface GlassIconProps {
  */
 export function GlassIcon({ icon: Icon }: GlassIconProps) {
   return (
-    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/85">
+    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-border bg-surface-raised text-foreground-secondary">
       <Icon className="h-4 w-4" />
     </span>
   );
