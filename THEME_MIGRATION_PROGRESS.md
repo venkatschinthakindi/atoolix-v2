@@ -646,3 +646,13 @@ Verification: `npx tsc --noEmit` and editor diagnostics passed. ESLint
 reported one existing `jsx-a11y/role-supports-aria-props` warning for
 `aria-disabled` on the implicit `ul` role; that unrelated attribute was
 left unchanged.
+
+## Session 11 — phase 4: shared SliderCard
+
+`src/sharedUI/tool/sliderCard.tsx` was migrated in commit `9d3297e` and
+pushed immediately. Its shared slider panel, labels, value display, and
+range accent now use central theme-aware tokens across image compression,
+passport resizing, and image-to-PDF tools.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/tool/sliderCard.tsx`, and editor diagnostics all passed.
