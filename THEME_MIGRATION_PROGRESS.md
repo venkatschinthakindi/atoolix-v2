@@ -603,3 +603,14 @@ public APIs or behavior.
 
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/sharedStyles.ts`, and editor diagnostics all passed.
+
+## Session 7 — phase 4: shared calculator shell
+
+`src/components/ui/calculator/ShellCard.tsx` was migrated in commit
+`afb733f` and pushed immediately. Its shared card surface, border, and
+hover state now use central theme-aware utilities for both Equation
+Solver and Smart Calculator consumers.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/components/ui/calculator/ShellCard.tsx`, and editor diagnostics all
+passed.
