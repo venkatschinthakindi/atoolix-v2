@@ -788,3 +788,14 @@ emerald color.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/calculator/EstimateDisclaimer.tsx`, and editor diagnostics
 all passed.
+
+## Session 24 — phase 4: image-tool EmptyState
+
+`src/components/ui/imageToolUI/emptyState.tsx` was migrated in commit
+`613e271` and pushed immediately. Its live image-tool panel, icon accent,
+heading, and description now use central theme-aware tokens without
+changing the component API.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/components/ui/imageToolUI/emptyState.tsx`, and editor diagnostics all
+passed.
