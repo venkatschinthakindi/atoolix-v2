@@ -711,3 +711,14 @@ tokens without changing step rendering.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/calculator/QuickStartStrip.tsx`, and editor diagnostics all
 passed.
+
+## Session 17 — phase 4: shared MethodologyNote
+
+`src/sharedUI/calculator/MethodologyNote.tsx` was migrated in commit
+`6d69552` and pushed immediately. Its savings-calculator panel, hover
+state, disclosure divider, explanatory text, and caveat now use central
+theme-aware tokens without changing disclosure behavior.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/calculator/MethodologyNote.tsx`, and editor diagnostics all
+passed.
