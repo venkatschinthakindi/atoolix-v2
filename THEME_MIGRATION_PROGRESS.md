@@ -624,3 +624,13 @@ the existing props and variant behavior intact.
 
 Verification: `npx tsc --noEmit`, `npx eslint
 src/sharedUI/statCard.tsx`, and editor diagnostics all passed.
+
+## Session 9 — phase 4: shared SectionHeader
+
+`src/sharedUI/sectionHeader.tsx` was migrated in commit `66814d3` and
+pushed immediately. Its default and card variants now use central
+theme-aware tokens for icons, surfaces, borders, titles, and subtitles
+across calculator, converter, finance, image, and PDF tools.
+
+Verification: `npx tsc --noEmit`, `npx eslint
+src/sharedUI/sectionHeader.tsx`, and editor diagnostics all passed.
