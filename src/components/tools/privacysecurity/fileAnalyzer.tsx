@@ -3,9 +3,9 @@ import { FileCheckupApp } from '@/components/tools/privacysecurity/fileCheckupAp
 
 export default function HomePage() {
   return (
-    <main className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white">
+    <main className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-foreground">
       <div className="mb-6 text-center sm:mb-8">
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[11px] text-white/45">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[11px] text-muted-foreground">
           <Badge icon={Lock}>Nothing uploaded</Badge>
           <Badge icon={ShieldCheck}>Privacy &amp; security scan</Badge>
           <Badge icon={Zap}>Instant results</Badge>
@@ -19,7 +19,7 @@ export default function HomePage() {
 
 function Badge({ icon: Icon, children }: { icon: typeof Lock; children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-foreground/[0.03] px-3 py-1.5">
       <Icon className="h-3 w-3" aria-hidden="true" />
       {children}
     </span>

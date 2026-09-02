@@ -86,29 +86,29 @@ export function PrivacyDropZone({ onFiles, allowMultiple = false, validFileTypes
         onDragLeave={onDragLeave}
         className={clsx(
           'group relative flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-4 py-10 text-center transition-all duration-200 sm:py-14',
-          'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0f1a]',
-          isDragging ? 'border-blue-400 bg-blue-400/10 scale-[1.01]' : 'border-white/15 bg-white/[0.02] hover:border-blue-400/40 hover:bg-white/[0.04]'
+          'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          isDragging ? 'border-blue-400 bg-blue-400/10 scale-[1.01]' : 'border-border-strong bg-foreground/[0.02] hover:border-blue-400/40 hover:bg-foreground/[0.04]'
         )}
       >
         <div
           className={clsx(
             'flex h-14 w-14 items-center justify-center rounded-full border transition-colors sm:h-16 sm:w-16',
-            isDragging ? 'border-blue-400/50 bg-blue-400/20' : 'border-white/10 bg-white/5 group-hover:border-blue-400/30'
+            isDragging ? 'border-blue-400/50 bg-blue-400/20' : 'border-border bg-surface-raised group-hover:border-blue-400/30'
           )}
         >
           <UploadCloud className="h-6 w-6 text-blue-300 sm:h-7 sm:w-7" aria-hidden="true" />
         </div>
 
         <div>
-          <p className="text-sm font-medium text-white sm:text-base">
+          <p className="text-sm font-medium text-foreground sm:text-base">
             {isDragging ? 'Drop it here' : 'Drag & drop your file'}
           </p>
-          <p className="mt-1 text-xs text-white/50 sm:text-sm">
+          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
             or <span className="text-blue-300 underline underline-offset-2">browse your device</span> — PDF, image, text, and more
           </p>
         </div>
 
-        <p className="text-[11px] text-white/30">Processed entirely on your device. Nothing is uploaded.</p>
+        <p className="text-[11px] text-muted-foreground">Processed entirely on your device. Nothing is uploaded.</p>
 
         <input
           ref={inputRef}
