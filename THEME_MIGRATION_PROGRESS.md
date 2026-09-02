@@ -822,3 +822,47 @@ swap on a line that *also* carries an untouched responsive class (e.g.
 while only `bg-white/5`/`text-white`/`border-white/10` changed to
 tokens). No responsive breakpoint was added, removed, or altered by any
 theme-migration commit so far. This is a check only, no code changed.
+
+## Session 27 — AmortizationChart.tsx: duplicate-work collision + real tooltip contrast bug found
+
+Picked `AmortizationChart.tsx` from the original session-1 audit's
+"2 Chart.js files need explicit color injection" list (the other,
+`financeChart.tsx`, was already done in commit `eba1a0e`). Migrated it
+following that same established pattern (`getComputedStyle` +
+`useTheme` + re-run on `resolvedTheme` change), but hit a genuine
+push rejection: another session had migrated the same file
+concurrently and pushed first (commits `1e7cd00`/`1cf78ad`/`40b4e58`).
+Discarded my duplicate local changes and took theirs as the base
+rather than trying to force a merge of two independent
+near-identical implementations.
+
+**Found a real bug in their version while reviewing it before
+building on top of it**: they set the tooltip's `titleColor` /
+`bodyColor` / `footerColor` to follow the theme (`chartColors.text`,
+i.e. `--muted-foreground`) but never set the tooltip's own
+`backgroundColor` — which stays at Chart.js's fixed dark default
+regardless of theme. In light mode this puts a mid-gray text color on
+a background that's still dark, a real contrast problem (arguably
+worse than the pre-migration state, where at least both used Chart.js's
+matched defaults). Fixed in commit `bfe9b63` by reading
+`--popover`/`--popover-foreground` (the semantic pair meant for
+exactly this "floating surface" case) and setting background+text
+together so they always move as a pair. Verified dark-mode values are
+close enough to Chart.js's original defaults that dark mode is
+effectively unchanged.
+
+Left the pie-slice `borderColor` choice (`chartColors.grid`, from the
+other session) as-is — a legitimate stylistic call, not a bug, not
+worth re-litigating.
+
+**Takeaway for future sessions on this file/pattern**: when adding a
+theme-following *text* color to any Chart.js element (tooltip, legend,
+whatever), check whether that element's *background* is also
+theme-following — if the background is a fixed default, changing only
+the text color can make things worse, not better, in whichever theme
+the default background wasn't designed for.
+
+Verified: `tsc --noEmit` clean repo-wide; `eslint` shows the same 8
+pre-existing `any`-type errors as before (confirmed via `git stash`),
+0 new issues; `npx next build` compiles clean up to the same
+pre-existing sandbox-only Google Fonts network block.
