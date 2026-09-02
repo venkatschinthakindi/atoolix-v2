@@ -34,7 +34,7 @@ function QRDownloadButtonsImpl({
               ${
                 format === item
                   ? "border-green-500 bg-green-500 text-black"
-                  : "border-white/20 text-white hover:bg-white/10"
+                  : "border-border-strong text-foreground hover:bg-surface-raised"
               }`}
           >
             {item.toUpperCase()}
