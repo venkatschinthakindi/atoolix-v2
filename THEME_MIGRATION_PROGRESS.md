@@ -866,3 +866,33 @@ Verified: `tsc --noEmit` clean repo-wide; `eslint` shows the same 8
 pre-existing `any`-type errors as before (confirmed via `git stash`),
 0 new issues; `npx next build` compiles clean up to the same
 pre-existing sandbox-only Google Fonts network block.
+
+## Session 28 — timezoneClient.tsx (Timezone Converter) migrated
+
+34 hardcoded color occurrences across a ~980-line file. Standard
+mapping (`border-white/10` → `border-border`, `bg-white/5` → `bg-card`,
+`bg-white/10` → `bg-surface-raised`, `text-white`/`text-zinc-200` →
+`text-foreground`, `text-zinc-300`/`400` → `text-foreground-secondary`,
+`text-zinc-500` → `text-foreground-faint`), plus two contextual ones:
+`bg-slate-950/40` (date/time inputs) → `bg-surface-sunken` (same
+"recessed input" pattern already established for `UnitCombobox`), and
+`bg-slate-950/95` (zone-search dropdown) → `bg-popover`.
+`text-red-200` (validation messages) → `text-status-critical`, an
+existing status token — not a new one.
+
+**Two more instances of the light-text-on-inverting-tint pattern**
+(same category as `miniPill.tsx`/`confirmModal.tsx`) found and fixed:
+the "Meeting Time Finder" cross-link (`text-cyan-300
+hover:text-cyan-200`) and the "Source" zone badge
+(`bg-emerald-500/20 text-emerald-300`) — both kept their exact
+original values under `dark:` and got new light-mode-appropriate
+darker shades (`text-cyan-700`/`bg-emerald-100 text-emerald-700`).
+
+Verified no responsive classes were touched: diffed every changed
+line and confirmed every `sm:`/`md:`/`lg:` utility is byte-identical
+before/after — only color utilities changed. `tsc --noEmit` clean
+repo-wide; `eslint` shows the same 6 pre-existing problems as before
+(confirmed via `git stash`); `npx next build` compiles clean up to
+the same pre-existing sandbox font block.
+
+Commit: `090797c`.
