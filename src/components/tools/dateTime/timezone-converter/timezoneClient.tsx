@@ -167,7 +167,7 @@ const MemoRow = memo(function MemoRow({
   selectOptions: any[];
 }) {
   return (
-    <tr className="border-b border-white/5 align-top">
+    <tr className="border-b border-border align-top">
       <th scope="row" className="py-4 pr-3 text-left font-normal">
         <div className="mt-3 max-w-[320px]">
           <TimezoneSelect
@@ -181,26 +181,26 @@ const MemoRow = memo(function MemoRow({
 
       <td className="py-4 pr-3">
         <button type="button" onClick={() => onMakeSource(row.zone)} className="text-left">
-          <div className={`text-base font-semibold tabular-nums ${resultsAreStale ? "text-zinc-500" : "text-white"}`}>
+          <div className={`text-base font-semibold tabular-nums ${resultsAreStale ? "text-foreground-faint" : "text-foreground"}`}>
             {result?.display ?? "Waiting for valid input"}
           </div>
         </button>
-        <div className="mt-1 text-xs sm:text-sm text-zinc-400">{row.zone}</div>
+        <div className="mt-1 text-xs sm:text-sm text-foreground-secondary">{row.zone}</div>
       </td>
 
       <td className="py-4 pr-3">
-        <div className="text-sm text-zinc-300">{result?.localTime ?? ""}</div>
+        <div className="text-sm text-foreground-secondary">{result?.localTime ?? ""}</div>
       </td>
 
       <td className="py-4 pr-3">
         <div className="flex max-w-[280px] flex-col gap-1.5">
-          <span className="text-sm text-zinc-200">{result?.details ?? ""}</span>
-          <span className="text-xs text-zinc-400">{result?.note ?? ""}</span>
+          <span className="text-sm text-foreground">{result?.details ?? ""}</span>
+          <span className="text-xs text-foreground-secondary">{result?.note ?? ""}</span>
         </div>
       </td>
 
       <td className="py-4 pr-3">
-        <div className="text-sm text-zinc-300">
+        <div className="text-sm text-foreground-secondary">
           <div>{result?.abbreviation ?? ""}</div>
           <div>{result?.offset ?? ""}</div>
         </div>
@@ -212,7 +212,7 @@ const MemoRow = memo(function MemoRow({
             type="button"
             onClick={() => onMove(row.id, -1)}
             disabled={index === 0}
-            className="rounded-full border border-white/10 bg-white/5 px-2 py-2 text-xs text-zinc-300 disabled:opacity-30"
+            className="rounded-full border border-border bg-card px-2 py-2 text-xs text-foreground-secondary disabled:opacity-30"
           >
             <ChevronUp className="h-4 w-4" />
           </button>
@@ -220,7 +220,7 @@ const MemoRow = memo(function MemoRow({
             type="button"
             onClick={() => onMove(row.id, 1)}
             disabled={index === total - 1}
-            className="rounded-full border border-white/10 bg-white/5 px-2 py-2 text-xs text-zinc-300 disabled:opacity-30"
+            className="rounded-full border border-border bg-card px-2 py-2 text-xs text-foreground-secondary disabled:opacity-30"
           >
             <ChevronDown className="h-4 w-4" />
           </button>
@@ -228,7 +228,7 @@ const MemoRow = memo(function MemoRow({
             <button
               type="button"
               onClick={() => onRemove(row.id)}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-300"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs text-foreground-secondary"
             >
               <Trash2Icon className="h-4 w-4" />
             </button>
@@ -618,25 +618,25 @@ export default function TimezoneConverterClient() {
   return (
     <div>
       <div className="app-container page-section pt-2">
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 px-5 py-8 sm:px-6 sm:py-10">
-          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[11px] sm:text-xs font-medium text-zinc-300">
+        <section className="mb-8 rounded-3xl border border-border bg-card px-5 py-8 sm:px-6 sm:py-10">
+          <p className="mb-3 inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-[11px] sm:text-xs font-medium text-foreground-secondary">
             Browser zone: {currentZone}
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-foreground">
             Timezone Converter
           </h2>
-          <p className="mt-4 text-sm sm:text-base leading-7 text-zinc-300">
+          <p className="mt-4 text-sm sm:text-base leading-7 text-foreground-secondary">
             Convert one source time into up to 10 time zones instantly. Invalid or ambiguous source times are flagged before conversion. Need to schedule a meeting instead? Try the{" "}
-            <Link href="/tools/datetime/meeting-time-finder" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
+            <Link href="/tools/datetime/meeting-time-finder" className="text-cyan-700 hover:text-cyan-800 dark:text-cyan-300 dark:hover:text-cyan-200 underline underline-offset-2">
               Meeting Time Finder
             </Link>.
           </p>
         </section>
 
-        <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
+        <section className="mb-6 rounded-3xl border border-border bg-card p-4 sm:p-5">
           <div className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr] lg:items-end">
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Source timezone</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Source timezone</span>
               <TimezoneSelect
                 value={state.sourceZone}
                 onChange={(value) => {
@@ -658,28 +658,28 @@ export default function TimezoneConverterClient() {
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Date in source zone</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Date in source zone</span>
               <input
                 type="date"
                 value={state.sourceDate}
                 onChange={(e) => setState((p) => ({ ...p, sourceDate: e.target.value }))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
               {validation.sourceDate ? (
-                <div className="mt-2 text-xs text-red-200">{validation.sourceDate}</div>
+                <div className="mt-2 text-xs text-status-critical">{validation.sourceDate}</div>
               ) : null}
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Time in source zone</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Time in source zone</span>
               <input
                 type="time"
                 value={state.sourceTime}
                 onChange={(e) => setState((p) => ({ ...p, sourceTime: e.target.value }))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
               {validation.sourceTime ? (
-                <div className="mt-2 text-xs text-red-200">{validation.sourceTime}</div>
+                <div className="mt-2 text-xs text-status-critical">{validation.sourceTime}</div>
               ) : null}
             </label>
           </div>
@@ -687,7 +687,7 @@ export default function TimezoneConverterClient() {
             {(copyNote || copyError) ? (
             <div
               className={`fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-md px-4 py-2 text-sm shadow-lg transition-all duration-300 ${
-                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-white" : "bg-gradient-to-r from-violet-500 to-violet-900 text-white"
+                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-foreground" : "bg-gradient-to-r from-violet-500 to-violet-900 text-foreground"
               }`}
             >
               {copyError || copyNote}
@@ -698,7 +698,7 @@ export default function TimezoneConverterClient() {
             <button
               type="button"
               onClick={jumpToNow}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               Use current time in source zone
             </button>
@@ -706,21 +706,21 @@ export default function TimezoneConverterClient() {
               type="button"
               onClick={copyShareLink}
               disabled={resultsAreStale}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised disabled:cursor-not-allowed disabled:opacity-40"
             >
               Copy share link
             </button>
             <button
               type="button"
               onClick={() => setState((p) => ({ ...p, use24Hour: !p.use24Hour }))}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               {state.use24Hour ? "24h HH:MM" : "12h AM/PM"}
             </button>
           </div>
           <div className="mt-4 grid gap-3">
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Quick add</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Quick add</span>
               <div className="flex flex-wrap gap-2">
                 {QUICK_ADD_ZONES.map(({ label, zone }) => (
                   <button
@@ -728,7 +728,7 @@ export default function TimezoneConverterClient() {
                     type="button"
                     onClick={() => addTarget(zone)}
                     disabled={state.targets.length >= MAX_TARGETS}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="rounded-full border border-border bg-card px-3 py-2 text-xs text-foreground transition hover:bg-surface-raised disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     + {label}
                   </button>
@@ -760,16 +760,16 @@ export default function TimezoneConverterClient() {
                   : "Search target zone..."
               }
               disabled={state.targets.length >= MAX_TARGETS}
-              className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong disabled:cursor-not-allowed disabled:opacity-60"
             />
             {query && state.targets.length < MAX_TARGETS ? (
               <div
                 id={`${searchId}-listbox`}
                 role="listbox"
-                className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 shadow-xl"
+                className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
               >
                 {suggestions.length === 0 ? (
-                  <div className="px-4 py-3 text-sm text-zinc-400">No matches found.</div>
+                  <div className="px-4 py-3 text-sm text-foreground-secondary">No matches found.</div>
                 ) : (
                   suggestions.map((zone, index) => (
                     <button
@@ -781,19 +781,19 @@ export default function TimezoneConverterClient() {
                       onMouseEnter={() => setActiveIndex(index)}
                       onPointerDown={(e) => e.preventDefault()}
                       onClick={() => addTarget(zone.value)}
-                      className={`flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm text-white transition ${
-                        index === activeIndex ? "bg-white/10" : "hover:bg-white/5"
+                      className={`flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm text-foreground transition ${
+                        index === activeIndex ? "bg-surface-raised" : "hover:bg-card"
                       }`}
                     >
                       <div className="flex min-w-0 flex-col">
                         <span className="truncate font-medium">
                           {highlightMatch(`${zone.city}, ${zone.country}`, query)}
                         </span>
-                        <span className="truncate text-xs text-zinc-400">{zone.value}</span>
+                        <span className="truncate text-xs text-foreground-secondary">{zone.value}</span>
                       </div>
                       <div className="text-right">
                         <div className="text-xs">{zone.abbreviation}</div>
-                        <div className="text-xs text-zinc-400">{zone.offset}</div>
+                        <div className="text-xs text-foreground-secondary">{zone.offset}</div>
                       </div>
                     </button>
                   ))
@@ -803,9 +803,9 @@ export default function TimezoneConverterClient() {
           </div>
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
+        <section className="mb-8 rounded-3xl border border-border bg-card p-4 sm:p-5">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className="text-lg font-semibold text-foreground">
                 Comparing {state.targets.length + 1}{" "}
                 {(state.targets.length + 1) === 1 ? "zone" : "zones"}
             </h2>
@@ -822,7 +822,7 @@ export default function TimezoneConverterClient() {
                 if (first) addTarget(first.value);
                 }}
                 disabled={state.targets.length >= MAX_TARGETS}
-                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10 disabled:opacity-40"
+                className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition hover:bg-surface-raised disabled:opacity-40"
             >
                 + Add zone
             </button>
@@ -832,7 +832,7 @@ export default function TimezoneConverterClient() {
             <table className="min-w-[980px] w-full border-collapse">
               <caption className="sr-only">Timezone comparison table</caption>
               <thead>
-                <tr className="border-b border-white/10 text-left text-xs uppercase tracking-wide text-zinc-400">
+                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-foreground-secondary">
                   <th scope="col" className="py-3 pr-3">Zone</th>
                   <th scope="col" className="py-3 pr-3">Converted time</th>
                   <th scope="col" className="py-3 pr-3">Local time</th>
@@ -842,25 +842,25 @@ export default function TimezoneConverterClient() {
                 </tr>
                 <tr className="border-b ">
                 <th className="py-4 pr-3 text-left">
-                    <div className="font-semibold text-white">
+                    <div className="font-semibold text-foreground">
                     {zoneMap.get(state.sourceZone)?.label ?? state.sourceZone}
                     </div>
-                    <div className="mt-1 text-xs text-zinc-400">
+                    <div className="mt-1 text-xs text-foreground-secondary">
                     {state.sourceZone}
                     </div>
-                    <span className="mt-2 inline-flex rounded-full bg-emerald-500/20 px-2 py-1 text-xs text-emerald-300">
+                    <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-1 text-xs text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300">
                     Source
                     </span>
                 </th>
 
                 <td className="py-4 pr-3">
-                    <div className="text-base font-semibold text-white">
+                    <div className="text-base font-semibold text-foreground">
                     {sourceDisplay}
                     </div>
                 </td>
 
                 <td className="py-4 pr-3">
-                    <div className="text-sm text-zinc-300">
+                    <div className="text-sm text-foreground-secondary">
                     {selectedInstant
                         ? formatInTimeZone(
                             selectedInstant,
@@ -873,7 +873,7 @@ export default function TimezoneConverterClient() {
 
                 <td className="py-4 pr-3">
                     <div className="flex max-w-[280px] flex-col gap-1.5">
-                      <span className="text-sm text-zinc-200">
+                      <span className="text-sm text-foreground">
                         {selectedInstant && (
                           <>
                             {weekdayName(selectedInstant!, state.sourceZone)} · {localDateLabel(selectedInstant!, state.sourceZone)} · {abbreviation(selectedInstant!, state.sourceZone)}
@@ -884,7 +884,7 @@ export default function TimezoneConverterClient() {
                 </td>
 
                 <td className="py-4 pr-3">
-                    <div className="text-sm text-zinc-300">
+                    <div className="text-sm text-foreground-secondary">
                     <div>
                         {selectedInstant
                         ? abbreviation(selectedInstant, state.sourceZone)
@@ -936,42 +936,42 @@ export default function TimezoneConverterClient() {
           />
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
-          <h2 className="text-xl font-semibold text-white">Related tools</h2>
+        <section className="mb-8 rounded-3xl border border-border bg-card p-4 sm:p-5">
+          <h2 className="text-xl font-semibold text-foreground">Related tools</h2>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link
               href="/tools/converter"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               Unit Converter
             </Link>
             <Link
               href="/tools/calculator/emi-calculator"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               EMI Calculator
             </Link>
             <Link
               href="/tools/calculator/sip-calculator"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               ROI Calculator
             </Link>
             <Link
               href="/pdf"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               PDF Tools
             </Link>
             <Link
               href="/image"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               Image Tools
             </Link>
             <Link
               href="/finance"
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs sm:text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-3 py-2 text-xs sm:text-sm text-foreground transition hover:bg-surface-raised"
             >
               Finance Tools
             </Link>
