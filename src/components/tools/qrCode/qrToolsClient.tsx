@@ -488,14 +488,14 @@ export default function QRToolsClient() {
                   : "Open";
 
   return (
-  <div className="min-h-screen text-white">
+  <div className="min-h-screen text-foreground">
     <div className="grid gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
-      <section className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-sm backdrop-blur-md sm:p-6">
-        <div className="mb-6 flex gap-2 rounded-2xl bg-black/20 p-1">
+      <section className="rounded-3xl border border-border bg-card p-4 shadow-sm backdrop-blur-md sm:p-6">
+        <div className="mb-6 flex gap-2 rounded-2xl bg-surface-sunken p-1">
           <button
             onClick={() => setTab("generate")}
             className={`flex-1 rounded-xl px-4 py-3 text-sm font-medium transition ${
-              tab === "generate" ? "bg-green-500 text-slate-900 shadow-sm" : "text-white/70"
+              tab === "generate" ? "bg-green-500 text-slate-900 shadow-sm" : "text-foreground-secondary"
             }`}
           >
             Generate QR
@@ -503,7 +503,7 @@ export default function QRToolsClient() {
           <button
             onClick={() => setTab("scanner")}
             className={`flex-1 rounded-xl px-4 py-3 text-sm font-medium transition ${
-              tab === "scanner" ? "bg-green-500 text-slate-900 shadow-sm" : "text-white/70"
+              tab === "scanner" ? "bg-green-500 text-slate-900 shadow-sm" : "text-foreground-secondary"
             }`}
           >
             Scan QR
@@ -592,11 +592,11 @@ export default function QRToolsClient() {
       onCancel={() => setPendingUrl(null)}
       onConfirm={confirmOpenExternal}
     >
-      <div className="rounded-xl border bg-slate-50 p-3">
-        <div className="break-all text-sm font-semibold text-slate-900">
+      <div className="rounded-xl border bg-card p-3">
+        <div className="break-all text-sm font-semibold text-foreground">
           {pendingHostname}
         </div>
-        <div className="mt-2 break-all font-mono text-xs text-slate-500">
+        <div className="mt-2 break-all font-mono text-xs text-muted-foreground">
           {pendingUrl}
         </div>
       </div>
