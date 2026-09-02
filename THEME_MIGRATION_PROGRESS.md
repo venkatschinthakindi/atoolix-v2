@@ -896,3 +896,32 @@ repo-wide; `eslint` shows the same 6 pre-existing problems as before
 the same pre-existing sandbox font block.
 
 Commit: `090797c`.
+
+## Session 29 — meetingTimeFinderClient.tsx migrated (advanced sibling of Session 28)
+
+~2500-line file, 124 hue-color occurrences across 7 accent families
+(emerald/cyan/violet/amber/rose/blue/indigo) used for status/quality
+badges throughout. Given the scale, did this programmatically: a
+script found every text-/bg-/border- class (incl. hover: variants) in
+those 7 hues, wrapped each original in `dark:` unchanged, and inserted
+one standard light-mode equivalent per hue/property ahead of it
+(text-700/800-hover, bg-100, border-300/400-hover) — consistent with
+the manual choices already made in miniPill.tsx/confirmModal.tsx/
+timezoneClient.tsx. Verified 124 replacements in == 124 `dark:`
+prefixes out, zero orphaned tokens. Grayscale/surface classes used the
+same mapping as Session 28, plus one arbitrary-value opacity
+(`bg-white/[0.02]`) the regex missed, caught by a follow-up sweep.
+
+**Known simplification, noted not hidden**: hover states in light
+mode mostly share the same `bg-{hue}-100` as the resting state (no
+separate hover tier defined), so hover feedback is less pronounced
+than dark mode's opacity jump. Not a contrast bug, a minor polish gap
+worth a follow-up pass if visual QA flags it.
+
+Verified: `tsc --noEmit` clean repo-wide; `eslint` shows the same 35
+pre-existing problems as before (confirmed via before/after diff);
+every single responsive class (`sm:`/`md:`/`lg:`/`xl:`/`2xl:`) diffed
+byte-for-byte identical before/after; `npx next build` compiles clean
+up to the same pre-existing sandbox font block.
+
+Commit: `f8f5a8d`.
