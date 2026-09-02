@@ -810,3 +810,15 @@ without changing its children contract or geometry.
 Verification: `npx tsc --noEmit`, `npx eslint
 src/components/ui/imageToolUI/workspaceCard.tsx`, and editor diagnostics
 all passed.
+
+## Session 26 — responsiveness regression check across all phase 4 work
+
+Ran a diff of every `.tsx`/`.css` change since the first theme-migration
+commit (`b4a39f0`) against the current `HEAD`, filtering for any line
+touching a `sm:`/`md:`/`lg:`/`xl:`/`2xl:` responsive prefix. Result: 14
+lines removed, 15 added, and every single instance is a color-utility
+swap on a line that *also* carries an untouched responsive class (e.g.
+`px-2.5 sm:px-3 py-1.5 sm:py-2` and `sm:px-6 lg:px-8` preserved verbatim
+while only `bg-white/5`/`text-white`/`border-white/10` changed to
+tokens). No responsive breakpoint was added, removed, or altered by any
+theme-migration commit so far. This is a check only, no code changed.
