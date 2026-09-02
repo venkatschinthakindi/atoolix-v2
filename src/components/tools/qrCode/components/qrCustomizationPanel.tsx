@@ -38,14 +38,14 @@ export function QRCustomizationPanel({
   };
 
   return (
-    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+    <div className="mt-6 rounded-2xl border border-border bg-card p-4">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-sm font-semibold text-slate-900">
+          <h3 className="text-sm font-semibold text-foreground">
             Customize QR Card
           </h3>
 
-          <p className="mt-1 text-xs leading-5 text-slate-500">
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
             Add a title, description, image, colors and
             fonts below your QR code.
           </p>
@@ -64,7 +64,7 @@ export function QRCustomizationPanel({
           className={`relative h-6 w-11 shrink-0 rounded-full transition ${
             presentation.enabled
               ? "bg-green-500"
-              : "bg-slate-300"
+              : "bg-surface-raised"
           }`}
         >
           <span
@@ -78,7 +78,7 @@ export function QRCustomizationPanel({
       </div>
 
       {!presentation.enabled ? (
-        <div className="mt-4 rounded-xl border border-dashed border-slate-200 bg-white px-4 py-3 text-xs text-slate-500">
+        <div className="mt-4 rounded-xl border border-dashed border-border bg-white px-4 py-3 text-xs text-muted-foreground">
           Enable this option to add extra information
           below your QR code.
         </div>
@@ -89,7 +89,7 @@ export function QRCustomizationPanel({
           <div>
             <label
               htmlFor="qr-card-title"
-              className="mb-2 block text-xs font-medium text-slate-700"
+              className="mb-2 block text-xs font-medium text-foreground-secondary"
             >
               Title
             </label>
@@ -106,10 +106,10 @@ export function QRCustomizationPanel({
               }
               placeholder="Scan to visit our website"
               maxLength={120}
-              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-500"
+              className="w-full rounded-xl border border-border bg-white px-3 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-indigo-500"
             />
 
-            <div className="mt-1 text-right text-[10px] text-slate-400">
+            <div className="mt-1 text-right text-[10px] text-muted-foreground">
               {presentation.title.length}/120
             </div>
           </div>
@@ -119,7 +119,7 @@ export function QRCustomizationPanel({
           <div>
             <label
               htmlFor="qr-card-description"
-              className="mb-2 block text-xs font-medium text-slate-700"
+              className="mb-2 block text-xs font-medium text-foreground-secondary"
             >
               Description
             </label>
@@ -136,10 +136,10 @@ export function QRCustomizationPanel({
               placeholder="Scan this code to learn more about our services."
               maxLength={500}
               rows={4}
-              className="w-full resize-none rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-500"
+              className="w-full resize-none rounded-xl border border-border bg-white px-3 py-3 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-indigo-500"
             />
 
-            <div className="mt-1 text-right text-[10px] text-slate-400">
+            <div className="mt-1 text-right text-[10px] text-muted-foreground">
               {presentation.description.length}/500
             </div>
           </div>
@@ -147,12 +147,12 @@ export function QRCustomizationPanel({
           {/* Image */}
 
           <div>
-            <label className="mb-2 block text-xs font-medium text-slate-700">
+            <label className="mb-2 block text-xs font-medium text-foreground-secondary">
               Image
             </label>
 
             {presentation.image ? (
-              <div className="rounded-xl border border-slate-200 bg-white p-3">
+              <div className="rounded-xl border border-border bg-white p-3">
                 <div className="flex items-center gap-3">
                   <img
                     src={presentation.image}
@@ -161,7 +161,7 @@ export function QRCustomizationPanel({
                   />
 
                   <div className="flex-1">
-                    <p className="text-xs text-slate-600">
+                    <p className="text-xs text-foreground-secondary">
                       Image added
                     </p>
 
@@ -178,13 +178,13 @@ export function QRCustomizationPanel({
                 </div>
               </div>
             ) : (
-              <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-4 py-5 text-center transition hover:border-indigo-400">
+              <label className="flex cursor-pointer items-center justify-center rounded-xl border border-dashed border-border-strong bg-white px-4 py-5 text-center transition hover:border-indigo-400">
                 <div>
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-foreground-secondary">
                     Upload image
                   </div>
 
-                  <div className="mt-1 text-[11px] text-slate-400">
+                  <div className="mt-1 text-[11px] text-muted-foreground">
                     PNG, JPG, WEBP · Max 5MB
                   </div>
                 </div>
@@ -293,7 +293,7 @@ export function QRCustomizationPanel({
                 image: undefined,
               })
             }
-            className="text-xs text-slate-400 hover:text-slate-600"
+            className="text-xs text-muted-foreground hover:text-foreground-secondary"
           >
             Reset card customization
           </button>
@@ -314,7 +314,7 @@ function ColorField({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-medium text-slate-700">
+      <label className="mb-2 block text-xs font-medium text-foreground-secondary">
         {label}
       </label>
 
@@ -325,7 +325,7 @@ function ColorField({
           onChange={(e) =>
             onChange(e.target.value)
           }
-          className="h-11 w-12 cursor-pointer rounded-lg border border-slate-200 bg-white p-1"
+          className="h-11 w-12 cursor-pointer rounded-lg border border-border bg-white p-1"
         />
 
         <input
@@ -342,7 +342,7 @@ function ColorField({
             }
           }}
           maxLength={7}
-          className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none focus:border-indigo-500"
+          className="min-w-0 flex-1 rounded-xl border border-border bg-white px-3 text-sm text-foreground outline-none focus:border-indigo-500"
         />
       </div>
     </div>
@@ -360,7 +360,7 @@ function FontField({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-xs font-medium text-slate-700">
+      <label className="mb-2 block text-xs font-medium text-foreground-secondary">
         {label}
       </label>
 
@@ -371,7 +371,7 @@ function FontField({
             e.target.value as QrLabelFont
           )
         }
-        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500"
+        className="w-full rounded-xl border border-border bg-white px-3 py-3 text-sm text-foreground outline-none focus:border-indigo-500"
         style={{
           fontFamily: value,
         }}
