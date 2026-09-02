@@ -41,7 +41,7 @@ export default function AmortizationChart({
 }: Props) {
   const chartJsLibRef = useRef<any>(null);
   const { resolvedTheme } = useTheme();
-  const [chartColors, setChartColors] = useState({ text: "", grid: "" });
+  const [chartColors, setChartColors] = useState({ text: "", grid: "", tooltipBg: "", tooltipText: "" });
 
   useEffect(() => {
     const styles = getComputedStyle(document.documentElement);
@@ -51,6 +51,15 @@ export default function AmortizationChart({
     setChartColors({
       text: styles.getPropertyValue("--muted-foreground").trim() || "#9ca3af",
       grid: styles.getPropertyValue("--border").trim() || "rgba(255,255,255,0.1)",
+      // Chart.js's default tooltip background is a fixed dark overlay
+      // regardless of theme. Setting title/body/footer text to a
+      // theme-following color without also setting the background would
+      // put light-mode's dark text on that still-dark default background -
+      // low contrast. Using --popover/--popover-foreground (the semantic
+      // pairing meant for exactly this "floating surface" case) keeps
+      // background and text moving together correctly in both themes.
+      tooltipBg: styles.getPropertyValue("--popover").trim() || "rgba(0,0,0,0.8)",
+      tooltipText: styles.getPropertyValue("--popover-foreground").trim() || "#fff",
     });
   }, [resolvedTheme]);
 
@@ -231,9 +240,10 @@ export default function AmortizationChart({
         },
       },
       tooltip: {
-        titleColor: chartColors.text,
-        bodyColor: chartColors.text,
-        footerColor: chartColors.text,
+        backgroundColor: chartColors.tooltipBg,
+        titleColor: chartColors.tooltipText,
+        bodyColor: chartColors.tooltipText,
+        footerColor: chartColors.tooltipText,
         callbacks: {
           title: (items: any[]) => {
             if (chartType === "pie" || chartType === "doughnut") {
