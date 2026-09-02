@@ -430,15 +430,15 @@ const MemoRow = memo(function MemoRow({
         onDrop(row.id);
       }}
       onDragEnd={onDragEnd}
-      className={`border-b border-white/5 align-top transition-colors ${
+      className={`border-b border-border align-top transition-colors ${
         isDragging ? "opacity-40" : ""
-      } ${isDragOver ? "bg-white/10" : ""}`}
+      } ${isDragOver ? "bg-surface-raised" : ""}`}
     >
       <th scope="row" className="py-4 pr-3 text-left font-normal">
         <div className="flex items-start gap-2">
           <span
             aria-hidden="true"
-            className="mt-4 cursor-grab select-none text-zinc-500 active:cursor-grabbing"
+            className="mt-4 cursor-grab select-none text-foreground-faint active:cursor-grabbing"
             title="Drag to reorder"
           >
             <GripVertical className="h-4 w-4" />
@@ -456,27 +456,27 @@ const MemoRow = memo(function MemoRow({
 
       <td className="py-4 pr-3">
         <button type="button" onClick={() => onMakeSource(row.zone)} className="text-left">
-          <div className={`text-base font-semibold tabular-nums ${resultsAreStale ? "text-zinc-500" : "text-white"}`}>
+          <div className={`text-base font-semibold tabular-nums ${resultsAreStale ? "text-foreground-faint" : "text-foreground"}`}>
             {result?.display ?? "Waiting for valid input"}
           </div>
         </button>
-        <div className="mt-1 text-xs sm:text-sm text-zinc-400">{row.zone}</div>
+        <div className="mt-1 text-xs sm:text-sm text-foreground-secondary">{row.zone}</div>
       </td>
 
       <td className="py-4 pr-3">
-        <div className="text-sm text-zinc-300">{result?.localTime ?? ""}</div>
+        <div className="text-sm text-foreground-secondary">{result?.localTime ?? ""}</div>
       </td>
 
       <td className="py-4 pr-3">
         <div className="flex max-w-[280px] flex-col gap-1.5">
-          <span className="text-sm text-zinc-200">{result?.details ?? ""}</span>
-          <span className="text-xs text-zinc-400">{result?.note ?? ""}</span>
+          <span className="text-sm text-foreground">{result?.details ?? ""}</span>
+          <span className="text-xs text-foreground-secondary">{result?.note ?? ""}</span>
           {result ? (
             <span
               className={`mt-0.5 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${
                 result.inHours
-                  ? "bg-emerald-500/15 text-emerald-300"
-                  : "bg-white/5 text-zinc-500"
+                  ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                  : "bg-card text-foreground-faint"
               }`}
             >
               {result.inHours ? "● Working hours" : "○ Outside working hours"}
@@ -486,7 +486,7 @@ const MemoRow = memo(function MemoRow({
       </td>
 
       <td className="py-4 pr-3">
-        <div className="text-sm text-zinc-300">
+        <div className="text-sm text-foreground-secondary">
           <div>{result?.abbreviation ?? ""}</div>
           <div>{result?.offset ?? ""}</div>
         </div>
@@ -496,10 +496,10 @@ const MemoRow = memo(function MemoRow({
         <span
           className={`inline-flex rounded-full px-2 py-1 text-xs font-medium tabular-nums ${
             resultsAreStale
-              ? "bg-white/5 text-zinc-500"
+              ? "bg-card text-foreground-faint"
               : result?.diff === "Same time"
-                ? "bg-emerald-500/15 text-emerald-300"
-                : "bg-indigo-500/15 text-indigo-300"
+                ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                : "bg-indigo-100 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300"
           }`}
         >
           {result?.diff ?? ""}
@@ -512,7 +512,7 @@ const MemoRow = memo(function MemoRow({
             type="button"
             onClick={() => onMove(row.id, -1)}
             disabled={index === 0}
-            className="rounded-full border border-white/10 bg-black/30 px-2 py-2 text-xs text-zinc-300 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30 disabled:hover:border-white/10 disabled:hover:bg-black/30 disabled:hover:text-zinc-300"
+            className="rounded-full border border-border bg-surface-sunken px-2 py-2 text-xs text-foreground-secondary transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300 disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-surface-sunken disabled:hover:text-foreground-secondary"
           >
             <ChevronUp className="h-4 w-4" />
           </button>
@@ -520,7 +520,7 @@ const MemoRow = memo(function MemoRow({
             type="button"
             onClick={() => onMove(row.id, 1)}
             disabled={index === total - 1}
-            className="rounded-full border border-white/10 bg-black/30 px-2 py-2 text-xs text-zinc-300 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30 disabled:hover:border-white/10 disabled:hover:bg-black/30 disabled:hover:text-zinc-300"
+            className="rounded-full border border-border bg-surface-sunken px-2 py-2 text-xs text-foreground-secondary transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300 disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-surface-sunken disabled:hover:text-foreground-secondary"
           >
             <ChevronDown className="h-4 w-4" />
           </button>
@@ -528,7 +528,7 @@ const MemoRow = memo(function MemoRow({
             <button
               type="button"
               onClick={() => onRemove(row.id)}
-              className="rounded-full border border-rose-400/20 bg-rose-400/5 px-3 py-2 text-xs text-rose-300 transition hover:border-rose-400/40 hover:bg-rose-400/15"
+              className="rounded-full border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/5 px-3 py-2 text-xs text-rose-700 dark:text-rose-300 transition hover:border-rose-400 dark:hover:border-rose-400/40 hover:bg-rose-100 dark:hover:bg-rose-400/15"
             >
               <Trash2Icon className="h-4 w-4" />
             </button>
@@ -556,24 +556,24 @@ function StepHeader({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cyan-400/30 bg-cyan-400/10 text-xs font-semibold text-cyan-300">
+      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-cyan-300 dark:border-cyan-400/30 bg-cyan-100 dark:bg-cyan-400/10 text-xs font-semibold text-cyan-700 dark:text-cyan-300">
         {step}
       </span>
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
           {optional ? (
-            <span className="rounded-full border border-white/10 bg-black/30 px-2 py-0.5 text-[10px] uppercase tracking-wide text-zinc-400">
+            <span className="rounded-full border border-border bg-surface-sunken px-2 py-0.5 text-[10px] uppercase tracking-wide text-foreground-secondary">
               Optional
             </span>
           ) : null}
           {badge ? (
-            <span className="rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-300">
+            <span className="rounded-full border border-emerald-300 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
               {badge}
             </span>
           ) : null}
         </div>
-        {subtitle ? <p className="mt-1 text-sm text-zinc-400">{subtitle}</p> : null}
+        {subtitle ? <p className="mt-1 text-sm text-foreground-secondary">{subtitle}</p> : null}
       </div>
     </div>
   );
@@ -585,22 +585,22 @@ function StepHeader({
 function TimezoneHelpNote() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-2xl border border-white/10 bg-black/30 overflow-hidden">
+    <div className="rounded-2xl border border-border bg-surface-sunken overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
+        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-card transition"
       >
-        <span className="text-xs font-medium text-zinc-300">
+        <span className="text-xs font-medium text-foreground-secondary">
           ⓘ Why times sometimes shift by an hour, or land on a different day
         </span>
-        <span className="text-white/40 text-sm">{open ? "−" : "+"}</span>
+        <span className="text-foreground/40 text-sm">{open ? "−" : "+"}</span>
       </button>
       {open && (
-        <div className="px-5 pb-5 pt-1 text-xs text-zinc-400 leading-relaxed space-y-4 border-t border-white/10">
+        <div className="px-5 pb-5 pt-1 text-xs text-foreground-secondary leading-relaxed space-y-4 border-t border-border">
           <div>
-            <div className="text-white/80 font-medium mb-1">
+            <div className="text-foreground/80 font-medium mb-1">
               🕑 Daylight Saving Time (DST)
             </div>
             <p>
@@ -616,7 +616,7 @@ function TimezoneHelpNote() {
             </p>
           </div>
           <div>
-            <div className="text-white/80 font-medium mb-1">
+            <div className="text-foreground/80 font-medium mb-1">
               ⏭️ "This time doesn't exist" (spring forward)
             </div>
             <p>
@@ -628,7 +628,7 @@ function TimezoneHelpNote() {
             </p>
           </div>
           <div>
-            <div className="text-white/80 font-medium mb-1">
+            <div className="text-foreground/80 font-medium mb-1">
               🔁 "This time happens twice" (fall back)
             </div>
             <p>
@@ -639,24 +639,24 @@ function TimezoneHelpNote() {
             </p>
           </div>
           <div>
-            <div className="text-white/80 font-medium mb-1">
+            <div className="text-foreground/80 font-medium mb-1">
               📅 "+1 day" / "-1 day" badges
             </div>
             <p>
               Because zones are spread around a round globe, the same moment
               can be "today" in one place and already "tomorrow" (or still
               "yesterday") somewhere else. A badge like{" "}
-              <span className="text-white">+1 day</span> next to a zone means
+              <span className="text-foreground">+1 day</span> next to a zone means
               it's a calendar day ahead of your source zone at that moment;{" "}
-              <span className="text-white">-1 day</span> means a day behind.
+              <span className="text-foreground">-1 day</span> means a day behind.
               For a handful of extreme zone pairs on opposite sides of the
               International Date Line, this can even be{" "}
-              <span className="text-white">+2 days</span> — the tool accounts
+              <span className="text-foreground">+2 days</span> — the tool accounts
               for that too, rather than assuming it's always just one day.
             </p>
           </div>
           <div>
-            <div className="text-white/80 font-medium mb-1">
+            <div className="text-foreground/80 font-medium mb-1">
               ✅ Working hours badge
             </div>
             <p>
@@ -1298,39 +1298,39 @@ export default function MeetingTimeFinderClient() {
   return (
     <div className="font-mono">
       <div className="app-container page-section pt-2">
-        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
+        <section className="mb-8 rounded-3xl border border-border bg-popover p-6 sm:p-8">
           <div className="grid gap-8 md:grid-cols-[1.3fr_1fr] items-start">
             {/* Left: badge, heading, subtext, feature pills */}
             <div className="space-y-5">
-              <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-1.5 text-xs font-medium text-cyan-300">
+              <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300 dark:border-cyan-400/30 bg-cyan-100 dark:bg-cyan-400/10 px-4 py-1.5 text-xs font-medium text-cyan-700 dark:text-cyan-300">
                 🌍 Free · Browser Based · No Signup
               </span>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-                <span className="text-white">Compare Time Zones</span>
+                <span className="text-foreground">Compare Time Zones</span>
                 <br />
-                <span className="text-cyan-300">in Seconds</span>
+                <span className="text-cyan-700 dark:text-cyan-300">in Seconds</span>
               </h2>
-              <p className="text-sm sm:text-base leading-7 text-zinc-300 max-w-xl">
+              <p className="text-sm sm:text-base leading-7 text-foreground-secondary max-w-xl">
                 Find the next slot where everyone's working hours overlap. Set
                 working days and hours, apply a meeting template, and export
                 a CSV or calendar invite. Just need a quick conversion? Try
                 the{" "}
                 <Link
                   href="/tools/datetime/timezone-converter"
-                  className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200"
+                  className="text-cyan-700 dark:text-cyan-300 underline underline-offset-2 hover:text-cyan-800 dark:hover:text-cyan-200"
                 >
                   Timezone Converter
                 </Link>
                 .
               </p>
               <div className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 text-xs font-medium text-blue-300">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-300 dark:border-blue-400/30 bg-blue-100 dark:bg-blue-400/10 px-3 py-1.5 text-xs font-medium text-blue-700 dark:text-blue-300">
                   ⚡ Instant Comparison
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-medium text-emerald-300">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-400/10 px-3 py-1.5 text-xs font-medium text-emerald-700 dark:text-emerald-300">
                   🔄 DST-Aware
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-400/30 bg-violet-400/10 px-3 py-1.5 text-xs font-medium text-violet-300">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-violet-300 dark:border-violet-400/30 bg-violet-100 dark:bg-violet-400/10 px-3 py-1.5 text-xs font-medium text-violet-700 dark:text-violet-300">
                   📅 Export Ready
                 </span>
               </div>
@@ -1339,19 +1339,19 @@ export default function MeetingTimeFinderClient() {
             {/* Right: live "Right Now" mini world clock — built from the
                 same comparison data the tool already computes, so it shows
                 what this tool actually does rather than generic stats */}
-            <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
+            <div className="rounded-2xl border border-border bg-surface-sunken p-5">
               <div className="flex items-center justify-between mb-4">
-                <div className="text-sm font-semibold text-white">
+                <div className="text-sm font-semibold text-foreground">
                   🕐 Right Now
                 </div>
                 <span
                   className={`inline-flex items-center gap-1.5 text-[11px] font-medium ${
-                    resultsAreStale ? "text-amber-300" : "text-emerald-300"
+                    resultsAreStale ? "text-amber-700 dark:text-amber-300" : "text-emerald-700 dark:text-emerald-300"
                   }`}
                 >
                   <span
                     className={`h-1.5 w-1.5 rounded-full ${
-                      resultsAreStale ? "bg-amber-400" : "bg-emerald-400"
+                      resultsAreStale ? "bg-amber-100 dark:bg-amber-400" : "bg-emerald-100 dark:bg-emerald-400"
                     }`}
                   />
                   {resultsAreStale ? "Check input" : "Live"}
@@ -1359,11 +1359,11 @@ export default function MeetingTimeFinderClient() {
               </div>
 
               {/* Source zone — the anchor everything else is measured from */}
-              <div className="rounded-xl border border-cyan-400/20 bg-cyan-400/5 px-4 py-3">
-                <div className="text-[11px] uppercase tracking-wide text-cyan-300/70 truncate">
+              <div className="rounded-xl border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/5 px-4 py-3">
+                <div className="text-[11px] uppercase tracking-wide text-cyan-700 dark:text-cyan-300/70 truncate">
                   {zoneMap.get(state.sourceZone)?.city ?? state.sourceZone} · Source
                 </div>
-                <div className="mt-1 text-2xl font-bold tabular-nums text-white">
+                <div className="mt-1 text-2xl font-bold tabular-nums text-foreground">
                   {selectedInstant
                     ? formatInTimeZone(
                         selectedInstant,
@@ -1377,27 +1377,27 @@ export default function MeetingTimeFinderClient() {
               {/* A peek at the first few zones being compared */}
               <div className="mt-3 space-y-2">
                 {results.length === 0 ? (
-                  <div className="rounded-xl border border-dashed border-white/10 px-4 py-3 text-center text-xs text-zinc-500">
+                  <div className="rounded-xl border border-dashed border-border px-4 py-3 text-center text-xs text-foreground-faint">
                     Add a zone below to see it compared here.
                   </div>
                 ) : (
                   results.slice(0, 3).map((r) => (
                     <div
                       key={r.id}
-                      className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2.5"
+                      className="flex items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 py-2.5"
                     >
-                      <span className="truncate text-sm text-zinc-300">
+                      <span className="truncate text-sm text-foreground-secondary">
                         {zoneMap.get(r.zone)?.city ?? r.zone}
                       </span>
                       <div className="flex shrink-0 items-center gap-2">
-                        <span className="text-sm font-medium tabular-nums text-white">
+                        <span className="text-sm font-medium tabular-nums text-foreground">
                           {r.localTime}
                         </span>
                         <span
                           className={`rounded-full px-2 py-0.5 text-[10px] font-medium tabular-nums ${
                             r.diff === "Same time"
-                              ? "bg-emerald-500/15 text-emerald-300"
-                              : "bg-indigo-500/15 text-indigo-300"
+                              ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                              : "bg-indigo-100 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300"
                           }`}
                         >
                           {r.diff}
@@ -1409,7 +1409,7 @@ export default function MeetingTimeFinderClient() {
               </div>
 
               {state.targets.length > 3 ? (
-                <div className="mt-2 text-center text-[11px] text-zinc-500">
+                <div className="mt-2 text-center text-[11px] text-foreground-faint">
                   +{state.targets.length - 3} more in the full comparison below
                 </div>
               ) : null}
@@ -1421,26 +1421,26 @@ export default function MeetingTimeFinderClient() {
                 <div
                   className={`mt-4 rounded-xl border px-4 py-3 text-center ${
                     workingHoursSummary.inHours === workingHoursSummary.total
-                      ? "border-emerald-400/25 bg-emerald-400/5"
+                      ? "border-emerald-300 dark:border-emerald-400/25 bg-emerald-100 dark:bg-emerald-400/5"
                       : workingHoursSummary.inHours === 0
-                      ? "border-rose-400/20 bg-rose-400/5"
-                      : "border-amber-400/20 bg-amber-400/5"
+                      ? "border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/5"
+                      : "border-amber-300 dark:border-amber-400/20 bg-amber-100 dark:bg-amber-400/5"
                   }`}
                 >
                   <div
                     className={`text-sm font-semibold ${
                       workingHoursSummary.inHours === workingHoursSummary.total
-                        ? "text-emerald-300"
+                        ? "text-emerald-700 dark:text-emerald-300"
                         : workingHoursSummary.inHours === 0
-                        ? "text-rose-300"
-                        : "text-amber-300"
+                        ? "text-rose-700 dark:text-rose-300"
+                        : "text-amber-700 dark:text-amber-300"
                     }`}
                   >
                     {workingHoursSummary.inHours === workingHoursSummary.total
                       ? "✅ Great time to meet"
                       : `⚠️ ${workingHoursSummary.inHours} of ${workingHoursSummary.total} zones in working hours`}
                   </div>
-                  <div className="mt-1 text-[11px] text-white/40">
+                  <div className="mt-1 text-[11px] text-foreground/40">
                     {workingHoursSummary.inHours === workingHoursSummary.total
                       ? "Everyone's within working hours right now."
                       : 'Use "Find a meeting time" below for a slot that works for everyone.'}
@@ -1455,7 +1455,7 @@ export default function MeetingTimeFinderClient() {
           <TimezoneHelpNote />
         </section>
 
-        <section className="mb-6 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+        <section className="mb-6 rounded-3xl border border-border bg-popover p-4 sm:p-5">
           <StepHeader
             step={1}
             title="Set your time & add zones to compare"
@@ -1463,7 +1463,7 @@ export default function MeetingTimeFinderClient() {
           />
           <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_1fr_1fr] lg:items-end">
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Source timezone</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Source timezone</span>
               <TimezoneSelect
                 value={state.sourceZone}
                 onChange={(value) => {
@@ -1497,36 +1497,36 @@ export default function MeetingTimeFinderClient() {
                       return { ...prev, sourceZone: currentZone, targets: nextTargets };
                     })
                   }
-                  className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1.5 text-xs text-cyan-300 transition hover:bg-cyan-400/20"
+                  className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-cyan-300 dark:border-cyan-400/30 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-1.5 text-xs text-cyan-700 dark:text-cyan-300 transition hover:bg-cyan-100 dark:hover:bg-cyan-400/20"
                 >
-                  📍 Detected your timezone as <span className="font-medium text-white">{currentZone}</span> — use it
+                  📍 Detected your timezone as <span className="font-medium text-foreground">{currentZone}</span> — use it
                 </button>
               ) : null}
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Date in source zone</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Date in source zone</span>
               <input
                 type="date"
                 value={state.sourceDate}
                 onChange={(e) => setState((p) => ({ ...p, sourceDate: e.target.value }))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
               {validation.sourceDate ? (
-                <div className="mt-2 text-xs text-red-200">{validation.sourceDate}</div>
+                <div className="mt-2 text-xs text-status-critical">{validation.sourceDate}</div>
               ) : null}
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Time in source zone</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Time in source zone</span>
               <input
                 type="time"
                 value={state.sourceTime}
                 onChange={(e) => setState((p) => ({ ...p, sourceTime: e.target.value }))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
               {validation.sourceTime ? (
-                <div className="mt-2 text-xs text-red-200">{validation.sourceTime}</div>
+                <div className="mt-2 text-xs text-status-critical">{validation.sourceTime}</div>
               ) : null}
             </label>
           </div>
@@ -1535,16 +1535,16 @@ export default function MeetingTimeFinderClient() {
           <div
             className={`mt-4 rounded-2xl border px-4 py-3 ${
               resultsAreStale
-                ? "border-white/10 bg-black/30"
-                : "border-cyan-400/20 bg-cyan-400/5"
+                ? "border-border bg-surface-sunken"
+                : "border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/5"
             }`}
           >
-            <div className="text-[11px] uppercase tracking-wide text-zinc-400">
+            <div className="text-[11px] uppercase tracking-wide text-foreground-secondary">
               Your source time
             </div>
             <div
               className={`mt-1 text-lg sm:text-xl font-semibold tabular-nums ${
-                resultsAreStale ? "text-zinc-500" : "text-white"
+                resultsAreStale ? "text-foreground-faint" : "text-foreground"
               }`}
             >
               {sourceDisplay}
@@ -1552,7 +1552,7 @@ export default function MeetingTimeFinderClient() {
           </div>
 
           {validation.warning ? (
-            <div className="mt-3 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-xs text-amber-200">
+            <div className="mt-3 rounded-xl border border-amber-300 dark:border-amber-400/30 bg-amber-100 dark:bg-amber-500/10 px-4 py-3 text-xs text-amber-700 dark:text-amber-200">
               ⚠️ {validation.warning}
             </div>
           ) : null}
@@ -1561,7 +1561,7 @@ export default function MeetingTimeFinderClient() {
             {(copyNote || copyError) ? (
             <div
               className={`fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-md px-4 py-2 text-sm shadow-lg transition-all duration-300 ${
-                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-white" : "bg-gradient-to-r from-violet-500 to-violet-900 text-white"
+                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-foreground" : "bg-gradient-to-r from-violet-500 to-violet-900 text-foreground"
               }`}
             >
               {copyError || copyNote}
@@ -1572,7 +1572,7 @@ export default function MeetingTimeFinderClient() {
             <button
               type="button"
               onClick={jumpToNow}
-              className="rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-2 text-xs sm:text-sm text-cyan-300 transition hover:bg-cyan-400/20"
+              className="rounded-full border border-cyan-300 dark:border-cyan-400/30 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-2 text-xs sm:text-sm text-cyan-700 dark:text-cyan-300 transition hover:bg-cyan-100 dark:hover:bg-cyan-400/20"
             >
               Use current time in source zone
             </button>
@@ -1580,21 +1580,21 @@ export default function MeetingTimeFinderClient() {
               type="button"
               onClick={copyShareLink}
               disabled={resultsAreStale}
-              className="rounded-full border border-violet-400/30 bg-violet-400/10 px-3 py-2 text-xs sm:text-sm text-violet-300 transition hover:bg-violet-400/20 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-violet-300 dark:border-violet-400/30 bg-violet-100 dark:bg-violet-400/10 px-3 py-2 text-xs sm:text-sm text-violet-700 dark:text-violet-300 transition hover:bg-violet-100 dark:hover:bg-violet-400/20 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Copy share link
             </button>
             <button
               type="button"
               onClick={() => setState((p) => ({ ...p, use24Hour: !p.use24Hour }))}
-              className="rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs sm:text-sm text-zinc-200 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300"
+              className="rounded-full border border-border bg-surface-sunken px-3 py-2 text-xs sm:text-sm text-foreground transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300"
             >
               {state.use24Hour ? "24h HH:MM" : "12h AM/PM"}
             </button>
           </div>
           <div className="mt-4 grid gap-3">
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Quick-add popular zones</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Quick-add popular zones</span>
               <div className="flex flex-wrap gap-2">
                 {QUICK_ADD_ZONES.map(({ label, zone }) => (
                   <button
@@ -1602,7 +1602,7 @@ export default function MeetingTimeFinderClient() {
                     type="button"
                     onClick={() => addTarget(zone)}
                     disabled={state.targets.length >= MAX_TARGETS || zone === state.sourceZone || state.targets.some((t) => t.zone === zone)}
-                    className="rounded-full border border-blue-400/20 bg-blue-400/5 px-3 py-2 text-xs text-blue-200 transition hover:border-blue-400/40 hover:bg-blue-400/15 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-blue-400/20 disabled:hover:bg-blue-400/5"
+                    className="rounded-full border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/5 px-3 py-2 text-xs text-blue-700 dark:text-blue-200 transition hover:border-blue-400 dark:hover:border-blue-400/40 hover:bg-blue-100 dark:hover:bg-blue-400/15 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-blue-400 dark:hover:border-blue-400/20 disabled:hover:bg-blue-100 dark:hover:bg-blue-400/5"
                   >
                     + {label}
                   </button>
@@ -1634,16 +1634,16 @@ export default function MeetingTimeFinderClient() {
                   : "Search by city, country, or abbreviation (EST, IST, CET)..."
               }
               disabled={state.targets.length >= MAX_TARGETS}
-              className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-cyan-400/40 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-cyan-300 dark:border-cyan-400/40 disabled:cursor-not-allowed disabled:opacity-60"
             />
             {query && state.targets.length < MAX_TARGETS ? (
               <div
                 id={`${searchId}-listbox`}
                 role="listbox"
-                className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 shadow-xl"
+                className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-border bg-popover shadow-xl"
               >
                 {suggestions.length === 0 ? (
-                  <div className="px-4 py-3 text-sm text-zinc-400">No matches found.</div>
+                  <div className="px-4 py-3 text-sm text-foreground-secondary">No matches found.</div>
                 ) : (
                   suggestions.map((zone, index) => (
                     <button
@@ -1655,19 +1655,19 @@ export default function MeetingTimeFinderClient() {
                       onMouseEnter={() => setActiveIndex(index)}
                       onPointerDown={(e) => e.preventDefault()}
                       onClick={() => addTarget(zone.value)}
-                      className={`flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm text-white transition ${
-                        index === activeIndex ? "bg-cyan-400/10" : "hover:bg-white/5"
+                      className={`flex w-full items-center justify-between gap-4 px-4 py-3 text-left text-sm text-foreground transition ${
+                        index === activeIndex ? "bg-cyan-100 dark:bg-cyan-400/10" : "hover:bg-card"
                       }`}
                     >
                       <div className="flex min-w-0 flex-col">
                         <span className="truncate font-medium">
                           {highlightMatch(`${zone.city}, ${zone.country}`, query)}
                         </span>
-                        <span className="truncate text-xs text-zinc-400">{zone.value}</span>
+                        <span className="truncate text-xs text-foreground-secondary">{zone.value}</span>
                       </div>
                       <div className="text-right">
                         <div className="text-xs">{zone.abbreviation}</div>
-                        <div className="text-xs text-zinc-400">{zone.offset}</div>
+                        <div className="text-xs text-foreground-secondary">{zone.offset}</div>
                       </div>
                     </button>
                   ))
@@ -1677,7 +1677,7 @@ export default function MeetingTimeFinderClient() {
           </div>
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+        <section className="mb-8 rounded-3xl border border-border bg-popover p-4 sm:p-5">
           <button
             type="button"
             onClick={() => setFinderOpen((o) => !o)}
@@ -1691,7 +1691,7 @@ export default function MeetingTimeFinderClient() {
               optional
               badge={meetingSuggestions && meetingSuggestions.length > 0 ? "Slots found" : undefined}
             />
-            <span className="mt-1 shrink-0 text-white/50">
+            <span className="mt-1 shrink-0 text-foreground/50">
               {finderOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
             </span>
           </button>
@@ -1700,7 +1700,7 @@ export default function MeetingTimeFinderClient() {
           <>
           <div className="mt-4 grid gap-4 lg:grid-cols-[auto_1fr_1fr_auto] lg:items-end">
             <div>
-              <span className="mb-2 block text-sm text-zinc-300">Working days</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Working days</span>
               <div className="flex flex-wrap gap-1.5">
                 {WEEKDAY_OPTIONS.map(({ iso, label }) => {
                   const active = workingHours.days.includes(iso);
@@ -1712,8 +1712,8 @@ export default function MeetingTimeFinderClient() {
                       aria-pressed={active}
                       className={`rounded-full border px-3 py-2 text-xs font-medium transition ${
                         active
-                          ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
-                          : "border-white/10 bg-black/30 text-zinc-400 hover:border-cyan-400/20 hover:bg-cyan-400/10 hover:text-cyan-200"
+                          ? "border-emerald-300 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-200"
+                          : "border-border bg-surface-sunken text-foreground-secondary hover:border-cyan-400 dark:hover:border-cyan-400/20 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-200"
                       }`}
                     >
                       {label}
@@ -1724,34 +1724,34 @@ export default function MeetingTimeFinderClient() {
             </div>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Work starts (local)</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Work starts (local)</span>
               <input
                 type="time"
                 value={workingHours.startTime}
                 onChange={(e) => setWorkingHours((p) => ({ ...p, startTime: e.target.value }))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Work ends (local)</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Work ends (local)</span>
               <input
                 type="time"
                 value={workingHours.endTime}
                 onChange={(e) => setWorkingHours((p) => ({ ...p, endTime: e.target.value }))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Precision</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Precision</span>
               <select
                 value={workingHours.slotMinutes}
                 onChange={(e) => setWorkingHours((p) => ({ ...p, slotMinutes: Number(e.target.value) }))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               >
                 {SLOT_PRECISION_OPTIONS.map((m) => (
-                  <option key={m} value={m} className="bg-slate-900">
+                  <option key={m} value={m} className="bg-popover">
                     {m} min
                   </option>
                 ))}
@@ -1763,17 +1763,17 @@ export default function MeetingTimeFinderClient() {
             <button
               type="button"
               onClick={findSlots}
-              className="rounded-full border border-cyan-400/40 bg-cyan-500/20 px-5 py-2.5 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-500/30"
+              className="rounded-full border border-cyan-300 dark:border-cyan-400/40 bg-cyan-100 dark:bg-cyan-500/20 px-5 py-2.5 text-sm font-semibold text-cyan-700 dark:text-cyan-100 transition hover:bg-cyan-100 dark:hover:bg-cyan-500/30"
             >
               Find next available slots
             </button>
-            <span className="text-xs text-zinc-400">
+            <span className="text-xs text-foreground-secondary">
               Checking {state.targets.length + 1} {(state.targets.length + 1) === 1 ? "zone" : "zones"} · next 10 days
             </span>
           </div>
 
           {suggestionsNote ? (
-            <p className="mt-3 text-sm text-amber-200">{suggestionsNote}</p>
+            <p className="mt-3 text-sm text-amber-700 dark:text-amber-200">{suggestionsNote}</p>
           ) : null}
 
           {meetingSuggestions && meetingSuggestions.length > 0 ? (
@@ -1783,18 +1783,18 @@ export default function MeetingTimeFinderClient() {
                   key={instant.toISOString()}
                   type="button"
                   onClick={() => applySuggestion(instant)}
-                  className="rounded-2xl border border-white/10 bg-slate-950/40 px-3 py-3 text-left transition hover:border-emerald-400/30 hover:bg-emerald-500/10"
+                  className="rounded-2xl border border-border bg-surface-sunken px-3 py-3 text-left transition hover:border-emerald-400 dark:hover:border-emerald-400/30 hover:bg-emerald-100 dark:hover:bg-emerald-500/10"
                 >
-                  <div className="text-xs uppercase tracking-wide text-zinc-400">
+                  <div className="text-xs uppercase tracking-wide text-foreground-secondary">
                     {formatInTimeZone(instant, state.sourceZone, "EEE, MMM d")}
                   </div>
-                  <div className="mt-1 text-sm font-semibold text-white">
+                  <div className="mt-1 text-sm font-semibold text-foreground">
                     {formatInTimeZone(
                       instant,
                       state.sourceZone,
                       state.use24Hour ? "HH:mm" : "hh:mm a"
                     )}{" "}
-                    <span className="font-normal text-zinc-400">({abbreviation(instant, state.sourceZone)})</span>
+                    <span className="font-normal text-foreground-secondary">({abbreviation(instant, state.sourceZone)})</span>
                   </div>
                 </button>
               ))}
@@ -1804,19 +1804,19 @@ export default function MeetingTimeFinderClient() {
           )}
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+        <section className="mb-8 rounded-3xl border border-border bg-popover p-4 sm:p-5">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-lg font-semibold text-white">
+                <h2 className="text-lg font-semibold text-foreground">
                   Comparing {state.targets.length + 1}{" "}
                   {(state.targets.length + 1) === 1 ? "zone" : "zones"}
                 </h2>
-                <span className="rounded-full border border-cyan-400/30 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-cyan-300">
+                <span className="rounded-full border border-cyan-300 dark:border-cyan-400/30 bg-cyan-100 dark:bg-cyan-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-cyan-700 dark:text-cyan-300">
                   Live
                 </span>
               </div>
-              <p className="mt-1 text-xs text-zinc-400">
+              <p className="mt-1 text-xs text-foreground-secondary">
                 Updates instantly as you change the time or zones above.{" "}
                 <span className="hidden md:inline">
                   Drag <GripVertical className="inline h-3 w-3 align-text-bottom" /> to reorder rows, or use the arrows.
@@ -1836,7 +1836,7 @@ export default function MeetingTimeFinderClient() {
                 if (first) addTarget(first.value);
                 }}
                 disabled={state.targets.length >= MAX_TARGETS}
-                className="rounded-full border border-blue-400/30 bg-blue-400/10 px-4 py-2 text-sm text-blue-200 transition hover:bg-blue-400/20 disabled:opacity-40"
+                className="rounded-full border border-blue-300 dark:border-blue-400/30 bg-blue-100 dark:bg-blue-400/10 px-4 py-2 text-sm text-blue-700 dark:text-blue-200 transition hover:bg-blue-100 dark:hover:bg-blue-400/20 disabled:opacity-40"
             >
                 + Add zone
             </button>
@@ -1846,7 +1846,7 @@ export default function MeetingTimeFinderClient() {
             <table className="min-w-[980px] w-full border-collapse">
               <caption className="sr-only">Timezone comparison table</caption>
               <thead>
-                <tr className="border-b border-white/10 text-left text-xs uppercase tracking-wide text-zinc-400">
+                <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-foreground-secondary">
                   <th scope="col" className="py-3 pr-3">Zone</th>
                   <th scope="col" className="py-3 pr-3">Converted time</th>
                   <th scope="col" className="py-3 pr-3">Local time</th>
@@ -1857,25 +1857,25 @@ export default function MeetingTimeFinderClient() {
                 </tr>
                 <tr className="border-b ">
                 <th className="py-4 pr-3 text-left">
-                    <div className="font-semibold text-white">
+                    <div className="font-semibold text-foreground">
                     {zoneMap.get(state.sourceZone)?.label ?? state.sourceZone}
                     </div>
-                    <div className="mt-1 text-xs text-zinc-400">
+                    <div className="mt-1 text-xs text-foreground-secondary">
                     {state.sourceZone}
                     </div>
-                    <span className="mt-2 inline-flex rounded-full bg-emerald-500/20 px-2 py-1 text-xs text-emerald-300">
+                    <span className="mt-2 inline-flex rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-2 py-1 text-xs text-emerald-700 dark:text-emerald-300">
                     Source
                     </span>
                 </th>
 
                 <td className="py-4 pr-3">
-                    <div className="text-base font-semibold text-white">
+                    <div className="text-base font-semibold text-foreground">
                     {sourceDisplay}
                     </div>
                 </td>
 
                 <td className="py-4 pr-3">
-                    <div className="text-sm text-zinc-300">
+                    <div className="text-sm text-foreground-secondary">
                     {selectedInstant
                         ? formatInTimeZone(
                             selectedInstant,
@@ -1888,7 +1888,7 @@ export default function MeetingTimeFinderClient() {
 
                 <td className="py-4 pr-3">
                     <div className="flex max-w-[280px] flex-col gap-1.5">
-                      <span className="text-sm text-zinc-200">
+                      <span className="text-sm text-foreground">
                         {selectedInstant && (
                           <>
                             {weekdayName(selectedInstant!, state.sourceZone)} · {localDateLabel(selectedInstant!, state.sourceZone)} · {abbreviation(selectedInstant!, state.sourceZone)}
@@ -1899,8 +1899,8 @@ export default function MeetingTimeFinderClient() {
                         <span
                           className={`mt-0.5 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium ${
                             isWithinWorkingHours(selectedInstant, state.sourceZone, workingHours)
-                              ? "bg-emerald-500/15 text-emerald-300"
-                              : "bg-white/5 text-zinc-500"
+                              ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                              : "bg-card text-foreground-faint"
                           }`}
                         >
                           {isWithinWorkingHours(selectedInstant, state.sourceZone, workingHours)
@@ -1912,7 +1912,7 @@ export default function MeetingTimeFinderClient() {
                 </td>
 
                 <td className="py-4 pr-3">
-                    <div className="text-sm text-zinc-300">
+                    <div className="text-sm text-foreground-secondary">
                     <div>
                         {selectedInstant
                         ? abbreviation(selectedInstant, state.sourceZone)
@@ -1927,7 +1927,7 @@ export default function MeetingTimeFinderClient() {
                 </td>
 
                 <td className="py-4 pr-3">
-                    <span className="inline-flex rounded-full bg-white/10 px-2 py-1 text-xs text-zinc-300">Source</span>
+                    <span className="inline-flex rounded-full bg-surface-raised px-2 py-1 text-xs text-foreground-secondary">Source</span>
                 </td>
 
                 <td className="py-4 pr-3">
@@ -1975,7 +1975,7 @@ export default function MeetingTimeFinderClient() {
           />
         </section>
 
-        <section className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+        <section className="mb-8 rounded-3xl border border-border bg-popover p-4 sm:p-5">
           <button
             type="button"
             onClick={() => setExportOpen((o) => !o)}
@@ -1989,7 +1989,7 @@ export default function MeetingTimeFinderClient() {
               optional
               badge={meetingTitle.trim() ? "Details set" : undefined}
             />
-            <span className="mt-1 shrink-0 text-white/50">
+            <span className="mt-1 shrink-0 text-foreground/50">
               {exportOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
             </span>
           </button>
@@ -1997,7 +1997,7 @@ export default function MeetingTimeFinderClient() {
           {exportOpen && (
           <>
           <div className="mt-4">
-            <span className="mb-2 block text-sm text-zinc-300">Meeting templates</span>
+            <span className="mb-2 block text-sm text-foreground-secondary">Meeting templates</span>
             <div className="flex flex-wrap gap-2">
               {MEETING_TEMPLATES.map((template) => (
                 <button
@@ -2007,8 +2007,8 @@ export default function MeetingTimeFinderClient() {
                   aria-pressed={activeTemplateId === template.id}
                   className={`rounded-full border px-3 py-2 text-xs sm:text-sm font-medium transition ${
                     activeTemplateId === template.id
-                      ? "border-emerald-400/30 bg-emerald-500/20 text-emerald-200"
-                      : "border-white/10 bg-black/30 text-zinc-200 hover:border-violet-400/20 hover:bg-violet-400/10"
+                      ? "border-emerald-300 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-200"
+                      : "border-border bg-surface-sunken text-foreground hover:border-violet-400 dark:hover:border-violet-400/20 hover:bg-violet-100 dark:hover:bg-violet-400/10"
                   }`}
                 >
                   {template.label} · {template.durationMinutes}m
@@ -2019,36 +2019,36 @@ export default function MeetingTimeFinderClient() {
 
           <div className="mt-4 grid gap-3 lg:grid-cols-[2fr_1fr]">
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Meeting title</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Meeting title</span>
               <input
                 type="text"
                 value={meetingTitle}
                 onChange={(e) => setMeetingTitle(e.target.value)}
                 placeholder="e.g. Q3 Board Review"
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
             </label>
             <label className="block">
-              <span className="mb-2 block text-sm text-zinc-300">Duration (minutes)</span>
+              <span className="mb-2 block text-sm text-foreground-secondary">Duration (minutes)</span>
               <input
                 type="number"
                 min={5}
                 step={5}
                 value={meetingDurationMinutes}
                 onChange={(e) => setMeetingDurationMinutes(Number(e.target.value))}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+                className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
               />
             </label>
           </div>
 
           <label className="mt-3 block">
-            <span className="mb-2 block text-sm text-zinc-300">Description (optional)</span>
+            <span className="mb-2 block text-sm text-foreground-secondary">Description (optional)</span>
             <textarea
               value={meetingDescription}
               onChange={(e) => setMeetingDescription(e.target.value)}
               rows={3}
               placeholder="Agenda, dial-in info, links..."
-              className="w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3 text-white outline-none focus-visible:border-white/30"
+              className="w-full rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus-visible:border-border-strong"
             />
           </label>
 
@@ -2057,7 +2057,7 @@ export default function MeetingTimeFinderClient() {
               type="button"
               onClick={exportCsv}
               disabled={resultsAreStale}
-              className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-2.5 text-sm font-medium text-emerald-200 transition hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-emerald-300 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-500/10 px-4 py-2.5 text-sm font-medium text-emerald-700 dark:text-emerald-200 transition hover:bg-emerald-100 dark:hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-40"
             >
               ⬇ Export CSV
             </button>
@@ -2065,12 +2065,12 @@ export default function MeetingTimeFinderClient() {
               type="button"
               onClick={exportIcs}
               disabled={resultsAreStale}
-              className="rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-2.5 text-sm font-medium text-violet-200 transition hover:bg-violet-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-violet-300 dark:border-violet-400/30 bg-violet-100 dark:bg-violet-500/10 px-4 py-2.5 text-sm font-medium text-violet-700 dark:text-violet-200 transition hover:bg-violet-100 dark:hover:bg-violet-500/20 disabled:cursor-not-allowed disabled:opacity-40"
             >
               📅 Download .ics calendar invite
             </button>
           </div>
-          <p className="mt-2 text-xs text-zinc-500">
+          <p className="mt-2 text-xs text-foreground-faint">
             The .ics event is anchored to the exact selected instant (stored in UTC), so it opens at the correct local time in any calendar app regardless of DST.
           </p>
           </>
