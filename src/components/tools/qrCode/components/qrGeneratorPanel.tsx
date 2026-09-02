@@ -43,13 +43,13 @@ type Props = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none placeholder:text-white/40 focus:border-green-400";
+  "w-full rounded-xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none placeholder:text-muted-foreground focus:border-green-400";
 
 const labelClass =
-  "mb-2 block text-sm font-medium text-white/80";
+  "mb-2 block text-sm font-medium text-foreground-secondary";
 
 const selectClass =
-  "w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 text-white outline-none focus:border-green-400";
+  "w-full rounded-xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none focus:border-green-400";
 
 function Field({
   label,
@@ -118,8 +118,8 @@ export function QRGeneratorPanel({
       {/* =========================================================
           QR TYPE
       ========================================================= */}
-      <section className="rounded-2xl border border-white/10 bg-black/10 p-4">
-        <h2 className="mb-4 text-lg font-semibold text-white">
+      <section className="rounded-2xl border border-border bg-surface-sunken p-4">
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
           QR Code Type
         </h2>
 
@@ -146,8 +146,8 @@ export function QRGeneratorPanel({
       {/* =========================================================
           TYPE-SPECIFIC INFORMATION
       ========================================================= */}
-      <section className="rounded-2xl border border-white/10 bg-black/10 p-4">
-        <h2 className="mb-4 text-lg font-semibold text-white">
+      <section className="rounded-2xl border border-border bg-surface-sunken p-4">
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
           Information
         </h2>
 
@@ -476,8 +476,8 @@ export function QRGeneratorPanel({
       {/* =========================================================
           BASIC QR OPTIONS
       ========================================================= */}
-      <section className="rounded-2xl border border-white/10 bg-black/10 p-4">
-        <h2 className="mb-4 text-lg font-semibold text-white">
+      <section className="rounded-2xl border border-border bg-surface-sunken p-4">
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
           QR Options
         </h2>
 
@@ -492,7 +492,7 @@ export function QRGeneratorPanel({
                 onChange={(e) =>
                   setFg(e.target.value)
                 }
-                className="h-12 w-14 cursor-pointer rounded-lg border border-white/10 bg-transparent"
+                className="h-12 w-14 cursor-pointer rounded-lg border border-border bg-transparent"
               />
 
               <input
@@ -515,7 +515,7 @@ export function QRGeneratorPanel({
                 onChange={(e) =>
                   setBg(e.target.value)
                 }
-                className="h-12 w-14 cursor-pointer rounded-lg border border-white/10 bg-transparent"
+                className="h-12 w-14 cursor-pointer rounded-lg border border-border bg-transparent"
               />
 
               <input
@@ -575,8 +575,8 @@ export function QRGeneratorPanel({
       {/* =========================================================
           LOGO
       ========================================================= */}
-      <section className="rounded-2xl border border-white/10 bg-black/10 p-4">
-        <h2 className="mb-4 text-lg font-semibold text-white">
+      <section className="rounded-2xl border border-border bg-surface-sunken p-4">
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
           QR Logo
         </h2>
 
@@ -591,11 +591,11 @@ export function QRGeneratorPanel({
             onChange={(e) =>
               onLogo(e.target.files?.[0] ?? null)
             }
-            className="block w-full rounded-xl border border-white/10 bg-black/30 p-3 text-sm text-white file:mr-4 file:rounded-lg file:border-0 file:bg-green-500 file:px-4 file:py-2 file:font-medium file:text-slate-900"
+            className="block w-full rounded-xl border border-border bg-surface-sunken p-3 text-sm text-foreground file:mr-4 file:rounded-lg file:border-0 file:bg-green-500 file:px-4 file:py-2 file:font-medium file:text-slate-900"
           />
         </label>
 
-        <p className="mt-2 text-xs text-white/50">
+        <p className="mt-2 text-xs text-muted-foreground">
           PNG, JPG, WEBP or SVG. Maximum 2MB.
         </p>
       </section>
@@ -603,13 +603,13 @@ export function QRGeneratorPanel({
       {/* =========================================================
           PRESENTATION
       ========================================================= */}
-      <section className="rounded-2xl border border-white/10 bg-black/10 p-4">
+      <section className="rounded-2xl border border-border bg-surface-sunken p-4">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className="text-lg font-semibold text-foreground">
               Presentation
             </h2>
-            <p className="text-xs text-white/50">
+            <p className="text-xs text-muted-foreground">
               Add a title, description and image around the QR code.
             </p>
           </div>
@@ -625,7 +625,7 @@ export function QRGeneratorPanel({
             className={`rounded-full px-4 py-2 text-sm font-medium ${
               presentation.enabled
                 ? "bg-green-500 text-slate-900"
-                : "bg-white/10 text-white"
+                : "bg-surface-raised text-foreground"
             }`}
           >
             {presentation.enabled
@@ -767,7 +767,7 @@ export function QRGeneratorPanel({
                     e.target.files?.[0] ?? null
                   )
                 }
-                className="block w-full rounded-xl border border-white/10 bg-black/30 p-3 text-sm text-white"
+                className="block w-full rounded-xl border border-border bg-surface-sunken p-3 text-sm text-foreground"
               />
             </Field>
           </div>
@@ -782,7 +782,7 @@ export function QRGeneratorPanel({
           type="button"
           onClick={onOpenPreview}
           disabled={busy || hasErrors}
-          className="rounded-xl bg-white/10 px-4 py-3 font-medium text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-xl bg-surface-raised px-4 py-3 font-medium text-foreground transition hover:bg-foreground/20 disabled:cursor-not-allowed disabled:opacity-40"
         >
           Preview
         </button>
@@ -800,7 +800,7 @@ export function QRGeneratorPanel({
           type="button"
           onClick={onSvg}
           disabled={busy || hasErrors}
-          className="rounded-xl bg-white/10 px-4 py-3 font-medium text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-xl bg-surface-raised px-4 py-3 font-medium text-foreground transition hover:bg-foreground/20 disabled:cursor-not-allowed disabled:opacity-40"
         >
           SVG
         </button>
@@ -809,7 +809,7 @@ export function QRGeneratorPanel({
           type="button"
           onClick={onPdf}
           disabled={busy || hasErrors}
-          className="rounded-xl bg-white/10 px-4 py-3 font-medium text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-xl bg-surface-raised px-4 py-3 font-medium text-foreground transition hover:bg-foreground/20 disabled:cursor-not-allowed disabled:opacity-40"
         >
           PDF
         </button>
