@@ -20,9 +20,9 @@ function QRPreviewCardImpl({
   presentation,
 }: Props) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 max-h-auto">
+    <div className="rounded-3xl border border-border bg-card p-4 shadow-sm sm:p-6 max-h-auto">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-900">
+        <h2 className="text-lg font-semibold text-foreground">
           Live Preview
         </h2>
 
@@ -35,7 +35,7 @@ function QRPreviewCardImpl({
         </button>
       </div>
 
-      <div className="relative min-h-[420px] overflow-auto rounded-2xl bg-slate-100 p-4 flex min-h-[380px] items-center justify-center">
+      <div className="relative min-h-[420px] overflow-auto rounded-2xl bg-surface-sunken p-4 flex min-h-[380px] items-center justify-center">
           <div
             className="w-full max-w-[380px] overflow-hidden rounded-2xl shadow-sm"
             style={{
@@ -97,7 +97,7 @@ function QRPreviewCardImpl({
         </div>
 
       {loading && (
-        <p className="mt-3 text-center text-xs text-slate-500">
+        <p className="mt-3 text-center text-xs text-muted-foreground">
           Loading...
         </p>
       )}
