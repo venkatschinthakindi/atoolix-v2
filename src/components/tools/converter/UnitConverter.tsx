@@ -13,11 +13,8 @@ type UnitOption = {
   measure?: string;
 };
 
-type Theme = "light" | "dark";
-
 type UnitConverterProps = {
   initialExpression?: string;
-  theme?: Theme;
 };
 
 const UnitCombobox = dynamic(
@@ -30,12 +27,10 @@ const UnitCombobox = dynamic(
 
 export default function UnitConverterTool({
   initialExpression = "",
-  theme = "dark",
 }: UnitConverterProps) {
   return (
     <UnitConverter
       initialExpression={initialExpression}
-      theme={theme}
     />
   );
 }
@@ -49,7 +44,7 @@ function ShellCard({
 }) {
   return (
     <section
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-300 hover:border-blue-400/20 hover:bg-white/[0.06] ${className}`}
+      className={`relative overflow-hidden rounded-3xl border border-border bg-card backdrop-blur-md transition-all duration-300 hover:border-blue-400/20 hover:bg-surface-raised ${className}`}
     >
       {children}
     </section>
@@ -58,7 +53,6 @@ function ShellCard({
 
 function UnitConverter({
   initialExpression = "",
-  theme = "dark",
 }: UnitConverterProps) {
   const [values, setValues] = useState(initialExpression);
   const [from, setFrom] = useState<string | null>("l");
@@ -311,11 +305,9 @@ function UnitConverter({
 
   return (
     <div
-      className={`mx-auto w-full max-w-6xl px-3 py-3 ${
-        theme === "light" ? "text-slate-950" : "text-white"
-      } sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6`}
+      className="mx-auto w-full max-w-6xl px-3 py-3 text-foreground sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6"
     >
-      <section className="mb-6 rounded-3xl border border-white/10 bg-white/5 px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
+      <section className="mb-6 rounded-3xl border border-border bg-card px-5 py-6 backdrop-blur-md sm:px-6 lg:px-8">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
@@ -327,7 +319,7 @@ function UnitConverter({
               Convert Units Fast
             </h2>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-foreground-secondary sm:text-base">
               Transform length, weight, volume, temperature, and more with
               effortless conversions — all powered by a sleek, user-friendly
               interface.
@@ -345,8 +337,8 @@ function UnitConverter({
           />
 
           <div className="space-y-4 p-3 sm:p-4 md:p-5">
-            <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">
+            <div className="rounded-2xl border border-border bg-surface-sunken px-4 py-4">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                 Result
               </p>
 
@@ -355,13 +347,13 @@ function UnitConverter({
                   results.map((result, index) => (
                     <div
                       key={index}
-                      className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-white"
+                      className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-medium text-foreground"
                     >
                       {result}
                     </div>
                   ))
                 ) : (
-                  <div className="text-2xl font-semibold text-white/70">
+                  <div className="text-2xl font-semibold text-foreground-secondary">
                     0
                   </div>
                 )}
@@ -374,7 +366,7 @@ function UnitConverter({
                   value={values}
                   onChange={(e) => setValues(e.target.value)}
                   placeholder="Enter values, comma-separated"
-                  className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-blue-400/35 focus:bg-black/15"
+                  className="h-12 w-full rounded-2xl border border-border bg-surface-sunken px-4 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-blue-400/35 focus:bg-surface-sunken"
                 />
 
                 <UnitCombobox
@@ -385,7 +377,7 @@ function UnitConverter({
                   placeholder="From unit"
                 />
 
-                <div className="flex items-center justify-center text-white/50">
+                <div className="flex items-center justify-center text-muted-foreground">
                   <ArrowRightLeft className="h-5 w-5" />
                 </div>
 
@@ -403,7 +395,7 @@ function UnitConverter({
                   type="button"
                   onClick={() => void convertBatch()}
                   disabled={isConverting}
-                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {count > 1 ? "Convert Batch" : "Convert"}
                 </button>
@@ -411,7 +403,7 @@ function UnitConverter({
                 <button
                   type="button"
                   onClick={clearAll}
-                  className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10"
+                  className="inline-flex items-center justify-center rounded-2xl border border-border bg-card px-5 py-4 text-sm font-semibold text-foreground transition hover:border-border-strong hover:bg-surface-raised"
                 >
                   Clear
                 </button>
@@ -433,27 +425,27 @@ function UnitConverter({
                 value={newUnitName}
                 onChange={(e) => setNewUnitName(e.target.value)}
                 placeholder="Unit name, e.g. coffee"
-                className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-blue-400/35 focus:bg-black/15"
+                className="h-12 w-full rounded-2xl border border-border bg-surface-sunken px-4 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-blue-400/35 focus:bg-surface-sunken"
               />
 
               <input
                 value={newUnitDef}
                 onChange={(e) => setNewUnitDef(e.target.value)}
                 placeholder="Definition, e.g. 250 ml"
-                className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-blue-400/35 focus:bg-black/15"
+                className="h-12 w-full rounded-2xl border border-border bg-surface-sunken px-4 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-blue-400/35 focus:bg-surface-sunken"
               />
 
               <button
                 type="button"
                 onClick={addCustomUnit}
-                className="inline-flex items-center justify-center rounded-2xl bg-emerald-700 px-5 py-4 text-sm font-semibold text-white transition hover:bg-emerald-600"
+                className="inline-flex items-center justify-center rounded-2xl bg-emerald-700 px-5 py-4 text-sm font-semibold text-foreground transition hover:bg-emerald-600"
               >
                 Add unit
               </button>
             </div>
 
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.16em] text-white/45">
+              <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
                 Saved units
               </p>
 
@@ -462,13 +454,13 @@ function UnitConverter({
                   {Object.entries(customUnits).map(([name, definition]) => (
                     <div
                       key={name}
-                      className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
+                      className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-card px-4 py-3"
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-white">
+                        <p className="truncate text-sm font-semibold text-foreground">
                           {name}
                         </p>
-                        <p className="truncate text-xs text-white/50">
+                        <p className="truncate text-xs text-muted-foreground">
                           {definition}
                         </p>
                       </div>
@@ -476,7 +468,7 @@ function UnitConverter({
                       <button
                         type="button"
                         onClick={() => removeCustomUnit(name)}
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/10 text-red-300 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-200"
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface-sunken text-red-300 transition hover:border-red-400/30 hover:bg-red-400/10 hover:text-red-200"
                         aria-label={`Remove ${name}`}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -485,7 +477,7 @@ function UnitConverter({
                   ))}
                 </div>
               ) : (
-                <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 text-sm text-white/45">
+                <div className="rounded-2xl border border-border bg-surface-sunken px-4 py-4 text-sm text-muted-foreground">
                   No custom units added yet.
                 </div>
               )}
