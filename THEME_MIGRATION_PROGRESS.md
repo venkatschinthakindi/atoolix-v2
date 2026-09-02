@@ -925,3 +925,27 @@ byte-for-byte identical before/after; `npx next build` compiles clean
 up to the same pre-existing sandbox font block.
 
 Commit: `f8f5a8d`.
+
+## Session 30 — qrCode tool family complete
+
+All 7 files under `src/components/tools/qrCode/` now use central
+tokens: `qrDownloadButtons.tsx`, `scanResultModal.tsx` (also fixed
+inconsistent legacy light/dark-mixed styling and a fixed panel that
+never resolved to one coherent design), `qrPreviewCard.tsx` (only the
+app-chrome parts - the preview-mockup area correctly stays representing
+the actual exported QR artifact, same convention as pdf-export),
+`qrScannerPanel.tsx`, `qrCustomizationPanel.tsx` (390 lines, was
+entirely permanently light-slate-styled regardless of app theme),
+`qrToolsClient.tsx` (caught and reverted a bulk-regex mistake that
+nearly broke the active-tab's fixed-contrast text against its green
+background - always diff-check bulk regex output against Category B
+accent pairings before committing), `qrGeneratorPanel.tsx` (825 lines,
+the largest file in the family).
+
+Every `bg-green-500`/`text-slate-900` accent pairing across all 7 files
+deliberately left untouched throughout - QR's brand green needs fixed
+dark text for contrast in both themes.
+
+Verified per-file with `tsc --noEmit`, `eslint`, and a full `next build`
+before each push. Next: `src/components/tools/privacysecurity/` (4
+files, fully untouched).
