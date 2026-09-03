@@ -8,7 +8,7 @@ const STATUS_STYLE: Record<ModuleStatus, { icon: typeof CheckCircle2; label: str
   pass: { icon: CheckCircle2, label: 'Passed', classes: 'text-severity-success' },
   review: { icon: AlertTriangle, label: 'Needs review', classes: 'text-severity-warning' },
   fail: { icon: XCircle, label: 'Failed', classes: 'text-severity-critical' },
-  'not-applicable': { icon: MinusCircle, label: 'Not applicable to this file type', classes: 'text-white/25' },
+  'not-applicable': { icon: MinusCircle, label: 'Not applicable to this file type', classes: 'text-muted-foreground' },
 };
 
 interface ChecksSummaryProps {
@@ -41,17 +41,17 @@ export function ChecksSummary({ report, shareStatus }: ChecksSummaryProps) {
   const shareReadinessStatus: ModuleStatus = shareStatus === 'unsafe' ? 'fail' : shareStatus === 'review' ? 'review' : 'pass';
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6">
-      <h3 className="text-sm font-semibold text-white">Your File Report</h3>
-      <p className="mt-1 text-xs text-white/50">Review this report to understand your file's privacy, security, and quality.</p>
+    <section className="rounded-2xl border border-border bg-foreground/[0.02] p-4 sm:p-6">
+      <h3 className="text-sm font-semibold text-foreground">Your File Report</h3>
+      <p className="mt-1 text-xs text-muted-foreground">Review this report to understand your file's privacy, security, and quality.</p>
 
-      <ul className="mt-4 divide-y divide-white/5">
+      <ul className="mt-4 divide-y divide-border">
         {rows.map((row) => {
           const style = STATUS_STYLE[row.status];
           const Icon = style.icon;
           return (
             <li key={row.id} className="flex items-center justify-between gap-3 py-2.5">
-              <span className={`text-sm ${row.applicable ? 'text-white/85' : 'text-white/35'}`}>{row.label}</span>
+              <span className={`text-sm ${row.applicable ? 'text-foreground-secondary' : 'text-muted-foreground'}`}>{row.label}</span>
               <span className={`flex items-center gap-1.5 text-xs font-medium ${style.classes}`}>
                 <Icon className="h-3.5 w-3.5" aria-hidden="true" />
                 {row.applicable ? (row.count > 0 ? `${style.label} (${row.count})` : style.label) : style.label}
@@ -61,7 +61,7 @@ export function ChecksSummary({ report, shareStatus }: ChecksSummaryProps) {
         })}
 
         <li className="flex items-center justify-between gap-3 py-2.5">
-          <span className="text-md text-white/85">Share Readiness</span>
+          <span className="text-md text-foreground-secondary">Share Readiness</span>
           <span className={`flex items-center gap-1.5 text-md font-medium ${STATUS_STYLE[shareReadinessStatus].classes}`}>
             {(() => {
               const Icon = STATUS_STYLE[shareReadinessStatus].icon;
