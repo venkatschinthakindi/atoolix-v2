@@ -146,17 +146,17 @@ export function FileCheckupApp() {
   const validFileTypes = ".pdf, .docx, .xlsx, .pptx, .jpg, .jpeg, .png, .webp, .gif, .txt, .csv, .json, .xml, .html, and .md";
   return (
     <div className="space-y-5">
-      <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
+      <section className="relative overflow-hidden rounded-2xl border border-border bg-foreground/[0.02]">
         <div className="relative p-3 sm:p-4 md:p-5">
           <div className="mb-3 flex flex-col gap-3 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-2">
                 <FileUp className="h-4 w-4 text-blue-300" aria-hidden="true" />
-                <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight text-white">
+                <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight text-foreground">
                   Drag & Drop File Checkup
                 </h2>
               </div>
-              <p className="mt-1 text-xs text-white/60 sm:text-sm">
+              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                 Drop any file to get a full privacy, security, and quality report — then fix what needs fixing, in one click.
               </p>
             </div>
@@ -164,7 +164,7 @@ export function FileCheckupApp() {
               <button
                 type="button"
                 onClick={resetTool}
-                className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:px-4 sm:text-sm"
+                className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary transition hover:border-blue-400/30 hover:bg-surface-raised sm:px-4 sm:text-sm"
               >
                 <Trash2 className="h-3.5 w-3.5 text-blue-300" aria-hidden="true" />
                 Start Over
