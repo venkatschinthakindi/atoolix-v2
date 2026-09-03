@@ -84,7 +84,7 @@ export function HeroCommandCenter() {
 
       <div ref={searchRef} className="relative mt-10 w-full max-w-2xl">
         <div className="glass-input">
-          <Search className="w-5 h-5 text-white/40 search-box" />
+          <Search className="w-5 h-5 text-muted-foreground search-box" />
 
           <input
             id="dashboard-tool-search"
@@ -126,7 +126,7 @@ export function HeroCommandCenter() {
               </div>
             ))
           ) : (
-            <p className="text-white/60 text-center py-6">No tools found</p>
+            <p className="text-muted-foreground text-center py-6">No tools found</p>
           )}
         </div>
       )}
@@ -136,7 +136,7 @@ export function HeroCommandCenter() {
     buttonClassName="cursor-pointer rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition"
     searchTools={true}/>
     <CommandPalette buttonName="View All Categories"
-    buttonClassName="cursor-pointer rounded-xl border border-white/10 px-6 py-3 text-white/80 hover:bg-white/5 transition"
+    buttonClassName="cursor-pointer rounded-xl border border-border px-6 py-3 text-foreground-secondary hover:bg-surface-raised transition"
     searchTools={false}/>
   </div>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -144,7 +144,7 @@ export function HeroCommandCenter() {
           (item) => (
             <div
               key={item}
-              className="cursor-pointer glass px-4 py-2 text-sm text-white/70"
+              className="cursor-pointer glass px-4 py-2 text-sm text-foreground-secondary"
               onClick={() => router.push(`/${item?.toLowerCase().replace(/ /g, "").replace(/&/g, "")}`)}
             >
               {item}

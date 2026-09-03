@@ -54,17 +54,17 @@ export function FeaturedTools() {
               <Link
                 href="/tools"
                 onClick={(e) => e.stopPropagation()}
-                className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/80 hover:bg-white/20 transition"
+                className="rounded-full bg-surface-raised px-3 py-1 text-xs text-foreground-secondary hover:bg-foreground/20 transition"
               >
                 View All Tools
               </Link>
             </div>
 
-            <h3 className="mt-3 text-2xl font-semibold text-white">
+            <h3 className="mt-3 text-2xl font-semibold text-foreground">
               {featured.title}
             </h3>
 
-            <p className="mt-2 max-full text-sm text-zinc-400">
+            <p className="mt-2 max-full text-sm text-muted-foreground">
               {featured.description}
             </p>
 

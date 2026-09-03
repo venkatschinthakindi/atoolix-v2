@@ -85,7 +85,7 @@ function QuickAccessGroupView({
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 text-sm font-semibold text-white">
+      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
         {icon}
         <span>{title}</span>
       </div>
@@ -111,8 +111,8 @@ function QuickAccessGroupView({
                   items-center
                   rounded-full
                   border
-                  border-white/10
-                  bg-white/5
+                  border-border
+                  bg-card
                   pl-4
                   pr-10
                   py-2
@@ -154,8 +154,8 @@ function QuickAccessGroupView({
                                 text-zinc-400
                                 opacity-0
                                 transition-all
-                                hover:bg-white/10
-                                hover:text-white
+                                hover:bg-surface-raised
+                                hover:text-foreground
                                 group-hover:opacity-100
                             "
                             >
@@ -186,7 +186,7 @@ function QuickAccessGroupView({
                         w-40
                         bg-transparent
                         text-sm
-                        text-white
+                        text-foreground
                         outline-none
                       "
                     />
@@ -194,7 +194,7 @@ function QuickAccessGroupView({
                     <div className="absolute right-2 flex items-center gap-1">
                       <button
                         onClick={saveEdit}
-                        className="rounded -p-2 text-emerald-400 hover:bg-white/10"
+                        className="rounded -p-2 text-emerald-400 hover:bg-surface-raised"
                         title="Save"
                       >
                         <Check className="h-3.5 w-3.5" />
@@ -202,7 +202,7 @@ function QuickAccessGroupView({
 
                       <button
                         onClick={cancelEdit}
-                        className="rounded -p-2 text-zinc-400 hover:bg-white/10"
+                        className="rounded -p-2 text-zinc-400 hover:bg-surface-raised"
                         title="Cancel"
                       >
                         <X className="h-3.5 w-3.5" />
