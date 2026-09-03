@@ -19,7 +19,7 @@ export default function HomePage() {
 
 function Badge({ icon: Icon, children }: { icon: typeof Lock; children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-foreground/[0.03] px-3 py-1.5">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5">
       <Icon className="h-3 w-3" aria-hidden="true" />
       {children}
     </span>

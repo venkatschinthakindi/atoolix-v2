@@ -146,12 +146,12 @@ export function FileCheckupApp() {
   const validFileTypes = ".pdf, .docx, .xlsx, .pptx, .jpg, .jpeg, .png, .webp, .gif, .txt, .csv, .json, .xml, .html, and .md";
   return (
     <div className="space-y-5">
-      <section className="relative overflow-hidden rounded-2xl border border-border bg-foreground/[0.02]">
+      <section className="relative overflow-hidden rounded-2xl border border-border bg-card">
         <div className="relative p-3 sm:p-4 md:p-5">
           <div className="mb-3 flex flex-col gap-3 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex items-center gap-2">
-                <FileUp className="h-4 w-4 text-blue-300" aria-hidden="true" />
+                <FileUp className="h-4 w-4 text-blue-600 dark:text-blue-300" aria-hidden="true" />
                 <h2 className="flex items-center gap-2 text-base font-semibold tracking-tight text-foreground">
                   Drag & Drop File Checkup
                 </h2>
@@ -166,7 +166,7 @@ export function FileCheckupApp() {
                 onClick={resetTool}
                 className="flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary transition hover:border-blue-400/30 hover:bg-surface-raised sm:px-4 sm:text-sm"
               >
-                <Trash2 className="h-3.5 w-3.5 text-blue-300" aria-hidden="true" />
+                <Trash2 className="h-3.5 w-3.5 text-blue-600 dark:text-blue-300" aria-hidden="true" />
                 Start Over
               </button>
             )}
@@ -177,14 +177,14 @@ export function FileCheckupApp() {
       </section>
 
       {status === 'analyzing' && (
-        <section className="flex items-center gap-3 rounded-2xl border border-blue-400/20 bg-blue-400/5 px-4 py-3 text-sm text-blue-100">
+        <section className="flex items-center gap-3 rounded-2xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/5 px-4 py-3 text-sm text-blue-700 dark:text-blue-100">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
           {progress || 'Analyzing…'}
         </section>
       )}
 
       {error && (
-        <section role="alert" className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+        <section role="alert" className="rounded-2xl border border-status-critical/20 bg-status-critical-soft px-4 py-3 text-sm text-status-critical">
           {error}
         </section>
       )}
