@@ -949,3 +949,34 @@ dark text for contrast in both themes.
 Verified per-file with `tsc --noEmit`, `eslint`, and a full `next build`
 before each push. Next: `src/components/tools/privacysecurity/` (4
 files, fully untouched).
+
+## Session 30 — privacysecurity family: duplicate-work collision, reconciled by merit not by "mine wins"
+
+Migrated fileAnalyzer.tsx/PrivacyDropZone.tsx/fileCheckupApp.tsx, then
+hit a push rejection - another session migrated the same 3 files
+concurrently and pushed first. Rebased and got 3-way conflicts in all
+three files. Rather than blindly taking either side, checked what
+each version actually covered before resolving each conflict:
+- Their PrivacyDropZone.tsx missed the same light-text-on-tint
+  contrast issue found repeatedly elsewhere in this migration
+  (`text-blue-300` alone, no light-mode pair, on the "browse your
+  device" link) - kept my fix for that specific line.
+- Their fileCheckupApp.tsx never touched the analyzing/error status
+  banners or the icon colors at all (only the grayscale panel
+  background) - those survived the merge from my side untouched by
+  the conflict, since they hadn't touched those lines.
+- For the parts where both sides did equivalent, equally-valid
+  migrations (bg-card vs bg-foreground/[0.03], text-muted-foreground
+  vs text-foreground-secondary), took theirs for consistency with
+  which token name is more common elsewhere in the codebase, since
+  neither is more "correct" - not worth re-litigating.
+
+Verified post-rebase: `tsc --noEmit` clean repo-wide; confirmed every
+remaining blue-family class in all 3 files is either a generic
+drag-state accent (fine as literal) or a properly `dark:`-paired
+text/border color; `eslint` shows only pre-existing issues (1
+exhaustive-deps warning in PrivacyDropZone.tsx, 1 unrelated error in
+a `*SeoContent*` file untouched by this work); `npx next build`
+compiles clean up to the same pre-existing sandbox font block.
+
+Commit: `94c4eb4`.
