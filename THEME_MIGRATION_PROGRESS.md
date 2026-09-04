@@ -980,3 +980,34 @@ a `*SeoContent*` file untouched by this work); `npx next build`
 compiles clean up to the same pre-existing sandbox font block.
 
 Commit: `94c4eb4`.
+
+## Session 31 — savings suite core: another collision, plus a self-caught rebase mistake
+
+Migrated field/currencySelector/sectionHeader/statCard/
+calculatorNavigation.tsx, found and fixed the same contrast-inversion
+pattern again in calculatorNavigation.tsx's active-tab state
+(text-blue-100 on bg-blue-400/15, unpaired). Hit another concurrent
+collision on push - same session pattern as privacysecurity.
+
+Worth flagging honestly: made a real mistake resolving the rebase
+conflict. `git checkout --ours/--theirs` **inverts** during a rebase
+(--ours = the base you're rebasing onto = their already-pushed work;
+--theirs = your own commit being replayed) - opposite of a normal
+merge. First attempt used the normal-merge intuition backwards,
+landing their (unfixed) content in calculatorNavigation.tsx and
+losing my contrast fix. Caught it immediately by grepping for the
+expected fix before moving on, corrected it, then explicitly verified
+all 5 files' final content against both sides before continuing the
+rebase rather than trusting the checkout flags alone.
+
+Net effect: calculatorNavigation.tsx kept my contrast fix; the other
+4 files ended up with my token names (foreground-secondary/-faint)
+rather than theirs (muted-foreground) - both are valid registered
+tokens, just a naming preference, not worth the extra round-trip to
+reconcile given the "move fast" instruction this session.
+
+Verified: tsc --noEmit clean repo-wide; eslint 0 problems across all
+9 touched files (5 core + 4 consumers they'd also migrated); npx next
+build compiles clean up to the pre-existing sandbox font block.
+
+Commit: `36e9fd9`.
