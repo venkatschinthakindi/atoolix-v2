@@ -73,14 +73,14 @@ export function FileReportView({ report, afterReport, fixSteps, onFix, onFixAll,
   return (
     <div className="animate-fade-in space-y-5">
       {/* Overview */}
-      <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6">
+      <section className="rounded-2xl border border-border bg-foreground/[0.02] p-4 sm:p-6">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <ScoreGauge score={activeReport.overallScore} criticalCount={critical} warningCount={warnings} />
           <div className="flex-1 sm:max-w-xs sm:text-right">
-            <p className="truncate text-sm font-medium text-white" title={activeReport.fileName}>
+            <p className="truncate text-sm font-medium text-foreground" title={activeReport.fileName}>
               {activeReport.fileName}
             </p>
-            <p className="mt-0.5 text-xs text-white/45">
+            <p className="mt-0.5 text-xs text-muted-foreground">
               {formatBytes(activeReport.fileSize)} · {activeReport.category.toUpperCase()}
             </p>
             <div className="mt-3 flex items-center gap-2 sm:justify-end">
@@ -102,7 +102,7 @@ export function FileReportView({ report, afterReport, fixSteps, onFix, onFixAll,
             </div>
           </div>
         </div>
-        <p className="mt-4 border-t border-white/5 pt-3 text-[11px] leading-relaxed text-white/35">
+        <p className="mt-4 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
           This tool analyzes metadata stored inside the file, such as EXIF and document properties. Information stored only on your device, like the file owner or local file details, isn't part of the file and can't be analyzed.
         </p>
       </section>
@@ -114,12 +114,12 @@ export function FileReportView({ report, afterReport, fixSteps, onFix, onFixAll,
           const tone = s >= 85 ? 'text-severity-success' : s >= 60 ? 'text-severity-warning' : 'text-severity-critical';
           const barTone = s >= 85 ? 'bg-severity-success' : s >= 60 ? 'bg-severity-warning' : 'bg-severity-critical';
           return (
-            <div key={label} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+            <div key={label} className="rounded-xl border border-border bg-foreground/[0.02] p-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-medium text-white/60">{label}</span>
+                <span className="text-[11px] font-medium text-muted-foreground">{label}</span>
                 <span className={`text-sm font-semibold tabular-nums ${tone}`}>{s}</span>
               </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-sunken">
                 <div className={`h-full rounded-full transition-all duration-700 ${barTone}`} style={{ width: `${s}%` }} />
               </div>
             </div>
@@ -135,16 +135,16 @@ export function FileReportView({ report, afterReport, fixSteps, onFix, onFixAll,
 
       {/* Smart Findings summary */}
       {allFindings.length > 0 ? (
-        <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6">
-          <h3 className="text-sm font-semibold text-white">Smart Findings</h3>
-          <p className="mt-1 text-xs text-white/50">
+        <section className="rounded-2xl border border-border bg-foreground/[0.02] p-4 sm:p-6">
+          <h3 className="text-sm font-semibold text-foreground">Smart Findings</h3>
+          <p className="mt-1 text-xs text-muted-foreground">
             {allFindings.length} issue{allFindings.length === 1 ? '' : 's'} found — {critical} critical, {warnings} warning{warnings === 1 ? '' : 's'}.
           </p>
         </section>
       ) : (
-        <section className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-6">
-          <h3 className="text-sm font-semibold text-white">Smart Findings</h3>
-          <p className="mt-1 text-xs text-white/50">
+        <section className="rounded-2xl border border-border bg-foreground/[0.02] p-4 sm:p-6">
+          <h3 className="text-sm font-semibold text-foreground">Smart Findings</h3>
+          <p className="mt-1 text-xs text-muted-foreground">
             {activeReport.results.map((r) => r.label).join(', ')} ran against this file and found nothing to flag — no
             embedded GPS, author metadata, encryption, scripts, or structural issues detected.
           </p>
@@ -185,8 +185,8 @@ export function FileReportView({ report, afterReport, fixSteps, onFix, onFixAll,
       {downloadUrl && downloadName && (
         <section className="flex flex-col items-center gap-3 rounded-2xl border border-severity-success/25 bg-severity-success/5 p-5 text-center sm:flex-row sm:justify-between sm:text-left">
           <div>
-            <p className="text-sm font-medium text-white">Your cleaned file is ready</p>
-            <p className="mt-0.5 text-xs text-white/50">Fixes were applied locally. Nothing was uploaded anywhere.</p>
+            <p className="text-sm font-medium text-foreground">Your cleaned file is ready</p>
+            <p className="mt-0.5 text-xs text-muted-foreground">Fixes were applied locally. Nothing was uploaded anywhere.</p>
           </div>
           <a
             href={downloadUrl}

@@ -29,29 +29,29 @@ export function ReportSection({ sectionId, findings, facts, onFix, fixingId, fix
   }, null);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]">
+    <div className="overflow-hidden rounded-xl border border-border bg-foreground/[0.02]">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-white/[0.03]"
+        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-foreground/[0.03]"
         aria-expanded={open}
       >
         <div className="flex items-center gap-2.5">
-          <h3 className="text-sm font-semibold text-white">{SECTION_LABELS[sectionId]}</h3>
+          <h3 className="text-sm font-semibold text-foreground">{SECTION_LABELS[sectionId]}</h3>
           {worst && <SeverityBadge severity={worst} />}
           {findings.length === 0 && facts && <SeverityBadge severity="success" />}
         </div>
-        <ChevronDown className={clsx('h-4 w-4 text-white/40 transition-transform', open && 'rotate-180')} aria-hidden="true" />
+        <ChevronDown className={clsx('h-4 w-4 text-muted-foreground transition-transform', open && 'rotate-180')} aria-hidden="true" />
       </button>
 
       {open && (
-        <div className="animate-fade-in space-y-3 border-t border-white/5 px-4 py-4">
+        <div className="animate-fade-in space-y-3 border-t border-border px-4 py-4">
           {facts && Object.keys(facts).length > 0 && (
             <dl className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-3">
               {Object.entries(facts).map(([k, v]) => (
                 <div key={k}>
-                  <dt className="text-[11px] uppercase tracking-wide text-white/35">{k}</dt>
-                  <dd className="text-xs text-white/80 break-words">{v}</dd>
+                  <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">{k}</dt>
+                  <dd className="text-xs text-foreground-secondary break-words">{v}</dd>
                 </div>
               ))}
             </dl>
@@ -63,13 +63,13 @@ export function ReportSection({ sectionId, findings, facts, onFix, fixingId, fix
                 const isFixed = fixedIds?.has(finding.id);
                 const isFixing = fixingId === finding.id;
                 return (
-                  <li key={finding.id} className="rounded-lg border border-white/5 bg-white/[0.02] p-3">
+                  <li key={finding.id} className="rounded-lg border border-border bg-foreground/[0.02] p-3">
                     <div className="flex flex-wrap items-start justify-between gap-2">
                       <div className="flex items-start gap-2">
                         <SeverityBadge severity={finding.severity} className="mt-0.5 shrink-0" />
                         <div>
-                          <p className="text-sm font-medium text-white">{finding.title}</p>
-                          <p className="mt-0.5 text-xs leading-relaxed text-white/55">{finding.description}</p>
+                          <p className="text-sm font-medium text-foreground">{finding.title}</p>
+                          <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{finding.description}</p>
                         </div>
                       </div>
                       {finding.fixId && onFix && (
@@ -96,7 +96,7 @@ export function ReportSection({ sectionId, findings, facts, onFix, fixingId, fix
           )}
 
           {findings.length === 0 && (
-            <p className="text-xs text-white/40">No issues found in this section.</p>
+            <p className="text-xs text-muted-foreground">No issues found in this section.</p>
           )}
         </div>
       )}

@@ -43,7 +43,7 @@ export function FixAllPanel({ report, afterReport, fixSteps, onFixAll, fixingAll
       <section className="rounded-2xl border border-severity-success/25 bg-severity-success/5 p-4 sm:p-6">
         <div className="flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4 text-severity-success" aria-hidden="true" />
-          <h3 className="text-sm font-semibold text-white">Fix All complete — before vs after</h3>
+          <h3 className="text-sm font-semibold text-foreground">Fix All complete — before vs after</h3>
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-3 sm:gap-4">
@@ -51,19 +51,19 @@ export function FixAllPanel({ report, afterReport, fixSteps, onFixAll, fixingAll
           <ScoreBlock label="After" score={afterReport.overallScore} critical={afterCritical} warning={afterWarning} highlight />
         </div>
 
-        <p className="mt-4 text-xs font-medium text-white/70">
+        <p className="mt-4 text-xs font-medium text-foreground-secondary">
           {readyNow ? '🟢 Ready to share.' : `${remaining.length} issue${remaining.length === 1 ? '' : 's'} still need review — see below.`}
         </p>
 
         {fixSteps.length > 0 && (
-          <div className="mt-3 border-t border-white/10 pt-3">
-            <p className="text-[11px] font-medium uppercase tracking-wide text-white/40">Fixes applied</p>
+          <div className="mt-3 border-t border-border pt-3">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Fixes applied</p>
             <ul className="mt-1.5 space-y-1.5">
               {fixSteps.map((step) => (
-                <li key={step.fixId} className="flex gap-2 text-xs text-white/55">
+                <li key={step.fixId} className="flex gap-2 text-xs text-muted-foreground">
                   <CheckCircle2 className="mt-0.5 h-3 w-3 shrink-0 text-severity-success" aria-hidden="true" />
                   <span>
-                    <span className="text-white/80">{step.label}:</span> {step.note}
+                    <span className="text-foreground-secondary">{step.label}:</span> {step.note}
                   </span>
                 </li>
               ))}
@@ -72,13 +72,13 @@ export function FixAllPanel({ report, afterReport, fixSteps, onFixAll, fixingAll
         )}
 
         {remaining.length > 0 && (
-          <div className="mt-3 border-t border-white/10 pt-3">
-            <p className="text-[11px] font-medium uppercase tracking-wide text-white/40">Still needs attention</p>
+          <div className="mt-3 border-t border-border pt-3">
+            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Still needs attention</p>
             <ul className="mt-1.5 space-y-1.5">
               {remaining.map(({ finding, hasAvailableFix }) => (
                 <li key={finding.id} className="flex gap-2 text-xs">
                   <AlertCircle className={`mt-0.5 h-3 w-3 shrink-0 ${finding.severity === 'critical' ? 'text-severity-critical' : 'text-severity-warning'}`} aria-hidden="true" />
-                  <span className="text-white/55">
+                  <span className="text-muted-foreground">
                     <span className={finding.severity === 'critical' ? 'text-severity-critical' : 'text-severity-warning'}>{finding.title}</span>
                     {' — '}
                     {hasAvailableFix
@@ -100,15 +100,15 @@ export function FixAllPanel({ report, afterReport, fixSteps, onFixAll, fixingAll
         <div>
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-blue-300" aria-hidden="true" />
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-foreground">
               {fixableCount} issue{fixableCount === 1 ? '' : 's'} can be fixed automatically
             </h3>
           </div>
-          <p className="mt-1 text-xs text-white/55">
+          <p className="mt-1 text-xs text-muted-foreground">
             One click applies every safe fix below, rebuilds the file, and rescans it so you can see the result — nothing is uploaded anywhere.
           </p>
           {unfixableWarnings.length > 0 && (
-            <p className="mt-1 text-xs text-white/40">
+            <p className="mt-1 text-xs text-muted-foreground">
               {unfixableWarnings.length} other issue{unfixableWarnings.length === 1 ? '' : 's'} (e.g. macros) can&apos;t be safely auto-fixed and will still need manual review.
             </p>
           )}
@@ -130,10 +130,10 @@ export function FixAllPanel({ report, afterReport, fixSteps, onFixAll, fixingAll
 function ScoreBlock({ label, score, critical, warning, highlight }: { label: string; score: number; critical: number; warning: number; highlight?: boolean }) {
   const tone = critical > 0 ? 'text-severity-critical' : warning > 0 ? 'text-severity-warning' : 'text-severity-success';
   return (
-    <div className={`rounded-xl border p-3 text-center ${highlight ? 'border-severity-success/30 bg-severity-success/5' : 'border-white/10 bg-white/[0.02]'}`}>
-      <p className="text-[11px] uppercase tracking-wide text-white/40">{label}</p>
+    <div className={`rounded-xl border p-3 text-center ${highlight ? 'border-severity-success/30 bg-severity-success/5' : 'border-border bg-foreground/[0.02]'}`}>
+      <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{label}</p>
       <p className={`mt-1 text-2xl font-semibold tabular-nums ${tone}`}>{score}</p>
-      <p className="mt-0.5 text-[11px] text-white/40">
+      <p className="mt-0.5 text-[11px] text-muted-foreground">
         {critical + warning === 0 ? 'No issues' : `${critical} critical · ${warning} warning`}
       </p>
     </div>
