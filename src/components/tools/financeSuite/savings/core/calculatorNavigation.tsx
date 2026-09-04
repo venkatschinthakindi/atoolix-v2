@@ -36,7 +36,7 @@ export function CalculatorNavigation({
             "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
             link.href === toolRoute
               ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
-              : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
+              : "border-border bg-card text-foreground-secondary hover:border-blue-400/20 hover:bg-surface-raised",
           ].join(" ")}
         >
           <span>{link.icon}</span>

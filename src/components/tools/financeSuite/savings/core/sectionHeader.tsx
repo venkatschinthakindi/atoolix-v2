@@ -18,11 +18,11 @@ export function SectionHeader({
       </div>
 
       <div>
-        <div className="text-sm font-semibold text-white/90">
+        <div className="text-sm font-semibold text-foreground">
           {title}
         </div>
 
-        <div className="text-xs text-white/50 mt-0.5">
+        <div className="text-xs text-muted-foreground mt-0.5">
           {subtitle}
         </div>
       </div>

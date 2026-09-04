@@ -10,7 +10,7 @@ export function CurrencySelector({
 }) {
   return (
     <div className="text-center space-y-2">
-      <div className="sm:flex items-center justify-center gap-2 text-xs text-white/40">
+      <div className="sm:flex items-center justify-center gap-2 text-xs text-muted-foreground">
         <span>Currency</span>
 
         <CustomSelect
@@ -27,7 +27,7 @@ export function CurrencySelector({
         />
       </div>
 
-      <p className="text-[11px] text-white/35">
+      <p className="text-[11px] text-muted-foreground">
         Currency affects display only — no exchange-rate conversion is applied.
       </p>
     </div>

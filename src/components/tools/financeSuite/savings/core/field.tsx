@@ -12,12 +12,12 @@ export function Field({
   return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between gap-2">
-        <label className="block text-sm font-medium text-white/80">
+        <label className="block text-sm font-medium text-foreground-secondary">
           {label}
         </label>
 
         {hint && (
-          <span className="text-[11px] text-white/35">
+          <span className="text-[11px] text-muted-foreground">
             {hint}
           </span>
         )}
