@@ -22,7 +22,7 @@ export function SectionHeader({
           {title}
         </div>
 
-        <div className="text-xs text-muted-foreground mt-0.5">
+        <div className="text-xs text-foreground-secondary mt-0.5">
           {subtitle}
         </div>
       </div>

@@ -17,7 +17,7 @@ export function Field({
         </label>
 
         {hint && (
-          <span className="text-[11px] text-muted-foreground">
+          <span className="text-[11px] text-foreground-faint">
             {hint}
           </span>
         )}
