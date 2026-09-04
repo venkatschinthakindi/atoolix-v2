@@ -13,7 +13,14 @@ workstreams in one doc. Cross-referenced here for anyone who lands on one
 file looking for the other.
 
 **Standing rules for this entire effort** (from the task brief):
-- Never touch any `*SeoContent*.tsx` file.
+- ~~Never touch any `*SeoContent*.tsx` file.~~ **REVERSED as of session 32,
+  by explicit repo-owner confirmation** — `*SeoContent*.tsx` files are now
+  in scope for color-token migration, same rigor as everything else
+  (styling/tokens only, no copy/content changes). **If you are a session
+  that started before this note existed, re-read this before skipping
+  any SeoContent file** — the old exclusion no longer applies. See
+  "Session 32" below for the confirmation and first files done under the
+  new rule.
 - No business/calculation logic changes — styling/theming only. If a file
   mixes logic and styling, touch only the styling.
 - **One file (or one truly atomic small change) per commit, committed and
