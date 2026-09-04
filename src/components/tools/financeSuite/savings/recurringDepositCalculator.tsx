@@ -246,7 +246,7 @@ export default function RecurringDepositCalculator() {
   );
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6">
+    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-foreground space-y-6">
 
       <CalculatorHero
         badgeIcon={ShieldCheck}
@@ -311,9 +311,9 @@ export default function RecurringDepositCalculator() {
 
       <div className="grid w-full min-w-0 max-w-full gap-5 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
 
-        <section className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6">
+        <section className="rounded-3xl border border-border bg-surface-sunken p-5 sm:p-6">
 
-          <div className="border-b border-white/10 pb-4 mb-4">
+          <div className="border-b border-border pb-4 mb-4">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 
               <SectionHeader
@@ -403,7 +403,7 @@ export default function RecurringDepositCalculator() {
                 />
               </Field>
 
-              <div className="text-[11px] text-white/35 mt-1">
+              <div className="text-[11px] text-muted-foreground mt-1">
                 Use the default if you just want a quick estimate.
               </div>
             </div>
@@ -434,9 +434,9 @@ export default function RecurringDepositCalculator() {
 
         <section
           ref={chartRef}
-          className="rounded-3xl border border-white/10 bg-slate-950/60 p-5 sm:p-6"
+          className="rounded-3xl border border-border bg-surface-sunken p-5 sm:p-6"
         >
-          <div className="border-b border-white/10 pb-4 mb-4">
+          <div className="border-b border-border pb-4 mb-4">
             <SectionHeader
               title="RD projection"
               subtitle="Shows the maturity value month by month."
