@@ -1082,3 +1082,12 @@ across all 7 files; `npx next build` compiles clean up to the
 pre-existing sandbox font block.
 
 Commit: `22d5d95`.
+
+## Session 34 — EmiCalculatorHubPage.tsx migrated (115 occurrences)
+
+Standard mapping + a 45-token hue pass. `placeholder-white/30` left
+literal to match retirementWealthSuite.tsx's identical-pattern
+precedent (migrated concurrently by another session) rather than
+diverge with a new convention. Verified: tsc clean, eslint 5
+pre-existing unescaped-entity errors unchanged, zero responsive diff,
+build clean. Commit `e98c5d3`.
