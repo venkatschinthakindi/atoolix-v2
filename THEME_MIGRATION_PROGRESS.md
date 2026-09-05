@@ -1018,3 +1018,42 @@ Verified: tsc --noEmit clean repo-wide; eslint 0 problems across all
 build compiles clean up to the pre-existing sandbox font block.
 
 Commit: `36e9fd9`.
+
+## Session 32 — *SeoContent*.tsx exclusion REVERSED and all 49 files migrated
+
+Repo owner explicitly confirmed the standing SeoContent exclusion
+should be reversed (asked directly, confirmed via explicit choice, not
+inferred). Updated the standing-rules section at the top of this file
+immediately and pushed that alone first, since every concurrent
+session reads that section and needed to see the reversal before any
+of them touched or continued avoiding these files.
+
+Then migrated all 49 *SeoContent*.tsx files found repo-wide (broader
+glob than the original file-naming assumption — one file,
+FinanceHubSeoContent.tsx, used a lowercase/different pattern and was
+missed by the first pass, caught in verification). Given the scale,
+done via script in two passes: grayscale/surface mapping first, then
+a hue-color pass (197 replacements across 37 files) applying the same
+dark: + light-equivalent treatment established in
+meetingTimeFinderClient.tsx.
+
+Deliberately left alone: a fixed white-circle/black-number
+step-indicator badge pattern (69 bare `bg-white`/`text-black`
+occurrences) repeated across many of these files — same
+intentionally-theme-invariant category as `toolCard.tsx`'s gradient
+badges, confirmed by inspection before excluding it from the script.
+
+Verified: `tsc --noEmit` clean repo-wide; `eslint` 51 problems before
+== 51 after (via temporary backup restore + relint); every responsive
+class diffed byte-identical across all 47 backed-up files; `npx next
+build` compiles clean up to the pre-existing sandbox font block.
+
+Also: made a self-caught mistake writing the first commit message —
+backtick-quoted text in a plain `-m` string got silently eaten by
+shell command substitution, corrupting part of the message. Caught it
+by reading back the actual recorded message rather than assuming the
+`-m` string I wrote was what landed, fixed via `--amend -F -` with a
+heredoc. Worth remembering for any commit message containing
+backticks going forward — use a heredoc, not a plain `-m` string.
+
+Commit: `703844e` (rebased to `d1f37e0`).
