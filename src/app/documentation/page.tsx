@@ -666,49 +666,49 @@ export default function DocumentationPage() {
           }}
         />
 
-        <section className="mb-12 rounded-3xl border border-white/10 bg-white/5 px-6 py-10 shadow-2xl backdrop-blur-xl sm:px-8">
-          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-zinc-300">
+        <section className="mb-12 rounded-3xl border border-border bg-card px-6 py-10 shadow-2xl backdrop-blur-xl sm:px-8">
+          <p className="mb-3 inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-medium text-foreground-secondary">
             Documentation Center • Last updated: {lastUpdated}
           </p>
 
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
             {siteName} Documentation
           </h1>
 
-          <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
+          <p className="mt-5 max-w-3xl text-base leading-7 text-foreground-secondary">
             Learn what our tools do, how they work, what files and inputs they
             support, what limitations may apply, and how to choose the
             appropriate tool for common tasks.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3 text-xs text-zinc-300">
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          <div className="mt-8 flex flex-wrap gap-3 text-xs text-foreground-secondary">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Browser-based
             </span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Privacy-conscious
             </span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Clear tool guidance
             </span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               No software installation
             </span>
           </div>
         </section>
 
         <section id="overview" className="scroll-mt-24 py-2">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Overview
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             {siteName} provides browser-based utilities for common PDF,
             image, file, signature, passport-photo, date-and-time, QR-code,
             mathematical, and financial calculation tasks.
           </p>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             The purpose of this documentation is to explain how the tools are
             intended to work and to help users understand their limitations.
             It is not intended to replace instructions provided by a
@@ -719,9 +719,9 @@ export default function DocumentationPage() {
 
         <nav
           aria-label="On this page"
-          className="my-10 rounded-3xl border border-white/10 bg-white/5 p-6"
+          className="my-10 rounded-3xl border border-border bg-card p-6"
         >
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="text-lg font-semibold text-foreground">
             Contents
           </h2>
 
@@ -730,7 +730,7 @@ export default function DocumentationPage() {
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="text-sm text-zinc-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                  className="text-sm text-foreground-secondary transition-colors hover:text-foreground hover:underline underline-offset-4"
                 >
                   {section.title}
                 </a>
@@ -740,11 +740,11 @@ export default function DocumentationPage() {
         </nav>
 
         <section id="who-we-are" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             About This Site
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               {siteName} is a utility website focused on making common
               browser-based tasks easier to complete without requiring
@@ -761,14 +761,14 @@ export default function DocumentationPage() {
               For information about the site and how to contact us, visit our{" "}
               <Link
                 href="/about"
-                className="text-violet-300 underline underline-offset-4"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4"
               >
                 About page
               </Link>{" "}
               and{" "}
               <Link
                 href="/contact"
-                className="text-violet-300 underline underline-offset-4"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4"
               >
                 Contact page
               </Link>
@@ -779,21 +779,21 @@ export default function DocumentationPage() {
               For legal and privacy information, see our{" "}
               <Link
                 href="/privacy"
-                className="text-violet-300 underline underline-offset-4"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4"
               >
                 Privacy Policy
               </Link>
               ,{" "}
               <Link
                 href="/terms"
-                className="text-violet-300 underline underline-offset-4"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4"
               >
                 Terms and Conditions
               </Link>
               , and{" "}
               <Link
                 href="/disclaimer"
-                className="text-violet-300 underline underline-offset-4"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4"
               >
                 Disclaimer
               </Link>
@@ -803,11 +803,11 @@ export default function DocumentationPage() {
         </section>
 
         <section id="how-it-works" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             How the Tools Work
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             The exact implementation differs by tool. Depending on the
             feature, a user may enter values, select options, choose files,
             process them in the browser, or use a service that requires
@@ -839,17 +839,17 @@ export default function DocumentationPage() {
             ].map((item) => (
               <article
                 key={item.step}
-                className="rounded-3xl border border-white/10 bg-white/5 p-5"
+                className="rounded-3xl border border-border bg-card p-5"
               >
-                <p className="text-xs font-semibold tracking-wide text-violet-300">
+                <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-300">
                   STEP {item.step}
                 </p>
 
-                <h3 className="mt-2 text-lg font-semibold text-white">
+                <h3 className="mt-2 text-lg font-semibold text-foreground">
                   {item.title}
                 </h3>
 
-                <p className="mt-3 text-sm leading-6 text-zinc-300">
+                <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                   {item.text}
                 </p>
               </article>
@@ -858,11 +858,11 @@ export default function DocumentationPage() {
         </section>
 
         <section id="privacy" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Privacy and Security
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               Some tools are designed to process files locally in the browser.
               When processing is genuinely browser-only, the selected file can
@@ -876,7 +876,7 @@ export default function DocumentationPage() {
               individual tool page and our{" "}
               <Link
                 href="/privacy"
-                className="text-violet-300 underline underline-offset-4"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4"
               >
                 Privacy Policy
               </Link>{" "}
@@ -894,18 +894,18 @@ export default function DocumentationPage() {
           id="browser-compatibility"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Browser Compatibility
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             The tools are intended for modern versions of Chrome, Edge,
             Safari, and Firefox. Actual behavior can vary according to the
             browser version, device, available memory, file size, and browser
             features.
           </p>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             If a tool does not behave as expected, update the browser,
             refresh the page, try another supported browser, or reduce the
             size of the input where appropriate.
@@ -913,7 +913,7 @@ export default function DocumentationPage() {
         </section>
 
         <section id="supported-formats" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Supported Formats
           </h2>
 
@@ -921,13 +921,13 @@ export default function DocumentationPage() {
             {toolGroups.map((group) => (
               <article
                 key={group.id}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                className="rounded-2xl border border-border bg-card p-5"
               >
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-foreground">
                   {group.icon} {group.title}
                 </h3>
 
-                <p className="mt-2 text-sm text-zinc-300">
+                <p className="mt-2 text-sm text-foreground-secondary">
                   Common inputs or formats:{" "}
                   {group.supports.join(", ")}
                 </p>
@@ -935,7 +935,7 @@ export default function DocumentationPage() {
             ))}
           </div>
 
-          <p className="mt-5 max-w-4xl text-sm leading-6 text-zinc-400">
+          <p className="mt-5 max-w-4xl text-sm leading-6 text-foreground-secondary">
             Supported formats and limits can change by tool. The individual
             tool page is the authoritative place to check current input
             requirements.
@@ -951,16 +951,16 @@ export default function DocumentationPage() {
             <div className="mb-6 flex items-center gap-3">
               <span className="text-2xl">{group.icon}</span>
 
-              <h2 className="text-3xl font-semibold text-white">
+              <h2 className="text-3xl font-semibold text-foreground">
                 {group.title}
               </h2>
             </div>
 
-            <p className="max-w-4xl leading-7 text-zinc-300">
+            <p className="max-w-4xl leading-7 text-foreground-secondary">
               {group.description}
             </p>
 
-            <div className="mt-3 text-sm text-zinc-400">
+            <div className="mt-3 text-sm text-foreground-secondary">
               Common inputs: {group.supports.join(", ")}
             </div>
 
@@ -968,24 +968,24 @@ export default function DocumentationPage() {
               {group.items.map((item) => (
                 <article
                   key={item.href}
-                  className="rounded-3xl border border-white/10 bg-white/5 p-6"
+                  className="rounded-3xl border border-border bg-card p-6"
                 >
-                  <h3 className="text-xl font-semibold text-white">
+                  <h3 className="text-xl font-semibold text-foreground">
                     <Link
                       href={item.href}
-                      className="transition-colors hover:text-violet-300"
+                      className="transition-colors hover:text-violet-800 dark:hover:text-violet-300"
                     >
                       {item.name}
                     </Link>
                   </h3>
 
-                  <p className="mt-3 text-sm leading-6 text-zinc-300">
+                  <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                     {item.description}
                   </p>
 
-                  <div className="mt-5 space-y-5 text-sm text-zinc-300">
+                  <div className="mt-5 space-y-5 text-sm text-foreground-secondary">
                     <div>
-                      <p className="font-semibold text-white">
+                      <p className="font-semibold text-foreground">
                         Common uses
                       </p>
 
@@ -997,14 +997,14 @@ export default function DocumentationPage() {
                     </div>
 
                     <p>
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-foreground">
                         Important:
                       </span>{" "}
                       {item.tips}
                     </p>
 
                     <div>
-                      <p className="font-semibold text-white">
+                      <p className="font-semibold text-foreground">
                         Related tools
                       </p>
 
@@ -1013,7 +1013,7 @@ export default function DocumentationPage() {
                           <Link
                             key={href}
                             href={href}
-                            className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white transition hover:bg-white/10"
+                            className="rounded-full border border-border bg-card px-3 py-1 text-xs text-foreground transition hover:bg-surface-raised"
                           >
                             {href
                               .split("/")
@@ -1031,11 +1031,11 @@ export default function DocumentationPage() {
         ))}
 
         <section id="limitations" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Limitations and Verification
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               Tool outputs are generated from the inputs, assumptions,
               supported formats, and processing methods available at the time
@@ -1067,39 +1067,39 @@ export default function DocumentationPage() {
         </section>
 
         <section id="troubleshooting" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Troubleshooting
           </h2>
 
-          <ul className="mt-6 max-w-4xl space-y-3 leading-7 text-zinc-300">
+          <ul className="mt-6 max-w-4xl space-y-3 leading-7 text-foreground-secondary">
             <li>
-              <strong className="text-white">File will not upload:</strong>{" "}
+              <strong className="text-foreground">File will not upload:</strong>{" "}
               Check the supported format and applicable size limit.
             </li>
 
             <li>
-              <strong className="text-white">PDF is too large:</strong>{" "}
+              <strong className="text-foreground">PDF is too large:</strong>{" "}
               Try the PDF compression tool before submitting or sharing it.
             </li>
 
             <li>
-              <strong className="text-white">Image looks blurry:</strong>{" "}
+              <strong className="text-foreground">Image looks blurry:</strong>{" "}
               Start with a higher-quality source image and avoid excessive
               compression.
             </li>
 
             <li>
-              <strong className="text-white">Wrong dimensions:</strong>{" "}
+              <strong className="text-foreground">Wrong dimensions:</strong>{" "}
               Confirm the required width, height, aspect ratio, and file size.
             </li>
 
             <li>
-              <strong className="text-white">Wrong file format:</strong>{" "}
+              <strong className="text-foreground">Wrong file format:</strong>{" "}
               Convert the file to a format supported by the receiving service.
             </li>
 
             <li>
-              <strong className="text-white">Tool behaves unexpectedly:</strong>{" "}
+              <strong className="text-foreground">Tool behaves unexpectedly:</strong>{" "}
               Refresh the page, use an updated browser, or try another
               supported browser.
             </li>
@@ -1107,7 +1107,7 @@ export default function DocumentationPage() {
         </section>
 
         <section id="faq" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Frequently Asked Questions
           </h2>
 
@@ -1115,13 +1115,13 @@ export default function DocumentationPage() {
             {faqs.map(([question, answer]) => (
               <details
                 key={question}
-                className="rounded-3xl border border-white/10 bg-white/5 p-5"
+                className="rounded-3xl border border-border bg-card p-5"
               >
-                <summary className="cursor-pointer font-semibold text-white">
+                <summary className="cursor-pointer font-semibold text-foreground">
                   {question}
                 </summary>
 
-                <p className="mt-3 text-sm leading-6 text-zinc-300">
+                <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                   {answer}
                 </p>
               </details>
@@ -1130,11 +1130,11 @@ export default function DocumentationPage() {
         </section>
 
         <section id="related-tools" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Related Tools
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             Explore the tools below for common PDF, image, finance, and
             date-and-time tasks.
           </p>
@@ -1144,13 +1144,13 @@ export default function DocumentationPage() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-3xl border border-white/10 bg-slate-950/30 p-5 text-white transition hover:border-white/20 hover:bg-slate-950/40"
+                className="rounded-3xl border border-border bg-surface-sunken p-5 text-foreground transition hover:border-border-strong hover:bg-surface-sunken"
               >
                 <p className="text-sm font-semibold">
                   {link.label}
                 </p>
 
-                <p className="mt-2 text-sm leading-6 text-zinc-300">
+                <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                   {link.desc}
                 </p>
               </Link>
@@ -1158,12 +1158,12 @@ export default function DocumentationPage() {
           </div>
         </section>
 
-        <section className="my-12 rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-2xl font-semibold text-white">
+        <section className="my-12 rounded-3xl border border-border bg-card p-6">
+          <h2 className="text-2xl font-semibold text-foreground">
             Site policies and support
           </h2>
 
-          <p className="mt-3 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-3 max-w-4xl leading-7 text-foreground-secondary">
             For questions about privacy, terms of use, disclaimers, or
             support, please use the official site pages below.
           </p>
@@ -1171,35 +1171,35 @@ export default function DocumentationPage() {
           <div className="mt-5 flex flex-wrap gap-3">
             <Link
               href="/about"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised"
             >
               About
             </Link>
 
             <Link
               href="/contact"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised"
             >
               Contact
             </Link>
 
             <Link
               href="/privacy"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/terms"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised"
             >
               Terms
             </Link>
 
             <Link
               href="/disclaimer"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised"
             >
               Disclaimer
             </Link>

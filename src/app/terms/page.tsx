@@ -100,36 +100,36 @@ export default function TermsPage() {
         />
 
         {/* Header */}
-        <section className="mb-12 rounded-3xl border border-white/10 bg-white/5 px-6 py-10 sm:px-8">
-          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-zinc-300">
+        <section className="mb-12 rounded-3xl border border-border bg-card px-6 py-10 sm:px-8">
+          <p className="mb-3 inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-medium text-foreground-secondary">
             Terms and Conditions • Last updated: {lastUpdated}
           </p>
 
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
             Terms and Conditions | {siteName}
           </h1>
 
-          <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
+          <p className="mt-5 max-w-3xl text-base leading-7 text-foreground-secondary">
             These Terms and Conditions explain the rules for using {siteName}
             and our online tools. We have written them in clear language so
             you can understand your responsibilities and how the service may
             be used.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3 text-xs text-zinc-300">
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          <div className="mt-8 flex flex-wrap gap-3 text-xs text-foreground-secondary">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Clear and simple
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Tool usage rules
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               User responsibilities
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Updated regularly
             </span>
           </div>
@@ -138,9 +138,9 @@ export default function TermsPage() {
         {/* Contents */}
         <nav
           aria-label="On this page"
-          className="mb-10 rounded-3xl border border-white/10 bg-white/5 p-6"
+          className="mb-10 rounded-3xl border border-border bg-card p-6"
         >
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="text-lg font-semibold text-foreground">
             On this page
           </h2>
 
@@ -149,7 +149,7 @@ export default function TermsPage() {
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="text-sm text-zinc-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                  className="text-sm text-foreground-secondary transition-colors hover:text-foreground hover:underline underline-offset-4"
                 >
                   {section.title}
                 </a>
@@ -160,23 +160,23 @@ export default function TermsPage() {
 
         {/* Acceptance */}
         <section id="acceptance" className="scroll-mt-24 py-2">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Acceptance of Terms
           </h2>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             By accessing or using {siteName}, you agree to these Terms and
             Conditions and our{" "}
             <Link
               href="/privacy"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Privacy Policy
             </Link>
             .
           </p>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             If you do not agree with these Terms, please do not use the
             website or its tools.
           </p>
@@ -187,11 +187,11 @@ export default function TermsPage() {
           id="tools-and-results"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Tools and Results
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               {siteName} provides online tools for tasks such as file
               processing, calculations, conversions, image and PDF operations,
@@ -220,11 +220,11 @@ export default function TermsPage() {
 
         {/* Eligibility */}
         <section id="eligibility" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Eligibility
           </h2>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             You must have the legal capacity required by applicable law to
             use the website and agree to these Terms. If you use {siteName}
             on behalf of an organization, you represent that you have
@@ -234,11 +234,11 @@ export default function TermsPage() {
 
         {/* Permitted */}
         <section id="permitted-use" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Permitted Use
           </h2>
 
-          <ul className="mt-4 max-w-4xl space-y-3 text-zinc-300 leading-7">
+          <ul className="mt-4 max-w-4xl space-y-3 text-foreground-secondary leading-7">
             <li>
               • Use the website and tools only for lawful purposes.
             </li>
@@ -257,11 +257,11 @@ export default function TermsPage() {
 
         {/* Prohibited */}
         <section id="prohibited-use" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Prohibited Use
           </h2>
 
-          <ul className="mt-4 max-w-4xl space-y-3 text-zinc-300 leading-7">
+          <ul className="mt-4 max-w-4xl space-y-3 text-foreground-secondary leading-7">
             <li>
               • Do not attempt unauthorized access to the website,
               infrastructure, accounts, or data.
@@ -304,11 +304,11 @@ export default function TermsPage() {
           id="files-and-user-content"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Files and User Content
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               You retain ownership of files and other content that you own and
               provide to an Atoolix tool.
@@ -345,18 +345,18 @@ export default function TermsPage() {
           id="intellectual-property"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Intellectual Property
           </h2>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             The Atoolix name, branding, website design, original text,
             software, interfaces, logos, and other site materials are owned
             by {siteName} or its licensors and are protected by applicable
             intellectual property laws.
           </p>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             You may use the website and tools for their intended purposes, but
             you may not copy, reproduce, redistribute, mirror, sell, or create
             derivative versions of our proprietary website materials without
@@ -369,16 +369,16 @@ export default function TermsPage() {
           id="third-party-services"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Third-Party Services
           </h2>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             The website may use or link to third-party services. Third-party
             services operate under their own terms and privacy policies.
           </p>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             We are not responsible for third-party websites, services,
             content, availability, or policies that are outside our control.
           </p>
@@ -386,11 +386,11 @@ export default function TermsPage() {
 
         {/* Disclaimer */}
         <section id="disclaimer" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Disclaimer of Warranties
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               The website and tools are provided on an “as is” and “as
               available” basis to the maximum extent permitted by applicable
@@ -413,11 +413,11 @@ export default function TermsPage() {
 
         {/* Liability */}
         <section id="liability" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Limitation of Liability
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               To the maximum extent permitted by applicable law, {siteName}
               and its owners, operators, employees, contractors, and service
@@ -440,11 +440,11 @@ export default function TermsPage() {
 
         {/* Indemnity */}
         <section id="indemnity" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Indemnity
           </h2>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             To the extent permitted by applicable law, you agree to
             indemnify and hold harmless {siteName} and its related parties
             from claims, losses, liabilities, damages, and reasonable
@@ -456,11 +456,11 @@ export default function TermsPage() {
 
         {/* Termination */}
         <section id="termination" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Suspension and Termination
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               We may restrict, suspend, or terminate access to the website or
               individual tools if necessary to protect the service, users,
@@ -477,17 +477,17 @@ export default function TermsPage() {
 
         {/* Changes */}
         <section id="changes" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Changes to Terms
           </h2>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             We may update these Terms when our services, tools, business
             practices, or legal requirements change. The updated version will
             be posted on this page with a revised “Last updated” date.
           </p>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             Your continued use of the website after an updated version is
             posted constitutes acceptance of the revised Terms to the extent
             permitted by applicable law.
@@ -499,17 +499,17 @@ export default function TermsPage() {
           id="governing-law"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Governing Law
           </h2>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             These Terms are governed by the laws applicable to {siteName},
             subject to any mandatory consumer protection or other legal
             requirements that apply to you in your jurisdiction.
           </p>
 
-          <p className="mt-4 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-4 max-w-4xl text-foreground-secondary leading-7">
             Any disputes will be handled by the courts or dispute-resolution
             mechanisms having appropriate jurisdiction, subject to applicable
             law.
@@ -518,16 +518,16 @@ export default function TermsPage() {
 
         {/* Contact */}
         <section id="contact" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Contact Us
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               If you have questions about these Terms, contact us at{" "}
               <a
                 href="mailto:support@atoolix.com"
-                className="text-violet-300 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 support@atoolix.com
               </a>
@@ -538,7 +538,7 @@ export default function TermsPage() {
               You can also visit our{" "}
               <Link
                 href="/contact"
-                className="text-violet-300 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 Contact page
               </Link>{" "}
@@ -548,29 +548,29 @@ export default function TermsPage() {
         </section>
 
         {/* Related policies */}
-        <section className="mt-10 mb-16 rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-lg font-semibold text-white">
+        <section className="mt-10 mb-16 rounded-3xl border border-border bg-card p-6">
+          <h2 className="text-lg font-semibold text-foreground">
             Related Policies
           </h2>
 
           <div className="mt-4 flex flex-wrap gap-4 text-sm">
             <Link
               href="/privacy"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/contact"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Contact Us
             </Link>
 
             <Link
               href="/"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Atoolix Tools
             </Link>

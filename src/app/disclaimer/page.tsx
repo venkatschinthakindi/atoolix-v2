@@ -117,16 +117,16 @@ export default function DisclaimerPage() {
         />
 
         {/* Header */}
-        <section className="mb-12 rounded-3xl border border-white/10 bg-white/5 px-6 py-10 shadow-2xl backdrop-blur-xl sm:px-8">
-          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-zinc-300">
+        <section className="mb-12 rounded-3xl border border-border bg-card px-6 py-10 shadow-2xl backdrop-blur-xl sm:px-8">
+          <p className="mb-3 inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-medium text-foreground-secondary">
             Disclaimer • Last updated: {lastUpdated}
           </p>
 
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
             Disclaimer | {siteName}
           </h1>
 
-          <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
+          <p className="mt-5 max-w-3xl text-base leading-7 text-foreground-secondary">
             This Disclaimer explains the limitations and responsibilities
             associated with using the information and tools available on{" "}
             {siteName}. We aim to make our tools useful and reliable, but
@@ -134,20 +134,20 @@ export default function DisclaimerPage() {
             for consequential decisions.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3 text-xs text-zinc-300">
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          <div className="mt-8 flex flex-wrap gap-3 text-xs text-foreground-secondary">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               General-purpose tools
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Transparent limitations
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Verify important results
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Updated regularly
             </span>
           </div>
@@ -155,7 +155,7 @@ export default function DisclaimerPage() {
 
         {/* Contents */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             On this page
           </h2>
 
@@ -164,7 +164,7 @@ export default function DisclaimerPage() {
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="rounded-2xl border border-white/10 bg-slate-950/30 px-4 py-3 text-sm text-zinc-300 transition hover:border-white/20 hover:bg-slate-950/40 hover:text-white"
+                className="rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-sm text-foreground-secondary transition hover:border-border-strong hover:bg-surface-sunken hover:text-foreground"
               >
                 {item.label}
               </a>
@@ -177,11 +177,11 @@ export default function DisclaimerPage() {
           id="general-information"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             General Information
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               {siteName} provides online utility tools for tasks such as
               calculations, conversions, PDF and image processing, QR code
@@ -208,11 +208,11 @@ export default function DisclaimerPage() {
           id="no-professional-advice"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             No Professional Advice
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               The calculators, conversions, examples, information, and other
               outputs provided by {siteName} are not a substitute for
@@ -239,18 +239,18 @@ export default function DisclaimerPage() {
           id="accuracy-of-information"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Accuracy of Information
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             We work to maintain accurate and useful information, calculations,
             conversions, and tools. Nevertheless, errors, omissions,
             outdated information, browser differences, or technical issues
             may occasionally occur.
           </p>
 
-          <ul className="mt-5 max-w-4xl list-disc space-y-2 pl-6 text-zinc-300">
+          <ul className="mt-5 max-w-4xl list-disc space-y-2 pl-6 text-foreground-secondary">
             <li>Information may not always be current.</li>
             <li>Calculations may contain unexpected errors.</li>
             <li>Different inputs may produce different results.</li>
@@ -258,7 +258,7 @@ export default function DisclaimerPage() {
             <li>Results may vary between browsers, devices, or software.</li>
           </ul>
 
-          <p className="mt-5 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-5 max-w-4xl leading-7 text-foreground-secondary">
             If an output is important to you, verify it using an appropriate
             independent source before relying on it.
           </p>
@@ -269,11 +269,11 @@ export default function DisclaimerPage() {
           id="tool-results"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Tool Results
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               Results generated by our calculators, converters, file tools,
               image tools, PDF tools, and other utilities depend on the
@@ -300,11 +300,11 @@ export default function DisclaimerPage() {
           id="how-tools-work"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             How Our Tools Work
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               Atoolix includes different types of browser-based utilities.
               Depending on the individual tool, processing may happen entirely
@@ -330,11 +330,11 @@ export default function DisclaimerPage() {
           id="user-responsibility"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             User Responsibility
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               You are responsible for reviewing the results produced by any
               Atoolix tool before relying on them.
@@ -355,7 +355,7 @@ export default function DisclaimerPage() {
               our{" "}
               <Link
                 href="/terms"
-                className="text-violet-300 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 Terms and Conditions
               </Link>
@@ -369,11 +369,11 @@ export default function DisclaimerPage() {
           id="file-processing"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             File Processing
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               Many Atoolix tools are designed to perform processing directly
               within your web browser whenever technically possible.
@@ -403,7 +403,7 @@ export default function DisclaimerPage() {
               our{" "}
               <Link
                 href="/privacy"
-                className="text-violet-300 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 Privacy Policy
               </Link>
@@ -417,17 +417,17 @@ export default function DisclaimerPage() {
           id="third-party-links"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Third-Party Links
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             Our website may contain links to third-party websites, services,
             or resources. These links may be provided for convenience or to
             help users find additional information.
           </p>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             We do not control third-party websites or services and are not
             responsible for their content, availability, security, privacy
             practices, or terms. Your use of a third-party service is subject
@@ -440,11 +440,11 @@ export default function DisclaimerPage() {
           id="website-availability"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Website Availability
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               We aim to keep {siteName} available and functioning reliably.
               However, uninterrupted availability cannot be guaranteed.
@@ -469,11 +469,11 @@ export default function DisclaimerPage() {
           id="limitation-of-liability"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Limitation of Liability
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               To the fullest extent permitted by applicable law, {siteName},
               its owners, operators, employees, contractors, and service
@@ -507,11 +507,11 @@ export default function DisclaimerPage() {
           id="changes-to-this-disclaimer"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Changes to This Disclaimer
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               We may update this Disclaimer when our website, tools, services,
               file-processing methods, or legal requirements change.
@@ -535,17 +535,17 @@ export default function DisclaimerPage() {
           id="contact-us"
           className="mb-12 scroll-mt-28"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Contact Us
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               If you have questions about this Disclaimer or how a particular
               Atoolix tool works, contact us at{" "}
               <a
                 href="mailto:support@atoolix.com"
-                className="text-violet-300 underline underline-offset-4 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 support@atoolix.com
               </a>
@@ -556,7 +556,7 @@ export default function DisclaimerPage() {
               You can also visit our{" "}
               <Link
                 href="/contact"
-                className="text-violet-300 underline underline-offset-4 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 Contact page
               </Link>{" "}
@@ -567,11 +567,11 @@ export default function DisclaimerPage() {
 
         {/* Explore Tools */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Explore Atoolix Tools
           </h2>
 
-          <p className="mt-3 max-w-3xl leading-7 text-zinc-400">
+          <p className="mt-3 max-w-3xl leading-7 text-foreground-secondary">
             Explore some of the tools available on Atoolix for everyday
             calculations and file-related tasks.
           </p>
@@ -581,7 +581,7 @@ export default function DisclaimerPage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-3xl border border-white/10 bg-slate-950/30 p-5 text-white transition hover:border-white/20 hover:bg-slate-950/40"
+                className="rounded-3xl border border-border bg-surface-sunken p-5 text-foreground transition hover:border-border-strong hover:bg-surface-sunken"
               >
                 <p className="text-sm font-semibold">
                   {item.label}
@@ -592,12 +592,12 @@ export default function DisclaimerPage() {
         </section>
 
         {/* Related Policies */}
-        <section className="mb-16 rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-xl font-semibold text-white">
+        <section className="mb-16 rounded-3xl border border-border bg-card p-6">
+          <h2 className="text-xl font-semibold text-foreground">
             Related Policies
           </h2>
 
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-400">
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-foreground-secondary">
             Learn more about Atoolix, how our website may be used, and how
             information is handled.
           </p>
@@ -605,35 +605,35 @@ export default function DisclaimerPage() {
           <div className="mt-5 flex flex-wrap gap-5 text-sm">
             <Link
               href="/about"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               About Atoolix
             </Link>
 
             <Link
               href="/privacy"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Privacy Policy
             </Link>
 
             <Link
               href="/terms"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Terms and Conditions
             </Link>
 
             <Link
               href="/contact"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Contact Us
             </Link>
 
             <Link
               href="/"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Atoolix Tools
             </Link>

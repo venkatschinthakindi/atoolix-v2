@@ -111,36 +111,36 @@ export default function PrivacyPolicyPage() {
         />
 
         {/* Header */}
-        <section className="mb-12 rounded-3xl border border-white/10 bg-white/5 px-6 py-10 sm:px-8">
-          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-zinc-300">
+        <section className="mb-12 rounded-3xl border border-border bg-card px-6 py-10 sm:px-8">
+          <p className="mb-3 inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-medium text-foreground-secondary">
             Privacy Policy • Last updated: {lastUpdated}
           </p>
 
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
             Privacy Policy | {siteName}
           </h1>
 
-          <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
+          <p className="mt-5 max-w-3xl text-base leading-7 text-foreground-secondary">
             We built {siteName} to provide useful online tools while keeping
             privacy clear and understandable. This policy explains what
             information we collect, how we use it, and how files are handled
             when you use our tools.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3 text-xs text-zinc-300">
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          <div className="mt-8 flex flex-wrap gap-3 text-xs text-foreground-secondary">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Plain language
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Privacy focused
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Browser-based tools
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Updated regularly
             </span>
           </div>
@@ -149,9 +149,9 @@ export default function PrivacyPolicyPage() {
         {/* Contents */}
         <nav
           aria-label="On this page"
-          className="mb-10 rounded-3xl border border-white/10 bg-white/5 p-6"
+          className="mb-10 rounded-3xl border border-border bg-card p-6"
         >
-          <h2 className="text-lg font-semibold text-white">
+          <h2 className="text-lg font-semibold text-foreground">
             On this page
           </h2>
 
@@ -160,7 +160,7 @@ export default function PrivacyPolicyPage() {
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="text-sm text-zinc-300 transition-colors hover:text-white hover:underline underline-offset-4"
+                  className="text-sm text-foreground-secondary transition-colors hover:text-foreground hover:underline underline-offset-4"
                 >
                   {section.title}
                 </a>
@@ -171,9 +171,9 @@ export default function PrivacyPolicyPage() {
 
         {/* Summary */}
         <section id="summary" className="scroll-mt-24 py-2">
-          <h2 className="text-3xl font-semibold text-white">Summary</h2>
+          <h2 className="text-3xl font-semibold text-foreground">Summary</h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               {siteName} provides free online tools for tasks such as working
               with PDFs, images, files, dates, time zones, QR codes,
@@ -205,12 +205,12 @@ export default function PrivacyPolicyPage() {
           id="information-we-collect"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Information We Collect
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
-            <h3 className="text-xl font-medium text-white">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
+            <h3 className="text-xl font-medium text-foreground">
               Information you provide
             </h3>
 
@@ -219,7 +219,7 @@ export default function PrivacyPolicyPage() {
               email address, and the contents of your message.
             </p>
 
-            <h3 className="pt-2 text-xl font-medium text-white">
+            <h3 className="pt-2 text-xl font-medium text-foreground">
               Technical information
             </h3>
 
@@ -243,11 +243,11 @@ export default function PrivacyPolicyPage() {
           id="how-we-use-information"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             How We Use Information
           </h2>
 
-          <ul className="mt-4 max-w-4xl space-y-3 text-zinc-300 leading-7">
+          <ul className="mt-4 max-w-4xl space-y-3 text-foreground-secondary leading-7">
             <li>• To provide and operate our website and tools.</li>
             <li>• To respond to questions and support requests.</li>
             <li>• To maintain website security and prevent abuse.</li>
@@ -257,7 +257,7 @@ export default function PrivacyPolicyPage() {
             <li>• To comply with applicable legal obligations.</li>
           </ul>
 
-          <p className="mt-5 max-w-4xl text-zinc-300 leading-7">
+          <p className="mt-5 max-w-4xl text-foreground-secondary leading-7">
             We do not use personal information for purposes that are
             incompatible with the purposes described in this policy without
             providing appropriate notice where required.
@@ -269,19 +269,19 @@ export default function PrivacyPolicyPage() {
           id="files-and-processing"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Files and Tool Processing
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               Privacy handling can differ between tools. We therefore
               distinguish between browser-based processing and server-side
               processing.
             </p>
 
-            <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5">
-              <h3 className="font-semibold text-emerald-200">
+            <div className="rounded-2xl border border-emerald-300 dark:border-emerald-400/20 bg-emerald-100 dark:bg-emerald-400/5 p-5">
+              <h3 className="font-semibold text-emerald-700 dark:text-emerald-200">
                 Browser-based processing
               </h3>
 
@@ -292,8 +292,8 @@ export default function PrivacyPolicyPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-5">
-              <h3 className="font-semibold text-amber-200">
+            <div className="rounded-2xl border border-amber-300 dark:border-amber-400/20 bg-amber-100 dark:bg-amber-400/5 p-5">
+              <h3 className="font-semibold text-amber-700 dark:text-amber-200">
                 Server-side processing
               </h3>
 
@@ -316,11 +316,11 @@ export default function PrivacyPolicyPage() {
           id="cookies-and-analytics"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Cookies and Analytics
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               We may use cookies, local storage, or similar technologies to
               provide functionality, remember preferences, maintain security,
@@ -347,11 +347,11 @@ export default function PrivacyPolicyPage() {
           id="third-party-services"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Third-Party Services
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               We may rely on third-party providers for services such as
               hosting, infrastructure, security, analytics, email delivery,
@@ -379,11 +379,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Retention */}
         <section id="data-retention" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Data Retention
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               We retain personal information only for as long as reasonably
               necessary for the purpose for which it was collected, including
@@ -405,11 +405,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Security */}
         <section id="data-security" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Data Security
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               We use reasonable technical and organizational measures designed
               to protect information against unauthorized access, misuse,
@@ -433,11 +433,11 @@ export default function PrivacyPolicyPage() {
           id="privacy-by-design"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Privacy by Design
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               Privacy is considered when we design and improve our tools.
               Where technically practical, we prefer browser-based processing
@@ -459,11 +459,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Children */}
         <section id="children" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Children&apos;s Privacy
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               Our services are intended for general audiences and are not
               specifically directed to children.
@@ -487,11 +487,11 @@ export default function PrivacyPolicyPage() {
           id="your-rights"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Your Privacy Rights
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               Depending on where you live and which privacy laws apply, you
               may have rights relating to your personal information.
@@ -521,11 +521,11 @@ export default function PrivacyPolicyPage() {
           id="international-users"
           className="scroll-mt-24 py-8"
         >
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             International Users
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               Atoolix may be accessible to users in different countries.
               Privacy and data protection requirements can differ depending
@@ -547,11 +547,11 @@ export default function PrivacyPolicyPage() {
 
         {/* Changes */}
         <section id="changes" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Changes to This Policy
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               We may update this Privacy Policy when our services, tools,
               technologies, or legal obligations change.
@@ -571,17 +571,17 @@ export default function PrivacyPolicyPage() {
 
         {/* Contact */}
         <section id="contact" className="scroll-mt-24 py-8">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Contact Us
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 text-zinc-300 leading-7">
+          <div className="mt-4 max-w-4xl space-y-4 text-foreground-secondary leading-7">
             <p>
               If you have questions about this Privacy Policy, our tools, or
               how your information is handled, contact us at{" "}
               <a
                 href="mailto:support@atoolix.com"
-                className="text-violet-300 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 support@atoolix.com
               </a>
@@ -592,7 +592,7 @@ export default function PrivacyPolicyPage() {
               You can also visit our{" "}
               <Link
                 href="/contact"
-                className="text-violet-300 hover:text-violet-200"
+                className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 Contact page
               </Link>{" "}
@@ -602,29 +602,29 @@ export default function PrivacyPolicyPage() {
         </section>
 
         {/* Related policies */}
-        <section className="mt-8 mb-16 rounded-3xl border border-white/10 bg-white/5 p-6">
-          <h2 className="text-lg font-semibold text-white">
+        <section className="mt-8 mb-16 rounded-3xl border border-border bg-card p-6">
+          <h2 className="text-lg font-semibold text-foreground">
             Related Information
           </h2>
 
           <div className="mt-4 flex flex-wrap gap-4 text-sm">
             <Link
               href="/terms"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Terms of Service
             </Link>
 
             <Link
               href="/contact"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Contact Atoolix
             </Link>
 
             <Link
               href="/"
-              className="text-violet-300 hover:text-violet-200"
+              className="text-violet-700 dark:text-violet-300 hover:text-violet-800 dark:hover:text-violet-200"
             >
               Atoolix Tools
             </Link>

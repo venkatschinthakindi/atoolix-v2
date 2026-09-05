@@ -234,41 +234,41 @@ export default function AboutPage() {
         />
 
         {/* Hero */}
-        <section className="mb-12 rounded-3xl border border-white/10 bg-white/5 px-6 py-10 shadow-2xl backdrop-blur-xl sm:px-8">
-          <p className="mb-3 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-zinc-300">
+        <section className="mb-12 rounded-3xl border border-border bg-card px-6 py-10 shadow-2xl backdrop-blur-xl sm:px-8">
+          <p className="mb-3 inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-medium text-foreground-secondary">
             About {siteName} • Last updated: {lastUpdated}
           </p>
 
-          <h1 className="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
             About {siteName}
           </h1>
 
-          <p className="mt-5 max-w-3xl text-base leading-7 text-zinc-300">
+          <p className="mt-5 max-w-3xl text-base leading-7 text-foreground-secondary">
             {siteName} is a browser-based utility platform that brings
             practical calculators, file tools, image tools, and everyday
             utilities together in one place.
           </p>
 
-          <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-300">
+          <p className="mt-4 max-w-3xl text-base leading-7 text-foreground-secondary">
             Our goal is straightforward: make common digital tasks easier to
             complete without requiring users to install separate software for
             every small job.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3 text-xs text-zinc-300">
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+          <div className="mt-8 flex flex-wrap gap-3 text-xs text-foreground-secondary">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Browser-based
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Practical tools
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Simple workflows
             </span>
 
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">
+            <span className="rounded-full border border-border bg-card px-3 py-1">
               Regularly improved
             </span>
           </div>
@@ -276,11 +276,11 @@ export default function AboutPage() {
 
         {/* Who we are */}
         <section className="mb-14" aria-labelledby="who-we-are-heading">
-          <h2 id="who-we-are-heading" className="text-3xl font-semibold text-white">
+          <h2 id="who-we-are-heading" className="text-3xl font-semibold text-foreground">
             Who we are
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               {siteName} is an independent online utility platform focused on
               practical tools for everyday digital tasks.
@@ -301,14 +301,14 @@ export default function AboutPage() {
 
             <p>
               {siteName} is built and operated by{" "}
-              <strong className="font-semibold text-white">Venkatesh</strong>,
+              <strong className="font-semibold text-foreground">Venkatesh</strong>,
               based in Hyderabad, Telangana, India, through the operating
               entity{" "}
               <a
                 href="https://www.thrinetratech.in"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-violet-300 underline underline-offset-4 hover:text-violet-200"
+                className="font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 Thrinetra Tech
               </a>
@@ -318,7 +318,7 @@ export default function AboutPage() {
               can reach the team directly at{" "}
               <a
                 href={`mailto:support@${siteName}.com`}
-                className="font-medium text-violet-300 underline underline-offset-4 hover:text-violet-200"
+                className="font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-200"
               >
                 support@{siteName}.com
               </a>
@@ -329,11 +329,11 @@ export default function AboutPage() {
 
         {/* What we do */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             What {siteName} does
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             The platform provides tools for calculations, document handling,
             image preparation, conversions, and other common online tasks.
             Available tools can change as the platform is updated.
@@ -344,17 +344,17 @@ export default function AboutPage() {
               <Link
                 key={category.href}
                 href={category.href}
-                className="rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/10"
+                className="rounded-3xl border border-border bg-card p-6 transition hover:border-border-strong hover:bg-surface-raised"
               >
-                <h3 className="text-xl font-semibold text-white">
+                <h3 className="text-xl font-semibold text-foreground">
                   {category.title}
                 </h3>
 
-                <p className="mt-3 text-sm leading-6 text-zinc-300">
+                <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                   {category.description}
                 </p>
 
-                <span className="mt-5 inline-flex text-sm font-medium text-violet-300">
+                <span className="mt-5 inline-flex text-sm font-medium text-violet-700 dark:text-violet-300">
                   Explore tools →
                 </span>
               </Link>
@@ -364,51 +364,51 @@ export default function AboutPage() {
 
         {/* How tools work */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             How our tools work
           </h2>
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
-            <article className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <p className="text-xs font-semibold tracking-wide text-violet-300">
+            <article className="rounded-3xl border border-border bg-card p-6">
+              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-300">
                 01
               </p>
 
-              <h3 className="mt-2 text-xl font-semibold text-white">
+              <h3 className="mt-2 text-xl font-semibold text-foreground">
                 Choose a tool
               </h3>
 
-              <p className="mt-3 text-sm leading-6 text-zinc-300">
+              <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                 Select the calculator, converter, document tool, image tool,
                 or other utility that matches your task.
               </p>
             </article>
 
-            <article className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <p className="text-xs font-semibold tracking-wide text-violet-300">
+            <article className="rounded-3xl border border-border bg-card p-6">
+              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-300">
                 02
               </p>
 
-              <h3 className="mt-2 text-xl font-semibold text-white">
+              <h3 className="mt-2 text-xl font-semibold text-foreground">
                 Enter information
               </h3>
 
-              <p className="mt-3 text-sm leading-6 text-zinc-300">
+              <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                 Depending on the tool, enter values or select a file and
                 configure the available options.
               </p>
             </article>
 
-            <article className="rounded-3xl border border-white/10 bg-white/5 p-6">
-              <p className="text-xs font-semibold tracking-wide text-violet-300">
+            <article className="rounded-3xl border border-border bg-card p-6">
+              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-300">
                 03
               </p>
 
-              <h3 className="mt-2 text-xl font-semibold text-white">
+              <h3 className="mt-2 text-xl font-semibold text-foreground">
                 Review the result
               </h3>
 
-              <p className="mt-3 text-sm leading-6 text-zinc-300">
+              <p className="mt-3 text-sm leading-6 text-foreground-secondary">
                 Review the generated calculation or file before using it for
                 your intended purpose.
               </p>
@@ -418,11 +418,11 @@ export default function AboutPage() {
 
         {/* Privacy */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Privacy and file handling
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               Where technically possible, some file-processing tools are
               designed to perform processing directly in the browser rather
@@ -444,14 +444,14 @@ export default function AboutPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/privacy"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition hover:bg-surface-raised"
             >
               Read Privacy Policy
             </Link>
 
             <Link
               href="/documentation"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition hover:bg-surface-raised"
             >
               Read Documentation
             </Link>
@@ -460,11 +460,11 @@ export default function AboutPage() {
 
         {/* Accuracy */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Accuracy and responsible use
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               Our tools are designed to provide useful calculations,
               conversions, and file-processing results, but outputs can depend
@@ -489,7 +489,7 @@ export default function AboutPage() {
           <div className="mt-6">
             <Link
               href="/disclaimer"
-              className="text-sm font-medium text-violet-300 underline underline-offset-4"
+              className="text-sm font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4"
             >
               Read the full Disclaimer
             </Link>
@@ -498,11 +498,11 @@ export default function AboutPage() {
 
         {/* Transparency */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Transparency
           </h2>
 
-          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-zinc-300">
+          <div className="mt-4 max-w-4xl space-y-4 leading-7 text-foreground-secondary">
             <p>
               We aim to describe our tools according to what they actually do.
               Tool availability, supported formats, processing methods, and
@@ -524,28 +524,28 @@ export default function AboutPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/terms"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition hover:bg-surface-raised"
             >
               Terms
             </Link>
 
             <Link
               href="/privacy"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition hover:bg-surface-raised"
             >
               Privacy
             </Link>
 
             <Link
               href="/disclaimer"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition hover:bg-surface-raised"
             >
               Disclaimer
             </Link>
 
             <Link
               href="/contact"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition hover:bg-surface-raised"
             >
               Contact
             </Link>
@@ -554,11 +554,11 @@ export default function AboutPage() {
 
         {/* Available tools */}
         <section className="mb-14">
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-3xl font-semibold text-foreground">
             Available tools
           </h2>
 
-          <p className="mt-4 max-w-4xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-4xl leading-7 text-foreground-secondary">
             The following tools are currently available. This list may change
             as new utilities are introduced and existing tools are improved.
           </p>
@@ -568,13 +568,13 @@ export default function AboutPage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-3xl border border-white/10 bg-slate-950/30 p-5 text-white transition hover:border-white/20 hover:bg-slate-950/40"
+                className="rounded-3xl border border-border bg-surface-sunken p-5 text-foreground transition hover:border-border-strong hover:bg-surface-sunken"
               >
                 <p className="text-sm font-semibold">
                   {item.label}
                 </p>
 
-                <p className="mt-2 text-sm leading-6 text-zinc-400">
+                <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                   {item.description}
                 </p>
               </Link>
@@ -583,12 +583,12 @@ export default function AboutPage() {
         </section>
 
         {/* Contact */}
-        <section className="mb-14 rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8">
-          <h2 className="text-3xl font-semibold text-white">
+        <section className="mb-14 rounded-3xl border border-border bg-card p-6 sm:p-8">
+          <h2 className="text-3xl font-semibold text-foreground">
             Contact {siteName}
           </h2>
 
-          <p className="mt-4 max-w-3xl leading-7 text-zinc-300">
+          <p className="mt-4 max-w-3xl leading-7 text-foreground-secondary">
             If you find a problem with a tool, have a feature suggestion, or
             want to discuss a partnership or other matter, you can contact us.
           </p>
@@ -596,14 +596,14 @@ export default function AboutPage() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={`mailto:support@${siteName}.com`}
-              className="text-sm font-medium text-violet-300 underline underline-offset-4"
+              className="text-sm font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4"
             >
               support@{siteName}.com
             </a>
 
             <Link
               href="/contact"
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-center text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-4 py-2 text-center text-sm text-foreground transition hover:bg-surface-raised"
             >
               Contact page
             </Link>
@@ -612,18 +612,18 @@ export default function AboutPage() {
 
         {/* External listings */}
         <section
-          className="mb-14 rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8"
+          className="mb-14 rounded-3xl border border-border bg-card p-6 sm:p-8"
           aria-labelledby="recognition-heading"
         >
           <div className="max-w-3xl">
             <h2
               id="recognition-heading"
-              className="text-3xl font-semibold text-white"
+              className="text-3xl font-semibold text-foreground"
             >
               Recognition &amp; Reviews
             </h2>
 
-            <p className="mt-4 leading-7 text-zinc-300">
+            <p className="mt-4 leading-7 text-foreground-secondary">
               {siteName} is listed on independent product and software
               discovery platforms. You can learn more about the platform,
               explore its listings, and share your feedback on these services.
@@ -632,12 +632,12 @@ export default function AboutPage() {
 
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             {/* SaaSHub */}
-            <div className="rounded-3xl border border-white/10 bg-slate-950/30 p-5">
-              <h3 className="text-lg font-semibold text-white">
+            <div className="rounded-3xl border border-border bg-surface-sunken p-5">
+              <h3 className="text-lg font-semibold text-foreground">
                 SaaSHub
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-zinc-400">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 View the {siteName} listing on SaaSHub.
               </p>
 
@@ -662,12 +662,12 @@ export default function AboutPage() {
             </div>
 
             {/* Product Hunt */}
-            <div className="rounded-3xl border border-white/10 bg-slate-950/30 p-5">
-              <h3 className="text-lg font-semibold text-white">
+            <div className="rounded-3xl border border-border bg-surface-sunken p-5">
+              <h3 className="text-lg font-semibold text-foreground">
                 Product Hunt
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-zinc-400">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 Visit {siteName} on Product Hunt and share your review.
               </p>
 
@@ -694,12 +694,12 @@ export default function AboutPage() {
         </section>
 
         {/* Final CTA */}
-        <section className="mb-14 rounded-3xl border border-white/10 bg-white/5 p-6 text-center sm:p-8">
-          <h2 className="text-3xl font-semibold text-white">
+        <section className="mb-14 rounded-3xl border border-border bg-card p-6 text-center sm:p-8">
+          <h2 className="text-3xl font-semibold text-foreground">
             Explore {siteName}
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl leading-7 text-zinc-300">
+          <p className="mx-auto mt-4 max-w-2xl leading-7 text-foreground-secondary">
             Browse the available tools and choose the utility that fits your
             task.
           </p>
@@ -714,7 +714,7 @@ export default function AboutPage() {
 
             <Link
               href="/documentation"
-              className="rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm text-white transition hover:bg-white/10"
+              className="rounded-full border border-border bg-card px-5 py-2.5 text-sm text-foreground transition hover:bg-surface-raised"
             >
               Read documentation
             </Link>
