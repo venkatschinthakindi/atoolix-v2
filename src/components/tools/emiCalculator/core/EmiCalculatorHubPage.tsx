@@ -67,10 +67,10 @@ function Field({
   return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between gap-2">
-        <label className="block text-sm font-medium text-white/80">
+        <label className="block text-sm font-medium text-foreground">
           {label}
         </label>
-        {hint && <span className="text-[11px] text-white/35">{hint}</span>}
+        {hint && <span className="text-[11px] text-foreground-faint">{hint}</span>}
       </div>
       {children}
     </div>
@@ -78,7 +78,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
+  "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder-white/30 focus:outline-none focus:border-blue-300 dark:border-blue-400/50 focus:bg-surface-raised transition text-sm";
 
 /** Slider + synced number input, so numbers are easy to both scrub and type */
 function SliderField({
@@ -109,20 +109,20 @@ function SliderField({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        <label className="text-sm font-medium text-white/80">{label}</label>
-        <div className="flex items-center rounded-lg border border-white/10 bg-white/5 focus-within:border-blue-400/50 overflow-hidden">
+        <label className="text-sm font-medium text-foreground">{label}</label>
+        <div className="flex items-center rounded-lg border border-border bg-card focus-within:border-blue-300 dark:border-blue-400/50 overflow-hidden">
           {prefix && (
-            <span className="pl-3 text-xs text-white/40">{prefix}</span>
+            <span className="pl-3 text-xs text-foreground-faint">{prefix}</span>
           )}
           <input
             type="number"
             aria-label={label}
             value={value}
             onChange={(e) => onChange(Number(e.target.value))}
-            className="w-28 bg-transparent px-2 py-1.5 text-right text-sm text-white focus:outline-none"
+            className="w-28 bg-transparent px-2 py-1.5 text-right text-sm text-foreground focus:outline-none"
           />
           {suffix && (
-            <span className="pr-3 text-xs text-white/40">{suffix}</span>
+            <span className="pr-3 text-xs text-foreground-faint">{suffix}</span>
           )}
         </div>
       </div>
@@ -142,7 +142,7 @@ function SliderField({
           appearance: "none",
         }}
       />
-      <div className="flex justify-between text-[11px] text-white/35">
+      <div className="flex justify-between text-[11px] text-foreground-faint">
         <span>{formatValue ? formatValue(min) : min}</span>
         <span>{formatValue ? formatValue(max) : max}</span>
       </div>
@@ -159,7 +159,7 @@ function SectionHeading({
 }) {
   return (
     <div className="flex items-center justify-between mb-3">
-      <h2 className="text-sm font-semibold text-white/80 tracking-wide uppercase">
+      <h2 className="text-sm font-semibold text-foreground tracking-wide uppercase">
         {children}
       </h2>
       {action}
@@ -179,16 +179,16 @@ function QuickStartStrip() {
       {steps.map((s, i) => (
         <div
           key={s.title}
-          className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
+          className="mb-8 rounded-3xl border border-border bg-popover p-3 sm:p-4 flex gap-3 items-start"
         >
-          <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
+          <div className="shrink-0 w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-400/15 border border-blue-300 dark:border-blue-400/30 flex items-center justify-center text-sm">
             {s.icon}
           </div>
           <div>
-            <div className="text-xs font-semibold text-white/80">
+            <div className="text-xs font-semibold text-foreground">
               {i + 1}. {s.title}
             </div>
-            <div className="text-[11px] text-white/45 mt-0.5 leading-snug">
+            <div className="text-[11px] text-foreground-faint mt-0.5 leading-snug">
               {s.body}
             </div>
           </div>
@@ -203,20 +203,20 @@ function QuickStartStrip() {
 function MethodologyNote() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
+    <div className="mb-8 rounded-3xl border border-border bg-popover overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
+        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-card transition"
       >
-        <span className="text-xs font-medium text-white/60">
+        <span className="text-xs font-medium text-foreground-secondary">
           ⓘ How this is calculated
         </span>
-        <span className="text-white/40 text-sm">{open ? "−" : "+"}</span>
+        <span className="text-foreground-faint text-sm">{open ? "−" : "+"}</span>
       </button>
       {open && (
-        <div className="px-5 pb-4 pt-1 text-xs text-white/50 leading-relaxed space-y-2 border-t border-white/10">
+        <div className="px-5 pb-4 pt-1 text-xs text-foreground-faint leading-relaxed space-y-2 border-t border-border">
           <p>
             This calculator uses the standard reducing-balance (amortizing
             loan) formula used by banks worldwide: EMI = P × r × (1+r)ⁿ / [(1+r)ⁿ − 1],
@@ -253,8 +253,8 @@ function TabButton({
       aria-pressed={active}
       className={`px-4 py-2 rounded-xl text-sm font-medium border transition ${
         active
-          ? "border-blue-400/50 bg-blue-400/15 text-white"
-          : "border-white/10 bg-white/5 text-white/55 hover:bg-white/10 hover:text-white"
+          ? "border-blue-300 dark:border-blue-400/50 bg-blue-100 dark:bg-blue-400/15 text-foreground"
+          : "border-border bg-card text-foreground-faint hover:bg-surface-raised hover:text-foreground"
       }`}
     >
       {children}
@@ -475,11 +475,11 @@ export default function EmiCalculatorHubPage({
 
   /* ───── Render ───── */
   return (
-    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-white space-y-6 max-w-4xl mx-auto">
+    <div className="w-full max-w-6xl mx-auto px-3 py-3 sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6 text-foreground space-y-6 max-w-4xl mx-auto">
       {/* ── Intro ── */}
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-2 pt-1">
-          <span className="text-xs text-white/40">Currency</span>
+          <span className="text-xs text-foreground-faint">Currency</span>
           <CustomSelect
             value={currency}
             callBackTrigger={(e) => setCurrency(e as CurrencyCode)}
@@ -501,8 +501,8 @@ export default function EmiCalculatorHubPage({
             aria-pressed={loanType === t}
             className={`px-5 py-2.5 rounded-full text-sm font-medium border transition ${
               loanType === t
-                ? "border-blue-400/60 bg-blue-400/15 text-white"
-                : "border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+                ? "border-blue-300 dark:border-blue-400/60 bg-blue-100 dark:bg-blue-400/15 text-foreground"
+                : "border-border bg-card text-foreground-secondary hover:bg-surface-raised hover:text-foreground"
             }`}
           >
             {t === "home" ? "🏠" : t === "personal" ? "👤" : "🚗"}{" "}
@@ -513,8 +513,8 @@ export default function EmiCalculatorHubPage({
 
       {/* ── Validation banner ── */}
       {hasValidationErrors && (
-        <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 px-5 py-4 text-sm text-orange-100">
-          <div className="font-semibold text-white mb-2">
+        <div className="mb-8 rounded-3xl border border-border bg-popover px-5 py-4 text-sm text-orange-100">
+          <div className="font-semibold text-foreground mb-2">
             ⚠️ Please check these before your numbers are fully accurate
           </div>
           <ul className="list-disc pl-5 space-y-1 text-xs text-orange-200">
@@ -541,13 +541,13 @@ export default function EmiCalculatorHubPage({
       <QuickStartStrip />
 
       {/* ── Loan details + live EMI result (Basic layer) ── */}
-      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
+      <div className="mb-8 rounded-3xl border border-border bg-popover p-6 sm:p-8">
         <SectionHeading
           action={
             <button
               type="button"
               onClick={() => handleLoanTypeChange(loanType)}
-              className="text-xs text-blue-300 hover:text-blue-200 underline underline-offset-2"
+              className="text-xs text-blue-700 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200 underline underline-offset-2"
             >
               Reset to {loanType.charAt(0).toUpperCase() + loanType.slice(1)}{" "}
               preset
@@ -556,7 +556,7 @@ export default function EmiCalculatorHubPage({
         >
           Loan Details
         </SectionHeading>
-        <p className="text-xs text-white/40 -mt-1 mb-5">
+        <p className="text-xs text-foreground-faint -mt-1 mb-5">
           {loanPreset.description}. Drag a slider or type an exact value.
         </p>
 
@@ -594,11 +594,11 @@ export default function EmiCalculatorHubPage({
           </div>
 
           {/* Live result */}
-          <div className="rounded-2xl border border-blue-400/20 bg-blue-400/5 p-5 md:sticky md:top-4">
-            <div className="text-xs text-white/50 uppercase tracking-wide mb-2">
+          <div className="rounded-2xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/5 p-5 md:sticky md:top-4">
+            <div className="text-xs text-foreground-faint uppercase tracking-wide mb-2">
               Estimated Monthly EMI
             </div>
-            <div className="text-3xl sm:text-4xl font-bold text-white break-all">
+            <div className="text-3xl sm:text-4xl font-bold text-foreground break-all">
               {fmt(base.emi)}
             </div>
             <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -619,9 +619,9 @@ export default function EmiCalculatorHubPage({
               </div>
             </div>
             {hasPrepayments && (
-              <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-xs">
-                <span className="text-white/50">With your prepayments</span>
-                <span className="text-emerald-300 font-semibold">
+              <div className="mt-4 pt-4 border-t border-border flex items-center justify-between text-xs">
+                <span className="text-foreground-faint">With your prepayments</span>
+                <span className="text-emerald-700 dark:text-emerald-300 font-semibold">
                   🎉 Save {fmt(interestSaved)} ·{" "}
                   {monthsSaved > 0 ? `${monthsSaved} month${monthsSaved > 1 ? 's' : ''} faster` : "same tenure"}
                 </span>
@@ -631,7 +631,7 @@ export default function EmiCalculatorHubPage({
               <button
                 type="button"
                 onClick={() => setPrepayOpen(true)}
-                className="mt-4 w-full text-xs font-semibold text-blue-300 hover:text-blue-200 underline underline-offset-2 text-left"
+                className="mt-4 w-full text-xs font-semibold text-blue-700 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-200 underline underline-offset-2 text-left"
               >
                 Want to reduce your interest? Explore prepayment →
               </button>
@@ -644,35 +644,35 @@ export default function EmiCalculatorHubPage({
       <MethodologyNote />
 
       {/* ── Prepayment & advanced options (progressively revealed) ── */}
-      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden"
+      <div className="mb-8 rounded-3xl border border-border bg-popover overflow-hidden"
         tabIndex={-1}
         ref={prepaySectionRef}>
         <button
           type="button"
           onClick={() => setPrepayOpen(!prepayOpen)}
           aria-expanded={prepayOpen}
-          className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-white/5 transition"
+          className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-card transition"
         >
           <div>
-            <div className="text-sm font-semibold text-white flex items-center gap-2">
+            <div className="text-sm font-semibold text-foreground flex items-center gap-2">
               💰 Prepayment Options
               {hasPrepayments && (
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-400/15 text-emerald-300 border border-emerald-400/30">
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-400/15 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-400/30">
                   Active
                 </span>
               )}
             </div>
-            <div className="text-xs text-white/50 mt-0.5">
+            <div className="text-xs text-foreground-faint mt-0.5">
               Optional — add extra payments to close your loan faster
             </div>
           </div>
-          <span className="text-white/50 text-xl w-7 h-7 flex items-center justify-center rounded-lg bg-white/10 shrink-0">
+          <span className="text-foreground-faint text-xl w-7 h-7 flex items-center justify-center rounded-lg bg-surface-raised shrink-0">
             {prepayOpen ? "−" : "+"}
           </span>
         </button>
 
         {prepayOpen && (
-          <div className="px-6 pb-6 pt-2 space-y-5 border-t border-white/10">
+          <div className="px-6 pb-6 pt-2 space-y-5 border-t border-border">
             {/* Bank limit + Advanced toggle row — advanced stays collapsed by default */}
             <div className="grid gap-4 sm:grid-cols-2">
               <Field
@@ -689,13 +689,13 @@ export default function EmiCalculatorHubPage({
                 />
               </Field>
               <div className="space-y-2">
-                <div className="text-sm font-medium text-white/80">
+                <div className="text-sm font-medium text-foreground">
                   Advanced options
                 </div>
                 <button
                   type="button"
                   onClick={() => setAdvancedOpen(!advancedOpen)}
-                  className="w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white/70 text-sm hover:bg-white/10 hover:text-white transition"
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground-secondary text-sm hover:bg-surface-raised hover:text-foreground transition"
                 >
                   {advancedOpen ? "Hide advanced ↑" : "Show advanced ↓"}
                 </button>
@@ -704,8 +704,8 @@ export default function EmiCalculatorHubPage({
 
             {/* Advanced options — extra monthly / balloon, hidden until asked for */}
             {advancedOpen && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
-                <div className="text-xs text-white/50 uppercase tracking-wide">
+              <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+                <div className="text-xs text-foreground-faint uppercase tracking-wide">
                   Extra payments
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -739,7 +739,7 @@ export default function EmiCalculatorHubPage({
                   </Field>
                 </div>
                 {balloonPayment > 0 && (
-                  <div className="rounded-xl border border-blue-400/30 bg-blue-400/10 px-4 py-3 text-xs text-blue-200 leading-relaxed">
+                  <div className="rounded-xl border border-blue-300 dark:border-blue-400/30 bg-blue-100 dark:bg-blue-400/10 px-4 py-3 text-xs text-blue-700 dark:text-blue-200 leading-relaxed">
                     A balloon payment lowers your regular EMI starting right
                     away — the loan is structured so this lump sum covers
                     what's left when it matures. Increase it and watch the
@@ -755,16 +755,16 @@ export default function EmiCalculatorHubPage({
               {prepayments.map((entry, index) => (
                 <div
                   key={entry.id}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  className="rounded-2xl border border-border bg-card p-5"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <div className="text-sm font-semibold text-white">
+                    <div className="text-sm font-semibold text-foreground">
                       Prepayment #{index + 1}
                     </div>
                     <button
                       type="button"
                       onClick={() => removePrepayment(entry.id)}
-                      className="text-xs text-red-400 hover:text-red-300 transition underline"
+                      className="text-xs text-red-700 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition underline"
                     >
                       Remove
                     </button>
@@ -839,13 +839,13 @@ export default function EmiCalculatorHubPage({
             <button
               type="button"
               onClick={addPrepayment}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold hover:bg-blue-500/30 hover:text-white transition"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-500/30 hover:text-foreground transition"
             >
               + Add another prepayment
             </button>
 
             {prepayments.length > 0 && (
-              <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-white/50">
+              <div className="rounded-xl border border-border bg-card px-4 py-3 text-xs text-foreground-faint">
                 {prepayments.length} prepayment
                 {prepayments.length > 1 ? "s" : ""} configured. EMI reduction
                 entries are validated against the bank cap when the schedule
@@ -857,7 +857,7 @@ export default function EmiCalculatorHubPage({
       </div>
 
       {/* ── Results: Summary / Chart / Schedule tabs ── */}
-      <div className="mb-8 rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8">
+      <div className="mb-8 rounded-3xl border border-border bg-popover p-6 sm:p-8">
         <div className="flex flex-wrap gap-2 mb-5">
           <TabButton
             active={resultTab === "summary"}
@@ -885,23 +885,23 @@ export default function EmiCalculatorHubPage({
             {hasPrepayments ? (
               <div className="space-y-5">
                 {/* Plain-language payoff summary — the "why bother" answer */}
-                <div className="rounded-2xl border border-emerald-400/25 bg-emerald-400/5 p-5">
-                  <div className="text-sm font-semibold text-emerald-300 mb-1.5">
+                <div className="rounded-2xl border border-emerald-300 dark:border-emerald-400/25 bg-emerald-100 dark:bg-emerald-400/5 p-5">
+                  <div className="text-sm font-semibold text-emerald-700 dark:text-emerald-300 mb-1.5">
                     🎉 Your prepayments are working for you
                   </div>
-                  <p className="text-sm text-white/70 leading-relaxed">
+                  <p className="text-sm text-foreground-secondary leading-relaxed">
                     By putting {fmt(totalPrepaymentAmount)} extra toward this
                     loan, you cut total interest from{" "}
-                    <span className="text-white font-medium">
+                    <span className="text-foreground font-medium">
                       {fmt(base.cumulativeInterest.at(-1) ?? 0)}
                     </span>{" "}
                     down to{" "}
-                    <span className="text-white font-medium">
+                    <span className="text-foreground font-medium">
                       {fmt(adjusted.cumulativeInterest.at(-1) ?? 0)}
                     </span>
                     {" — "}
                     that's{" "}
-                    <span className="text-emerald-300 font-semibold">
+                    <span className="text-emerald-700 dark:text-emerald-300 font-semibold">
                       {fmt(interestSaved)} saved
                       {(base.cumulativeInterest.at(-1) ?? 0) > 0
                         ? ` (${(
@@ -945,28 +945,28 @@ export default function EmiCalculatorHubPage({
                   />
                 </div>
 
-                <div className="rounded-2xl border border-dashed border-white/10 bg-white/5 px-5 py-4">
-                  <div className="text-xs font-semibold text-white mb-3 uppercase tracking-wide">
+                <div className="rounded-2xl border border-dashed border-border bg-card px-5 py-4">
+                  <div className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wide">
                     Base vs. With Prepayment
                   </div>
-                  <div className="grid gap-y-2 gap-x-4 text-xs text-white/60 sm:grid-cols-2">
+                  <div className="grid gap-y-2 gap-x-4 text-xs text-foreground-secondary sm:grid-cols-2">
                     <div className="flex justify-between">
                       <span>Base EMI</span>
-                      <span className="text-white">{fmt(base.emi)}</span>
+                      <span className="text-foreground">{fmt(base.emi)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Base total interest</span>
-                      <span className="text-white">
+                      <span className="text-foreground">
                         {fmt(base.cumulativeInterest.at(-1) ?? 0)}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Adjusted EMI</span>
-                      <span className="text-white">{fmt(finalEmi)}</span>
+                      <span className="text-foreground">{fmt(finalEmi)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Adjusted total interest</span>
-                      <span className="text-white">
+                      <span className="text-foreground">
                         {fmt(adjusted.cumulativeInterest.at(-1) ?? 0)}
                       </span>
                     </div>
@@ -981,14 +981,14 @@ export default function EmiCalculatorHubPage({
                 )}
 
                 {emiCapAdjustments.length > 0 && (
-                  <div className="rounded-2xl border border-blue-400/20 bg-blue-400/5 p-5">
-                    <div className="text-xs font-semibold text-white mb-3 uppercase tracking-wide">
+                  <div className="rounded-2xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/5 p-5">
+                    <div className="text-xs font-semibold text-foreground mb-3 uppercase tracking-wide">
                       EMI Cap Adjustment Details
                     </div>
                     <div className="overflow-x-auto">
                       <table className="min-w-full text-xs">
                         <thead>
-                          <tr className="text-left text-white/40">
+                          <tr className="text-left text-foreground-faint">
                             <th className="pb-2 pr-4">Month</th>
                             <th className="pb-2 pr-4">Requested</th>
                             <th className="pb-2 pr-4">Applied</th>
@@ -1000,8 +1000,8 @@ export default function EmiCalculatorHubPage({
                           {emiCapAdjustments.map((adj, idx) => (
                             <tr
                               key={`${adj.month}-${adj.prepaymentId}-${idx}`}
-                              className={`border-t border-white/5 text-white/60 ${
-                                idx % 2 === 0 ? "bg-white/[0.02]" : ""
+                              className={`border-t border-border text-foreground-secondary ${
+                                idx % 2 === 0 ? "bg-card" : ""
                               }`}
                             >
                               <td className="py-2 pr-4">{adj.month}</td>
@@ -1025,20 +1025,20 @@ export default function EmiCalculatorHubPage({
               </div>
             ) : (
               <div className="text-center py-8 space-y-4">
-                <p className="text-sm text-white/50">
+                <p className="text-sm text-foreground-faint">
                   No prepayments applied yet. Even a small extra payment early
                   in your loan can meaningfully cut your total interest — try
                   it and see the difference instantly.
                 </p>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 max-w-md mx-auto text-left text-xs text-white/60 leading-relaxed">
-                  <span className="text-white/80 font-medium">
+                <div className="rounded-2xl border border-border bg-card px-5 py-4 max-w-md mx-auto text-left text-xs text-foreground-secondary leading-relaxed">
+                  <span className="text-foreground font-medium">
                     Principal reduction
                   </span>{" "}
                   pays down what you owe directly — it lowers your total
                   interest the most and can shorten your loan.
                   <br />
                   <br />
-                  <span className="text-white/80 font-medium">
+                  <span className="text-foreground font-medium">
                     EMI reduction
                   </span>{" "}
                   keeps your tenure the same but lowers your future monthly
@@ -1048,7 +1048,7 @@ export default function EmiCalculatorHubPage({
                 <button
                   type="button"
                   onClick={() => setPrepayOpen(true)}
-                  className="px-5 py-2.5 rounded-xl bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold hover:bg-blue-500/30 hover:text-white transition"
+                  className="px-5 py-2.5 rounded-xl bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-500/30 hover:text-foreground transition"
                 >
                   💰 Open Prepayment Options
                 </button>
@@ -1061,7 +1061,7 @@ export default function EmiCalculatorHubPage({
         {resultTab === "chart" && (
           <div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
-              <div className="flex items-center gap-2 text-xs text-white/60">
+              <div className="flex items-center gap-2 text-xs text-foreground-secondary">
                 <span>Chart type</span>
                 <CustomSelect
                   value={chartType}
@@ -1099,7 +1099,7 @@ export default function EmiCalculatorHubPage({
                   ).map(([key, checked, setter, label]) => (
                     <label
                       key={key}
-                      className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer"
+                      className="flex items-center gap-1.5 text-xs text-foreground-secondary cursor-pointer"
                     >
                       <input
                         type="checkbox"
@@ -1112,7 +1112,7 @@ export default function EmiCalculatorHubPage({
                   ))}
                   {compareEnabled && (
                     <>
-                      <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
+                      <label className="flex items-center gap-1.5 text-xs text-foreground-secondary cursor-pointer">
                         <input
                           type="checkbox"
                           checked={showPrepayPrincipal}
@@ -1123,7 +1123,7 @@ export default function EmiCalculatorHubPage({
                         />
                         Prepay Principal
                       </label>
-                      <label className="flex items-center gap-1.5 text-xs text-white/60 cursor-pointer">
+                      <label className="flex items-center gap-1.5 text-xs text-foreground-secondary cursor-pointer">
                         <input
                           type="checkbox"
                           checked={showPrepayInterest}
@@ -1167,7 +1167,7 @@ export default function EmiCalculatorHubPage({
         {resultTab === "schedule" && (
           <div>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between mb-5">
-              <div className="text-sm font-semibold text-white/80">
+              <div className="text-sm font-semibold text-foreground">
                 {showFullSchedule
                   ? "Full Schedule — Base / With Prepay"
                   : "First 12 Months"}
@@ -1175,7 +1175,7 @@ export default function EmiCalculatorHubPage({
               <button
                 type="button"
                 onClick={() => setShowFullSchedule(!showFullSchedule)}
-                className="text-xs text-blue-400 hover:text-blue-300 transition underline self-start sm:self-auto"
+                className="text-xs text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition underline self-start sm:self-auto"
               >
                 {showFullSchedule
                   ? "Show first 12 months"
@@ -1193,37 +1193,37 @@ export default function EmiCalculatorHubPage({
                   key={row.month}
                   className={`rounded-xl border p-4 ${
                     row.isEvent
-                      ? "border-blue-400/20 bg-blue-400/5"
-                      : "border-white/10 bg-white/5"
+                      ? "border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/5"
+                      : "border-border bg-card"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-sm font-semibold text-white">
+                    <div className="text-sm font-semibold text-foreground">
                       Month {row.month}
                     </div>
                     {row.isEvent && (
-                      <span className="text-xs bg-blue-400/20 text-blue-300 px-2 py-0.5 rounded-full">
+                      <span className="text-xs bg-blue-100 dark:bg-blue-400/20 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">
                         Prepayment
                       </span>
                     )}
                   </div>
-                  <div className="space-y-1 text-xs text-white/60">
+                  <div className="space-y-1 text-xs text-foreground-secondary">
                     <div className="flex justify-between">
                       <span>Base Remaining</span>
-                      <span className="text-white">
+                      <span className="text-foreground">
                         {fmt(base.principalRemaining[row.month - 1] ?? 0)}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span>With Prepay</span>
-                      <span className="text-white">{fmt(row.balance)}</span>
+                      <span className="text-foreground">{fmt(row.balance)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Payment</span>
-                      <span className="text-white">{fmt(row.payment)}</span>
+                      <span className="text-foreground">{fmt(row.payment)}</span>
                     </div>
                     {row.prepaymentLabel && (
-                      <div className="mt-2 pt-2 border-t border-white/10 text-yellow-300">
+                      <div className="mt-2 pt-2 border-t border-border text-yellow-300">
                         {row.prepaymentLabel}
                       </div>
                     )}
@@ -1239,8 +1239,8 @@ export default function EmiCalculatorHubPage({
               }`}
             >
               <table className="min-w-full text-xs">
-                <thead className="sticky top-0 z-10 bg-gray-900">
-                  <tr className="text-left text-white/40 border-b border-white/10">
+                <thead className="sticky top-0 z-10 bg-popover">
+                  <tr className="text-left text-foreground-faint border-b border-border">
                     <th className="pb-2 pr-4 font-medium">Month</th>
                     <th className="pb-2 pr-4 font-medium">Base Remaining</th>
                     <th className="pb-2 pr-4 font-medium">
@@ -1257,8 +1257,8 @@ export default function EmiCalculatorHubPage({
                   ).map((row) => (
                     <tr
                       key={row.month}
-                      className={`border-t border-white/5 text-white/60 ${
-                        row.isEvent ? "bg-blue-400/5" : ""
+                      className={`border-t border-border text-foreground-secondary ${
+                        row.isEvent ? "bg-blue-100 dark:bg-blue-400/5" : ""
                       }`}
                     >
                       <td className="py-2 pr-4">{row.month}</td>
@@ -1282,7 +1282,7 @@ export default function EmiCalculatorHubPage({
       </div>
 
       {/* ── Footer disclaimer ── */}
-      <p className="text-center text-sm text-emerald-300 px-2">
+      <p className="text-center text-sm text-emerald-700 dark:text-emerald-300 px-2">
         <b>Note: </b>Estimates only, based on standard reducing-balance amortization.
         Actual EMI, fees, and total interest may vary by lender — confirm the
         exact figures with your bank.
