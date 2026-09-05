@@ -238,7 +238,7 @@ const structuredData = {
 
 export default function WebpToJpegSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -254,14 +254,14 @@ export default function WebpToJpegSeoContent() {
           Convert WebP Images to JPEG in Your Browser
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert WebP images to JPEG with a fast, simple browser-based
           workflow. Atoolix helps you create JPEG images for documents,
           applications, websites, email, sharing, and other workflows where
           JPEG compatibility is required.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The tool is useful for designers, students, office users, marketers,
           developers, and mobile users who need to convert WebP images into
           the widely recognized JPEG format.
@@ -276,14 +276,14 @@ export default function WebpToJpegSeoContent() {
           What Is a WebP to JPEG Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A WebP to JPEG converter changes an image from the WebP format into
           JPEG format. This is useful when an application, document system,
           website, email workflow, or other platform accepts JPEG but does not
           support WebP.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           JPG and JPEG are commonly used names for the same image format. The
           file extension produced by a converter depends on its implementation,
           but both refer to JPEG image files.
@@ -298,7 +298,7 @@ export default function WebpToJpegSeoContent() {
           Why Convert WebP to JPEG?
         </h2>
 
-        <div className="mt-3 space-y-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             JPEG is supported by a broad range of applications, devices,
             operating systems, websites, document tools, and publishing
@@ -325,7 +325,7 @@ export default function WebpToJpegSeoContent() {
           Benefits of Using This Converter
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>• Convert modern WebP images into widely supported JPEG files.</li>
           <li>• Avoid installing separate desktop conversion software.</li>
           <li>• Prepare images for documents, presentations, email, and sharing.</li>
@@ -343,7 +343,7 @@ export default function WebpToJpegSeoContent() {
           Common WebP to JPEG Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           {useCases.map((useCase) => (
             <li key={useCase}>• {useCase}</li>
           ))}
@@ -358,7 +358,7 @@ export default function WebpToJpegSeoContent() {
           WebP vs JPEG: Which Image Format Should You Use?
         </h2>
 
-        <div className="mt-3 space-y-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             WebP is a modern image format commonly used for web delivery. It
             can provide efficient compression and is supported by modern
@@ -388,7 +388,7 @@ export default function WebpToJpegSeoContent() {
           Does Converting WebP to JPEG Reduce Image Quality?
         </h2>
 
-        <div className="mt-3 space-y-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             JPEG uses lossy compression, so converting an image to JPEG can
             remove some image information. The amount of visible change
@@ -410,13 +410,13 @@ export default function WebpToJpegSeoContent() {
           What Happens to Transparent WebP Images?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           JPEG does not support alpha transparency. When a transparent WebP is
           converted to JPEG, transparent areas therefore need to be flattened
           onto a background.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The exact background behavior depends on the implementation of the
           image converter.
         </p>
@@ -433,7 +433,7 @@ export default function WebpToJpegSeoContent() {
           How This WebP to JPEG Converter Works
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The conversion process is designed to keep the workflow clear and
           straightforward.
         </p>
@@ -442,7 +442,7 @@ export default function WebpToJpegSeoContent() {
           {howToSteps.map((step, index) => (
             <div
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -454,11 +454,11 @@ export default function WebpToJpegSeoContent() {
                 </span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -470,7 +470,7 @@ export default function WebpToJpegSeoContent() {
 
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -483,7 +483,7 @@ export default function WebpToJpegSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span aria-hidden="true" className="text-2xl">
@@ -491,11 +491,11 @@ export default function WebpToJpegSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -517,7 +517,7 @@ export default function WebpToJpegSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span aria-hidden="true" className="text-2xl">
@@ -525,11 +525,11 @@ export default function WebpToJpegSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -547,13 +547,13 @@ export default function WebpToJpegSeoContent() {
           Privacy and Browser-Based Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This converter is designed around browser-based image processing.
           When conversion is performed entirely on your device, your image
           does not need to be sent to a remote image-conversion server.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Analytics, diagnostics, and error-monitoring systems should not
           unnecessarily transmit image contents or converted files.
         </p>
@@ -571,14 +571,14 @@ export default function WebpToJpegSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

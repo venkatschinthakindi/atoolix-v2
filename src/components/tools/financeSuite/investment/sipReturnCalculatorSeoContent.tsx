@@ -338,7 +338,7 @@ export default function SipCalculatorSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
+    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-foreground">
       {/* Breadcrumb structured data only. */}
       <script
         type="application/ld+json"
@@ -349,7 +349,7 @@ export default function SipCalculatorSeoContent() {
 
       {/* Primary Intent */}
       <section aria-labelledby="sip-intro-heading" className="space-y-4">
-        <p className="text-sm font-medium text-blue-300">
+        <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
           Savings • SIP • Mutual Funds • Investment Planning
         </p>
 
@@ -360,7 +360,7 @@ export default function SipCalculatorSeoContent() {
           SIP Calculator for Investment, Returns and Maturity Value
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Use this SIP calculator to estimate the potential future value of
           regular investments, total amount invested, and estimated investment
           returns. Enter your monthly SIP amount, investment duration, and
@@ -368,7 +368,7 @@ export default function SipCalculatorSeoContent() {
           scenarios.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           The calculator provides an estimate based on the assumptions you
           enter. Actual investment returns can vary because of market
           performance, fees, taxes, investment selection, and other factors.
@@ -393,7 +393,7 @@ export default function SipCalculatorSeoContent() {
           {coreFeatures.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl" aria-hidden="true">
                 {item.icon}
@@ -403,7 +403,7 @@ export default function SipCalculatorSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -427,7 +427,7 @@ export default function SipCalculatorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="flex items-start gap-3">
                 <div
@@ -442,7 +442,7 @@ export default function SipCalculatorSeoContent() {
                     {step.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-6 text-white/65">
+                  <p className="mt-1 text-xs leading-6 text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -468,7 +468,7 @@ export default function SipCalculatorSeoContent() {
           {audiences.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl" aria-hidden="true">
                 {item.icon}
@@ -478,7 +478,7 @@ export default function SipCalculatorSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -499,19 +499,19 @@ export default function SipCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               SIP Future Value Formula
             </h3>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               A commonly used SIP calculation estimates the future value of
               periodic investments using the investment amount, periodic
               return, and number of investment periods.
             </p>
 
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
-              <p className="font-medium text-white">
+            <div className="mt-4 rounded-xl border border-border bg-surface-sunken p-4">
+              <p className="font-medium text-foreground">
                 FV = P × [((1 + r)ⁿ − 1) ÷ r] × (1 + r)
               </p>
             </div>
@@ -520,59 +520,59 @@ export default function SipCalculatorSeoContent() {
               Variables
             </h4>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               <li>
-                <strong className="text-white">P:</strong>{" "}
+                <strong className="text-foreground">P:</strong>{" "}
                 Periodic SIP investment amount.
               </li>
 
               <li>
-                <strong className="text-white">r:</strong>{" "}
+                <strong className="text-foreground">r:</strong>{" "}
                 Periodic rate of return.
               </li>
 
               <li>
-                <strong className="text-white">n:</strong>{" "}
+                <strong className="text-foreground">n:</strong>{" "}
                 Total number of investment periods.
               </li>
 
               <li>
-                <strong className="text-white">FV:</strong>{" "}
+                <strong className="text-foreground">FV:</strong>{" "}
                 Estimated future value of the SIP investment.
               </li>
             </ul>
 
-            <p className="mt-5 text-xs leading-6 text-white/65">
+            <p className="mt-5 text-xs leading-6 text-foreground-secondary">
               The exact formula can differ depending on whether investments
               are assumed to occur at the beginning or end of each period.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               SIP Investment and Return
             </h3>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               The total amount invested through a regular monthly SIP can be
               calculated by multiplying the monthly contribution by the
               number of months.
             </p>
 
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
-              <p className="font-medium text-white">
+            <div className="mt-4 rounded-xl border border-border bg-surface-sunken p-4">
+              <p className="font-medium text-foreground">
                 Total Invested = Monthly SIP × Number of Months
               </p>
             </div>
 
-            <p className="mt-4 text-xs leading-6 text-white/65">
+            <p className="mt-4 text-xs leading-6 text-foreground-secondary">
               The estimated investment gain can then be viewed as the
               difference between the estimated maturity value and the total
               amount invested.
             </p>
 
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
-              <p className="font-medium text-white">
+            <div className="mt-4 rounded-xl border border-border bg-surface-sunken p-4">
+              <p className="font-medium text-foreground">
                 Estimated Gain = Maturity Value − Total Invested
               </p>
             </div>
@@ -592,8 +592,8 @@ export default function SipCalculatorSeoContent() {
           SIP Calculator Methodology
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             This calculator uses the assumptions entered by the user to
             estimate the potential future value of regular SIP investments.
             The calculation is scenario-based, meaning that changing the
@@ -601,13 +601,13 @@ export default function SipCalculatorSeoContent() {
             materially change the result.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             The estimated maturity value should therefore be interpreted as a
             projection under a specific set of assumptions rather than a
             prediction of actual investment performance.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             Actual mutual fund and market-linked investment returns can
             fluctuate. The calculator does not eliminate investment risk or
             guarantee a particular maturity value.
@@ -628,48 +628,48 @@ export default function SipCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Monthly Investment
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               The monthly investment is the amount assumed to be contributed
               regularly to the SIP. Increasing the monthly contribution
               generally increases the estimated future value.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Investment Period
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               The investment period determines how long regular contributions
               remain invested. A longer period can provide more time for
               potential growth and compounding.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Expected Return
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               The expected return is an assumed annual rate used to estimate
               the future value. It is not a guaranteed return and should be
               selected carefully.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Investment Frequency
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               SIPs are commonly structured as monthly investments, although
               other frequencies may be available depending on the investment
               product.
@@ -694,13 +694,13 @@ export default function SipCalculatorSeoContent() {
           {sipEducation.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.body}
               </p>
             </article>
@@ -721,12 +721,12 @@ export default function SipCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               What Is Step-Up SIP?
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A step-up SIP increases the amount invested periodically. For
               example, an investor starting with a ₹10,000 monthly SIP might
               increase the contribution by a fixed percentage each year as
@@ -734,12 +734,12 @@ export default function SipCalculatorSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Why Increase Your SIP?
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Increasing contributions can help investors direct more of their
               growing income toward long-term financial goals. It can also
               increase the total amount invested and potential future value,
@@ -761,13 +761,13 @@ export default function SipCalculatorSeoContent() {
           SIP vs Lump-Sum Investment
         </h2>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[640px] text-left text-sm">
             <caption className="sr-only">
               Comparison between SIP and lump-sum investing
             </caption>
 
-            <thead className="border-b border-white/10">
+            <thead className="border-b border-border">
               <tr>
                 <th scope="col" className="p-4">
                   Planning Area
@@ -784,44 +784,44 @@ export default function SipCalculatorSeoContent() {
             </thead>
 
             <tbody>
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <th scope="row" className="p-4 font-medium">
                   Investment style
                 </th>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Regular investments over time.
                 </td>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Larger amount invested at one time.
                 </td>
               </tr>
 
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <th scope="row" className="p-4 font-medium">
                   Cash flow
                 </th>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Suitable for regular income-based investing.
                 </td>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Requires capital to be available upfront.
                 </td>
               </tr>
 
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <th scope="row" className="p-4 font-medium">
                   Market exposure
                 </th>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Investment is spread across multiple contribution dates.
                 </td>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   A larger amount is exposed to the market at the investment
                   date.
                 </td>
@@ -832,11 +832,11 @@ export default function SipCalculatorSeoContent() {
                   Common use
                 </th>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Regular long-term investing.
                 </td>
 
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Deploying existing available capital.
                 </td>
               </tr>
@@ -857,13 +857,13 @@ export default function SipCalculatorSeoContent() {
           SIP Investment Examples
         </h2>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[600px] text-left text-sm">
             <caption className="sr-only">
               Illustrative SIP investment amounts and periods
             </caption>
 
-            <thead className="border-b border-white/10">
+            <thead className="border-b border-border">
               <tr>
                 <th scope="col" className="p-4">
                   Monthly SIP
@@ -887,7 +887,7 @@ export default function SipCalculatorSeoContent() {
               {sipExamples.map((item) => (
                 <tr
                   key={`${item.monthly}-${item.years}`}
-                  className="border-b border-white/5 last:border-0"
+                  className="border-b border-border last:border-0"
                 >
                   <td className="p-4">
                     {item.monthly}
@@ -910,7 +910,7 @@ export default function SipCalculatorSeoContent() {
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/65">
+        <p className="text-xs leading-6 text-foreground-secondary">
           These examples show the contribution amount only. The actual
           maturity value depends on the return assumption and investment
           performance. They should not be interpreted as expected or
@@ -930,8 +930,8 @@ export default function SipCalculatorSeoContent() {
           Goal-Based SIP Planning
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             SIPs can be used for a wide range of long-term financial goals,
             such as education, home purchase, wealth accumulation, travel,
             emergency reserves, or other planned expenses. A goal-based
@@ -939,7 +939,7 @@ export default function SipCalculatorSeoContent() {
             estimates the periodic investment that may be required.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             Because investment returns are uncertain, it can be useful to
             compare conservative, base-case, and higher-return scenarios
             instead of relying on one assumed rate.
@@ -963,13 +963,13 @@ export default function SipCalculatorSeoContent() {
           {factors.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -990,12 +990,12 @@ export default function SipCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               SIP in India
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               SIP investing is commonly used by Indian investors for regular
               mutual fund investments. Investors can choose contribution
               amounts and investment horizons based on their financial goals,
@@ -1003,12 +1003,12 @@ export default function SipCalculatorSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               SIP and Inflation
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Inflation reduces the purchasing power of money over time. When
               setting a long-term investment target, consider whether the
               future cost of the goal may be higher than its current cost.
@@ -1030,34 +1030,34 @@ export default function SipCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Total Invested
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               This is the total amount contributed through the SIP over the
               selected investment period.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Estimated Returns
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               This represents the estimated gain based on the return
               assumption entered into the calculator.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Estimated Maturity Value
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               This is the estimated total value of the investment, combining
               the amount invested and the projected returns.
             </p>
@@ -1078,12 +1078,12 @@ export default function SipCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Mistakes to Avoid
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               {sipMistakes.map((item) => (
                 <li key={item}>
                   {item}
@@ -1092,12 +1092,12 @@ export default function SipCalculatorSeoContent() {
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Better SIP Practices
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               {sipStrategies.map((item) => (
                 <li key={item}>
                   {item}
@@ -1121,12 +1121,12 @@ export default function SipCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Power of Time
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Time can be an important factor in long-term investing because
               earlier contributions have more time to potentially compound.
               Extending the investment horizon can therefore materially affect
@@ -1134,12 +1134,12 @@ export default function SipCalculatorSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Consistent Investing
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Regular investing can create a disciplined savings habit.
               However, consistency does not remove market risk, and investors
               should choose investments appropriate for their objectives and
@@ -1161,8 +1161,8 @@ export default function SipCalculatorSeoContent() {
           SIP Calculator Limitations
         </h2>
 
-        <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-6">
-          <ul className="space-y-3 text-xs leading-6 text-white/70 sm:text-sm">
+        <div className="rounded-2xl border border-amber-300 dark:border-amber-400/20 bg-amber-100 dark:bg-amber-400/5 p-6">
+          <ul className="space-y-3 text-xs leading-6 text-foreground-secondary sm:text-sm">
             <li>
               Results are estimates based on the inputs and assumptions used.
             </li>
@@ -1207,45 +1207,45 @@ export default function SipCalculatorSeoContent() {
           Methodology and Review Information
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div className="rounded-2xl border border-border bg-card p-6">
           <dl className="grid gap-5 sm:grid-cols-2">
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Methodology
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 Scenario-based SIP investment calculations using the
                 assumptions entered into the calculator.
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Last reviewed
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 {LAST_REVIEWED}
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Purpose
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 Educational and investment-planning estimation.
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Financial advice
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 This calculator does not provide personalized financial advice
                 or guarantee investment performance.
               </dd>
@@ -1266,8 +1266,8 @@ export default function SipCalculatorSeoContent() {
           Investment Disclaimer
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             This SIP calculator is provided for educational and planning
             purposes only. The results are estimates based on the assumptions
             entered and should not be interpreted as a guarantee of future
@@ -1276,7 +1276,7 @@ export default function SipCalculatorSeoContent() {
             investment selection, changes in contributions, and other factors.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             Consider your own financial circumstances, objectives, risk
             tolerance, investment horizon, and applicable investment costs
             before making investment decisions. Where appropriate, consider
@@ -1304,17 +1304,17 @@ export default function SipCalculatorSeoContent() {
           {faqItems.map((item) => (
             <div
               key={item.q}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="group overflow-hidden rounded-2xl border border-border bg-card"
             >
               <details className="w-full">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                  <span className="text-sm font-semibold text-white">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                  <span className="text-sm font-semibold text-foreground">
                     {item.q}
                   </span>
 
                   <span
                     aria-hidden="true"
-                    className="shrink-0 text-lg text-blue-400"
+                    className="shrink-0 text-lg text-blue-700 dark:text-blue-400"
                   >
                     <svg
                       className="h-5 w-5"
@@ -1332,8 +1332,8 @@ export default function SipCalculatorSeoContent() {
                   </span>
                 </summary>
 
-                <div className="border-t border-dashed border-white/5 p-5 pt-4">
-                  <p className="text-xs leading-relaxed text-white/60">
+                <div className="border-t border-dashed border-border p-5 pt-4">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.a}
                   </p>
                 </div>
@@ -1346,7 +1346,7 @@ export default function SipCalculatorSeoContent() {
       {/* Final CTA */}
       <section
         aria-labelledby="cta-heading"
-        className="rounded-3xl border border-white/10 bg-white/5 p-6 text-center sm:p-8"
+        className="rounded-3xl border border-border bg-card p-6 text-center sm:p-8"
       >
         <h2
           id="cta-heading"
@@ -1355,7 +1355,7 @@ export default function SipCalculatorSeoContent() {
           Calculate Your SIP Investment
         </h2>
 
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-white/65">
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-foreground-secondary">
           Enter your monthly investment, investment period, and expected
           return above to estimate your total investment, potential returns,
           and projected SIP maturity value. Compare different SIP scenarios
@@ -1363,7 +1363,7 @@ export default function SipCalculatorSeoContent() {
           affect the result.
         </p>
 
-        <p className="mt-4 text-xs text-white/45">
+        <p className="mt-4 text-xs text-foreground-faint">
           Results are estimates for planning purposes and are not guaranteed
           investment outcomes.
         </p>

@@ -228,28 +228,28 @@ export default function CarLoanEmiCalculatorSeoContent() {
   
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground">
       <JsonLd data={breadcrumbSchema} />
 
       {/* INTRO */}
       <section aria-labelledby="intro-heading" className="space-y-4">
         <div className="flex items-center gap-3">
           <span className="text-2xl" aria-hidden="true">🚗</span>
-          <h2 id="intro-heading" className="text-xl font-bold tracking-tight text-white">
+          <h2 id="intro-heading" className="text-xl font-bold tracking-tight text-foreground">
             Car Loan EMI Calculator — Auto Loan Payments & Prepayment Planning
           </h2>
         </div>
 
-        <p className="text-sm leading-7 text-white/65">
+        <p className="text-sm leading-7 text-foreground-secondary">
           Calculate your monthly car loan EMI using the loan amount, annual
           interest rate, and repayment tenure. Car loans move faster than
           home loans — typically 3 to 7 years — but the shorter tenure means
           the EMI takes up a bigger slice of the loan amount each month.
         </p>
 
-        <p className="text-sm leading-7 text-white/65">
+        <p className="text-sm leading-7 text-foreground-secondary">
           Go beyond a basic EMI figure by testing{" "}
-          <strong className="font-semibold text-white/80">
+          <strong className="font-semibold text-foreground">
             partial prepayments, additional monthly payments, and balloon
             payments
           </strong>
@@ -257,7 +257,7 @@ export default function CarLoanEmiCalculatorSeoContent() {
           scenario and see exactly how much interest and time you could save.
         </p>
 
-        <p className="text-sm leading-7 text-white/65">
+        <p className="text-sm leading-7 text-foreground-secondary">
           This calculator uses the reducing-balance method, the same method
           banks use — not an inflated flat-rate estimate some dealers quote.
           Figures on this page are shown in Indian Rupees (₹) by default; use
@@ -277,10 +277,10 @@ export default function CarLoanEmiCalculatorSeoContent() {
           />
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-4">
-          <p className="text-sm leading-7 text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+          <p className="text-sm leading-7 text-foreground-secondary">
             This calculator uses the standard{" "}
-            <strong className="font-semibold text-white/80">
+            <strong className="font-semibold text-foreground">
               reducing-balance (amortizing) EMI formula
             </strong>
             , the same method used by banks and NBFCs — not the flat (add-on)
@@ -289,20 +289,20 @@ export default function CarLoanEmiCalculatorSeoContent() {
             rate:
           </p>
 
-          <pre className="overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-white/80">
+          <pre className="overflow-x-auto rounded-xl border border-border bg-surface-sunken p-4 text-xs text-foreground">
 {`EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)`}
           </pre>
 
-          <ul className="space-y-2 text-xs leading-6 text-white/60">
-            <li><strong className="text-white/80">P</strong> — Principal, the car loan amount financed.</li>
-            <li><strong className="text-white/80">r</strong> — Monthly interest rate, calculated as annual rate ÷ 12 ÷ 100.</li>
-            <li><strong className="text-white/80">n</strong> — Total number of monthly installments (tenure in years × 12).</li>
+          <ul className="space-y-2 text-xs leading-6 text-foreground-secondary">
+            <li><strong className="text-foreground">P</strong> — Principal, the car loan amount financed.</li>
+            <li><strong className="text-foreground">r</strong> — Monthly interest rate, calculated as annual rate ÷ 12 ÷ 100.</li>
+            <li><strong className="text-foreground">n</strong> — Total number of monthly installments (tenure in years × 12).</li>
           </ul>
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <h3 className="mb-2 text-sm font-semibold text-white">Assumptions</h3>
-              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+              <h3 className="mb-2 text-sm font-semibold text-foreground">Assumptions</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-foreground-secondary list-disc pl-4">
                 <li>Interest rate is treated as fixed for the full tenure unless you model a change manually.</li>
                 <li>EMIs are due monthly, starting one month after disbursement.</li>
                 <li>Interest for each period is charged only on the outstanding balance (reducing balance method).</li>
@@ -310,8 +310,8 @@ export default function CarLoanEmiCalculatorSeoContent() {
               </ul>
             </div>
             <div>
-              <h3 className="mb-2 text-sm font-semibold text-white">Rounding & Final Payment</h3>
-              <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+              <h3 className="mb-2 text-sm font-semibold text-foreground">Rounding & Final Payment</h3>
+              <ul className="space-y-1.5 text-xs leading-6 text-foreground-secondary list-disc pl-4">
                 <li>EMI amounts are rounded to the nearest whole currency unit for display.</li>
                 <li>Rounding across the loan term can leave a small residual balance.</li>
                 <li>The final EMI in the schedule is automatically adjusted up or down to clear this residual, so the loan closes exactly at ₹0.</li>
@@ -332,20 +332,20 @@ export default function CarLoanEmiCalculatorSeoContent() {
           />
         </div>
 
-        <p className="text-sm leading-7 text-white/65">
+        <p className="text-sm leading-7 text-foreground-secondary">
           For an ₹8,00,000 car loan at 9.5% annual interest over 5 years (60
           monthly installments), the monthly EMI works out to approximately{" "}
-          <strong className="font-semibold text-white/80">₹16,800</strong> —
+          <strong className="font-semibold text-foreground">₹16,800</strong> —
           total interest over the full tenure is roughly ₹2.08 lakh. Enter
           these same numbers into the calculator above to confirm the exact
           figure; results shown there are computed live from your actual
           inputs rather than this fixed example.
         </p>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-white/10 text-white/80">
+              <tr className="border-b border-border text-foreground">
                 <th className="p-4 font-semibold">Metric</th>
                 <th className="p-4 font-semibold">Without Prepayment</th>
                 <th className="p-4 font-semibold">With ₹1L Prepayment (Month 24)</th>
@@ -353,17 +353,17 @@ export default function CarLoanEmiCalculatorSeoContent() {
             </thead>
             <tbody>
               {comparisonRows.map((row) => (
-                <tr key={row.label} className="border-b border-white/5 last:border-0">
-                  <td className="p-4 text-white/70">{row.label}</td>
-                  <td className="p-4 text-white/60">{row.without}</td>
-                  <td className="p-4 text-white/60">{row.with}</td>
+                <tr key={row.label} className="border-b border-border last:border-0">
+                  <td className="p-4 text-foreground-secondary">{row.label}</td>
+                  <td className="p-4 text-foreground-secondary">{row.without}</td>
+                  <td className="p-4 text-foreground-secondary">{row.with}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/50">
+        <p className="text-xs leading-6 text-foreground-faint">
           This table is illustrative and uses rounded figures to show how a
           prepayment scenario compares to a standard schedule. Your exact
           interest saved and months reduced depend on your specific loan
@@ -387,13 +387,13 @@ export default function CarLoanEmiCalculatorSeoContent() {
           {coreFeatures.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition-colors hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="flex-shrink-0 text-2xl" aria-hidden="true">{item.icon}</span>
                 <div>
-                  <h3 className="mb-2 text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="text-xs leading-6 text-white/60">{item.desc}</p>
+                  <h3 className="mb-2 text-sm font-semibold text-foreground">{item.title}</h3>
+                  <p className="text-xs leading-6 text-foreground-secondary">{item.desc}</p>
                 </div>
               </div>
             </article>
@@ -416,11 +416,11 @@ export default function CarLoanEmiCalculatorSeoContent() {
           {repaymentScenarios.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition-colors hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <span className="text-2xl" aria-hidden="true">{item.icon}</span>
-              <h3 className="mt-3 text-sm font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-xs leading-6 text-white/60">{item.desc}</p>
+              <h3 className="mt-3 text-sm font-semibold text-foreground">{item.title}</h3>
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">{item.desc}</p>
             </article>
           ))}
         </div>
@@ -441,7 +441,7 @@ export default function CarLoanEmiCalculatorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:border-blue-400/30"
+              className="rounded-2xl border border-border bg-card p-5 transition-colors hover:border-blue-400 dark:hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -452,8 +452,8 @@ export default function CarLoanEmiCalculatorSeoContent() {
                 </span>
                 <span className="flex-shrink-0 text-2xl" aria-hidden="true">{step.icon}</span>
                 <div className="flex-1">
-                  <h3 className="mb-1 text-sm font-semibold text-white">{step.title}</h3>
-                  <p className="text-xs leading-6 text-white/60">{step.desc}</p>
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">{step.title}</h3>
+                  <p className="text-xs leading-6 text-foreground-secondary">{step.desc}</p>
                 </div>
               </div>
             </article>
@@ -476,13 +476,13 @@ export default function CarLoanEmiCalculatorSeoContent() {
           {audiences.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition-colors hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="flex-shrink-0 text-2xl" aria-hidden="true">{item.icon}</span>
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="text-xs leading-6 text-white/60">{item.desc}</p>
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">{item.title}</h3>
+                  <p className="text-xs leading-6 text-foreground-secondary">{item.desc}</p>
                 </div>
               </div>
             </article>
@@ -515,7 +515,7 @@ export default function CarLoanEmiCalculatorSeoContent() {
           ].map((feature) => (
             <span
               key={feature}
-              className="rounded-full border border-white/10 bg-white/10 px-4 py-2.5 text-xs font-medium text-white/80"
+              className="rounded-full border border-border bg-surface-raised px-4 py-2.5 text-xs font-medium text-foreground"
             >
               {feature}
             </span>
@@ -533,14 +533,14 @@ export default function CarLoanEmiCalculatorSeoContent() {
 
         <div className="space-y-4">
           {faqItems.map((item) => (
-            <article key={item.q} className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+            <article key={item.q} className="overflow-hidden rounded-2xl border border-border bg-card">
               <details className="native-details">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                  <span className="text-sm font-semibold text-white">{item.q}</span>
-                  <span className="flex-shrink-0 text-lg text-blue-400" aria-hidden="true">⌄</span>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                  <span className="text-sm font-semibold text-foreground">{item.q}</span>
+                  <span className="flex-shrink-0 text-lg text-blue-700 dark:text-blue-400" aria-hidden="true">⌄</span>
                 </summary>
-                <div className="border-t border-white/5 border-dashed p-5 pt-0">
-                  <p className="mt-4 text-xs leading-6 text-white/60">{item.a}</p>
+                <div className="border-t border-border border-dashed p-5 pt-0">
+                  <p className="mt-4 text-xs leading-6 text-foreground-secondary">{item.a}</p>
                 </div>
               </details>
             </article>
@@ -553,24 +553,24 @@ export default function CarLoanEmiCalculatorSeoContent() {
       {/* TRUST / YMYL BLOCK */}
       <section
         aria-labelledby="trust-heading"
-        className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5"
+        className="space-y-3 rounded-2xl border border-border bg-card p-5"
       >
-        <h2 id="trust-heading" className="text-sm font-semibold text-white">
+        <h2 id="trust-heading" className="text-sm font-semibold text-foreground">
           About This Calculator
         </h2>
-        <ul className="space-y-2 text-xs leading-6 text-white/60">
+        <ul className="space-y-2 text-xs leading-6 text-foreground-secondary">
           <li>
-            <strong className="text-white/80">Methodology:</strong> Uses the
+            <strong className="text-foreground">Methodology:</strong> Uses the
             standard reducing-balance EMI formula described above, the same
             method used by banks and NBFCs for auto loan amortization.
           </li>
           <li>
-            <strong className="text-white/80">Reviewed by:</strong> Atoolix
+            <strong className="text-foreground">Reviewed by:</strong> Atoolix
             Finance Tools Team — outputs are periodically cross-checked
             against manual reducing-balance calculations.
           </li>
           <li>
-            <strong className="text-white/80">Last reviewed:</strong>{" "}
+            <strong className="text-foreground">Last reviewed:</strong>{" "}
             <time dateTime={LAST_REVIEWED}>
               {new Date(LAST_REVIEWED).toLocaleDateString("en-IN", {
                 year: "numeric",
@@ -580,14 +580,14 @@ export default function CarLoanEmiCalculatorSeoContent() {
             </time>
           </li>
           <li>
-            <strong className="text-white/80">Jurisdiction:</strong> Figures
+            <strong className="text-foreground">Jurisdiction:</strong> Figures
             default to Indian Rupees (₹) and Indian auto loan conventions
             (reducing balance, monthly EMI), but the underlying formula
             applies to vehicle financing in any country — switch currency in
             the calculator as needed.
           </li>
           <li>
-            <strong className="text-white/80">Limitations:</strong> This tool
+            <strong className="text-foreground">Limitations:</strong> This tool
             estimates principal and interest only. It does not include
             on-road price, insurance, registration, processing fees,
             prepayment/foreclosure penalties, or lender-specific rounding
@@ -603,18 +603,18 @@ export default function CarLoanEmiCalculatorSeoContent() {
       {/* FINAL CTA */}
       <section
         aria-labelledby="final-heading"
-        className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5"
+        className="space-y-3 rounded-2xl border border-border bg-card p-5"
       >
-        <h2 id="final-heading" className="text-xl font-bold tracking-tight text-white">
+        <h2 id="final-heading" className="text-xl font-bold tracking-tight text-foreground">
           Calculate Your Car Loan EMI and Explore Prepayment Options
         </h2>
-        <p className="text-sm leading-7 text-white/65">
+        <p className="text-sm leading-7 text-foreground-secondary">
           Start with your regular EMI, then test what happens if you make a
           prepayment, pay extra every month, or use a balloon payment. Review
           the amortization schedule and potential interest savings before
           making your car financing decision.
         </p>
-        <p className="text-xs leading-6 text-white/50">
+        <p className="text-xs leading-6 text-foreground-faint">
           This calculator is an educational planning tool. Actual loan terms,
           prepayment rules, fees, and lender policies can vary by lender,
           country, and loan agreement.

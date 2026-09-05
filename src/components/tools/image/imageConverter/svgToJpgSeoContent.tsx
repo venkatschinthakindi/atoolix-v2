@@ -204,7 +204,7 @@ export default function SvgToJpgSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -228,14 +228,14 @@ export default function SvgToJpgSeoContent() {
           SVG to JPG Converter – Convert Vector Graphics to JPG in Your Browser
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert SVG vector graphics to JPG images directly in your browser.
           Create fixed-resolution JPG files for websites, documents,
           presentations, sharing, previews, social content, and other
           workflows without installing desktop conversion software.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Built for designers, developers, students, office users, marketers,
           and mobile users who need a simple and reliable SVG to JPG workflow.
         </p>
@@ -250,14 +250,14 @@ export default function SvgToJpgSeoContent() {
           What Is an SVG to JPG Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           An SVG to JPG converter rasterizes SVG vector graphics into JPG
           images. This changes a scalable vector graphic into a
           fixed-resolution raster image that can be used in documents,
           websites, presentations, previews, sharing, and other workflows.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           SVG is a vector format built from paths and shapes, while JPG is a
           raster format made from pixels and commonly used when broad image
           compatibility and compact photographic-style output are important.
@@ -274,12 +274,12 @@ export default function SvgToJpgSeoContent() {
         </h2>
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <h3 className="text-sm font-semibold text-white">
+          <div className="rounded-2xl border border-border bg-card p-4">
+            <h3 className="text-sm font-semibold text-foreground">
               SVG — Vector Graphics
             </h3>
 
-            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/65">
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary">
               <li>• Built from paths, shapes, and vector instructions.</li>
               <li>• Can scale to different sizes without normal pixelation.</li>
               <li>• Well suited to logos, icons, diagrams, and illustrations.</li>
@@ -287,12 +287,12 @@ export default function SvgToJpgSeoContent() {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <h3 className="text-sm font-semibold text-white">
+          <div className="rounded-2xl border border-border bg-card p-4">
+            <h3 className="text-sm font-semibold text-foreground">
               JPG — Raster Graphics
             </h3>
 
-            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/65">
+            <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary">
               <li>• Built from pixels at a defined resolution.</li>
               <li>• Widely supported across websites, apps, and documents.</li>
               <li>• Useful when a platform requires a raster image.</li>
@@ -311,7 +311,7 @@ export default function SvgToJpgSeoContent() {
           Why Convert SVG to JPG?
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             JPG is useful when you need a fixed-resolution image instead of a
             scalable vector graphic.
@@ -339,13 +339,13 @@ export default function SvgToJpgSeoContent() {
           SVG Transparency and JPG Backgrounds
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           SVG graphics can contain transparent areas, but JPG does not support
           transparency. When an SVG is converted to JPG, transparent regions
           therefore need to be rendered against a solid background.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           If preserving transparency is important, PNG is generally a better
           raster format choice than JPG.
         </p>
@@ -360,13 +360,13 @@ export default function SvgToJpgSeoContent() {
           SVG to JPG Quality and Resolution
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           SVG is resolution-independent, so the vector source itself does not
           have a fixed pixel size. During conversion, the artwork is rendered
           at a selected raster resolution.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Larger output dimensions can preserve more detail when the JPG needs
           to be displayed at a larger size, while unnecessarily large
           dimensions can increase the resulting file size. Choose dimensions
@@ -383,7 +383,7 @@ export default function SvgToJpgSeoContent() {
           Benefits of Using This Converter
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm text-foreground-secondary sm:text-base">
           <p>• Saves time compared with manual export workflows.</p>
           <p>• Supports browser-based local processing.</p>
           <p>• Creates compatibility-focused JPG output.</p>
@@ -402,7 +402,7 @@ export default function SvgToJpgSeoContent() {
           Common SVG to JPG Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>Convert SVG logos into JPG for broader compatibility.</li>
           <li>
             Turn SVG artwork into JPG for documents and presentations.
@@ -435,7 +435,7 @@ export default function SvgToJpgSeoContent() {
           How This SVG to JPG Converter Works
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The converter is designed to keep SVG to JPG conversion simple and
           easy to understand.
         </p>
@@ -444,7 +444,7 @@ export default function SvgToJpgSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -454,11 +454,11 @@ export default function SvgToJpgSeoContent() {
                 <span className="text-2xl">{step.icon}</span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -471,7 +471,7 @@ export default function SvgToJpgSeoContent() {
       {/* Features */}
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -484,17 +484,17 @@ export default function SvgToJpgSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -517,17 +517,17 @@ export default function SvgToJpgSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -546,7 +546,7 @@ export default function SvgToJpgSeoContent() {
           SVG Compatibility Notes
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Standard SVG graphics are generally well suited to browser-based
           rasterization. However, conversion results can vary for files that
           depend on unavailable fonts, external resources, embedded assets,
@@ -554,7 +554,7 @@ export default function SvgToJpgSeoContent() {
           by the browser rendering environment.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           For the most predictable result, use self-contained SVG files and
           verify the downloaded JPG before using it in an important document or
           publication.
@@ -570,14 +570,14 @@ export default function SvgToJpgSeoContent() {
           Privacy and Browser-Based Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This SVG to JPG converter is designed for browser-based local
           processing, meaning supported files are processed on your device
           during the normal conversion workflow. Account registration is not
           required for the converter.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           If analytics or error monitoring are enabled, they should be used to
           improve performance and reliability without collecting or transmitting
           the contents of the images being converted.
@@ -597,14 +597,14 @@ export default function SvgToJpgSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

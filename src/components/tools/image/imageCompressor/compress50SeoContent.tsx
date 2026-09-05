@@ -292,7 +292,7 @@ const webPageJsonLd = {
 
 export default function ImageCompressor50SeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
+    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
@@ -302,7 +302,7 @@ export default function ImageCompressor50SeoContent() {
         aria-labelledby="intro-heading"
         className="space-y-3"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           50 KB Image Compressor
         </p>
 
@@ -313,20 +313,20 @@ export default function ImageCompressor50SeoContent() {
           Compress JPG, JPEG, WebP &amp; PNG to 50 KB
         </h2>
 
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Compress an image toward a 50 KB target when a website, application,
           form, or upload portal requires a small file size. Choose your target
           size and optionally adjust the image width, height, aspect ratio, and
           compression quality.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           The workflow is simple: upload an image, set the target size, adjust
           dimensions if needed, preview the result, and download the optimized
           file.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           JPG/JPEG, WebP, and PNG are supported, making the tool useful for
           photographs, signatures, profile images, screenshots, logos, and other
           common image uploads.
@@ -364,13 +364,13 @@ export default function ImageCompressor50SeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -392,13 +392,13 @@ export default function ImageCompressor50SeoContent() {
           {useCases.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -416,9 +416,9 @@ export default function ImageCompressor50SeoContent() {
           description="Use the controls that match the upload requirement instead of relying on compression alone."
         />
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-2.5 font-semibold sm:px-4">
                   Option
@@ -436,17 +436,17 @@ export default function ImageCompressor50SeoContent() {
               {resizingGuidance.map((item) => (
                 <tr
                   key={item.option}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-2.5 font-medium sm:px-4">
                     {item.option}
                   </td>
 
-                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                  <td className="px-3 py-2.5 text-foreground-secondary sm:px-4">
                     {item.effect}
                   </td>
 
-                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                  <td className="px-3 py-2.5 text-foreground-secondary sm:px-4">
                     {item.bestFor}
                   </td>
                 </tr>
@@ -466,9 +466,9 @@ export default function ImageCompressor50SeoContent() {
           description="The best output format depends on whether you need photographs, transparency, sharp graphics, or efficient web delivery."
         />
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-2.5 font-semibold sm:px-4">
                   Format
@@ -488,17 +488,17 @@ export default function ImageCompressor50SeoContent() {
               {formatGuidance.map((item) => (
                 <tr
                   key={item.format}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-2.5 font-medium sm:px-4">
                     {item.format}
                   </td>
 
-                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                  <td className="px-3 py-2.5 text-foreground-secondary sm:px-4">
                     {item.bestFor}
                   </td>
 
-                  <td className="px-3 py-2.5 text-white/70 sm:px-4">
+                  <td className="px-3 py-2.5 text-foreground-secondary sm:px-4">
                     {item.note}
                   </td>
                 </tr>
@@ -522,7 +522,7 @@ export default function ImageCompressor50SeoContent() {
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/20 hover:bg-white/[0.07]"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-cyan-400 dark:hover:border-cyan-400/20 hover:bg-white/[0.07]"
             >
               <div className="text-xl">{feature.icon}</div>
 
@@ -530,7 +530,7 @@ export default function ImageCompressor50SeoContent() {
                 {feature.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {feature.desc}
               </p>
             </article>
@@ -552,10 +552,10 @@ export default function ImageCompressor50SeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-500 text-xs font-bold text-black">
                   {index + 1}
                 </div>
 
@@ -566,7 +566,7 @@ export default function ImageCompressor50SeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -601,13 +601,13 @@ export default function ImageCompressor50SeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -646,13 +646,13 @@ export default function ImageCompressor50SeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -676,14 +676,14 @@ export default function ImageCompressor50SeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -694,7 +694,7 @@ export default function ImageCompressor50SeoContent() {
 
       <section
         aria-labelledby="cta-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6"
+        className="rounded-2xl border border-border bg-card p-5 sm:p-6"
       >
         <h2
           id="cta-heading"
@@ -703,7 +703,7 @@ export default function ImageCompressor50SeoContent() {
           Compress Your Image to 50 KB
         </h2>
 
-        <p className="mt-2 max-w-3xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Use a 50 KB target when an upload portal has a strict file-size
           requirement. Adjust width, height, aspect ratio, and quality when
           additional control is needed, then preview and download the optimized

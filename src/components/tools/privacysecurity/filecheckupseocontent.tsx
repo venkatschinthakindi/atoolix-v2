@@ -395,13 +395,13 @@ function FeatureGrid({ items }: { items: FeatureItem[] }) {
       {items.map((item) => (
         <article
           key={item.name}
-          className="rounded-xl border border-white/10 bg-white/5 p-4"
+          className="rounded-xl border border-border bg-card p-4"
         >
           <h3 className="text-sm font-semibold sm:text-[0.95rem]">
             {item.name}
           </h3>
 
-          <p className="mt-1.5 text-sm leading-6 text-white/70">
+          <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
             {item.desc}
           </p>
         </article>
@@ -412,14 +412,14 @@ function FeatureGrid({ items }: { items: FeatureItem[] }) {
 
 export default function FileCheckupSeoContent() {
   return (
-    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-foreground sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* HERO / PRIMARY SEARCH INTENT */}
       <section aria-labelledby="intro-heading" className="space-y-4">
-        <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[11px] font-semibold text-cyan-300">
+        <p className="inline-flex rounded-full border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-1 text-[11px] font-semibold text-cyan-700 dark:text-cyan-300">
           Free File Privacy & Security Checker
         </p>
 
@@ -430,7 +430,7 @@ export default function FileCheckupSeoContent() {
           File Privacy & Security Checker – Find and Remove Hidden Information
         </h1>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/75 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Scan files for hidden metadata, privacy-sensitive information,
           embedded content, file-type mismatches, and supported security or
           format issues. File Checkup helps you find information that may not
@@ -438,14 +438,14 @@ export default function FileCheckupSeoContent() {
           cleaning for supported privacy issues.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary">
           File Checkup runs entirely in your browser — there's no backend, so
           your files are never uploaded or transmitted anywhere. Everything
           from scanning to cleaning to downloading the result happens on your
           own device, with files up to 250 MB supported per scan.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary">
           Check commonly used files including PDFs, photos, text files, JSON,
           CSV, XML, SVG, HTML, and other supported formats. Review the findings,
           fix supported issues, and download a separate cleaned copy without
@@ -470,15 +470,15 @@ export default function FileCheckupSeoContent() {
           ].map(([number, title, desc]) => (
             <article
               key={number}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
-              <div className="text-xs font-bold text-cyan-300">
+              <div className="text-xs font-bold text-cyan-700 dark:text-cyan-300">
                 STEP {number}
               </div>
 
               <h3 className="mt-2 text-base font-semibold">{title}</h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -531,11 +531,11 @@ export default function FileCheckupSeoContent() {
           {supportedFormats.map((format) => (
             <article
               key={format.name}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">{format.name}</h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {format.desc}
               </p>
             </article>
@@ -555,11 +555,11 @@ export default function FileCheckupSeoContent() {
           {useCases.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">{item.title}</h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -590,7 +590,7 @@ export default function FileCheckupSeoContent() {
           {howToSteps.map((step) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="text-lg" aria-hidden="true">
                 {step.icon}
@@ -600,7 +600,7 @@ export default function FileCheckupSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -620,10 +620,10 @@ export default function FileCheckupSeoContent() {
           {processingFacts.map((fact) => (
             <article
               key={fact.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">{fact.title}</h3>
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {fact.desc}
               </p>
             </article>
@@ -643,7 +643,7 @@ export default function FileCheckupSeoContent() {
           {bestPractices.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6"
+              className="rounded-xl border border-border bg-card p-4 text-sm leading-6"
             >
               {item}
             </li>
@@ -659,7 +659,7 @@ export default function FileCheckupSeoContent() {
           description="Methodology and review information."
         />
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/70">
+        <div className="rounded-xl border border-border bg-card p-4 text-sm leading-6 text-foreground-secondary">
           <p>
             File Checkup inspects file metadata and structure using the same
             public format specifications — EXIF, PDF metadata dictionaries,
@@ -669,7 +669,7 @@ export default function FileCheckupSeoContent() {
             auto-cleanable or requiring manual review, so nothing is silently
             modified without your action.
           </p>
-          <p className="mt-2 text-white/50">Last reviewed: {lastReviewed}</p>
+          <p className="mt-2 text-foreground-faint">Last reviewed: {lastReviewed}</p>
         </div>
       </section>
 
@@ -685,14 +685,14 @@ export default function FileCheckupSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

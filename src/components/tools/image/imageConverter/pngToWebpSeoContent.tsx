@@ -158,7 +158,7 @@ export default function PngToWebpSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       {/* FAQ structured data */}
       <script
         type="application/ld+json"
@@ -176,13 +176,13 @@ export default function PngToWebpSeoContent() {
           PNG to WebP Converter – Convert PNG Images Online
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert PNG images to WebP online directly in your browser. This free PNG to
           WebP converter provides a simple way to create web-ready images without
           installing desktop software or creating an account.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           WebP can provide smaller image files while supporting transparency, making it
           useful for websites, apps, blogs, online stores, and other digital workflows.
         </p>
@@ -197,13 +197,13 @@ export default function PngToWebpSeoContent() {
           What Is a PNG to WebP Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A PNG to WebP converter changes PNG images into WebP format. WebP is a modern
           image format designed to provide efficient compression while supporting
           features such as transparency.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Converting PNG to WebP can be useful when you want to reduce image file sizes
           for websites, applications, blogs, online stores, and other digital content.
         </p>
@@ -218,47 +218,47 @@ export default function PngToWebpSeoContent() {
           PNG vs WebP: Which Format Should You Use?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           PNG and WebP both support transparency, but they serve different purposes.
           WebP is often attractive for web delivery because it can provide smaller files,
           while PNG remains useful when lossless PNG encoding or established PNG workflows
           are required.
         </p>
 
-        <div className="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+        <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] border-collapse text-left text-sm">
               <thead>
-                <tr className="border-b border-white/10 bg-white/5">
-                  <th className="px-4 py-3 font-semibold text-white">Feature</th>
-                  <th className="px-4 py-3 font-semibold text-white">PNG</th>
-                  <th className="px-4 py-3 font-semibold text-white">WebP</th>
+                <tr className="border-b border-border bg-card">
+                  <th className="px-4 py-3 font-semibold text-foreground">Feature</th>
+                  <th className="px-4 py-3 font-semibold text-foreground">PNG</th>
+                  <th className="px-4 py-3 font-semibold text-foreground">WebP</th>
                 </tr>
               </thead>
 
-              <tbody className="text-white/70">
-                <tr className="border-b border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Compression</td>
+              <tbody className="text-foreground-secondary">
+                <tr className="border-b border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Compression</td>
                   <td className="px-4 py-3">Lossless</td>
                   <td className="px-4 py-3">
                     Lossy or lossless, depending on encoding
                   </td>
                 </tr>
 
-                <tr className="border-b border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Transparency</td>
+                <tr className="border-b border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Transparency</td>
                   <td className="px-4 py-3">Supported</td>
                   <td className="px-4 py-3">Supported</td>
                 </tr>
 
-                <tr className="border-b border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Typical file size</td>
+                <tr className="border-b border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Typical file size</td>
                   <td className="px-4 py-3">Often larger</td>
                   <td className="px-4 py-3">Often smaller</td>
                 </tr>
 
-                <tr className="border-b border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Best suited for</td>
+                <tr className="border-b border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Best suited for</td>
                   <td className="px-4 py-3">
                     Graphics, editing, and lossless workflows
                   </td>
@@ -268,7 +268,7 @@ export default function PngToWebpSeoContent() {
                 </tr>
 
                 <tr>
-                  <td className="px-4 py-3 font-medium text-white">
+                  <td className="px-4 py-3 font-medium text-foreground">
                     Web performance
                   </td>
                   <td className="px-4 py-3">Can produce larger assets</td>
@@ -291,7 +291,7 @@ export default function PngToWebpSeoContent() {
           Why Convert PNG to WebP?
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             WebP can create smaller image files than PNG for many types of images.
           </li>
@@ -320,13 +320,13 @@ export default function PngToWebpSeoContent() {
           When Should You Keep PNG Instead?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           PNG is still an excellent format. You may want to keep an image as PNG when
           you specifically need PNG output, are working in a PNG-based editing workflow,
           or want predictable lossless PNG encoding.
         </p>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>Use PNG when a workflow specifically requires PNG files.</li>
           <li>
             Keep PNG when preserving the original lossless PNG representation matters.
@@ -351,13 +351,13 @@ export default function PngToWebpSeoContent() {
           PNG to WebP and Transparent Backgrounds
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           One important advantage of WebP is its ability to support transparency.
           This means PNG images containing transparent backgrounds can be suitable
           candidates for WebP conversion.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Transparency is particularly useful for logos, icons, interface graphics,
           product images, and other assets that need to appear over different
           backgrounds.
@@ -373,7 +373,7 @@ export default function PngToWebpSeoContent() {
           Common PNG to WebP Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>Convert PNG graphics into WebP for website delivery.</li>
           <li>Convert transparent PNG assets into WebP for modern web projects.</li>
           <li>Prepare smaller image files for blogs and online stores.</li>
@@ -395,7 +395,7 @@ export default function PngToWebpSeoContent() {
           How to Convert PNG to WebP
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Converting a PNG image to WebP only takes a few simple steps.
         </p>
 
@@ -403,7 +403,7 @@ export default function PngToWebpSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -413,11 +413,11 @@ export default function PngToWebpSeoContent() {
                 <span className="text-2xl">{step.icon}</span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -430,7 +430,7 @@ export default function PngToWebpSeoContent() {
       {/* Features */}
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -443,17 +443,17 @@ export default function PngToWebpSeoContent() {
           {coreFeatures.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -476,17 +476,17 @@ export default function PngToWebpSeoContent() {
           {audiences.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -505,23 +505,23 @@ export default function PngToWebpSeoContent() {
           Privacy and Browser-Based Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This PNG to WebP converter is designed to process images locally in your
           browser. When conversion is performed entirely on your device, the image
           does not need to be uploaded to a conversion server.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The converter does not require account registration. If analytics or error
           monitoring are enabled on the site, they should not include the contents of
           the images being converted.
         </p>
 
-        <p className="mt-3 text-sm text-white/60">
+        <p className="mt-3 text-sm text-foreground-secondary">
           Read the full{" "}
           <Link
             href="/privacy"
-            className="text-blue-300 underline decoration-blue-300/40 underline-offset-4 transition hover:text-blue-200"
+            className="text-blue-700 dark:text-blue-300 underline decoration-blue-300/40 underline-offset-4 transition hover:text-blue-800 dark:hover:text-blue-200"
           >
             Privacy Policy
           </Link>
@@ -542,14 +542,14 @@ export default function PngToWebpSeoContent() {
           {faqItems.map((item, i) => (
             <details
               key={i}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

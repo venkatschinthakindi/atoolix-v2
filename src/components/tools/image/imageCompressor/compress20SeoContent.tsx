@@ -326,7 +326,7 @@ const webPageJsonLd = {
 
 export default function ImageCompressor20KbSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-7">
+    <div className="mx-auto max-w-6xl space-y-8 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-7">
 
       <JsonLd data={webPageJsonLd} />
       <JsonLd data={faqJsonLd} />
@@ -341,7 +341,7 @@ export default function ImageCompressor20KbSeoContent() {
         aria-labelledby="intro-heading"
         className="space-y-4"
       >
-        <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2.5 py-1 text-[11px] font-medium text-cyan-300">
+        <p className="inline-flex rounded-full border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/10 px-2.5 py-1 text-[11px] font-medium text-cyan-700 dark:text-cyan-300">
           Free 20 KB Image Compressor
         </p>
 
@@ -352,7 +352,7 @@ export default function ImageCompressor20KbSeoContent() {
           Compress Image to 20 KB Online
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/80 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground sm:text-base">
           Compress JPG, JPEG, PNG, and WebP images toward a 20 KB target
           without manually guessing compression settings. Reduce image
           quality, resize dimensions, preserve the aspect ratio, preview
@@ -360,7 +360,7 @@ export default function ImageCompressor20KbSeoContent() {
           form, website, or upload.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           If a website says your image must be <strong>20 KB or less</strong>,
           you can target a smaller size to leave room below the upload limit.
           For photographs, JPG or WebP will often be easier to reduce than
@@ -375,7 +375,7 @@ export default function ImageCompressor20KbSeoContent() {
 
       <section
         aria-labelledby="quick-answer-heading"
-        className="rounded-2xl border border-cyan-400/20 bg-cyan-500/5 p-5 sm:p-6"
+        className="rounded-2xl border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-500/5 p-5 sm:p-6"
       >
         <SectionHeading
           id="quick-answer-heading"
@@ -404,13 +404,13 @@ export default function ImageCompressor20KbSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -449,13 +449,13 @@ export default function ImageCompressor20KbSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -481,7 +481,7 @@ export default function ImageCompressor20KbSeoContent() {
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-cyan-400/30 hover:bg-white/10"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-surface-raised"
             >
               <div
                 aria-hidden="true"
@@ -494,7 +494,7 @@ export default function ImageCompressor20KbSeoContent() {
                 {feature.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {feature.desc}
               </p>
             </article>
@@ -516,9 +516,9 @@ export default function ImageCompressor20KbSeoContent() {
           description="There is no single compression setting that works for every image. The right approach depends on the format, dimensions, image content, and required quality."
         />
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="min-w-[700px] w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-3 font-semibold sm:px-4">
                   Method
@@ -538,17 +538,17 @@ export default function ImageCompressor20KbSeoContent() {
               {compressionGuide.map((item) => (
                 <tr
                   key={item.mode}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-3 font-medium sm:px-4">
                     {item.mode}
                   </td>
 
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                  <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                     {item.effect}
                   </td>
 
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                  <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                     {item.bestFor}
                   </td>
                 </tr>
@@ -572,7 +572,7 @@ export default function ImageCompressor20KbSeoContent() {
           description="JPG is usually a practical choice for photographs when the goal is a very small file size."
         />
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           JPG and JPEG images use lossy compression, which makes them useful
           when you need to reduce a photograph substantially. If your JPG is
           still larger than 20 KB, reducing its dimensions can often make a
@@ -596,13 +596,13 @@ export default function ImageCompressor20KbSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -624,7 +624,7 @@ export default function ImageCompressor20KbSeoContent() {
           description="PNG is often preferred for signatures, logos, icons, and transparent graphics, but can be challenging for detailed photographs."
         />
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           If a PNG contains a photograph or many colors, reaching 20 KB may
           require significant resizing. If the destination accepts JPG or
           WebP and transparency is not needed, changing format can sometimes
@@ -646,7 +646,7 @@ export default function ImageCompressor20KbSeoContent() {
           description="WebP can be an efficient option for websites and applications that support the format."
         />
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           WebP can produce compact images while maintaining useful visual
           quality. However, some application portals and older websites
           accept only JPG, JPEG, or PNG. Check the destination requirements
@@ -668,9 +668,9 @@ export default function ImageCompressor20KbSeoContent() {
           description="Choose the format based on the type of image and what the destination website accepts."
         />
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="min-w-[700px] w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-3 font-semibold sm:px-4">
                   Format
@@ -690,17 +690,17 @@ export default function ImageCompressor20KbSeoContent() {
               {formatGuidance.map((item) => (
                 <tr
                   key={item.format}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-3 font-medium sm:px-4">
                     {item.format}
                   </td>
 
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                  <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                     {item.bestFor}
                   </td>
 
-                  <td className="px-3 py-3 text-white/70 sm:px-4">
+                  <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                     {item.note}
                   </td>
                 </tr>
@@ -728,13 +728,13 @@ export default function ImageCompressor20KbSeoContent() {
           {useCases.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -757,12 +757,12 @@ export default function ImageCompressor20KbSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-2">
-          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-xl border border-border bg-card p-5">
             <h3 className="text-base font-semibold">
               Passport and ID photos
             </h3>
 
-            <p className="mt-2 text-sm leading-7 text-white/70">
+            <p className="mt-2 text-sm leading-7 text-foreground-secondary">
               If a passport, identity, visa, or government application asks
               for a photo of 20 KB or less, first confirm the required
               dimensions and image format. Then compress the image to meet
@@ -771,12 +771,12 @@ export default function ImageCompressor20KbSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-xl border border-border bg-card p-5">
             <h3 className="text-base font-semibold">
               Signature images
             </h3>
 
-            <p className="mt-2 text-sm leading-7 text-white/70">
+            <p className="mt-2 text-sm leading-7 text-foreground-secondary">
               Signatures often work well as compact PNG images, especially
               when transparency is required. If the portal accepts JPG,
               JPEG, or another format, that may provide additional options
@@ -784,24 +784,24 @@ export default function ImageCompressor20KbSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-xl border border-border bg-card p-5">
             <h3 className="text-base font-semibold">
               Exam and admission forms
             </h3>
 
-            <p className="mt-2 text-sm leading-7 text-white/70">
+            <p className="mt-2 text-sm leading-7 text-foreground-secondary">
               Education portals may specify separate limits for photographs
               and signatures. Check each requirement independently rather
               than assuming the same dimensions or format will work for both.
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-xl border border-border bg-card p-5">
             <h3 className="text-base font-semibold">
               Online application portals
             </h3>
 
-            <p className="mt-2 text-sm leading-7 text-white/70">
+            <p className="mt-2 text-sm leading-7 text-foreground-secondary">
               Before uploading, verify the portal's maximum file size,
               accepted extension, minimum dimensions, maximum dimensions,
               and any required aspect ratio.
@@ -828,10 +828,10 @@ export default function ImageCompressor20KbSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-500 text-xs font-bold text-black">
                   {index + 1}
                 </div>
 
@@ -847,7 +847,7 @@ export default function ImageCompressor20KbSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -894,13 +894,13 @@ export default function ImageCompressor20KbSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -934,9 +934,9 @@ export default function ImageCompressor20KbSeoContent() {
           ].map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/75"
+              className="rounded-xl border border-border bg-card p-4 text-sm leading-6 text-foreground-secondary"
             >
-              <span className="mr-2 text-cyan-300">✓</span>
+              <span className="mr-2 text-cyan-700 dark:text-cyan-300">✓</span>
               {item}
             </li>
           ))}
@@ -974,13 +974,13 @@ export default function ImageCompressor20KbSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -1019,13 +1019,13 @@ export default function ImageCompressor20KbSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -1057,14 +1057,14 @@ export default function ImageCompressor20KbSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -1079,7 +1079,7 @@ export default function ImageCompressor20KbSeoContent() {
 
       <section
         aria-labelledby="cta-heading"
-        className="rounded-2xl border border-cyan-400/20 bg-cyan-500/5 p-5 sm:p-6"
+        className="rounded-2xl border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-500/5 p-5 sm:p-6"
       >
         <h2
           id="cta-heading"
@@ -1088,7 +1088,7 @@ export default function ImageCompressor20KbSeoContent() {
           Compress Your Image to 20 KB
         </h2>
 
-        <p className="mt-2 max-w-3xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Upload your image, set the target to 20 KB, and adjust quality or
           dimensions when necessary. Preview the result before downloading
           and check the destination website's required file size, format,

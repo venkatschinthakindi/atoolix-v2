@@ -182,8 +182,8 @@ export async function HomePageSeo() {
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-          <div className="text-white">
-            <p className="mb-4 inline-flex rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium tracking-wide text-white/80 backdrop-blur">
+          <div className="text-foreground">
+            <p className="mb-4 inline-flex rounded-full border border-border bg-surface-raised px-3 py-1 text-xs font-medium tracking-wide text-foreground backdrop-blur">
               Nothing leaves your device
             </p>
 
@@ -191,7 +191,7 @@ export async function HomePageSeo() {
               Finance, calculators, PDF and image tools, QR codes, meeting schedulers, time zone conversions — all run entirely in your browser.
             </h1>
 
-            <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-foreground-secondary sm:text-lg">
               Use free browser-based tools for PDF files, image conversion and compression,
               finance calculations, math, QR codes, time zones, and more. Your files are
               processed directly in your browser, with no software installation or
@@ -201,48 +201,48 @@ export async function HomePageSeo() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/pdf"
-                className="rounded-xl border border-white/15 bg-white/8 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/12"
+                className="rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground backdrop-blur transition hover:bg-surface-raised"
               >
                 Start with PDF tools
               </Link>
               <Link
                 href="/finance"
-                className="rounded-xl border border-white/15 bg-white/8 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/12"
+                className="rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground backdrop-blur transition hover:bg-surface-raised"
               >
                 Open finance calculators
               </Link>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-2 text-xs text-white/65">
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Fast loading</span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Mobile friendly</span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">No install needed</span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Privacy-friendly</span>
+            <div className="mt-8 flex flex-wrap gap-2 text-xs text-foreground-secondary">
+              <span className="rounded-full border border-border bg-card px-3 py-1">Fast loading</span>
+              <span className="rounded-full border border-border bg-card px-3 py-1">Mobile friendly</span>
+              <span className="rounded-full border border-border bg-card px-3 py-1">No install needed</span>
+              <span className="rounded-full border border-border bg-card px-3 py-1">Privacy-friendly</span>
             </div>
           </div>
 
-          <aside className="rounded-3xl border border-white/10 bg-white/10 p-5 shadow-2xl backdrop-blur-sm sm:p-6">
+          <aside className="rounded-3xl border border-border bg-surface-raised p-5 shadow-2xl backdrop-blur-sm sm:p-6">
             {/* was a <span> styled like a heading — now a real heading node */}
-            <h2 className="text-lg font-semibold text-white">Popular tools</h2>
+            <h2 className="text-lg font-semibold text-foreground">Popular tools</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {quickLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-2xl border border-white/10 bg-slate-950/30 p-4 text-sm font-medium text-white transition hover:border-white/20 hover:bg-slate-950/40"
+                  className="rounded-2xl border border-border bg-surface-sunken p-4 text-sm font-medium text-foreground transition hover:border-border-strong hover:bg-surface-sunken"
                 >
                   {link.label}
                 </Link>
               ))}
             </div>
-            <p className="mt-4 text-sm leading-6 text-white/65">
+            <p className="mt-4 text-sm leading-6 text-foreground-secondary">
               Everything is designed to load fast and work well on mobile, so users can reach the right tool quickly.
             </p>
           </aside>
         </div>
       </section>
 
-      <section className="border-slate-200 text-white">
+      <section className="border-border text-foreground">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
@@ -259,7 +259,7 @@ export async function HomePageSeo() {
         </div>
       </section>
 
-      <section className="border-slate-200 text-white">
+      <section className="border-border text-foreground">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl pt-4">
             <h2 className="text-2xl font-semibold sm:text-3xl">Browse Free Online Tool Categories</h2>
@@ -273,7 +273,7 @@ export async function HomePageSeo() {
             {categories.map((group) => (
               <article
                 key={group.title}
-                className="rounded-3xl border border-slate-200 p-6 shadow-sm transition hover:shadow-md"
+                className="rounded-3xl border border-border p-6 shadow-sm transition hover:shadow-md"
               >
                 <h3 className="text-xl font-semibold">{group.title}</h3>
                 <p className="mt-3 text-sm leading-6">{group.description}</p>
@@ -282,7 +282,7 @@ export async function HomePageSeo() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-white underline decoration-white/30 underline-offset-4 transition hover:decoration-white"
+                        className="text-foreground underline decoration-white/30 underline-offset-4 transition hover:decoration-white"
                       >
                         {item.label}
                       </Link>
@@ -295,7 +295,7 @@ export async function HomePageSeo() {
         </div>
       </section>
 
-      <section className="text-white">
+      <section className="text-foreground">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-2">
             <div>
@@ -324,7 +324,7 @@ export async function HomePageSeo() {
         </div>
       </section>
 
-      <section className="border-slate-200 text-white">
+      <section className="border-border text-foreground">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             {/* was a <span> styled like a heading — now a real heading node */}
@@ -343,7 +343,7 @@ export async function HomePageSeo() {
         </div>
       </section>
 
-      <section className="border-slate-200 text-white">
+      <section className="border-border text-foreground">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             {/* was a <span> styled like a heading — now a real heading node */}
@@ -353,7 +353,7 @@ export async function HomePageSeo() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-2xl border border-white/10 bg-slate-950/30 p-3 text-sm font-medium text-white transition hover:border-white/20 hover:bg-slate-950/40"
+                  className="rounded-2xl border border-border bg-surface-sunken p-3 text-sm font-medium text-foreground transition hover:border-border-strong hover:bg-surface-sunken"
                 >
                   {link.label}
                 </Link>
@@ -363,17 +363,17 @@ export async function HomePageSeo() {
         </div>
       </section>
 
-      <section className="border-slate-200 text-white">
+      <section className="border-border text-foreground">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-3xl border border-border bg-card p-6">
             {/* was a <span> styled like a heading — now a real heading node */}
             <h2 className="text-xl font-semibold">Recently updated</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-6 text-white/75">
+            <ul className="mt-4 space-y-3 text-sm leading-6 text-foreground-secondary">
               {recentlyUpdated.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-white underline decoration-white/30 underline-offset-4 transition hover:decoration-white"
+                    className="text-foreground underline decoration-white/30 underline-offset-4 transition hover:decoration-white"
                   >
                     {item.label}
                   </Link>

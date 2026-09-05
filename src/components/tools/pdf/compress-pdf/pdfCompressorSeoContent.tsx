@@ -279,15 +279,15 @@ export default function PdfCompressorSeoContent() {
   ];
 
   const cardClass =
-    "rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6";
+    "rounded-2xl border border-border bg-card p-5 backdrop-blur-sm sm:p-6";
 
-  const softBox = "rounded-xl border border-white/10 bg-white/5 p-4";
+  const softBox = "rounded-xl border border-border bg-card p-4";
 
   return (
-    <article className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:space-y-8 sm:p-5 lg:space-y-10 lg:p-6">
+    <article className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:space-y-8 sm:p-5 lg:space-y-10 lg:p-6">
       <header className={cardClass}>
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-200">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/10 px-3 py-1 text-xs font-medium text-blue-700 dark:text-blue-200">
             <span aria-hidden="true">🗜️</span>
             Browser-based PDF compression
           </div>
@@ -296,13 +296,13 @@ export default function PdfCompressorSeoContent() {
             Compress PDF Online — Reduce PDF File Size Quickly
           </h2>
 
-          <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
             Compress PDF files online to reduce document size for email,
             uploads, applications, sharing, and storage. Use a browser-based
             workflow without installing desktop PDF software.
           </p>
 
-          <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
             It is useful for large PDFs, scanned documents, image-heavy files,
             assignments, resumes, reports, portfolios, forms, and other
             documents that need to fit within a file-size limit.
@@ -310,28 +310,28 @@ export default function PdfCompressorSeoContent() {
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className={softBox}>
-              <p className="text-xs font-semibold text-white">
+              <p className="text-xs font-semibold text-foreground">
                 Reduce file size
               </p>
-              <p className="mt-1 text-xs leading-relaxed text-white/60">
+              <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                 Create a smaller PDF for easier sharing and uploading.
               </p>
             </div>
 
             <div className={softBox}>
-              <p className="text-xs font-semibold text-white">
+              <p className="text-xs font-semibold text-foreground">
                 Browser-based
               </p>
-              <p className="mt-1 text-xs leading-relaxed text-white/60">
+              <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                 Work with your document directly through a modern browser.
               </p>
             </div>
 
             <div className={softBox}>
-              <p className="text-xs font-semibold text-white">
+              <p className="text-xs font-semibold text-foreground">
                 No signup required
               </p>
-              <p className="mt-1 text-xs leading-relaxed text-white/60">
+              <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                 Start the compression workflow without creating an account.
               </p>
             </div>
@@ -347,7 +347,7 @@ export default function PdfCompressorSeoContent() {
           What Is a PDF Compressor?
         </h2>
 
-        <div className="mt-4 space-y-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             A PDF compressor reduces the amount of data stored in a PDF so the
             resulting document takes up less space. Smaller PDFs can be easier
@@ -388,7 +388,7 @@ export default function PdfCompressorSeoContent() {
             "Send portfolios, reports, and proposals more easily.",
           ].map((item) => (
             <div key={item} className={softBox}>
-              <p className="text-sm leading-relaxed text-white/75">{item}</p>
+              <p className="text-sm leading-relaxed text-foreground-secondary">{item}</p>
             </div>
           ))}
         </div>
@@ -402,7 +402,7 @@ export default function PdfCompressorSeoContent() {
           Common PDF Compression Use Cases
         </h2>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           PDF compression is useful whenever a document is too large to send,
           upload, store, or manage conveniently. The most common situations
           include online applications, education, recruitment, business
@@ -421,11 +421,11 @@ export default function PdfCompressorSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -443,7 +443,7 @@ export default function PdfCompressorSeoContent() {
           PDF Types That May Benefit From Compression
         </h2>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Compression can be useful across many document types, particularly
           PDFs containing scanned pages, photographs, screenshots, or other
           embedded images.
@@ -452,7 +452,7 @@ export default function PdfCompressorSeoContent() {
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {pdfTypes.map((item) => (
             <div key={item} className={softBox}>
-              <p className="text-sm text-white/80">{item}</p>
+              <p className="text-sm text-foreground">{item}</p>
             </div>
           ))}
         </div>
@@ -466,7 +466,7 @@ export default function PdfCompressorSeoContent() {
           PDF Compressor Features
         </h2>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The compressor focuses on practical PDF size reduction with a simple
           workflow that can be used across supported modern devices.
         </p>
@@ -483,11 +483,11 @@ export default function PdfCompressorSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -521,11 +521,11 @@ export default function PdfCompressorSeoContent() {
                 </span>
 
                 <div className="flex-1">
-                  <p className="mb-1 text-sm font-semibold text-white">
+                  <p className="mb-1 text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -543,7 +543,7 @@ export default function PdfCompressorSeoContent() {
           Choosing the Right PDF Compression Setting
         </h2>
 
-        <div className="mt-4 space-y-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             The right setting depends on what you need the PDF for. If a
             destination website has a strict file-size limit, stronger
@@ -559,11 +559,11 @@ export default function PdfCompressorSeoContent() {
           </p>
 
           <div className={softBox}>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-foreground">
               Practical approach
             </h3>
 
-            <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
+            <p className="mt-2 text-xs leading-relaxed text-foreground-secondary sm:text-sm">
               Start with a moderate setting, check the resulting file size and
               readability, and increase compression only when the document
               needs to be smaller.
@@ -580,7 +580,7 @@ export default function PdfCompressorSeoContent() {
           Who Can Use a PDF Compressor?
         </h2>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           PDF compression can help anyone who needs to send, submit, upload,
           archive, or store documents more efficiently.
         </p>
@@ -597,11 +597,11 @@ export default function PdfCompressorSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -619,7 +619,7 @@ export default function PdfCompressorSeoContent() {
           How PDF Compression Works
         </h2>
 
-        <div className="mt-4 space-y-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             PDF compression reduces or optimizes data that contributes to the
             document's overall file size while attempting to preserve the
@@ -657,7 +657,7 @@ export default function PdfCompressorSeoContent() {
           Private Browser-Based PDF Compression
         </h2>
 
-        <div className="mt-4 space-y-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             The compression workflow is designed around local browser
             processing, so the PDF does not need to be sent to a remote
@@ -677,11 +677,11 @@ export default function PdfCompressorSeoContent() {
           </p>
 
           <div className={softBox}>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-foreground">
               Privacy note
             </h3>
 
-            <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
+            <p className="mt-2 text-xs leading-relaxed text-foreground-secondary sm:text-sm">
               Local processing means the document is not sent to a remote
               compression server for the intended processing workflow. Normal
               browser, device, network, and operating-system behavior can
@@ -703,7 +703,7 @@ export default function PdfCompressorSeoContent() {
           Browser PDF Compression vs Desktop Software
         </h2>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A browser-based compressor is convenient for quick PDF
           size-reduction tasks, while desktop PDF applications may provide
           broader document-management and editing capabilities.
@@ -712,7 +712,7 @@ export default function PdfCompressorSeoContent() {
         <div className="mt-4 overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-white/10 text-white/80">
+              <tr className="border-b border-border text-foreground">
                 <th scope="col" className="py-3 pr-4">
                   Browser Compressor
                 </th>
@@ -722,8 +722,8 @@ export default function PdfCompressorSeoContent() {
               </tr>
             </thead>
 
-            <tbody className="text-white/70">
-              <tr className="border-b border-white/10">
+            <tbody className="text-foreground-secondary">
+              <tr className="border-b border-border">
                 <td className="py-3 pr-4">
                   No desktop installation
                 </td>
@@ -732,7 +732,7 @@ export default function PdfCompressorSeoContent() {
                 </td>
               </tr>
 
-              <tr className="border-b border-white/10">
+              <tr className="border-b border-border">
                 <td className="py-3 pr-4">
                   Accessible through a modern browser
                 </td>
@@ -741,7 +741,7 @@ export default function PdfCompressorSeoContent() {
                 </td>
               </tr>
 
-              <tr className="border-b border-white/10">
+              <tr className="border-b border-border">
                 <td className="py-3 pr-4">
                   Convenient for quick compression
                 </td>
@@ -750,7 +750,7 @@ export default function PdfCompressorSeoContent() {
                 </td>
               </tr>
 
-              <tr className="border-b border-white/10">
+              <tr className="border-b border-border">
                 <td className="py-3 pr-4">
                   Works across supported device types
                 </td>
@@ -783,7 +783,7 @@ export default function PdfCompressorSeoContent() {
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
           {compressionTips.map((item) => (
             <li key={item} className={softBox}>
-              <p className="text-sm leading-relaxed text-white/75">
+              <p className="text-sm leading-relaxed text-foreground-secondary">
                 {item}
               </p>
             </li>
@@ -815,18 +815,18 @@ export default function PdfCompressorSeoContent() {
             },
           ].map((item) => (
             <div key={item.title} className={softBox}>
-              <h3 className="text-sm font-semibold text-white">
+              <h3 className="text-sm font-semibold text-foreground">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
+              <p className="mt-2 text-xs leading-relaxed text-foreground-secondary sm:text-sm">
                 {item.desc}
               </p>
             </div>
           ))}
         </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/70">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary">
           If the PDF is being submitted for an important application, printed,
           reviewed professionally, or used as a formal record, inspect the
           compressed output before replacing the original.
@@ -853,7 +853,7 @@ export default function PdfCompressorSeoContent() {
             "More convenient client and team sharing",
           ].map((item) => (
             <div key={item} className={softBox}>
-              <p className="text-sm leading-relaxed text-white/75">
+              <p className="text-sm leading-relaxed text-foreground-secondary">
                 {item}
               </p>
             </div>
@@ -871,11 +871,11 @@ export default function PdfCompressorSeoContent() {
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <div className={softBox}>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-foreground">
               Check the destination limit
             </h3>
 
-            <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
+            <p className="mt-2 text-xs leading-relaxed text-foreground-secondary sm:text-sm">
               If you are uploading the PDF to an application, university,
               government, business, recruitment, or document portal, check the
               maximum permitted file size first.
@@ -883,33 +883,33 @@ export default function PdfCompressorSeoContent() {
           </div>
 
           <div className={softBox}>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-foreground">
               Keep the original
             </h3>
 
-            <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
+            <p className="mt-2 text-xs leading-relaxed text-foreground-secondary sm:text-sm">
               Keep the original PDF when you may need its original quality,
               resolution, or document structure later.
             </p>
           </div>
 
           <div className={softBox}>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-foreground">
               Consider the document type
             </h3>
 
-            <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
+            <p className="mt-2 text-xs leading-relaxed text-foreground-secondary sm:text-sm">
               Scanned and image-heavy PDFs can behave differently from
               text-focused PDFs during compression.
             </p>
           </div>
 
           <div className={softBox}>
-            <h3 className="text-sm font-semibold text-white">
+            <h3 className="text-sm font-semibold text-foreground">
               Review the output
             </h3>
 
-            <p className="mt-2 text-xs leading-relaxed text-white/60 sm:text-sm">
+            <p className="mt-2 text-xs leading-relaxed text-foreground-secondary sm:text-sm">
               Confirm that text, images, pages, forms, and other important
               content remain suitable for the intended use.
             </p>
@@ -929,23 +929,23 @@ export default function PdfCompressorSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="group overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                <span className="text-sm font-semibold text-white">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                <span className="text-sm font-semibold text-foreground">
                   {item.q}
                 </span>
 
                 <span
-                  className="text-lg text-blue-400"
+                  className="text-lg text-blue-700 dark:text-blue-400"
                   aria-hidden="true"
                 >
                   +
                 </span>
               </summary>
 
-              <div className="border-t border-dashed border-white/10 p-5 pt-0">
-                <p className="text-xs leading-relaxed text-white/60 sm:text-sm">
+              <div className="border-t border-dashed border-border p-5 pt-0">
+                <p className="text-xs leading-relaxed text-foreground-secondary sm:text-sm">
                   {item.a}
                 </p>
               </div>
@@ -967,7 +967,7 @@ export default function PdfCompressorSeoContent() {
           Compress PDF Files for Easier Sharing and Uploads
         </h2>
 
-        <div className="mt-4 space-y-4 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             Whether you need to email a large report, submit an assignment,
             upload an application document, share a portfolio, reduce a
@@ -990,21 +990,21 @@ export default function PdfCompressorSeoContent() {
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href="/pdf"
-              className="rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/15"
+              className="rounded-xl border border-border bg-surface-raised px-4 py-2 text-sm font-medium text-foreground transition hover:bg-surface-raised"
             >
               Explore PDF Tools
             </Link>
 
             <Link
               href="/tools/pdf/merge-pdf"
-              className="rounded-xl border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm font-medium text-blue-100 transition hover:bg-blue-400/20"
+              className="rounded-xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/10 px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-100 transition hover:bg-blue-100 dark:hover:bg-blue-400/20"
             >
               Merge PDF
             </Link>
 
             <Link
               href="/tools/pdf/split-pdf"
-              className="rounded-xl border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm font-medium text-blue-100 transition hover:bg-blue-400/20"
+              className="rounded-xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/10 px-4 py-2 text-sm font-medium text-blue-700 dark:text-blue-100 transition hover:bg-blue-100 dark:hover:bg-blue-400/20"
             >
               Split PDF
             </Link>

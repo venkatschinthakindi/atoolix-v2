@@ -247,7 +247,7 @@ export default function CompressImageSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-3 py-5 text-white sm:px-5 lg:px-6 lg:py-8">
+    <div className="mx-auto max-w-6xl space-y-8 px-3 py-5 text-foreground sm:px-5 lg:px-6 lg:py-8">
 
       <script
         type="application/ld+json"
@@ -264,7 +264,7 @@ export default function CompressImageSeoContent() {
         aria-labelledby="intro-heading"
         className="space-y-4"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground-secondary">
           Free Online Image Compressor
         </p>
 
@@ -275,13 +275,13 @@ export default function CompressImageSeoContent() {
           Compress Image Online – Reduce Image File Size
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/75 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Compress JPG, JPEG, PNG, and WebP images online for free.
           Reduce image file size, control compression quality, and
           download a smaller image without installing software.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/65 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Use the compressor when you need to make an image file smaller
           for a website, email attachment, online form, document,
           presentation, product listing, or upload with a file-size limit.
@@ -294,7 +294,7 @@ export default function CompressImageSeoContent() {
 
       <section
         aria-labelledby="quick-answer-heading"
-        className="rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-5 sm:p-6"
+        className="rounded-2xl border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/5 p-5 sm:p-6"
       >
         <h2
           id="quick-answer-heading"
@@ -303,7 +303,7 @@ export default function CompressImageSeoContent() {
           How to Reduce Image Size
         </h2>
 
-        <p className="mt-3 max-w-4xl text-sm leading-7 text-white/75 sm:text-base">
+        <p className="mt-3 max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Upload the image, choose a suitable compression quality,
           process it, review the result, and download the smaller file.
           If compression alone is not enough to meet a file-size limit,
@@ -371,7 +371,7 @@ export default function CompressImageSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 aria-hidden="true"
@@ -384,7 +384,7 @@ export default function CompressImageSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/65">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -407,7 +407,7 @@ export default function CompressImageSeoContent() {
           Compression vs. Resizing: What's the Difference?
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Compression and resizing solve different problems. Compression
           reduces the amount of data stored in an image, while resizing
           changes the image's width and height. You can compress an image
@@ -419,7 +419,7 @@ export default function CompressImageSeoContent() {
           {compressionMethods.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 aria-hidden="true"
@@ -432,7 +432,7 @@ export default function CompressImageSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/65">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -455,7 +455,7 @@ export default function CompressImageSeoContent() {
           Choose the Right Compression Quality
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           There is no single quality setting that works for every image.
           The right choice depends on the original image, its dimensions,
           its format, and where you plan to use the compressed copy.
@@ -481,7 +481,7 @@ export default function CompressImageSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 aria-hidden="true"
@@ -494,7 +494,7 @@ export default function CompressImageSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/65">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -517,7 +517,7 @@ export default function CompressImageSeoContent() {
           Compress JPG, PNG and WebP Images
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Different image formats behave differently during compression.
           Choosing the appropriate format can make it easier to reach the
           required file size while keeping acceptable visual quality.
@@ -527,7 +527,7 @@ export default function CompressImageSeoContent() {
           {formatCards.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 aria-hidden="true"
@@ -540,7 +540,7 @@ export default function CompressImageSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/65">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -567,7 +567,7 @@ export default function CompressImageSeoContent() {
           {howToSteps.map((step) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 aria-hidden="true"
@@ -580,7 +580,7 @@ export default function CompressImageSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/65">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -594,7 +594,7 @@ export default function CompressImageSeoContent() {
 
       <section
         aria-labelledby="target-size-heading"
-        className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6"
+        className="space-y-4 rounded-2xl border border-border bg-card p-5 sm:p-6"
       >
         <h2
           id="target-size-heading"
@@ -603,7 +603,7 @@ export default function CompressImageSeoContent() {
           Need a Specific File Size?
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Some application portals and websites specify a maximum image
           size such as 20 KB, 50 KB, or 100 KB. For those requirements,
           a target-size compressor is more appropriate than a general
@@ -613,21 +613,21 @@ export default function CompressImageSeoContent() {
         <div className="flex flex-wrap gap-2.5">
           <Link
             href="/tools/image/compress-image-to-20kb"
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm hover:border-cyan-400/30 hover:text-cyan-300"
+            className="rounded-full border border-border bg-card px-3 py-2 text-sm hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:text-cyan-800 dark:hover:text-cyan-300"
           >
             Compress to 20 KB
           </Link>
 
           <Link
             href="/tools/image/compress-image-to-50kb"
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm hover:border-cyan-400/30 hover:text-cyan-300"
+            className="rounded-full border border-border bg-card px-3 py-2 text-sm hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:text-cyan-800 dark:hover:text-cyan-300"
           >
             Compress to 50 KB
           </Link>
 
           <Link
             href="/tools/image/compress-image-to-100kb"
-            className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm hover:border-cyan-400/30 hover:text-cyan-300"
+            className="rounded-full border border-border bg-card px-3 py-2 text-sm hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:text-cyan-800 dark:hover:text-cyan-300"
           >
             Compress to 100 KB
           </Link>
@@ -653,7 +653,7 @@ export default function CompressImageSeoContent() {
           {useCases.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 aria-hidden="true"
@@ -666,7 +666,7 @@ export default function CompressImageSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/65">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -689,9 +689,9 @@ export default function CompressImageSeoContent() {
           How to Get the Best File Size Without Excessive Quality Loss
         </h2>
 
-        <div className="space-y-3 text-sm leading-7 text-white/70 sm:text-base">
+        <div className="space-y-3 text-sm leading-7 text-foreground-secondary sm:text-base">
           <p>
-            <strong className="text-white">
+            <strong className="text-foreground">
               Start with the required dimensions.
             </strong>{" "}
             If the destination only displays a small image, there may be no
@@ -699,7 +699,7 @@ export default function CompressImageSeoContent() {
           </p>
 
           <p>
-            <strong className="text-white">
+            <strong className="text-foreground">
               Compress before resizing further.
             </strong>{" "}
             When the dimensions are already appropriate, try reducing
@@ -707,7 +707,7 @@ export default function CompressImageSeoContent() {
           </p>
 
           <p>
-            <strong className="text-white">
+            <strong className="text-foreground">
               Resize very large photographs.
             </strong>{" "}
             A camera photo containing thousands of pixels can often be
@@ -716,7 +716,7 @@ export default function CompressImageSeoContent() {
           </p>
 
           <p>
-            <strong className="text-white">
+            <strong className="text-foreground">
               Choose the format for the job.
             </strong>{" "}
             JPG is commonly effective for photographs, while PNG can be
@@ -725,7 +725,7 @@ export default function CompressImageSeoContent() {
           </p>
 
           <p>
-            <strong className="text-white">
+            <strong className="text-foreground">
               Keep the original.
             </strong>{" "}
             Save the compressed version as a separate copy so you can return
@@ -740,7 +740,7 @@ export default function CompressImageSeoContent() {
 
       <section
         aria-labelledby="privacy-heading"
-        className="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5 sm:p-6"
+        className="rounded-2xl border border-emerald-300 dark:border-emerald-400/20 bg-emerald-100 dark:bg-emerald-400/5 p-5 sm:p-6"
       >
         <h2
           id="privacy-heading"
@@ -749,14 +749,14 @@ export default function CompressImageSeoContent() {
           Browser-Based Image Compression
         </h2>
 
-        <p className="mt-3 max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="mt-3 max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           The compression workflow is designed to process supported images
           locally in your browser. Your original image does not need to be
           uploaded to an external image-processing server for the compression
           operation.
         </p>
 
-        <p className="mt-2 max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+        <p className="mt-2 max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           This is useful when you want to reduce a photo or document image
           while keeping the source file on your own device.
         </p>
@@ -787,14 +787,14 @@ export default function CompressImageSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-7 text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-7 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -809,7 +809,7 @@ export default function CompressImageSeoContent() {
 
       <section
         aria-labelledby="cta-heading"
-        className="rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-5 sm:p-6"
+        className="rounded-2xl border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/5 p-5 sm:p-6"
       >
         <h2
           id="cta-heading"
@@ -818,7 +818,7 @@ export default function CompressImageSeoContent() {
           Compress Your Image Online
         </h2>
 
-        <p className="mt-2 max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="mt-2 max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Reduce image file size, choose the right compression level,
           review the result, and download a smaller copy. For strict
           upload limits, use one of the target-size image compressors

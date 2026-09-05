@@ -272,13 +272,13 @@ const breadcrumbJsonLd = {
 
 export default function WebpCompressorSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
+    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
       <section aria-labelledby="intro-heading" className="space-y-3">
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           WebP Image Compressor
         </p>
 
@@ -289,21 +289,21 @@ export default function WebpCompressorSeoContent() {
           Free WebP Compressor Online – Compress WebP Images with Preview
         </h2>
 
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Compress WebP images online with adjustable quality, preview, and
           instant download. Reduce WebP file size for websites, apps, blogs,
           ecommerce pages, documentation, and other digital content while
           keeping control over the visual result.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           WebP is designed for efficient image delivery on the web. Compressing
           an existing WebP can help remove unnecessary image weight when a file
           is larger than needed for its intended use, without requiring you to
           convert it to another format first.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Whether you are a developer optimizing website assets, a designer
           preparing graphics, a blogger reducing page weight, or an ecommerce
           team optimizing product images, this focused WebP compressor provides
@@ -343,13 +343,13 @@ export default function WebpCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -388,13 +388,13 @@ export default function WebpCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -430,13 +430,13 @@ export default function WebpCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -454,9 +454,9 @@ export default function WebpCompressorSeoContent() {
           description="Use the quality setting as a starting point and always preview the result because compression behavior varies by image."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-2.5 font-semibold sm:px-4">
                   Quality
@@ -476,7 +476,7 @@ export default function WebpCompressorSeoContent() {
               {qualityGuide.map((item) => (
                 <tr
                   key={item.range}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-2.5 sm:px-4">
                     {item.range}
@@ -495,7 +495,7 @@ export default function WebpCompressorSeoContent() {
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/55 sm:text-sm">
+        <p className="text-xs leading-6 text-foreground-faint sm:text-sm">
           There is no universal compression percentage that applies to every
           WebP image. Final file size depends on the source image, dimensions,
           visual complexity, transparency, encoding characteristics, and
@@ -513,9 +513,9 @@ export default function WebpCompressorSeoContent() {
           description="The workflow focuses on the features users need when reducing WebP image size."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-2.5 font-semibold sm:px-4">
                   Feature
@@ -540,7 +540,7 @@ export default function WebpCompressorSeoContent() {
               ].map(([feature, value]) => (
                 <tr
                   key={feature}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-2.5 sm:px-4">
                     {feature}
@@ -567,10 +567,10 @@ export default function WebpCompressorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-500 text-xs font-bold text-black">
                   {index + 1}
                 </div>
 
@@ -581,7 +581,7 @@ export default function WebpCompressorSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -603,7 +603,7 @@ export default function WebpCompressorSeoContent() {
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="text-xl">{feature.icon}</div>
 
@@ -611,7 +611,7 @@ export default function WebpCompressorSeoContent() {
                 {feature.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {feature.desc}
               </p>
             </article>
@@ -633,7 +633,7 @@ export default function WebpCompressorSeoContent() {
           {audience.map((item) => (
             <div
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </div>
@@ -652,7 +652,7 @@ export default function WebpCompressorSeoContent() {
           {commonUses.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </li>
@@ -671,7 +671,7 @@ export default function WebpCompressorSeoContent() {
           {whenToCompress.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </li>
@@ -690,7 +690,7 @@ export default function WebpCompressorSeoContent() {
           {whenNotToCompress.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </li>
@@ -729,13 +729,13 @@ export default function WebpCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -757,7 +757,7 @@ export default function WebpCompressorSeoContent() {
           {devices.map((item) => (
             <span
               key={item}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium"
+              className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium"
             >
               {item}
             </span>
@@ -778,14 +778,14 @@ export default function WebpCompressorSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

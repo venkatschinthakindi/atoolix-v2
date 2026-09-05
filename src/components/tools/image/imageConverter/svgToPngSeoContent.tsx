@@ -202,7 +202,7 @@ export default function SvgToPngSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       {/* FAQ structured data */}
       <script
         type="application/ld+json"
@@ -229,14 +229,14 @@ export default function SvgToPngSeoContent() {
           SVG to PNG Converter – Convert Vector Graphics to PNG
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert SVG vector graphics to PNG images directly in your browser.
           Create fixed-resolution PNG files for websites, apps, documents,
           presentations, sharing, and other workflows without installing
           dedicated desktop conversion software.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Built for designers, developers, students, office users, marketers,
           and mobile users who need a straightforward SVG to PNG workflow.
         </p>
@@ -251,13 +251,13 @@ export default function SvgToPngSeoContent() {
           What Is an SVG to PNG Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           An SVG to PNG converter rasterizes SVG files into PNG images so they
           can be used in workflows that require a fixed resolution, pixel-based
           output, or broader compatibility with applications and platforms.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           SVG is a vector format based on shapes and paths, while PNG is a
           raster format made from pixels. SVG can scale without the same
           resolution limits, while PNG is created at a specific pixel size.
@@ -273,7 +273,7 @@ export default function SvgToPngSeoContent() {
           SVG vs PNG: What Is the Difference?
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             SVG is generally suited to logos, icons, illustrations, diagrams,
             and other graphics that need to remain scalable.
@@ -302,7 +302,7 @@ export default function SvgToPngSeoContent() {
           Why Convert SVG to PNG?
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             PNG is useful when you need a fixed-size image instead of a
             scalable vector graphic.
@@ -334,14 +334,14 @@ export default function SvgToPngSeoContent() {
           SVG Transparency and PNG Backgrounds
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           One important advantage of PNG over JPG is transparency support. If
           the source SVG contains transparent areas and the conversion workflow
           supports transparent PNG output, those areas can remain transparent
           in the resulting image.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This makes SVG to PNG conversion especially useful for logos, icons,
           interface graphics, overlays, and other assets that should not have
           an automatically added solid background.
@@ -357,13 +357,13 @@ export default function SvgToPngSeoContent() {
           SVG to PNG Quality and Resolution
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           SVG graphics are resolution-independent, but PNG images are made from
           pixels. When an SVG is converted to PNG, the output is therefore
           created at a specific width and height.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Larger pixel dimensions can preserve more detail when the image needs
           to be displayed at a larger size. However, unnecessarily large
           dimensions can increase file size, so the best output size depends on
@@ -380,7 +380,7 @@ export default function SvgToPngSeoContent() {
           Should You Convert SVG to PNG or JPG?
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             Choose PNG when transparency, lossless raster output, logos, icons,
             or interface graphics are important.
@@ -409,7 +409,7 @@ export default function SvgToPngSeoContent() {
           Benefits of Using This Converter
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             • Creates fixed-resolution PNG assets from SVG vector graphics.
           </li>
@@ -439,7 +439,7 @@ export default function SvgToPngSeoContent() {
           Common SVG to PNG Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             Convert SVG logos into PNG for websites, documents, and sharing.
           </li>
@@ -475,7 +475,7 @@ export default function SvgToPngSeoContent() {
           How to Convert SVG to PNG
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The conversion workflow is designed to be straightforward: provide
           the SVG, rasterize it into PNG, and download the resulting image.
         </p>
@@ -484,7 +484,7 @@ export default function SvgToPngSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -499,11 +499,11 @@ export default function SvgToPngSeoContent() {
                 </span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -516,7 +516,7 @@ export default function SvgToPngSeoContent() {
       {/* Features */}
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -529,7 +529,7 @@ export default function SvgToPngSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -540,11 +540,11 @@ export default function SvgToPngSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -567,7 +567,7 @@ export default function SvgToPngSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -578,11 +578,11 @@ export default function SvgToPngSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -601,13 +601,13 @@ export default function SvgToPngSeoContent() {
           SVG Compatibility Notes
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Most standard SVG graphics can be rasterized into PNG, but complex
           SVG files may produce different results depending on their contents
           and the browser rendering environment.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           SVGs that rely on external resources, unavailable fonts, advanced
           filters, embedded assets, scripts, or other specialized features may
           require additional testing after conversion.
@@ -623,14 +623,14 @@ export default function SvgToPngSeoContent() {
           Privacy and Browser-Based Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This SVG to PNG converter is designed for browser-based processing.
           When the conversion is performed locally by the browser, the SVG can
           be processed on your device without requiring a server-side file
           upload.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           We do not require account registration solely to perform the
           conversion. If analytics or error monitoring are enabled, they should
           be used to improve performance and reliability without collecting
@@ -651,14 +651,14 @@ export default function SvgToPngSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

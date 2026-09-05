@@ -177,7 +177,7 @@ export default function JpgToWebpSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -198,13 +198,13 @@ export default function JpgToWebpSeoContent() {
           JPG to WebP Converter – Convert Images Online
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert JPG and JPEG images to WebP online directly in your browser.
           This free JPG to WebP converter provides a simple way to change image
           formats without installing dedicated software or creating an account.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           WebP is a modern image format designed for efficient image delivery
           and can provide smaller files than JPG in many situations. The actual
           result depends on the source image and WebP encoding settings.
@@ -221,14 +221,14 @@ export default function JpgToWebpSeoContent() {
           What Is a JPG to WebP Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A JPG to WebP converter changes an image stored in JPG or JPEG format
           into WebP. WebP is a modern image format that supports both lossy and
           lossless compression and is widely used for web images and digital
           applications.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Converting JPG images to WebP can be useful when you want to optimize
           image delivery, reduce download size, or prepare assets for modern
           websites, applications, blogs, online stores, and content platforms.
@@ -245,28 +245,28 @@ export default function JpgToWebpSeoContent() {
           JPG vs WebP: Which Format Should You Use?
         </h2>
 
-        <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[700px] text-left text-sm">
-            <thead className="border-b border-white/10">
+            <thead className="border-b border-border">
               <tr>
                 <th
                   scope="col"
-                  className="px-4 py-3 font-semibold text-white"
+                  className="px-4 py-3 font-semibold text-foreground"
                 >
                   JPG / JPEG
                 </th>
 
                 <th
                   scope="col"
-                  className="px-4 py-3 font-semibold text-white"
+                  className="px-4 py-3 font-semibold text-foreground"
                 >
                   WebP
                 </th>
               </tr>
             </thead>
 
-            <tbody className="text-white/70">
-              <tr className="border-b border-white/10">
+            <tbody className="text-foreground-secondary">
+              <tr className="border-b border-border">
                 <td className="px-4 py-3">
                   Widely used photographic image format
                 </td>
@@ -276,7 +276,7 @@ export default function JpgToWebpSeoContent() {
                 </td>
               </tr>
 
-              <tr className="border-b border-white/10">
+              <tr className="border-b border-border">
                 <td className="px-4 py-3">
                   Primarily associated with lossy compression
                 </td>
@@ -286,7 +286,7 @@ export default function JpgToWebpSeoContent() {
                 </td>
               </tr>
 
-              <tr className="border-b border-white/10">
+              <tr className="border-b border-border">
                 <td className="px-4 py-3">
                   Often compact for photographs
                 </td>
@@ -296,7 +296,7 @@ export default function JpgToWebpSeoContent() {
                 </td>
               </tr>
 
-              <tr className="border-b border-white/10">
+              <tr className="border-b border-border">
                 <td className="px-4 py-3">
                   Very broad legacy compatibility
                 </td>
@@ -319,7 +319,7 @@ export default function JpgToWebpSeoContent() {
           </table>
         </div>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           WebP is not automatically the best choice for every image. The right
           format depends on your source image, target platform, required
           quality, file size goals, browser requirements, and image-delivery
@@ -337,7 +337,7 @@ export default function JpgToWebpSeoContent() {
           Why Convert JPG to WebP?
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             • You want to reduce image download size where WebP produces a
             smaller result.
@@ -371,13 +371,13 @@ export default function JpgToWebpSeoContent() {
           When Should You Keep JPG Instead?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Converting every JPG image to WebP is not automatically necessary.
           JPG can remain the better choice when compatibility, existing
           workflows, or the resulting file size makes it more appropriate.
         </p>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             • Your existing platform specifically requires JPG or JPEG.
           </li>
@@ -411,13 +411,13 @@ export default function JpgToWebpSeoContent() {
           Does JPG to WebP Conversion Reduce Quality?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           It can, depending on the WebP compression mode and quality settings.
           WebP supports both lossy and lossless compression, so the visual
           result depends on how the image is encoded.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A lossy WebP conversion can reduce file size while introducing some
           visual differences. A lossless WebP workflow preserves image data
           differently and may produce larger files. For important images,
@@ -436,14 +436,14 @@ export default function JpgToWebpSeoContent() {
           Can JPG to WebP Conversion Improve Website Performance?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           It can help when the WebP version is smaller than the original JPG
           while maintaining acceptable visual quality. Smaller image files
           require less data to download, which can be especially useful for
           image-heavy pages and visitors using slower connections.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Image conversion is only one part of web performance. Responsive
           images, appropriate dimensions, caching, lazy loading, compression,
           and efficient delivery also affect how quickly images reach users.
@@ -460,7 +460,7 @@ export default function JpgToWebpSeoContent() {
           Why Use This JPG to WebP Converter?
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             • Convert JPG and JPEG images to WebP with a simple workflow.
           </li>
@@ -499,7 +499,7 @@ export default function JpgToWebpSeoContent() {
           Common JPG to WebP Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             Convert JPG photographs for modern website image delivery.
           </li>
@@ -544,7 +544,7 @@ export default function JpgToWebpSeoContent() {
           How to Convert JPG to WebP
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert a JPG or JPEG image to WebP in a few straightforward steps.
         </p>
 
@@ -552,7 +552,7 @@ export default function JpgToWebpSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -567,11 +567,11 @@ export default function JpgToWebpSeoContent() {
                 </span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -585,7 +585,7 @@ export default function JpgToWebpSeoContent() {
 
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -598,7 +598,7 @@ export default function JpgToWebpSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -609,11 +609,11 @@ export default function JpgToWebpSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -637,7 +637,7 @@ export default function JpgToWebpSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -648,11 +648,11 @@ export default function JpgToWebpSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -672,25 +672,25 @@ export default function JpgToWebpSeoContent() {
           Privacy and Browser-Based Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This converter is designed around browser-based image processing.
           When conversion is performed locally in your browser, the image can
           be processed on your device without sending the image itself to a
           conversion server.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Local processing can be useful when working with personal,
           confidential, or sensitive images. Analytics and error-monitoring
           systems should be configured so that image contents and
           image-derived personal data are not transmitted.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           For Atoolix&apos;s complete legal information, see the{" "}
           <Link
             href="/privacy"
-            className="text-blue-300 underline decoration-blue-300/40 underline-offset-4 hover:text-blue-200"
+            className="text-blue-700 dark:text-blue-300 underline decoration-blue-300/40 underline-offset-4 hover:text-blue-800 dark:hover:text-blue-200"
           >
             Privacy Policy
           </Link>
@@ -712,14 +712,14 @@ export default function JpgToWebpSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -747,7 +747,7 @@ export default function JpgToWebpSeoContent() {
             <Link
               key={tool.href}
               href={tool.href}
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/75 transition hover:border-blue-400/30 hover:bg-blue-400/15 hover:text-white"
+              className="inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground-secondary transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/15 hover:text-foreground"
             >
               {tool.name}
             </Link>

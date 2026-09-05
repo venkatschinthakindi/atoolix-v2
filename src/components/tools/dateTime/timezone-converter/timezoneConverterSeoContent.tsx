@@ -278,7 +278,7 @@ const breadcrumbJsonLd = {
 
 export default function TimezoneConverterSeoContent() {
   return (
-    <div className="mx-auto space-y-8 px-3 py-5 text-white sm:px-4 sm:py-6 lg:px-5 lg:py-8">
+    <div className="mx-auto space-y-8 px-3 py-5 text-foreground sm:px-4 sm:py-6 lg:px-5 lg:py-8">
       <JsonLd data={breadcrumbJsonLd} />
 
       {/* INTRO */}
@@ -286,7 +286,7 @@ export default function TimezoneConverterSeoContent() {
         aria-labelledby="intro-heading"
         className="space-y-3"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           Free Online Time Zone Converter
         </p>
 
@@ -297,14 +297,14 @@ export default function TimezoneConverterSeoContent() {
           Time Zone Converter – Convert Time Between Time Zones
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Convert a date and time between multiple time zones in one view.
           Choose a source time, search for locations by city or country, and
           compare up to 10 time zones with their local time, UTC offset,
           abbreviation, and day difference.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/65 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Atoolix uses the selected date when calculating time zone offsets,
           including daylight saving time changes. You can switch between
           12-hour and 24-hour time, copy results, and share the complete
@@ -327,7 +327,7 @@ export default function TimezoneConverterSeoContent() {
           {featureItems.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 className="text-lg"
@@ -340,7 +340,7 @@ export default function TimezoneConverterSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -359,8 +359,8 @@ export default function TimezoneConverterSeoContent() {
           description="You do not need to know the technical time zone identifier to find a location."
         />
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <p className="text-sm leading-7 text-white/75">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <p className="text-sm leading-7 text-foreground-secondary">
             Search for locations such as <strong>New York</strong>,{" "}
             <strong>London</strong>, <strong>Mumbai</strong>,{" "}
             <strong>Tokyo</strong>, <strong>Singapore</strong>,{" "}
@@ -368,7 +368,7 @@ export default function TimezoneConverterSeoContent() {
             search using a country, time zone name, or supported abbreviation.
           </p>
 
-          <p className="mt-3 text-sm leading-7 text-white/65">
+          <p className="mt-3 text-sm leading-7 text-foreground-secondary">
             This makes the converter useful even when you know the destination
             but do not know its IANA time zone identifier.
           </p>
@@ -400,14 +400,14 @@ export default function TimezoneConverterSeoContent() {
           ].map((zone) => (
             <div
               key={zone}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/75"
+              className="rounded-xl border border-border bg-card p-4 text-sm text-foreground-secondary"
             >
               {zone}
             </div>
           ))}
         </div>
 
-        <p className="text-sm leading-7 text-white/65">
+        <p className="text-sm leading-7 text-foreground-secondary">
           The comparison can show the local date and time, UTC offset, time
           zone abbreviation, and whether the result falls on the previous,
           same, or next day.
@@ -429,7 +429,7 @@ export default function TimezoneConverterSeoContent() {
           {howToSteps.map((step, index) => (
             <li
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center gap-2">
                 <span
@@ -439,7 +439,7 @@ export default function TimezoneConverterSeoContent() {
                   {step.icon}
                 </span>
 
-                <span className="text-xs font-semibold text-white/50">
+                <span className="text-xs font-semibold text-foreground-faint">
                   Step {index + 1}
                 </span>
               </div>
@@ -448,7 +448,7 @@ export default function TimezoneConverterSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </li>
@@ -468,22 +468,22 @@ export default function TimezoneConverterSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-2">
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               12-hour format
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               View times using AM and PM, such as 9:30 AM or 6:00 PM.
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               24-hour format
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               View times using a 24-hour clock, such as 09:30 or 18:00,
               which can reduce AM/PM confusion in international schedules.
             </p>
@@ -506,13 +506,13 @@ export default function TimezoneConverterSeoContent() {
           {dstFacts.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -531,7 +531,7 @@ export default function TimezoneConverterSeoContent() {
           description="A single source time can be converted into several local times at once."
         />
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="rounded-xl border border-border bg-card p-4">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
               ["Source", "India Standard Time"],
@@ -543,9 +543,9 @@ export default function TimezoneConverterSeoContent() {
             ].map(([label, value]) => (
               <div
                 key={label}
-                className="rounded-lg border border-white/10 bg-black/10 p-3"
+                className="rounded-lg border border-border bg-card p-3"
               >
-                <div className="text-xs text-white/45">
+                <div className="text-xs text-foreground-faint">
                   {label}
                 </div>
 
@@ -556,7 +556,7 @@ export default function TimezoneConverterSeoContent() {
             ))}
           </div>
 
-          <p className="mt-4 text-sm leading-7 text-white/65">
+          <p className="mt-4 text-sm leading-7 text-foreground-secondary">
             Select the actual date and time in the converter to calculate the
             corresponding local time for every selected location. The result
             automatically reflects applicable daylight saving rules.
@@ -579,21 +579,21 @@ export default function TimezoneConverterSeoContent() {
           {popularPairs.map((pair) => (
             <div
               key={`${pair.from}-${pair.to}`}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
-              <span className="font-semibold text-white">
+              <span className="font-semibold text-foreground">
                 {pair.from}
               </span>
 
-              <span className="px-2 text-white/40">
+              <span className="px-2 text-foreground-faint">
                 →
               </span>
 
-              <span className="text-white/75">
+              <span className="text-foreground-secondary">
                 {pair.to}
               </span>
 
-              <p className="mt-1 text-xs text-white/45">
+              <p className="mt-1 text-xs text-foreground-faint">
                 Convert {pair.from} time to {pair.to} time
               </p>
             </div>
@@ -616,13 +616,13 @@ export default function TimezoneConverterSeoContent() {
           {conversionPairFaqs.slice(0, 6).map((item) => (
             <article
               key={item.q}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.q}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.a}
               </p>
             </article>
@@ -645,13 +645,13 @@ export default function TimezoneConverterSeoContent() {
           {supportedUseCases.map((item) => (
             <article
               key={item.useCase}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.useCase}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.note}
               </p>
             </article>
@@ -671,23 +671,23 @@ export default function TimezoneConverterSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-2">
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Copy the result
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Copy an individual converted time or the comparison for use in
               email, chat, documents, or scheduling messages.
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Share the complete comparison
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Create a share link that preserves the selected source time,
               date, target locations, and display format.
             </p>
@@ -710,7 +710,7 @@ export default function TimezoneConverterSeoContent() {
           {tips.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/75"
+              className="rounded-xl border border-border bg-card p-4 text-sm leading-6 text-foreground-secondary"
             >
               {item}
             </li>
@@ -733,14 +733,14 @@ export default function TimezoneConverterSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -760,19 +760,19 @@ export default function TimezoneConverterSeoContent() {
           description="The Time Zone Converter is ideal when you already have a time and need to convert it. If you need to find a time that fits several people's working hours, use the Meeting Time Finder."
         />
 
-        <div className="rounded-xl border border-cyan-400/20 bg-cyan-500/10 p-4">
-          <h3 className="text-sm font-semibold text-cyan-200">
+        <div className="rounded-xl border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-500/10 p-4">
+          <h3 className="text-sm font-semibold text-cyan-700 dark:text-cyan-200">
             Find a time that works for everyone
           </h3>
 
-          <p className="mt-1.5 text-sm leading-6 text-white/70">
+          <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
             Set working hours for each location, choose a meeting duration,
             and find upcoming overlapping slots across multiple time zones.
           </p>
 
           <a
             href={meetingTimeFinderPath}
-            className="mt-3 inline-flex items-center rounded-full border border-cyan-400/20 bg-cyan-500/10 px-3 py-1.5 text-xs font-medium text-cyan-300 transition hover:border-cyan-400/40 hover:bg-cyan-500/20"
+            className="mt-3 inline-flex items-center rounded-full border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-500/10 px-3 py-1.5 text-xs font-medium text-cyan-700 dark:text-cyan-300 transition hover:border-cyan-400 dark:hover:border-cyan-400/40 hover:bg-cyan-100 dark:hover:bg-cyan-500/20"
           >
             Open Meeting Time Finder
           </a>

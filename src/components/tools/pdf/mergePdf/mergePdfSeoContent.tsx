@@ -458,7 +458,7 @@ export default function MergePdfSeoContent() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-4 space-y-4 text-white">
+    <div className="max-w-6xl mx-auto p-4 space-y-4 text-foreground">
       {/* ================================================================
           STRUCTURED DATA
       ================================================================= */}
@@ -478,13 +478,13 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="intro-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             Merge PDF Online – Combine, Arrange & Customize PDF Files
           </h2>
         </div>
 
-        <p className="text-white/60 text-sm leading-relaxed">
+        <p className="text-foreground-secondary text-sm leading-relaxed">
           Merge PDF files online for free and create a customized document
           directly in your browser. This PDF merger lets you combine multiple
           PDFs, reorder documents, select specific pages from each file, add
@@ -492,17 +492,17 @@ export default function MergePdfSeoContent() {
           overlay PDF or supported file content.
         </p>
 
-        <p className="text-white/60 text-sm mt-4 leading-relaxed">
+        <p className="text-foreground-secondary text-sm mt-4 leading-relaxed">
           Choose individual pages, page ranges, multiple ranges, odd or even
           pages, first or last pages, or supported page-selection syntax for
           each PDF. Then preview the customized result before downloading the
           final document.
         </p>
 
-        <p className="text-white/60 text-sm mt-4 leading-relaxed">
+        <p className="text-foreground-secondary text-sm mt-4 leading-relaxed">
           Whether you need to{" "}
-          <b className="text-white">merge PDF files</b>,{" "}
-          <b className="text-white">join selected PDF pages</b>, add document
+          <b className="text-foreground">merge PDF files</b>,{" "}
+          <b className="text-foreground">join selected PDF pages</b>, add document
           headers and footers, place formatted text over a page, or overlay
           content from another PDF, the tool provides a browser-based workflow
           without requiring desktop PDF software.
@@ -520,7 +520,7 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="core-features-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             What You Can Do With This PDF Merger
           </h2>
@@ -530,7 +530,7 @@ export default function MergePdfSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-blue-400/30"
+              className="p-5 rounded-2xl border border-border bg-card transition-all duration-300 hover:bg-surface-raised hover:border-blue-400 dark:hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -541,11 +541,11 @@ export default function MergePdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-white font-semibold text-sm mb-2">
+                  <h3 className="text-foreground font-semibold text-sm mb-2">
                     {item.title}
                   </h3>
 
-                  <p className="text-white/60 text-xs leading-relaxed">
+                  <p className="text-foreground-secondary text-xs leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -566,13 +566,13 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="page-selection-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             Select Specific PDF Pages Before Merging
           </h2>
         </div>
 
-        <p className="text-white/60 text-sm leading-relaxed mb-5">
+        <p className="text-foreground-secondary text-sm leading-relaxed mb-5">
           Select only the pages you need from each input PDF before creating
           the merged document. Page selection can be handled independently for
           each source PDF, helping you combine only relevant content instead
@@ -583,7 +583,7 @@ export default function MergePdfSeoContent() {
           {pageSelectionExamples.map((item) => (
             <div
               key={item.title}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-blue-400/30"
+              className="p-5 rounded-2xl border border-border bg-card transition-all duration-300 hover:bg-surface-raised hover:border-blue-400 dark:hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -594,11 +594,11 @@ export default function MergePdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-white font-semibold text-sm mb-2">
+                  <h3 className="text-foreground font-semibold text-sm mb-2">
                     {item.title}
                   </h3>
 
-                  <p className="text-white/60 text-xs leading-relaxed">
+                  <p className="text-foreground-secondary text-xs leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -607,15 +607,15 @@ export default function MergePdfSeoContent() {
           ))}
         </div>
 
-        <div className="mt-5 p-5 rounded-2xl border border-white/10 bg-white/5">
-          <h3 className="text-white font-semibold text-sm mb-2">
+        <div className="mt-5 p-5 rounded-2xl border border-border bg-card">
+          <h3 className="text-foreground font-semibold text-sm mb-2">
             Flexible Page Selection Syntax
           </h3>
 
-          <p className="text-white/60 text-xs leading-relaxed">
+          <p className="text-foreground-secondary text-xs leading-relaxed">
             Use supported page-selection syntax to target individual pages,
             ranges, and first- or last-page references. For example,
-            <code className="mx-1 px-1.5 py-0.5 rounded bg-white/10 text-white">
+            <code className="mx-1 px-1.5 py-0.5 rounded bg-surface-raised text-foreground">
               1-3, 5
             </code>
             can represent a range plus an individual page, while supported
@@ -636,13 +636,13 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="overlay-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             Headers, Footers, Text Overlays & PDF Overlays
           </h2>
         </div>
 
-        <p className="text-white/60 text-sm leading-relaxed mb-5">
+        <p className="text-foreground-secondary text-sm leading-relaxed mb-5">
           Customize the merged PDF beyond simply combining files. Add header
           or footer text, place formatted text over PDF pages, or overlay
           content from another PDF or supported file when your document
@@ -653,7 +653,7 @@ export default function MergePdfSeoContent() {
           {overlayFeatures.map((item) => (
             <div
               key={item.title}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-blue-400/30"
+              className="p-5 rounded-2xl border border-border bg-card transition-all duration-300 hover:bg-surface-raised hover:border-blue-400 dark:hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -664,11 +664,11 @@ export default function MergePdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-white font-semibold text-sm mb-2">
+                  <h3 className="text-foreground font-semibold text-sm mb-2">
                     {item.title}
                   </h3>
 
-                  <p className="text-white/60 text-xs leading-relaxed">
+                  <p className="text-foreground-secondary text-xs leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -689,7 +689,7 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="workflow-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             How to Merge and Customize PDF Files
           </h2>
@@ -699,7 +699,7 @@ export default function MergePdfSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={step.title}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:border-blue-400/30"
+              className="p-5 rounded-2xl border border-border bg-card transition-all duration-300 hover:border-blue-400 dark:hover:border-blue-400/30"
             >
               <div className="flex gap-3 items-start">
                 <span
@@ -717,11 +717,11 @@ export default function MergePdfSeoContent() {
                 </span>
 
                 <div className="flex-1">
-                  <p className="text-sm text-white font-semibold mb-1">
+                  <p className="text-sm text-foreground font-semibold mb-1">
                     {step.title}
                   </p>
 
-                  <p className="text-xs text-white/60 leading-relaxed">
+                  <p className="text-xs text-foreground-secondary leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
@@ -742,7 +742,7 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="features-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             Key Features of the PDF Merger Tool
           </h2>
@@ -752,7 +752,7 @@ export default function MergePdfSeoContent() {
           {features.map((feature) => (
             <span
               key={feature.label}
-              className="px-4 py-2.5 rounded-full text-xs font-medium bg-white/10 border border-white/10 text-white/80 transition-all duration-300 hover:bg-white/15 hover:border-blue-400/30 flex items-center gap-2"
+              className="px-4 py-2.5 rounded-full text-xs font-medium bg-surface-raised border border-border text-foreground transition-all duration-300 hover:bg-surface-raised hover:border-blue-400 dark:hover:border-blue-400/30 flex items-center gap-2"
             >
               <span aria-hidden="true">{feature.icon}</span>
               {feature.label}
@@ -772,7 +772,7 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="audience-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             Who Uses PDF Merge and Customization Tools
           </h2>
@@ -782,7 +782,7 @@ export default function MergePdfSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="p-5 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:bg-white/10 hover:border-blue-400/30"
+              className="p-5 rounded-2xl border border-border bg-card transition-all duration-300 hover:bg-surface-raised hover:border-blue-400 dark:hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -793,11 +793,11 @@ export default function MergePdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-white font-semibold text-sm mb-1">
+                  <h3 className="text-foreground font-semibold text-sm mb-1">
                     {item.title}
                   </h3>
 
-                  <p className="text-white/60 text-xs leading-relaxed">
+                  <p className="text-foreground-secondary text-xs leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -819,7 +819,7 @@ export default function MergePdfSeoContent() {
 
           <h2
             id="faq-heading"
-            className="text-xl font-bold text-white mb-6 tracking-tight flex items-center gap-3"
+            className="text-xl font-bold text-foreground mb-6 tracking-tight flex items-center gap-3"
           >
             Frequently Asked Questions
           </h2>
@@ -829,17 +829,17 @@ export default function MergePdfSeoContent() {
           {faqItems.map((item) => (
             <div
               key={item.q}
-              className="group/faq rounded-2xl border border-white/10 bg-white/5 overflow-hidden transition-all duration-300"
+              className="group/faq rounded-2xl border border-border bg-card overflow-hidden transition-all duration-300"
             >
               <details className="w-full group">
-                <summary className="list-none p-5 flex items-center justify-between gap-4 transition-colors duration-300 hover:bg-white/10 cursor-pointer">
+                <summary className="list-none p-5 flex items-center justify-between gap-4 transition-colors duration-300 hover:bg-surface-raised cursor-pointer">
                   <div className="flex items-center gap-3 flex-1">
-                    <span className="text-white font-semibold text-sm">
+                    <span className="text-foreground font-semibold text-sm">
                       {item.q}
                     </span>
                   </div>
 
-                  <span className="text-blue-400 text-lg flex-shrink-0">
+                  <span className="text-blue-700 dark:text-blue-400 text-lg flex-shrink-0">
                     <svg
                       className="w-5 h-5 transition-transform duration-300 group-open:rotate-180"
                       fill="none"
@@ -857,16 +857,16 @@ export default function MergePdfSeoContent() {
                   </span>
                 </summary>
 
-                <div className="p-5 pt-0 border-t border-white/5 border-dashed">
+                <div className="p-5 pt-0 border-t border-border border-dashed">
                   <div className="flex items-start gap-3 mt-4">
                     <span
-                      className="text-blue-400 text-lg flex-shrink-0"
+                      className="text-blue-700 dark:text-blue-400 text-lg flex-shrink-0"
                       aria-hidden="true"
                     >
                       💡
                     </span>
 
-                    <p className="text-white/60 text-xs leading-relaxed">
+                    <p className="text-foreground-secondary text-xs leading-relaxed">
                       {item.a}
                     </p>
                   </div>

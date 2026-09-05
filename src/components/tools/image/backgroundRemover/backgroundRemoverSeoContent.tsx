@@ -314,7 +314,7 @@ export default function BackgroundRemoverSeoContent() {
   const jsonLdString = JSON.stringify(jsonLdGraph).replace(/</g, "\\u003c");
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -331,7 +331,7 @@ export default function BackgroundRemoverSeoContent() {
           Background Remover – Remove Image Backgrounds Instantly in Your Browser
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Remove the background from a photo online with this free browser-based
           background remover. An on-device AI model detects the main subject and
           separates it from the original background so you can create a
@@ -339,10 +339,10 @@ export default function BackgroundRemoverSeoContent() {
           your own image, or blur the original background.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The complete workflow runs directly in your browser. You can preview
           the result, choose an output format, and export as{" "}
-          <b className="text-white">PNG, WEBP, or JPEG</b> without installing
+          <b className="text-foreground">PNG, WEBP, or JPEG</b> without installing
           desktop software or creating an account.
         </p>
       </section>
@@ -356,14 +356,14 @@ export default function BackgroundRemoverSeoContent() {
           What Is an AI Background Remover?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           An AI background remover detects the primary subject in an image and
           separates it from the surrounding background. This makes it easier to
           create transparent cutouts, replace backgrounds, or soften distracting
           scenery without manually tracing the subject.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           It can be useful for product photos, profile pictures, social media
           graphics, presentations, thumbnails, design assets, and other images
           that need a cleaner background.
@@ -379,7 +379,7 @@ export default function BackgroundRemoverSeoContent() {
           Why Use an Online Background Remover?
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             Manual background removal can require selection tools, masking,
             editing software, and repeated adjustments.
@@ -404,7 +404,7 @@ export default function BackgroundRemoverSeoContent() {
           Choose How to Replace the Image Background
         </h2>
 
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           After the original background is removed, choose the background style
           that fits your use case. You can keep the subject transparent, use a
           solid color, add your own image, or blur the original background.
@@ -414,17 +414,17 @@ export default function BackgroundRemoverSeoContent() {
           {backgroundModes.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -443,7 +443,7 @@ export default function BackgroundRemoverSeoContent() {
           Export as PNG, WEBP, or JPEG
         </h2>
 
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Choose the output format based on how you plan to use the processed
           image. PNG and WEBP can preserve transparency, while JPEG is suitable
           when a filled background is required.
@@ -453,17 +453,17 @@ export default function BackgroundRemoverSeoContent() {
           {exportFormats.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -472,8 +472,8 @@ export default function BackgroundRemoverSeoContent() {
           ))}
         </div>
 
-        <p className="mt-4 text-xs leading-relaxed text-white/55">
-          <b className="text-white/80">Transparency note:</b> JPEG does not
+        <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
+          <b className="text-foreground">Transparency note:</b> JPEG does not
           support transparent pixels. When exporting a transparent result as
           JPEG, transparent areas are filled with white.
         </p>
@@ -488,7 +488,7 @@ export default function BackgroundRemoverSeoContent() {
           Benefits of Using This Background Remover
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             • Automatically separates the main subject without manual cutout
             work.
@@ -520,7 +520,7 @@ export default function BackgroundRemoverSeoContent() {
           Common Background Removal Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             Create transparent product images for online stores and
             marketplaces.
@@ -557,7 +557,7 @@ export default function BackgroundRemoverSeoContent() {
           How to Remove an Image Background
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The workflow is designed to take you from an original image to a
           finished background replacement in a few steps.
         </p>
@@ -566,7 +566,7 @@ export default function BackgroundRemoverSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -576,11 +576,11 @@ export default function BackgroundRemoverSeoContent() {
                 <span className="text-2xl">{step.icon}</span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -593,7 +593,7 @@ export default function BackgroundRemoverSeoContent() {
       {/* ===================== CORE FEATURES ===================== */}
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -606,17 +606,17 @@ export default function BackgroundRemoverSeoContent() {
           {coreFeatures.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -639,7 +639,7 @@ export default function BackgroundRemoverSeoContent() {
           {features.map((feature, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-xs font-medium text-foreground transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <span aria-hidden="true">{feature.icon}</span>
               {feature.label}
@@ -661,17 +661,17 @@ export default function BackgroundRemoverSeoContent() {
           {audiences.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -690,13 +690,13 @@ export default function BackgroundRemoverSeoContent() {
           Privacy and Local Image Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Background removal is designed to run locally in your browser using
           an on-device AI model. The image itself does not need to be uploaded
           to an external processing server.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           No account is required to use the background-removal workflow. Any
           analytics or error-monitoring systems used by the site should not
           transmit the user's image contents.
@@ -716,14 +716,14 @@ export default function BackgroundRemoverSeoContent() {
           {faqItems.map((item, i) => (
             <details
               key={i}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white transition hover:bg-white/10">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground transition hover:bg-surface-raised">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

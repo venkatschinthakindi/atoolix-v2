@@ -88,7 +88,7 @@ export default function SimpleInterestCalculatorSeoContent() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 p-4 text-white">
+    <div className="mx-auto max-w-6xl space-y-8 p-4 text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -103,12 +103,12 @@ export default function SimpleInterestCalculatorSeoContent() {
         <h2 id="si-intro" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Simple Interest Calculator for Interest and Maturity Value
         </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Calculate simple interest and the total maturity value on a principal amount.
           Enter your principal, annual interest rate, and duration in years to see exactly
           how much interest accrues without any compounding.
         </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This calculator is useful for estimating short-term loans, basic savings
           scenarios, or any situation where interest is calculated only on the original
           amount. Results are estimates — confirm exact figures with your bank or lender.
@@ -128,12 +128,12 @@ export default function SimpleInterestCalculatorSeoContent() {
             { title: "Calculation Breakdown", desc: "Review the principal, interest, and maturity value together.", icon: "🧮" },
             { title: "Mobile Friendly", desc: "Calculate simple interest from phones, tablets, laptops, or desktop browsers.", icon: "📱" },
           ].map((item) => (
-            <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-3">
                 <span className="text-2xl" aria-hidden="true">{item.icon}</span>
                 <div>
                   <h3 className="text-sm font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{item.desc}</p>
                 </div>
               </div>
             </div>
@@ -152,14 +152,14 @@ export default function SimpleInterestCalculatorSeoContent() {
             { title: "Choose the duration", desc: "Enter how long the amount stays invested, in years, up to 100." },
             { title: "Review interest and maturity", desc: "Check the estimated total interest and the maturity value." },
           ].map((step, index) => (
-            <div key={step.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={step.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-4">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {index + 1}
                 </span>
                 <div>
                   <h3 className="text-sm font-semibold">{step.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{step.desc}</p>
                 </div>
               </div>
             </div>
@@ -183,20 +183,20 @@ export default function SimpleInterestCalculatorSeoContent() {
         <h2 id="si-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Simple Interest Calculation Formula
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             The standard simple-interest formula is:
           </p>
-          <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
+          <p className="my-4 rounded-xl bg-surface-sunken p-4 text-center text-base font-semibold text-foreground">
             I = P × r × t
           </p>
-          <div className="space-y-2 text-sm text-white/65">
-            <p><strong className="text-white">I</strong> = interest earned</p>
-            <p><strong className="text-white">P</strong> = principal amount</p>
-            <p><strong className="text-white">r</strong> = annual interest rate expressed as a decimal</p>
-            <p><strong className="text-white">t</strong> = time in years</p>
+          <div className="space-y-2 text-sm text-foreground-secondary">
+            <p><strong className="text-foreground">I</strong> = interest earned</p>
+            <p><strong className="text-foreground">P</strong> = principal amount</p>
+            <p><strong className="text-foreground">r</strong> = annual interest rate expressed as a decimal</p>
+            <p><strong className="text-foreground">t</strong> = time in years</p>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/55">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             Maturity value is the principal plus the calculated interest: A = P + I.
             Actual financial products may use different rules or add fees.
           </p>
@@ -207,27 +207,27 @@ export default function SimpleInterestCalculatorSeoContent() {
         <h2 id="si-example" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Simple Interest Calculator Example
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             Suppose you invest ₹1,00,000 at an annual simple interest rate of 7% for five
             years. Using I = P × r × t with P = 1,00,000, r = 0.07, and t = 5, the interest
             earned is ₹35,000, giving a maturity value of ₹1,35,000.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Principal</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Principal</div>
               <div className="mt-1 font-semibold">₹1,00,000</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Rate</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Rate</div>
               <div className="mt-1 font-semibold">7% p.a.</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Duration</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Duration</div>
               <div className="mt-1 font-semibold">5 years</div>
             </div>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/50">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             This example matches the calculator's default values above, so you can verify
             it yourself: ₹35,000 interest on ₹1,35,000 total.
           </p>
@@ -238,12 +238,12 @@ export default function SimpleInterestCalculatorSeoContent() {
         <h2 id="si-factors" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Factors That Affect Simple Interest
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-            <li>• <strong className="text-white">Principal amount:</strong> A larger principal produces proportionally more interest.</li>
-            <li>• <strong className="text-white">Interest rate:</strong> A higher rate increases interest proportionally.</li>
-            <li>• <strong className="text-white">Duration:</strong> Interest grows linearly — twice the time means twice the interest.</li>
-            <li>• <strong className="text-white">No compounding:</strong> Unlike compound interest, previously earned interest never earns further interest.</li>
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
+            <li>• <strong className="text-foreground">Principal amount:</strong> A larger principal produces proportionally more interest.</li>
+            <li>• <strong className="text-foreground">Interest rate:</strong> A higher rate increases interest proportionally.</li>
+            <li>• <strong className="text-foreground">Duration:</strong> Interest grows linearly — twice the time means twice the interest.</li>
+            <li>• <strong className="text-foreground">No compounding:</strong> Unlike compound interest, previously earned interest never earns further interest.</li>
           </ul>
         </div>
       </section>

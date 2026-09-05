@@ -559,13 +559,13 @@ function FeatureGrid({
       {items.map((item) => (
         <article
           key={item.name}
-          className="rounded-xl border border-white/10 bg-white/5 p-4"
+          className="rounded-xl border border-border bg-card p-4"
         >
           <h3 className="text-sm font-semibold sm:text-[0.95rem]">
             {item.name}
           </h3>
 
-          <p className="mt-1.5 text-sm leading-6 text-white/70">
+          <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
             {item.desc}
           </p>
         </article>
@@ -576,7 +576,7 @@ function FeatureGrid({
 
 export default function QrCodeSeoContent() {
   return (
-    <div className="mx-auto space-y-8 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
+    <div className="mx-auto space-y-8 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={softwareApplicationJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
@@ -590,7 +590,7 @@ export default function QrCodeSeoContent() {
         aria-labelledby="qr-page-heading"
         className="space-y-4"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           Free Online QR Code Generator & Scanner
         </p>
 
@@ -601,14 +601,14 @@ export default function QrCodeSeoContent() {
           Free QR Code Generator & Scanner
         </h1>
 
-        <p className="max-w-5xl text-sm leading-7 text-white/75 sm:text-base">
+        <p className="max-w-5xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Create, customize, download, and scan QR codes online. Generate QR
           codes for URLs, text, email, phone numbers, SMS, WhatsApp, WiFi,
           vCards, locations, and events, then customize colors, size, error
           correction, logos, and optional presentation-card content.
         </p>
 
-        <p className="max-w-5xl text-sm leading-7 text-white/75 sm:text-base">
+        <p className="max-w-5xl text-sm leading-7 text-foreground-secondary sm:text-base">
           The built-in QR scanner can decode QR codes from a compatible device
           camera or from uploaded images such as photos and screenshots. Review
           decoded results, copy them, or open supported destinations with the
@@ -684,13 +684,13 @@ export default function QrCodeSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -723,12 +723,12 @@ export default function QrCodeSeoContent() {
 
         <FeatureGrid items={cardCustomizationFeatures} />
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="rounded-xl border border-border bg-card p-4">
           <h3 className="text-sm font-semibold">
             QR Card Customization Options
           </h3>
 
-          <p className="mt-2 text-sm leading-6 text-white/70">
+          <p className="mt-2 text-sm leading-6 text-foreground-secondary">
             Enable QR card customization when you want more than the QR
             pattern itself. You can add a title and description, upload a
             supporting image, change title and description colors, choose a
@@ -750,31 +750,31 @@ export default function QrCodeSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-3">
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Check Scanability
             </h3>
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Make sure the QR pattern remains clear and has sufficient
               foreground and background contrast.
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Check Card Content
             </h3>
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Review the title, description, image, colors, and fonts when
               QR card customization is enabled.
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Test Before Publishing
             </h3>
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Scan the final design with a real phone before printing or
               distributing it.
             </p>
@@ -839,13 +839,13 @@ export default function QrCodeSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -864,23 +864,23 @@ export default function QrCodeSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-2">
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Scan with Your Camera
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Open the scanner on a supported mobile browser, allow camera
               access when requested, and point the camera at the QR code.
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Scan from an Image
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               If you already have a QR code photo or screenshot, upload the
               image instead of using the camera.
             </p>
@@ -915,13 +915,13 @@ export default function QrCodeSeoContent() {
           {supportedUseCases.map((item) => (
             <article
               key={item.useCase}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.useCase}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.note}
               </p>
             </article>
@@ -943,10 +943,10 @@ export default function QrCodeSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
-                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-sm"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-raised text-sm"
                 aria-hidden="true"
               >
                 {index + 1}
@@ -963,7 +963,7 @@ export default function QrCodeSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -985,13 +985,13 @@ export default function QrCodeSeoContent() {
           {accessibilityAndUsability.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -1013,7 +1013,7 @@ export default function QrCodeSeoContent() {
           {bestPractices.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6"
+              className="rounded-xl border border-border bg-card p-4 text-sm leading-6"
             >
               {item}
             </li>
@@ -1035,7 +1035,7 @@ export default function QrCodeSeoContent() {
           {tips.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6"
+              className="rounded-xl border border-border bg-card p-4 text-sm leading-6"
             >
               {item}
             </li>
@@ -1053,7 +1053,7 @@ export default function QrCodeSeoContent() {
         />
 
         <div className="space-y-4">
-          <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+          <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
             This free QR code tool combines QR generation, QR customization,
             live preview, export, and QR scanning in one browser-based
             workspace. Create QR codes for common information types, customize
@@ -1061,7 +1061,7 @@ export default function QrCodeSeoContent() {
             the finished QR code as PNG, SVG, or PDF.
           </p>
 
-          <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+          <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
             The optional QR card customization feature adds a presentation
             layer around the generated QR code. Add a title, description,
             supporting image, colors, and fonts when the QR code needs
@@ -1069,7 +1069,7 @@ export default function QrCodeSeoContent() {
             instructions, campaigns, or printed cards.
           </p>
 
-          <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+          <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
             The scanner complements the generator by allowing compatible
             cameras and uploaded images to be used for QR decoding. Scanned
             content can be reviewed and copied, while supported actions can be
@@ -1092,14 +1092,14 @@ export default function QrCodeSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

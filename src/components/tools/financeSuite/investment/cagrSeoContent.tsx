@@ -395,7 +395,7 @@ export default function CagrCalculatorSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
+    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -419,7 +419,7 @@ export default function CagrCalculatorSeoContent() {
 
       {/* Introduction */}
       <section aria-labelledby="cagr-intro-heading" className="space-y-4">
-        <p className="text-sm font-medium text-blue-300">
+        <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
           CAGR • Compound annual growth • Investment growth
         </p>
 
@@ -430,19 +430,19 @@ export default function CagrCalculatorSeoContent() {
           CAGR Calculator for Compound Annual Growth Rate
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Use this CAGR calculator to calculate the Compound Annual Growth
           Rate of an investment, asset, business metric, or other value between
           a beginning amount and an ending amount over a specified period.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           CAGR converts the overall change between the starting and ending
           values into an annualized compound growth rate. This makes it useful
           for summarizing and comparing long-term growth.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           CAGR is a historical or supplied-value calculation. It does not
           predict future returns, measure investment risk, or guarantee that
           the same annualized growth rate will continue.
@@ -462,7 +462,7 @@ export default function CagrCalculatorSeoContent() {
           {coreFeatures.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl" aria-hidden="true">
                 {item.icon}
@@ -470,7 +470,7 @@ export default function CagrCalculatorSeoContent() {
 
               <h3 className="mt-3 text-sm font-semibold">{item.title}</h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -491,7 +491,7 @@ export default function CagrCalculatorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="flex items-start gap-3">
                 <div
@@ -504,7 +504,7 @@ export default function CagrCalculatorSeoContent() {
                 <div>
                   <h3 className="text-sm font-semibold">{step.title}</h3>
 
-                  <p className="mt-1 text-xs leading-6 text-white/65">
+                  <p className="mt-1 text-xs leading-6 text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -524,57 +524,57 @@ export default function CagrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">Standard CAGR Formula</h3>
 
-            <div className="mt-4 overflow-x-auto rounded-xl border border-white/10 bg-black/20 p-5">
-              <p className="whitespace-nowrap text-center font-medium text-white">
+            <div className="mt-4 overflow-x-auto rounded-xl border border-border bg-surface-sunken p-5">
+              <p className="whitespace-nowrap text-center font-medium text-foreground">
                 CAGR = (Ending Value / Beginning Value)^(1 / Years) - 1
               </p>
             </div>
 
             <h4 className="mt-5 text-sm font-semibold">Formula Variables</h4>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               <li>
-                <strong className="text-white">Beginning Value:</strong> Value
+                <strong className="text-foreground">Beginning Value:</strong> Value
                 at the start of the measurement period.
               </li>
 
               <li>
-                <strong className="text-white">Ending Value:</strong> Value at
+                <strong className="text-foreground">Ending Value:</strong> Value at
                 the end of the measurement period.
               </li>
 
               <li>
-                <strong className="text-white">Years:</strong> Length of the
+                <strong className="text-foreground">Years:</strong> Length of the
                 measurement period in years.
               </li>
 
               <li>
-                <strong className="text-white">CAGR:</strong> Annualized
+                <strong className="text-foreground">CAGR:</strong> Annualized
                 compound growth rate.
               </li>
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Why the Formula Uses Compounding
             </h3>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               CAGR answers the question: what constant annual compound growth
               rate would transform the beginning value into the ending value
               over the specified number of years?
             </p>
 
-            <p className="mt-4 text-xs leading-6 text-white/65">
+            <p className="mt-4 text-xs leading-6 text-foreground-secondary">
               The result is therefore different from simply dividing the total
               percentage gain by the number of years.
             </p>
 
-            <p className="mt-4 text-xs leading-6 text-white/65">
+            <p className="mt-4 text-xs leading-6 text-foreground-secondary">
               This compound-growth approach is useful when comparing
               long-term growth across investments or other measurable values.
             </p>
@@ -592,24 +592,24 @@ export default function CagrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <p className="text-xs uppercase tracking-wide text-white/45">
+          <article className="rounded-2xl border border-border bg-card p-5">
+            <p className="text-xs uppercase tracking-wide text-foreground-faint">
               Beginning Value
             </p>
 
             <p className="mt-2 text-2xl font-bold">₹1,00,000</p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <p className="text-xs uppercase tracking-wide text-white/45">
+          <article className="rounded-2xl border border-border bg-card p-5">
+            <p className="text-xs uppercase tracking-wide text-foreground-faint">
               Ending Value
             </p>
 
             <p className="mt-2 text-2xl font-bold">₹1,61,051</p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <p className="text-xs uppercase tracking-wide text-white/45">
+          <article className="rounded-2xl border border-border bg-card p-5">
+            <p className="text-xs uppercase tracking-wide text-foreground-faint">
               Period
             </p>
 
@@ -617,19 +617,19 @@ export default function CagrCalculatorSeoContent() {
           </article>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             Using the CAGR formula, the annualized compound growth rate for
             this illustrative example is approximately 10% per year.
           </p>
 
-          <div className="mt-4 overflow-x-auto rounded-xl border border-white/10 bg-black/20 p-4">
-            <p className="whitespace-nowrap text-center font-medium text-white">
+          <div className="mt-4 overflow-x-auto rounded-xl border border-border bg-surface-sunken p-4">
+            <p className="whitespace-nowrap text-center font-medium text-foreground">
               CAGR = (₹1,61,051 / ₹1,00,000)^(1 / 5) - 1 ≈ 10%
             </p>
           </div>
 
-          <p className="mt-4 text-xs leading-6 text-white/55">
+          <p className="mt-4 text-xs leading-6 text-foreground-faint">
             This does not mean the investment actually earned exactly 10% in
             each individual year. It means that a constant 10% annual compound
             growth rate would approximately connect the beginning and ending
@@ -651,7 +651,7 @@ export default function CagrCalculatorSeoContent() {
           {audiences.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl" aria-hidden="true">
                 {item.icon}
@@ -659,7 +659,7 @@ export default function CagrCalculatorSeoContent() {
 
               <h3 className="mt-3 text-sm font-semibold">{item.title}</h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -680,11 +680,11 @@ export default function CagrCalculatorSeoContent() {
           {educationSections.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">{item.title}</h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.body}
               </p>
             </article>
@@ -701,13 +701,13 @@ export default function CagrCalculatorSeoContent() {
           CAGR vs XIRR vs IRR vs SIP vs Lumpsum
         </h2>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[760px] text-left text-sm">
             <caption className="sr-only">
               Comparison of CAGR, XIRR, IRR, SIP and Lumpsum calculations
             </caption>
 
-            <thead className="border-b border-white/10">
+            <thead className="border-b border-border">
               <tr>
                 <th scope="col" className="p-4">
                   Method
@@ -728,24 +728,24 @@ export default function CagrCalculatorSeoContent() {
               {comparisonRows.map((row) => (
                 <tr
                   key={row.method}
-                  className="border-b border-white/5 last:border-0"
+                  className="border-b border-border last:border-0"
                 >
                   <th scope="row" className="p-4 font-medium">
                     {row.method}
                   </th>
 
-                  <td className="p-4 text-white/65">{row.bestFor}</td>
+                  <td className="p-4 text-foreground-secondary">{row.bestFor}</td>
 
-                  <td className="p-4 text-white/65">{row.timing}</td>
+                  <td className="p-4 text-foreground-secondary">{row.timing}</td>
 
-                  <td className="p-4 text-white/65">{row.result}</td>
+                  <td className="p-4 text-foreground-secondary">{row.result}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/65">
+        <p className="text-xs leading-6 text-foreground-secondary">
           These calculations serve different purposes. CAGR summarizes
           beginning-to-ending compound growth, while XIRR is designed for
           multiple dated cash flows. SIP and lumpsum calculators are primarily
@@ -766,18 +766,18 @@ export default function CagrCalculatorSeoContent() {
           {indiaUseCases.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">{item.title}</h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
           ))}
         </div>
 
-        <p className="text-xs leading-6 text-white/65">
+        <p className="text-xs leading-6 text-foreground-secondary">
           For Indian investments, values can be entered in INR. The currency
           does not change the CAGR formula; the result depends on the beginning
           value, ending value, and measurement period.
@@ -794,20 +794,20 @@ export default function CagrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">Common Mistakes</h3>
 
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-xs leading-6 text-white/65">
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-xs leading-6 text-foreground-secondary">
               {commonMistakes.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">Better Practices</h3>
 
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-xs leading-6 text-white/65">
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-xs leading-6 text-foreground-secondary">
               {bestPractices.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -829,28 +829,28 @@ export default function CagrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">Positive CAGR</h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A positive CAGR indicates that the ending value is higher than
               the beginning value over the specified period.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">Zero CAGR</h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A CAGR of 0% indicates that the ending value equals the beginning
               value under the supplied inputs.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">Negative CAGR</h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A negative CAGR indicates that the ending value is lower than the
               beginning value over the measurement period.
             </p>
@@ -867,8 +867,8 @@ export default function CagrCalculatorSeoContent() {
           CAGR Calculator Limitations
         </h2>
 
-        <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-6">
-          <ul className="list-disc space-y-3 pl-5 text-xs leading-6 text-white/70 sm:text-sm">
+        <div className="rounded-2xl border border-amber-300 dark:border-amber-400/20 bg-amber-100 dark:bg-amber-400/5 p-6">
+          <ul className="list-disc space-y-3 pl-5 text-xs leading-6 text-foreground-secondary sm:text-sm">
             <li>
               CAGR summarizes only the beginning-to-ending growth represented
               by the supplied values.
@@ -911,20 +911,20 @@ export default function CagrCalculatorSeoContent() {
           CAGR Calculation Methodology
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             The CAGR calculation divides the ending value by the beginning
             value, raises the resulting growth multiple to the reciprocal of
             the number of years, and subtracts one.
           </p>
 
-          <div className="mt-5 overflow-x-auto rounded-xl border border-white/10 bg-black/20 p-4">
-            <p className="whitespace-nowrap text-center font-medium text-white">
+          <div className="mt-5 overflow-x-auto rounded-xl border border-border bg-surface-sunken p-4">
+            <p className="whitespace-nowrap text-center font-medium text-foreground">
               CAGR = (Ending Value / Beginning Value)^(1 / Years) - 1
             </p>
           </div>
 
-          <p className="mt-5 text-xs leading-7 text-white/55 sm:text-sm">
+          <p className="mt-5 text-xs leading-7 text-foreground-faint sm:text-sm">
             The resulting decimal is normally converted to a percentage for
             presentation. The calculation assumes that the beginning value,
             ending value, and time period represent the same underlying
@@ -942,45 +942,45 @@ export default function CagrCalculatorSeoContent() {
           Methodology and Review Information
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div className="rounded-2xl border border-border bg-card p-6">
           <dl className="grid gap-5 sm:grid-cols-2">
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Methodology
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 Compound annual growth calculated from beginning value, ending
                 value, and measurement period.
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Last reviewed
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 {LAST_REVIEWED}
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Purpose
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 Educational and investment-growth calculation.
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Financial advice
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 This calculator does not provide personalized financial advice
                 or guarantee future returns.
               </dd>
@@ -998,8 +998,8 @@ export default function CagrCalculatorSeoContent() {
           Financial Disclaimer
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             This CAGR calculator is provided for educational and informational
             purposes. The calculated result depends on the beginning value,
             ending value, and measurement period supplied. It does not
@@ -1007,7 +1007,7 @@ export default function CagrCalculatorSeoContent() {
             future investment performance.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             Actual investment results may be affected by market conditions,
             fees, taxes, dividends, inflation, transaction costs, valuation
             differences, and other factors.
@@ -1031,17 +1031,17 @@ export default function CagrCalculatorSeoContent() {
           {faqItems.map((item) => (
             <div
               key={item.q}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="group overflow-hidden rounded-2xl border border-border bg-card"
             >
               <details className="w-full">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                  <span className="text-sm font-semibold text-white">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                  <span className="text-sm font-semibold text-foreground">
                     {item.q}
                   </span>
 
                   <span
                     aria-hidden="true"
-                    className="shrink-0 text-lg text-blue-400"
+                    className="shrink-0 text-lg text-blue-700 dark:text-blue-400"
                   >
                     <svg
                       className="h-5 w-5"
@@ -1059,8 +1059,8 @@ export default function CagrCalculatorSeoContent() {
                   </span>
                 </summary>
 
-                <div className="border-t border-dashed border-white/5 p-5 pt-4">
-                  <p className="text-xs leading-relaxed text-white/60">
+                <div className="border-t border-dashed border-border p-5 pt-4">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.a}
                   </p>
                 </div>
@@ -1073,7 +1073,7 @@ export default function CagrCalculatorSeoContent() {
       {/* Final CTA */}
       <section
         aria-labelledby="cta-heading"
-        className="rounded-3xl border border-white/10 bg-white/5 p-6 text-center sm:p-8"
+        className="rounded-3xl border border-border bg-card p-6 text-center sm:p-8"
       >
         <h2
           id="cta-heading"
@@ -1082,12 +1082,12 @@ export default function CagrCalculatorSeoContent() {
           Calculate Your CAGR
         </h2>
 
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-white/65">
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-foreground-secondary">
           Enter your beginning value, ending value, and investment period to
           calculate the annualized compound growth rate.
         </p>
 
-        <p className="mt-4 text-xs text-white/45">
+        <p className="mt-4 text-xs text-foreground-faint">
           CAGR summarizes supplied historical or scenario values and does not
           guarantee future investment performance.
         </p>

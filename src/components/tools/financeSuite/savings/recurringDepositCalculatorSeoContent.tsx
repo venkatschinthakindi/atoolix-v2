@@ -88,7 +88,7 @@ export default function RecurringDepositCalculatorSeoContent() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 p-4 text-white">
+    <div className="mx-auto max-w-6xl space-y-8 p-4 text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -103,13 +103,13 @@ export default function RecurringDepositCalculatorSeoContent() {
         <h2 id="rd-intro" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Recurring Deposit (RD) Calculator for Maturity Value and Interest
         </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Calculate recurring deposit maturity value and estimated interest earned from
           monthly contributions. Enter your monthly deposit, annual interest rate, term in
           months, and deposit timing to estimate how much your RD may be worth at
           maturity.
         </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This RD calculator is useful for planning disciplined monthly savings and
           comparing different deposit amounts, rates, and terms before opening a recurring
           deposit account. Results are estimates and should be checked against the actual
@@ -130,12 +130,12 @@ export default function RecurringDepositCalculatorSeoContent() {
             { title: "Growth Projection", desc: "See a month-by-month chart of how the deposit grows over the term.", icon: "📈" },
             { title: "Mobile Friendly", desc: "Calculate RD returns from phones, tablets, laptops, or desktop browsers.", icon: "📱" },
           ].map((item) => (
-            <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-3">
                 <span className="text-2xl" aria-hidden="true">{item.icon}</span>
                 <div>
                   <h3 className="text-sm font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{item.desc}</p>
                 </div>
               </div>
             </div>
@@ -155,14 +155,14 @@ export default function RecurringDepositCalculatorSeoContent() {
             { title: "Select the deposit timing", desc: "Choose start-of-month or end-of-month, matching your bank's convention." },
             { title: "Review maturity and interest", desc: "Check the estimated maturity value, total invested, and interest earned." },
           ].map((step, index) => (
-            <div key={step.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={step.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-4">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {index + 1}
                 </span>
                 <div>
                   <h3 className="text-sm font-semibold">{step.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{step.desc}</p>
                 </div>
               </div>
             </div>
@@ -186,20 +186,20 @@ export default function RecurringDepositCalculatorSeoContent() {
         <h2 id="rd-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           RD Calculation Formula
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             A common annuity-style approximation for recurring deposit maturity value is:
           </p>
-          <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
+          <p className="my-4 rounded-xl bg-surface-sunken p-4 text-center text-base font-semibold text-foreground">
             FV = P × [((1 + r)^n − 1) / r]
           </p>
-          <div className="space-y-2 text-sm text-white/65">
-            <p><strong className="text-white">FV</strong> = maturity value</p>
-            <p><strong className="text-white">P</strong> = fixed monthly deposit</p>
-            <p><strong className="text-white">r</strong> = monthly interest rate (annual rate ÷ 12, as a decimal)</p>
-            <p><strong className="text-white">n</strong> = number of monthly deposits</p>
+          <div className="space-y-2 text-sm text-foreground-secondary">
+            <p><strong className="text-foreground">FV</strong> = maturity value</p>
+            <p><strong className="text-foreground">P</strong> = fixed monthly deposit</p>
+            <p><strong className="text-foreground">r</strong> = monthly interest rate (annual rate ÷ 12, as a decimal)</p>
+            <p><strong className="text-foreground">n</strong> = number of monthly deposits</p>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/55">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             If deposits are timed for the start of the month rather than the end, the
             result is multiplied by (1 + r) to reflect the extra month of interest on each
             deposit. Actual bank RD calculations can use institution-specific conventions,
@@ -212,28 +212,28 @@ export default function RecurringDepositCalculatorSeoContent() {
         <h2 id="rd-example" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           RD Calculator Example
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             Suppose you deposit ₹5,000 every month at an annual rate of 7% for 60 months,
             with deposits timed for the end of each month. Using the annuity formula, the
             estimated maturity value works out to approximately ₹3,58,258 — with
             ₹3,00,000 invested and around ₹58,258 in interest.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Monthly deposit</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Monthly deposit</div>
               <div className="mt-1 font-semibold">₹5,000</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Rate</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Rate</div>
               <div className="mt-1 font-semibold">7% p.a.</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Term</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Term</div>
               <div className="mt-1 font-semibold">60 months</div>
             </div>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/50">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             This example matches the calculator's default values above, so you can verify
             it yourself.
           </p>
@@ -244,13 +244,13 @@ export default function RecurringDepositCalculatorSeoContent() {
         <h2 id="rd-factors" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Factors That Affect RD Returns
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-            <li>• <strong className="text-white">Monthly deposit:</strong> A larger monthly amount produces proportionally more interest.</li>
-            <li>• <strong className="text-white">Interest rate:</strong> A higher applicable rate generally increases the projected maturity value.</li>
-            <li>• <strong className="text-white">Term:</strong> A longer term lets more deposits accumulate interest for longer.</li>
-            <li>• <strong className="text-white">Deposit timing:</strong> Start-of-month deposits earn slightly more interest than end-of-month deposits.</li>
-            <li>• <strong className="text-white">Product terms:</strong> Actual bank maturity can depend on payout structure, missed-installment rules, and rounding.</li>
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
+            <li>• <strong className="text-foreground">Monthly deposit:</strong> A larger monthly amount produces proportionally more interest.</li>
+            <li>• <strong className="text-foreground">Interest rate:</strong> A higher applicable rate generally increases the projected maturity value.</li>
+            <li>• <strong className="text-foreground">Term:</strong> A longer term lets more deposits accumulate interest for longer.</li>
+            <li>• <strong className="text-foreground">Deposit timing:</strong> Start-of-month deposits earn slightly more interest than end-of-month deposits.</li>
+            <li>• <strong className="text-foreground">Product terms:</strong> Actual bank maturity can depend on payout structure, missed-installment rules, and rounding.</li>
           </ul>
         </div>
       </section>

@@ -168,7 +168,7 @@ export default function UnitConverterSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       {/* FAQ structured data mirrors the visible FAQ section below. */}
       <script
         type="application/ld+json"
@@ -193,13 +193,13 @@ export default function UnitConverterSeoContent() {
           Online Unit Converter – Convert Length, Weight, Volume, Temperature & More
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert measurements quickly with this free online unit converter. Convert
           common values such as meters to feet, kilograms to pounds, liters to
           gallons, and Celsius to Fahrenheit directly in your browser.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The converter is designed for everyday measurements as well as school,
           office, business, and general technical conversion tasks.
         </p>
@@ -213,14 +213,14 @@ export default function UnitConverterSeoContent() {
           What Is a Unit Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A unit converter is an online tool that changes a measurement from one
           unit to another while preserving the same underlying quantity. For
           example, you can convert meters to feet, kilograms to pounds, liters to
           gallons, or Celsius to Fahrenheit.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Using a converter can save time and reduce mistakes when working with
           different measurement systems.
         </p>
@@ -234,7 +234,7 @@ export default function UnitConverterSeoContent() {
           Why Use an Online Unit Converter?
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             Manual unit conversions can take extra time and are easy to get wrong,
             especially when switching between metric and imperial measurements.
@@ -258,7 +258,7 @@ export default function UnitConverterSeoContent() {
           Benefits of Using This Converter
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>Save time compared with manual conversion.</li>
           <li>Reduce common calculation and unit-selection mistakes.</li>
           <li>Convert measurements directly in the browser.</li>
@@ -276,7 +276,7 @@ export default function UnitConverterSeoContent() {
           What Can You Convert With This Tool?
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             Convert length units such as meters, centimeters, kilometers, inches,
             feet, yards, and miles.
@@ -305,25 +305,25 @@ export default function UnitConverterSeoContent() {
           Popular Unit Conversions
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
-            <strong className="text-white">Meters to feet:</strong> useful when
+            <strong className="text-foreground">Meters to feet:</strong> useful when
             comparing metric and imperial distances.
           </li>
           <li>
-            <strong className="text-white">Kilograms to pounds:</strong> useful for
+            <strong className="text-foreground">Kilograms to pounds:</strong> useful for
             weight measurements and everyday comparisons.
           </li>
           <li>
-            <strong className="text-white">Liters to gallons:</strong> useful when
+            <strong className="text-foreground">Liters to gallons:</strong> useful when
             comparing liquid volumes between measurement systems.
           </li>
           <li>
-            <strong className="text-white">Celsius to Fahrenheit:</strong> useful
+            <strong className="text-foreground">Celsius to Fahrenheit:</strong> useful
             when comparing temperatures reported in different systems.
           </li>
           <li>
-            <strong className="text-white">Square meters to square feet:</strong>{" "}
+            <strong className="text-foreground">Square meters to square feet:</strong>{" "}
             useful for property, room, and area measurements.
           </li>
         </ul>
@@ -337,13 +337,13 @@ export default function UnitConverterSeoContent() {
           Metric and Imperial Unit Conversion
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Metric and imperial systems use different units for many of the same
           measurements. For example, distance may be expressed in meters or feet,
           weight in kilograms or pounds, and volume in liters or gallons.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A unit converter makes it easier to compare these measurements without
           manually looking up conversion factors or performing repeated calculations.
         </p>
@@ -360,7 +360,7 @@ export default function UnitConverterSeoContent() {
           How This Unit Converter Works
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Converting a measurement takes only a few simple steps.
         </p>
 
@@ -368,7 +368,7 @@ export default function UnitConverterSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -380,11 +380,11 @@ export default function UnitConverterSeoContent() {
                 </span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -393,8 +393,8 @@ export default function UnitConverterSeoContent() {
           ))}
         </div>
 
-        <div className="rounded-2xl border border-blue-400/20 bg-blue-400/10 p-4">
-          <p className="text-sm text-white/80">
+        <div className="rounded-2xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/10 p-4">
+          <p className="text-sm text-foreground">
             Tip: When batch conversion is available, enter multiple values
             separated by commas to process several numbers together.
           </p>
@@ -403,7 +403,7 @@ export default function UnitConverterSeoContent() {
 
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -416,7 +416,7 @@ export default function UnitConverterSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl" aria-hidden="true">
@@ -424,11 +424,11 @@ export default function UnitConverterSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -446,29 +446,29 @@ export default function UnitConverterSeoContent() {
           Types of Unit Conversions
         </h2>
 
-        <ul className="grid gap-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="grid gap-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
-            <strong className="text-white">Length:</strong> convert distances
+            <strong className="text-foreground">Length:</strong> convert distances
             between metric and imperial units.
           </li>
           <li>
-            <strong className="text-white">Weight and mass:</strong> convert
+            <strong className="text-foreground">Weight and mass:</strong> convert
             common mass measurements such as kilograms, grams, pounds, and ounces.
           </li>
           <li>
-            <strong className="text-white">Volume:</strong> convert liquid and
+            <strong className="text-foreground">Volume:</strong> convert liquid and
             container measurements between supported units.
           </li>
           <li>
-            <strong className="text-white">Temperature:</strong> convert
+            <strong className="text-foreground">Temperature:</strong> convert
             temperatures between Celsius, Fahrenheit, and Kelvin when supported.
           </li>
           <li>
-            <strong className="text-white">Area:</strong> convert measurements used
+            <strong className="text-foreground">Area:</strong> convert measurements used
             for rooms, land, property, and other spaces.
           </li>
           <li>
-            <strong className="text-white">Speed and time:</strong> convert common
+            <strong className="text-foreground">Speed and time:</strong> convert common
             speed and time measurements when available in the selected category.
           </li>
         </ul>
@@ -486,7 +486,7 @@ export default function UnitConverterSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl" aria-hidden="true">
@@ -494,11 +494,11 @@ export default function UnitConverterSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -520,14 +520,14 @@ export default function UnitConverterSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -544,13 +544,13 @@ export default function UnitConverterSeoContent() {
           Free Online Unit Converter for Everyday Use
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This free online unit converter provides a convenient way to convert
           common measurements such as length, weight, volume, temperature, area,
           speed, and time.
         </p>
 
-        <p className="text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Whether you are checking a measurement for school, work, travel, home
           projects, or everyday use, the converter provides a quick alternative to
           manual calculations.

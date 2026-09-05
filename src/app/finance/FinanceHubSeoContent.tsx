@@ -44,21 +44,21 @@ export function FinanceHubSeoContent() {
       </div>
 
       <div className="mt-10 grid gap-6 md:grid-cols-3">
-        <article className="rounded-2xl border border-slate-200 p-6">
+        <article className="rounded-2xl border border-border p-6">
           <h3 className="text-lg font-semibold">Loan and EMI Calculators</h3>
           <p className="mt-3 text-sm leading-6">
             Estimate monthly EMI, total interest, and repayment cost for home, car, personal, or general loans.
             Change the principal, interest rate, and tenure to compare different repayment scenarios.
           </p>
         </article>
-        <article className="rounded-2xl border border-slate-200 p-6">
+        <article className="rounded-2xl border border-border p-6">
           <h3 className="text-lg font-semibold">Investment Return Calculators</h3>
           <p className="mt-3 text-sm leading-6">
             SIP is suited to recurring contributions, XIRR to cash flows occurring on different dates, CAGR to
             annualized growth between two values, and Lumpsum to one-time investment growth under an assumed return.
           </p>
         </article>
-        <article className="rounded-2xl border border-slate-200 p-6">
+        <article className="rounded-2xl border border-border p-6">
           <h3 className="text-lg font-semibold">Savings and Retirement Calculators</h3>
           <p className="mt-3 text-sm leading-6">
             Estimate fixed-deposit maturity, compare compound growth, and explore retirement targets using your own

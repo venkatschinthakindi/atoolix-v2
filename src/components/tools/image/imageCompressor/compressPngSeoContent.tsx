@@ -276,7 +276,7 @@ const breadcrumbJsonLd = {
 
 export default function PngCompressorSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
+    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
@@ -285,7 +285,7 @@ export default function PngCompressorSeoContent() {
         aria-labelledby="intro-heading"
         className="space-y-3"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           PNG Compression Tool
         </p>
 
@@ -296,21 +296,21 @@ export default function PngCompressorSeoContent() {
           Free PNG Compressor Online – Reduce PNG File Size
         </h2>
 
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Compress PNG images online when you need a smaller file for a
           website, upload, email, document, or design workflow. Adjust the
           compression settings, preview the result, and download the
           optimized PNG when it meets your needs.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           PNG is commonly used for logos, screenshots, icons, interface
           graphics, diagrams, illustrations, and images that need
           transparency. A dedicated PNG compressor makes it easier to
           optimize those files while keeping them in PNG format.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           If you are trying to reduce PNG size without unnecessarily changing
           the image format, this tool provides a focused workflow for
           compression, preview, comparison, and download.
@@ -348,13 +348,13 @@ export default function PngCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -393,13 +393,13 @@ export default function PngCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -438,13 +438,13 @@ export default function PngCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -462,9 +462,9 @@ export default function PngCompressorSeoContent() {
           description="Use the preview to choose a practical balance between image quality and file size."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-2.5 font-semibold sm:px-4">
                   Quality
@@ -482,7 +482,7 @@ export default function PngCompressorSeoContent() {
               {qualityGuide.map((item) => (
                 <tr
                   key={item.range}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-2.5 sm:px-4">
                     {item.range}
@@ -501,7 +501,7 @@ export default function PngCompressorSeoContent() {
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/55">
+        <p className="text-xs leading-6 text-foreground-faint">
           Actual file-size reduction varies by image content, dimensions,
           transparency, and compression characteristics. Preview the output
           rather than relying on a fixed percentage of reduction.
@@ -518,9 +518,9 @@ export default function PngCompressorSeoContent() {
           description="The workflow focuses on the controls and output options commonly needed when optimizing PNG graphics."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-2.5 font-semibold sm:px-4">
                   Feature
@@ -544,7 +544,7 @@ export default function PngCompressorSeoContent() {
               ].map(([feature, value]) => (
                 <tr
                   key={feature}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-3 py-2.5 sm:px-4">
                     {feature}
@@ -574,10 +574,10 @@ export default function PngCompressorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-500 text-xs font-bold text-black">
                   {index + 1}
                 </div>
 
@@ -593,7 +593,7 @@ export default function PngCompressorSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -615,7 +615,7 @@ export default function PngCompressorSeoContent() {
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div
                 className="text-xl"
@@ -628,7 +628,7 @@ export default function PngCompressorSeoContent() {
                 {feature.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {feature.desc}
               </p>
             </article>
@@ -650,7 +650,7 @@ export default function PngCompressorSeoContent() {
           {audience.map((item) => (
             <div
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </div>
@@ -672,7 +672,7 @@ export default function PngCompressorSeoContent() {
           {commonUses.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </li>
@@ -694,7 +694,7 @@ export default function PngCompressorSeoContent() {
           {whenToCompress.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </li>
@@ -716,7 +716,7 @@ export default function PngCompressorSeoContent() {
           {whenNotToCompress.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-sm"
             >
               {item}
             </li>
@@ -738,7 +738,7 @@ export default function PngCompressorSeoContent() {
           {devices.map((item) => (
             <span
               key={item}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium"
+              className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium"
             >
               {item}
             </span>
@@ -762,14 +762,14 @@ export default function PngCompressorSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

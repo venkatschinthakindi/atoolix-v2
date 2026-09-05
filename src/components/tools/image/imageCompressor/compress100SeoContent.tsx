@@ -306,13 +306,13 @@ const breadcrumbJsonLd = {
 
 export default function ImageCompressor100KbSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
+    <div className="mx-auto max-w-6xl space-y-6 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-6">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={howToJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
 
       <section aria-labelledby="intro-heading" className="space-y-3">
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           100 KB Image Compressor
         </p>
 
@@ -323,21 +323,21 @@ export default function ImageCompressor100KbSeoContent() {
           Compress JPG, JPEG, PNG & WebP to 100 KB
         </h2>
 
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Compress images toward a 100 KB target without relying on
           guesswork. Upload a JPG, JPEG, PNG, or WebP image, choose the file
           size you need, adjust dimensions when necessary, and preview the
           result before downloading.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           The 100 KB target is a starting point rather than a hard limitation.
           You can increase or decrease the target size depending on the
           requirements of a website, form, email, application, or other
           workflow.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           When resizing is needed, use the Width and Height controls. Lock
           Aspect Ratio helps preserve the original proportions so the image
           does not become stretched or distorted.
@@ -372,13 +372,13 @@ export default function ImageCompressor100KbSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -397,13 +397,13 @@ export default function ImageCompressor100KbSeoContent() {
           {useCases.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -418,10 +418,10 @@ export default function ImageCompressor100KbSeoContent() {
           description="Use the controls independently or together depending on what the final image needs."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-xs sm:text-sm">
-              <thead className="bg-white/10">
+              <thead className="bg-surface-raised">
                 <tr>
                   <th className="px-3 py-2.5 font-semibold sm:px-4">
                     Control
@@ -439,7 +439,7 @@ export default function ImageCompressor100KbSeoContent() {
                 {resizeGuidance.map((item) => (
                   <tr
                     key={item.control}
-                    className="border-t border-white/10"
+                    className="border-t border-border"
                   >
                     <td className="px-3 py-2.5 font-medium sm:px-4">
                       {item.control}
@@ -467,10 +467,10 @@ export default function ImageCompressor100KbSeoContent() {
           description="The best format depends on the image content, transparency requirements, and final destination."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-xs sm:text-sm">
-              <thead className="bg-white/10">
+              <thead className="bg-surface-raised">
                 <tr>
                   <th className="px-3 py-2.5 font-semibold sm:px-4">
                     Format
@@ -488,7 +488,7 @@ export default function ImageCompressor100KbSeoContent() {
                 {formatGuidance.map((item) => (
                   <tr
                     key={item.format}
-                    className="border-t border-white/10"
+                    className="border-t border-border"
                   >
                     <td className="px-3 py-2.5 font-medium sm:px-4">
                       {item.format}
@@ -523,17 +523,17 @@ export default function ImageCompressor100KbSeoContent() {
           {optimizationGuide.map((item) => (
             <article
               key={item.option}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.option}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.result}
               </p>
 
-              <p className="mt-2 text-xs leading-5 text-white/50">
+              <p className="mt-2 text-xs leading-5 text-foreground-faint">
                 Best for: {item.use}
               </p>
             </article>
@@ -552,7 +552,7 @@ export default function ImageCompressor100KbSeoContent() {
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="text-xl" aria-hidden="true">
                 {feature.icon}
@@ -562,7 +562,7 @@ export default function ImageCompressor100KbSeoContent() {
                 {feature.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {feature.desc}
               </p>
             </article>
@@ -581,10 +581,10 @@ export default function ImageCompressor100KbSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-500 text-xs font-bold text-black">
                   {index + 1}
                 </div>
 
@@ -597,7 +597,7 @@ export default function ImageCompressor100KbSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -633,13 +633,13 @@ export default function ImageCompressor100KbSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -660,14 +660,14 @@ export default function ImageCompressor100KbSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-3">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-3">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

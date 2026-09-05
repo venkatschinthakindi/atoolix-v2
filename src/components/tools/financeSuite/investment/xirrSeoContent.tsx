@@ -356,7 +356,7 @@ export default function XirrCalculatorSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
+    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -369,7 +369,7 @@ export default function XirrCalculatorSeoContent() {
         aria-labelledby="xirr-intro-heading"
         className="space-y-4"
       >
-        <p className="text-sm font-medium text-blue-300">
+        <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
           XIRR • Irregular cash flows • SIP returns • Investment returns
         </p>
 
@@ -380,7 +380,7 @@ export default function XirrCalculatorSeoContent() {
           XIRR Calculator for Irregular Investment Returns
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Use this XIRR calculator to calculate an annualized investment return
           when money is invested, withdrawn, or received on different dates.
           XIRR is particularly useful for SIP investments, mutual funds,
@@ -388,14 +388,14 @@ export default function XirrCalculatorSeoContent() {
           other irregular cash-flow scenarios.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Unlike a simple CAGR calculation, XIRR considers the amount and
           timing of each cash flow. This makes it useful when investments are
           made at different points in time rather than as one initial
           investment.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           XIRR is a performance calculation based on the cash flows supplied.
           It does not predict future investment returns or guarantee that the
           calculated annualized return will continue.
@@ -418,7 +418,7 @@ export default function XirrCalculatorSeoContent() {
           {coreFeatures.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl" aria-hidden="true">
                 {item.icon}
@@ -428,7 +428,7 @@ export default function XirrCalculatorSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -452,7 +452,7 @@ export default function XirrCalculatorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="flex items-start gap-3">
                 <div
@@ -467,7 +467,7 @@ export default function XirrCalculatorSeoContent() {
                     {step.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-6 text-white/65">
+                  <p className="mt-1 text-xs leading-6 text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -493,7 +493,7 @@ export default function XirrCalculatorSeoContent() {
           {audiences.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl" aria-hidden="true">
                 {item.icon}
@@ -503,7 +503,7 @@ export default function XirrCalculatorSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -524,18 +524,18 @@ export default function XirrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               XIRR Equation
             </h3>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               XIRR solves for the annualized rate that makes the net present
               value of the dated cash flows equal to zero.
             </p>
 
-            <div className="mt-4 overflow-x-auto rounded-xl border border-white/10 bg-black/20 p-4">
-              <p className="whitespace-nowrap text-center font-medium text-white">
+            <div className="mt-4 overflow-x-auto rounded-xl border border-border bg-surface-sunken p-4">
+              <p className="whitespace-nowrap text-center font-medium text-foreground">
                 0 = Σ Cᵢ / (1 + r)^((dᵢ - d₀) / 365)
               </p>
             </div>
@@ -544,43 +544,43 @@ export default function XirrCalculatorSeoContent() {
               Variables
             </h4>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               <li>
-                <strong className="text-white">Cᵢ:</strong>{" "}
+                <strong className="text-foreground">Cᵢ:</strong>{" "}
                 The cash flow at transaction i.
               </li>
               <li>
-                <strong className="text-white">r:</strong>{" "}
+                <strong className="text-foreground">r:</strong>{" "}
                 The annualized XIRR being solved for.
               </li>
               <li>
-                <strong className="text-white">dᵢ:</strong>{" "}
+                <strong className="text-foreground">dᵢ:</strong>{" "}
                 The date associated with cash flow i.
               </li>
               <li>
-                <strong className="text-white">d₀:</strong>{" "}
+                <strong className="text-foreground">d₀:</strong>{" "}
                 The date associated with the first cash flow.
               </li>
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Why XIRR Requires Numerical Calculation
             </h3>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               Because the unknown rate appears across multiple dated cash
               flows, XIRR generally cannot be isolated using a simple
               rearrangement of the equation.
             </p>
 
-            <p className="mt-4 text-xs leading-6 text-white/65">
+            <p className="mt-4 text-xs leading-6 text-foreground-secondary">
               A numerical method is therefore used to search for a rate that
               makes the net present value sufficiently close to zero.
             </p>
 
-            <p className="mt-4 text-xs leading-6 text-white/65">
+            <p className="mt-4 text-xs leading-6 text-foreground-secondary">
               This also means that some unusual cash-flow patterns can produce
               multiple mathematical solutions or fail to converge to a usable
               result.
@@ -602,36 +602,36 @@ export default function XirrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Money Invested
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               From the investor's perspective, money paid into the investment
               is generally represented as a negative cash flow.
             </p>
 
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
-              <p className="font-medium text-white">
+            <div className="mt-4 rounded-xl border border-border bg-surface-sunken p-4">
+              <p className="font-medium text-foreground">
                 Investment → Negative
               </p>
             </div>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Money Received
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Money received from the investment, including a final portfolio
               value or applicable withdrawal, is generally represented as a
               positive cash flow.
             </p>
 
-            <div className="mt-4 rounded-xl border border-white/10 bg-black/20 p-4">
-              <p className="font-medium text-white">
+            <div className="mt-4 rounded-xl border border-border bg-surface-sunken p-4">
+              <p className="font-medium text-foreground">
                 Amount Received → Positive
               </p>
             </div>
@@ -651,13 +651,13 @@ export default function XirrCalculatorSeoContent() {
           XIRR Worked Example
         </h2>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[620px] text-left text-sm">
             <caption className="sr-only">
               Illustrative XIRR cash-flow example
             </caption>
 
-            <thead className="border-b border-white/10">
+            <thead className="border-b border-border">
               <tr>
                 <th scope="col" className="p-4">
                   Date
@@ -672,18 +672,18 @@ export default function XirrCalculatorSeoContent() {
             </thead>
 
             <tbody>
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <td className="p-4">1 Jan 2025</td>
                 <td className="p-4">-₹1,00,000</td>
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Initial investment
                 </td>
               </tr>
 
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <td className="p-4">15 Apr 2025</td>
                 <td className="p-4">-₹50,000</td>
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Additional investment
                 </td>
               </tr>
@@ -691,7 +691,7 @@ export default function XirrCalculatorSeoContent() {
               <tr>
                 <td className="p-4">1 Jan 2026</td>
                 <td className="p-4">+₹1,70,000</td>
-                <td className="p-4 text-white/65">
+                <td className="p-4 text-foreground-secondary">
                   Final value
                 </td>
               </tr>
@@ -699,7 +699,7 @@ export default function XirrCalculatorSeoContent() {
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/65">
+        <p className="text-xs leading-6 text-foreground-secondary">
           An XIRR calculation uses both the amounts and dates in this example
           to determine the annualized rate that makes the dated cash flows
           balance to approximately zero in present-value terms. The result
@@ -720,13 +720,13 @@ export default function XirrCalculatorSeoContent() {
           XIRR vs CAGR vs IRR vs SIP vs Lumpsum
         </h2>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[760px] text-left text-sm">
             <caption className="sr-only">
               Comparison of XIRR, CAGR, IRR, SIP and Lumpsum calculations
             </caption>
 
-            <thead className="border-b border-white/10">
+            <thead className="border-b border-border">
               <tr>
                 <th scope="col" className="p-4">
                   Method
@@ -747,21 +747,21 @@ export default function XirrCalculatorSeoContent() {
               {comparisonRows.map((row) => (
                 <tr
                   key={row.method}
-                  className="border-b border-white/5 last:border-0"
+                  className="border-b border-border last:border-0"
                 >
                   <th scope="row" className="p-4 font-medium">
                     {row.method}
                   </th>
 
-                  <td className="p-4 text-white/65">
+                  <td className="p-4 text-foreground-secondary">
                     {row.bestFor}
                   </td>
 
-                  <td className="p-4 text-white/65">
+                  <td className="p-4 text-foreground-secondary">
                     {row.timing}
                   </td>
 
-                  <td className="p-4 text-white/65">
+                  <td className="p-4 text-foreground-secondary">
                     {row.result}
                   </td>
                 </tr>
@@ -770,7 +770,7 @@ export default function XirrCalculatorSeoContent() {
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/65">
+        <p className="text-xs leading-6 text-foreground-secondary">
           XIRR is not inherently superior to the other methods. The appropriate
           calculation depends on the cash-flow structure and the question being
           answered.
@@ -793,13 +793,13 @@ export default function XirrCalculatorSeoContent() {
           {educationSections.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.body}
               </p>
             </article>
@@ -819,15 +819,15 @@ export default function XirrCalculatorSeoContent() {
           XIRR for SIP Investments
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             SIP investments are a common use case for XIRR because
             contributions occur repeatedly over time. Each SIP installment has
             a different investment date, meaning each installment has a
             different period of exposure to the market.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             To calculate an annualized return, the investment amounts can be
             entered as negative cash flows using their actual transaction
             dates, while the current investment value can be entered as a
@@ -852,20 +852,20 @@ export default function XirrCalculatorSeoContent() {
           {indiaUseCases.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
           ))}
         </div>
 
-        <p className="text-xs leading-6 text-white/65">
+        <p className="text-xs leading-6 text-foreground-secondary">
           For Indian investments, amounts can be entered in INR. The currency
           itself does not determine the XIRR; the calculation depends on the
           cash-flow amounts and dates supplied.
@@ -885,12 +885,12 @@ export default function XirrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Use CAGR When
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               <li>You have a beginning investment value.</li>
               <li>You have an ending investment value.</li>
               <li>There are no material intermediate cash flows.</li>
@@ -898,12 +898,12 @@ export default function XirrCalculatorSeoContent() {
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Use XIRR When
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               <li>There are multiple investments.</li>
               <li>Contributions occur on different dates.</li>
               <li>Withdrawals or redemptions occur.</li>
@@ -928,24 +928,24 @@ export default function XirrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Common Mistakes
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               {commonMistakes.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Better Practices
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               {bestPractices.map((item) => (
                 <li key={item}>{item}</li>
               ))}
@@ -967,34 +967,34 @@ export default function XirrCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Positive XIRR
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A positive XIRR indicates that the supplied cash flows imply a
               positive annualized return under the calculation methodology.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Zero XIRR
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               An XIRR near zero indicates approximately no annualized gain or
               loss under the supplied cash flows and dates.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Negative XIRR
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A negative XIRR indicates that the supplied cash flows imply an
               annualized loss under the calculation assumptions.
             </p>
@@ -1014,8 +1014,8 @@ export default function XirrCalculatorSeoContent() {
           XIRR Calculator Limitations
         </h2>
 
-        <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-6">
-          <ul className="space-y-3 text-xs leading-6 text-white/70 sm:text-sm">
+        <div className="rounded-2xl border border-amber-300 dark:border-amber-400/20 bg-amber-100 dark:bg-amber-400/5 p-6">
+          <ul className="space-y-3 text-xs leading-6 text-foreground-secondary sm:text-sm">
             <li>
               XIRR is only as accurate as the cash-flow amounts and dates
               supplied.
@@ -1056,21 +1056,21 @@ export default function XirrCalculatorSeoContent() {
           XIRR Calculation Methodology
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             XIRR calculates an annualized rate from a series of dated cash
             flows. The calculation searches for the rate that makes the net
             present value of those cash flows approximately equal to zero.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             Each cash flow is weighted according to the time between its date
             and the first cash-flow date. This is why XIRR can account for
             irregular transaction timing while a simple total-return
             calculation cannot.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             Numerical iteration is used because the XIRR equation generally
             does not have a simple closed-form solution for arbitrary dated
             cash-flow series.
@@ -1090,45 +1090,45 @@ export default function XirrCalculatorSeoContent() {
           Methodology and Review Information
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div className="rounded-2xl border border-border bg-card p-6">
           <dl className="grid gap-5 sm:grid-cols-2">
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Methodology
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 Annualized return calculation based on dated cash flows and
                 numerical XIRR solving.
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Last reviewed
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 {LAST_REVIEWED}
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Purpose
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 Educational and investment-performance calculation.
               </dd>
             </div>
 
             <div>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-white/50">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-foreground-faint">
                 Financial advice
               </dt>
 
-              <dd className="mt-1 text-sm text-white/75">
+              <dd className="mt-1 text-sm text-foreground-secondary">
                 This calculator does not provide personalized financial advice
                 or guarantee future returns.
               </dd>
@@ -1149,8 +1149,8 @@ export default function XirrCalculatorSeoContent() {
           Financial Disclaimer
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs leading-7 text-white/65 sm:text-sm">
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <p className="text-xs leading-7 text-foreground-secondary sm:text-sm">
             This XIRR calculator is provided for educational and informational
             purposes. The calculated result depends on the cash-flow amounts,
             dates, valuation values, and calculation methodology used. It does
@@ -1158,7 +1158,7 @@ export default function XirrCalculatorSeoContent() {
             future investment performance.
           </p>
 
-          <p className="mt-4 text-xs leading-7 text-white/65 sm:text-sm">
+          <p className="mt-4 text-xs leading-7 text-foreground-secondary sm:text-sm">
             Actual investment results may be affected by market conditions,
             fees, taxes, dividends, transaction costs, valuation differences,
             and other factors. Review your own financial circumstances and
@@ -1186,17 +1186,17 @@ export default function XirrCalculatorSeoContent() {
           {faqItems.map((item) => (
             <div
               key={item.q}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="group overflow-hidden rounded-2xl border border-border bg-card"
             >
               <details className="w-full">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                  <span className="text-sm font-semibold text-white">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                  <span className="text-sm font-semibold text-foreground">
                     {item.q}
                   </span>
 
                   <span
                     aria-hidden="true"
-                    className="shrink-0 text-lg text-blue-400"
+                    className="shrink-0 text-lg text-blue-700 dark:text-blue-400"
                   >
                     <svg
                       className="h-5 w-5"
@@ -1214,8 +1214,8 @@ export default function XirrCalculatorSeoContent() {
                   </span>
                 </summary>
 
-                <div className="border-t border-dashed border-white/5 p-5 pt-4">
-                  <p className="text-xs leading-relaxed text-white/60">
+                <div className="border-t border-dashed border-border p-5 pt-4">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.a}
                   </p>
                 </div>
@@ -1228,7 +1228,7 @@ export default function XirrCalculatorSeoContent() {
       {/* Final CTA */}
       <section
         aria-labelledby="cta-heading"
-        className="rounded-3xl border border-white/10 bg-white/5 p-6 text-center sm:p-8"
+        className="rounded-3xl border border-border bg-card p-6 text-center sm:p-8"
       >
         <h2
           id="cta-heading"
@@ -1237,13 +1237,13 @@ export default function XirrCalculatorSeoContent() {
           Calculate Your Investment XIRR
         </h2>
 
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-white/65">
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-foreground-secondary">
           Enter your investment amounts, withdrawals, current value, and actual
           transaction dates to calculate the annualized return implied by your
           cash flows.
         </p>
 
-        <p className="mt-4 text-xs text-white/45">
+        <p className="mt-4 text-xs text-foreground-faint">
           XIRR is a historical or scenario-based calculation and is not a
           guarantee of future investment performance.
         </p>

@@ -392,7 +392,7 @@ const itemListSchema = {
 
 export default function RetirementCalculatorSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
+    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -433,7 +433,7 @@ export default function RetirementCalculatorSeoContent() {
         aria-labelledby="hero-heading"
         className="space-y-4"
       >
-        <p className="text-sm font-medium text-blue-300">
+        <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
           Retirement planning • FIRE • SWP • Inflation
         </p>
 
@@ -445,7 +445,7 @@ export default function RetirementCalculatorSeoContent() {
           Income, Inflation, and Financial Independence
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
           Use this retirement calculator to estimate your retirement corpus,
           FIRE number, retirement income, SWP withdrawals, inflation-adjusted
           expenses, and withdrawal requirements. Whether you are planning
@@ -471,7 +471,7 @@ export default function RetirementCalculatorSeoContent() {
           {coreFeatures.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl">{item.icon}</div>
 
@@ -479,7 +479,7 @@ export default function RetirementCalculatorSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -503,7 +503,7 @@ export default function RetirementCalculatorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -515,7 +515,7 @@ export default function RetirementCalculatorSeoContent() {
                     {step.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-6 text-white/65">
+                  <p className="mt-1 text-xs leading-6 text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -541,7 +541,7 @@ export default function RetirementCalculatorSeoContent() {
           {audiences.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <div className="text-2xl">{item.icon}</div>
 
@@ -549,7 +549,7 @@ export default function RetirementCalculatorSeoContent() {
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -570,51 +570,51 @@ export default function RetirementCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Inflation-Adjusted Retirement Corpus
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Future retirement expenses can be estimated by increasing
               current expenses using an assumed inflation rate over the
               remaining years until retirement.
             </p>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               Retirement Corpus = Annual Retirement Expenses ÷ Withdrawal Rate
             </p>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               Example: if annual retirement expenses are ₹12,00,000 and the
               selected withdrawal rate is 4%:
             </p>
 
-            <p className="mt-3 font-medium text-white">
+            <p className="mt-3 font-medium text-foreground">
               ₹12,00,000 ÷ 0.04 = ₹3,00,00,000
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               FIRE Number Formula
             </h3>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               FIRE Number ≈ Annual Expenses × 25
             </p>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               A 25× multiple corresponds to a 4% withdrawal-rate assumption.
               It should be treated as a planning shortcut rather than a
               guaranteed retirement target.
             </p>
 
-            <p className="mt-3 text-xs leading-6 text-white/65">
+            <p className="mt-3 text-xs leading-6 text-foreground-secondary">
               Example: with annual expenses of ₹12 lakh:
             </p>
 
-            <p className="mt-3 font-medium text-white">
+            <p className="mt-3 font-medium text-foreground">
               ₹12,00,000 × 25 = ₹3,00,00,000
             </p>
           </article>
@@ -637,13 +637,13 @@ export default function RetirementCalculatorSeoContent() {
           {retirementEducation.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.body}
               </p>
             </article>
@@ -664,36 +664,36 @@ export default function RetirementCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               FIRE Number Explained
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               The FIRE number is the portfolio value needed to support your
               planned expenses without depending on active employment income.
               A common starting estimate is annual expenses multiplied by 25.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Lean FIRE vs Fat FIRE
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Lean FIRE targets a lower-expense lifestyle and therefore a
               smaller corpus. Fat FIRE targets a larger corpus that supports
               greater spending flexibility.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Coast FIRE
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Coast FIRE describes a situation where existing investments may
               be sufficient to grow toward a future retirement target without
               additional contributions, assuming the expected long-term
@@ -716,24 +716,24 @@ export default function RetirementCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Retirement Calculator
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A retirement calculator focuses on future expenses, retirement
               age, inflation, corpus requirements, withdrawal rates, and
               potential retirement income.
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               FIRE Calculator
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               A FIRE calculator focuses on reaching financial independence
               earlier by connecting annual spending, savings, investment
               growth, and the required FIRE number.
@@ -754,8 +754,8 @@ export default function RetirementCalculatorSeoContent() {
           How Much Retirement Corpus Is Needed?
         </h2>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-xs leading-6 text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-xs leading-6 text-foreground-secondary">
             The required retirement corpus depends on annual expenses,
             retirement age, life expectancy, inflation, investment returns,
             taxes, and withdrawal rate. A common planning estimate uses annual
@@ -763,13 +763,13 @@ export default function RetirementCalculatorSeoContent() {
             assumption.
           </p>
 
-          <p className="mt-3 text-xs leading-6 text-white/65">
+          <p className="mt-3 text-xs leading-6 text-foreground-secondary">
             For example, annual retirement expenses of ₹12 lakh correspond to
             approximately ₹3 crore at a 4% withdrawal rate. A lower withdrawal
             rate would require a larger starting corpus.
           </p>
 
-          <p className="mt-3 text-xs leading-6 text-white/65">
+          <p className="mt-3 text-xs leading-6 text-foreground-secondary">
             A retirement calculator can provide a more personalized estimate
             by incorporating future expenses, inflation, retirement duration,
             expected returns, and withdrawal assumptions.
@@ -789,13 +789,13 @@ export default function RetirementCalculatorSeoContent() {
           Retirement Corpus for Different Monthly Expenses
         </h2>
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full text-left text-sm">
             <caption className="sr-only">
               Estimated retirement corpus at a 4% withdrawal rate
             </caption>
 
-            <thead className="border-b border-white/10">
+            <thead className="border-b border-border">
               <tr>
                 <th scope="col" className="p-4">
                   Monthly Expense
@@ -810,19 +810,19 @@ export default function RetirementCalculatorSeoContent() {
             </thead>
 
             <tbody>
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <td className="p-4">₹25,000</td>
                 <td className="p-4">₹3 lakh</td>
                 <td className="p-4">₹75 lakh</td>
               </tr>
 
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <td className="p-4">₹50,000</td>
                 <td className="p-4">₹6 lakh</td>
                 <td className="p-4">₹1.5 crore</td>
               </tr>
 
-              <tr className="border-b border-white/5">
+              <tr className="border-b border-border">
                 <td className="p-4">₹1,00,000</td>
                 <td className="p-4">₹12 lakh</td>
                 <td className="p-4">₹3 crore</td>
@@ -837,7 +837,7 @@ export default function RetirementCalculatorSeoContent() {
           </table>
         </div>
 
-        <p className="text-xs leading-6 text-white/65">
+        <p className="text-xs leading-6 text-foreground-secondary">
           These figures are simple illustrations using a 4% withdrawal-rate
           assumption. They do not account for taxes, inflation after
           retirement, healthcare costs, portfolio volatility, or changes in
@@ -858,12 +858,12 @@ export default function RetirementCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Retirement Planning in Your 20s and 30s
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Investors with longer horizons have more time for regular
               contributions and compounding. Starting early can reduce the
               amount that needs to be invested later, although investment
@@ -871,12 +871,12 @@ export default function RetirementCalculatorSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Retirement Planning in Your 40s and 50s
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               As retirement approaches, investors may focus more closely on
               increasing savings, reducing debt, reviewing asset allocation,
               and building a realistic liquidity and withdrawal strategy.
@@ -926,13 +926,13 @@ export default function RetirementCalculatorSeoContent() {
           ].map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              className="rounded-2xl border border-border bg-card p-5"
             >
               <h3 className="text-sm font-semibold">
                 {item.title}
               </h3>
 
-              <p className="mt-2 text-xs leading-6 text-white/65">
+              <p className="mt-2 text-xs leading-6 text-foreground-secondary">
                 {item.desc}
               </p>
             </article>
@@ -953,24 +953,24 @@ export default function RetirementCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Mistakes to Avoid
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               {retirementMistakes.map((item) => (
                 <li key={item}>• {item}</li>
               ))}
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Better Planning Practices
             </h3>
 
-            <ul className="mt-3 space-y-2 text-xs leading-6 text-white/65">
+            <ul className="mt-3 space-y-2 text-xs leading-6 text-foreground-secondary">
               {retirementStrategies.map((item) => (
                 <li key={item}>• {item}</li>
               ))}
@@ -992,12 +992,12 @@ export default function RetirementCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Asset Allocation
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Asset allocation can change the risk and growth characteristics
               of a retirement portfolio. The appropriate mix of equity, debt,
               and other assets depends on time horizon, risk tolerance, and
@@ -1005,12 +1005,12 @@ export default function RetirementCalculatorSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Sequence of Returns Risk
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Poor returns early in retirement can have a larger effect when
               withdrawals are occurring simultaneously. Maintaining an
               appropriate liquidity buffer and flexible withdrawal strategy
@@ -1033,12 +1033,12 @@ export default function RetirementCalculatorSeoContent() {
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               How Much Money Is Needed to Retire in India?
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               The required amount depends on location, household size,
               lifestyle, healthcare expenses, retirement age, inflation, and
               the length of retirement. A personalized calculation is more
@@ -1046,12 +1046,12 @@ export default function RetirementCalculatorSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Inflation and Retirement in India
             </h3>
 
-            <p className="mt-2 text-xs leading-6 text-white/65">
+            <p className="mt-2 text-xs leading-6 text-foreground-secondary">
               Long retirement horizons make inflation an important planning
               variable. Future expenses should be estimated rather than
               assuming today's spending will remain unchanged.
@@ -1079,17 +1079,17 @@ export default function RetirementCalculatorSeoContent() {
           {faqItems.map((item) => (
             <div
               key={item.q}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="group overflow-hidden rounded-2xl border border-border bg-card"
             >
               <details className="w-full">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                  <span className="text-sm font-semibold text-white">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                  <span className="text-sm font-semibold text-foreground">
                     {item.q}
                   </span>
 
                   <span
                     aria-hidden="true"
-                    className="shrink-0 text-lg text-blue-400"
+                    className="shrink-0 text-lg text-blue-700 dark:text-blue-400"
                   >
                     <svg
                       className="h-5 w-5"
@@ -1107,8 +1107,8 @@ export default function RetirementCalculatorSeoContent() {
                   </span>
                 </summary>
 
-                <div className="border-t border-dashed border-white/5 p-5 pt-4">
-                  <p className="text-xs leading-relaxed text-white/60">
+                <div className="border-t border-dashed border-border p-5 pt-4">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.a}
                   </p>
                 </div>

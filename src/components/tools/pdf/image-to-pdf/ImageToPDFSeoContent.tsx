@@ -157,7 +157,7 @@ export default function ImageToPdfSeoContent() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-4 p-4 text-white sm:space-y-5 sm:p-5 lg:space-y-6 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-4 p-4 text-foreground sm:space-y-5 sm:p-5 lg:space-y-6 lg:p-6">
       {/* Introduction */}
       <section aria-labelledby="intro-heading">
         <div className="flex gap-3">
@@ -167,20 +167,20 @@ export default function ImageToPdfSeoContent() {
 
           <h2
             id="intro-heading"
-            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 flex items-center gap-3 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             Image to PDF Converter – JPG, PNG & WEBP to PDF Online
           </h2>
         </div>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert JPG, JPEG, PNG, and WEBP images into PDF documents directly in
           your browser. Add multiple images, arrange them in the order you want,
           choose the available page size and orientation, adjust margins, and
           generate a PDF ready to save or share.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The workflow is designed for common tasks such as converting photos,
           screenshots, scanned pages, receipts, notes, and image collections
           into a single document. Image processing takes place locally in your
@@ -196,20 +196,20 @@ export default function ImageToPdfSeoContent() {
 
           <h2
             id="what-is-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             What Is an Image to PDF Converter?
           </h2>
         </div>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           An image to PDF converter turns one or more image files into a PDF
           document. This is useful when several images need to be kept together,
           printed, submitted, archived, or shared as one file instead of
           separate image attachments.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A useful image-to-PDF workflow also gives you control over the order
           and layout of the images. With this converter, you can arrange the
           images and customize supported page settings before generating the
@@ -220,22 +220,22 @@ export default function ImageToPdfSeoContent() {
       {/* Supported formats */}
       <section
         aria-labelledby="formats-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-5 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="formats-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Supported Image Formats
         </h2>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-white/10 p-5">
-            <h3 className="mb-3 font-semibold text-white">
+          <div className="rounded-xl border border-border p-5">
+            <h3 className="mb-3 font-semibold text-foreground">
               Supported Input Formats
             </h3>
 
-            <ul className="space-y-2 text-sm text-white/70">
+            <ul className="space-y-2 text-sm text-foreground-secondary">
               <li>✓ JPG</li>
               <li>✓ JPEG</li>
               <li>✓ PNG</li>
@@ -243,12 +243,12 @@ export default function ImageToPdfSeoContent() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-white/10 p-5">
-            <h3 className="mb-3 font-semibold text-white">
+          <div className="rounded-xl border border-border p-5">
+            <h3 className="mb-3 font-semibold text-foreground">
               Common Conversion Tasks
             </h3>
 
-            <ul className="space-y-2 text-sm text-white/70">
+            <ul className="space-y-2 text-sm text-foreground-secondary">
               <li>✓ JPG to PDF</li>
               <li>✓ JPEG to PDF</li>
               <li>✓ PNG to PDF</li>
@@ -257,7 +257,7 @@ export default function ImageToPdfSeoContent() {
           </div>
         </div>
 
-        <p className="mt-5 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-5 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           These formats cover many everyday images from phones, screenshots,
           cameras, scanned documents, and design workflows. You can combine
           supported image formats in the same PDF when needed.
@@ -271,7 +271,7 @@ export default function ImageToPdfSeoContent() {
 
           <h2
             id="features-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             Image to PDF Converter Features
           </h2>
@@ -281,7 +281,7 @@ export default function ImageToPdfSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="flex-shrink-0 text-2xl" aria-hidden="true">
@@ -289,11 +289,11 @@ export default function ImageToPdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -310,7 +310,7 @@ export default function ImageToPdfSeoContent() {
 
           <h2
             id="workflow-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             How to Convert Images to PDF
           </h2>
@@ -320,7 +320,7 @@ export default function ImageToPdfSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -338,11 +338,11 @@ export default function ImageToPdfSeoContent() {
                 </span>
 
                 <div className="flex-1">
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {step.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -356,13 +356,13 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="usecases-heading">
         <h2
           id="usecases-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Common Image to PDF Use Cases
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
             <li>• Combine scanned pages into one PDF</li>
             <li>• Turn screenshots into a shareable document</li>
             <li>• Combine assignment or study-note photos</li>
@@ -370,7 +370,7 @@ export default function ImageToPdfSeoContent() {
             <li>• Create a PDF from photographed documents</li>
           </ul>
 
-          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
             <li>• Package product or portfolio images</li>
             <li>• Create printable photo documents</li>
             <li>• Send multiple images as one attachment</li>
@@ -387,7 +387,7 @@ export default function ImageToPdfSeoContent() {
 
           <h2
             id="audience-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             Who Can Use This Image to PDF Converter?
           </h2>
@@ -397,7 +397,7 @@ export default function ImageToPdfSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="flex-shrink-0 text-2xl" aria-hidden="true">
@@ -405,11 +405,11 @@ export default function ImageToPdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -423,19 +423,19 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="why-use-heading">
         <h2
           id="why-use-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Why Convert Images to PDF Online?
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           PDF is useful when several images need to be handled as one document.
           Instead of sending individual photos or screenshots, you can combine
           them into a single file that is easier to share, print, submit, or
           archive.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           An online browser-based workflow is also convenient when you need to
           convert images quickly without installing additional software. The
           local processing approach is particularly useful when you prefer your
@@ -447,19 +447,19 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="settings-heading">
         <h2
           id="settings-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Customize Page Size, Orientation and Margins
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Page layout affects how images fit inside the generated PDF. Use the
           available page-size options to match the type of document you are
           creating, then select portrait or landscape orientation based on the
           shape of your images.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Margin settings can also help create a cleaner layout. Smaller margins
           can provide more space for the image, while larger margins can make a
           document easier to read or print.
@@ -470,18 +470,18 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="how-it-works-heading">
         <h2
           id="how-it-works-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           How Image to PDF Conversion Works
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           When you select images, the browser reads the files locally and
           prepares them for PDF generation. You can then arrange the images and
           configure the available page settings before creating the document.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           During PDF generation, the selected images are placed into the
           document according to their order and the chosen layout settings.
           Images may be scaled to fit the selected page while maintaining a
@@ -493,12 +493,12 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="tips-heading">
         <h2
           id="tips-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Tips for Better Image to PDF Results
         </h2>
 
-        <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+        <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
           <li>• Arrange images before generating the PDF.</li>
           <li>• Use portrait orientation for document-style images.</li>
           <li>• Use landscape orientation for wide images when appropriate.</li>
@@ -512,18 +512,18 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="privacy-heading">
         <h2
           id="privacy-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Privacy and Local Browser Processing
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Image conversion is performed locally in your browser. The images you
           select for conversion are not uploaded to Atoolix servers as part of
           the PDF generation process.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This browser-based approach can be useful when working with personal
           photos, screenshots, scanned documents, receipts, or other files that
           you prefer to keep on your device.
@@ -534,12 +534,12 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="benefits-heading">
         <h2
           id="benefits-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Benefits of Using an Image to PDF Converter
         </h2>
 
-        <ul className="space-y-3 text-sm leading-relaxed text-white/65">
+        <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
           <li>
             Convert JPG, JPEG, PNG, and WEBP images into a single PDF.
           </li>
@@ -568,7 +568,7 @@ export default function ImageToPdfSeoContent() {
       <section aria-labelledby="faq-heading">
         <h2
           id="faq-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Frequently Asked Questions
         </h2>
@@ -577,23 +577,23 @@ export default function ImageToPdfSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="group overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                <span className="text-sm font-semibold text-white">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                <span className="text-sm font-semibold text-foreground">
                   {item.q}
                 </span>
 
                 <span
-                  className="text-lg text-blue-400"
+                  className="text-lg text-blue-700 dark:text-blue-400"
                   aria-hidden="true"
                 >
                   +
                 </span>
               </summary>
 
-              <div className="border-t border-dashed border-white/10 p-5 pt-4">
-                <p className="text-xs leading-relaxed text-white/60 sm:text-sm">
+              <div className="border-t border-dashed border-border p-5 pt-4">
+                <p className="text-xs leading-relaxed text-foreground-secondary sm:text-sm">
                   {item.a}
                 </p>
               </div>
@@ -607,23 +607,23 @@ export default function ImageToPdfSeoContent() {
       {/* Conclusion */}
       <section
         aria-labelledby="conclusion-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-5 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="conclusion-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Convert Images to PDF in Your Browser
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Atoolix Image to PDF Converter provides a straightforward way to turn
           JPG, JPEG, PNG, and WEBP images into a single PDF. You can combine
           multiple images, arrange their order, customize the available page
           settings, preview the result, and download the finished document.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Whether you are converting photos, screenshots, scanned pages, notes,
           receipts, or image collections, the browser-based workflow keeps the
           process convenient while local processing helps keep your selected

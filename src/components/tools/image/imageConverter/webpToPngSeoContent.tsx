@@ -244,7 +244,7 @@ export default function WebpToPngSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -263,14 +263,14 @@ export default function WebpToPngSeoContent() {
           WebP to PNG Converter – Convert Images Online
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert WebP to PNG online with this free browser-based converter.
           Turn WebP images into PNG files for design, editing, websites,
           applications, documents, screenshots, and other workflows that
           require PNG format.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           PNG supports transparency and lossless compression, making it a
           practical choice for logos, graphics, interface assets, and images
           that need reliable compatibility across different tools and
@@ -286,14 +286,14 @@ export default function WebpToPngSeoContent() {
           What Is a WebP to PNG Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A WebP to PNG converter changes an image from WebP format into PNG
           format. WebP is widely used for modern web images, while PNG remains
           useful for graphics, transparent assets, editing workflows, and
           applications that specifically require PNG files.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A browser-based converter makes this format change convenient
           without requiring dedicated image-conversion software.
         </p>
@@ -307,7 +307,7 @@ export default function WebpToPngSeoContent() {
           Why Convert WebP to PNG?
         </h2>
 
-        <div className="mt-3 space-y-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             PNG is useful when you need a widely supported image format with
             lossless compression and transparency support.
@@ -335,7 +335,7 @@ export default function WebpToPngSeoContent() {
           Benefits of Using This WebP to PNG Converter
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             Convert WebP images to PNG through a simple browser-based workflow.
           </li>
@@ -365,7 +365,7 @@ export default function WebpToPngSeoContent() {
           Common WebP to PNG Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>Convert WebP images for graphic design and editing.</li>
           <li>Convert WebP logos into PNG graphics with transparency.</li>
           <li>Prepare PNG assets for websites and applications.</li>
@@ -389,7 +389,7 @@ export default function WebpToPngSeoContent() {
           How to Convert WebP to PNG
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert a WebP image to PNG in a few simple steps using the
           browser-based workflow.
         </p>
@@ -398,7 +398,7 @@ export default function WebpToPngSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -413,11 +413,11 @@ export default function WebpToPngSeoContent() {
                 </span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -429,7 +429,7 @@ export default function WebpToPngSeoContent() {
 
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -442,7 +442,7 @@ export default function WebpToPngSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -453,11 +453,11 @@ export default function WebpToPngSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -475,7 +475,7 @@ export default function WebpToPngSeoContent() {
           Who Should Use This Tool?
         </h2>
 
-        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This WebP to PNG converter is designed for anyone who needs a
           straightforward way to create PNG images from WebP files.
         </p>
@@ -484,7 +484,7 @@ export default function WebpToPngSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -495,11 +495,11 @@ export default function WebpToPngSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -517,13 +517,13 @@ export default function WebpToPngSeoContent() {
           Privacy & Local Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Your selected WebP image is processed locally in your browser. The
           image does not need to be uploaded to a conversion server for the
           browser-based conversion workflow.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           No account registration is required for the conversion workflow.
           Analytics or error-monitoring services, if enabled by the site,
           should not collect or transmit the contents of user images.
@@ -542,14 +542,14 @@ export default function WebpToPngSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

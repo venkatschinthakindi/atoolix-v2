@@ -268,14 +268,14 @@ const webApplicationJsonLd = {
 
 export default function JpgCompressorSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-10 px-3 py-6 text-white sm:px-4 sm:py-8 lg:px-5 lg:py-10">
+    <div className="mx-auto max-w-6xl space-y-10 px-3 py-6 text-foreground sm:px-4 sm:py-8 lg:px-5 lg:py-10">
       <JsonLd data={faqJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={webApplicationJsonLd} />
 
       {/* Intro */}
       <section aria-labelledby="intro-heading" className="space-y-4">
-        <p className="inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-[11px] font-semibold text-cyan-300">
+        <p className="inline-flex rounded-full border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-1 text-[11px] font-semibold text-cyan-700 dark:text-cyan-300">
           JPG & JPEG Compressor
         </p>
 
@@ -286,7 +286,7 @@ export default function JpgCompressorSeoContent() {
           Compress JPG & JPEG Images Online
         </h2>
 
-        <div className="max-w-4xl space-y-3 text-sm leading-7 text-white/75 sm:text-base">
+        <div className="max-w-4xl space-y-3 text-sm leading-7 text-foreground-secondary sm:text-base">
           <p>
             Reduce the file size of JPG and JPEG images with adjustable
             compression quality. Select a photo, choose a quality level,
@@ -301,15 +301,15 @@ export default function JpgCompressorSeoContent() {
           </p>
 
           <p>
-            <strong className="text-white">JPG and JPEG are the same format.</strong>{" "}
+            <strong className="text-foreground">JPG and JPEG are the same format.</strong>{" "}
             The difference is only the filename extension: <code>.jpg</code> and{" "}
             <code>.jpeg</code> both refer to JPEG images.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-4">
-          <p className="text-sm leading-6 text-white/80">
-            <strong className="text-white">Need a specific file size?</strong>{" "}
+        <div className="rounded-2xl border border-cyan-300 dark:border-cyan-400/15 bg-cyan-100 dark:bg-cyan-400/5 p-4">
+          <p className="text-sm leading-6 text-foreground">
+            <strong className="text-foreground">Need a specific file size?</strong>{" "}
             If your requirement is something like <strong>20 KB</strong> or{" "}
             <strong>100 KB</strong>, use a target-size compressor instead of
             relying only on a quality setting.
@@ -318,14 +318,14 @@ export default function JpgCompressorSeoContent() {
           <div className="mt-3 flex flex-wrap gap-2">
             <Link
               href="/tools/image/compress-image-to-20kb"
-              className="rounded-lg border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-300 transition hover:bg-cyan-400/15"
+              className="rounded-lg border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-700 dark:text-cyan-300 transition hover:bg-cyan-100 dark:hover:bg-cyan-400/15"
             >
               Compress to 20 KB
             </Link>
 
             <Link
               href="/tools/image/compress-image-to-100kb"
-              className="rounded-lg border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-300 transition hover:bg-cyan-400/15"
+              className="rounded-lg border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-700 dark:text-cyan-300 transition hover:bg-cyan-100 dark:hover:bg-cyan-400/15"
             >
               Compress to 100 KB
             </Link>
@@ -345,34 +345,34 @@ export default function JpgCompressorSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-base font-semibold">
               Compress JPG
             </h3>
 
-            <p className="mt-2 text-sm leading-6 text-white/70">
+            <p className="mt-2 text-sm leading-6 text-foreground-secondary">
               Compression changes the way the JPEG image is encoded to reduce
               the file size. The pixel dimensions can remain exactly the same.
             </p>
 
-            <ul className="mt-4 space-y-2 text-sm text-white/70">
+            <ul className="mt-4 space-y-2 text-sm text-foreground-secondary">
               <li>• Reduces file size</li>
               <li>• Can preserve original width and height</li>
               <li>• Controlled through JPEG quality</li>
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-base font-semibold">
               Resize JPG
             </h3>
 
-            <p className="mt-2 text-sm leading-6 text-white/70">
+            <p className="mt-2 text-sm leading-6 text-foreground-secondary">
               Resizing changes the pixel dimensions of the image, such as
               reducing a 4000 × 3000 photo to 1600 × 1200.
             </p>
 
-            <ul className="mt-4 space-y-2 text-sm text-white/70">
+            <ul className="mt-4 space-y-2 text-sm text-foreground-secondary">
               <li>• Changes width and height</li>
               <li>• Can substantially reduce image data</li>
               <li>• Useful when a portal specifies dimensions</li>
@@ -380,7 +380,7 @@ export default function JpgCompressorSeoContent() {
           </article>
         </div>
 
-        <p className="text-sm leading-7 text-white/65">
+        <p className="text-sm leading-7 text-foreground-secondary">
           If a website requires both a maximum file size and specific image
           dimensions, you may need to resize the JPG first and then compress it.
         </p>
@@ -415,10 +415,10 @@ export default function JpgCompressorSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold">{title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/65">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -438,7 +438,7 @@ export default function JpgCompressorSeoContent() {
           {features.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="text-xl">{feature.icon}</div>
 
@@ -446,7 +446,7 @@ export default function JpgCompressorSeoContent() {
                 {feature.title}
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-white/65">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 {feature.desc}
               </p>
             </article>
@@ -462,9 +462,9 @@ export default function JpgCompressorSeoContent() {
           description="Use quality values as a starting point rather than expecting a fixed percentage reduction."
         />
 
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
+        <div className="overflow-x-auto rounded-2xl border border-border">
           <table className="min-w-[640px] w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-4 py-3 font-semibold">Quality</th>
                 <th className="px-4 py-3 font-semibold">Compression</th>
@@ -476,15 +476,15 @@ export default function JpgCompressorSeoContent() {
               {qualityGuide.map((item) => (
                 <tr
                   key={item.range}
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <td className="px-4 py-3 font-medium">
                     {item.range}
                   </td>
-                  <td className="px-4 py-3 text-white/70">
+                  <td className="px-4 py-3 text-foreground-secondary">
                     {item.result}
                   </td>
-                  <td className="px-4 py-3 text-white/70">
+                  <td className="px-4 py-3 text-foreground-secondary">
                     {item.bestFor}
                   </td>
                 </tr>
@@ -493,9 +493,9 @@ export default function JpgCompressorSeoContent() {
           </table>
         </div>
 
-        <div className="rounded-xl border border-amber-400/15 bg-amber-400/5 p-4">
-          <p className="text-sm leading-6 text-white/70">
-            <strong className="text-white">Important:</strong> JPEG quality
+        <div className="rounded-xl border border-amber-300 dark:border-amber-400/15 bg-amber-100 dark:bg-amber-400/5 p-4">
+          <p className="text-sm leading-6 text-foreground-secondary">
+            <strong className="text-foreground">Important:</strong> JPEG quality
             values do not correspond to a guaranteed percentage reduction in
             file size. The final size depends on the image, dimensions,
             existing compression, and the encoder.
@@ -515,10 +515,10 @@ export default function JpgCompressorSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-500 text-xs font-bold text-black">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-500 text-xs font-bold text-black">
                   {index + 1}
                 </div>
 
@@ -529,7 +529,7 @@ export default function JpgCompressorSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-white/65">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -549,7 +549,7 @@ export default function JpgCompressorSeoContent() {
           {useCases.map((item) => (
             <div
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/80"
+              className="rounded-xl border border-border bg-card p-4 text-sm text-foreground"
             >
               {item}
             </div>
@@ -565,19 +565,19 @@ export default function JpgCompressorSeoContent() {
           description="A convenient workflow for processing photos from your device."
         />
 
-        <div className="rounded-2xl border border-emerald-400/15 bg-emerald-400/5 p-5">
+        <div className="rounded-2xl border border-emerald-300 dark:border-emerald-400/15 bg-emerald-100 dark:bg-emerald-400/5 p-5">
           <h3 className="text-base font-semibold">
             Process locally when supported by the tool
           </h3>
 
-          <p className="mt-2 text-sm leading-7 text-white/70">
+          <p className="mt-2 text-sm leading-7 text-foreground-secondary">
             The compressor is designed around browser-based image processing.
             When compression is performed entirely on the client, your JPG
             does not need to be uploaded to a remote server just to create the
             compressed image.
           </p>
 
-          <p className="mt-3 text-xs leading-6 text-white/50">
+          <p className="mt-3 text-xs leading-6 text-foreground-faint">
             Your actual implementation should be the source of truth for this
             statement. Do not describe the tool as fully local if any part of
             the image-processing workflow sends the file to a server.
@@ -600,14 +600,14 @@ export default function JpgCompressorSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer px-4 py-4 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-7 text-white/70">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-7 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -619,7 +619,7 @@ export default function JpgCompressorSeoContent() {
       {/* Final CTA */}
       <section
         aria-labelledby="final-heading"
-        className="rounded-2xl border border-cyan-400/15 bg-cyan-400/5 p-5 sm:p-6"
+        className="rounded-2xl border border-cyan-300 dark:border-cyan-400/15 bg-cyan-100 dark:bg-cyan-400/5 p-5 sm:p-6"
       >
         <h2
           id="final-heading"
@@ -628,7 +628,7 @@ export default function JpgCompressorSeoContent() {
           Compress Your JPG Image
         </h2>
 
-        <p className="mt-2 max-w-3xl text-sm leading-7 text-white/70">
+        <p className="mt-2 max-w-3xl text-sm leading-7 text-foreground-secondary">
           Select a JPG or JPEG photo, adjust the compression quality, compare
           the result, and download a smaller image. If you need a specific
           target such as 20 KB or 100 KB, use the corresponding target-size
@@ -638,14 +638,14 @@ export default function JpgCompressorSeoContent() {
         <div className="mt-4 flex flex-wrap gap-2">
           <Link
             href="/tools/image/compress-image-to-20kb"
-            className="rounded-lg border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-400/15"
+            className="rounded-lg border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-400/15"
           >
             Compress to 20 KB
           </Link>
 
           <Link
             href="/tools/image/compress-image-to-100kb"
-            className="rounded-lg border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-300 hover:bg-cyan-400/15"
+            className="rounded-lg border border-cyan-300 dark:border-cyan-400/20 bg-cyan-100 dark:bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-400/15"
           >
             Compress to 100 KB
           </Link>

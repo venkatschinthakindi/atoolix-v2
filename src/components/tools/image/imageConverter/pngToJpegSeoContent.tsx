@@ -157,7 +157,7 @@ export default function PngToJpegSeoContent() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-4 text-white sm:p-5 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-6 p-4 text-foreground sm:p-5 lg:p-6">
       {/* FAQ Structured Data */}
       <script
         type="application/ld+json"
@@ -175,13 +175,13 @@ export default function PngToJpegSeoContent() {
           PNG to JPEG Converter – Convert PNG Images to JPEG Online
         </h2>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert PNG images to JPEG online directly in your browser. This free PNG
           to JPEG converter provides a simple way to create smaller, widely
           supported image files without installing desktop software.
         </p>
 
-        <p className="max-w-3xl text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-3xl text-sm leading-relaxed text-foreground-secondary sm:text-base">
           JPEG is especially useful for photographs, sharing, websites, documents,
           and other workflows where transparency and lossless compression are not
           required.
@@ -197,14 +197,14 @@ export default function PngToJpegSeoContent() {
           What Is a PNG to JPEG Converter?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A PNG to JPEG converter is an online tool that changes PNG images into
           JPEG format. JPEG is commonly used when smaller image files and broad
           compatibility are more important than lossless compression or
           transparency.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           PNG to JPEG conversion can be useful for websites, social media,
           documents, email attachments, image sharing, and other digital
           workflows.
@@ -220,7 +220,7 @@ export default function PngToJpegSeoContent() {
           What to Know Before Converting PNG to JPEG
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             JPEG uses lossy compression, so converting a PNG to JPEG can change
             image quality. The difference may be more noticeable around text,
@@ -250,7 +250,7 @@ export default function PngToJpegSeoContent() {
           Why Convert PNG to JPEG?
         </h2>
 
-        <div className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <div className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <p>
             Convert PNG to JPEG when you need a smaller image file for sharing,
             publishing, or general web use.
@@ -278,7 +278,7 @@ export default function PngToJpegSeoContent() {
           When Should You Keep PNG Instead?
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>Keep PNG when you need a transparent background.</li>
           <li>
             Keep PNG when preserving lossless image data is important.
@@ -306,42 +306,42 @@ export default function PngToJpegSeoContent() {
           PNG vs JPEG: Which Format Should You Use?
         </h2>
 
-        <div className="mt-4 overflow-x-auto rounded-2xl border border-white/10">
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-border">
           <table className="w-full min-w-[600px] text-left text-sm">
-            <thead className="bg-white/5">
+            <thead className="bg-card">
               <tr>
-                <th className="px-4 py-3 font-semibold text-white">
+                <th className="px-4 py-3 font-semibold text-foreground">
                   Feature
                 </th>
-                <th className="px-4 py-3 font-semibold text-white">
+                <th className="px-4 py-3 font-semibold text-foreground">
                   PNG
                 </th>
-                <th className="px-4 py-3 font-semibold text-white">
+                <th className="px-4 py-3 font-semibold text-foreground">
                   JPEG
                 </th>
               </tr>
             </thead>
 
-            <tbody className="text-white/70">
-              <tr className="border-t border-white/10">
+            <tbody className="text-foreground-secondary">
+              <tr className="border-t border-border">
                 <td className="px-4 py-3">Compression</td>
                 <td className="px-4 py-3">Lossless</td>
                 <td className="px-4 py-3">Lossy</td>
               </tr>
 
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-4 py-3">Transparency</td>
                 <td className="px-4 py-3">Supported</td>
                 <td className="px-4 py-3">Not supported</td>
               </tr>
 
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-4 py-3">Photographs</td>
                 <td className="px-4 py-3">Good</td>
                 <td className="px-4 py-3">Excellent</td>
               </tr>
 
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-4 py-3">Sharp graphics</td>
                 <td className="px-4 py-3">Excellent</td>
                 <td className="px-4 py-3">
@@ -349,7 +349,7 @@ export default function PngToJpegSeoContent() {
                 </td>
               </tr>
 
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-4 py-3">Typical file size</td>
                 <td className="px-4 py-3">Often larger</td>
                 <td className="px-4 py-3">
@@ -370,7 +370,7 @@ export default function PngToJpegSeoContent() {
           What Happens to Transparency When PNG Is Converted to JPEG?
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           JPEG does not support transparent pixels. If the original PNG has a
           transparent background, converting it to JPEG replaces that
           transparency with a solid background color. For transparent logos,
@@ -387,7 +387,7 @@ export default function PngToJpegSeoContent() {
           Common PNG to JPEG Use Cases
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>
             Convert PNG photographs to JPEG for smaller files and easier
             sharing.
@@ -419,7 +419,7 @@ export default function PngToJpegSeoContent() {
           How This PNG to JPEG Converter Works
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The converter is designed to keep the process simple, fast, and easy
           to understand.
         </p>
@@ -428,7 +428,7 @@ export default function PngToJpegSeoContent() {
           {howToSteps.map((step, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4"
+              className="rounded-2xl border border-border bg-card p-4"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -438,11 +438,11 @@ export default function PngToJpegSeoContent() {
                 <span className="text-2xl">{step.icon}</span>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {step.title}
                   </p>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -461,7 +461,7 @@ export default function PngToJpegSeoContent() {
           Why Use This PNG to JPEG Converter?
         </h2>
 
-        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-white/70 sm:text-base">
+        <ul className="mt-3 space-y-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           <li>Convert PNG files directly in your browser.</li>
           <li>
             No desktop image-conversion software is required.
@@ -482,7 +482,7 @@ export default function PngToJpegSeoContent() {
       {/* Core Features */}
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="features-heading"
@@ -495,17 +495,17 @@ export default function PngToJpegSeoContent() {
           {coreFeatures.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -528,17 +528,17 @@ export default function PngToJpegSeoContent() {
           {audiences.map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -557,13 +557,13 @@ export default function PngToJpegSeoContent() {
           Privacy and Browser-Based Processing
         </h2>
 
-        <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+        <p className="mt-3 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The PNG to JPEG conversion runs directly in your browser, so the
           image can be processed locally on your device without being uploaded
           to a conversion server. No account is required to use the converter.
         </p>
 
-        <p className="mt-2 text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           If analytics or error monitoring are enabled on the site, they should
           not include the contents of your image files.
         </p>
@@ -582,14 +582,14 @@ export default function PngToJpegSeoContent() {
           {faqItems.map((item, i) => (
             <details
               key={i}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-relaxed text-white/65">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-relaxed text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

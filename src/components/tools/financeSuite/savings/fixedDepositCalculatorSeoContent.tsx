@@ -92,7 +92,7 @@ export default function FixedDepositCalculatorSeoContent() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 p-4 text-white">
+    <div className="mx-auto max-w-6xl space-y-8 p-4 text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -107,13 +107,13 @@ export default function FixedDepositCalculatorSeoContent() {
         <h2 id="fd-intro" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Fixed Deposit Calculator for Maturity Value and Interest
         </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Calculate fixed deposit maturity value and estimated interest earned from a
           lump-sum investment. Enter your deposit amount, annual interest rate, tenure,
           and compounding assumption to estimate how much your FD may be worth at
           maturity.
         </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This FD calculator is useful for comparing different deposit amounts, interest
           rates, and investment periods before making a fixed-deposit decision. Results
           are estimates and should be checked against the actual terms provided by your
@@ -134,12 +134,12 @@ export default function FixedDepositCalculatorSeoContent() {
             { title: "Calculation Breakdown", desc: "Review the principal, projected interest, and maturity value together.", icon: "🧮" },
             { title: "Mobile Friendly", desc: "Calculate FD returns from phones, tablets, laptops, or desktop browsers.", icon: "📱" },
           ].map((item) => (
-            <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-3">
                 <span className="text-2xl" aria-hidden="true">{item.icon}</span>
                 <div>
                   <h3 className="text-sm font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{item.desc}</p>
                 </div>
               </div>
             </div>
@@ -159,14 +159,14 @@ export default function FixedDepositCalculatorSeoContent() {
             { title: "Select the compounding frequency", desc: "Choose annual, semi-annual, quarterly, or monthly compounding to match your scenario." },
             { title: "Review maturity and interest", desc: "Check the estimated maturity value, principal, and total interest earned." },
           ].map((step, index) => (
-            <div key={step.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={step.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-4">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {index + 1}
                 </span>
                 <div>
                   <h3 className="text-sm font-semibold">{step.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{step.desc}</p>
                 </div>
               </div>
             </div>
@@ -190,21 +190,21 @@ export default function FixedDepositCalculatorSeoContent() {
         <h2 id="fd-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           FD Calculation Formula
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             A commonly used compound-interest model for a fixed deposit is:
           </p>
-          <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
+          <p className="my-4 rounded-xl bg-surface-sunken p-4 text-center text-base font-semibold text-foreground">
             A = P(1 + r/n)^(nt)
           </p>
-          <div className="space-y-2 text-sm text-white/65">
-            <p><strong className="text-white">A</strong> = maturity value</p>
-            <p><strong className="text-white">P</strong> = principal or deposit amount</p>
-            <p><strong className="text-white">r</strong> = annual interest rate expressed as a decimal</p>
-            <p><strong className="text-white">n</strong> = number of compounding periods per year</p>
-            <p><strong className="text-white">t</strong> = tenure in years</p>
+          <div className="space-y-2 text-sm text-foreground-secondary">
+            <p><strong className="text-foreground">A</strong> = maturity value</p>
+            <p><strong className="text-foreground">P</strong> = principal or deposit amount</p>
+            <p><strong className="text-foreground">r</strong> = annual interest rate expressed as a decimal</p>
+            <p><strong className="text-foreground">n</strong> = number of compounding periods per year</p>
+            <p><strong className="text-foreground">t</strong> = tenure in years</p>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/55">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             Actual bank FD calculations can use institution-specific conventions,
             compounding rules, payout structures, and rounding. Use the bank's official
             maturity amount for final investment decisions.
@@ -216,28 +216,28 @@ export default function FixedDepositCalculatorSeoContent() {
         <h2 id="fd-example" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           FD Calculator Example
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             Suppose you deposit ₹1,00,000 at an annual rate of 7.5% for five years with
             quarterly compounding. Using A = P(1 + r/n)^(nt) with P = 1,00,000, r = 0.075,
             n = 4, and t = 5, the estimated maturity value works out to approximately
             ₹1,44,995 — around ₹44,995 in interest.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Deposit</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Deposit</div>
               <div className="mt-1 font-semibold">₹1,00,000</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Rate</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Rate</div>
               <div className="mt-1 font-semibold">7.5% p.a., quarterly</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Tenure</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Tenure</div>
               <div className="mt-1 font-semibold">5 years</div>
             </div>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/50">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             This is an illustrative mathematical example, not a guaranteed bank maturity
             amount. It matches the calculator's default values above, so you can verify
             it yourself.
@@ -249,13 +249,13 @@ export default function FixedDepositCalculatorSeoContent() {
         <h2 id="fd-factors" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Factors That Affect FD Returns
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-            <li>• <strong className="text-white">Deposit amount:</strong> A larger principal generally produces more interest when the rate and tenure remain unchanged.</li>
-            <li>• <strong className="text-white">Interest rate:</strong> A higher applicable rate generally increases the projected maturity value.</li>
-            <li>• <strong className="text-white">Tenure:</strong> More time allows interest to accumulate for longer.</li>
-            <li>• <strong className="text-white">Compounding frequency:</strong> More frequent compounding modestly increases the calculated result for the same nominal rate.</li>
-            <li>• <strong className="text-white">Product terms:</strong> Actual bank maturity can depend on payout structure, premature withdrawal rules, rounding, and tax.</li>
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
+            <li>• <strong className="text-foreground">Deposit amount:</strong> A larger principal generally produces more interest when the rate and tenure remain unchanged.</li>
+            <li>• <strong className="text-foreground">Interest rate:</strong> A higher applicable rate generally increases the projected maturity value.</li>
+            <li>• <strong className="text-foreground">Tenure:</strong> More time allows interest to accumulate for longer.</li>
+            <li>• <strong className="text-foreground">Compounding frequency:</strong> More frequent compounding modestly increases the calculated result for the same nominal rate.</li>
+            <li>• <strong className="text-foreground">Product terms:</strong> Actual bank maturity can depend on payout structure, premature withdrawal rules, rounding, and tax.</li>
           </ul>
         </div>
       </section>
@@ -264,8 +264,8 @@ export default function FixedDepositCalculatorSeoContent() {
         <h2 id="fd-usecases" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           When to Use an FD Calculator
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <ul className="grid gap-3 text-sm text-white/65 sm:grid-cols-2">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <ul className="grid gap-3 text-sm text-foreground-secondary sm:grid-cols-2">
             <li>• Comparing different FD interest rates</li>
             <li>• Estimating maturity before investing</li>
             <li>• Planning a lump-sum savings goal</li>

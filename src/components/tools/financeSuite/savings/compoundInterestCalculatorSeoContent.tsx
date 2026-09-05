@@ -84,7 +84,7 @@ export default function CompoundInterestCalculatorSeoContent() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 p-4 text-white">
+    <div className="mx-auto max-w-6xl space-y-8 p-4 text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -99,12 +99,12 @@ export default function CompoundInterestCalculatorSeoContent() {
         <h2 id="ci-intro" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Compound Interest Calculator for Growth Projections
         </h2>
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Calculate how an investment grows with compound interest. Enter your principal,
           annual interest rate, compounding frequency, and duration to see the projected
           maturity value and total interest earned.
         </p>
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This calculator is useful for comparing how different compounding frequencies —
           annual, semi-annual, quarterly, or monthly — affect long-term growth. Results
           are estimates and should be checked against the actual terms of your investment
@@ -125,12 +125,12 @@ export default function CompoundInterestCalculatorSeoContent() {
             { title: "Calculation Breakdown", desc: "Review the principal, projected interest, and maturity value together.", icon: "🧮" },
             { title: "Mobile Friendly", desc: "Calculate compound interest from phones, tablets, laptops, or desktop browsers.", icon: "📱" },
           ].map((item) => (
-            <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-3">
                 <span className="text-2xl" aria-hidden="true">{item.icon}</span>
                 <div>
                   <h3 className="text-sm font-semibold">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{item.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{item.desc}</p>
                 </div>
               </div>
             </div>
@@ -150,14 +150,14 @@ export default function CompoundInterestCalculatorSeoContent() {
             { title: "Select the compounding frequency", desc: "Choose annual, semi-annual, quarterly, or monthly compounding." },
             { title: "Review maturity and interest", desc: "Check the estimated maturity value and total compound interest earned." },
           ].map((step, index) => (
-            <div key={step.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div key={step.title} className="rounded-2xl border border-border bg-card p-5">
               <div className="flex gap-4">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
                   {index + 1}
                 </span>
                 <div>
                   <h3 className="text-sm font-semibold">{step.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-white/60">{step.desc}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-foreground-secondary">{step.desc}</p>
                 </div>
               </div>
             </div>
@@ -181,21 +181,21 @@ export default function CompoundInterestCalculatorSeoContent() {
         <h2 id="ci-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Compound Interest Calculation Formula
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             The standard compound-interest formula is:
           </p>
-          <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
+          <p className="my-4 rounded-xl bg-surface-sunken p-4 text-center text-base font-semibold text-foreground">
             A = P(1 + r/n)^(nt)
           </p>
-          <div className="space-y-2 text-sm text-white/65">
-            <p><strong className="text-white">A</strong> = maturity value</p>
-            <p><strong className="text-white">P</strong> = principal amount</p>
-            <p><strong className="text-white">r</strong> = annual interest rate expressed as a decimal</p>
-            <p><strong className="text-white">n</strong> = number of compounding periods per year</p>
-            <p><strong className="text-white">t</strong> = time in years</p>
+          <div className="space-y-2 text-sm text-foreground-secondary">
+            <p><strong className="text-foreground">A</strong> = maturity value</p>
+            <p><strong className="text-foreground">P</strong> = principal amount</p>
+            <p><strong className="text-foreground">r</strong> = annual interest rate expressed as a decimal</p>
+            <p><strong className="text-foreground">n</strong> = number of compounding periods per year</p>
+            <p><strong className="text-foreground">t</strong> = time in years</p>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/55">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             Interest earned is the maturity value minus the principal: Interest = A − P.
             Actual financial products may use institution-specific conventions.
           </p>
@@ -206,28 +206,28 @@ export default function CompoundInterestCalculatorSeoContent() {
         <h2 id="ci-example" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Compound Interest Calculator Example
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-relaxed text-white/65">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-relaxed text-foreground-secondary">
             Suppose you invest ₹1,00,000 at an annual rate of 8% for five years with
             quarterly compounding. Using A = P(1 + r/n)^(nt) with P = 1,00,000, r = 0.08,
             n = 4, and t = 5, the estimated maturity value works out to approximately
             ₹1,48,595 — around ₹48,595 in compound interest.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Principal</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Principal</div>
               <div className="mt-1 font-semibold">₹1,00,000</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Rate</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Rate</div>
               <div className="mt-1 font-semibold">8% p.a., quarterly</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-4">
-              <div className="text-xs text-white/50">Duration</div>
+            <div className="rounded-xl bg-card p-4">
+              <div className="text-xs text-foreground-faint">Duration</div>
               <div className="mt-1 font-semibold">5 years</div>
             </div>
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-white/50">
+          <p className="mt-4 text-xs leading-relaxed text-foreground-faint">
             This example matches the calculator's default values above, so you can verify
             it yourself.
           </p>
@@ -238,12 +238,12 @@ export default function CompoundInterestCalculatorSeoContent() {
         <h2 id="ci-factors" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           Factors That Affect Compound Growth
         </h2>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <ul className="space-y-3 text-sm leading-relaxed text-white/65">
-            <li>• <strong className="text-white">Principal amount:</strong> A larger starting amount produces proportionally more interest.</li>
-            <li>• <strong className="text-white">Interest rate:</strong> A higher rate compounds faster and increases the maturity value.</li>
-            <li>• <strong className="text-white">Compounding frequency:</strong> More frequent compounding modestly increases the calculated result for the same nominal rate.</li>
-            <li>• <strong className="text-white">Duration:</strong> Longer periods let compounding accelerate growth more noticeably.</li>
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
+            <li>• <strong className="text-foreground">Principal amount:</strong> A larger starting amount produces proportionally more interest.</li>
+            <li>• <strong className="text-foreground">Interest rate:</strong> A higher rate compounds faster and increases the maturity value.</li>
+            <li>• <strong className="text-foreground">Compounding frequency:</strong> More frequent compounding modestly increases the calculated result for the same nominal rate.</li>
+            <li>• <strong className="text-foreground">Duration:</strong> Longer periods let compounding accelerate growth more noticeably.</li>
           </ul>
         </div>
       </section>

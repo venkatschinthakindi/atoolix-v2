@@ -103,7 +103,7 @@ function BreadcrumbSchema() {
 
 export default function LumpsumCalculatorSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-white">
+    <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 text-foreground">
       <BreadcrumbSchema />
 
       <section

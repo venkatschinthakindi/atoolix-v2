@@ -490,7 +490,7 @@ const jsonLdGraph = {
 
 export default function PassportPhotoResizerSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-7 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-7">
+    <div className="mx-auto max-w-6xl space-y-7 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-7">
       <JsonLd data={softwareApplicationJsonLd} />
       <JsonLd data={faqJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
@@ -503,7 +503,7 @@ export default function PassportPhotoResizerSeoContent() {
         aria-labelledby="intro-heading"
         className="space-y-3"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           Free Passport, Visa & ID Photo Resizer
         </p>
 
@@ -514,7 +514,7 @@ export default function PassportPhotoResizerSeoContent() {
           Passport Photo Resizer Online – Resize Photos to Custom Dimensions
         </h1>
 
-        <p className="text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Resize passport, visa, ID, and application photos online with custom
           width and height controls. Enter the exact dimensions required by
           your destination, maintain the original aspect ratio when appropriate,
@@ -522,7 +522,7 @@ export default function PassportPhotoResizerSeoContent() {
           application specifies a KB or MB limit.
         </p>
 
-        <p className="text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           There is no single universal digital passport-photo size. Requirements
           can vary by country, passport or visa type, issuing authority, and
           application system. Instead of assuming one fixed size, this tool lets
@@ -530,7 +530,7 @@ export default function PassportPhotoResizerSeoContent() {
           authority or application you are submitting to.
         </p>
 
-        <p className="text-sm leading-7 text-white/65 sm:text-[0.95rem]">
+        <p className="text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           The same resizing workflow can also be used for ordinary profile
           pictures, job applications, student portals, document uploads, and
           other situations where an image needs specific dimensions or a
@@ -543,7 +543,7 @@ export default function PassportPhotoResizerSeoContent() {
       ========================================================= */}
       <section
         aria-labelledby="requirements-heading"
-        className="rounded-2xl border border-amber-300/15 bg-amber-300/5 p-4 sm:p-6"
+        className="rounded-2xl border border-amber-300 dark:border-amber-300/15 bg-amber-100 dark:bg-amber-300/5 p-4 sm:p-6"
       >
         <SectionHeading
           id="requirements-heading"
@@ -555,14 +555,14 @@ export default function PassportPhotoResizerSeoContent() {
           {requirementChecklist.map((item) => (
             <div
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-3 text-sm text-white/80"
+              className="rounded-xl border border-border bg-card p-3 text-sm text-foreground"
             >
               {item}
             </div>
           ))}
         </div>
 
-        <p className="mt-4 text-xs leading-6 text-white/55">
+        <p className="mt-4 text-xs leading-6 text-foreground-faint">
           Resizing changes the image file. It does not independently verify
           country-specific requirements such as background color, facial
           positioning, head size, expression, lighting, glasses, clothing, or
@@ -604,13 +604,13 @@ export default function PassportPhotoResizerSeoContent() {
           ].map(([title, desc]) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -635,7 +635,7 @@ export default function PassportPhotoResizerSeoContent() {
           {photoTypes.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -650,7 +650,7 @@ export default function PassportPhotoResizerSeoContent() {
                     {item.title}
                   </h3>
 
-                  <p className="mt-1.5 text-sm leading-6 text-white/70">
+                  <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -677,7 +677,7 @@ export default function PassportPhotoResizerSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
@@ -696,7 +696,7 @@ export default function PassportPhotoResizerSeoContent() {
                 {step.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {step.desc}
               </p>
             </article>
@@ -721,7 +721,7 @@ export default function PassportPhotoResizerSeoContent() {
           {resizeMethods.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -736,7 +736,7 @@ export default function PassportPhotoResizerSeoContent() {
                     {item.title}
                   </h3>
 
-                  <p className="mt-1.5 text-sm leading-6 text-white/70">
+                  <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -763,14 +763,14 @@ export default function PassportPhotoResizerSeoContent() {
           {commonDimensions.map((size) => (
             <div
               key={size}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm text-white/80"
+              className="rounded-xl border border-border bg-card p-4 text-center text-sm text-foreground"
             >
               {size}
             </div>
           ))}
         </div>
 
-        <p className="text-xs leading-6 text-white/50">
+        <p className="text-xs leading-6 text-foreground-faint">
           Do not assume one of these example dimensions is valid for your
           application. Use the exact dimensions supplied by the relevant
           authority or application portal.
@@ -794,19 +794,19 @@ export default function PassportPhotoResizerSeoContent() {
           {aspectRatios.map((item) => (
             <article
               key={item.ratio}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold">
                   {item.ratio}
                 </h3>
 
-                <code className="rounded bg-white/10 px-2 py-1 text-xs text-white/70">
+                <code className="rounded bg-surface-raised px-2 py-1 text-xs text-foreground-secondary">
                   {item.ratio}
                 </code>
               </div>
 
-              <p className="mt-2 text-sm leading-6 text-white/70">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 {item.use}
               </p>
             </article>
@@ -827,7 +827,7 @@ export default function PassportPhotoResizerSeoContent() {
           description="Some application portals specify a maximum or target file size in KB or MB in addition to image dimensions."
         />
 
-        <p className="text-sm leading-7 text-white/70">
+        <p className="text-sm leading-7 text-foreground-secondary">
           Image dimensions and file size are different properties. Reducing
           pixel dimensions can often reduce file size, while image quality and
           encoding settings can provide additional control. If the tool's
@@ -839,14 +839,14 @@ export default function PassportPhotoResizerSeoContent() {
           {commonFileSizes.map((size) => (
             <div
               key={size}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-center text-sm"
             >
               {size}
             </div>
           ))}
         </div>
 
-        <p className="text-xs leading-6 text-white/50">
+        <p className="text-xs leading-6 text-foreground-faint">
           A target file size should be treated as a target or limit, not as a
           guarantee of an exact byte-for-byte output unless the application
           explicitly provides such functionality.
@@ -867,12 +867,12 @@ export default function PassportPhotoResizerSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-2">
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Width and Height
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Width and height describe the image's pixel dimensions. For
               example, an image can be 600 pixels wide and 800 pixels high.
               Changing these values changes the resolution and physical pixel
@@ -880,12 +880,12 @@ export default function PassportPhotoResizerSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               KB and MB
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               KB and MB describe the amount of data stored in the image file.
               An application can require both exact dimensions and a maximum
               file size, so you may need to adjust dimensions and quality
@@ -900,7 +900,7 @@ export default function PassportPhotoResizerSeoContent() {
       ========================================================= */}
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 sm:p-6"
       >
         <SectionHeading
           id="features-heading"
@@ -912,7 +912,7 @@ export default function PassportPhotoResizerSeoContent() {
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div
                 className="text-xl"
@@ -925,7 +925,7 @@ export default function PassportPhotoResizerSeoContent() {
                 {feature.title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {feature.desc}
               </p>
             </article>
@@ -946,10 +946,10 @@ export default function PassportPhotoResizerSeoContent() {
           description="Use a format accepted by both this tool and the destination application."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-xs sm:text-sm">
-              <thead className="bg-white/10">
+              <thead className="bg-surface-raised">
                 <tr>
                   <th className="px-3 py-2.5 font-semibold sm:px-4">
                     Format
@@ -969,17 +969,17 @@ export default function PassportPhotoResizerSeoContent() {
                 {supportedFormats.map((item) => (
                   <tr
                     key={item.format}
-                    className="border-t border-white/10"
+                    className="border-t border-border"
                   >
                     <td className="px-3 py-2.5 font-medium sm:px-4">
                       {item.format}
                     </td>
 
-                    <td className="px-3 py-2.5 text-white/75 sm:px-4">
+                    <td className="px-3 py-2.5 text-foreground-secondary sm:px-4">
                       {item.bestFor}
                     </td>
 
-                    <td className="px-3 py-2.5 text-white/75 sm:px-4">
+                    <td className="px-3 py-2.5 text-foreground-secondary sm:px-4">
                       {item.transparency}
                     </td>
                   </tr>
@@ -1020,9 +1020,9 @@ export default function PassportPhotoResizerSeoContent() {
           ].map(([title, desc], index) => (
             <article
               key={title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
-              <div className="text-xs font-semibold text-white/40">
+              <div className="text-xs font-semibold text-foreground-faint">
                 STEP {index + 1}
               </div>
 
@@ -1030,7 +1030,7 @@ export default function PassportPhotoResizerSeoContent() {
                 {title}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {desc}
               </p>
             </article>
@@ -1043,7 +1043,7 @@ export default function PassportPhotoResizerSeoContent() {
       ========================================================= */}
       <section
         aria-labelledby="verification-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 sm:p-6"
       >
         <SectionHeading
           id="verification-heading"
@@ -1051,7 +1051,7 @@ export default function PassportPhotoResizerSeoContent() {
           description="Photo specifications can change and may differ between countries, documents, and application systems."
         />
 
-        <div className="mt-4 space-y-3 text-sm leading-7 text-white/70">
+        <div className="mt-4 space-y-3 text-sm leading-7 text-foreground-secondary">
           <p>
             Before submitting your resized photo, check the current instructions
             provided by the authority or application receiving it. Pay attention
@@ -1086,7 +1086,7 @@ export default function PassportPhotoResizerSeoContent() {
           {commonUses.map((item) => (
             <li
               key={item}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/80"
+              className="rounded-xl border border-border bg-card p-4 text-sm text-foreground"
             >
               {item}
             </li>
@@ -1111,7 +1111,7 @@ export default function PassportPhotoResizerSeoContent() {
           {audiences.map((item) => (
             <article
               key={item.title}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -1126,7 +1126,7 @@ export default function PassportPhotoResizerSeoContent() {
                     {item.title}
                   </h3>
 
-                  <p className="mt-1.5 text-sm leading-6 text-white/70">
+                  <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -1150,23 +1150,23 @@ export default function PassportPhotoResizerSeoContent() {
         />
 
         <div className="grid gap-3 md:grid-cols-2">
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Resize for Websites and Profiles
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Set custom dimensions for website images, profile pictures,
               thumbnails, blog images, and other digital content.
             </p>
           </article>
 
-          <article className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <article className="rounded-xl border border-border bg-card p-4">
             <h3 className="text-sm font-semibold">
               Resize for Uploads and Documents
             </h3>
 
-            <p className="mt-1.5 text-sm leading-6 text-white/70">
+            <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
               Reduce dimensions or file size when an online form, document
               system, portal, or sharing service imposes an upload limit.
             </p>
@@ -1187,7 +1187,7 @@ export default function PassportPhotoResizerSeoContent() {
           description="A convenient workflow for resizing images without requiring desktop photo-editing software."
         />
 
-        <p className="text-sm leading-7 text-white/70">
+        <p className="text-sm leading-7 text-foreground-secondary">
           When image processing is performed locally in your browser, the
           selected photo can be handled directly on your device rather than
           being uploaded to a remote image-processing server. This can be useful
@@ -1195,7 +1195,7 @@ export default function PassportPhotoResizerSeoContent() {
           and screenshots.
         </p>
 
-        <p className="text-xs leading-6 text-white/50">
+        <p className="text-xs leading-6 text-foreground-faint">
           Processing behavior depends on the current implementation of the
           tool. Do not use the privacy statement as a substitute for the site's
           current privacy policy or technical documentation.
@@ -1219,14 +1219,14 @@ export default function PassportPhotoResizerSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
               <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>

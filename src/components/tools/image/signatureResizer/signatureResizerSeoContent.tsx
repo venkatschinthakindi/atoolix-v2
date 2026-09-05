@@ -361,7 +361,7 @@ const breadcrumbJsonLd = {
 
 export default function SignatureResizerSeoContent() {
   return (
-    <div className="mx-auto max-w-6xl space-y-7 px-3 py-4 text-white sm:px-4 sm:py-5 lg:px-5 lg:py-6">
+    <div className="mx-auto max-w-6xl space-y-7 px-3 py-4 text-foreground sm:px-4 sm:py-5 lg:px-5 lg:py-6">
 
       {/* Structured Data */}
       <JsonLd data={softwareApplicationJsonLd} />
@@ -376,7 +376,7 @@ export default function SignatureResizerSeoContent() {
         aria-labelledby="intro-heading"
         className="space-y-4"
       >
-        <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-white/70">
+        <p className="inline-flex rounded-full border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground-secondary">
           Free Browser-Based Signature Resizer
         </p>
 
@@ -387,15 +387,15 @@ export default function SignatureResizerSeoContent() {
           Free Signature Resizer Online – Resize to Exact Width, Height & File Size
         </h2>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/75 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           Resize a signature image online with precise control over
-          <strong className="text-white"> width, height, aspect ratio, and target file size</strong>.
+          <strong className="text-foreground"> width, height, aspect ratio, and target file size</strong>.
           Upload a JPG, JPEG, PNG, or WebP signature, crop unnecessary whitespace,
           set exact pixel dimensions, lock the aspect ratio when needed, and
           target a specific file size in KB or MB.
         </p>
 
-        <p className="max-w-4xl text-sm leading-7 text-white/65 sm:text-[0.95rem]">
+        <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
           This signature resizer is useful when an exam application, government
           form, job portal, admission form, registration page, or document
           upload requires a signature with specific dimensions or a maximum
@@ -421,7 +421,7 @@ export default function SignatureResizerSeoContent() {
           {resizeControls.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl" aria-hidden="true">
@@ -429,15 +429,15 @@ export default function SignatureResizerSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-6 text-white/65">
+                  <p className="mt-1 text-xs leading-6 text-foreground-secondary">
                     {item.desc}
                   </p>
 
-                  <p className="mt-2 rounded-lg bg-white/5 px-2 py-1 text-[11px] text-white/50">
+                  <p className="mt-2 rounded-lg bg-card px-2 py-1 text-[11px] text-foreground-faint">
                     {item.example}
                   </p>
                 </div>
@@ -461,14 +461,14 @@ export default function SignatureResizerSeoContent() {
           description="Use target-size control when an upload form limits the signature by KB or MB."
         />
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6">
+        <div className="rounded-2xl border border-border bg-card p-5 sm:p-6">
           <div className="grid gap-5 md:grid-cols-3">
             <div>
               <h3 className="text-sm font-semibold">
                 Target Size in KB
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-white/65">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 Useful for applications that specify small image limits such
                 as 20 KB, 50 KB, 100 KB, or another custom KB requirement.
               </p>
@@ -479,7 +479,7 @@ export default function SignatureResizerSeoContent() {
                 Target Size in MB
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-white/65">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 Useful when an upload form permits a larger image and provides
                 its limit in megabytes.
               </p>
@@ -490,7 +490,7 @@ export default function SignatureResizerSeoContent() {
                 Combine Size & Dimensions
               </h3>
 
-              <p className="mt-2 text-sm leading-6 text-white/65">
+              <p className="mt-2 text-sm leading-6 text-foreground-secondary">
                 Set the required width and height while also working toward
                 the required target file size.
               </p>
@@ -514,12 +514,12 @@ export default function SignatureResizerSeoContent() {
         />
 
         <div className="grid gap-4 md:grid-cols-2">
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Lock Aspect Ratio
             </h3>
 
-            <p className="mt-2 text-sm leading-7 text-white/65">
+            <p className="mt-2 text-sm leading-7 text-foreground-secondary">
               Enable the aspect-ratio lock when you want the signature to
               maintain its original proportions while resizing. Changing one
               dimension can automatically preserve the relationship between
@@ -527,12 +527,12 @@ export default function SignatureResizerSeoContent() {
             </p>
           </article>
 
-          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+          <article className="rounded-2xl border border-border bg-card p-5">
             <h3 className="text-sm font-semibold">
               Independent Width & Height
             </h3>
 
-            <p className="mt-2 text-sm leading-7 text-white/65">
+            <p className="mt-2 text-sm leading-7 text-foreground-secondary">
               Disable the lock when an application requires exact independent
               width and height values. This gives you direct control over both
               output dimensions.
@@ -559,13 +559,13 @@ export default function SignatureResizerSeoContent() {
           {portalCards.map((item) => (
             <article
               key={item.portal}
-              className="rounded-xl border border-white/10 bg-white/5 p-4"
+              className="rounded-xl border border-border bg-card p-4"
             >
               <h3 className="text-sm font-semibold sm:text-[0.95rem]">
                 {item.portal}
               </h3>
 
-              <p className="mt-1.5 text-sm leading-6 text-white/70">
+              <p className="mt-1.5 text-sm leading-6 text-foreground-secondary">
                 {item.note}
               </p>
             </article>
@@ -591,14 +591,14 @@ export default function SignatureResizerSeoContent() {
           {popularSizes.map((size) => (
             <div
               key={size}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-center text-sm"
+              className="rounded-xl border border-border bg-card p-4 text-center text-sm"
             >
               {size}
             </div>
           ))}
         </div>
 
-        <p className="text-xs leading-6 text-white/50">
+        <p className="text-xs leading-6 text-foreground-faint">
           Application requirements vary. Always follow the current dimensions
           and file-size instructions shown by the website where you are
           uploading the signature.
@@ -623,7 +623,7 @@ export default function SignatureResizerSeoContent() {
           {howToSteps.map((step, index) => (
             <article
               key={step.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30"
             >
               <div className="flex items-start gap-3">
                 <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-black">
@@ -638,11 +638,11 @@ export default function SignatureResizerSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {step.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-6 text-white/60">
+                  <p className="mt-1 text-xs leading-6 text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -658,7 +658,7 @@ export default function SignatureResizerSeoContent() {
 
       <section
         aria-labelledby="features-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6"
+        className="rounded-2xl border border-border bg-card p-4 sm:p-6"
       >
         <SectionHeading
           id="features-heading"
@@ -670,7 +670,7 @@ export default function SignatureResizerSeoContent() {
           {coreFeatures.map((item) => (
             <article
               key={item.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-4 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -681,11 +681,11 @@ export default function SignatureResizerSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-xs leading-6 text-white/60">
+                  <p className="mt-1 text-xs leading-6 text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -709,9 +709,9 @@ export default function SignatureResizerSeoContent() {
           description="Choose a supported image format that matches the upload requirement."
         />
 
-        <div className="overflow-hidden rounded-2xl border border-white/10">
+        <div className="overflow-hidden rounded-2xl border border-border">
           <table className="min-w-full text-left text-xs sm:text-sm">
-            <thead className="bg-white/10">
+            <thead className="bg-surface-raised">
               <tr>
                 <th className="px-3 py-3 font-semibold sm:px-4">
                   Format
@@ -724,38 +724,38 @@ export default function SignatureResizerSeoContent() {
             </thead>
 
             <tbody>
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-3 py-3 sm:px-4">
                   JPG
                 </td>
-                <td className="px-3 py-3 text-white/65 sm:px-4">
+                <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                   Common form and application uploads
                 </td>
               </tr>
 
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-3 py-3 sm:px-4">
                   JPEG
                 </td>
-                <td className="px-3 py-3 text-white/65 sm:px-4">
+                <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                   Common scanned signature images
                 </td>
               </tr>
 
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-3 py-3 sm:px-4">
                   PNG
                 </td>
-                <td className="px-3 py-3 text-white/65 sm:px-4">
+                <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                   Clean source images and graphics
                 </td>
               </tr>
 
-              <tr className="border-t border-white/10">
+              <tr className="border-t border-border">
                 <td className="px-3 py-3 sm:px-4">
                   WebP
                 </td>
-                <td className="px-3 py-3 text-white/65 sm:px-4">
+                <td className="px-3 py-3 text-foreground-secondary sm:px-4">
                   Modern image workflows where supported
                 </td>
               </tr>
@@ -778,8 +778,8 @@ export default function SignatureResizerSeoContent() {
           description="Keep sensitive signature images under your control."
         />
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm leading-7 text-white/70">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-sm leading-7 text-foreground-secondary">
             Signature images can contain information users may not want to
             distribute unnecessarily. Browser-based processing can allow the
             image to be resized directly on the user's device without requiring
@@ -787,7 +787,7 @@ export default function SignatureResizerSeoContent() {
             server.
           </p>
 
-          <p className="mt-3 text-sm leading-7 text-white/60">
+          <p className="mt-3 text-sm leading-7 text-foreground-secondary">
             No account is required to use the tool. Users should still review
             the privacy and upload requirements of any third-party website
             where the final signature is submitted.
@@ -813,7 +813,7 @@ export default function SignatureResizerSeoContent() {
           {tips.map((tip) => (
             <li
               key={tip}
-              className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-white/75"
+              className="rounded-xl border border-border bg-card p-4 text-sm leading-6 text-foreground-secondary"
             >
               {tip}
             </li>
@@ -839,14 +839,14 @@ export default function SignatureResizerSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.q}
-              className="overflow-hidden rounded-xl border border-white/10 bg-white/5"
+              className="overflow-hidden rounded-xl border border-border bg-card"
             >
-              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-white">
+              <summary className="cursor-pointer list-none px-4 py-4 text-sm font-semibold text-foreground">
                 {item.q}
               </summary>
 
-              <div className="border-t border-white/10 px-4 py-4">
-                <p className="text-sm leading-6 text-white/70">
+              <div className="border-t border-border px-4 py-4">
+                <p className="text-sm leading-6 text-foreground-secondary">
                   {item.a}
                 </p>
               </div>
@@ -867,7 +867,7 @@ export default function SignatureResizerSeoContent() {
 
       <section
         aria-labelledby="cta-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 sm:p-6"
+        className="rounded-2xl border border-border bg-card p-5 sm:p-6"
       >
         <h2
           id="cta-heading"
@@ -876,7 +876,7 @@ export default function SignatureResizerSeoContent() {
           Create a Form-Ready Signature
         </h2>
 
-        <p className="mt-2 max-w-4xl text-sm leading-7 text-white/70">
+        <p className="mt-2 max-w-4xl text-sm leading-7 text-foreground-secondary">
           Set the exact width and height, lock the aspect ratio when needed,
           choose a target file size in KB or MB, crop unnecessary whitespace,
           preview the result, and download a signature prepared for your

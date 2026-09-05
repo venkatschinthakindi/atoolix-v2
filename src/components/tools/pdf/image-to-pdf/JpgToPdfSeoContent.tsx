@@ -194,7 +194,7 @@ export default function JpgToPdfSeoContent() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-5 p-4 text-white sm:space-y-6 sm:p-5 lg:space-y-7 lg:p-6">
+    <div className="mx-auto max-w-6xl space-y-5 p-4 text-foreground sm:space-y-6 sm:p-5 lg:space-y-7 lg:p-6">
       {/* Introduction */}
       <section aria-labelledby="intro-heading">
         <div className="flex gap-3">
@@ -204,20 +204,20 @@ export default function JpgToPdfSeoContent() {
 
           <h2
             id="intro-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             JPG to PDF Converter – Convert JPG & JPEG Images to PDF Online
           </h2>
         </div>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Convert JPG and JPEG images to PDF online with a fast, browser-based
           JPG to PDF converter. Add multiple images, arrange them in the order
           you want, choose supported page settings, preview the result, and
           download the finished PDF.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The tool is designed for common tasks such as combining scanned
           pages, screenshots, receipts, assignments, forms, and photos into a
           single PDF. The responsive interface works across desktop, tablet,
@@ -234,19 +234,19 @@ export default function JpgToPdfSeoContent() {
 
           <h2
             id="what-is-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             What Is a JPG to PDF Converter?
           </h2>
         </div>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A JPG to PDF converter turns one or more JPG or JPEG image files into
           a PDF document. This is useful when images need to be grouped into a
           single file that is easier to print, share, archive, or submit.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Instead of converting each image separately, you can add multiple
           files, arrange their order, and create one PDF with the page settings
           supported by the converter.
@@ -256,33 +256,33 @@ export default function JpgToPdfSeoContent() {
       {/* Supported formats */}
       <section
         aria-labelledby="formats-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-5 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="formats-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Supported Image Formats
         </h2>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-white/10 p-5">
-            <h3 className="mb-3 font-semibold text-white">
+          <div className="rounded-xl border border-border p-5">
+            <h3 className="mb-3 font-semibold text-foreground">
               Supported Input Formats
             </h3>
 
-            <ul className="space-y-2 text-sm text-white/70">
+            <ul className="space-y-2 text-sm text-foreground-secondary">
               <li>✓ JPG</li>
               <li>✓ JPEG</li>
             </ul>
           </div>
 
-          <div className="rounded-xl border border-white/10 p-5">
-            <h3 className="mb-3 font-semibold text-white">
+          <div className="rounded-xl border border-border p-5">
+            <h3 className="mb-3 font-semibold text-foreground">
               Output Format
             </h3>
 
-            <p className="text-sm leading-relaxed text-white/70">
+            <p className="text-sm leading-relaxed text-foreground-secondary">
               The converter generates a PDF containing the selected JPG or
               JPEG images according to the chosen page and layout settings.
             </p>
@@ -299,7 +299,7 @@ export default function JpgToPdfSeoContent() {
 
           <h2
             id="features-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             JPG to PDF Converter Features
           </h2>
@@ -309,7 +309,7 @@ export default function JpgToPdfSeoContent() {
           {coreFeatures.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -320,11 +320,11 @@ export default function JpgToPdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -343,7 +343,7 @@ export default function JpgToPdfSeoContent() {
 
           <h2
             id="workflow-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             How to Convert JPG to PDF
           </h2>
@@ -353,7 +353,7 @@ export default function JpgToPdfSeoContent() {
           {howToSteps.map((step, index) => (
             <div
               key={step.id}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -371,11 +371,11 @@ export default function JpgToPdfSeoContent() {
                 </span>
 
                 <div className="flex-1">
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {step.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {step.desc}
                   </p>
                 </div>
@@ -389,20 +389,20 @@ export default function JpgToPdfSeoContent() {
       <section aria-labelledby="usecases-heading">
         <h2
           id="usecases-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Common Uses for JPG to PDF Conversion
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
             <li>• Combine scanned document pages into one PDF.</li>
             <li>• Turn screenshots into a shareable PDF.</li>
             <li>• Combine assignment or study images for submission.</li>
             <li>• Organize receipts, invoices, and expense images.</li>
           </ul>
 
-          <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+          <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
             <li>• Create a PDF from travel or identity document images.</li>
             <li>• Package multiple photos into a printable document.</li>
             <li>• Send several images as one PDF attachment.</li>
@@ -420,7 +420,7 @@ export default function JpgToPdfSeoContent() {
 
           <h2
             id="audience-heading"
-            className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+            className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
           >
             Who Can Use a JPG to PDF Converter?
           </h2>
@@ -430,7 +430,7 @@ export default function JpgToPdfSeoContent() {
           {audiences.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:border-blue-400/30 hover:bg-white/10"
+              className="rounded-2xl border border-border bg-card p-5 transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
             >
               <div className="flex items-start gap-3">
                 <span
@@ -441,11 +441,11 @@ export default function JpgToPdfSeoContent() {
                 </span>
 
                 <div>
-                  <h3 className="mb-1 text-sm font-semibold text-white">
+                  <h3 className="mb-1 text-sm font-semibold text-foreground">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs leading-relaxed text-white/60">
+                  <p className="text-xs leading-relaxed text-foreground-secondary">
                     {item.desc}
                   </p>
                 </div>
@@ -459,19 +459,19 @@ export default function JpgToPdfSeoContent() {
       <section aria-labelledby="settings-heading">
         <h2
           id="settings-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Customize PDF Page Size, Orientation and Margins
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Page settings help you control how your JPG images are positioned
           inside the generated PDF. Choose from the page sizes supported by
           the converter, then select portrait or landscape orientation based
           on the shape of your images.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Margin controls can add more space around an image or allow the
           image to use more of the available page area. The final appearance
           depends on the original image dimensions and the selected PDF
@@ -483,19 +483,19 @@ export default function JpgToPdfSeoContent() {
       <section aria-labelledby="why-convert-heading">
         <h2
           id="why-convert-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Why Convert JPG Images to PDF?
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           JPG images are convenient for storing and sharing individual
           pictures, but multiple images can be difficult to organize as
           separate attachments. Converting them to one PDF keeps related
           images together in a single document.
         </p>
 
-        <ul className="mt-4 space-y-3 text-sm leading-relaxed text-white/70">
+        <ul className="mt-4 space-y-3 text-sm leading-relaxed text-foreground-secondary">
           <li>• Keep multiple images together in one file.</li>
           <li>• Make image collections easier to print and share.</li>
           <li>• Organize scanned pages and document images.</li>
@@ -508,12 +508,12 @@ export default function JpgToPdfSeoContent() {
       <section aria-labelledby="tips-heading">
         <h2
           id="tips-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Tips for Better JPG to PDF Results
         </h2>
 
-        <ul className="space-y-3 text-sm leading-relaxed text-white/70">
+        <ul className="space-y-3 text-sm leading-relaxed text-foreground-secondary">
           <li>
             • Arrange the images before generating the PDF so the page order is
             correct.
@@ -544,19 +544,19 @@ export default function JpgToPdfSeoContent() {
       <section aria-labelledby="how-it-works-heading">
         <h2
           id="how-it-works-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           How JPG to PDF Conversion Works
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           When you select JPG or JPEG images, the converter reads the selected
           files in your browser and prepares them for PDF generation. You can
           then arrange the images and choose the available page settings
           before creating the final document.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Each selected image is added to the generated PDF according to its
           position in your image list and the selected layout settings. The
           images are fitted to the available PDF page area based on the
@@ -567,28 +567,28 @@ export default function JpgToPdfSeoContent() {
       {/* Privacy */}
       <section
         aria-labelledby="privacy-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-5 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="privacy-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Privacy and Browser-Based Processing
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           JPG to PDF conversion is performed directly in your browser. The
           selected images do not need to be sent to a remote conversion server
           for the PDF generation process.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           This browser-based workflow can be useful when working with personal
           photos, receipts, scanned documents, screenshots, or other files
           that you prefer to process locally on your device.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           You can use the converter without creating an account or installing
           additional desktop conversion software.
         </p>
@@ -598,19 +598,19 @@ export default function JpgToPdfSeoContent() {
       <section aria-labelledby="mobile-heading">
         <h2
           id="mobile-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Convert JPG to PDF on Mobile
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           You can use the converter from a modern mobile browser to turn photos
           stored on your phone into PDF documents. This is useful for quickly
           combining receipts, scanned pages, screenshots, assignments, forms,
           or other JPG images without moving them to a computer first.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           The responsive interface is designed to work across phones, tablets,
           laptops, and desktop screens.
         </p>
@@ -620,7 +620,7 @@ export default function JpgToPdfSeoContent() {
       <section aria-labelledby="faq-heading">
         <h2
           id="faq-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           Frequently Asked Questions About JPG to PDF Conversion
         </h2>
@@ -629,23 +629,23 @@ export default function JpgToPdfSeoContent() {
           {faqItems.map((item) => (
             <details
               key={item.id}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              className="group overflow-hidden rounded-2xl border border-border bg-card"
             >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-white/10">
-                <span className="text-sm font-semibold text-white">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-5 hover:bg-surface-raised">
+                <span className="text-sm font-semibold text-foreground">
                   {item.q}
                 </span>
 
                 <span
                   aria-hidden="true"
-                  className="text-lg text-blue-400 transition-transform duration-200 group-open:rotate-45"
+                  className="text-lg text-blue-700 dark:text-blue-400 transition-transform duration-200 group-open:rotate-45"
                 >
                   +
                 </span>
               </summary>
 
-              <div className="border-t border-dashed border-white/10 p-5 pt-4">
-                <p className="text-xs leading-relaxed text-white/60 sm:text-sm">
+              <div className="border-t border-dashed border-border p-5 pt-4">
+                <p className="text-xs leading-relaxed text-foreground-secondary sm:text-sm">
                   {item.a}
                 </p>
               </div>
@@ -659,23 +659,23 @@ export default function JpgToPdfSeoContent() {
       {/* Conclusion */}
       <section
         aria-labelledby="conclusion-heading"
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6"
+        className="rounded-2xl border border-border bg-card p-5 backdrop-blur-sm sm:p-6"
       >
         <h2
           id="conclusion-heading"
-          className="mb-4 text-xl font-bold tracking-tight text-white sm:text-2xl"
+          className="mb-4 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
         >
           JPG to PDF Converter
         </h2>
 
-        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="text-sm leading-relaxed text-foreground-secondary sm:text-base">
           A JPG to PDF converter provides a simple way to combine JPG and JPEG
           images into a single, organized PDF. You can upload multiple images,
           arrange their order, select supported page settings, preview the
           result, and download the finished document.
         </p>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+        <p className="mt-4 text-sm leading-relaxed text-foreground-secondary sm:text-base">
           Whether you are preparing scanned documents, combining screenshots,
           organizing receipts, creating assignments, or packaging photos,
           browser-based JPG to PDF conversion provides a convenient workflow
