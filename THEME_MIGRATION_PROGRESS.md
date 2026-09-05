@@ -1091,3 +1091,11 @@ precedent (migrated concurrently by another session) rather than
 diverge with a new convention. Verified: tsc clean, eslint 5
 pre-existing unescaped-entity errors unchanged, zero responsive diff,
 build clean. Commit `e98c5d3`.
+
+## Session 35 — TimezoneCards.tsx migrated (own component from earlier dedup work)
+
+Standard mapping + hue pass. Found the basic/advanced variant's card
+background collapsed to the identical bg-surface-sunken token in both
+branches, leaving a pointless ternary — simplified to a plain
+assignment. Verified: tsc clean, eslint 0 problems, build clean.
+Commit `17ad291`.
