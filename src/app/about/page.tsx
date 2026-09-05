@@ -690,6 +690,36 @@ export default function AboutPage() {
               </a>
               </div>
             </div>
+
+            {/* LaunchIgniter */}
+            <div className="rounded-3xl border border-white/10 bg-slate-950/30 p-5">
+              <h3 className="text-lg font-semibold text-white">
+                LaunchIgniter
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Visit {siteName} on LaunchIgniter and share your review.
+              </p>
+
+              <div className="mt-5 flex min-h-12 items-center">
+                <a
+                  href="https://launchigniter.com/product/atoolix?ref=badge-atoolix"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${siteName} on LaunchIgniter`}
+                >
+                  <img
+                    src="https://launchigniter.com/api/badge/atoolix?theme=neutral"
+                    alt="Featured on LaunchIgniter"
+                    width={212}
+                    height={55}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-auto max-w-[212px]"
+                  />
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
