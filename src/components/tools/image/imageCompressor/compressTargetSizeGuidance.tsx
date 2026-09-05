@@ -33,7 +33,7 @@ export function CompressTargetSizeGuidance({ target }: { target: Target }) {
   return (
     <section
       aria-labelledby="target-size-guidance-heading"
-      className="mx-auto max-w-6xl rounded-2xl border border-white/10 bg-white/5 p-5 text-white sm:p-6"
+      className="mx-auto max-w-6xl rounded-2xl border border-border bg-card p-5 text-foreground sm:p-6"
     >
       <h2
         id="target-size-guidance-heading"
@@ -41,10 +41,10 @@ export function CompressTargetSizeGuidance({ target }: { target: Target }) {
       >
         {current.title}
       </h2>
-      <p className="mt-2 max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+      <p className="mt-2 max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
         {current.intro}
       </p>
-      <p className="mt-2 max-w-4xl text-sm leading-7 text-white/70 sm:text-[0.95rem]">
+      <p className="mt-2 max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-[0.95rem]">
         {current.action}
       </p>
 
@@ -53,12 +53,12 @@ export function CompressTargetSizeGuidance({ target }: { target: Target }) {
           <Link
             key={value}
             href={href}
-            className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-white/20 hover:bg-white/[0.08]"
+            className="rounded-xl border border-border bg-card p-4 transition hover:border-border-strong hover:bg-surface-raised"
           >
             <span className="text-sm font-semibold">
               {value} KB image compressor
             </span>
-            <span className="mt-1 block text-xs leading-5 text-white/60">
+            <span className="mt-1 block text-xs leading-5 text-muted-foreground">
               Use this workflow when the destination has a {value} KB target or maximum.
             </span>
           </Link>
