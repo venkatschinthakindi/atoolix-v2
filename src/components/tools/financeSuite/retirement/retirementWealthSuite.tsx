@@ -366,10 +366,10 @@ function Field({
   return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between gap-2">
-        <label className="block text-sm font-medium text-white/80">
+        <label className="block text-sm font-medium text-foreground-secondary">
           {label}
         </label>
-        {hint && <span className="text-[11px] text-white/35">{hint}</span>}
+        {hint && <span className="text-[11px] text-muted-foreground">{hint}</span>}
       </div>
       {children}
     </div>
@@ -377,7 +377,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
+  "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-surface-raised transition text-sm";
 
 /** Numeric input that stays editable mid-keystroke.
  *
@@ -470,7 +470,7 @@ function NumberField({
       }}
       className={
         suffix
-          ? "w-full bg-transparent px-4 py-3 text-sm text-white focus:outline-none"
+          ? "w-full bg-transparent px-4 py-3 text-sm text-foreground focus:outline-none"
           : inputCls
       }
     />
@@ -479,9 +479,9 @@ function NumberField({
   if (!suffix) return inputEl;
 
   return (
-    <div className="flex items-center rounded-xl border border-white/10 bg-white/5 focus-within:border-blue-400/50 overflow-hidden">
+    <div className="flex items-center rounded-xl border border-border bg-card focus-within:border-blue-400/50 overflow-hidden">
       {inputEl}
-      <span className="pr-4 text-xs text-white/40">{suffix}</span>
+      <span className="pr-4 text-xs text-muted-foreground">{suffix}</span>
     </div>
   );
 }
@@ -497,7 +497,7 @@ function SectionHeading({
 }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-3">
-      <h2 className="text-sm font-semibold text-white/80 tracking-wide uppercase flex items-center gap-2">
+      <h2 className="text-sm font-semibold text-foreground-secondary tracking-wide uppercase flex items-center gap-2">
         {Icon && <Icon className="h-4 w-4 text-blue-300 shrink-0" />}
         {children}
       </h2>
@@ -518,16 +518,16 @@ function QuickStartStrip() {
       {steps.map((s, i) => (
         <div
           key={s.title}
-          className="rounded-3xl border border-white/10 bg-slate-950/60 p-3 sm:p-4 flex gap-3 items-start"
+          className="rounded-3xl border border-border bg-surface-sunken p-3 sm:p-4 flex gap-3 items-start"
         >
           <div className="shrink-0 w-8 h-8 rounded-full bg-blue-400/15 border border-blue-400/30 flex items-center justify-center text-sm">
             {s.icon}
           </div>
           <div>
-            <div className="text-xs font-semibold text-white/80">
+            <div className="text-xs font-semibold text-foreground-secondary">
               {i + 1}. {s.title}
             </div>
-            <div className="text-[11px] text-white/45 mt-0.5 leading-snug">
+            <div className="text-[11px] text-muted-foreground mt-0.5 leading-snug">
               {s.body}
             </div>
           </div>
@@ -542,20 +542,20 @@ function QuickStartStrip() {
 function MethodologyNote() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-3xl border border-white/10 bg-slate-950/60 overflow-hidden">
+    <div className="rounded-3xl border border-border bg-surface-sunken overflow-hidden">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-white/5 transition"
+        className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-card transition"
       >
-        <span className="text-xs font-medium text-white/60">
+        <span className="text-xs font-medium text-muted-foreground">
           ⓘ How this is calculated
         </span>
-        <span className="text-white/40 text-sm">{open ? "−" : "+"}</span>
+        <span className="text-muted-foreground text-sm">{open ? "−" : "+"}</span>
       </button>
       {open && (
-        <div className="px-5 pb-4 pt-1 text-xs text-white/50 leading-relaxed space-y-2 border-t border-white/10">
+        <div className="px-5 pb-4 pt-1 text-xs text-muted-foreground leading-relaxed space-y-2 border-t border-border">
           <p>
             Growth is compounded monthly from your nominal annual return, net
             of an estimated tax drag. The Retirement and FIRE targets inflate
@@ -611,8 +611,8 @@ function WarningCallout({ text }: { text: string }) {
 
 function ChartSkeleton() {
   return (
-    <div className="h-72 rounded-2xl border border-white/10 bg-white/5 p-4">
-      <div className="h-4 w-40 rounded bg-white/10" />
+    <div className="h-72 rounded-2xl border border-border bg-card p-4">
+      <div className="h-4 w-40 rounded bg-surface-raised" />
       <div className="mt-6 h-56 rounded-xl bg-gradient-to-b from-white/5 to-white/[0.02]" />
     </div>
   );
@@ -666,13 +666,13 @@ function FeatureCard({
   tone: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 flex gap-3 items-start">
+    <div className="rounded-2xl border border-border bg-card p-4 flex gap-3 items-start">
       <div className={`shrink-0 w-9 h-9 rounded-xl border flex items-center justify-center ${tone}`}>
         <Icon className="h-4 w-4" />
       </div>
       <div>
-        <div className="text-sm font-semibold text-white">{title}</div>
-        <div className="text-xs text-white/45 mt-0.5 leading-snug">{body}</div>
+        <div className="text-sm font-semibold text-foreground">{title}</div>
+        <div className="text-xs text-muted-foreground mt-0.5 leading-snug">{body}</div>
       </div>
     </div>
   );
@@ -690,12 +690,12 @@ function LivePreviewStat({
   note: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-      <div className="flex items-center gap-1.5 text-xs text-white/55">
+    <div className="rounded-2xl border border-border bg-card p-4">
+      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <Icon className="h-3.5 w-3.5" />
         {label}
       </div>
-      <div className="mt-1.5 text-lg font-semibold text-white break-words">{value}</div>
+      <div className="mt-1.5 text-lg font-semibold text-foreground break-words">{value}</div>
       <div className="mt-0.5 text-[11px] text-emerald-300">{note}</div>
     </div>
   );
@@ -1178,9 +1178,9 @@ function RetirementWealthSuiteInner() {
 
   /* ───── Render ───── */
  return (
-  <div className="w-full max-w-7xl mx-auto px-3 py-3 sm:px-4 sm:py-5 lg:px-6 lg:py-6 text-white space-y-5 sm:space-y-6">
+  <div className="w-full max-w-7xl mx-auto px-3 py-3 sm:px-4 sm:py-5 lg:px-6 lg:py-6 text-foreground space-y-5 sm:space-y-6">
     {/* ── Hero ── */}
-    <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8 lg:p-10 overflow-hidden">
+    <div className="rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8 lg:p-10 overflow-hidden">
       <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-center">
         {/* Left: pitch + features */}
         <div className="min-w-0 space-y-5 sm:space-y-6 font-mono">
@@ -1197,7 +1197,7 @@ function RetirementWealthSuiteInner() {
             over time
           </h1>
 
-          <p className="max-w-xl text-sm sm:text-base text-white/55 leading-relaxed">
+          <p className="max-w-xl text-sm sm:text-base text-muted-foreground leading-relaxed">
             See exactly what it takes to retire, reach financial
             independence, or draw down a corpus — no accounts, no tracking,
             just calculations.
@@ -1211,14 +1211,14 @@ function RetirementWealthSuiteInner() {
         </div>
 
         {/* Right: live preview */}
-        <div className="min-w-0 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:p-5 md:p-6">
+        <div className="min-w-0 rounded-2xl border border-border bg-foreground/[0.03] p-4 sm:p-5 md:p-6">
           <div className="flex items-start justify-between gap-3 mb-4">
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-[11px] font-mono font-semibold text-white/40 uppercase tracking-wide">
+              <div className="text-[10px] sm:text-[11px] font-mono font-semibold text-muted-foreground uppercase tracking-wide">
                 Live preview
               </div>
 
-              <div className="text-sm font-semibold text-white mt-0.5 truncate">
+              <div className="text-sm font-semibold text-foreground mt-0.5 truncate">
                 Your projections at a glance
               </div>
             </div>
@@ -1259,13 +1259,13 @@ function RetirementWealthSuiteInner() {
             />
           </div>
 
-          <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+          <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-border bg-card px-4 py-3">
             <div className="min-w-0">
-              <div className="text-[10px] sm:text-[11px] text-white/40 uppercase tracking-wide">
+              <div className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-wide">
                 Currently viewing
               </div>
 
-              <div className="text-sm font-semibold text-white truncate">
+              <div className="text-sm font-semibold text-foreground truncate">
                 {activeModeLabel}
               </div>
             </div>
@@ -1277,7 +1277,7 @@ function RetirementWealthSuiteInner() {
 
           <div className="mt-4 space-y-2">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <span className="text-xs text-white/40">Currency</span>
+              <span className="text-xs text-muted-foreground">Currency</span>
 
               <div className="w-full sm:w-auto">
                 <CustomSelect
@@ -1314,8 +1314,8 @@ function RetirementWealthSuiteInner() {
           aria-pressed={activeTab === tab.id}
           className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2.5 rounded-full text-sm font-medium border transition ${
             activeTab === tab.id
-              ? "border-blue-400/60 bg-blue-400/15 text-white"
-              : "border-white/10 bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+              ? "border-blue-400/60 bg-blue-400/15 text-foreground"
+              : "border-border bg-card text-muted-foreground hover:bg-surface-raised hover:text-foreground"
           }`}
         >
           {tab.icon} {tab.label}
@@ -1327,11 +1327,11 @@ function RetirementWealthSuiteInner() {
     <QuickStartStrip />
 
     {/* ── Compare your plans ── */}
-    <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+    <div className="rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8">
       <SectionHeading
         action={
           <div className="w-full sm:w-auto flex flex-col items-start sm:items-end gap-2">
-            <div className="w-full sm:w-auto flex overflow-x-auto rounded-full border border-white/10 bg-white/5 p-1 gap-1">
+            <div className="w-full sm:w-auto flex overflow-x-auto rounded-full border border-border bg-card p-1 gap-1">
               {(Object.keys(SCENARIOS) as ScenarioKey[]).map((key) => (
                 <button
                   key={key}
@@ -1340,8 +1340,8 @@ function RetirementWealthSuiteInner() {
                   aria-pressed={selectedScenario === key}
                   className={`shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition ${
                     selectedScenario === key
-                      ? "bg-blue-400/20 text-white border border-blue-400/40"
-                      : "border border-transparent text-white/50 hover:text-white"
+                      ? "bg-blue-400/20 text-foreground border border-blue-400/40"
+                      : "border border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {SCENARIOS[key].label}
@@ -1349,7 +1349,7 @@ function RetirementWealthSuiteInner() {
               ))}
             </div>
 
-            <span className="text-[10px] sm:text-[11px] text-white/35 break-words">
+            <span className="text-[10px] sm:text-[11px] text-muted-foreground break-words">
               Return {formatPercent(scenario.returnRate)} · Inflation{" "}
               {formatPercent(scenario.inflationRate)} · Tax drag{" "}
               {formatPercent(scenario.taxDrag)}
@@ -1360,7 +1360,7 @@ function RetirementWealthSuiteInner() {
         Compare Your Plans
       </SectionHeading>
 
-      <p className="text-xs text-white/40 -mt-1 mb-5">
+      <p className="text-xs text-muted-foreground -mt-1 mb-5">
         Return, inflation and tax-drag assumptions below update from the
         scenario above. Withdrawal rate is a personal spending choice, so
         it stays independent per planner.
@@ -1381,11 +1381,11 @@ function RetirementWealthSuiteInner() {
               className={`min-w-0 text-left rounded-2xl border p-4 transition ${
                 active
                   ? "border-blue-400/50 bg-blue-400/10"
-                  : "border-white/10 bg-white/5 hover:bg-white/10"
+                  : "border-border bg-card hover:bg-surface-raised"
               }`}
             >
               <div className="flex items-start justify-between gap-2 mb-3">
-                <span className="min-w-0 text-sm font-semibold text-white flex items-center gap-1.5">
+                <span className="min-w-0 text-sm font-semibold text-foreground flex items-center gap-1.5">
                   <Icon className="h-4 w-4 text-blue-300 shrink-0" />
                   <span className="truncate">{tab.label}</span>
                 </span>
@@ -1399,21 +1399,21 @@ function RetirementWealthSuiteInner() {
 
               <div className="space-y-2.5">
                 <div className="min-w-0">
-                  <div className="text-[11px] text-white/40">
+                  <div className="text-[11px] text-muted-foreground">
                     {summary.primaryLabel}
                   </div>
 
-                  <div className="text-base font-semibold text-white break-words">
+                  <div className="text-base font-semibold text-foreground break-words">
                     {summary.primaryValue}
                   </div>
                 </div>
 
                 <div className="min-w-0">
-                  <div className="text-[11px] text-white/40">
+                  <div className="text-[11px] text-muted-foreground">
                     {summary.secondaryLabel}
                   </div>
 
-                  <div className="text-sm text-white/70 break-words">
+                  <div className="text-sm text-foreground-secondary break-words">
                     {summary.secondaryValue}
                   </div>
                 </div>
@@ -1435,7 +1435,7 @@ function RetirementWealthSuiteInner() {
     {activeTab === "retirement" && (
       <div className="grid min-w-0 gap-5 sm:gap-6 xl:grid-cols-2">
         {/* Retirement inputs */}
-        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8">
           <SectionHeading
             icon={PiggyBank}
             action={
@@ -1454,7 +1454,7 @@ function RetirementWealthSuiteInner() {
             Retirement Planner
           </SectionHeading>
 
-          <p className="text-xs text-white/40 -mt-1 mb-5">
+          <p className="text-xs text-muted-foreground -mt-1 mb-5">
             Set your age, savings and assumptions. Drag a slider or type an
             exact value.
           </p>
@@ -1598,12 +1598,12 @@ function RetirementWealthSuiteInner() {
         </div>
 
         {/* Retirement chart */}
-        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8">
           <SectionHeading icon={BarChart3}>
             Retirement Projection
           </SectionHeading>
 
-          <p className="text-xs text-white/40 -mt-1 mb-5">
+          <p className="text-xs text-muted-foreground -mt-1 mb-5">
             Projected corpus growth compared against the target corpus. This
             chart plots your actual <em>monthly contribution</em> input
             above — not the <em>required monthly savings</em> figure, which
@@ -1634,7 +1634,7 @@ function RetirementWealthSuiteInner() {
                 />
               </div>
             ) : (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
+              <div className="rounded-2xl border border-border bg-card p-4 text-sm text-muted-foreground">
                 No chart data available for the current retirement horizon.
               </div>
             )}
@@ -1647,7 +1647,7 @@ function RetirementWealthSuiteInner() {
     {activeTab === "fire" && (
       <div className="grid min-w-0 gap-5 sm:gap-6 xl:grid-cols-2">
         {/* FIRE inputs */}
-        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8">
           <SectionHeading
             icon={Calculator}
             action={
@@ -1666,7 +1666,7 @@ function RetirementWealthSuiteInner() {
             FIRE Calculator
           </SectionHeading>
 
-          <p className="text-xs text-white/40 -mt-1 mb-5">
+          <p className="text-xs text-muted-foreground -mt-1 mb-5">
             Target and chart use inflation-adjusted spending at your chosen
             FIRE horizon below.
           </p>
@@ -1821,12 +1821,12 @@ function RetirementWealthSuiteInner() {
         </div>
 
         {/* FIRE chart */}
-        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8">
           <SectionHeading icon={BarChart3}>
             FIRE Projection
           </SectionHeading>
 
-          <p className="text-xs text-white/40 -mt-1 mb-5">
+          <p className="text-xs text-muted-foreground -mt-1 mb-5">
             Portfolio growth through your chosen horizon, compared against
             the FIRE target at that horizon.
           </p>
@@ -1854,7 +1854,7 @@ function RetirementWealthSuiteInner() {
                 />
               </div>
             ) : (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
+              <div className="rounded-2xl border border-border bg-card p-4 text-sm text-muted-foreground">
                 No chart data available for the current FIRE horizon.
               </div>
             )}
@@ -1867,7 +1867,7 @@ function RetirementWealthSuiteInner() {
     {activeTab === "swp" && (
       <div className="grid min-w-0 gap-5 sm:gap-6 xl:grid-cols-2">
         {/* SWP inputs */}
-        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8">
           <SectionHeading
             icon={Percent}
             action={
@@ -1886,7 +1886,7 @@ function RetirementWealthSuiteInner() {
             SWP Planner
           </SectionHeading>
 
-          <p className="text-xs text-white/40 -mt-1 mb-5">
+          <p className="text-xs text-muted-foreground -mt-1 mb-5">
             Initial withdrawal is shown here; inflation applies yearly in the
             projection.
           </p>
@@ -1990,12 +1990,12 @@ function RetirementWealthSuiteInner() {
         </div>
 
         {/* SWP chart */}
-        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-4 sm:p-6 md:p-8">
+        <div className="min-w-0 rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-4 sm:p-6 md:p-8">
           <SectionHeading icon={BarChart3}>
             SWP Balance Forecast
           </SectionHeading>
 
-          <p className="text-xs text-white/40 -mt-1 mb-5">
+          <p className="text-xs text-muted-foreground -mt-1 mb-5">
             Remaining balance after withdrawals, growth, inflation, and tax
             drag.
           </p>
@@ -2018,7 +2018,7 @@ function RetirementWealthSuiteInner() {
                 />
               </div>
             ) : (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/60">
+              <div className="rounded-2xl border border-border bg-card p-4 text-sm text-muted-foreground">
                 No data
               </div>
             )}
@@ -2057,11 +2057,11 @@ export default function RetirementWealthSuite() {
 
 function SuiteLoadingFallback() {
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 py-3 sm:px-4 sm:py-5 lg:px-6 lg:py-6 text-white">
-      <div className="rounded-2xl sm:rounded-3xl border border-white/10 bg-slate-950/60 p-6 sm:p-8 animate-pulse">
-        <div className="h-4 w-40 rounded bg-white/10" />
-        <div className="mt-4 h-8 w-2/3 rounded bg-white/10" />
-        <div className="mt-3 h-4 w-1/2 rounded bg-white/10" />
+    <div className="w-full max-w-7xl mx-auto px-3 py-3 sm:px-4 sm:py-5 lg:px-6 lg:py-6 text-foreground">
+      <div className="rounded-2xl sm:rounded-3xl border border-border bg-surface-sunken p-6 sm:p-8 animate-pulse">
+        <div className="h-4 w-40 rounded bg-surface-raised" />
+        <div className="mt-4 h-8 w-2/3 rounded bg-surface-raised" />
+        <div className="mt-3 h-4 w-1/2 rounded bg-surface-raised" />
       </div>
     </div>
   );
