@@ -425,7 +425,7 @@ export default function PdfSpliterClient({ config }: Props) {
   }, [previewUrl]);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-foreground sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <ToolHero
         config={config}
         processing={isWorking}
@@ -467,7 +467,7 @@ export default function PdfSpliterClient({ config }: Props) {
 
         {pdfs.length > 0 && (
           <section className={premiumShellClass()}>
-            <div className="relative flex flex-col gap-3 border-b border-white/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+            <div className="relative flex flex-col gap-3 border-b border-border px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <div className="w-full sm:w-auto">
                 <div className="flex gap-3">
                   <GlassIcon icon={FileText} />
@@ -475,20 +475,20 @@ export default function PdfSpliterClient({ config }: Props) {
                     Extraction Options
                   </h2>
                 </div>
-                <p className="mt-1 text-xs text-white/60 sm:text-sm">
+                <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                   Use ranges like{" "}
-                  <span className="text-white/80">first-3, 9-13, 19, last-2, all, odd, even, except 21-23</span>.
+                  <span className="text-foreground-secondary">first-3, 9-13, 19, last-2, all, odd, even, except 21-23</span>.
                 </p>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <div className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 sm:px-4 sm:text-sm">
+                <div className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary sm:px-4 sm:text-sm">
                   <ArrowDownUp className="h-3.5 w-3.5 text-blue-300" />
                   Page logic preserved
                 </div>
                 <button
                   type="button"
                   onClick={resetTool}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-white/10 sm:px-4 sm:text-sm"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary transition hover:border-blue-400/30 hover:bg-surface-raised sm:px-4 sm:text-sm"
                 >
                   <Trash2 className="h-3.5 w-3.5 text-blue-300" />
                   Start Over
@@ -498,13 +498,13 @@ export default function PdfSpliterClient({ config }: Props) {
 
             <div className="space-y-2 p-3 sm:space-y-3 sm:p-4 md:p-5">
               {pdfs.map((pdf, idx) => (
-                <div key={idx} className="rounded-xl border border-white/10 bg-black/20 p-3 sm:p-3.5 md:p-4">
+                <div key={idx} className="rounded-xl border border-border bg-surface-sunken p-3 sm:p-3.5 md:p-4">
                   <div className="mb-2 flex items-center justify-between gap-2 sm:mb-3 sm:gap-3">
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-xs font-medium text-white/85 sm:text-sm">📄 {pdf.name}</div>
-                      <div className="mt-0.5 text-[10px] text-white/40 sm:text-xs">{pdf.totalPages} pages</div>
+                      <div className="truncate text-xs font-medium text-foreground-secondary sm:text-sm">📄 {pdf.name}</div>
+                      <div className="mt-0.5 text-[10px] text-muted-foreground sm:text-xs">{pdf.totalPages} pages</div>
                     </div>
-                    <div className="flex items-center gap-1 text-[10px] text-white/40 sm:text-xs">
+                    <div className="flex items-center gap-1 text-[10px] text-muted-foreground sm:text-xs">
                       <Scissors className="h-3.5 w-3.5 text-blue-300" />
                       Split
                     </div>
@@ -514,17 +514,17 @@ export default function PdfSpliterClient({ config }: Props) {
                     value={pdf.input}
                     onChange={(e) => updateInput(idx, e.target.value)}
                     placeholder="e.g. first-3, 9-13, 19, last-2, all, odd, even"
-                    className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-1.5 text-xs text-white outline-none transition placeholder:text-white/35 focus:border-blue-500 sm:py-2 sm:text-sm"
+                    className="w-full rounded-lg border border-border bg-surface-sunken px-3 py-1.5 text-xs text-foreground outline-none transition placeholder:text-muted-foreground focus:border-blue-500 sm:py-2 sm:text-sm"
                   />
 
-                  <div className="mt-1.5 text-[10px] text-white/45 sm:mt-2 sm:text-xs">
+                  <div className="mt-1.5 text-[10px] text-muted-foreground sm:mt-2 sm:text-xs">
                     Selected pages: <span className="text-blue-300">{getSelectedSummary(pdf.pages)}</span>
                   </div>
                 </div>
               ))}
               <div className="flex flex-wrap gap-3">
-                  <div className="basis-full sm:basis-[calc(50%-0.375rem)] rounded-2xl border border-white/10 bg-black/10 p-3">
-                    <div className="mb-2 text-xs font-medium text-white/85 sm:text-sm">Output format</div>
+                  <div className="basis-full sm:basis-[calc(50%-0.375rem)] rounded-2xl border border-border bg-surface-sunken p-3">
+                    <div className="mb-2 text-xs font-medium text-foreground-secondary sm:text-sm">Output format</div>
                     <CustomSelect
                       value={splitOption}
                       callBackTrigger={setSplitOption}
@@ -540,8 +540,8 @@ export default function PdfSpliterClient({ config }: Props) {
                     aria-pressed={autoOptimize}
                     className={`basis-full sm:basis-[calc(50%-0.375rem)] rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
                       autoOptimize
-                        ? "border-blue-400/35 bg-blue-400/10 text-white"
-                        : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
+                        ? "border-blue-400/35 bg-blue-400/10 text-foreground"
+                        : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"
                     }`}
                   >
                     {autoOptimize ? "Optimize: On" : "Optimize: Off"}
@@ -549,10 +549,10 @@ export default function PdfSpliterClient({ config }: Props) {
               </div>
               <div className="space-y-4 p-3 sm:p-4 md:p-5">
                 {isWorking && (
-                  <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
+                  <div className="rounded-2xl border border-border bg-surface-sunken p-4">
                     <div className="mb-3 flex items-center justify-between gap-3">
-                      <span className="text-sm text-white/70">{processingLabel}</span>
-                      <span className="text-sm font-medium text-white">{Math.round(progress)}%</span>
+                      <span className="text-sm text-foreground-secondary">{processingLabel}</span>
+                      <span className="text-sm font-medium text-foreground">{Math.round(progress)}%</span>
                     </div>
                     <ProgressBar value={progress} />
                   </div>
