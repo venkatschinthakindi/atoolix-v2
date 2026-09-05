@@ -75,24 +75,24 @@ export function TimezoneCards({
   variant = "basic",
 }: TimezoneCardsProps) {
   const isAdvanced = variant === "advanced";
-  const cardBg = isAdvanced ? "bg-black/30" : "bg-slate-950/30";
+  const cardBg = "bg-surface-sunken";
   const moveBtnCls = isAdvanced
-    ? "rounded-full border border-white/10 bg-black/30 px-3 py-2 text-xs text-zinc-200 transition hover:border-cyan-400/30 hover:bg-cyan-400/10 hover:text-cyan-300 disabled:opacity-30"
-    : "rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 disabled:opacity-30";
+    ? "rounded-full border border-border bg-surface-sunken px-3 py-2 text-xs text-foreground transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300 disabled:opacity-30"
+    : "rounded-full border border-border bg-card px-3 py-2 text-xs text-foreground disabled:opacity-30";
   const removeBtnCls = isAdvanced
-    ? "rounded-full border border-rose-400/20 bg-rose-400/5 px-3 py-2 text-xs text-rose-300 transition hover:border-rose-400/40 hover:bg-rose-400/15"
-    : "rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200";
+    ? "rounded-full border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/5 px-3 py-2 text-xs text-rose-700 dark:text-rose-300 transition hover:border-rose-400 dark:hover:border-rose-400/40 hover:bg-rose-100 dark:hover:bg-rose-400/15"
+    : "rounded-full border border-border bg-card px-3 py-2 text-xs text-foreground";
 
   return (
     <div className="grid gap-3 md:hidden">
       {rows.map((row, index) => {
         const result = resultMap.get(row.id);
         return (
-          <div key={row.id} className={`rounded-2xl border border-white/10 ${cardBg} p-4`}>
+          <div key={row.id} className={`rounded-2xl border border-border ${cardBg} p-4`}>
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
-                <div className="text-xs uppercase tracking-wide text-zinc-400">Zone {index + 1}</div>
-                <div className="truncate text-base font-semibold text-white">{row.zone}</div>
+                <div className="text-xs uppercase tracking-wide text-foreground-secondary">Zone {index + 1}</div>
+                <div className="truncate text-base font-semibold text-foreground">{row.zone}</div>
               </div>
             </div>
 
@@ -106,10 +106,10 @@ export function TimezoneCards({
             </div>
 
             <button type="button" onClick={() => onMakeSource(row.zone)} className="mt-3 text-left">
-              <div className={`text-sm ${resultsAreStale ? "text-zinc-500" : "text-zinc-200"}`}>
+              <div className={`text-sm ${resultsAreStale ? "text-foreground-faint" : "text-foreground"}`}>
                 {result?.display ?? "Waiting for valid input"}
               </div>
-              <div className="mt-1 text-xs text-zinc-400">{result?.details ?? ""}</div>
+              <div className="mt-1 text-xs text-foreground-secondary">{result?.details ?? ""}</div>
             </button>
 
             {showStatusBadges ? (
@@ -118,10 +118,10 @@ export function TimezoneCards({
                   <span
                     className={`inline-flex rounded-full px-2 py-1 text-xs font-medium tabular-nums ${
                       resultsAreStale
-                        ? "bg-white/5 text-zinc-500"
+                        ? "bg-card text-foreground-faint"
                         : result.diff === "Same time"
-                          ? "bg-emerald-500/15 text-emerald-300"
-                          : "bg-indigo-500/15 text-indigo-300"
+                          ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                          : "bg-indigo-100 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300"
                     }`}
                   >
                     {result.diff} vs source
@@ -131,8 +131,8 @@ export function TimezoneCards({
                   <span
                     className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
                       result.inHours
-                        ? "bg-emerald-500/15 text-emerald-300"
-                        : "bg-white/5 text-zinc-500"
+                        ? "bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                        : "bg-card text-foreground-faint"
                     }`}
                   >
                     {result.inHours ? "● Working hours" : "○ Outside hours"}
@@ -141,7 +141,7 @@ export function TimezoneCards({
               </div>
             ) : null}
 
-            <div className="mt-3 space-y-1 text-sm text-zinc-300">
+            <div className="mt-3 space-y-1 text-sm text-foreground-secondary">
               <div>{result?.offset ?? ""}</div>
               <div>{result?.abbreviation ?? ""}</div>
               <div>{result?.localTime ?? ""}</div>
@@ -169,7 +169,7 @@ export function TimezoneCards({
                   type="button"
                   onClick={() => onCopy(row.id)}
                   disabled={resultsAreStale}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-200 disabled:cursor-not-allowed disabled:opacity-30"
+                  className="rounded-full border border-border bg-card px-3 py-2 text-xs text-foreground disabled:cursor-not-allowed disabled:opacity-30"
                 >
                   Copy
                 </button>
