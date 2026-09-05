@@ -613,7 +613,7 @@ export default function PdfMergerClient({ config }: Props) {
   const hasFiles = files.length > 0;
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+    <div className="mx-auto w-full max-w-6xl px-3 py-3 text-foreground sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
       <ToolHero
         config={config}
         processing={isWorking}
@@ -669,7 +669,7 @@ export default function PdfMergerClient({ config }: Props) {
           {/* File list — only mounted when files exist */}
           {hasFiles && (
             <section className={premiumShellClass()} aria-labelledby="files-heading">
-              <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+              <div className="relative border-b border-border px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="w-full sm:w-auto">
                     <div className="flex gap-3">
@@ -678,11 +678,11 @@ export default function PdfMergerClient({ config }: Props) {
                         File order and pages
                       </h2>
                     </div>
-                    <p className="mt-1 text-xs text-white/60 sm:text-sm">
+                    <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                       Reorder files, refine page ranges, and preview what will be merged.
                     </p>
                   </div>
-                  <div className="flex cursor-default items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/80 sm:px-4 sm:text-sm">
+                  <div className="flex cursor-default items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary sm:px-4 sm:text-sm">
                     <ArrowDownUp className="h-3.5 w-3.5 text-blue-300" />
                     Order matters
                   </div>
@@ -703,20 +703,20 @@ export default function PdfMergerClient({ config }: Props) {
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           {/* Merge options */}
           <section className={premiumShellClass()} aria-labelledby="options-heading">
-            <div className="relative border-b border-white/10 px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
+            <div className="relative border-b border-border px-4 py-3 sm:px-5 sm:py-3.5 md:px-5 md:py-4">
               <div className="flex gap-3">
                 <GlassIcon icon={PanelTopOpen} />
                 <h2 id="options-heading" className="flex items-center gap-2 text-base font-semibold tracking-tight sm:text-md">
                   Merge options
                 </h2>
               </div>
-              <p className="mt-1 text-xs text-white/60 sm:text-sm">
+              <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                 Pick overlay or separate-page mode, then add elegant headers and footers in the same workspace.
               </p>
             </div>
 
             <div className="p-3 flex flex-wrap gap-2">
-              <div className="basis-full sm:basis-[calc(50%-0.375rem)]  rounded-2xl border border-white/10 p-2 sm:p-2">
+              <div className="basis-full sm:basis-[calc(50%-0.375rem)]  rounded-2xl border border-border p-2 sm:p-2">
                 <MergeOptionCard
                   title="Header"
                   icon={PanelTopOpen}
@@ -731,7 +731,7 @@ export default function PdfMergerClient({ config }: Props) {
                 />
               </div>
 
-              <div className="basis-full sm:basis-[calc(50%-0.375rem)]  rounded-2xl border border-white/10 p-2 sm:p-2">
+              <div className="basis-full sm:basis-[calc(50%-0.375rem)]  rounded-2xl border border-border p-2 sm:p-2">
                 <MergeOptionCard
                   title="Footer"
                   icon={PanelBottomOpen}
@@ -748,10 +748,10 @@ export default function PdfMergerClient({ config }: Props) {
             </div>
             <div className="space-y-4 p-3 sm:p-4 md:p-5">
               {isWorking && (
-                <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
+                <div className="rounded-2xl border border-border bg-surface-sunken p-4">
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <span className="text-sm text-white/70">{processingLabel}</span>
-                    <span className="text-sm font-medium text-white">{Math.round(progress)}%</span>
+                    <span className="text-sm text-foreground-secondary">{processingLabel}</span>
+                    <span className="text-sm font-medium text-foreground">{Math.round(progress)}%</span>
                   </div>
                   <ProgressBar value={progress} />
                 </div>
@@ -782,16 +782,16 @@ export default function PdfMergerClient({ config }: Props) {
                       aria-pressed={autoOptimize}
                       className={`rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
                         autoOptimize
-                          ? "border-blue-400/35 bg-blue-400/10 text-white"
-                          : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
+                          ? "border-blue-400/35 bg-blue-400/10 text-foreground"
+                          : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"
                       }`}
                     >
                       {autoOptimize ? "Auto optimize: On" : "Auto optimize: Off"}
                     </button>
                     {
                       !hasFiles && (
-                        <div className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-black/10 px-3 py-2.5 text-xs text-white/70">
-                          <CircleCheck className={`h-4 w-4 ${hasFiles ? "text-emerald-300" : "text-white/30"}`} />
+                        <div className="flex items-center justify-center gap-2 rounded-2xl border border-border bg-surface-sunken px-3 py-2.5 text-xs text-foreground-secondary">
+                          <CircleCheck className={`h-4 w-4 ${hasFiles ? "text-emerald-300" : "text-muted-foreground"}`} />
                           {hasFiles ? "Ready" : "Waiting for files"}
                         </div>
                       )
@@ -799,7 +799,7 @@ export default function PdfMergerClient({ config }: Props) {
                     {
                       hasFiles && (
                         <button
-                        className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                        className="flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-surface-raised"
                         onClick={resetPdf}
                         type="button"
                       >
@@ -855,7 +855,7 @@ export default function PdfMergerClient({ config }: Props) {
                   </div>
 
                   <button
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-surface-raised"
                     onClick={resetPdf}
                     type="button"
                   >
