@@ -123,10 +123,10 @@ const EXPLAINERS: any = {
 // ---------------------------------------------------------------------------
 
 const premiumShellClass =
-  "relative flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  "relative flex flex-col overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none transition focus:border-blue-400/40";
+  "w-full rounded-xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none transition focus:border-blue-400/40";
 
 type BadgeColor = "blue" | "green" | "purple";
 
@@ -153,15 +153,15 @@ function ResultBox({
   tone?: "neutral" | "positive" | "gradient";
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-      <div className="text-xs text-white/50">{label}</div>
+    <div className="rounded-2xl border border-border bg-card p-4">
+      <div className="text-xs text-muted-foreground">{label}</div>
       <div
         className={
           tone === "gradient"
-            ? "mt-2 bg-gradient-to-r from-emerald-300 via-white to-blue-300 bg-clip-text text-2xl font-bold tracking-tight text-transparent"
+            ? "mt-2 bg-gradient-to-r from-emerald-300 via-[var(--foreground)] to-blue-300 bg-clip-text text-2xl font-bold tracking-tight text-transparent"
             : tone === "positive"
             ? "mt-2 text-lg font-semibold text-emerald-300"
-            : "mt-2 text-lg font-semibold text-white"
+            : "mt-2 text-lg font-semibold text-foreground"
         }
       >
         {value}
@@ -172,16 +172,16 @@ function ResultBox({
 
 function ChartSkeleton() {
   return (
-    <div className="h-72 rounded-2xl border border-white/10 bg-white/5 p-4">
-      <div className="h-4 w-40 rounded bg-white/10" />
-      <div className="mt-6 h-56 rounded-xl bg-gradient-to-b from-white/5 to-white/[0.02]" />
+    <div className="h-72 rounded-2xl border border-border bg-card p-4">
+      <div className="h-4 w-40 rounded bg-surface-raised" />
+      <div className="mt-6 h-56 rounded-xl bg-gradient-to-b from-foreground/5 to-foreground/[0.02]" />
     </div>
   );
 }
 
 function FieldHint({ text }: { text: string }) {
   return (
-    <p className="mt-1.5 flex items-center gap-2 text-xs leading-snug text-white/45">
+    <p className="mt-1.5 flex items-center gap-2 text-xs leading-snug text-muted-foreground">
       <Info className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
       {text}
     </p>
@@ -216,27 +216,27 @@ const FlowRow = memo(function FlowRow({
         "grid gap-3 rounded-2xl border p-3 transition md:grid-cols-[1fr_1fr_auto] md:items-center",
         invalid
           ? "border-amber-400/30 bg-amber-500/5"
-          : "border-white/10 bg-black/10",
+          : "border-border bg-surface-sunken",
       ].join(" ")}
     >
       <div>
         <Field label={`Amount (${symbol})`}>
           <div
             className={[
-              "flex overflow-hidden rounded-xl border bg-black/20",
+              "flex overflow-hidden rounded-xl border bg-surface-sunken",
               invalid && flow.amount !== ""
                 ? "border-amber-400/40"
-                : "border-white/10 focus-within:border-blue-400/40",
+                : "border-border focus-within:border-blue-400/40",
             ].join(" ")}
           >
             <div
               className={[
-                "flex w-12 shrink-0 items-center justify-center border-r border-white/10",
+                "flex w-12 shrink-0 items-center justify-center border-r border-border",
                 isNegative
                   ? "text-red-400"
                   : isPositive
                   ? "text-green-400"
-                  : "text-white/40",
+                  : "text-muted-foreground",
               ].join(" ")}
             >
               {isNegative ? (
@@ -258,16 +258,16 @@ const FlowRow = memo(function FlowRow({
                 bg-transparent
                 px-4
                 py-3
-                text-white
+                text-foreground
                 outline-none
-                placeholder:text-white/30
+                placeholder:text-foreground/30
               "
               placeholder="e.g. −100000"
               aria-describedby={`flow-hint-${index}`}
             />
           </div>
         </Field>
-        <p id={`flow-hint-${index}`} className="mt-1 text-xs text-white/40">
+        <p id={`flow-hint-${index}`} className="mt-1 text-xs text-muted-foreground">
           {isNegative && "Outflow — money you invested"}
           {isPositive && "Inflow — money you received"}
           {!isNegative && !isPositive && "Negative = investment, positive = payout"}
@@ -285,7 +285,7 @@ const FlowRow = memo(function FlowRow({
             !flow.date ? "border-amber-400/40" : "",
           ].join(" ")}
         />
-        <p className="mt-1 text-xs text-white/40">
+        <p className="mt-1 text-xs text-muted-foreground">
         Date of the cash flow
         </p>
       </Field>
@@ -306,17 +306,17 @@ const FlowRow = memo(function FlowRow({
 
 function XirrSignLegend() {
   return (
-    <div className="flex flex-wrap gap-4 rounded-2xl border border-white/10 bg-black/10 px-4 py-3 text-sm">
-      <div className="flex items-center gap-2 text-white/70">
+    <div className="flex flex-wrap gap-4 rounded-2xl border border-border bg-surface-sunken px-4 py-3 text-sm">
+      <div className="flex items-center gap-2 text-foreground/70">
         <ArrowDownCircle className="h-4 w-4 text-red-400" aria-hidden="true" />
         <span>
-          <span className="font-medium text-white">Negative amount</span> = money you invested (outflow)
+          <span className="font-medium text-foreground">Negative amount</span> = money you invested (outflow)
         </span>
       </div>
-      <div className="flex items-center gap-2 text-white/70">
+      <div className="flex items-center gap-2 text-foreground/70">
         <ArrowUpCircle className="h-4 w-4 text-green-400" aria-hidden="true" />
         <span>
-          <span className="font-medium text-white">Positive amount</span> = money you received (inflow)
+          <span className="font-medium text-foreground">Positive amount</span> = money you received (inflow)
         </span>
       </div>
     </div>
@@ -692,7 +692,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
   const symbol = CURRENCIES[currency].symbol;
 
   return (
-    <div className="mx-auto w-full max-w-6xl space-y-6 px-3 py-3 text-white">
+    <div className="mx-auto w-full max-w-6xl space-y-6 px-3 py-3 text-foreground">
       <section className={`${premiumShellClass} mb-5 px-5 py-6`}>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="grid gap-10 lg:grid-cols-[1.4fr_minmax(300px,420px)]">
@@ -703,11 +703,11 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
               </div>
               <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
                 Investment returns with{" "}
-                <span className="bg-gradient-to-r from-blue-300 via-white to-violet-300 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-300 via-[var(--foreground)] to-violet-300 bg-clip-text text-transparent">
                   clear projections
                 </span>
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/65 sm:text-base">
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-foreground-secondary sm:text-base">
                 Compare SIP, lump sum, CAGR, and XIRR — all calculations run locally in your browser.
               </p>
 
@@ -718,8 +718,8 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
               </div>
             </div>
 
-            <div className="min-w-0 rounded-3xl border border-white/10 bg-black/20 p-4 backdrop-blur">
-                <div className="text-lg font-semibold text-white">Quick Overview</div>
+            <div className="min-w-0 rounded-3xl border border-border bg-surface-sunken p-4 backdrop-blur">
+                <div className="text-lg font-semibold text-foreground">Quick Overview</div>
 
                 <div className="mt-6 space-y-4">
                   <div className="min-w-0 flex items-start justify-between gap-3">
@@ -750,7 +750,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
 
                 <div className="mt-4 space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                    <span className="text-xs text-white/40">Currency</span>
+                    <span className="text-xs text-muted-foreground">Currency</span>
 
                     <div className="w-full sm:w-auto">
                       <CustomSelect
@@ -791,7 +791,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
                   "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition",
                   active
                     ? "border-blue-400/30 bg-blue-400/15 text-blue-100"
-                    : "border-white/10 bg-white/5 text-white/70 hover:border-blue-400/20 hover:bg-white/[0.06]",
+                    : "border-border bg-card text-foreground/70 hover:border-blue-400/20 hover:bg-surface-raised",
                 ].join(" ")}
               >
                 <span>{tab.icon}</span>
@@ -809,7 +809,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
             <section className={premiumShellClass}>
-              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-white/10 p-4 sm:p-5">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-b border-border p-4 sm:p-5">
                 <SectionHeader
                   title="SIP growth calculator"
                   subtitle="Compare basic SIP vs. step-up SIP over your chosen horizon."
@@ -909,7 +909,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
             </section>
 
             <section className={premiumShellClass}>
-              <div className="border-b border-white/10 p-4 sm:p-5">
+              <div className="border-b border-border p-4 sm:p-5">
                 <SectionHeader
                   title="Growth comparison"
                   subtitle="Basic SIP (no step-up) vs. step-up SIP — year by year."
@@ -936,9 +936,9 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
               </div>
 
               {sipStepUpN > 0 && (
-                <div className="p-4 sm:p-5 text-sm text-white/60">
+                <div className="p-4 sm:p-5 text-sm text-foreground/60">
                   Step-up adds{" "}
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold text-foreground">
                     {formatCurrency(sipResult.futureValue - sipBasicResult.futureValue, currency)}
                   </span>{" "}
                   extra over {sipYearsN} years compared to a flat SIP.
@@ -955,7 +955,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
 
           <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
             <section className={premiumShellClass}>
-              <div className="border-b border-white/10 p-4 sm:p-5">
+              <div className="border-b border-border p-4 sm:p-5">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <SectionHeader
                     title="Lump sum calculator"
@@ -1052,7 +1052,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
             </section>
 
             <section className={premiumShellClass}>
-              <div className="border-b border-white/10 p-4 sm:p-5">
+              <div className="border-b border-border p-4 sm:p-5">
                 <SectionHeader
                   title="Value projection"
                   subtitle="How your investment grows year by year."
@@ -1085,7 +1085,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
 
           <div ref={cagrRef}>
             <section className={premiumShellClass}>
-              <div className="border-b border-white/10 p-4 sm:p-5">
+              <div className="border-b border-border p-4 sm:p-5">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <SectionHeader
                     title="CAGR calculator"
@@ -1167,7 +1167,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
                   tone={cagrIsValid ? "gradient" : "neutral"}
                 />
                 {cagrIsValid && (
-                  <p className="mt-3 text-xs text-white/45">
+                  <p className="mt-3 text-xs text-muted-foreground">
                     {formatCurrency(cagrStartN, currency)} grew to {formatCurrency(cagrEndN, currency)} in {cagrYearsN} year{cagrYearsN !== 1 ? "s" : ""} — equivalent to a steady {formatPercent(cagrResult * 100)} every year.
                   </p>
                 )}
@@ -1184,7 +1184,7 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
 
           <div ref={xirrRef}>
             <section className={premiumShellClass}>
-              <div className="border-b border-white/10 p-4 sm:p-5">
+              <div className="border-b border-border p-4 sm:p-5">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <SectionHeader
                     title="XIRR calculator"
@@ -1228,13 +1228,13 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
                   <button
                     type="button"
                     onClick={resetXirrExample}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition hover:bg-white/[0.08]"
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground/80 transition hover:bg-surface-raised"
                   >
                     Reset example
                   </button>
                 </div>
 
-                <p className="text-xs text-white/40">
+                <p className="text-xs text-muted-foreground">
                   {xirrFlows.length} cash flow{xirrFlows.length !== 1 ? "s" : ""} — need at least 1 investment and 1 payout to calculate XIRR.
                 </p>
 
@@ -1283,9 +1283,9 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
                 )}
 
                 {xirrMeta.status === "ok" && (
-                  <p className="text-xs text-white/45">
+                  <p className="text-xs text-muted-foreground">
                     This means your investment portfolio generated the equivalent of{" "}
-                    <span className="text-white">{formatPercent(xirrMeta.value * 100)}</span> per year, adjusted for the exact timing of each cash flow.
+                    <span className="text-foreground">{formatPercent(xirrMeta.value * 100)}</span> per year, adjusted for the exact timing of each cash flow.
                   </p>
                 )}
               </div>
