@@ -1057,3 +1057,28 @@ heredoc. Worth remembering for any commit message containing
 backticks going forward — use a heredoc, not a plain `-m` string.
 
 Commit: `703844e` (rebased to `d1f37e0`).
+
+## Session 33 — static info/legal pages + 404 page migrated
+
+7 files (about/contact/disclaimer/documentation/privacy/terms/
+not-found), 553 replacements via the same two-pass script as the
+SeoContent batch. Two literals intentionally protected: a self-contained
+white-pill/dark-text CTA button (same category as confirmModal.tsx's
+confirm button), and not-found.tsx's gold/amber brand accent + the
+`text-slate-950` instances sitting on that gold background rather than
+the page background — caught and reverted a bad blanket-sed mapping of
+those to `text-background` before it went further (would have made
+them flip to invisible-on-gold in light mode).
+
+not-found.tsx needed manual treatment beyond the script since it's a
+fully self-contained page with its own root background — mapped
+directly (`bg-slate-950`/`text-slate-50` root → `bg-background`/
+`text-foreground`, floating "404" card → `bg-popover`, secondary
+button → `border-border bg-card`).
+
+Verified: `tsc --noEmit` clean repo-wide; `eslint` 9 before == 9 after
+(backup-restore comparison); every responsive class byte-identical
+across all 7 files; `npx next build` compiles clean up to the
+pre-existing sandbox font block.
+
+Commit: `22d5d95`.
