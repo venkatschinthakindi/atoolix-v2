@@ -1131,3 +1131,11 @@ against the app's dark background — would have been invisible
 white-on-white in light mode. Changed to `color: var(--foreground)`.
 Verified: tsc clean, eslint 1 pre-existing error unchanged, zero
 responsive diff, build clean. Commit `c508199`.
+
+## Session 40 — zipViewerModal.tsx migrated (45 occurrences)
+
+Refined the hue-pass script for this file: only text-* and
+opacity-suffixed bg-/border- get dark:+light treatment; bare solid
+fills (active-step dot, Download button) correctly left literal per
+ProgressBar precedent. Verified: tsc clean, eslint 1 pre-existing
+error unchanged, zero responsive diff, build clean. Commit `482e1a8`.
