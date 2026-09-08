@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const footerLink =
-  "text-zinc-400 transition-colors duration-200 hover:text-white hover:underline underline-offset-4";
+  "text-muted-foreground transition-colors duration-200 hover:text-foreground hover:underline underline-offset-4";
 
 const popularTools = [
   {
@@ -138,7 +138,7 @@ export async function Footer() {
 
       <div className="footer-inner relative mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
         <section
-          className="mb-10 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8"
+          className="mb-10 rounded-3xl border border-border bg-card p-6 sm:p-8"
           aria-labelledby="site-footer-heading"
         >
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
@@ -155,7 +155,7 @@ export async function Footer() {
                 <div>
                   <h2
                     id="site-footer-heading"
-                    className="text-xl font-semibold tracking-tight text-white"
+                    className="text-xl font-semibold tracking-tight text-foreground"
                   >
                     <Link
                       href="/"
@@ -165,20 +165,20 @@ export async function Footer() {
                     </Link>
                   </h2>
 
-                  <p className="mt-1 text-xs text-zinc-500">
+                  <p className="mt-1 text-xs text-muted-foreground">
                     Online tools for everyday tasks
                   </p>
                 </div>
               </div>
 
-              <p className="mt-5 max-w-2xl text-sm leading-7 text-zinc-400">
+              <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground">
                 {siteName} provides browser-based tools for finance
                 calculations, PDFs, images, date and time utilities,
                 privacy-related file checks, QR codes, and other everyday
                 productivity tasks.
               </p>
 
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-400">
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
                 The service is designed to make common online tasks easier to
                 complete without requiring users to install desktop software.
                 Individual tools may use different processing methods, so users
@@ -188,11 +188,11 @@ export async function Footer() {
             </div>
 
             <address className="not-italic">
-              <h3 className="text-sm font-semibold text-white">
+              <h3 className="text-sm font-semibold text-foreground">
                 Website operator
               </h3>
 
-              <p className="mt-3 text-sm font-medium text-zinc-200">
+              <p className="mt-3 text-sm font-medium text-foreground-secondary">
                 <span className="text-lg text-green-600">
                   {" "}
                   <a href="https://www.thrinetratech.in" target="_blank" rel="noopener noreferrer">
@@ -202,20 +202,20 @@ export async function Footer() {
               </p>
 
               <address className="not-italic">
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-foreground">
                   About the operator
                 </h3>
 
-                <p className="mt-3 text-sm font-medium text-zinc-200">
+                <p className="mt-3 text-sm font-medium text-foreground-secondary">
                   {operator.name}
                 </p>
 
-                <p className="mt-2 text-sm leading-6 text-zinc-400">
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
                   {operator.location}
                 </p>
 
                 <p className="mt-4 text-sm">
-                  <span className="text-zinc-500">Email: </span>
+                  <span className="text-muted-foreground">Email: </span>
                   <a
                     href={`mailto:${operator.email}`}
                     className={footerLink}
@@ -228,7 +228,7 @@ export async function Footer() {
               <div className="mt-4 space-y-2 text-sm">
                 {siteUrl ? (
                   <p>
-                    <span className="text-zinc-500">Website: </span>
+                    <span className="text-muted-foreground">Website: </span>
                     <Link href="/" className={footerLink}>
                       {siteName}
                     </Link>
@@ -241,11 +241,11 @@ export async function Footer() {
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div className="space-y-4">
-            <h2 className="text-sm font-semibold text-white">
+            <h2 className="text-sm font-semibold text-foreground">
               {siteName}
             </h2>
 
-            <p className="max-w-xs text-sm leading-7 text-zinc-400">
+            <p className="max-w-xs text-sm leading-7 text-muted-foreground">
               Practical browser-based tools for calculations, documents,
               images, time, privacy checks, and everyday productivity.
             </p>
@@ -259,7 +259,7 @@ export async function Footer() {
           </div>
 
           <nav aria-label="Tool categories">
-            <h2 className="mb-4 text-sm font-semibold text-white">
+            <h2 className="mb-4 text-sm font-semibold text-foreground">
               Tool Categories
             </h2>
 
@@ -275,7 +275,7 @@ export async function Footer() {
           </nav>
 
           <nav aria-label="Finance tools">
-            <h2 className="mb-4 text-sm font-semibold text-white">
+            <h2 className="mb-4 text-sm font-semibold text-foreground">
               Finance Tools
             </h2>
 
@@ -291,7 +291,7 @@ export async function Footer() {
           </nav>
 
           <nav aria-label="Company and legal">
-            <h2 className="mb-4 text-sm font-semibold text-white">
+            <h2 className="mb-4 text-sm font-semibold text-foreground">
               Company &amp; Legal
             </h2>
 
@@ -330,7 +330,7 @@ export async function Footer() {
           </nav>
 
           <nav aria-label="Resources">
-            <h2 className="mb-4 text-sm font-semibold text-white">
+            <h2 className="mb-4 text-sm font-semibold text-foreground">
               Resources
             </h2>
 
@@ -365,18 +365,18 @@ export async function Footer() {
         </div>
 
         <section
-          className="mt-10 rounded-3xl border border-white/10 bg-white/[0.02] p-6"
+          className="mt-10 rounded-3xl border border-border bg-card p-6"
           aria-labelledby="popular-tools-heading"
         >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2
                 id="popular-tools-heading"
-                className="text-sm font-semibold text-white"
+                className="text-sm font-semibold text-foreground"
               >
                 Popular Tools
               </h2>
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Quick access to commonly used tools.
               </p>
             </div>
@@ -394,7 +394,7 @@ export async function Footer() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-zinc-300 transition hover:border-white/20 hover:bg-white/10 hover:text-white"
+                className="rounded-full border border-border bg-card px-3 py-2 text-xs text-foreground-secondary transition hover:border-border-strong hover:bg-surface-raised hover:text-foreground"
               >
                 {item.label}
               </Link>
@@ -403,24 +403,24 @@ export async function Footer() {
         </section>
 
         <section
-          className="mt-8 rounded-3xl border border-white/10 bg-slate-950/30 p-6"
+          className="mt-8 rounded-3xl border border-border bg-surface-sunken p-6"
           aria-labelledby="important-information-heading"
         >
           <h2
             id="important-information-heading"
-            className="text-sm font-semibold text-white"
+            className="text-sm font-semibold text-foreground"
           >
             Important information
           </h2>
 
-          <div className="mt-3 space-y-3 text-xs leading-6 text-zinc-500">
+          <div className="mt-3 space-y-3 text-xs leading-6 text-muted-foreground">
             <p>
               Tool behavior can vary by feature. Before submitting sensitive
               files or information, review the individual tool's instructions
               and the{" "}
               <Link
                 href="/privacy"
-                className="text-zinc-300 hover:text-white hover:underline"
+                className="text-foreground-secondary hover:text-foreground hover:underline"
               >
                 Privacy Policy
               </Link>
@@ -442,9 +442,9 @@ export async function Footer() {
           </div>
         </section>
 
-        <div className="my-10 border-t border-white/10" />
+        <div className="my-10 border-t border-border" />
 
-        <div className="mx-auto max-w-5xl text-center text-sm leading-7 text-zinc-500">
+        <div className="mx-auto max-w-5xl text-center text-sm leading-7 text-muted-foreground">
           <p>
             {siteName} is a browser-based utility platform providing finance
             calculators, PDF tools, image tools, file utilities, passport
@@ -454,9 +454,9 @@ export async function Footer() {
           </p>
         </div>
 
-        <div className="my-8 border-t border-white/10" />
+        <div className="my-8 border-t border-border" />
 
-        <div className="flex flex-col items-center justify-between gap-5 pb-8 text-sm text-zinc-500 md:flex-row">
+        <div className="flex flex-col items-center justify-between gap-5 pb-8 text-sm text-muted-foreground md:flex-row">
           <div className="space-y-2 text-center md:text-left">
             <p>
               © {year} {siteName}. All rights reserved.
@@ -472,7 +472,7 @@ export async function Footer() {
               </span>
             </p>
 
-            <p className="text-xs text-zinc-600">
+            <p className="text-xs text-muted-foreground">
               Information on this website is provided for general informational
               and utility purposes.
             </p>
