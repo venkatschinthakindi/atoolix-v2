@@ -1139,3 +1139,8 @@ opacity-suffixed bg-/border- get dark:+light treatment; bare solid
 fills (active-step dot, Download button) correctly left literal per
 ProgressBar precedent. Verified: tsc clean, eslint 1 pre-existing
 error unchanged, zero responsive diff, build clean. Commit `482e1a8`.
+
+## Session 41 — imagePreviewModal.tsx migrated (39 occurrences)
+Same refined hue-pass approach as zipViewerModal.tsx. Verified: tsc
+clean, eslint 2 pre-existing problems unchanged, zero responsive
+diff, build clean. Commit `0b274e0`.
