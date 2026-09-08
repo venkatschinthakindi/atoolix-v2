@@ -41,7 +41,7 @@ export default function ToolsHubClient({ filterKey}: {
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`rounded-full text-sm transition border border-white/10 px-4 py-2 ${
+            className={`rounded-full text-sm transition border border-border px-4 py-2 ${
               activeCategory === cat.id
                 ? "bg-white text-black"
                 : "button-ghost"

@@ -268,7 +268,7 @@ export default async function ToolPage({ params }: any) {
           <FloatingButton children={<BackButton />} />
           <div className="mb-2 flex flex-col items-center space-y-4">
             <div className="inline-flex items-center justify-center gap-2">
-              <h1 className="text-center max-w-4xl text-2xl font-extrabold tracking-wide text-white md:text-2xl">
+              <h1 className="text-center max-w-4xl text-2xl font-extrabold tracking-wide text-foreground md:text-2xl">
                 {pageTitle}
               </h1>
 
@@ -278,7 +278,7 @@ export default async function ToolPage({ params }: any) {
               />
             </div>
           </div>
-          <p className="text-white/70 text-sm text-center max-w-3xl mx-auto leading-relaxed">
+          <p className="text-foreground-secondary text-sm text-center max-w-3xl mx-auto leading-relaxed">
             {pageDescription}
           </p>
           {personalLoanAppSchema && <JsonLd data={personalLoanAppSchema} />}
