@@ -1144,3 +1144,8 @@ error unchanged, zero responsive diff, build clean. Commit `482e1a8`.
 Same refined hue-pass approach as zipViewerModal.tsx. Verified: tsc
 clean, eslint 2 pre-existing problems unchanged, zero responsive
 diff, build clean. Commit `0b274e0`.
+
+## Session 42 — pdfViewerModal.tsx migrated (38 occurrences)
+Same viewer-modal-family mapping as zipViewerModal.tsx/
+imagePreviewModal.tsx. Verified: tsc clean, eslint/responsive diffed
+directly and matched, build clean. Commit `6a06a1e`.
