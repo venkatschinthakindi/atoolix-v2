@@ -853,7 +853,7 @@ function EstimateRow({
       <span className="text-muted-foreground">Estimated result</span>
 
       {estimating ? (
-        <span className="text-slate-400">Calculating…</span>
+        <span className="text-foreground-secondary">Calculating…</span>
       ) : estimatedSize != null ? (
         <span className="font-medium text-emerald-300">
           {formatBytes(estimatedSize)}
@@ -862,7 +862,7 @@ function EstimateRow({
             : ""}
         </span>
       ) : (
-        <span className="text-slate-500">—</span>
+        <span className="text-foreground-faint">—</span>
       )}
     </div>
   );
