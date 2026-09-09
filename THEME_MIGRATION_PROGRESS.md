@@ -1149,3 +1149,9 @@ diff, build clean. Commit `0b274e0`.
 Same viewer-modal-family mapping as zipViewerModal.tsx/
 imagePreviewModal.tsx. Verified: tsc clean, eslint/responsive diffed
 directly and matched, build clean. Commit `6a06a1e`.
+
+## Sessions 43-44 — ImageCompressorClient.tsx stragglers + EquationSolver.tsx
+Fixed 2 leftover instances in ImageCompressorClient.tsx (`b3e66fa`),
+then migrated EquationSolver.tsx fully - 36 occurrences + hue pass
+(`18a6bc8`). Both verified: tsc clean, lint/responsive diffed
+directly and matched, build clean.
