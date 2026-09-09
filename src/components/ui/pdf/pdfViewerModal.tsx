@@ -105,7 +105,7 @@ export default function PdfViewerModal({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md transition-all duration-300"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-surface-overlay backdrop-blur-md transition-all duration-300"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -113,25 +113,25 @@ export default function PdfViewerModal({
     >
       <div 
         ref={modalRef}
-        className="relative flex h-full w-full flex-col overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-950 to-black shadow-2xl sm:h-[95vh] sm:w-[96vw] md:h-[92vh] md:w-[90vw] lg:h-[90vh] lg:w-[85vw] xl:h-[88vh] xl:w-[80vw] 2xl:h-[86vh] 2xl:w-[75vw] rounded-none sm:rounded-3xl border border-white/10 sm:border-white/20"
+        className="relative flex h-full w-full flex-col overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-950 to-black shadow-2xl sm:h-[95vh] sm:w-[96vw] md:h-[92vh] md:w-[90vw] lg:h-[90vh] lg:w-[85vw] xl:h-[88vh] xl:w-[80vw] 2xl:h-[86vh] 2xl:w-[75vw] rounded-none sm:rounded-3xl border border-border sm:border-border-strong"
       >
         {/* Animated gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5 pointer-events-none" />
 
         {/* Header */}
-        <header className="relative flex flex-col items-center justify-between border-b border-white/10 bg-gradient-to-r from-black/40 via-black/30 to-black/40 px-4 py-3 sm:px-6 sm:py-4">
+        <header className="relative flex flex-col items-center justify-between border-b border-border bg-gradient-to-r from-black/40 via-black/30 to-black/40 px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/20">
-              <svg className="h-5 w-5 text-indigo-400 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-500/20">
+              <svg className="h-5 w-5 text-indigo-700 dark:text-indigo-400 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
             
             <div>
-              <h2 id="modal-title" className="text-sm font-semibold text-white sm:text-base">
+              <h2 id="modal-title" className="text-sm font-semibold text-foreground sm:text-base">
                 {documentName} {variant === "preview" ? "Preview" : "Download"}
               </h2>
-              <p className="text-xs text-zinc-500 sm:text-sm">
+              <p className="text-xs text-foreground-faint sm:text-sm">
                 {variant === "preview" 
                   ? "We're getting everything ready for you..." 
                   : "Download your document securely"}
@@ -145,7 +145,7 @@ export default function PdfViewerModal({
               <div className="hidden sm:flex items-center gap-2">
                 <button
                   onClick={() => setScale((s) => Math.max(0.8, s - 0.1))}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-white transition hover:bg-white/15 hover:scale-105 active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-card text-foreground transition hover:bg-surface-raised hover:scale-105 active:scale-95"
                   aria-label="Zoom out"
                 >
                   <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,13 +153,13 @@ export default function PdfViewerModal({
                   </svg>
                 </button>
 
-                <span className="min-w-[55px] text-center text-xs font-medium text-zinc-400 sm:text-sm">
+                <span className="min-w-[55px] text-center text-xs font-medium text-foreground-secondary sm:text-sm">
                   {Math.round(scale * 100)}%
                 </span>
 
                 <button
                   onClick={() => setScale((s) => Math.min(2.5, s + 0.1))}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-white transition hover:bg-white/15 hover:scale-105 active:scale-95"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-card text-foreground transition hover:bg-surface-raised hover:scale-105 active:scale-95"
                   aria-label="Zoom in"
                 >
                   <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -174,17 +174,17 @@ export default function PdfViewerModal({
               <div className="flex sm:hidden items-center gap-1">
                 <button
                   onClick={() => setScale((s) => Math.max(0.8, s - 0.1))}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-white transition hover:bg-white/15 active:scale-95"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-card text-foreground transition hover:bg-surface-raised active:scale-95"
                   aria-label="Zoom out"
                 >
                   −
                 </button>
-                <span className="min-w-[45px] text-center text-xs text-zinc-400">
+                <span className="min-w-[45px] text-center text-xs text-foreground-secondary">
                   {Math.round(scale * 100)}%
                 </span>
                 <button
                   onClick={() => setScale((s) => Math.min(2.5, s + 0.1))}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-white transition hover:bg-white/15 active:scale-95"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-card text-foreground transition hover:bg-surface-raised active:scale-95"
                   aria-label="Zoom in"
                 >
                   +
@@ -195,7 +195,7 @@ export default function PdfViewerModal({
             {/* Close button */}
             <button
               onClick={onClose}
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-500/15 text-red-400 transition hover:bg-red-500/25 hover:scale-105 active:scale-95 sm:h-10 sm:w-10 sm:rounded-xl"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-100 dark:bg-red-500/15 text-red-700 dark:text-red-400 transition hover:bg-red-100 dark:hover:bg-red-500/25 hover:scale-105 active:scale-95 sm:h-10 sm:w-10 sm:rounded-xl"
               aria-label="Close modal"
             >
               <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -206,7 +206,7 @@ export default function PdfViewerModal({
         </header>
 
         {/* Ad Area - Ad ALWAYS Visible, Preview Shows Below After Delay */}
-        <section className="relative border-b border-white/10 bg-gradient-to-r from-black/30 via-black/20 to-black/30 p-3 sm:p-4">
+        <section className="relative border-b border-border bg-gradient-to-r from-black/30 via-black/20 to-black/30 p-3 sm:p-4">
           {/* Ad Component - Always Visible */}
           <AdComponent
             duration={2000}
@@ -219,14 +219,14 @@ export default function PdfViewerModal({
           {/* Loading Info (only while preparing) */}
           {isPreparing && !showPreview && (
             <div className="mt-3 sm:mt-4 text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/15 px-3 py-1.5 sm:px-4 sm:py-2">
-                <span className="flex items-center gap-1 text-sm text-indigo-300 sm:text-sm">
-                  <span className="text-indigo-400">{currentMessage.icon}</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-300 dark:border-indigo-500/30 bg-indigo-100 dark:bg-indigo-500/15 px-3 py-1.5 sm:px-4 sm:py-2">
+                <span className="flex items-center gap-1 text-sm text-indigo-700 dark:text-indigo-300 sm:text-sm">
+                  <span className="text-indigo-700 dark:text-indigo-400">{currentMessage.icon}</span>
                   <span>{currentMessage.message}</span>
                 </span>
               </div>
               
-              <p className="mt-3 text-xs text-zinc-500 sm:text-sm">
+              <p className="mt-3 text-xs text-foreground-faint sm:text-sm">
                 ✨ Your preview will appear automatically below
               </p>
             </div>
@@ -234,15 +234,15 @@ export default function PdfViewerModal({
         </section>
 
         {/* Viewer / Download Area - Shows After Ad Duration */}
-        <main className="flex-1 overflow-auto bg-zinc-900/50">
+        <main className="flex-1 overflow-auto bg-surface-sunken">
           {/* Show loading while preparing */}
           {!showPreview ? (
             <div className="flex h-full items-center justify-center">
               <div className="text-center max-w-md px-4">
                 {/* Animated gradient spinner */}
                 <div className="mx-auto relative mb-6">
-                  <div className="h-16 w-16 sm:h-20 sm:w-20 animate-spin rounded-full border-2 border-indigo-500/30 border-t-indigo-500" />
-                  <div className="absolute inset-0 h-16 w-16 sm:h-20 sm:w-20 animate-pulse rounded-full bg-indigo-500/10" />
+                  <div className="h-16 w-16 sm:h-20 sm:w-20 animate-spin rounded-full border-2 border-indigo-300 dark:border-indigo-500/30 border-t-indigo-500" />
+                  <div className="absolute inset-0 h-16 w-16 sm:h-20 sm:w-20 animate-pulse rounded-full bg-indigo-100 dark:bg-indigo-500/10" />
                 </div>
                 
                 {/* Step indicator */}
@@ -253,25 +253,25 @@ export default function PdfViewerModal({
                       className={`h-2 w-2 rounded-full transition-all duration-300 ${
                         index <= loadingStep 
                           ? "bg-indigo-500 scale-125" 
-                          : "bg-zinc-600"
+                          : "bg-surface-raised"
                       }`}
                     />
                   ))}
                 </div>
 
                 {/* Main message */}
-                <p className="text-base font-medium text-white mb-2">
+                <p className="text-base font-medium text-foreground mb-2">
                   {currentMessage.icon} {currentMessage.message}
                 </p>
                 
                 {/* Reassurance */}
-                <p className="text-sm text-zinc-400">
+                <p className="text-sm text-foreground-secondary">
                   Please wait a moment - we're preparing everything for you...
                 </p>
 
                 {/* Progress indicator */}
                 <div className="mt-6 w-full max-w-[200px] mx-auto">
-                  <div className="h-1.5 bg-zinc-700 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-surface-raised rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 animate-pulse"
                       style={{ width: `${(loadingStep + 1) / loadingMessages.length * 100}%` }}
@@ -292,28 +292,28 @@ export default function PdfViewerModal({
                 <div className="text-center max-w-md">
                   {/* Success Icon */}
                   <div className="flex items-center justify-center mb-6">
-                    <div className="h-24 w-24 rounded-full bg-emerald-500/20 flex items-center justify-center animate-pulse">
-                      <svg className="h-14 w-14 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="h-24 w-24 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center animate-pulse">
+                      <svg className="h-14 w-14 text-emerald-700 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l3 3 6-6m0 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                   </div>
                   
                   {/* Success Message */}
-                  <h3 className="text-xl font-semibold text-white mb-2">
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
                     🎉 Your Document is Ready!
                   </h3>
-                  <p className="text-sm text-zinc-400 mb-2">
+                  <p className="text-sm text-foreground-secondary mb-2">
                     {documentName}
                   </p>
-                  <p className="text-sm text-zinc-500 mb-6">
+                  <p className="text-sm text-foreground-faint mb-6">
                     Everything is prepared perfectly for you. Click below to download!
                   </p>
                   
                   {/* Download Button */}
                   <button
                     onClick={onDownload}
-                    className="flex items-center justify-center gap-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-medium transition hover:scale-105 active:scale-95"
+                    className="flex items-center justify-center gap-3 w-full bg-emerald-500 hover:bg-emerald-600 text-foreground px-8 py-4 rounded-xl font-medium transition hover:scale-105 active:scale-95"
                   >
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -322,7 +322,7 @@ export default function PdfViewerModal({
                   </button>
                   
                   {/* Reassurance */}
-                  <p className="mt-4 text-xs text-zinc-500">
+                  <p className="mt-4 text-xs text-foreground-faint">
                     ✨ Secure download • No waiting • Instant access
                   </p>
                 </div>
@@ -333,9 +333,9 @@ export default function PdfViewerModal({
 
         {/* Footer */}
         {variant === "preview" && (
-          <footer className="relative border-t border-white/10 bg-black/30 px-4 py-2 text-center text-xs text-zinc-500 sm:px-6 sm:text-sm">
+          <footer className="relative border-t border-border bg-surface-sunken px-4 py-2 text-center text-xs text-foreground-faint sm:px-6 sm:text-sm">
             <span>
-              Keyboard: <kbd className="rounded bg-white/10 px-1.5 py-0.5 font-mono">Esc</kbd> to close, <kbd className="rounded bg-white/10 px-1.5 py-0.5 font-mono">+</kbd>/<kbd className="rounded bg-white/10 px-1.5 py-0.5 font-mono">-</kbd> to zoom
+              Keyboard: <kbd className="rounded bg-surface-raised px-1.5 py-0.5 font-mono">Esc</kbd> to close, <kbd className="rounded bg-surface-raised px-1.5 py-0.5 font-mono">+</kbd>/<kbd className="rounded bg-surface-raised px-1.5 py-0.5 font-mono">-</kbd> to zoom
             </span>
           </footer>
         )}
