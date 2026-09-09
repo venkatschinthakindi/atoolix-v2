@@ -32,7 +32,7 @@ return () => {
 
 }, [sidebarOpen]);
 
-return ( <div className="mx-auto w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6"> <div className="grid gap-6 xl:grid-cols-[1fr_auto]"> <div className="space-y-4"> <EquationSolver
+return ( <div className="mx-auto w-full px-3 py-3 text-foreground sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6"> <div className="grid gap-6 xl:grid-cols-[1fr_auto]"> <div className="space-y-4"> <EquationSolver
          sidebarOpen={sidebarOpen}
          setSidebarOpen={setSidebarOpen}
        />
@@ -45,7 +45,7 @@ return ( <div className="mx-auto w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:
           subtitle="Use the helper drawer for examples across algebra, calculus, matrices, and units."
         />
 
-        <div className="px-4 py-3 text-sm text-white/70 sm:px-5 sm:py-4">
+        <div className="px-4 py-3 text-sm text-foreground-secondary sm:px-5 sm:py-4">
           Type expressions directly or use the examples from the help panel.
         </div>
       </ShellCard>
@@ -55,7 +55,7 @@ return ( <div className="mx-auto w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:
   {sidebarOpen && (
     <>
       <div
-        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]"
+        className="fixed inset-0 z-40 bg-surface-sunken backdrop-blur-[2px]"
         onClick={() => setSidebarOpen(false)}
         aria-hidden="true"
       />
@@ -65,18 +65,18 @@ return ( <div className="mx-auto w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:
         role="dialog"
         aria-modal="true"
         aria-labelledby="calculator-help-title"
-        className="fixed right-0 top-0 z-50 h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-black/90 p-6 shadow-2xl"
+        className="fixed right-0 top-0 z-50 h-full w-full max-w-md overflow-y-auto border-l border-border bg-surface-overlay p-6 shadow-2xl"
       >
         <div className="mb-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <BookOpenCheck
               size={22}
-              className="text-emerald-400"
+              className="text-emerald-700 dark:text-emerald-400"
             />
 
             <h2
               id="calculator-help-title"
-              className="text-xl font-semibold text-white sm:text-2xl"
+              className="text-xl font-semibold text-foreground sm:text-2xl"
             >
               Quick Reference
             </h2>
@@ -85,7 +85,7 @@ return ( <div className="mx-auto w-full px-3 py-3 text-white sm:px-4 sm:py-4 md:
           <button
             type="button"
             onClick={() => setSidebarOpen(false)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:border-white/20 hover:bg-white/10"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition hover:border-border-strong hover:bg-surface-raised"
             aria-label="Close Help"
           >
             <X size={20} />
@@ -221,12 +221,12 @@ return ( <ShellCard> <SectionHeader
 
 
   <div className="space-y-4 p-3 sm:p-4 md:p-5">
-    <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-3 text-right">
-      <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">
+    <div className="rounded-2xl border border-border bg-card px-4 py-3 text-right">
+      <p className="text-[11px] uppercase tracking-[0.16em] text-foreground-faint">
         Solution
       </p>
 
-      <p className="mt-2 break-all text-2xl font-semibold text-white sm:text-3xl">
+      <p className="mt-2 break-all text-2xl font-semibold text-foreground sm:text-3xl">
         {solution || "0"}
       </p>
     </div>
@@ -240,7 +240,7 @@ return ( <ShellCard> <SectionHeader
         }
       }}
       placeholder="Enter an equation or expression (examples in Help)"
-      className="h-12 w-full rounded-2xl border border-white/10 bg-black/10 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-green-400/35 focus:bg-black/15"
+      className="h-12 w-full rounded-2xl border border-border bg-card px-4 text-sm text-foreground outline-none placeholder:text-foreground-faint focus:border-green-300 dark:border-green-400/35 focus:bg-surface-sunken"
     />
 
     <div className="grid grid-cols-[9fr_1fr] gap-2">
@@ -248,7 +248,7 @@ return ( <ShellCard> <SectionHeader
         type="button"
         disabled={isSolving}
         onClick={() => void handleSolve()}
-        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSolving ? "Solving..." : "Solve"}
       </button>
@@ -256,7 +256,7 @@ return ( <ShellCard> <SectionHeader
       <button
         type="button"
         onClick={() => setSidebarOpen(true)}
-        className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white transition hover:border-white/20 hover:bg-white/10"
+        className="inline-flex items-center justify-center rounded-2xl border border-border bg-card text-foreground transition hover:border-border-strong hover:bg-surface-raised"
         aria-label="Open Help"
         aria-expanded={sidebarOpen}
         aria-controls="calculator-help"
@@ -272,7 +272,7 @@ return ( <ShellCard> <SectionHeader
 }
 
 function DocumentationPanel() {
-return ( <div className="space-y-3 text-sm text-white/80"> <DocItem label="Basics" example="12+8/2" result="16" /> <DocItem label="Percentage" example="20% of 150" result="30" /> <DocItem label="Increase" example="150 + 20%" result="180" /> <DocItem label="Decrease" example="150 - 20%" result="120" /> <DocItem
+return ( <div className="space-y-3 text-sm text-foreground"> <DocItem label="Basics" example="12+8/2" result="16" /> <DocItem label="Percentage" example="20% of 150" result="30" /> <DocItem label="Increase" example="150 + 20%" result="180" /> <DocItem label="Decrease" example="150 - 20%" result="120" /> <DocItem
      label="Find Percentage"
      example="25 is what % of 80"
      result="31.25%"
@@ -327,7 +327,7 @@ return ( <div className="space-y-3 text-sm text-white/80"> <DocItem label="Basic
    />
 
 
-  <p className="pt-2 text-xs leading-5 text-white/45">
+  <p className="pt-2 text-xs leading-5 text-foreground-faint">
     Tip: Start with basics, then explore algebra, calculus, matrices,
     statistics, and more.
   </p>
@@ -346,16 +346,16 @@ label: string;
 example: string;
 result: string;
 }) {
-return ( <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3"> <p className="text-xs uppercase tracking-[0.16em] text-white/45">
+return ( <div className="rounded-2xl border border-border bg-card px-4 py-3"> <p className="text-xs uppercase tracking-[0.16em] text-foreground-faint">
 {label} </p>
 
 
-  <p className="mt-2 text-sm leading-6 text-white/80">
-    <code className="rounded bg-black/20 px-1.5 py-0.5 text-white">
+  <p className="mt-2 text-sm leading-6 text-foreground">
+    <code className="rounded bg-surface-sunken px-1.5 py-0.5 text-foreground">
       {example}
     </code>{" "}
-    <span className="text-white/55">→</span>{" "}
-    <span className="text-white">{result}</span>
+    <span className="text-foreground-faint">→</span>{" "}
+    <span className="text-foreground">{result}</span>
   </p>
 </div>
 
