@@ -1155,3 +1155,13 @@ Fixed 2 leftover instances in ImageCompressorClient.tsx (`b3e66fa`),
 then migrated EquationSolver.tsx fully - 36 occurrences + hue pass
 (`18a6bc8`). Both verified: tsc clean, lint/responsive diffed
 directly and matched, build clean.
+
+## Session 45 — SmartCalculator.tsx migrated (34/35 occurrences)
+
+Left one ternary untouched: an independent, prop-driven `theme` prop
+(defaults to "dark", never overridden by its only caller) separate
+from the app-wide next-themes system — converting it would wrongly
+couple independent component theming to the global theme. Same
+reasoning class as toolCard.tsx's theme-independent design. Verified:
+tsc clean, lint/responsive diffed directly and matched, build clean.
+Commit `3c009b0`.
