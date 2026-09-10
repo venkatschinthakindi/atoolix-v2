@@ -522,7 +522,7 @@ export default function ImageCompressor50SeoContent() {
           {coreFeatures.map((feature) => (
             <article
               key={feature.title}
-              className="rounded-xl border border-border bg-card p-4 transition hover:border-cyan-400 dark:hover:border-cyan-400/20 hover:bg-white/[0.07]"
+              className="rounded-xl border border-border bg-card p-4 transition hover:border-cyan-400 dark:hover:border-cyan-400/20 hover:bg-surface-raised"
             >
               <div className="text-xl">{feature.icon}</div>
 
