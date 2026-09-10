@@ -120,7 +120,7 @@ function ToolHero({
                 <span className="text-emerald-300">Local Browser</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-slate-400">Status</span>
+                <span className="text-foreground-secondary">Status</span>
                 <span className="text-blue-300">{processing ? "Processing" : file ? "Ready" : "Waiting"}</span>
               </div>
             </div>
