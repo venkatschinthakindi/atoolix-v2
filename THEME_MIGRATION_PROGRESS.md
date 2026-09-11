@@ -1165,3 +1165,9 @@ couple independent component theming to the global theme. Same
 reasoning class as toolCard.tsx's theme-independent design. Verified:
 tsc clean, lint/responsive diffed directly and matched, build clean.
 Commit `3c009b0`.
+
+## Sessions 46-47 — ImageConverterClient.tsx straggler + percentageCalculator.tsx
+Fixed 1 leftover in ImageConverterClient.tsx (`0680650`), then
+migrated percentageCalculator.tsx fully - 32 occurrences + hue pass
+(`ba05b81`, rebased to `c070a9d`). Both verified: tsc clean,
+lint/responsive diffed directly and matched, build clean.
