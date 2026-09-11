@@ -1171,3 +1171,7 @@ Fixed 1 leftover in ImageConverterClient.tsx (`0680650`), then
 migrated percentageCalculator.tsx fully - 32 occurrences + hue pass
 (`ba05b81`, rebased to `c070a9d`). Both verified: tsc clean,
 lint/responsive diffed directly and matched, build clean.
+
+## Session 48 — Financeseoshared.tsx migrated (28 occurrences)
+Standard mapping + hue pass. Verified: tsc clean, lint/responsive
+diffed directly and matched, build clean. Commit `862ee09`.
