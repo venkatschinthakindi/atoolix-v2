@@ -25,16 +25,16 @@ function format(value: number, suffix = "") {
 function Field({ label, value, onChange, suffix }: { label: string; value: string; onChange: (value: string) => void; suffix?: string }) {
   return (
     <label className="block space-y-2">
-      <span className="text-sm font-medium text-white/80">{label}</span>
-      <div className="flex items-center rounded-2xl border border-white/10 bg-black/10 px-3 focus-within:border-blue-400/40">
+      <span className="text-sm font-medium text-foreground">{label}</span>
+      <div className="flex items-center rounded-2xl border border-border bg-card px-3 focus-within:border-blue-300 dark:border-blue-400/40">
         <input
           inputMode="decimal"
           type="number"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="min-w-0 flex-1 bg-transparent py-3 text-base text-white outline-none placeholder:text-white/30"
+          className="min-w-0 flex-1 bg-transparent py-3 text-base text-foreground outline-none placeholder:text-foreground-faint"
         />
-        {suffix && <span className="pl-2 text-sm text-white/45">{suffix}</span>}
+        {suffix && <span className="pl-2 text-sm text-foreground-faint">{suffix}</span>}
       </div>
     </label>
   );
@@ -99,21 +99,21 @@ export function PercentageCalculator() {
   }, [activeTab, percent, value, part, whole, original, current, applyValue, applyPercent, direction]);
 
   return (
-    <div className="mx-auto w-full text-white sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
-      <div className="mb-5 rounded-3xl border border-white/10 bg-white/5 p-4 sm:p-5">
+    <div className="mx-auto w-full text-foreground sm:px-4 sm:py-4 md:px-5 md:py-5 lg:px-6 lg:py-6">
+      <div className="mb-5 rounded-3xl border border-border bg-card p-4 sm:p-5">
         <div className="flex items-start gap-3">
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-blue-200">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-border bg-card text-blue-700 dark:text-blue-200">
             <Percent className="h-5 w-5" />
           </span>
           <div>
             <h2 className="text-lg font-semibold">Percentage Calculator</h2>
-            <p className="mt-1 text-sm leading-6 text-white/60">Calculate percent of a number, what percent one value is of another, percentage change, and add or subtract a percentage.</p>
+            <p className="mt-1 text-sm leading-6 text-foreground-secondary">Calculate percent of a number, what percent one value is of another, percentage change, and add or subtract a percentage.</p>
           </div>
         </div>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <section className="rounded-3xl border border-white/10 bg-white/5 p-3 sm:p-5">
+        <section className="rounded-3xl border border-border bg-card p-3 sm:p-5">
           <div role="tablist" aria-label="Percentage calculator modes" className="grid gap-3 sm:grid-cols-2">
             {tabs.map((tab) => {
               const active = activeTab === tab.id;
@@ -124,10 +124,10 @@ export function PercentageCalculator() {
                   role="tab"
                   aria-selected={active}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`rounded-2xl border px-4 py-3 text-left transition ${active ? "border-blue-400/35 bg-blue-400/10" : "border-white/10 bg-white/5 hover:bg-white/10"}`}
+                  className={`rounded-2xl border px-4 py-3 text-left transition ${active ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10" : "border-border bg-card hover:bg-surface-raised"}`}
                 >
-                  <span className="block text-sm font-semibold text-white">{tab.label}</span>
-                  <span className="mt-1 block text-xs leading-5 text-white/55">{tab.desc}</span>
+                  <span className="block text-sm font-semibold text-foreground">{tab.label}</span>
+                  <span className="mt-1 block text-xs leading-5 text-foreground-faint">{tab.desc}</span>
                 </button>
               );
             })}
@@ -165,7 +165,7 @@ export function PercentageCalculator() {
                       key={option}
                       type="button"
                       onClick={() => setDirection(option)}
-                      className={`rounded-2xl border px-4 py-3 text-sm font-medium capitalize transition ${direction === option ? "border-blue-400/35 bg-blue-400/10 text-white" : "border-white/10 bg-white/5 text-white/65 hover:bg-white/10"}`}
+                      className={`rounded-2xl border px-4 py-3 text-sm font-medium capitalize transition ${direction === option ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground" : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"}`}
                     >
                       {option}
                     </button>
@@ -176,16 +176,16 @@ export function PercentageCalculator() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-blue-400/20 bg-blue-400/5 p-5 sm:p-6">
-          <div className="flex items-center gap-2 text-sm font-medium text-white/70">
+        <section className="rounded-3xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/5 p-5 sm:p-6">
+          <div className="flex items-center gap-2 text-sm font-medium text-foreground-secondary">
             <Calculator className="h-4 w-4" /> Result
           </div>
-          <p className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-4xl">{format(result.value, activeTab === "whatPercent" || activeTab === "change" ? "%" : "")}</p>
-          <p className="mt-2 text-sm text-white/65">{result.label}</p>
-          <div className="mt-6 rounded-2xl border border-white/10 bg-black/10 p-4">
-            <p className="text-xs uppercase tracking-[0.14em] text-white/40">Formula</p>
-            <p className="mt-2 break-words font-mono text-sm text-white/85">{result.formula}</p>
-            <p className="mt-3 text-sm leading-6 text-white/60">{result.explanation}</p>
+          <p className="mt-5 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{format(result.value, activeTab === "whatPercent" || activeTab === "change" ? "%" : "")}</p>
+          <p className="mt-2 text-sm text-foreground-secondary">{result.label}</p>
+          <div className="mt-6 rounded-2xl border border-border bg-card p-4">
+            <p className="text-xs uppercase tracking-[0.14em] text-foreground-faint">Formula</p>
+            <p className="mt-2 break-words font-mono text-sm text-foreground">{result.formula}</p>
+            <p className="mt-3 text-sm leading-6 text-foreground-secondary">{result.explanation}</p>
           </div>
         </section>
       </div>
