@@ -68,10 +68,10 @@ export function ReviewedMeta({
   methodologyNote: string;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-white/45 border-b border-white/10 pb-4">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-foreground-faint border-b border-border pb-4">
       <span>
         Written &amp; reviewed by{" "}
-        <Link href="/about" className="text-white/60 underline decoration-white/20 underline-offset-2 hover:text-white/80">
+        <Link href="/about" className="text-foreground-secondary underline decoration-white/20 underline-offset-2 hover:text-foreground">
           Venkatesh, Atoolix
         </Link>
       </span>
@@ -106,9 +106,9 @@ export function AudienceSection({
       <h2 id={id} className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
         {heading}
       </h2>
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-        <p className="text-sm leading-relaxed text-white/65">{intro}</p>
-        <ul className="mt-4 grid gap-2 text-sm text-white/65 sm:grid-cols-2">
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <p className="text-sm leading-relaxed text-foreground-secondary">{intro}</p>
+        <ul className="mt-4 grid gap-2 text-sm text-foreground-secondary sm:grid-cols-2">
           {items.map((item) => (
             <li key={item}>• {item}</li>
           ))}
@@ -138,10 +138,10 @@ export function ComparisonTable({
       <h2 id={id} className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
         {heading}
       </h2>
-      <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+      <div className="overflow-x-auto rounded-2xl border border-border bg-card">
         <table className="w-full min-w-[480px] text-left text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-white/50">
+            <tr className="border-b border-border text-foreground-faint">
               <th scope="col" className="p-4 font-medium">
                 Factor
               </th>
@@ -154,12 +154,12 @@ export function ComparisonTable({
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-b border-white/5 last:border-0">
-                <th scope="row" className="p-4 font-medium text-white/80 align-top">
+              <tr key={row.label} className="border-b border-border last:border-0">
+                <th scope="row" className="p-4 font-medium text-foreground align-top">
                   {row.label}
                 </th>
                 {row.values.map((v, i) => (
-                  <td key={i} className="p-4 text-white/65 align-top">
+                  <td key={i} className="p-4 text-foreground-secondary align-top">
                     {v}
                   </td>
                 ))}
@@ -192,10 +192,10 @@ export function FaqSection({
       </h2>
       <div className="space-y-3">
         {items.map((item) => (
-          <details key={item.q} className="group rounded-2xl border border-white/10 bg-white/5">
-            <summary className="cursor-pointer list-none p-5 text-sm font-semibold text-white">{item.q}</summary>
-            <div className="border-t border-white/10 px-5 pb-5 pt-4">
-              <p className="text-xs leading-relaxed text-white/60">{item.a}</p>
+          <details key={item.q} className="group rounded-2xl border border-border bg-card">
+            <summary className="cursor-pointer list-none p-5 text-sm font-semibold text-foreground">{item.q}</summary>
+            <div className="border-t border-border px-5 pb-5 pt-4">
+              <p className="text-xs leading-relaxed text-foreground-secondary">{item.a}</p>
             </div>
           </details>
         ))}
@@ -227,14 +227,14 @@ export function CrossToolCta({
       <h2 id={id} className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
         {heading}
       </h2>
-      <div className="rounded-2xl border border-blue-400/20 bg-blue-400/5 p-5">
-        <p className="text-sm leading-relaxed text-white/65">{body}</p>
+      <div className="rounded-2xl border border-blue-300 dark:border-blue-400/20 bg-blue-100 dark:bg-blue-400/5 p-5">
+        <p className="text-sm leading-relaxed text-foreground-secondary">{body}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {others.map((tool) => (
             <Link
               key={tool.id}
               href={tool.href}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/80 transition hover:border-blue-400/30 hover:bg-blue-400/10 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-medium text-foreground transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/10 hover:text-foreground"
             >
               Try the {tool.name} →
             </Link>
@@ -256,8 +256,8 @@ export function CalculatorDisclaimer({ id, heading, body }: { id: string; headin
       <h2 id={id} className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
         {heading}
       </h2>
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-        <p className="text-sm leading-relaxed text-white/60">{body}</p>
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <p className="text-sm leading-relaxed text-foreground-secondary">{body}</p>
       </div>
     </section>
   );
