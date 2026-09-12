@@ -23,7 +23,7 @@ export function FileRow({
     ? `${fullpreview.slice(0, 60)}...more`
     : fullpreview;
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-4 backdrop-blur-md transition hover:border-blue-400/25 hover:bg-white/[0.07]">
+    <div className="rounded-3xl border border-border bg-card p-4 backdrop-blur-md transition hover:border-blue-400/25 hover:bg-surface-raised">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="flex items-center gap-3">
@@ -31,10 +31,10 @@ export function FileRow({
               <FileText className="h-4 w-4 text-blue-500" />
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-white">
+              <p className="truncate text-sm font-medium text-foreground">
                 {item.file.name}
               </p>
-              <p className="text-xs text-white/50">
+              <p className="text-xs text-foreground-faint">
                 {item.totalPages ? `${item.totalPages} pages` : "Reading pages..."}
               </p>
             </div>
@@ -46,7 +46,7 @@ export function FileRow({
             type="button"
             onClick={() => onMove(item.id, -1)}
             disabled={index === 0}
-            className="flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex items-center gap-1 rounded-2xl border border-border bg-card px-3 py-2 text-xs text-foreground transition hover:bg-surface-raised disabled:cursor-not-allowed disabled:opacity-40"
           >
             <ArrowUp className="h-3.5 w-3.5" />
             Up
@@ -55,7 +55,7 @@ export function FileRow({
             type="button"
             onClick={() => onMove(item.id, 1)}
             disabled={index === total - 1}
-            className="flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex items-center gap-1 rounded-2xl border border-border bg-card px-3 py-2 text-xs text-foreground transition hover:bg-surface-raised disabled:cursor-not-allowed disabled:opacity-40"
           >
             <ArrowDown className="h-3.5 w-3.5" />
             Down
@@ -63,7 +63,7 @@ export function FileRow({
           <button
             type="button"
             onClick={() => onRemove(item.id)}
-            className="flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-xs text-white transition hover:bg-red-500/10 hover:text-red-200"
+            className="flex items-center gap-1 rounded-2xl border border-border bg-card px-3 py-2 text-xs text-foreground transition hover:bg-red-500/10 hover:text-red-200"
           >
             <X className="h-3.5 w-3.5" />
             Remove
@@ -74,14 +74,14 @@ export function FileRow({
       <div className="mt-4 space-y-2">
         <FieldLabel>Pages</FieldLabel>
         <input
-          className="w-full rounded-2xl border border-white/10 bg-slate-950/60 px-3 py-2.5 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-blue-400/40 focus:ring-2 focus:ring-blue-400/15"
+          className="w-full rounded-2xl border border-border bg-popover px-3 py-2.5 text-sm text-foreground outline-none transition placeholder:text-foreground-faint focus:border-blue-400/40 focus:ring-2 focus:ring-blue-400/15"
           value={item.input}
           placeholder="first-3, 9-13, 19, last-2, all, odd, even"
           onChange={(e) => onChange(item.id, e.target.value)}
           aria-label={`Page selection for ${item.file.name}`}
         />
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-[11px] leading-5 text-white/45">
+          <p className="text-[11px] leading-5 text-foreground-faint">
             Use ranges, single pages, odd/even, first- and last- syntax.
           </p>
           <span
