@@ -108,7 +108,7 @@ export default function AdComponent({
                 </div>
                 
                 <div className="text-left">
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-foreground">
                     {documentName}
                   </p>
                   <p className="text-xs text-indigo-300">

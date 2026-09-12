@@ -17,7 +17,7 @@ export function RenameFavoriteDialog({
   const [name, setName] = useState(currentName || '');
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-surface-overlay p-4">
       <div className="w-full max-w-md rounded-2xl bg-background p-5 shadow-xl">
         <h2 className="text-lg font-semibold">Rename Favorite</h2>
         <label className="mt-4 block text-sm font-medium">Display Name</label>
