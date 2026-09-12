@@ -1175,3 +1175,21 @@ lint/responsive diffed directly and matched, build clean.
 ## Session 48 — Financeseoshared.tsx migrated (28 occurrences)
 Standard mapping + hue pass. Verified: tsc clean, lint/responsive
 diffed directly and matched, build clean. Commit `862ee09`.
+
+## Session 49 — fileRow.tsx + optionCard.tsx migrated; sandbox reset recovery
+
+Mid-task, this session's sandbox environment was reset entirely (repo
+directory gone). Recovered cleanly: re-cloned, checked out this
+branch at its last-pushed commit, confirmed nothing was lost (nothing
+had been pushed yet from the in-progress edit), reinstalled deps, and
+redid the edit from scratch. Noting this here in case any other
+session sees a gap and wonders what happened - no data was lost, just
+had to redo ~5 minutes of local work.
+
+36 combined occurrences migrated across fileRow.tsx/optionCard.tsx.
+Both have a fixed white-circle icon-badge (bg-white/90 + text-blue-500
+icon) - same intentionally theme-invariant pattern as toolCard.tsx,
+left as literal.
+
+Verified: tsc clean, lint diffed directly and matched, build clean.
+Commit `fe5b833`.
