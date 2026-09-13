@@ -109,7 +109,7 @@ export default function CustomSelect<T extends string>({
 
   return (
     <div ref={rootRef} className={`relative w-full ${className}`}>
-      {label ? <div className="mb-2 p-2 text-xs sm:text-sm font-medium text-white/85">{label}</div> : null}
+      {label ? <div className="mb-2 p-2 text-xs sm:text-sm font-medium text-foreground">{label}</div> : null}
 
 
       <button
@@ -118,7 +118,7 @@ export default function CustomSelect<T extends string>({
         disabled={disabled}
         onClick={() => !disabled && setOpen((v) => !v)}
         className={[
-          "flex w-full items-center justify-between gap-3 rounded-2xl border border-white/10 bg-indigo/40 px-3 sm:px-4 py-1.5 sm:py-2 text-left text-white outline-none transition",
+          "flex w-full items-center justify-between gap-3 rounded-2xl border border-border bg-indigo/40 px-3 sm:px-4 py-1.5 sm:py-2 text-left text-foreground outline-none transition",
           "hover:border-blue-500 hover:bg-indigo/50 focus:border-blue-500",
           disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer ",
         ].join(" ")}
@@ -126,14 +126,14 @@ export default function CustomSelect<T extends string>({
         aria-expanded={open}
       >
         <span className="flex min-w-0 items-center gap-2">
-          <span className={selected ? "truncate text-xs sm:text-sm text-white" : "truncate text-xs sm:text-sm text-white/35"}>
+          <span className={selected ? "truncate text-xs sm:text-sm text-foreground" : "truncate text-xs sm:text-sm text-foreground-faint"}>
             {selected?.label ?? placeholder}
           </span>
         </span>
 
 
         <ChevronDown
-          className={`h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-white/75 transition ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-foreground-secondary transition ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -142,10 +142,10 @@ export default function CustomSelect<T extends string>({
         ? createPortal(
             <div
               role="listbox"
-              className="overflow-hidden rounded-2xl border border-white/10 bg-black/60 shadow-2xl backdrop-blur-sm"
+              className="overflow-hidden rounded-2xl border border-border bg-surface-overlay shadow-2xl backdrop-blur-sm"
               style={menuStyle}
             >
-              <div className="border-b border-white/10 px-3 sm:px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white/85">
+              <div className="border-b border-border px-3 sm:px-4 py-2 text-xs font-semibold uppercase tracking-wide text-foreground">
                 Choose an option
               </div>
 
@@ -172,15 +172,15 @@ export default function CustomSelect<T extends string>({
                       className={[
                         "flex w-full mt-1 items-center gap-2 justify-between rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-left text-xs sm:text-sm transition",
                         active
-                          ? "bg-gray-500/20 text-blue-300 hover:bg-gray-500/30"
-                          : "bg-white/5 text-white hover:bg-white/10",
+                          ? "bg-surface-raised text-blue-700 dark:text-blue-300 hover:bg-surface-raised"
+                          : "bg-card text-foreground hover:bg-surface-raised",
                         active ? "cursor-not-allowed pointer-events-none opacity-50" : "cursor-pointer",
                       ].join(" ")}
                     >
                       <span className="flex  items-center gap-2">
                         <span>{opt.label}</span>
                         {active ? (
-                          <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-blue-300" />
+                          <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-blue-700 dark:text-blue-300" />
                         ) : (
                           <span className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                         )}
