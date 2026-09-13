@@ -1193,3 +1193,9 @@ left as literal.
 
 Verified: tsc clean, lint diffed directly and matched, build clean.
 Commit `fe5b833`.
+
+## Session 50 — customSelect.tsx migrated (15 occurrences)
+Standard mapping + text-blue-300 contrast fix. Collapsed a
+resting/hover opacity-tier distinction into one token (minor
+acceptable normalization). Verified: tsc clean, lint diffed and
+matched, build clean. Commit `f61c0de`.
