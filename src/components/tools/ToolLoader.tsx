@@ -7,7 +7,7 @@ export default function ToolLoader() {
 
       {/* Micro-copy */}
       <div>
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-xl font-semibold text-foreground">
           Setting up your tool…
         </h2>
         <p className="text-lg text-zinc-400">
