@@ -1199,3 +1199,8 @@ Standard mapping + text-blue-300 contrast fix. Collapsed a
 resting/hover opacity-tier distinction into one token (minor
 acceptable normalization). Verified: tsc clean, lint diffed and
 matched, build clean. Commit `f61c0de`.
+
+## Session 51 — timezoneSelect.tsx migrated (12 occurrences)
+Standard mapping, consistent with timezoneClient.tsx precedent.
+Verified: tsc clean, lint diffed and matched, build clean. Commit
+`56f4772`.
