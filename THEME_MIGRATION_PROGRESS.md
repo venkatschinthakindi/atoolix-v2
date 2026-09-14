@@ -1204,3 +1204,7 @@ matched, build clean. Commit `f61c0de`.
 Standard mapping, consistent with timezoneClient.tsx precedent.
 Verified: tsc clean, lint diffed and matched, build clean. Commit
 `56f4772`.
+
+## Session 52 — toolhero.tsx migrated (10 occurrences)
+Standard mapping. Verified: tsc clean, lint diffed and matched, build
+clean. Commit `f62296c`.
