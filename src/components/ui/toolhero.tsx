@@ -68,16 +68,16 @@ export function ToolHero<TConfig>({
     description ?? (
       <>
         Convert{" "}
-        <strong className="text-white">
+        <strong className="text-foreground">
           {(anyConfig.inputFormats ?? []).join(", ").toUpperCase()}
         </strong>{" "}
-        to <strong className="text-white">{(anyConfig.outputFormats?.[0] ?? "").toUpperCase()}</strong>.
+        to <strong className="text-foreground">{(anyConfig.outputFormats?.[0] ?? "").toUpperCase()}</strong>.
         Everything happens securely inside your browser. No uploads. No waiting. No registration.
       </>
     );
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <section className="relative overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <div className="absolute inset-0">
         <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
         <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-violet-600/10 blur-3xl" />
@@ -102,14 +102,14 @@ export function ToolHero<TConfig>({
 
             {/* break-words (overflow-wrap: break-word) lets long unbroken
                 tokens like ".jpg,.jpeg,.png,.webp" wrap instead of overflowing */}
-            <h2 className="mt-6 max-w-2xl break-words text-4xl font-bold tracking-tight text-white lg:text-6xl">
+            <h2 className="mt-6 max-w-2xl break-words text-4xl font-bold tracking-tight text-foreground lg:text-6xl">
               {title}
               <span className="block bg-gradient-to-r from-blue-400 via-white to-violet-400 bg-clip-text text-transparent">
                 {titleAccent}
               </span>
             </h2>
 
-            <p className="mt-6 max-w-2xl break-words text-lg leading-8 text-slate-300">
+            <p className="mt-6 max-w-2xl break-words text-lg leading-8 text-foreground-secondary">
               {resolvedDescription}
             </p>
 
@@ -122,13 +122,13 @@ export function ToolHero<TConfig>({
             </div>
           </div>
 
-          <div className="min-w-0 rounded-3xl border border-white/10 bg-black/20 p-4 backdrop-blur">
-            <div className="text-lg font-semibold text-white">Quick Overview</div>
+          <div className="min-w-0 rounded-3xl border border-border bg-surface-sunken p-4 backdrop-blur">
+            <div className="text-lg font-semibold text-foreground">Quick Overview</div>
 
             <div className="mt-6 space-y-4">
               {resolvedStats.map((s) => (
                 <div key={s.label} className="flex items-start justify-between gap-3">
-                  <span className="shrink-0 text-slate-400">{s.label}</span>
+                  <span className="shrink-0 text-foreground-secondary">{s.label}</span>
                   {/* text-right + break-words so a long stat value wraps onto
                       a second line instead of getting clipped by the parent */}
                   <span
@@ -138,7 +138,7 @@ export function ToolHero<TConfig>({
                         ? "text-emerald-300"
                         : s.color === "blue"
                         ? "text-blue-300"
-                        : "font-medium text-white")
+                        : "font-medium text-foreground")
                     }
                   >
                     {s.value}
