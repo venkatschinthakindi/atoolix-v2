@@ -66,15 +66,15 @@ export function MergeOptionCard({
   };
 
   return (
-    <div className="space-y-3 rounded-2xl bg-white/[0.03] p-3 sm:p-4">
+    <div className="space-y-3 rounded-2xl bg-card p-3 sm:p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/10">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-surface-raised">
             <Icon className="h-4 w-4 text-blue-300" />
           </span>
           <div>
-            <h3 className="text-sm font-semibold text-white">{title}</h3>
-            <p className="text-[11px] leading-4 text-white/55">
+            <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+            <p className="text-[11px] leading-4 text-muted-foreground">
               {helper || "Configure output behavior."}
             </p>
           </div>
@@ -110,12 +110,12 @@ export function MergeOptionCard({
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/15 bg-white/5 px-4 py-3 text-sm text-white/80 transition hover:border-blue-400/30 hover:bg-white/10"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border-strong bg-card px-4 py-3 text-sm text-foreground-secondary transition hover:border-blue-400/30 hover:bg-surface-raised"
           >
             <FileUp className="h-4 w-4 text-blue-300" />
             {file ? file.name : `Choose ${isHeader ? "header" : "footer"} PDF`}
           </button>
-          <p className="text-[11px] leading-4 text-white/50">
+          <p className="text-[11px] leading-4 text-muted-foreground">
             {fileHint || "Uploaded file stays local and is added to the merged PDF."}
           </p>
         </div>
