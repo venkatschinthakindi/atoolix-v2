@@ -782,7 +782,7 @@ export default function PdfMergerClient({ config }: Props) {
                       aria-pressed={autoOptimize}
                       className={`rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
                         autoOptimize
-                          ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-white"
+                          ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground dark:text-white"
                           : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"
                       }`}
                     >

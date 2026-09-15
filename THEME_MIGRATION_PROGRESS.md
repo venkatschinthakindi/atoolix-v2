@@ -1325,3 +1325,46 @@ routes. This confirmed for the first time that:
 - The CLS risk specifically: theme toggling should change only
   colors, never dimensions. Structurally that's what these changes do,
   but it should be confirmed visually.
+
+## Session 55 — real browser verification; found + fixed 19 over-reverted text-white cases
+
+Got an actual headless browser running (Chromium CDN is blocked 403 and
+apt only offers a snap, but the `@sparticuz/chromium` npm package ships
+a brotli-compressed binary — extracted it manually). Built with a
+temporary local font stub, served the real production build, and drove
+it with puppeteer-core in both themes.
+
+**Confirmed working:** both themes render correctly end-to-end. `body`
+background flips `oklch(0.145 0 0)` (dark) ↔ `oklch(1 0 0)` (light),
+the `dark` class is applied/removed on `<html>` as expected, and the
+no-flash script works. Verified on home, tools-hub, and about.
+
+**Real bug found and fixed (19 instances, 10 files):** session 54's
+`text-white` revert over-applied. Its "is this a saturated background?"
+test matched saturated colors that appear *only inside `dark:` halves*
+(e.g. `bg-blue-100 dark:bg-blue-400/10`), so light-mode chips/tabs with
+a pale `-100` background got white text — invisible. Fixed with a
+stricter test: strip all `dark:`-prefixed tokens first, and only keep
+plain `text-white` if the *light-mode* background is still saturated.
+Otherwise pair it as `text-foreground dark:text-white`. Re-reverted the
+3 intentionally-excluded files (toolCard, InstallButton,
+SmartCalculator) that the fix script also touched.
+
+### Honest limits of what the browser check actually proved
+- The remaining ~160 reported "contrast failures" are **dominated by
+  two false positives in my checker**, not confirmed site bugs:
+  (a) nav links whose nearest non-transparent ancestor background is
+  the 3.5%-alpha `--glass-bg` layer — my walker stopped there instead
+  of compositing through to the page background, so it compared dark
+  text against a near-transparent tint; (b) gradient-clipped headings,
+  where `color` is literally `transparent` because a background
+  gradient paints the glyphs — unmeasurable this way.
+- **Tool pages (emi/timezone/merge-pdf/image-compress) were NOT
+  meaningfully sampled.** They mount heavy client-only components via
+  dynamic imports, and `networkidle2` + 600ms wasn't enough — the
+  script captured a 4-node loading shell. Their raw HTML is fine, but
+  **their in-page contrast is still unverified.**
+- **Lighthouse / Core Web Vitals were not run.**
+
+So: theme switching itself is now browser-verified; per-page visual and
+CWV verification on the tool pages remains open.

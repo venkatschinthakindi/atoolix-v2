@@ -63,7 +63,7 @@ export function FileRow({
           <button
             type="button"
             onClick={() => onRemove(item.id)}
-            className="flex items-center gap-1 rounded-2xl border border-border bg-card px-3 py-2 text-xs text-white transition hover:bg-red-100 dark:hover:bg-red-500/10 hover:text-status-critical"
+            className="flex items-center gap-1 rounded-2xl border border-border bg-card px-3 py-2 text-xs text-foreground dark:text-white transition hover:bg-red-100 dark:hover:bg-red-500/10 hover:text-status-critical"
           >
             <X className="h-3.5 w-3.5" />
             Remove

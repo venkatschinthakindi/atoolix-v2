@@ -253,7 +253,7 @@ function TabButton({
       aria-pressed={active}
       className={`px-4 py-2 rounded-xl text-sm font-medium border transition ${
         active
-          ? "border-blue-300 dark:border-blue-400/50 bg-blue-100 dark:bg-blue-400/15 text-white"
+          ? "border-blue-300 dark:border-blue-400/50 bg-blue-100 dark:bg-blue-400/15 text-foreground dark:text-white"
           : "border-border bg-card text-foreground-faint hover:bg-surface-raised hover:text-foreground"
       }`}
     >
@@ -501,7 +501,7 @@ export default function EmiCalculatorHubPage({
             aria-pressed={loanType === t}
             className={`px-5 py-2.5 rounded-full text-sm font-medium border transition ${
               loanType === t
-                ? "border-blue-300 dark:border-blue-400/60 bg-blue-100 dark:bg-blue-400/15 text-white"
+                ? "border-blue-300 dark:border-blue-400/60 bg-blue-100 dark:bg-blue-400/15 text-foreground dark:text-white"
                 : "border-border bg-card text-foreground-secondary hover:bg-surface-raised hover:text-foreground"
             }`}
           >

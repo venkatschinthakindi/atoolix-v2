@@ -234,7 +234,7 @@ export function CrossToolCta({
             <Link
               key={tool.id}
               href={tool.href}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-medium text-white transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/10 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-medium text-foreground dark:text-white transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/10 hover:text-foreground dark:text-white"
             >
               Try the {tool.name} →
             </Link>

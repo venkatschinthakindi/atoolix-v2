@@ -545,7 +545,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                         aria-pressed={backgroundMode === mode}
                         className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition ${
                           backgroundMode === mode
-                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-white"
+                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground dark:text-white"
                             : "border-border bg-card text-foreground hover:bg-surface-raised"
                         }`}
                       >
@@ -647,7 +647,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                         aria-pressed={outputFormat === fmt}
                         className={`rounded-xl border px-3 py-2.5 text-xs font-medium uppercase transition ${
                           outputFormat === fmt
-                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-white"
+                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground dark:text-white"
                             : "border-border bg-card text-foreground hover:bg-surface-raised"
                         }`}
                       >

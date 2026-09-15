@@ -77,7 +77,7 @@ export function TimezoneCards({
   const isAdvanced = variant === "advanced";
   const cardBg = "bg-surface-sunken";
   const moveBtnCls = isAdvanced
-    ? "rounded-full border border-border bg-surface-sunken px-3 py-2 text-xs text-white transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300 disabled:opacity-30"
+    ? "rounded-full border border-border bg-surface-sunken px-3 py-2 text-xs text-foreground dark:text-white transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300 disabled:opacity-30"
     : "rounded-full border border-border bg-card px-3 py-2 text-xs text-foreground disabled:opacity-30";
   const removeBtnCls = isAdvanced
     ? "rounded-full border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/5 px-3 py-2 text-xs text-rose-700 dark:text-rose-300 transition hover:border-rose-400 dark:hover:border-rose-400/40 hover:bg-rose-100 dark:hover:bg-rose-400/15"

@@ -165,7 +165,7 @@ export function PercentageCalculator() {
                       key={option}
                       type="button"
                       onClick={() => setDirection(option)}
-                      className={`rounded-2xl border px-4 py-3 text-sm font-medium capitalize transition ${direction === option ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-white" : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"}`}
+                      className={`rounded-2xl border px-4 py-3 text-sm font-medium capitalize transition ${direction === option ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground dark:text-white" : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"}`}
                     >
                       {option}
                     </button>
