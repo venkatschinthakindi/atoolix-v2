@@ -8,9 +8,9 @@ const columnsClass = { 1: "grid-cols-1", 2: "grid-cols-1 sm:grid-cols-2", 3: "gr
 export function ResultSummary({ items, columns = 2, title, footer, className = "" }: ResultSummaryProps) {
   return (
     <section aria-label={typeof title === "string" ? title : "Calculation results"} className={className}>
-      {title ? <h2 className="mb-3 text-base font-semibold text-white">{title}</h2> : null}
+      {title ? <h2 className="mb-3 text-base font-semibold text-foreground">{title}</h2> : null}
       <div className={`grid gap-3 ${columnsClass[columns]}`}>
-        {items.map((item) => <div key={item.id} className={`rounded-2xl border border-white/10 bg-white/5 p-3 sm:p-4 ${item.className ?? ""}`.trim()}><div className="text-xs font-medium uppercase tracking-[0.12em] text-white/50">{item.label}</div><div className="mt-1 text-base font-semibold text-white sm:text-lg">{item.value}</div>{item.hint ? <div className="mt-1 text-xs text-white/45">{item.hint}</div> : null}</div>)}
+        {items.map((item) => <div key={item.id} className={`rounded-2xl border border-border bg-card p-3 sm:p-4 ${item.className ?? ""}`.trim()}><div className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">{item.label}</div><div className="mt-1 text-base font-semibold text-foreground sm:text-lg">{item.value}</div>{item.hint ? <div className="mt-1 text-xs text-muted-foreground">{item.hint}</div> : null}</div>)}
       </div>
       {footer ? <div className="mt-3">{footer}</div> : null}
     </section>
