@@ -10,7 +10,7 @@ export function MetadataCard({
   file,
 }: Props) {
   return (
-    <div className="text-sm text-white/60 space-y-1">
+    <div className="text-sm text-foreground-secondary space-y-1">
 
       <div>
         Dimensions:{" "}

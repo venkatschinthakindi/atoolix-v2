@@ -14,10 +14,10 @@ export function ToolHeader({ title, description, icon: Icon, actions, className 
   return (
     <header className={`flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between ${className}`.trim()}>
       <div className="flex min-w-0 items-start gap-3">
-        {Icon ? <div className="shrink-0 rounded-xl bg-white/5 p-2 text-blue-300" aria-hidden="true"><Icon className="h-5 w-5" /></div> : null}
+        {Icon ? <div className="shrink-0 rounded-xl bg-card p-2 text-blue-700 dark:text-blue-300" aria-hidden="true"><Icon className="h-5 w-5" /></div> : null}
         <div className="min-w-0">
-          <Heading className="text-xl font-semibold tracking-tight text-white sm:text-2xl">{title}</Heading>
-          {description ? <p className="mt-1.5 max-w-3xl text-sm leading-6 text-white/60">{description}</p> : null}
+          <Heading className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{title}</Heading>
+          {description ? <p className="mt-1.5 max-w-3xl text-sm leading-6 text-foreground-secondary">{description}</p> : null}
         </div>
       </div>
       {actions ? <div className="shrink-0">{actions}</div> : null}

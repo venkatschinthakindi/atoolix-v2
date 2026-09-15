@@ -1208,3 +1208,45 @@ Verified: tsc clean, lint diffed and matched, build clean. Commit
 ## Session 52 — toolhero.tsx migrated (10 occurrences)
 Standard mapping. Verified: tsc clean, lint diffed and matched, build
 clean. Commit `f62296c`.
+
+## Session 53 — FINAL BATCH: all 39 remaining files migrated in one pass
+
+Completed the migration. 123 grayscale + 125 hue occurrences across
+39 files, done as a single scripted pass with all previously-established
+protections baked in.
+
+**Deliberately excluded (2 files, verified by inspection first):**
+- `InstallButton.tsx` (13 occurrences) — every white border/fill in it
+  sits on the component's OWN fixed `bg-indigo-950/80` panel, not the
+  app background. Same self-contained-surface reasoning as
+  `not-found.tsx`'s gold accents. Migrating would break contrast
+  against its own panel.
+- `ThemeToggle.tsx` (3 occurrences) — tiny decorative "star" dots
+  (`h-[3px] w-[3px]`) on the toggle's own gradient, theme-invariant
+  by design.
+
+**Protected literals carried through (verbatim, via placeholder
+substitution):** SmartCalculator's independent `theme` prop ternary,
+about/page.tsx's white CTA button, toolButton's secondary variant,
+confirmModal's confirm button, and the `bg-white/90` icon-badge
+pattern in the mergePdf UI family.
+
+**One real gap caught in verification:** `border-white/50` in
+`FileDropzone.tsx` fell through a hole in my opacity regex (which
+covered /1x–/3x but not /50). Found by a follow-up repo-wide scan for
+missed opacity tiers rather than assuming the batch was complete;
+fixed to `border-border-strong`. Confirmed all other remaining
+40–90 opacity tiers live only in the 2 excluded files or the
+protected literals.
+
+**Verification:** `tsc --noEmit` clean repo-wide. `eslint` across all
+of `src`: **272 problems before == 272 after** (measured via
+`git stash` on the full batch) — zero new issues. Every `sm:`/`md:`/
+`lg:`/`xl:`/`2xl:` responsive class diffed byte-for-byte across all 39
+backed-up files — **all identical**. `npx next build` compiles clean
+up to the same pre-existing sandbox-only Google Fonts network block.
+
+Remaining hardcoded colors repo-wide are now **only** the
+intentionally theme-invariant cases documented above and in earlier
+sessions (per-tool gradients in toolCard.tsx, SeoContent step badges,
+self-contained CTA buttons, the 2 excluded components).

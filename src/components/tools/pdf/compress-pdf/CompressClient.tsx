@@ -150,7 +150,7 @@ function LevelCard({
     <button
       className={`flex h-full flex-col items-start gap-2 rounded-2xl border p-4 text-left transition ${
         active
-          ? "border-blue-400/35 bg-blue-400/10"
+          ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10"
           : "border-border bg-card hover:border-border-strong hover:bg-surface-raised"
       }`}
       onClick={onClick}
@@ -161,7 +161,7 @@ function LevelCard({
         {cfg.label} {cfg.icon}
       </span>
       <span className="text-xs leading-5 text-muted-foreground">{cfg.desc}</span>
-      <span className="mt-auto text-xs font-medium text-blue-200">
+      <span className="mt-auto text-xs font-medium text-blue-700 dark:text-blue-200">
         ~{cfg.expectedRange} reduction
       </span>
     </button>
@@ -190,7 +190,7 @@ function SizeComparison({ before, after }: { before: number; after: number }) {
             <h3 className="mt-1 text-sm font-semibold text-foreground">File size comparison</h3>
           </div>
         </div>
-        <span className="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-200">
+        <span className="rounded-full border border-emerald-300 dark:border-emerald-400/20 bg-emerald-100 dark:bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-200">
           {savedPct > 0 ? `Saved ${savedPct}%` : "No change"}
         </span>
       </div>
@@ -221,7 +221,7 @@ function SizeComparison({ before, after }: { before: number; after: number }) {
         <div>
           <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
             <span>Compressed</span>
-            <span className="font-medium text-emerald-200">{formatBytes(after)}</span>
+            <span className="font-medium text-emerald-700 dark:text-emerald-200">{formatBytes(after)}</span>
           </div>
           <div className="h-3 overflow-hidden rounded-full bg-surface-sunken">
             <div
@@ -453,7 +453,7 @@ export default function CompressClient({ config }: Props) {
             </div>
 
             {error && (
-              <div className="mx-4 mt-4 rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100 sm:mx-5">
+              <div className="mx-4 mt-4 rounded-2xl border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-100 sm:mx-5">
                 <div className="flex items-start gap-2">
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                   <span>{error}</span>
@@ -487,7 +487,7 @@ export default function CompressClient({ config }: Props) {
 
               {!isDone ? (
                 <button
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={!canBuild}
                   onClick={handleCompress}
                   aria-busy={isWorking}
@@ -509,7 +509,7 @@ export default function CompressClient({ config }: Props) {
                 <>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => compressedBlob && openPreview(compressedBlob)}
                       type="button"
                       disabled={!compressedBlob}
@@ -519,7 +519,7 @@ export default function CompressClient({ config }: Props) {
                     </button>
 
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => compressedBlob && openDownloadModal(compressedBlob)}
                       type="button"
                       disabled={!compressedBlob}
@@ -540,7 +540,7 @@ export default function CompressClient({ config }: Props) {
                     </button>
 
                     <div className="flex items-center justify-center rounded-2xl border border-border bg-surface-sunken px-5 py-4 text-sm text-foreground-secondary">
-                      <CircleCheck className="mr-2 h-4 w-4 text-emerald-300" />
+                      <CircleCheck className="mr-2 h-4 w-4 text-emerald-700 dark:text-emerald-300" />
                       Ready
                     </div>
                   </div>

@@ -10,8 +10,8 @@ export function ImageSettings({ children, title = "Image settings", description,
     <section className={`${SHARED_UI_SURFACE} p-4 sm:p-5 ${className}`.trim()} aria-label={typeof title === "string" ? title : "Image settings"}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <Heading className="text-sm font-semibold text-white sm:text-base">{title}</Heading>
-          {description ? <p className="mt-1 text-xs text-white/50 sm:text-sm">{description}</p> : null}
+          <Heading className="text-sm font-semibold text-foreground sm:text-base">{title}</Heading>
+          {description ? <p className="mt-1 text-xs text-foreground-faint sm:text-sm">{description}</p> : null}
         </div>
         {actions ? <div className="shrink-0">{actions}</div> : null}
       </div>

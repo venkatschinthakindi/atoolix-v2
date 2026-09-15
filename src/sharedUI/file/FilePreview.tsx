@@ -22,7 +22,7 @@ export function FilePreview({
   decoding = "async",
 }: FilePreviewProps) {
   return (
-    <div className={`overflow-hidden rounded-xl bg-black/20 ${className}`.trim()}>
+    <div className={`overflow-hidden rounded-xl bg-surface-sunken ${className}`.trim()}>
       {src && kind === "image" ? (
         <img
           src={src}

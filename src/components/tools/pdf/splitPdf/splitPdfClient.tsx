@@ -457,7 +457,7 @@ export default function PdfSpliterClient({ config }: Props) {
 
       <div className="mt-6 space-y-3 sm:space-y-4 md:space-y-5">
         {error && (
-          <section className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+          <section className="rounded-2xl border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-100">
             <div className="flex items-start gap-2">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{error}</span>
@@ -482,15 +482,15 @@ export default function PdfSpliterClient({ config }: Props) {
               </div>
               <div className="flex flex-col items-center gap-2">
                 <div className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary sm:px-4 sm:text-sm">
-                  <ArrowDownUp className="h-3.5 w-3.5 text-blue-300" />
+                  <ArrowDownUp className="h-3.5 w-3.5 text-blue-700 dark:text-blue-300" />
                   Page logic preserved
                 </div>
                 <button
                   type="button"
                   onClick={resetTool}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary transition hover:border-blue-400/30 hover:bg-surface-raised sm:px-4 sm:text-sm"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised sm:px-4 sm:text-sm"
                 >
-                  <Trash2 className="h-3.5 w-3.5 text-blue-300" />
+                  <Trash2 className="h-3.5 w-3.5 text-blue-700 dark:text-blue-300" />
                   Start Over
                 </button>
               </div>
@@ -505,7 +505,7 @@ export default function PdfSpliterClient({ config }: Props) {
                       <div className="mt-0.5 text-[10px] text-muted-foreground sm:text-xs">{pdf.totalPages} pages</div>
                     </div>
                     <div className="flex items-center gap-1 text-[10px] text-muted-foreground sm:text-xs">
-                      <Scissors className="h-3.5 w-3.5 text-blue-300" />
+                      <Scissors className="h-3.5 w-3.5 text-blue-700 dark:text-blue-300" />
                       Split
                     </div>
                   </div>
@@ -518,7 +518,7 @@ export default function PdfSpliterClient({ config }: Props) {
                   />
 
                   <div className="mt-1.5 text-[10px] text-muted-foreground sm:mt-2 sm:text-xs">
-                    Selected pages: <span className="text-blue-300">{getSelectedSummary(pdf.pages)}</span>
+                    Selected pages: <span className="text-blue-700 dark:text-blue-300">{getSelectedSummary(pdf.pages)}</span>
                   </div>
                 </div>
               ))}
@@ -540,7 +540,7 @@ export default function PdfSpliterClient({ config }: Props) {
                     aria-pressed={autoOptimize}
                     className={`basis-full sm:basis-[calc(50%-0.375rem)] rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
                       autoOptimize
-                        ? "border-blue-400/35 bg-blue-400/10 text-foreground"
+                        ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground"
                         : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"
                     }`}
                   >
@@ -560,7 +560,7 @@ export default function PdfSpliterClient({ config }: Props) {
 
                 {!isDone ? (
                   <button
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                     disabled={!canBuild}
                     onClick={splitPDFs}
                     aria-busy={isWorking}
@@ -581,7 +581,7 @@ export default function PdfSpliterClient({ config }: Props) {
                 ) : (
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => downloadableContent && openPreview(downloadableContent)}
                       type="button"
                       disabled={!downloadableContent}
@@ -591,7 +591,7 @@ export default function PdfSpliterClient({ config }: Props) {
                     </button>
 
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => downloadableContent && openDownloadModel(downloadableContent)}
                       type="button"
                       disabled={!downloadableContent}
@@ -604,7 +604,7 @@ export default function PdfSpliterClient({ config }: Props) {
 
                 {isDone && (
                   <button
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-zinc-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-zinc-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                     onClick={resetTool}
                     type="button"
                   >

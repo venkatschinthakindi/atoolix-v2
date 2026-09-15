@@ -645,7 +645,7 @@ export default function PdfMergerClient({ config }: Props) {
 
       <div className="mt-6 space-y-3 sm:hidden">
         {error && (
-          <section className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+          <section className="rounded-2xl border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-100">
             <div className="flex items-start gap-2">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{error}</span>
@@ -658,7 +658,7 @@ export default function PdfMergerClient({ config }: Props) {
         {/* ── Left column ── */}
         <div className="space-y-3 sm:space-y-4 md:space-y-5">
           {error && (
-            <section className="hidden rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100 sm:block">
+            <section className="hidden rounded-2xl border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-100 sm:block">
               <div className="flex items-start gap-2">
                 <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{error}</span>
@@ -683,7 +683,7 @@ export default function PdfMergerClient({ config }: Props) {
                     </p>
                   </div>
                   <div className="flex cursor-default items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-foreground-secondary sm:px-4 sm:text-sm">
-                    <ArrowDownUp className="h-3.5 w-3.5 text-blue-300" />
+                    <ArrowDownUp className="h-3.5 w-3.5 text-blue-700 dark:text-blue-300" />
                     Order matters
                   </div>
                 </div>
@@ -758,7 +758,7 @@ export default function PdfMergerClient({ config }: Props) {
               )}
 
               {autoDownloadFailed && (
-                <div className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+                <div className="rounded-2xl border border-rose-300 dark:border-rose-400/20 bg-rose-100 dark:bg-rose-400/10 px-4 py-3 text-sm text-rose-700 dark:text-rose-100">
                   <div className="mb-2 flex items-start gap-2">
                     <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                     <span>The download didn't start automatically.</span>
@@ -766,7 +766,7 @@ export default function PdfMergerClient({ config }: Props) {
                   <button
                     type="button"
                     onClick={download}
-                    className="rounded-full border border-rose-300/30 bg-rose-400/10 px-3 py-1.5 text-xs font-medium text-rose-100 transition hover:bg-rose-400/20"
+                    className="rounded-full border border-rose-300 dark:border-rose-300/30 bg-rose-100 dark:bg-rose-400/10 px-3 py-1.5 text-xs font-medium text-rose-700 dark:text-rose-100 transition hover:bg-rose-100 dark:hover:bg-rose-400/20"
                   >
                     Try downloading again
                   </button>
@@ -782,7 +782,7 @@ export default function PdfMergerClient({ config }: Props) {
                       aria-pressed={autoOptimize}
                       className={`rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
                         autoOptimize
-                          ? "border-blue-400/35 bg-blue-400/10 text-foreground"
+                          ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground"
                           : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"
                       }`}
                     >
@@ -791,7 +791,7 @@ export default function PdfMergerClient({ config }: Props) {
                     {
                       !hasFiles && (
                         <div className="flex items-center justify-center gap-2 rounded-2xl border border-border bg-surface-sunken px-3 py-2.5 text-xs text-foreground-secondary">
-                          <CircleCheck className={`h-4 w-4 ${hasFiles ? "text-emerald-300" : "text-muted-foreground"}`} />
+                          <CircleCheck className={`h-4 w-4 ${hasFiles ? "text-emerald-700 dark:text-emerald-300" : "text-muted-foreground"}`} />
                           {hasFiles ? "Ready" : "Waiting for files"}
                         </div>
                       )
@@ -811,7 +811,7 @@ export default function PdfMergerClient({ config }: Props) {
                     
                   </div>
                   <button
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                     disabled={!canBuild}
                     onClick={merge}
                     aria-busy={isWorking}
@@ -834,7 +834,7 @@ export default function PdfMergerClient({ config }: Props) {
                 <>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => mergedBlob && openPreview(mergedBlob)}
                       type="button"
                       disabled={!mergedBlob}
@@ -844,7 +844,7 @@ export default function PdfMergerClient({ config }: Props) {
                     </button>
 
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => mergedBlob && openDownloadModel(mergedBlob)}
                       type="button"
                       disabled={!mergedBlob}

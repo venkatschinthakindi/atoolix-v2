@@ -72,7 +72,7 @@ export function ChecksSummary({ report, shareStatus }: ChecksSummaryProps) {
         </li>
 
         {/* <li className="flex items-center justify-between gap-3 py-2.5">
-          <span className="text-sm text-white/85">Smart Report</span>
+          <span className="text-sm text-foreground">Smart Report</span>
           <span className="flex items-center gap-1.5 text-xs font-medium text-severity-success">
             <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
             Generated

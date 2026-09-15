@@ -42,7 +42,7 @@ function KeyButton({
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "default" | "danger" }) {
   const variantClass =
     variant === "danger"
-      ? "border-red-400/25 bg-red-500/10 text-red-300 hover:border-red-400/40 hover:bg-red-500/20 hover:text-red-200 focus-visible:ring-red-400/60"
+      ? "border-red-300 dark:border-red-400/25 bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-300 hover:border-red-400 dark:hover:border-red-400/40 hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-status-critical focus-visible:ring-red-400/60"
       : "border-border bg-card text-foreground hover:border-border-strong hover:bg-surface-raised focus-visible:ring-blue-400/60";
 
   return (
@@ -79,7 +79,7 @@ function DisplayLine({
         <div className="flex items-center gap-1.5">
           <p className="text-[11px] uppercase tracking-[0.16em] text-foreground-faint">{label}</p>
           {preview && (
-            <span className="rounded-full border border-blue-400/30 bg-blue-400/10 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wide text-blue-200">
+            <span className="rounded-full border border-blue-300 dark:border-blue-400/30 bg-blue-100 dark:bg-blue-400/10 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wide text-blue-700 dark:text-blue-200">
               live
             </span>
           )}
@@ -91,7 +91,7 @@ function DisplayLine({
             aria-label={`Copy ${label.toLowerCase()}`}
             className="inline-flex h-6 w-6 items-center justify-center rounded-lg text-foreground-faint transition hover:bg-surface-raised hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
           >
-            {copied ? <Check className="h-3.5 w-3.5 text-emerald-300" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? <Check className="h-3.5 w-3.5 text-emerald-700 dark:text-emerald-300" /> : <Copy className="h-3.5 w-3.5" />}
           </button>
         )}
       </div>
@@ -491,8 +491,8 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
                   role="status"
                   className={`rounded-xl border px-3 py-2 text-xs font-medium ${
                     toast.tone === "error"
-                      ? "border-red-400/30 bg-red-500/10 text-red-200"
-                      : "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
+                      ? "border-red-300 dark:border-red-400/30 bg-red-100 dark:bg-red-500/10 text-status-critical"
+                      : "border-emerald-300 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-200"
                   }`}
                 >
                   {toast.message}
@@ -516,7 +516,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
                   live
                 />
                 {errorMessage && (
-                  <p role="alert" className="px-1 text-xs text-red-300">
+                  <p role="alert" className="px-1 text-xs text-red-700 dark:text-red-300">
                     {errorMessage}
                   </p>
                 )}
@@ -544,7 +544,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
                   inputMode="text"
                   aria-label="Calculator expression"
                   placeholder="Enter expression"
-                  className="h-12 w-full rounded-2xl border border-border bg-card px-4 text-sm text-foreground outline-none placeholder:text-foreground-faint focus:border-blue-400/35 focus:bg-surface-sunken"
+                  className="h-12 w-full rounded-2xl border border-border bg-card px-4 text-sm text-foreground outline-none placeholder:text-foreground-faint focus:border-blue-300 dark:border-blue-400/35 focus:bg-surface-sunken"
                 />
                 <div className="flex gap-2">
                   <KeyButton onClick={smartCopy} className="px-4" aria-label="Copy result or expression">
@@ -710,7 +710,7 @@ export function SmartCalculator({ initialExpression, theme }: SmartCalculatorPro
                             type="button"
                             onClick={() => deleteHistoryEntry(h.id)}
                             aria-label="Delete this entry"
-                            className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-foreground-faint transition hover:bg-red-500/10 hover:text-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
+                            className="inline-flex h-7 w-7 items-center justify-center rounded-lg text-foreground-faint transition hover:bg-red-100 dark:hover:bg-red-500/10 hover:text-red-800 dark:hover:text-red-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/60"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>

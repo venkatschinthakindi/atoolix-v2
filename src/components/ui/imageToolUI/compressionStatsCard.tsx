@@ -12,8 +12,8 @@ export function CompressionStatsCard({
   return (
     <div className="grid grid-cols-3 gap-4">
 
-      <div className="rounded-xl border border-white/10 p-4">
-        <div className="text-xs text-white/50">
+      <div className="rounded-xl border border-border p-4">
+        <div className="text-xs text-foreground-faint">
           Original
         </div>
 
@@ -22,8 +22,8 @@ export function CompressionStatsCard({
         </div>
       </div>
 
-      <div className="rounded-xl border border-white/10 p-4">
-        <div className="text-xs text-white/50">
+      <div className="rounded-xl border border-border p-4">
+        <div className="text-xs text-foreground-faint">
           Compressed
         </div>
 
@@ -32,12 +32,12 @@ export function CompressionStatsCard({
         </div>
       </div>
 
-      <div className="rounded-xl border border-white/10 p-4">
-        <div className="text-xs text-white/50">
+      <div className="rounded-xl border border-border p-4">
+        <div className="text-xs text-foreground-faint">
           Savings
         </div>
 
-        <div className="font-semibold text-green-400">
+        <div className="font-semibold text-green-700 dark:text-green-400">
           {savingsPercent}%
         </div>
       </div>

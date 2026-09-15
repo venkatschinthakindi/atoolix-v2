@@ -247,7 +247,7 @@ export default function ImageToPDFClient({ config }: Props) {
 
       <div className="mt-8 space-y-8">
         {error && (
-          <section className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          <section className="rounded-2xl border border-red-300 dark:border-red-500/20 bg-red-100 dark:bg-red-500/10 px-4 py-3 text-sm text-status-critical">
             {error}
           </section>
         )}
@@ -268,7 +268,7 @@ export default function ImageToPDFClient({ config }: Props) {
                     <button
                       type="button"
                       onClick={resetAll}
-                      className="rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground-secondary transition hover:border-blue-400/30 hover:bg-surface-raised"
+                      className="rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground-secondary transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-surface-raised"
                     >
                       Start Over
                     </button>
@@ -292,8 +292,8 @@ export default function ImageToPDFClient({ config }: Props) {
                                   {...dragProvided.draggableProps}
                                   className={`group relative center overflow-hidden rounded-2xl border transition ${
                                     dragSnapshot.isDragging
-                                      ? "border-blue-400/50 shadow-lg shadow-blue-500/10"
-                                      : "border-border hover:border-blue-400/30"
+                                      ? "border-blue-300 dark:border-blue-400/50 shadow-lg shadow-blue-500/10"
+                                      : "border-border hover:border-blue-400 dark:hover:border-blue-400/30"
                                   }`}
                                   style={{ aspectRatio: "3 / 4", ...dragProvided.draggableProps.style }}
                                 >
@@ -306,7 +306,7 @@ export default function ImageToPDFClient({ config }: Props) {
 
                                   <div
                                     {...dragProvided.dragHandleProps}
-                                    className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded-full bg-black/70 px-2 py-1 text-[10px] font-medium text-white"
+                                    className="absolute left-1.5 top-1.5 flex items-center gap-1 rounded-full bg-surface-overlay px-2 py-1 text-[10px] font-medium text-foreground"
                                   >
                                     <GripVertical className="h-3 w-3 opacity-70" />
                                     {index + 1}
@@ -315,13 +315,13 @@ export default function ImageToPDFClient({ config }: Props) {
                                   <button
                                     type="button"
                                     onClick={() => removeImage(index)}
-                                    className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 transition group-hover:opacity-100"
+                                    className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-surface-overlay text-foreground opacity-0 transition group-hover:opacity-100"
                                     aria-label={`Remove ${image.file.name}`}
                                   >
                                     <Trash2 className="h-3 w-3" />
                                   </button>
 
-                                  <div className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/80 to-transparent px-2 py-1.5 text-[10px] text-white/80">
+                                  <div className="absolute inset-x-0 bottom-0 truncate bg-gradient-to-t from-black/80 to-transparent px-2 py-1.5 text-[10px] text-foreground">
                                     {image.file.name}
                                   </div>
                                 </div>
@@ -384,11 +384,11 @@ export default function ImageToPDFClient({ config }: Props) {
                     />
                     {/* <div className="rounded-xl bg-surface-sunken p-4">
                       <div className="text-sm text-muted-foreground">Processing</div>
-                      <div className="mt-2 font-semibold text-emerald-300">Local Browser</div>
+                      <div className="mt-2 font-semibold text-emerald-700 dark:text-emerald-300">Local Browser</div>
                     </div>
                     <div className="rounded-xl bg-surface-sunken p-4">
                       <div className="text-sm text-muted-foreground">Status</div>
-                      <div className="mt-2 font-semibold text-blue-300">
+                      <div className="mt-2 font-semibold text-blue-700 dark:text-blue-300">
                         {processing ? "Building" : "Ready"}
                       </div>
                     </div> */}
@@ -402,8 +402,8 @@ export default function ImageToPDFClient({ config }: Props) {
 
                   <div className="rounded-[24px] border border-border bg-surface-sunken p-4">
                     <div className="flex items-center gap-3">
-                      <div className="rounded-2xl bg-blue-500/10 p-3">
-                        <ShieldCheck className="h-5 w-5 text-blue-400" />
+                      <div className="rounded-2xl bg-blue-100 dark:bg-blue-500/10 p-3">
+                        <ShieldCheck className="h-5 w-5 text-blue-700 dark:text-blue-400" />
                       </div>
                       <div>
                         <div className="text-sm font-medium text-foreground">Privacy first</div>

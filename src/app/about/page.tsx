@@ -308,7 +308,7 @@ export default function AboutPage() {
                 href="https://www.thrinetratech.in"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-200"
+                className="font-medium text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-800 dark:hover:text-violet-800 dark:hover:text-violet-200"
               >
                 Thrinetra Tech
               </a>
@@ -318,7 +318,7 @@ export default function AboutPage() {
               can reach the team directly at{" "}
               <a
                 href={`mailto:support@${siteName}.com`}
-                className="font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-200"
+                className="font-medium text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300 underline underline-offset-4 hover:text-violet-800 dark:hover:text-violet-800 dark:hover:text-violet-800 dark:hover:text-violet-200"
               >
                 support@{siteName}.com
               </a>
@@ -354,7 +354,7 @@ export default function AboutPage() {
                   {category.description}
                 </p>
 
-                <span className="mt-5 inline-flex text-sm font-medium text-violet-700 dark:text-violet-300">
+                <span className="mt-5 inline-flex text-sm font-medium text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300">
                   Explore tools →
                 </span>
               </Link>
@@ -370,7 +370,7 @@ export default function AboutPage() {
 
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             <article className="rounded-3xl border border-border bg-card p-6">
-              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-300">
+              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300">
                 01
               </p>
 
@@ -385,7 +385,7 @@ export default function AboutPage() {
             </article>
 
             <article className="rounded-3xl border border-border bg-card p-6">
-              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-300">
+              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300">
                 02
               </p>
 
@@ -400,7 +400,7 @@ export default function AboutPage() {
             </article>
 
             <article className="rounded-3xl border border-border bg-card p-6">
-              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-300">
+              <p className="text-xs font-semibold tracking-wide text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300">
                 03
               </p>
 
@@ -489,7 +489,7 @@ export default function AboutPage() {
           <div className="mt-6">
             <Link
               href="/disclaimer"
-              className="text-sm font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4"
+              className="text-sm font-medium text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300 underline underline-offset-4"
             >
               Read the full Disclaimer
             </Link>
@@ -596,7 +596,7 @@ export default function AboutPage() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={`mailto:support@${siteName}.com`}
-              className="text-sm font-medium text-violet-700 dark:text-violet-300 underline underline-offset-4"
+              className="text-sm font-medium text-violet-700 dark:text-violet-700 dark:text-violet-700 dark:text-violet-300 underline underline-offset-4"
             >
               support@{siteName}.com
             </a>

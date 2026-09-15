@@ -14,7 +14,7 @@ export interface ImagePreviewProps {
 
 export function ImagePreview({ src, alt = "", width, height, className = "", objectFit = "contain", loading = "lazy", decoding = "async", fallback }: ImagePreviewProps) {
   return (
-    <div className={`flex min-h-24 min-w-24 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/5 ${className}`.trim()}>
+    <div className={`flex min-h-24 min-w-24 items-center justify-center overflow-hidden rounded-2xl border border-border bg-card ${className}`.trim()}>
       {src ? <img src={src} alt={alt} width={width} height={height} loading={loading} decoding={decoding} className="h-full w-full" style={{ objectFit }} /> : fallback ?? null}
     </div>
   );

@@ -120,7 +120,7 @@ export function CommandPalette({ buttonName, buttonClassName, searchTools }: Com
                     )}
                     <div>
                       <p className="font-medium" title={String(item.description)}>{item.title}</p>
-                      {/* <p className="text-white/60 text-sm">
+                      {/* <p className="text-foreground-secondary text-sm">
                         {item.description}
                       </p> */}
                     </div>

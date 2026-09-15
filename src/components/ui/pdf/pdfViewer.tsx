@@ -80,7 +80,7 @@ export default function PdfViewer({ url, scale }: Props) {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full overflow-auto bg-gray-900 p-4"
+      className="w-full h-full overflow-auto bg-popover p-4"
     />
   );
 }

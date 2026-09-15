@@ -328,7 +328,7 @@ export function FinancePdfExport({
       disabled={loading}
       aria-busy={loading}
       aria-disabled={loading}
-      className="inline-flex background-transparent items-center gap-2 rounded-full border border-blue-400/20 bg-linear-to-r/longer from-indigo-500 to-stone-400 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:from-blue-400 hover:to-indigo-900/40 disabled:cursor-not-allowed disabled:opacity-60"
+      className="inline-flex background-transparent items-center gap-2 rounded-full border border-blue-300 dark:border-blue-400/20 bg-linear-to-r/longer from-indigo-500 to-stone-400 px-4 py-2 text-sm font-semibold text-foreground shadow-lg shadow-blue-500/20 transition hover:from-blue-400 hover:to-indigo-900/40 disabled:cursor-not-allowed disabled:opacity-60"
     >
       <span aria-hidden="true">🡇</span>
       {loading ? "Generating Report..." : buttonLabel}

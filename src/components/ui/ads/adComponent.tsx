@@ -69,7 +69,7 @@ export default function AdComponent({
   return (
     <div className="relative">
       <div
-        className="flex h-[100px] sm:h-[120px] items-center justify-center rounded-xl sm:rounded-2xl border border-indigo-500/30 bg-indigo-500/10 text-sm transition"
+        className="flex h-[100px] sm:h-[120px] items-center justify-center rounded-xl sm:rounded-2xl border border-indigo-300 dark:border-indigo-500/30 bg-indigo-100 dark:bg-indigo-500/10 text-sm transition"
         role="complementary"
         aria-label="Advertisement"
       >
@@ -92,7 +92,7 @@ export default function AdComponent({
               <div className="flex items-center justify-center gap-3 mb-3">
                 <div className="relative">
                   <svg
-                    className="h-8 w-8 sm:h-10 sm:w-10 text-indigo-400"
+                    className="h-8 w-8 sm:h-10 sm:w-10 text-indigo-700 dark:text-indigo-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -111,18 +111,18 @@ export default function AdComponent({
                   <p className="text-sm font-semibold text-foreground">
                     {documentName}
                   </p>
-                  <p className="text-xs text-indigo-300">
+                  <p className="text-xs text-indigo-700 dark:text-indigo-300">
                     {variant === "preview" ? "Preview" : "Download"} in progress
                   </p>
                 </div>
               </div>
 
-              <p className="text-sm text-indigo-200 mb-3 animate-pulse">
+              <p className="text-sm text-indigo-700 dark:text-indigo-200 mb-3 animate-pulse">
                 {messages[messageIndex]}
               </p>
 
               <div className="relative w-full max-w-[200px] mx-auto mb-2">
-                <div className="h-2 bg-zinc-700 rounded-full overflow-hidden">
+                <div className="h-2 bg-surface-raised rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500"
                     style={{ width: `${progress}%` }}
@@ -130,8 +130,8 @@ export default function AdComponent({
                 </div>
               </div>
 
-              <p className="text-xs text-zinc-400">
-                Preview loading in <span className="text-indigo-300 font-medium">{Math.ceil((duration - (progress / 100) * duration) / 1000)}s</span>
+              <p className="text-xs text-foreground-secondary">
+                Preview loading in <span className="text-indigo-700 dark:text-indigo-300 font-medium">{Math.ceil((duration - (progress / 100) * duration) / 1000)}s</span>
               </p>
             </div>
           )}
