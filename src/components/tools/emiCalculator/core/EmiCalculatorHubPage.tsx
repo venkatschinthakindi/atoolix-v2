@@ -78,7 +78,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder-white/30 focus:outline-none focus:border-blue-300 dark:border-blue-400/50 focus:bg-surface-raised transition text-sm";
+  "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder-foreground-faint focus:outline-none focus:border-blue-300 dark:border-blue-400/50 focus:bg-surface-raised transition text-sm";
 
 /** Slider + synced number input, so numbers are easy to both scrub and type */
 function SliderField({
@@ -253,7 +253,7 @@ function TabButton({
       aria-pressed={active}
       className={`px-4 py-2 rounded-xl text-sm font-medium border transition ${
         active
-          ? "border-blue-300 dark:border-blue-400/50 bg-blue-100 dark:bg-blue-400/15 text-foreground"
+          ? "border-blue-300 dark:border-blue-400/50 bg-blue-100 dark:bg-blue-400/15 text-white"
           : "border-border bg-card text-foreground-faint hover:bg-surface-raised hover:text-foreground"
       }`}
     >
@@ -501,7 +501,7 @@ export default function EmiCalculatorHubPage({
             aria-pressed={loanType === t}
             className={`px-5 py-2.5 rounded-full text-sm font-medium border transition ${
               loanType === t
-                ? "border-blue-300 dark:border-blue-400/60 bg-blue-100 dark:bg-blue-400/15 text-foreground"
+                ? "border-blue-300 dark:border-blue-400/60 bg-blue-100 dark:bg-blue-400/15 text-white"
                 : "border-border bg-card text-foreground-secondary hover:bg-surface-raised hover:text-foreground"
             }`}
           >
@@ -839,7 +839,7 @@ export default function EmiCalculatorHubPage({
             <button
               type="button"
               onClick={addPrepayment}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-500/30 hover:text-foreground transition"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-500/30 hover:text-white transition"
             >
               + Add another prepayment
             </button>
@@ -1048,7 +1048,7 @@ export default function EmiCalculatorHubPage({
                 <button
                   type="button"
                   onClick={() => setPrepayOpen(true)}
-                  className="px-5 py-2.5 rounded-xl bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-500/30 hover:text-foreground transition"
+                  className="px-5 py-2.5 rounded-xl bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-500/30 hover:text-white transition"
                 >
                   💰 Open Prepayment Options
                 </button>

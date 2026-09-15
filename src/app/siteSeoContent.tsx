@@ -282,7 +282,7 @@ export async function HomePageSeo() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-foreground underline decoration-white/30 underline-offset-4 transition hover:decoration-white"
+                        className="text-foreground underline decoration-foreground/30 underline-offset-4 transition hover:decoration-foreground"
                       >
                         {item.label}
                       </Link>
@@ -373,7 +373,7 @@ export async function HomePageSeo() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-foreground underline decoration-white/30 underline-offset-4 transition hover:decoration-white"
+                    className="text-foreground underline decoration-foreground/30 underline-offset-4 transition hover:decoration-foreground"
                   >
                     {item.label}
                   </Link>

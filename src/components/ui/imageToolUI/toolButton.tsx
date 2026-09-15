@@ -14,11 +14,11 @@ export function ToolButton({
   className?: string;
 }) {
   const styles: Record<string, string> = {
-    primary: "bg-blue-600 text-foreground hover:bg-blue-500 disabled:opacity-40",
+    primary: "bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-40",
     secondary: "bg-slate-800 text-white hover:bg-slate-700 disabled:opacity-40",
     outline: "border border-border bg-transparent text-foreground hover:bg-card disabled:opacity-40",
     ghost: "bg-transparent text-foreground-secondary hover:bg-card disabled:opacity-40",
-    danger: "bg-red-600 text-foreground hover:bg-red-500 disabled:opacity-40",
+    danger: "bg-red-600 text-white hover:bg-red-500 disabled:opacity-40",
   };
 
   return (

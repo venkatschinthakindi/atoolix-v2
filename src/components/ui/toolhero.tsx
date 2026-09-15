@@ -77,7 +77,7 @@ export function ToolHero<TConfig>({
     );
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <section className="relative overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <div className="absolute inset-0">
         <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
         <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-violet-600/10 blur-3xl" />
@@ -104,7 +104,7 @@ export function ToolHero<TConfig>({
                 tokens like ".jpg,.jpeg,.png,.webp" wrap instead of overflowing */}
             <h2 className="mt-6 max-w-2xl break-words text-4xl font-bold tracking-tight text-foreground lg:text-6xl">
               {title}
-              <span className="block bg-gradient-to-r from-blue-400 via-white to-violet-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-blue-600 via-slate-900 to-violet-600 dark:from-blue-400 dark:via-white dark:to-violet-400 bg-clip-text text-transparent">
                 {titleAccent}
               </span>
             </h2>

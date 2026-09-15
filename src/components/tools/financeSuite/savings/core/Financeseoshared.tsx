@@ -71,7 +71,7 @@ export function ReviewedMeta({
     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-foreground-faint border-b border-border pb-4">
       <span>
         Written &amp; reviewed by{" "}
-        <Link href="/about" className="text-foreground-secondary underline decoration-white/20 underline-offset-2 hover:text-foreground">
+        <Link href="/about" className="text-foreground-secondary underline decoration-foreground/20 underline-offset-2 hover:text-foreground">
           Venkatesh, Atoolix
         </Link>
       </span>
@@ -234,7 +234,7 @@ export function CrossToolCta({
             <Link
               key={tool.id}
               href={tool.href}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-medium text-foreground transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/10 hover:text-foreground"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-4 py-2 text-xs font-medium text-white transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/10 hover:text-white"
             >
               Try the {tool.name} →
             </Link>

@@ -133,7 +133,7 @@ export function HeroCommandCenter() {
       </div>
     <div className="mt-8 flex gap-4">
     <CommandPalette buttonName="Find the Right Tool ⌘K"
-    buttonClassName="cursor-pointer rounded-xl bg-indigo-600 px-6 py-3 text-foreground font-medium hover:bg-indigo-500 transition"
+    buttonClassName="cursor-pointer rounded-xl bg-indigo-600 px-6 py-3 text-white font-medium hover:bg-indigo-500 transition"
     searchTools={true}/>
     <CommandPalette buttonName="View All Categories"
     buttonClassName="cursor-pointer rounded-xl border border-border px-6 py-3 text-foreground-secondary hover:bg-surface-raised transition"

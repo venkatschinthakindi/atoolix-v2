@@ -782,7 +782,7 @@ export default function PdfMergerClient({ config }: Props) {
                       aria-pressed={autoOptimize}
                       className={`rounded-2xl border px-3 py-2.5 text-xs font-medium transition ${
                         autoOptimize
-                          ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground"
+                          ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-white"
                           : "border-border bg-card text-foreground-secondary hover:bg-surface-raised"
                       }`}
                     >
@@ -811,7 +811,7 @@ export default function PdfMergerClient({ config }: Props) {
                     
                   </div>
                   <button
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                     disabled={!canBuild}
                     onClick={merge}
                     aria-busy={isWorking}
@@ -834,7 +834,7 @@ export default function PdfMergerClient({ config }: Props) {
                 <>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => mergedBlob && openPreview(mergedBlob)}
                       type="button"
                       disabled={!mergedBlob}
@@ -844,7 +844,7 @@ export default function PdfMergerClient({ config }: Props) {
                     </button>
 
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => mergedBlob && openDownloadModel(mergedBlob)}
                       type="button"
                       disabled={!mergedBlob}

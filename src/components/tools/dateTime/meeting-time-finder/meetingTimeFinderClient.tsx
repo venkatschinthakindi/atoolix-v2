@@ -1561,7 +1561,7 @@ export default function MeetingTimeFinderClient() {
             {(copyNote || copyError) ? (
             <div
               className={`fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-md px-4 py-2 text-sm shadow-lg transition-all duration-300 ${
-                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-foreground" : "bg-gradient-to-r from-violet-500 to-violet-900 text-foreground"
+                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-white" : "bg-gradient-to-r from-violet-500 to-violet-900 text-white"
               }`}
             >
               {copyError || copyNote}
@@ -1587,7 +1587,7 @@ export default function MeetingTimeFinderClient() {
             <button
               type="button"
               onClick={() => setState((p) => ({ ...p, use24Hour: !p.use24Hour }))}
-              className="rounded-full border border-border bg-surface-sunken px-3 py-2 text-xs sm:text-sm text-foreground transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300"
+              className="rounded-full border border-border bg-surface-sunken px-3 py-2 text-xs sm:text-sm text-white transition hover:border-cyan-400 dark:hover:border-cyan-400/30 hover:bg-cyan-100 dark:hover:bg-cyan-400/10 hover:text-cyan-800 dark:hover:text-cyan-300"
             >
               {state.use24Hour ? "24h HH:MM" : "12h AM/PM"}
             </button>
@@ -2008,7 +2008,7 @@ export default function MeetingTimeFinderClient() {
                   className={`rounded-full border px-3 py-2 text-xs sm:text-sm font-medium transition ${
                     activeTemplateId === template.id
                       ? "border-emerald-300 dark:border-emerald-400/30 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-200"
-                      : "border-border bg-surface-sunken text-foreground hover:border-violet-400 dark:hover:border-violet-400/20 hover:bg-violet-100 dark:hover:bg-violet-400/10"
+                      : "border-border bg-surface-sunken text-white hover:border-violet-400 dark:hover:border-violet-400/20 hover:bg-violet-100 dark:hover:bg-violet-400/10"
                   }`}
                 >
                   {template.label} · {template.durationMinutes}m

@@ -701,7 +701,7 @@ export default function ImageCompressorClient({ config }: Props) {
 
             <section className="rounded-[24px] border border-emerald-500/20 bg-emerald-500/5 p-6 text-center">
               <div className="flex flex-wrap items-center justify-center gap-4 text-2xl font-bold sm:text-3xl">
-                <span className="text-muted-foreground line-through decoration-slate-600">
+                <span className="text-muted-foreground line-through decoration-foreground-faint">
                   {formatBytes(file.size)}
                 </span>
 

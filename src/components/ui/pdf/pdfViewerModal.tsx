@@ -113,13 +113,13 @@ export default function PdfViewerModal({
     >
       <div 
         ref={modalRef}
-        className="relative flex h-full w-full flex-col overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-950 to-black shadow-2xl sm:h-[95vh] sm:w-[96vw] md:h-[92vh] md:w-[90vw] lg:h-[90vh] lg:w-[85vw] xl:h-[88vh] xl:w-[80vw] 2xl:h-[86vh] 2xl:w-[75vw] rounded-none sm:rounded-3xl border border-border sm:border-border-strong"
+        className="relative flex h-full w-full flex-col overflow-hidden bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-zinc-900 dark:via-zinc-950 dark:to-black shadow-2xl sm:h-[95vh] sm:w-[96vw] md:h-[92vh] md:w-[90vw] lg:h-[90vh] lg:w-[85vw] xl:h-[88vh] xl:w-[80vw] 2xl:h-[86vh] 2xl:w-[75vw] rounded-none sm:rounded-3xl border border-border sm:border-border-strong"
       >
         {/* Animated gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5 pointer-events-none" />
 
         {/* Header */}
-        <header className="relative flex flex-col items-center justify-between border-b border-border bg-gradient-to-r from-black/40 via-black/30 to-black/40 px-4 py-3 sm:px-6 sm:py-4">
+        <header className="relative flex flex-col items-center justify-between border-b border-border bg-gradient-to-r from-slate-200/50 via-slate-200/30 to-slate-200/50 dark:from-black/40 dark:via-black/30 dark:to-black/40 px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-500/20">
               <svg className="h-5 w-5 text-indigo-700 dark:text-indigo-400 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -206,7 +206,7 @@ export default function PdfViewerModal({
         </header>
 
         {/* Ad Area - Ad ALWAYS Visible, Preview Shows Below After Delay */}
-        <section className="relative border-b border-border bg-gradient-to-r from-black/30 via-black/20 to-black/30 p-3 sm:p-4">
+        <section className="relative border-b border-border bg-gradient-to-r from-slate-200/40 via-slate-200/25 to-slate-200/40 dark:from-black/30 dark:via-black/20 dark:to-black/30 p-3 sm:p-4">
           {/* Ad Component - Always Visible */}
           <AdComponent
             duration={2000}
@@ -313,7 +313,7 @@ export default function PdfViewerModal({
                   {/* Download Button */}
                   <button
                     onClick={onDownload}
-                    className="flex items-center justify-center gap-3 w-full bg-emerald-500 hover:bg-emerald-600 text-foreground px-8 py-4 rounded-xl font-medium transition hover:scale-105 active:scale-95"
+                    className="flex items-center justify-center gap-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-medium transition hover:scale-105 active:scale-95"
                   >
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

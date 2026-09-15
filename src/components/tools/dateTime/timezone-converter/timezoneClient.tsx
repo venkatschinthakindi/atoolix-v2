@@ -687,7 +687,7 @@ export default function TimezoneConverterClient() {
             {(copyNote || copyError) ? (
             <div
               className={`fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-md px-4 py-2 text-sm shadow-lg transition-all duration-300 ${
-                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-foreground" : "bg-gradient-to-r from-violet-500 to-violet-900 text-foreground"
+                copyError ? "bg-gradient-to-r from-red-500 to-red-900 text-white" : "bg-gradient-to-r from-violet-500 to-violet-900 text-white"
               }`}
             >
               {copyError || copyNote}

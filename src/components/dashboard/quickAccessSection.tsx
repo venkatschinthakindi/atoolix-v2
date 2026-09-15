@@ -91,7 +91,7 @@ function QuickAccessGroupView({
       </div>
 
       {items.length === 0 ? (
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-foreground-faint">
           {emptyText ?? "Nothing here yet."}
         </p>
       ) : (
@@ -134,7 +134,7 @@ function QuickAccessGroupView({
                         color="#40916f"
                       />
 
-                      <span className="max-w-[180px] truncate text-sm text-zinc-200">
+                      <span className="max-w-[180px] truncate text-sm text-foreground">
                         {tool.displayName}
                       </span>
                     </Link>
@@ -151,7 +151,7 @@ function QuickAccessGroupView({
                                 -translate-y-1/2
                                 rounded-md
                                 p-1
-                                text-zinc-400
+                                text-foreground-secondary
                                 opacity-0
                                 transition-all
                                 hover:bg-surface-raised
@@ -202,7 +202,7 @@ function QuickAccessGroupView({
 
                       <button
                         onClick={cancelEdit}
-                        className="rounded -p-2 text-zinc-400 hover:bg-surface-raised"
+                        className="rounded -p-2 text-foreground-secondary hover:bg-surface-raised"
                         title="Cancel"
                       >
                         <X className="h-3.5 w-3.5" />

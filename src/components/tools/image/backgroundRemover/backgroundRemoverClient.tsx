@@ -545,7 +545,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                         aria-pressed={backgroundMode === mode}
                         className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition ${
                           backgroundMode === mode
-                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground"
+                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-white"
                             : "border-border bg-card text-foreground hover:bg-surface-raised"
                         }`}
                       >
@@ -647,7 +647,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                         aria-pressed={outputFormat === fmt}
                         className={`rounded-xl border px-3 py-2.5 text-xs font-medium uppercase transition ${
                           outputFormat === fmt
-                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-foreground"
+                            ? "border-blue-300 dark:border-blue-400/35 bg-blue-100 dark:bg-blue-400/10 text-white"
                             : "border-border bg-card text-foreground hover:bg-surface-raised"
                         }`}
                       >
@@ -668,7 +668,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
                     type="button"
                     onClick={handleStartProcessing}
                     disabled={!file}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <Wand2 className="h-4 w-4" />
                     Remove Background
@@ -716,7 +716,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
             <div className="grid gap-4 p-3 sm:grid-cols-2 sm:p-4 lg:p-5">
               <button
                 onClick={handleOpenPreview}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-3 text-sm font-semibold text-foreground transition hover:from-violet-400 hover:to-blue-400"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400"
               >
                 <Maximize2 className="h-4 w-4" />
                 Preview Result
@@ -724,7 +724,7 @@ export default function BackgroundRemoverClient({ config }: Props) {
 
               <button
                 onClick={handleOpenDownload}
-                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-4 py-3 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300"
+                className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-4 py-3 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300"
               >
                 <Download className="h-4 w-4" />
                 Download Image

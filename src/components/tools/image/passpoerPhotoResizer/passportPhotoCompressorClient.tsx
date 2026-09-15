@@ -49,7 +49,7 @@ config: CompressorConfig;
 type ModalVariant = "preview" | "download";
 
 function premiumShellClass() {
-return "relative flex flex-col overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+return "relative flex flex-col overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950";
 }
 
 function GlassIcon({
@@ -695,7 +695,7 @@ color: "blue",
               type="button"
               onClick={handleCompress}
               disabled={processing || !file}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Gauge className="h-4 w-4" />
               {processing ? "Compressing..." : "Compress Image"}
@@ -733,7 +733,7 @@ color: "blue",
           <button
             type="button"
             onClick={handleOpenPreview}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-3 text-sm font-semibold text-foreground transition hover:from-violet-400 hover:to-blue-400"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-3 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400"
           >
             <Maximize2 className="h-4 w-4" />
             Preview Result
@@ -742,7 +742,7 @@ color: "blue",
           <button
             type="button"
             onClick={handleOpenDownload}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-4 py-3 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-4 py-3 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300"
           >
             <Download className="h-4 w-4" />
             Download Image
@@ -751,7 +751,7 @@ color: "blue",
           <button
             type="button"
             onClick={resetTool}
-            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-emerald-700 px-4 py-3 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-orange-500 to-emerald-700 px-4 py-3 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300"
           >
             <Trash2 className="h-4 w-4" />
             Start Over

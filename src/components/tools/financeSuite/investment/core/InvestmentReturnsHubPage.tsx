@@ -123,7 +123,7 @@ const EXPLAINERS: any = {
 // ---------------------------------------------------------------------------
 
 const premiumShellClass =
-  "relative flex flex-col overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950";
+  "relative flex flex-col overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950";
 
 const inputClass =
   "w-full rounded-xl border border-border bg-surface-sunken px-4 py-3 text-foreground outline-none transition focus:border-blue-400/40";

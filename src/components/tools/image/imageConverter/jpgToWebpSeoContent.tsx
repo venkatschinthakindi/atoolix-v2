@@ -747,7 +747,7 @@ export default function JpgToWebpSeoContent() {
             <Link
               key={tool.href}
               href={tool.href}
-              className="inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground-secondary transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/15 hover:text-foreground"
+              className="inline-flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground-secondary transition hover:border-blue-400 dark:hover:border-blue-400/30 hover:bg-blue-100 dark:hover:bg-blue-400/15 hover:text-white"
             >
               {tool.name}
             </Link>

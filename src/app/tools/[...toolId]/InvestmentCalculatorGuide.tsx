@@ -133,7 +133,7 @@ export function InvestmentCalculatorGuide({ active }: InvestmentCalculatorGuideP
       <div className="overflow-x-auto rounded-2xl border border-border">
         <table className="min-w-full text-left text-sm">
           <thead className="bg-card text-foreground/80"><tr><th className="px-4 py-3 font-semibold">Your situation</th><th className="px-4 py-3 font-semibold">Best fit</th></tr></thead>
-          <tbody className="divide-y divide-white/10 text-foreground-secondary">
+          <tbody className="divide-y divide-border text-foreground-secondary">
             <tr><td className="px-4 py-3">I invest a fixed amount regularly</td><td className="px-4 py-3"><Link className="text-foreground underline underline-offset-4" href="/tools/calculator/sip-calculator">SIP Calculator</Link></td></tr>
             <tr><td className="px-4 py-3">I invest one amount at once</td><td className="px-4 py-3"><Link className="text-foreground underline underline-offset-4" href="/tools/calculator/lumpsum-calculator">Lumpsum Calculator</Link></td></tr>
             <tr><td className="px-4 py-3">I know the starting and ending values</td><td className="px-4 py-3"><Link className="text-foreground underline underline-offset-4" href="/tools/calculator/cagr-calculator">CAGR Calculator</Link></td></tr>

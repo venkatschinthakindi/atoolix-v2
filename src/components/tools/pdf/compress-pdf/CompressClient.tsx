@@ -487,7 +487,7 @@ export default function CompressClient({ config }: Props) {
 
               {!isDone ? (
                 <button
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={!canBuild}
                   onClick={handleCompress}
                   aria-busy={isWorking}
@@ -509,7 +509,7 @@ export default function CompressClient({ config }: Props) {
                 <>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-blue-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-violet-400 hover:to-blue-400 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => compressedBlob && openPreview(compressedBlob)}
                       type="button"
                       disabled={!compressedBlob}
@@ -519,7 +519,7 @@ export default function CompressClient({ config }: Props) {
                     </button>
 
                     <button
-                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-5 py-4 text-sm font-semibold text-white transition hover:from-emerald-400 hover:to-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={() => compressedBlob && openDownloadModal(compressedBlob)}
                       type="button"
                       disabled={!compressedBlob}

@@ -10,7 +10,7 @@ export default function ToolLoader() {
         <h2 className="text-xl font-semibold text-foreground">
           Setting up your tool…
         </h2>
-        <p className="text-lg text-zinc-400">
+        <p className="text-lg text-foreground-secondary">
           Optimizing tool for speed and clarity
         </p>
       </div>

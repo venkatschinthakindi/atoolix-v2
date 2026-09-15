@@ -122,7 +122,7 @@
   --surface-sunken: oklch(0.95 0.006 264);
   --surface-overlay: oklch(0.1 0 0 / 45%);
   --foreground-secondary: oklch(0.145 0 0 / 75%);
-  --foreground-faint: oklch(0.145 0 0 / 40%);
+  --foreground-faint: oklch(0.145 0 0 / 60%);
   --border-strong: oklch(0.65 0 0);
   --accent-finance: oklch(0.52 0.2 262);
   --accent-finance-soft: oklch(0.52 0.2 262 / 10%);
@@ -204,7 +204,7 @@
   --surface-sunken: oklch(0.16 0.015 264);
   --surface-overlay: oklch(0.08 0 0 / 72%);
   --foreground-secondary: oklch(0.985 0 0 / 78%);
-  --foreground-faint: oklch(0.985 0 0 / 34%);
+  --foreground-faint: oklch(0.985 0 0 / 52%);
   --border-strong: oklch(1 0 0 / 22%);
   --accent-finance: oklch(0.685 0.19 262);
   --accent-finance-soft: oklch(0.685 0.19 262 / 15%);

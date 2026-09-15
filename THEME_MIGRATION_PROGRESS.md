@@ -1250,3 +1250,78 @@ Remaining hardcoded colors repo-wide are now **only** the
 intentionally theme-invariant cases documented above and in earlier
 sessions (per-tool gradients in toolCard.tsx, SeoContent step badges,
 self-contained CTA buttons, the 2 excluded components).
+
+## Session 54 — FINAL COMPLETION PASS: audit gap found, 52 contrast bugs fixed, WCAG AA achieved, real build verified
+
+**My prior "migration complete" claim (session 53) was wrong.** An
+exhaustive re-audit revealed my audit regex had only ever covered
+`bg-`/`text-`/`border-`. It never checked `from-`/`via-`/`to-`
+(gradients), `ring-`, `divide-`, `decoration-`, `shadow-`,
+`placeholder-`, or `focus:`/`group-hover:` variants. Fixed here.
+
+### 1. Systemic contrast bug — 52 instances across 25 files
+The batch migrations (mine **and** other sessions') converted
+`text-white` → `text-foreground` on buttons sitting on **saturated
+colored gradients/fills** (e.g. `from-blue-500 to-violet-500`). In
+light mode `text-foreground` is near-black, so these would have
+rendered dark text on mid-tone saturated buttons — breaking the
+intended white-on-color design and failing contrast. Reverted all 52
+to `text-white` (correct in both themes), detected by matching
+`text-foreground` co-occurring with a saturated `from-/to-/bg-` stop
+inside the same className string.
+
+### 2. Previously-unscanned prefixes fixed (30 instances)
+- 3 viewer modals: full-panel dark gradients (`from-zinc-900
+  via-zinc-950 to-black`) would have stayed dark in light mode while
+  text went dark → invisible. Now light/dark paired.
+- `toolhero.tsx`: hero panel gradient + a gradient-**text** effect
+  whose `via-white` would vanish on a white page.
+- `siteSeoContent.tsx`: `decoration-white/30` underlines → invisible
+  on white. Now `decoration-foreground/30`.
+- `FileItem.tsx`: `ring-white/30|40` focus rings → invisible on white.
+  Now `ring-ring` (the proper shadcn focus token).
+- `placeholder-white/30` (3 files): white placeholder on a light
+  input = invisible. **I had earlier left these citing "precedent" —
+  that precedent was itself unexamined and wrong.** Now
+  `placeholder-foreground-faint`.
+- Plus `divide-white/10`, `decoration-slate-600`, and several panel
+  gradients in image/PDF/investment components.
+
+### 3. WCAG AA now actually verified, not assumed
+Wrote a real contrast checker (culori, alpha-composited over each
+background, both themes). Found `--foreground-faint` **failing AA at
+2.71 (light) / 2.94 (dark)** — below even the 3:1 large-text floor,
+despite being used for placeholders, hints and captions. Computed the
+minimum passing alpha and raised it: light 40%→60%, dark 34%→52%.
+**All token pairs now pass WCAG AA in both themes** (re-verified).
+Note this was a pre-existing issue inherited from the original
+hardcoded `text-white/40` values, not introduced by the migration —
+but the brief required AA, so it's fixed.
+
+### 4. First real production build of this entire migration
+Every prior session reported "build compiles clean up to the
+pre-existing sandbox Google Fonts block" — meaning **the build never
+actually completed**. Worked around it by temporarily stubbing the
+font locally (never committed; reverted and verified via `git diff`),
+which produced a **full successful production build** of all 60+
+routes. This confirmed for the first time that:
+- every new utility class actually generates in the output CSS
+  (verified `placeholder-foreground-faint`, `decoration-foreground-faint`,
+  `ring-ring`, `divide-border`, `bg-surface-sunken`, `bg-popover`,
+  `border-border-strong` all present in the compiled stylesheet —
+  these would have silently no-op'd if invalid)
+- the no-flash theme script is present in the rendered HTML
+- no route fails to prerender
+
+**Verification:** `tsc --noEmit` clean repo-wide. `eslint` 272 before
+== 272 after. Full `next build` succeeds. All token pairs pass WCAG AA.
+
+### Still requires a human (cannot be done from this sandbox)
+- **Visual QA in a browser**, both themes, across tool pages. No
+  browser here.
+- **Lighthouse / Core Web Vitals** (LCP, FCP, TBT, CLS, Speed Index)
+  against the brief's targets. Needs a real browser against a running
+  server.
+- The CLS risk specifically: theme toggling should change only
+  colors, never dimensions. Structurally that's what these changes do,
+  but it should be confirmed visually.

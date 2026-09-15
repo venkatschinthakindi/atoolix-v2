@@ -377,7 +377,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-surface-raised transition text-sm";
+  "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder-foreground-faint focus:outline-none focus:border-blue-400/50 focus:bg-surface-raised transition text-sm";
 
 /** Numeric input that stays editable mid-keystroke.
  *
@@ -613,7 +613,7 @@ function ChartSkeleton() {
   return (
     <div className="h-72 rounded-2xl border border-border bg-card p-4">
       <div className="h-4 w-40 rounded bg-surface-raised" />
-      <div className="mt-6 h-56 rounded-xl bg-gradient-to-b from-white/5 to-white/[0.02]" />
+      <div className="mt-6 h-56 rounded-xl bg-gradient-to-b from-foreground/5 to-foreground/[0.02]" />
     </div>
   );
 }
@@ -1314,7 +1314,7 @@ function RetirementWealthSuiteInner() {
           aria-pressed={activeTab === tab.id}
           className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2.5 rounded-full text-sm font-medium border transition ${
             activeTab === tab.id
-              ? "border-blue-400/60 bg-blue-400/15 text-foreground"
+              ? "border-blue-400/60 bg-blue-400/15 text-white"
               : "border-border bg-card text-muted-foreground hover:bg-surface-raised hover:text-foreground"
           }`}
         >
@@ -1340,7 +1340,7 @@ function RetirementWealthSuiteInner() {
                   aria-pressed={selectedScenario === key}
                   className={`shrink-0 whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-medium transition ${
                     selectedScenario === key
-                      ? "bg-blue-400/20 text-foreground border border-blue-400/40"
+                      ? "bg-blue-400/20 text-white border border-blue-400/40"
                       : "border border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >

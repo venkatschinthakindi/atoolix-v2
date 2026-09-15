@@ -395,7 +395,7 @@ function UnitConverter({
                   type="button"
                   onClick={() => void convertBatch()}
                   disabled={isConverting}
-                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-foreground transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-4 text-sm font-semibold text-white transition hover:from-blue-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {count > 1 ? "Convert Batch" : "Convert"}
                 </button>
@@ -438,7 +438,7 @@ function UnitConverter({
               <button
                 type="button"
                 onClick={addCustomUnit}
-                className="inline-flex items-center justify-center rounded-2xl bg-emerald-700 px-5 py-4 text-sm font-semibold text-foreground transition hover:bg-emerald-600"
+                className="inline-flex items-center justify-center rounded-2xl bg-emerald-700 px-5 py-4 text-sm font-semibold text-white transition hover:bg-emerald-600"
               >
                 Add unit
               </button>

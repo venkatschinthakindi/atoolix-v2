@@ -10,4 +10,4 @@ export function clamp(value: number, min: number, max: number) {
 }
 
 export const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-white/30 focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";
+  "w-full px-4 py-3 rounded-xl border border-white/10 bg-white/5 text-white placeholder-foreground-faint focus:outline-none focus:border-blue-400/50 focus:bg-white/10 transition text-sm";

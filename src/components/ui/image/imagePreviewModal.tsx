@@ -101,11 +101,11 @@ export function ImagePreviewModal({
     >
       <div
         ref={modalRef}
-        className="relative flex h-full w-full flex-col overflow-hidden rounded-none border border-border bg-gradient-to-br from-zinc-900 via-zinc-950 to-black shadow-2xl sm:h-[92vh] sm:w-[96vw] sm:rounded-3xl md:h-[90vh] md:w-[90vw] lg:h-[88vh] lg:w-[82vw]"
+        className="relative flex h-full w-full flex-col overflow-hidden rounded-none border border-border bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-zinc-900 dark:via-zinc-950 dark:to-black shadow-2xl sm:h-[92vh] sm:w-[96vw] sm:rounded-3xl md:h-[90vh] md:w-[90vw] lg:h-[88vh] lg:w-[82vw]"
       >
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5" />
 
-        <header className="relative flex items-center justify-between border-b border-border bg-gradient-to-r from-black/40 via-black/30 to-black/40 px-4 py-3 sm:px-6 sm:py-4">
+        <header className="relative flex items-center justify-between border-b border-border bg-gradient-to-r from-slate-200/50 via-slate-200/30 to-slate-200/50 dark:from-black/40 dark:via-black/30 dark:to-black/40 px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-3 min-w-0">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-500/20">
               <ImageIcon className="h-5 w-5 text-indigo-700 dark:text-indigo-400" />
@@ -173,7 +173,7 @@ export function ImagePreviewModal({
           </div>
         </header>
 
-        <section className="relative border-b border-border bg-gradient-to-r from-black/30 via-black/20 to-black/30 p-3 sm:p-4">
+        <section className="relative border-b border-border bg-gradient-to-r from-slate-200/40 via-slate-200/25 to-slate-200/40 dark:from-black/30 dark:via-black/20 dark:to-black/30 p-3 sm:p-4">
           <div className="rounded-2xl border border-border bg-surface-sunken p-3">
             <div className="flex items-center gap-2 text-sm text-foreground">
               <Sparkles className="h-4 w-4 text-indigo-700 dark:text-indigo-300" />
@@ -269,7 +269,7 @@ export function ImagePreviewModal({
 
                 <button
                   onClick={onDownload}
-                  className="flex w-full items-center justify-center gap-3 rounded-xl bg-emerald-500 px-8 py-4 font-medium text-foreground transition hover:bg-emerald-600 active:scale-95"
+                  className="flex w-full items-center justify-center gap-3 rounded-xl bg-emerald-500 px-8 py-4 font-medium text-white transition hover:bg-emerald-600 active:scale-95"
                 >
                   <Download className="h-5 w-5" />
                   Download {documentName}

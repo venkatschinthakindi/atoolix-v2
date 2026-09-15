@@ -68,7 +68,7 @@ function ToolHero({
   const outputFormat = config.outputFormats?.[0] || "png";
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <section className="relative overflow-hidden rounded-[28px] border border-border bg-gradient-to-br from-slate-100 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <div className="absolute inset-0">
         <div className="absolute -left-32 top-0 h-80 w-80 rounded-full bg-blue-600/10 blur-3xl" />
         <div className="absolute right-0 bottom-0 h-80 w-80 rounded-full bg-violet-600/10 blur-3xl" />
