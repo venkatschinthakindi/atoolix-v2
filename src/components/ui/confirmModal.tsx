@@ -71,7 +71,7 @@ export function ConfirmModal({
           <button
             type="button"
             onClick={onConfirm}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+            className="rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background hover:opacity-90"
           >
             {confirmText}
           </button>
