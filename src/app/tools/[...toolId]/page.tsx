@@ -17,13 +17,13 @@ const ToolSeoContent = dynamic(
   { loading: () => null }
 );
 
-const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
+const CALCULATOR_TITLE = "Online Calculator – Percentage, Scientific & Equation Solver | Atoolix";
 const CALCULATOR_DESCRIPTION =
-  "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
+  "Use a free online calculator for percentages, scientific math, everyday arithmetic, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
 const TIMEZONE_CONVERTER_TITLE =
   "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
 const TIMEZONE_CONVERTER_DESCRIPTION =
-  "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
+  "Convert and compare time between time zones by date, city, or country. Check time zone differences, UTC offsets, day changes, and daylight saving transitions online for free.";
 const FILE_ANALYZER_TITLE =
   "File Analyzer – Privacy & Security Checker | Atoolix";
 const FILE_ANALYZER_DESCRIPTION =
@@ -40,6 +40,11 @@ const QR_GENERATOR_TITLE =
   "QR Code Generator & Scanner – Create, Scan & Download | Atoolix";
 const QR_GENERATOR_DESCRIPTION =
   "Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan QR codes with a camera or image and export PNG, SVG, or PDF in your browser.";
+const FD_CALCULATOR_TITLE =
+  "FD Calculator Online | Fixed Deposit Maturity & Interest | Atoolix";
+const FD_CALCULATOR_DESCRIPTION =
+  "Use an FD calculator online to estimate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency.";
+
 const RETIREMENT_CALCULATOR_TITLE =
   "Retirement Calculator – Corpus, FIRE & Retirement Planning | Atoolix";
 const RETIREMENT_CALCULATOR_DESCRIPTION =
@@ -149,6 +154,24 @@ export async function generateMetadata({
         ...metadata.twitter,
         title: QR_GENERATOR_TITLE,
         description: QR_GENERATOR_DESCRIPTION,
+      },
+    };
+  }
+
+  if (normalizedToolId === "calculator/fd-calculator") {
+    return {
+      ...metadata,
+      title: FD_CALCULATOR_TITLE,
+      description: FD_CALCULATOR_DESCRIPTION,
+      openGraph: {
+        ...metadata.openGraph,
+        title: FD_CALCULATOR_TITLE,
+        description: FD_CALCULATOR_DESCRIPTION,
+      },
+      twitter: {
+        ...metadata.twitter,
+        title: FD_CALCULATOR_TITLE,
+        description: FD_CALCULATOR_DESCRIPTION,
       },
     };
   }

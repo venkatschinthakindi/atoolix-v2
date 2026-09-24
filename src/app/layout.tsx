@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
-import NextScript from "next/script";
 import "@/app/globals.css";
 import { cn } from "@/utility/cn";
 import "@/utility/pascalCase";
@@ -147,12 +146,6 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <NextScript
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1267608571294570"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
         <PwaProvider>
           <script
             type="application/ld+json"

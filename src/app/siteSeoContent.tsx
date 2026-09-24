@@ -18,7 +18,7 @@ const siteUrl = serverConfig.siteUrl;
 // template does NOT get appended here. Brand name is included manually.
 const TITLE = `Free Online PDF, Image, Finance & QR Code Tools | ${siteName}`;
 const DESCRIPTION =
-  "Free online tools for PDF, images, finance, math, QR codes and time zones. Process files in your browser with no signup or software installation.";
+  "Free online tools for PDF, images, finance, math, QR codes and time zones. Many file tools process content directly in your browser with no signup or software installation.";
 
 const quickLinks = [
   { href: "/tools/privacysecurity/file-analyzer", label: "File Analyzer" },
@@ -188,7 +188,7 @@ export async function HomePageSeo() {
             </p>
 
             <h1 className="max-w-3xl text-2xl font-semibold tracking-tight sm:text-3xl lg:text-3xl">
-              Finance, calculators, PDF and image tools, QR codes, meeting schedulers, time zone conversions — all run entirely in your browser.
+              Finance, calculators, PDF and image tools, QR codes, meeting schedulers, time zone conversions — with many workflows running directly in your browser.
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg">

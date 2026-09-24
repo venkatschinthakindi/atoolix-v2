@@ -105,13 +105,13 @@ export default function FixedDepositCalculatorSeoContent() {
 
       <section aria-labelledby="fd-intro">
         <h2 id="fd-intro" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
-          Fixed Deposit Calculator for Maturity Value and Interest
+          FD Calculator Online for Fixed Deposit Maturity Value and Interest
         </h2>
         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
-          Calculate fixed deposit maturity value and estimated interest earned from a
-          lump-sum investment. Enter your deposit amount, annual interest rate, tenure,
-          and compounding assumption to estimate how much your FD may be worth at
-          maturity.
+          Use this FD calculator online to estimate fixed deposit maturity value and
+          interest earned from a lump-sum investment. Enter your deposit amount, annual
+          interest rate, tenure, and compounding assumption to estimate how much your FD
+          may be worth at maturity.
         </p>
         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
           This FD calculator is useful for comparing different deposit amounts, interest
@@ -188,11 +188,11 @@ export default function FixedDepositCalculatorSeoContent() {
 
       <section aria-labelledby="fd-formula">
         <h2 id="fd-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
-          FD Calculation Formula
+          How to Calculate Fixed Deposit Interest
         </h2>
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
           <p className="text-sm leading-relaxed text-white/65">
-            A commonly used compound-interest model for a fixed deposit is:
+            A commonly used compound-interest model for estimating fixed deposit maturity and interest is:
           </p>
           <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
             A = P(1 + r/n)^(nt)

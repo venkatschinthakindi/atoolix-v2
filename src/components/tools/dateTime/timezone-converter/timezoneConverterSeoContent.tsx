@@ -414,6 +414,35 @@ export default function TimezoneConverterSeoContent() {
         </p>
       </section>
 
+      {/* TIME DIFFERENCE */}
+      <section
+        aria-labelledby="difference-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="difference-heading"
+          title="Time Zone Difference Calculator"
+          description="See the local-time difference between two or more locations for the exact date you select."
+        />
+
+        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <p className="text-sm leading-7 text-white/75">
+            A time zone difference is not always a fixed number of hours.
+            Daylight saving time can change the offset for some locations,
+            and a conversion can also cross midnight into the previous or
+            next calendar day. This converter calculates the difference from
+            the selected date instead of assuming that today&apos;s offset applies.
+          </p>
+          <p className="mt-3 text-sm leading-7 text-white/65">
+            For example, when comparing India Standard Time with a US or
+            European location, select the date first so the displayed UTC
+            offsets and local times reflect the applicable daylight saving
+            rules. If you need to find a meeting time that fits several
+            working-hour windows, use the Meeting Time Finder instead.
+          </p>
+        </div>
+      </section>
+
       {/* HOW TO */}
       <section
         aria-labelledby="how-heading"

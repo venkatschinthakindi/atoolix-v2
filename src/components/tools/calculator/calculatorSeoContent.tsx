@@ -36,12 +36,13 @@ export default function CalculatorSeoContent() {
     <div className="mx-auto max-w-6xl space-y-10 p-4 text-white sm:p-5 lg:p-6">
       <section aria-labelledby="calculator-intro" className="space-y-4">
         <h2 id="calculator-intro" className="text-2xl font-bold tracking-tight sm:text-3xl">
-          Free Online Calculator for Everyday Math
+          Online Calculator for Percentage, Scientific Math & Equations
         </h2>
         <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
-          Use Atoolix as a fast online calculator for percentages, everyday arithmetic,
-          and equation solving. Everything is available from one responsive interface,
-          so you can switch between the calculation you need without opening another app.
+          Use Atoolix as a free online calculator for percentages, everyday arithmetic,
+          scientific calculations, and supported equations. Everything is available from
+          one responsive interface, so you can switch between common calculation types
+          without opening another app.
         </p>
         <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
           The page is organized around common calculation intent: percentage questions,
@@ -116,6 +117,36 @@ export default function CalculatorSeoContent() {
             <p className="mt-2 text-sm leading-6 text-white/60">Review the result and, where available, the formula used to produce it.</p>
           </li>
         </ol>
+      </section>
+
+      <section aria-labelledby="calculator-paths" className="space-y-4">
+        <h2 id="calculator-paths" className="text-xl font-bold sm:text-2xl">
+          Choose the Right Calculator for Your Task
+        </h2>
+        <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+          Use this page for general math and percentage questions. For a specific
+          financial calculation, go directly to the dedicated calculator so the
+          inputs and methodology match the problem you are solving.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["/tools/calculator/emi-calculator", "EMI Calculator", "Loan payments, interest, amortization, and prepayment scenarios."],
+            ["/tools/calculator/fd-calculator", "FD Calculator", "Fixed deposit maturity value, interest, tenure, and compounding."],
+            ["/tools/calculator/sip-calculator", "SIP Calculator", "SIP investment, step-up contributions, and projected maturity."],
+            ["/tools/calculator/cagr-calculator", "CAGR Calculator", "Annualized growth from an initial value, final value, and time period."],
+            ["/tools/calculator/xirr-calculator", "XIRR Calculator", "Annualized returns for investments with irregular cash flows."],
+            ["/tools/calculator/retirement-calculator", "Retirement Calculator", "Retirement corpus, savings, inflation, and withdrawal planning."],
+          ].map(([href, title, description]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
+            >
+              <h3 className="text-sm font-semibold">{title}</h3>
+              <p className="mt-2 text-xs leading-5 text-white/55">{description}</p>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section aria-labelledby="use-cases" className="space-y-4">

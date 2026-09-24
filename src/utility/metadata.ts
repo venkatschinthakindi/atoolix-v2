@@ -4,9 +4,9 @@ import { serverConfig } from "@/config/server";
 import type { Metadata } from "next";
 
 const CALCULATOR_CANONICAL = `${serverConfig.siteUrl}/tools/calculator`;
-const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
+const CALCULATOR_TITLE = "Online Calculator – Percentage, Scientific & Equation Solver | Atoolix";
 const CALCULATOR_DESCRIPTION =
-  "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
+  "Use a free online calculator for percentages, scientific math, everyday arithmetic, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
 
 const IMAGE_TARGET_SIZE_METADATA: Record<
   string,
@@ -36,9 +36,13 @@ const PASSPORT_PHOTO_METADATA = {
 };
 
 const TIMEZONE_CONVERTER_TITLE =
-  "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
+  "Time Zone Converter – Convert & Compare Time Differences | Atoolix";
+const FD_CALCULATOR_TITLE =
+  "FD Calculator Online | Fixed Deposit Maturity & Interest | Atoolix";
+const FD_CALCULATOR_DESCRIPTION =
+  "Use an FD calculator online to estimate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency.";
 const TIMEZONE_CONVERTER_DESCRIPTION =
-  "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
+  "Convert and compare time between time zones by date, city, or country. Check time zone differences, UTC offsets, day changes, and daylight saving transitions online for free.";
 
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
@@ -66,6 +70,7 @@ export async function generateMetadata(params: any): Promise<Metadata> {
   const targetSizeMetadata = IMAGE_TARGET_SIZE_METADATA[normalizedToolId];
   const isPassportPhotoResizer = normalizedToolId === "image/passport-photo-resizer";
   const isTimezoneConverter = normalizedToolId === "datetime/timezone-converter";
+  const isFdCalculator = normalizedToolId === "calculator/fd-calculator";
 
   const title = isCalculatorHub
     ? CALCULATOR_TITLE
@@ -74,7 +79,9 @@ export async function generateMetadata(params: any): Promise<Metadata> {
         ? PASSPORT_PHOTO_METADATA.title
         : isTimezoneConverter
           ? TIMEZONE_CONVERTER_TITLE
-          : tool.title);
+          : isFdCalculator
+            ? FD_CALCULATOR_TITLE
+            : tool.title);
   const description = isCalculatorHub
     ? CALCULATOR_DESCRIPTION
     : targetSizeMetadata?.description ??
@@ -82,7 +89,9 @@ export async function generateMetadata(params: any): Promise<Metadata> {
         ? PASSPORT_PHOTO_METADATA.description
         : isTimezoneConverter
           ? TIMEZONE_CONVERTER_DESCRIPTION
-          : tool.description);
+          : isFdCalculator
+            ? FD_CALCULATOR_DESCRIPTION
+            : tool.description);
   const canonical = isCalculatorHub
     ? CALCULATOR_CANONICAL
     : tool.alternates.canonical.replace(/\/$/, "");

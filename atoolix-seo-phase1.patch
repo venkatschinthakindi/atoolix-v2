@@ -1,0 +1,285 @@
+--- a/src/app/tools/[...toolId]/page.tsx
++++ b/src/app/tools/[...toolId]/page.tsx
+@@ -17,13 +17,13 @@
+   { loading: () => null }
+ );
+ 
+-const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
++const CALCULATOR_TITLE = "Online Calculator – Percentage, Scientific & Equation Solver | Atoolix";
+ const CALCULATOR_DESCRIPTION =
+-  "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
++  "Use a free online calculator for percentages, scientific math, everyday arithmetic, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
+ const TIMEZONE_CONVERTER_TITLE =
+   "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
+ const TIMEZONE_CONVERTER_DESCRIPTION =
+-  "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
++  "Convert and compare time between time zones by date, city, or country. Check time zone differences, UTC offsets, day changes, and daylight saving transitions online for free.";
+ const FILE_ANALYZER_TITLE =
+   "File Analyzer – Privacy & Security Checker | Atoolix";
+ const FILE_ANALYZER_DESCRIPTION =
+@@ -40,6 +40,11 @@
+   "QR Code Generator & Scanner – Create, Scan & Download | Atoolix";
+ const QR_GENERATOR_DESCRIPTION =
+   "Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan QR codes with a camera or image and export PNG, SVG, or PDF in your browser.";
++const FD_CALCULATOR_TITLE =
++  "FD Calculator Online | Fixed Deposit Maturity & Interest | Atoolix";
++const FD_CALCULATOR_DESCRIPTION =
++  "Use an FD calculator online to estimate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency.";
++
+ const RETIREMENT_CALCULATOR_TITLE =
+   "Retirement Calculator – Corpus, FIRE & Retirement Planning | Atoolix";
+ const RETIREMENT_CALCULATOR_DESCRIPTION =
+@@ -149,6 +154,24 @@
+         ...metadata.twitter,
+         title: QR_GENERATOR_TITLE,
+         description: QR_GENERATOR_DESCRIPTION,
++      },
++    };
++  }
++
++  if (normalizedToolId === "calculator/fd-calculator") {
++    return {
++      ...metadata,
++      title: FD_CALCULATOR_TITLE,
++      description: FD_CALCULATOR_DESCRIPTION,
++      openGraph: {
++        ...metadata.openGraph,
++        title: FD_CALCULATOR_TITLE,
++        description: FD_CALCULATOR_DESCRIPTION,
++      },
++      twitter: {
++        ...metadata.twitter,
++        title: FD_CALCULATOR_TITLE,
++        description: FD_CALCULATOR_DESCRIPTION,
+       },
+     };
+   }
+--- a/src/utility/metadata.ts
++++ b/src/utility/metadata.ts
+@@ -4,9 +4,9 @@
+ import type { Metadata } from "next";
+ 
+ const CALCULATOR_CANONICAL = `${serverConfig.siteUrl}/tools/calculator`;
+-const CALCULATOR_TITLE = "Free Online Calculator – Scientific, Percentage & Equation Solver";
++const CALCULATOR_TITLE = "Online Calculator – Percentage, Scientific & Equation Solver | Atoolix";
+ const CALCULATOR_DESCRIPTION =
+-  "Free online calculator for everyday arithmetic, scientific calculations, percentages, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
++  "Use a free online calculator for percentages, scientific math, everyday arithmetic, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
+ 
+ const IMAGE_TARGET_SIZE_METADATA: Record<
+   string,
+@@ -36,9 +36,13 @@
+ };
+ 
+ const TIMEZONE_CONVERTER_TITLE =
+-  "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
++  "Time Zone Converter – Convert & Compare Time Differences | Atoolix";
++const FD_CALCULATOR_TITLE =
++  "FD Calculator Online | Fixed Deposit Maturity & Interest | Atoolix";
++const FD_CALCULATOR_DESCRIPTION =
++  "Use an FD calculator online to estimate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency.";
+ const TIMEZONE_CONVERTER_DESCRIPTION =
+-  "Convert time between time zones by date, city, or country. Compare multiple locations, UTC offsets, day differences, and daylight saving changes online for free.";
++  "Convert and compare time between time zones by date, city, or country. Check time zone differences, UTC offsets, day changes, and daylight saving transitions online for free.";
+ 
+ export async function generateMetadata(params: any): Promise<Metadata> {
+   const resolvedParams = await params;
+@@ -66,6 +70,7 @@
+   const targetSizeMetadata = IMAGE_TARGET_SIZE_METADATA[normalizedToolId];
+   const isPassportPhotoResizer = normalizedToolId === "image/passport-photo-resizer";
+   const isTimezoneConverter = normalizedToolId === "datetime/timezone-converter";
++  const isFdCalculator = normalizedToolId === "calculator/fd-calculator";
+ 
+   const title = isCalculatorHub
+     ? CALCULATOR_TITLE
+@@ -74,7 +79,9 @@
+         ? PASSPORT_PHOTO_METADATA.title
+         : isTimezoneConverter
+           ? TIMEZONE_CONVERTER_TITLE
+-          : tool.title);
++          : isFdCalculator
++            ? FD_CALCULATOR_TITLE
++            : tool.title);
+   const description = isCalculatorHub
+     ? CALCULATOR_DESCRIPTION
+     : targetSizeMetadata?.description ??
+@@ -82,7 +89,9 @@
+         ? PASSPORT_PHOTO_METADATA.description
+         : isTimezoneConverter
+           ? TIMEZONE_CONVERTER_DESCRIPTION
+-          : tool.description);
++          : isFdCalculator
++            ? FD_CALCULATOR_DESCRIPTION
++            : tool.description);
+   const canonical = isCalculatorHub
+     ? CALCULATOR_CANONICAL
+     : tool.alternates.canonical.replace(/\/$/, "");
+--- a/src/data/tools.ts
++++ b/src/data/tools.ts
+@@ -620,11 +620,11 @@
+     ],
+     // loader: () => import("@/components/tools/financeSuite/savings/fixedDepositCalculator"),
+     toolShortName: "FD Calculator",
+-    title: "FD Calculator | Fixed Deposit Maturity and Interest",
++    title: "FD Calculator Online | Fixed Deposit Maturity & Interest",
+     onPageTitle:
+-      "FD Calculator for Fixed Deposit Maturity Value and Interest Earned",
++      "FD Calculator Online for Fixed Deposit Maturity Value and Interest",
+     description:
+-      "Calculate fixed deposit maturity value and interest earned using your deposit amount, interest rate, duration, and compounding frequency with an instant growth projection.",
++      "Use an FD calculator online to estimate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency.",
+     icon: "PiggyBank",
+     keywords: [
+       "fd calculator",
+@@ -729,12 +729,17 @@
+     archived: false,
+     relatedTools: ["converter", "calculator/emi-calculator", "calculator/sip-calculator", "calculator/fd-calculator", "calculator/retirement-calculator"],
+     //loader: () => import("@/components/tools/calculator/Calculator"),
+-    title: "Calculator – Scientific, Percentage & Equation Solver",
+-    toolShortName: "Scientific, Percentage & Equation Solver",
+-    onPageTitle: "Scientific Calculator, Percentage & Equation Solver",
+-    description: "A powerful online scientific calculator with algebra, trigonometry, logs, derivatives, matrices, unit conversion, and statistics support.",
++    title: "Online Calculator – Percentage, Scientific & Equation Solver",
++    toolShortName: "Online Calculator",
++    onPageTitle: "Online Calculator for Percentage, Scientific Math & Equations",
++    description: "Use a free online calculator for percentages, scientific math, everyday arithmetic, and supported equation solving, with algebra, trigonometry, logs, derivatives, matrices, and statistics.",
+     icon: "Calculator",
+     keywords: [
++      "online calculator",
++      "free online calculator",
++      "percentage calculator",
++      "percentage increase calculator",
++      "percentage decrease calculator",
+       "scientific calculator online",
+       "advanced calculator",
+       "equation solver online",
+--- a/src/components/tools/calculator/calculatorSeoContent.tsx
++++ b/src/components/tools/calculator/calculatorSeoContent.tsx
+@@ -36,12 +36,13 @@
+     <div className="mx-auto max-w-6xl space-y-10 p-4 text-white sm:p-5 lg:p-6">
+       <section aria-labelledby="calculator-intro" className="space-y-4">
+         <h2 id="calculator-intro" className="text-2xl font-bold tracking-tight sm:text-3xl">
+-          Free Online Calculator for Everyday Math
++          Online Calculator for Percentage, Scientific Math & Equations
+         </h2>
+         <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+-          Use Atoolix as a fast online calculator for percentages, everyday arithmetic,
+-          and equation solving. Everything is available from one responsive interface,
+-          so you can switch between the calculation you need without opening another app.
++          Use Atoolix as a free online calculator for percentages, everyday arithmetic,
++          scientific calculations, and supported equations. Everything is available from
++          one responsive interface, so you can switch between common calculation types
++          without opening another app.
+         </p>
+         <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
+           The page is organized around common calculation intent: percentage questions,
+@@ -118,6 +119,36 @@
+         </ol>
+       </section>
+ 
++      <section aria-labelledby="calculator-paths" className="space-y-4">
++        <h2 id="calculator-paths" className="text-xl font-bold sm:text-2xl">
++          Choose the Right Calculator for Your Task
++        </h2>
++        <p className="max-w-4xl text-sm leading-7 text-white/60 sm:text-base">
++          Use this page for general math and percentage questions. For a specific
++          financial calculation, go directly to the dedicated calculator so the
++          inputs and methodology match the problem you are solving.
++        </p>
++        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
++          {[
++            ["/tools/calculator/emi-calculator", "EMI Calculator", "Loan payments, interest, amortization, and prepayment scenarios."],
++            ["/tools/calculator/fd-calculator", "FD Calculator", "Fixed deposit maturity value, interest, tenure, and compounding."],
++            ["/tools/calculator/sip-calculator", "SIP Calculator", "SIP investment, step-up contributions, and projected maturity."],
++            ["/tools/calculator/cagr-calculator", "CAGR Calculator", "Annualized growth from an initial value, final value, and time period."],
++            ["/tools/calculator/xirr-calculator", "XIRR Calculator", "Annualized returns for investments with irregular cash flows."],
++            ["/tools/calculator/retirement-calculator", "Retirement Calculator", "Retirement corpus, savings, inflation, and withdrawal planning."],
++          ].map(([href, title, description]) => (
++            <Link
++              key={href}
++              href={href}
++              className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:bg-white/10"
++            >
++              <h3 className="text-sm font-semibold">{title}</h3>
++              <p className="mt-2 text-xs leading-5 text-white/55">{description}</p>
++            </Link>
++          ))}
++        </div>
++      </section>
++
+       <section aria-labelledby="use-cases" className="space-y-4">
+         <h2 id="use-cases" className="text-xl font-bold sm:text-2xl">Common Percentage Calculator Uses</h2>
+         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+--- a/src/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent.tsx
++++ b/src/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent.tsx
+@@ -414,6 +414,35 @@
+         </p>
+       </section>
+ 
++      {/* TIME DIFFERENCE */}
++      <section
++        aria-labelledby="difference-heading"
++        className="space-y-4"
++      >
++        <SectionHeading
++          id="difference-heading"
++          title="Time Zone Difference Calculator"
++          description="See the local-time difference between two or more locations for the exact date you select."
++        />
++
++        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
++          <p className="text-sm leading-7 text-white/75">
++            A time zone difference is not always a fixed number of hours.
++            Daylight saving time can change the offset for some locations,
++            and a conversion can also cross midnight into the previous or
++            next calendar day. This converter calculates the difference from
++            the selected date instead of assuming that today&apos;s offset applies.
++          </p>
++          <p className="mt-3 text-sm leading-7 text-white/65">
++            For example, when comparing India Standard Time with a US or
++            European location, select the date first so the displayed UTC
++            offsets and local times reflect the applicable daylight saving
++            rules. If you need to find a meeting time that fits several
++            working-hour windows, use the Meeting Time Finder instead.
++          </p>
++        </div>
++      </section>
++
+       {/* HOW TO */}
+       <section
+         aria-labelledby="how-heading"
+--- a/src/components/tools/financeSuite/savings/fixedDepositCalculatorSeoContent.tsx
++++ b/src/components/tools/financeSuite/savings/fixedDepositCalculatorSeoContent.tsx
+@@ -105,13 +105,13 @@
+ 
+       <section aria-labelledby="fd-intro">
+         <h2 id="fd-intro" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
+-          Fixed Deposit Calculator for Maturity Value and Interest
++          FD Calculator Online for Fixed Deposit Maturity Value and Interest
+         </h2>
+         <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+-          Calculate fixed deposit maturity value and estimated interest earned from a
+-          lump-sum investment. Enter your deposit amount, annual interest rate, tenure,
+-          and compounding assumption to estimate how much your FD may be worth at
+-          maturity.
++          Use this FD calculator online to estimate fixed deposit maturity value and
++          interest earned from a lump-sum investment. Enter your deposit amount, annual
++          interest rate, tenure, and compounding assumption to estimate how much your FD
++          may be worth at maturity.
+         </p>
+         <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
+           This FD calculator is useful for comparing different deposit amounts, interest
+@@ -188,11 +188,11 @@
+ 
+       <section aria-labelledby="fd-formula">
+         <h2 id="fd-formula" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
+-          FD Calculation Formula
++          How to Calculate Fixed Deposit Interest
+         </h2>
+         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+           <p className="text-sm leading-relaxed text-white/65">
+-            A commonly used compound-interest model for a fixed deposit is:
++            A commonly used compound-interest model for estimating fixed deposit maturity and interest is:
+           </p>
+           <p className="my-4 rounded-xl bg-black/20 p-4 text-center text-base font-semibold text-white">
+             A = P(1 + r/n)^(nt)

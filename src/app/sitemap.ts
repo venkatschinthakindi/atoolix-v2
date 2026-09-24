@@ -68,12 +68,6 @@ function getCanonicalToolUrls() {
 export default function sitemap(): MetadataRoute.Sitemap {
   const toolUrls = getCanonicalToolUrls();
 
-  // Reflects actual build/deploy time. Next.js regenerates the sitemap on
-  // every build, so this is a real (not fabricated) freshness signal —
-  // it tells Google when this URL set was last confirmed live, which
-  // supports recrawl prioritization on a young domain.
-  const buildDate = new Date();
-
   const urls = Array.from(
     new Set([
       ...staticRoutes.map((route) =>
@@ -83,5 +77,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ]),
   );
 
-  return urls.map((url) => ({ url, lastModified: buildDate }));
+  // Do not emit a fabricated deployment timestamp. A sitemap lastModified
+  // value should represent a real page-content change, not every build.
+  return urls.map((url) => ({ url }));
 }
