@@ -1368,3 +1368,58 @@ SmartCalculator) that the fix script also touched.
 
 So: theme switching itself is now browser-verified; per-page visual and
 CWV verification on the tool pages remains open.
+
+## Session 56 — final contrast-contract hardening
+
+Completed the remaining design-system hardening pass for the centralized
+light/dark color contract.
+
+### Centralized contract additions
+- Added dedicated theme tokens for focus rings, links/link-hover,
+  disabled foreground/surface, and accent-specific foreground colors.
+- Strengthened dark-theme input/border defaults so component boundaries and
+  controls do not become unnecessarily faint on the near-black surface.
+- Kept normal text hierarchy semantic (`foreground` → `foreground-secondary`
+  → `foreground-faint`) rather than reintroducing page-level slate/gray colors.
+- Added a centralized `:focus-visible` treatment using the theme focus token
+  so keyboard focus remains visible across controls unless a component has a
+  more specific accessible focus treatment.
+- Standardized placeholder text on the centralized secondary foreground.
+
+### Component cleanup
+- Removed the final four `text-slate-400` theme stragglers from the investment
+  returns overview.
+- Reworked the finance PDF export action to use the centralized finance accent
+  and theme-specific accent foreground instead of a fixed indigo/stone gradient
+  whose text contrast changed unpredictably between themes.
+- Reworked legacy global dark-only surface/form helpers (`surface-card`,
+  `surface-panel`, `surface-input`, `.form-field`, `.form-select`, etc.) to use
+  semantic surfaces and borders so they remain correct in both themes.
+- Replaced remaining global dark-only FAQ/button styling with semantic tokens.
+- Made legacy aurora/spotlight/gradient helpers consume the centralized theme
+  values rather than fixed dark-theme colors.
+- Tuned the light warning status token slightly darker so normal status text
+  clears the WCAG AA contrast target.
+
+### Verification performed in this sandbox
+- `git diff --check`: PASS for all hardening changes.
+- Final targeted scan: no remaining `text-slate-400` instances in `src/`.
+- Final targeted scan: no remaining fixed indigo/stone finance export gradient.
+- Final targeted scan: no `bg-black/*`, `text-white`, or `border-white/*`
+  legacy declarations remain in `src/app/globals.css`.
+- A complete production build could not be rerun in this environment because
+  dependency installation timed out and the available `node_modules` tree was
+  incomplete. This is an environment limitation, not a reported source error.
+
+### Accessibility target
+The contract is aligned to WCAG 2.2 guidance: normal text targets at least
+4.5:1, meaningful UI components and state indicators at least 3:1, with a
+stronger focus treatment. WCAG 2.2 also adds Focus Not Obscured and Focus
+Appearance guidance, so browser QA should still verify focus visibility and
+position on the real rendered UI.
+
+### Still requires human/browser QA
+- Test representative tool pages in both themes with keyboard-only navigation.
+- Check focused controls against cards, dialogs, dropdowns, sticky elements,
+  and any gradient/glass surfaces.
+- Run Lighthouse/Core Web Vitals against the production build.

@@ -723,25 +723,25 @@ export default function InvestmentReturnsHubPage({ defaultTab = "sip" }: Props) 
 
                 <div className="mt-6 space-y-4">
                   <div className="min-w-0 flex items-start justify-between gap-3">
-                    <span className="shrink-0 text-slate-400">Mode</span>
+                    <span className="shrink-0 text-foreground-secondary">Mode</span>
                     <span className="min-w-0 break-words text-right text-emerald-300">
                       {tabs.find((t) => t.id === activeTab)?.label ?? "SIP"}
                     </span>
                   </div>
                   <div className="min-w-0 flex items-start justify-between gap-3">
-                    <span className="shrink-0 text-slate-400">SIP value</span>
+                    <span className="shrink-0 text-foreground-secondary">SIP value</span>
                     <span className="min-w-0 break-words text-right text-emerald-300">
                       {formatCurrency(sipResult.futureValue, currency)}
                     </span>
                   </div>
                   <div className="min-w-0 flex items-start justify-between gap-3">
-                    <span className="shrink-0 text-slate-400">Lump sum</span>
+                    <span className="shrink-0 text-foreground-secondary">Lump sum</span>
                     <span className="min-w-0 break-words text-right text-emerald-300">
                       {formatCurrency(lumpResult, currency)}
                     </span>
                   </div>
                   <div className="min-w-0 flex items-start justify-between gap-3">
-                    <span className="shrink-0 text-slate-400">XIRR</span>
+                    <span className="shrink-0 text-foreground-secondary">XIRR</span>
                     <span className="min-w-0 break-words text-right text-emerald-300">
                       {xirrValueText}
                     </span>

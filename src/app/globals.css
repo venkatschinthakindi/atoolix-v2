@@ -77,6 +77,16 @@
   --color-status-critical-soft: var(--status-critical-soft);
   --color-status-info: var(--status-info);
   --color-status-info-soft: var(--status-info-soft);
+  --color-focus-ring: var(--focus-ring);
+  --color-focus-ring-strong: var(--focus-ring-strong);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-disabled-foreground: var(--disabled-foreground);
+  --color-disabled-surface: var(--disabled-surface);
+  --color-accent-finance-foreground: var(--accent-finance-foreground);
+  --color-accent-image-foreground: var(--accent-image-foreground);
+  --color-accent-qr-foreground: var(--accent-qr-foreground);
+  --color-destructive-foreground: var(--destructive-foreground);
 }
 :root {
   --radius: 1.5rem;
@@ -111,7 +121,7 @@
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.965 0.006 264);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
@@ -124,7 +134,17 @@
   --foreground-secondary: oklch(0.145 0 0 / 75%);
   --foreground-faint: oklch(0.145 0 0 / 60%);
   --border-strong: oklch(0.65 0 0);
+  --focus-ring: oklch(0.52 0.18 250);
+  --focus-ring-strong: oklch(0.46 0.2 250);
+  --link: oklch(0.48 0.19 250);
+  --link-hover: oklch(0.4 0.2 250);
+  --disabled-foreground: oklch(0.145 0 0 / 42%);
+  --disabled-surface: oklch(0.145 0 0 / 6%);
   --accent-finance: oklch(0.52 0.2 262);
+  --accent-finance-foreground: oklch(0.985 0 0);
+  --accent-image-foreground: oklch(0.985 0 0);
+  --accent-qr-foreground: oklch(0.985 0 0);
+  --destructive-foreground: oklch(0.985 0 0);
   --accent-finance-soft: oklch(0.52 0.2 262 / 10%);
   --accent-image: oklch(0.5 0.19 253);
   --accent-image-soft: oklch(0.5 0.19 253 / 10%);
@@ -132,7 +152,7 @@
   --accent-qr-soft: oklch(0.5 0.15 148 / 10%);
   --status-success: oklch(0.5 0.14 155);
   --status-success-soft: oklch(0.5 0.14 155 / 10%);
-  --status-warning: oklch(0.58 0.15 78);
+  --status-warning: oklch(0.565 0.15 78);
   --status-warning-soft: oklch(0.58 0.15 78 / 10%);
   --status-critical: oklch(0.55 0.2 25);
   --status-critical-soft: oklch(0.55 0.2 25 / 10%);
@@ -164,35 +184,35 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  --background: oklch(0.18 0.012 264);
+  --foreground: oklch(0.965 0.006 264);
+  --card: oklch(31.145% 0.05431 275.597);
+  --card-foreground: oklch(0.965 0.006 264);
+  --popover: oklch(31.145% 0.05431 275.597);
+  --popover-foreground: oklch(0.965 0.006 264);
   --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.18 0.012 264);
+  --secondary: oklch(0.29 0.012 264);
+  --secondary-foreground: oklch(0.965 0.006 264);
+  --muted: oklch(0.255 0.012 264);
+  --muted-foreground: oklch(0.74 0.012 264);
+  --accent: oklch(0.29 0.012 264);
+  --accent-foreground: oklch(0.965 0.006 264);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 16%);
+  --input: oklch(1 0 0 / 20%);
+  --ring: oklch(0.72 0.15 250);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar: oklch(0.225 0.012 264);
+  --sidebar-foreground: oklch(0.965 0.006 264);
   --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.965 0.006 264);
+  --sidebar-accent: oklch(0.29 0.012 264);
+  --sidebar-accent-foreground: oklch(0.965 0.006 264);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
@@ -200,13 +220,23 @@
    * These preserve the app's current visual design intent (the
    * hardcoded bg-slate-950, bg-black, and bg-white opacity utilities
    * being migrated away from), re-expressed as reusable tokens. */
-  --surface-raised: oklch(0.28 0.01 264);
-  --surface-sunken: oklch(0.16 0.015 264);
-  --surface-overlay: oklch(0.08 0 0 / 72%);
+  --surface-raised: oklch(0.27 0.014 264);
+  --surface-sunken: oklch(0.165 0.014 264);
+  --surface-overlay: oklch(0.13 0.012 264 / 78%);
   --foreground-secondary: oklch(0.985 0 0 / 78%);
   --foreground-faint: oklch(0.985 0 0 / 52%);
-  --border-strong: oklch(1 0 0 / 22%);
+  --border-strong: oklch(1 0 0 / 30%);
+  --focus-ring: oklch(0.78 0.14 250);
+  --focus-ring-strong: oklch(0.86 0.12 250);
+  --link: oklch(0.78 0.14 250);
+  --link-hover: oklch(0.86 0.12 250);
+  --disabled-foreground: oklch(0.985 0 0 / 42%);
+  --disabled-surface: oklch(0.985 0 0 / 8%);
   --accent-finance: oklch(0.685 0.19 262);
+  --accent-finance-foreground: oklch(0.12 0 0);
+  --accent-image-foreground: oklch(0.12 0 0);
+  --accent-qr-foreground: oklch(0.12 0 0);
+  --destructive-foreground: oklch(0.12 0 0);
   --accent-finance-soft: oklch(0.685 0.19 262 / 15%);
   --accent-image: oklch(0.66 0.18 253);
   --accent-image-soft: oklch(0.66 0.18 253 / 15%);
@@ -239,7 +269,37 @@
   --scrollbar-thumb-hover: rgba(255, 255, 255, 0.28);
 }
 
+/* -------------------------------------------------------------------------
+ * Accessible theme contract
+ *
+ * Keep semantic contrast and interaction states centralized. WCAG 2.2 AA
+ * requires 4.5:1 for normal text and 3:1 for meaningful UI components and
+ * focus indicators. These tokens are deliberately tuned per theme rather
+ * than relying on one fixed gray/blue value in every component.
+ * ---------------------------------------------------------------------- */
 @layer base {
+  :where(a:not([aria-disabled="true"]):not([data-disabled="true"])) {
+    color: var(--link);
+  }
+
+  :where(a:hover:not([aria-disabled="true"]):not([data-disabled="true"])) {
+    color: var(--link-hover);
+  }
+
+  :where(button:disabled, input:disabled, select:disabled, textarea:disabled, [aria-disabled="true"], [data-disabled="true"]) {
+    color: var(--disabled-foreground);
+  }
+
+  :where(button, input, select, textarea, a, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  :where(input, select, textarea)::placeholder {
+    color: var(--foreground-secondary);
+    opacity: 1;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -256,10 +316,10 @@
   overflow-x: hidden;
 
     background:
-  radial-gradient(circle at 15% 10%, rgba(168, 85, 247, 0.25), transparent 40%),
-  radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.18), transparent 45%),
-  radial-gradient(circle at 50% 100%, rgba(168, 85, 247, 0.14), transparent 50%),
-  #05060a;
+  radial-gradient(circle at 15% 10%, rgb(var(--aurora-purple) / 25%), transparent 40%),
+  radial-gradient(circle at 85% 20%, rgb(var(--aurora-cyan) / 18%), transparent 45%),
+  radial-gradient(circle at 50% 100%, rgb(var(--aurora-purple) / 14%), transparent 50%),
+  var(--background);
 }
 
  .glass {
@@ -296,7 +356,7 @@
   background:
     radial-gradient(
       circle at center,
-      rgba(255,255,255,0.06),
+      color-mix(in oklch, var(--foreground) 6%, transparent),
       transparent 45%
     );
 }
@@ -305,9 +365,9 @@
   background:
     linear-gradient(
       135deg,
-      #ffffff 0%,
-      #c4b5fd 40%,
-      #67e8f9 100%
+      var(--hero-gradient-1) 0%,
+      var(--hero-gradient-2) 40%,
+      var(--hero-gradient-3) 100%
     );
 
   -webkit-background-clip: text;
@@ -321,7 +381,7 @@
   pointer-events: none;
   background: radial-gradient(
     600px circle at var(--x, 50%) var(--y, 50%),
-    rgba(255, 255, 255, 0.08),
+    color-mix(in oklch, var(--foreground) 8%, transparent),
     transparent 40%
   );
   opacity: 0;
@@ -405,7 +465,7 @@ button {
 /* Shared SaaS Surface - premium black cards */
 
 .surface-card {
-  @apply rounded-2xl border border-white/8 bg-black/80;
+  @apply rounded-2xl border border-border bg-card;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   box-shadow: 0 12px 30px rgba(0,0,0,0.65), inset 0 1px rgba(255,255,255,0.02);
@@ -413,19 +473,19 @@ button {
 
 .surface-card-hover {
   @apply transition-all duration-300;
-  background-color: rgba(0,0,0,0.9);
-  border-color: rgba(255,255,255,0.06);
+  background-color: var(--surface-raised);
+  border-color: var(--border);
 }
 
 .surface-panel {
-  @apply rounded-xl border border-white/6 bg-black/85;
+  @apply rounded-xl border border-border bg-surface-raised;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   box-shadow: 0 8px 22px rgba(0,0,0,0.55);
 }
 
 .surface-input {
-  @apply rounded-xl border border-white/10 bg-black/80;
+  @apply rounded-xl border border-border bg-card;
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
@@ -525,7 +585,7 @@ button {
   }
 
   .button-primary {
-    @apply bg-accent-image text-white hover:bg-accent-image/90;
+    @apply bg-accent-image text-accent-image-foreground hover:bg-accent-image/90;
   }
   .button-primary-transparent {
     @apply bg-transparent rounded-full px-2 text-foreground hover:bg-accent-image-soft;
@@ -662,19 +722,19 @@ button {
   }
 
   .button-danger {
-    @apply flex-1 px-4 py-3 rounded-lg bg-destructive hover:bg-destructive/90 text-white font-semibold;
+    @apply flex-1 px-4 py-3 rounded-lg bg-destructive hover:bg-destructive/90 text-destructive-foreground font-semibold;
   }
 
   .button-form {
-    @apply flex-1 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white;
+    @apply flex-1 px-3 py-2 rounded-lg border border-border bg-surface-raised hover:bg-foreground/10 text-foreground;
   }
 
   .form-field {
-    @apply flex-1 p-3 rounded-lg bg-black/30 text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-green-500;
+    @apply flex-1 p-3 rounded-lg bg-surface-sunken text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-focus-ring;
   }
 
   .form-select {
-    @apply p-3 rounded-lg bg-black/30 text-white border border-white/10;
+    @apply p-3 rounded-lg bg-surface-sunken text-foreground border border-border;
   }
 
   .tool-grid {
@@ -704,7 +764,7 @@ button {
 
   .tool-scroll-fade {
     @apply pointer-events-none absolute right-0 top-0 h-full w-16;
-    background: linear-gradient(90deg, rgba(9,9,11,0.95), transparent);
+    background: linear-gradient(90deg, color-mix(in oklch, var(--background) 95%, transparent), transparent);
   }
 
   .footer-panel {
@@ -715,11 +775,11 @@ button {
     @apply relative max-w-6xl mx-auto px-6 py-16;
   }
   .full-screen-button {
-    @apply bg-green-600 hover:bg-green-700 text-white rounded-lg px-4 py-2 transition w-full;
+    @apply bg-accent-image hover:bg-accent-image/90 text-accent-image-foreground rounded-lg px-4 py-2 transition w-full;
   }
 
   .tool-usage-faq {
-    @apply max-w-5xl mx-auto p-6 space-y-6 text-white
+    @apply max-w-5xl mx-auto p-6 space-y-6 text-foreground
   }
   .floating-dock {
     animation: dock-enter 0.4s ease forwards;
