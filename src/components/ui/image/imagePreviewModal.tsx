@@ -101,11 +101,11 @@ export function ImagePreviewModal({
     >
       <div
         ref={modalRef}
-        className="relative flex h-full w-full flex-col overflow-hidden rounded-none border border-border bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-surface-raised dark:via-background dark:to-surface-sunken shadow-2xl sm:h-[92vh] sm:w-[96vw] sm:rounded-3xl md:h-[90vh] md:w-[90vw] lg:h-[88vh] lg:w-[82vw]"
+        className="relative flex h-full w-full flex-col overflow-hidden rounded-none border border-border bg-card shadow-2xl sm:h-[92vh] sm:w-[96vw] sm:rounded-3xl md:h-[90vh] md:w-[90vw] lg:h-[88vh] lg:w-[82vw]"
       >
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5" />
 
-        <header className="relative flex items-center justify-between border-b border-border bg-gradient-to-r from-slate-200/50 via-slate-200/30 to-slate-200/50 dark:from-surface-sunken/80 dark:via-background/70 dark:to-surface-sunken/80 px-4 py-3 sm:px-6 sm:py-4">
+        <header className="relative flex items-center justify-between border-b border-border bg-surface-raised px-4 py-3 sm:px-6 sm:py-4">
           <div className="flex items-center gap-3 min-w-0">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-500/20">
               <ImageIcon className="h-5 w-5 text-indigo-700 dark:text-indigo-400" />
@@ -173,7 +173,7 @@ export function ImagePreviewModal({
           </div>
         </header>
 
-        <section className="relative border-b border-border bg-gradient-to-r from-slate-200/40 via-slate-200/25 to-slate-200/40 dark:from-surface-sunken/60 dark:via-background/50 dark:to-surface-sunken/60 p-3 sm:p-4">
+        <section className="relative border-b border-border bg-surface-raised/80 p-3 sm:p-4">
           <div className="rounded-2xl border border-border bg-surface-sunken p-3">
             <div className="flex items-center gap-2 text-sm text-foreground">
               <Sparkles className="h-4 w-4 text-indigo-700 dark:text-indigo-300" />
