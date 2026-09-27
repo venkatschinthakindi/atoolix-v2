@@ -159,6 +159,23 @@ Exact phase diff from `cacd43d`:
 - `src/components/tools/calculator/calculatorSeoContent.tsx`: 31 additions.
 - No other files changed in the phase implementation.
 
+## 2026-09-27 — Phase 3 execution: FD Calculator
+
+The FD page has **1,271 impressions at average position 73.72**. The strongest observed queries are **`fd calculator` (114 impressions / position 72.35)** and **`fixed deposit calculator` (73 / 71.95)**. The existing page already had substantial formula, example, compounding, Indian FD, comparison, and FAQ content, so this phase focused on making the core FD search intent more explicit rather than adding generic copy.
+
+Commits: `fd618a7` + `4160228`
+
+Changes:
+- Strengthened the registry description to explicitly cover **FD calculator India**, maturity value, interest earned, returns, deposit amount, rate, tenure, and compounding frequency.
+- Added a server-rendered **FD Calculator India: Estimate Maturity Value and Interest** section focused on the actual user tasks represented by the query cluster: comparing FD rates, checking maturity, and comparing tenure.
+- Preserved the existing formula, worked example, FD-vs-RD comparison, FAQs, disclaimer, canonical, and calculator workflow.
+- Did not create another fixed-deposit URL or expand keywords into unrelated savings queries.
+
+Exact implementation diff from the previous Phase 1 head:
+- `src/data/tools.ts`: 1 addition / 1 deletion.
+- `src/components/tools/financeSuite/savings/fixedDepositCalculatorSeoContent.tsx`: 23 additions.
+- No other implementation files changed.
+
 ## Next action
 
-**Phase 3 — FD Calculator.** Phase 2 (Time Zone Converter) is already completed in `a855344c`. Continue the original execution order by making the FD page's GSC-supported intent/differentiation improvements, then exact-diff verification and MD synchronization. Manual deployment remains with the repo owner.
+**Phase 4 — QR + PDF.** Phase 2 (Time Zone Converter) and Phase 3 (FD Calculator) are now addressed. Continue with the QR/PDF pages that already have search visibility, strengthening their existing intent rather than creating new duplicate pages. Manual deployment remains with the repo owner.
