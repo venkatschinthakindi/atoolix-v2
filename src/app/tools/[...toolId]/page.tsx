@@ -19,7 +19,7 @@ const ToolSeoContent = dynamic(
 
 const CALCULATOR_TITLE = "Online Calculator – Percentage, Scientific & Equation Solver | Atoolix";
 const CALCULATOR_DESCRIPTION =
-  "Use a free online calculator for percentages, scientific math, everyday arithmetic, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
+  "Use a free online calculator for percentage calculations, scientific math, everyday arithmetic, and supported equation solving. Get percentage increase, decrease, discount, scientific, and equation results instantly in your browser on desktop or mobile.";
 const TIMEZONE_CONVERTER_TITLE =
   "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
 const TIMEZONE_CONVERTER_DESCRIPTION =

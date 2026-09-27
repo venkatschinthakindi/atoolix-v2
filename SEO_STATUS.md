@@ -87,6 +87,28 @@ The hub is now explicitly centered on:
 No new URLs, breadcrumbs, schema, or doorway pages were introduced.
 Existing tool pages and canonical URLs remain unchanged.
 
+## 2026-09-27 — Priority-page audit pass
+
+Audited the remaining GSC priority pages against the current branch implementation:
+
+- **Calculator hub** — 1,584 impressions / position 11.70. Existing title, description, canonical, percentage/scientific/equation intent, dedicated finance-tool links, and substantial server-rendered SEO content are aligned with the observed broad calculator intent. **No additional code change justified from the supplied GSC data.**
+- **FD Calculator** — 1,271 impressions / position 73.72; queries include `fd calculator` (114 / 72.35) and `fixed deposit calculator` (73 / 71.95). Existing metadata and page content explicitly cover FD maturity, interest, compounding, Indian FD use, formula, examples, and related savings tools. **No generic word-count expansion justified.**
+- **Personal Loan EMI** — 359 impressions / position 87.36; `how to calculate personal loan emi` (63 / 88.68) and `calculate personal loan emi` (55 / 86.65). Existing SEO content already directly answers calculation, prepayment, amortization, and related loan intent. **No duplicate page or generic expansion justified.**
+- **QR Code Generator** — 184 impressions / position 61.33. Existing registry intent covers both generation and scanning, with dedicated QR SEO content. **No GSC-supported defect identified in this pass.**
+- **Image 100 KB / 50 KB / Signature** — 294 / 267 / 271 impressions respectively, with positions 72.22 / 72.93 / 66.69. Existing pages explicitly target fixed-size compression and signature-upload requirements. **Keep the cluster tightly differentiated; no doorway-page expansion.**
+
+### Time Zone Converter metadata alignment
+Commit: `a855344c7b42c6790e3b1597986a3309656d39d5`
+
+The route-level title and registry page title were aligned around the observed `time zone converter` + time-difference comparison intent. Exact diff: **2 files only**, one line changed in each:
+- `src/app/tools/[...toolId]/page.tsx`
+- `src/data/tools.ts`
+
+This is the only additional code change justified by the current supplied GSC evidence after the Date/Time hub correction.
+
+## Current Google guidance check
+Google's current Search Central documentation continues to emphasize descriptive title links/snippets and valid structured data, while the May/June 2026 documentation updates confirm that **FAQ rich results are no longer shown in Google Search**. Existing FAQ content may remain useful to users, but FAQ schema should not be treated as a ranking or rich-result lever. Google also recommends validating structured data and using URL Inspection after deployment. citeturn0search4turn0search0
+
 ## SEO principles for the remaining work
 - Use GSC query/page evidence to decide what changes.
 - Improve existing pages before creating new pages.
@@ -103,9 +125,9 @@ Existing tool pages and canonical URLs remain unchanged.
 Each code change should be followed by:
 1. exact diff verification,
 2. TypeScript/lint/build validation where available,
-3. CI validation,
-4. update of this file with the actual commit/result,
-5. deployment and later GSC measurement before judging ranking impact.
+3. update of this file with the actual commit/result,
+4. manual deployment by the repo owner,
+5. later GSC measurement before judging ranking impact.
 
 ## Historical status log
 | Date | Commit | What | Status |
@@ -117,6 +139,60 @@ Each code change should be followed by:
 | 2026-08-30 | `5241d91` | PageSpeed/AdSense performance work + `llms.txt` | Done |
 | 2026-09-24 | `9235304` | Latest `main` SEO phase baseline | Done |
 | 2026-09-27 | `da40a65` | GSC-driven Date/Time hub intent correction on `seo/gsc-driven-sep2026` | Done |
+| 2026-09-27 | `a855344` | Time Zone Converter metadata alignment from GSC query evidence | Done |
+| 2026-09-27 | — | Full remaining priority-page audit: calculator, FD, personal EMI, QR, image-size cluster; no further code defect justified by supplied GSC evidence | Done |
+
+## 2026-09-27 — Phase 1 execution: Calculator hub
+
+The original execution plan requires addressing the GSC opportunity rather than stopping at an audit. The calculator hub has **1,584 impressions at average position 11.70 with 0 clicks**, making it the strongest near-page-1 opportunity in the supplied dataset. The existing page already covered percentage, scientific math, and equation intent, so the change focused on making those intents more explicit and easier for both users and search engines to understand without creating new keyword pages.
+
+Commit: `cff284d` + `9e9c12f`
+
+Changes:
+- Expanded the calculator meta description to explicitly cover percentage calculations, increase/decrease, discount, scientific math, and supported equation solving.
+- Added a dedicated server-rendered **Calculator Types: Percentage, Scientific Math & Equation Solving** section explaining the three primary calculation intents.
+- Preserved the existing percentage guide, calculator workflow, financial-tool links, FAQ content, canonical, and route structure.
+- No duplicate calculator URLs or keyword-stuffed content were introduced.
+
+Exact phase diff from `cacd43d`:
+- `src/app/tools/[...toolId]/page.tsx`: 1 addition / 1 deletion.
+- `src/components/tools/calculator/calculatorSeoContent.tsx`: 31 additions.
+- No other files changed in the phase implementation.
+
+## 2026-09-27 — Phase 3 execution: FD Calculator
+
+The FD page has **1,271 impressions at average position 73.72**. The strongest observed queries are **`fd calculator` (114 impressions / position 72.35)** and **`fixed deposit calculator` (73 / 71.95)**. The existing page already had substantial formula, example, compounding, Indian FD, comparison, and FAQ content, so this phase focused on making the core FD search intent more explicit rather than adding generic copy.
+
+Commits: `fd618a7` + `4160228`
+
+Changes:
+- Strengthened the registry description to explicitly cover **FD calculator India**, maturity value, interest earned, returns, deposit amount, rate, tenure, and compounding frequency.
+- Added a server-rendered **FD Calculator India: Estimate Maturity Value and Interest** section focused on the actual user tasks represented by the query cluster: comparing FD rates, checking maturity, and comparing tenure.
+- Preserved the existing formula, worked example, FD-vs-RD comparison, FAQs, disclaimer, canonical, and calculator workflow.
+- Did not create another fixed-deposit URL or expand keywords into unrelated savings queries.
+
+Exact implementation diff from the previous Phase 1 head:
+- `src/data/tools.ts`: 1 addition / 1 deletion.
+- `src/components/tools/financeSuite/savings/fixedDepositCalculatorSeoContent.tsx`: 23 additions.
+- No other implementation files changed.
+
+## 2026-09-27 — Phase 4 execution: QR + PDF
+
+The QR Code Generator has **184 impressions at average position 61.33** in the supplied GSC export. The existing QR page already has substantial generation, scanning, customization, export, privacy, and use-case content, so this phase focused on the metadata mismatch: the registry description was too generic compared with the actual supported search intent. The PDF pages already have substantial intent-specific SEO content, so their registry descriptions were strengthened to expose the existing merge, split, and compression workflows without creating new URLs or duplicating content.
+
+Commit: `559e77f5119031e49839238d6b0c41ad5d0e6cd6`
+
+Changes in `src/data/tools.ts`:
+- QR Code Generator metadata now explicitly describes generation + scanning, common QR types, camera/image scanning, customization, and PNG/SVG/PDF export.
+- Merge PDF metadata now exposes page selection/ranges and supported text/PDF overlay workflows already present on the page.
+- Split PDF metadata now exposes individual pages, ranges, first/last, odd/even, and supported exclusion patterns already present on the page.
+- Compress PDF metadata now states the core file-size reduction use cases and browser workflow without promising lossless results.
+
+Exact phase implementation diff from Phase 3 head `f14da47b82311f888018df8d9043c99863ad442f`:
+- `src/data/tools.ts`: 6 additions / 6 deletions.
+- No other implementation files changed.
+
+The existing PDF SEO components already cover the deeper feature details, including page-range selection, odd/even and first/last selection for split/merge, merge overlays, compression guidance, privacy notes, FAQs, and related-tool links. No duplicate PDF pages, artificial FAQ markup, or generic content expansion was added.
 
 ## 2026-09-27 — Phase 5 execution: Image compression target-size cluster
 
