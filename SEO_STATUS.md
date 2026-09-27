@@ -289,6 +289,24 @@ Exact implementation diff: **1 existing SEO file only** — `src/components/tool
 
 Validation/deployment gate remains unchanged: run TypeScript/lint/build on the branch, manually deploy, then monitor the Meeting Time Finder query/page cluster in GSC before judging ranking impact.
 
+## 2026-09-27 — Phase 10 execution: Calculator CTR/snippet alignment
+
+The calculator hub remains the strongest near-page-1 opportunity in the supplied GSC export: **1,584 impressions, average position 11.70, and 0 clicks**. Phase 1 already improved the description and server-rendered intent coverage. Because the page is already averaging around page-one/page-two boundary visibility while receiving no clicks, the next justified change is a **single title/snippet alignment test**, not another content expansion.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase10-calculator-ctr`, based directly on latest `main` commit `c6485d81693353fb754e7a99f59f0e3a99d9c12b`.
+
+Commit: `613f014af2e665d92a3b5a2963312382956b8bd8`
+
+Change:
+- Updated the calculator hub title from **“Online Calculator – Percentage, Scientific & Equation Solver | Atoolix”** to **“Free Online Calculator – Percentage, Scientific & Equation Solver | Atoolix”**.
+- The existing description already begins with “Use a free online calculator”, so this change keeps title and description aligned around the same demonstrated calculator intent.
+- Preserved the route, canonical behavior, calculator functionality, existing SEO section, FAQ content, schema, and internal-link structure.
+- No new URL, duplicate page, keyword-stuffed content, or ranking claim was introduced.
+
+Exact implementation diff: **1 existing file only** — `src/app/tools/[...toolId]/page.tsx` (**1 addition / 1 deletion**).
+
+This should be evaluated primarily as a **CTR/snippet experiment** after deployment. Position and CTR should be compared against the same calculator page/query cluster in GSC over a meaningful observation window; it should not be treated as evidence that a title change guarantees a ranking increase.
+
 ## Next action
 
-**Phase 10 — select the next evidence-backed GSC target from the remaining supplied data, using latest `main` as the baseline and continuing the same minimal-diff approach.**
+**Phase 11 — use the remaining supplied GSC evidence only if it identifies another concrete page/query mismatch; otherwise move this workstream to measurement and authority/internal-link analysis rather than making arbitrary content changes.**

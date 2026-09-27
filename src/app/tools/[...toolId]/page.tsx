@@ -17,7 +17,7 @@ const ToolSeoContent = dynamic(
   { loading: () => null }
 );
 
-const CALCULATOR_TITLE = "Online Calculator – Percentage, Scientific & Equation Solver | Atoolix";
+const CALCULATOR_TITLE = "Free Online Calculator – Percentage, Scientific & Equation Solver | Atoolix";
 const CALCULATOR_DESCRIPTION =
   "Use a free online calculator for percentage calculations, scientific math, everyday arithmetic, and supported equation solving. Get percentage increase, decrease, discount, scientific, and equation results instantly in your browser on desktop or mobile.";
 const TIMEZONE_CONVERTER_TITLE =
