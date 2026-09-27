@@ -363,6 +363,25 @@ Changes:
 Exact implementation diff: **1 existing file only** — `src/app/siteSeoContent.tsx` (**1 addition / 0 deletions**).
 
 The Date & Time hub already provides the direct Time Zone Converter ↔ Meeting Time Finder relationship, so this is intentionally limited to the missing homepage navigation path rather than expanding the internal-link network artificially.
+## 2026-09-27 — Phase 14 execution: internal-link graph audit
+
+Phase 14 started from the verified current `main` commit **`be51bc8b5d264d70fc9c216d43fe7faca9f4cc3d`** after Phase 13 was merged.
+
+The remaining high-impression GSC pages were checked against their actual current internal-link paths:
+
+- **QR Code Generator** — already receives a direct homepage category link, and the QR hub exposes the dedicated generator/scanner workflow. No additional high-value contextual source was identified.
+- **Image 100 KB / 50 KB / Signature** — the image hub already links directly to the target-size compressors and signature resizer, and the target-size pages cross-link through existing Related Tools. Adding another generic hub link would duplicate an established path.
+- **FD Calculator** — the homepage Finance Calculators category, finance hub, footer, documentation, and existing related-tool architecture already expose the destination. No missing contextual link was identified.
+- **Personal Loan EMI** — the calculator hub was already strengthened in Phase 12; the finance hub and footer also expose the destination.
+- **Time Zone Converter / Meeting Time Finder** — the Date & Time hub already links the pair, and Phase 13 added the missing homepage → Meeting Time Finder path.
+- **Calculator hub** — already contains the specialized finance-tool links, including Personal Loan EMI, so no further internal-link expansion is justified from the supplied GSC evidence.
+
+**Result: no additional product/code change is justified by this internal-link audit.** The current graph has the expected homepage/category-hub/tool/related-tool paths for the remaining GSC opportunities. Adding more links now would risk link duplication rather than provide a concrete relevance/discovery improvement.
+
+This phase therefore moves the SEO work from code changes to **measurement and authority analysis**. The next useful input is post-deployment GSC data for the same page/query clusters, plus genuine external-link/mention opportunities; more code changes should wait for a new evidence-backed mismatch.
+
+Exact implementation diff: **SEO documentation only** — no application files changed in Phase 14.
+
 ## Next action
 
-**Phase 12 — move from content changes to measurement/authority/internal-link analysis unless the supplied GSC data identifies a new concrete page/query mismatch.**
+**Measurement phase — deploy the accumulated SEO changes and collect a new GSC observation window for the same page/query clusters before making further ranking changes.**
