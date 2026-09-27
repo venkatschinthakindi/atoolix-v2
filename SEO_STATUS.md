@@ -211,5 +211,28 @@ Exact diff verification against latest `main`: **2 files only** — `src/compone
 
 Validation/deployment gate remains unchanged: run TypeScript/lint/build on the branch, manually deploy, then measure the affected GSC query/page cluster before judging impact.
 
+
+## 2026-09-27 — Phase 7 execution: SIP / CAGR / XIRR investment-return intent
+
+The supplied GSC evidence for the investment-return cluster includes **`sip roi calculator` (2 impressions / position 65)**, **`how to calculate sip cagr` (2 / 89)**, **`xirr calculator for sip` (1 / 56)**, **`calculate xirr for lumpsum` (1 / 63)**, **`cagr calculator sip` (1 / 73)**, and **`sip cagr return calculator` (1 / 78)**. These are small-volume signals, but they consistently connect SIP with CAGR/XIRR calculation intent.
+
+The existing SIP page already has substantial SIP education, formula, step-up, returns, maturity, limitations, and SIP-vs-lumpsum content. The justified improvement was therefore contextual rather than a new keyword page: make the distinction between SIP future-value estimation, CAGR annualized growth, and XIRR date-based cash-flow returns explicit, with direct links to the existing CAGR and XIRR calculators.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase7-investment-calculator-cluster`, based directly on latest `main` commit `970c12bf243dd31ac04a48e6d2b9bca3d7ed69b4`.
+
+Commit: `8cba6f2`
+
+Changes:
+- Added a server-rendered **SIP, CAGR, and XIRR: Which Return Calculation Fits?** section to the existing SIP SEO content.
+- Explicitly distinguishes recurring-contribution SIP projections, CAGR between beginning/ending values, and XIRR for multiple or irregular dated cash flows.
+- Added direct internal links to the existing CAGR and XIRR calculator routes.
+- Preserved the existing SIP canonical, URL, calculator behavior, and existing related-tool architecture.
+- No new finance URLs, ROI migration, duplicate pages, or keyword-stuffed content were introduced.
+
+Exact diff verification against latest `main`: **1 implementation file only** — `src/components/tools/financeSuite/investment/sipReturnCalculatorSeoContent.tsx` (**60 additions / 0 deletions**).
+
+The change follows Google's current people-first guidance: it adds a useful distinction for users who arrive through overlapping investment-return queries rather than creating near-duplicate pages or search-engine-only content. citeturn0search0turn0search5
+
 ## Next action
-**Phase 6 — Personal Loan EMI.** Use the supplied GSC evidence (`how to calculate personal loan emi` and `calculate personal loan emi`) to make a concrete intent-satisfaction improvement on the existing Personal Loan EMI page, without creating duplicate finance URLs or generic content expansion. Manual deployment remains with the repo owner.
+
+**Phase 8 — Time Zone Converter.** The supplied GSC page report still shows `/tools/datetime/timezone-converter` as one of the largest remaining opportunities at **1,353 impressions / average position 64.34**, with `time zone converter` at **126 impressions / position 63.71**. The current main implementation already has strong conversion, DST, multi-zone, date-difference, and meeting-finder differentiation, so the next change must be based on a specific remaining intent/internal-authority gap rather than generic content expansion.
