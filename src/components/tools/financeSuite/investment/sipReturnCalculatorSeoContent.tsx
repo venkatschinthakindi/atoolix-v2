@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { RelatedTools } from "@/app/tools/[...toolId]/Relatedtools";
 import { serverConfig } from "@/config/server";
 
@@ -1282,6 +1283,65 @@ export default function SipCalculatorSeoContent() {
             before making investment decisions. Where appropriate, consider
             obtaining advice from a qualified financial professional.
           </p>
+        </div>
+      </section>
+
+      {/* SIP / CAGR / XIRR intent */}
+      <section
+        aria-labelledby="return-calculation-heading"
+        className="space-y-4"
+      >
+        <h2
+          id="return-calculation-heading"
+          className="text-2xl font-semibold tracking-tight"
+        >
+          SIP, CAGR, and XIRR: Which Return Calculation Fits?
+        </h2>
+
+        <p className="max-w-4xl text-sm leading-7 text-white/70 sm:text-base">
+          SIP, CAGR, and XIRR are related investment-return concepts, but they
+          answer different questions. Use the SIP Calculator to estimate the
+          future value of regular contributions, CAGR to measure annualized
+          growth between a beginning and ending value, and XIRR when returns
+          need to account for multiple cash flows occurring on different dates.
+        </p>
+
+        <div className="grid gap-3 md:grid-cols-3">
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold text-white">
+              SIP Calculator
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-white/65">
+              Estimate invested amount, projected maturity value, and potential
+              returns from recurring contributions.
+            </p>
+          </article>
+
+          <Link
+            href="/tools/calculator/cagr-calculator"
+            className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:bg-white/10"
+          >
+            <h3 className="text-sm font-semibold text-white">
+              CAGR Calculator
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-white/65">
+              Calculate annualized compound growth when you know the starting
+              value, ending value, and measurement period.
+            </p>
+          </Link>
+
+          <Link
+            href="/tools/calculator/xirr-calculator"
+            className="rounded-2xl border border-white/10 bg-white/5 p-5 transition hover:bg-white/10"
+          >
+            <h3 className="text-sm font-semibold text-white">
+              XIRR Calculator
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-white/65">
+              Calculate annualized returns for multiple or irregular cash flows
+              using their actual transaction dates.
+            </p>
+          </Link>
         </div>
       </section>
 
