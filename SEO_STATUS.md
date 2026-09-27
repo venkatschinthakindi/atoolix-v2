@@ -270,6 +270,25 @@ Exact product changes: **2 existing SEO files only**:
 
 No application logic was changed.
 
+
+## 2026-09-27 — Phase 9 execution: Meeting Time Finder intent clarification
+
+The earlier supplied Search Console data for `/tools/datetime/meeting-time-finder` showed **54 impressions, 1 click, and average position 53.65**. Related query evidence included **`meeting time` (position 70)** and **`time for meeting` (position 78)**. The page already has strong meeting-scheduling functionality and substantial people-first content, so the justified change was a single focused intent clarification rather than a larger rewrite.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase9-meeting-time-finder`, based directly on latest `main` commit `ea8279828e7c6f77b143bc7eafb82f87fe703428`.
+
+Commit: `9ff6fa9bc68002d955fc35565024aea2547d8b5c`
+
+Changes:
+- Added one server-rendered FAQ answering **how to find a good time for a meeting across time zones**.
+- The answer explains the actual workflow: participant locations, local working hours, meeting duration, upcoming dates, overlapping availability, and date-specific daylight-saving changes.
+- Preserved the existing title, description, canonical URL, detailed scheduling content, existing FAQ set, breadcrumb schema, related-tool link, and calculator behavior.
+- No new meeting-time URLs, doorway pages, keyword stuffing, or duplicate content were introduced.
+
+Exact implementation diff: **1 existing SEO file only** — `src/components/tools/dateTime/meeting-time-finder/meetingTimeFinderSeoContent.tsx` (**1 addition / 0 deletions**).
+
+Validation/deployment gate remains unchanged: run TypeScript/lint/build on the branch, manually deploy, then monitor the Meeting Time Finder query/page cluster in GSC before judging ranking impact.
+
 ## Next action
 
-**Phase 9 — select the next GSC target from the remaining supplied page/query data, using latest `main` as the baseline and continuing the same evidence-first, minimal-diff approach.**
+**Phase 10 — select the next evidence-backed GSC target from the remaining supplied data, using latest `main` as the baseline and continuing the same minimal-diff approach.**
