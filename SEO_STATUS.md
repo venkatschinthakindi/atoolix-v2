@@ -211,5 +211,22 @@ Exact diff verification against latest `main`: **2 files only** — `src/compone
 
 Validation/deployment gate remains unchanged: run TypeScript/lint/build on the branch, manually deploy, then measure the affected GSC query/page cluster before judging impact.
 
+## 2026-09-27 — Phase 6 execution: Personal Loan EMI calculation intent
+
+GSC evidence for the Personal Loan EMI page is **359 impressions / average position 87.36**. The identified query cluster includes **“how to calculate personal loan emi”** and **“calculate EMI for personal loan”**. The page already had the correct canonical URL, dedicated H1, formula/methodology, worked example, FAQ, amortization, and prepayment functionality, so this phase targets the specific calculation-intent wording rather than adding a new URL or broad keyword copy.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase6-personal-loan-emi`, based directly on latest `main` commit `970c12bf243dd31ac04a48e6d2b9bca3d7ed69b4`.
+
+Commit: `5de9ed5`
+
+Changes:
+- Added a concise server-rendered **How to Calculate Personal Loan EMI** section near the top of the existing SEO content.
+- Directly explains the three inputs, monthly-rate conversion, tenure conversion, formula, and a worked ₹5,00,000 / 14% / 4-year example.
+- Reuses the existing calculator and methodology rather than introducing duplicate content, new URLs, or a competing canonical.
+
+Exact diff verification against latest `main`: **1 product file only** — `src/components/tools/emiCalculator/personalLoanEmiCalculatorSeoContent.tsx` (+29 lines). No registry, route, metadata, canonical, or URL changes were made.
+
+Validation/deployment gate: run TypeScript/lint/build on the branch, manually deploy, then monitor the Personal Loan EMI query/page cluster in GSC before making another change.
+
 ## Next action
 **Phase 6 — Personal Loan EMI.** Use the supplied GSC evidence (`how to calculate personal loan emi` and `calculate personal loan emi`) to make a concrete intent-satisfaction improvement on the existing Personal Loan EMI page, without creating duplicate finance URLs or generic content expansion. Manual deployment remains with the repo owner.
