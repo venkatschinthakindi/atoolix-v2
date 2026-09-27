@@ -21,7 +21,7 @@ const CALCULATOR_TITLE = "Online Calculator – Percentage, Scientific & Equatio
 const CALCULATOR_DESCRIPTION =
   "Use a free online calculator for percentages, scientific math, everyday arithmetic, and equation solving. Calculate results instantly in your browser on desktop or mobile.";
 const TIMEZONE_CONVERTER_TITLE =
-  "Time Zone Converter – Convert & Compare Time Differences | Atoolix";
+  "Time Zone Converter – Convert Time Between Time Zones | Atoolix";
 const TIMEZONE_CONVERTER_DESCRIPTION =
   "Convert and compare time between time zones by date, city, or country. Check time zone differences, UTC offsets, day changes, and daylight saving transitions online for free.";
 const FILE_ANALYZER_TITLE =

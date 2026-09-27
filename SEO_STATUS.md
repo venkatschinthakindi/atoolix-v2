@@ -87,6 +87,28 @@ The hub is now explicitly centered on:
 No new URLs, breadcrumbs, schema, or doorway pages were introduced.
 Existing tool pages and canonical URLs remain unchanged.
 
+## 2026-09-27 — Priority-page audit pass
+
+Audited the remaining GSC priority pages against the current branch implementation:
+
+- **Calculator hub** — 1,584 impressions / position 11.70. Existing title, description, canonical, percentage/scientific/equation intent, dedicated finance-tool links, and substantial server-rendered SEO content are aligned with the observed broad calculator intent. **No additional code change justified from the supplied GSC data.**
+- **FD Calculator** — 1,271 impressions / position 73.72; queries include `fd calculator` (114 / 72.35) and `fixed deposit calculator` (73 / 71.95). Existing metadata and page content explicitly cover FD maturity, interest, compounding, Indian FD use, formula, examples, and related savings tools. **No generic word-count expansion justified.**
+- **Personal Loan EMI** — 359 impressions / position 87.36; `how to calculate personal loan emi` (63 / 88.68) and `calculate personal loan emi` (55 / 86.65). Existing SEO content already directly answers calculation, prepayment, amortization, and related loan intent. **No duplicate page or generic expansion justified.**
+- **QR Code Generator** — 184 impressions / position 61.33. Existing registry intent covers both generation and scanning, with dedicated QR SEO content. **No GSC-supported defect identified in this pass.**
+- **Image 100 KB / 50 KB / Signature** — 294 / 267 / 271 impressions respectively, with positions 72.22 / 72.93 / 66.69. Existing pages explicitly target fixed-size compression and signature-upload requirements. **Keep the cluster tightly differentiated; no doorway-page expansion.**
+
+### Time Zone Converter metadata alignment
+Commit: `a855344c7b42c6790e3b1597986a3309656d39d5`
+
+The route-level title and registry page title were aligned around the observed `time zone converter` + time-difference comparison intent. Exact diff: **2 files only**, one line changed in each:
+- `src/app/tools/[...toolId]/page.tsx`
+- `src/data/tools.ts`
+
+This is the only additional code change justified by the current supplied GSC evidence after the Date/Time hub correction.
+
+## Current Google guidance check
+Google's current Search Central documentation continues to emphasize descriptive title links/snippets and valid structured data, while the May/June 2026 documentation updates confirm that **FAQ rich results are no longer shown in Google Search**. Existing FAQ content may remain useful to users, but FAQ schema should not be treated as a ranking or rich-result lever. Google also recommends validating structured data and using URL Inspection after deployment. citeturn0search4turn0search0
+
 ## SEO principles for the remaining work
 - Use GSC query/page evidence to decide what changes.
 - Improve existing pages before creating new pages.
@@ -103,9 +125,9 @@ Existing tool pages and canonical URLs remain unchanged.
 Each code change should be followed by:
 1. exact diff verification,
 2. TypeScript/lint/build validation where available,
-3. CI validation,
-4. update of this file with the actual commit/result,
-5. deployment and later GSC measurement before judging ranking impact.
+3. update of this file with the actual commit/result,
+4. manual deployment by the repo owner,
+5. later GSC measurement before judging ranking impact.
 
 ## Historical status log
 | Date | Commit | What | Status |
@@ -117,9 +139,8 @@ Each code change should be followed by:
 | 2026-08-30 | `5241d91` | PageSpeed/AdSense performance work + `llms.txt` | Done |
 | 2026-09-24 | `9235304` | Latest `main` SEO phase baseline | Done |
 | 2026-09-27 | `da40a65` | GSC-driven Date/Time hub intent correction on `seo/gsc-driven-sep2026` | Done |
+| 2026-09-27 | `a855344` | Time Zone Converter metadata alignment from GSC query evidence | Done |
+| 2026-09-27 | — | Full remaining priority-page audit: calculator, FD, personal EMI, QR, image-size cluster; no further code defect justified by supplied GSC evidence | Done |
 
 ## Next action
-Continue from the latest GSC evidence on this branch. The next page-level
-change should be selected from the high-impression/low-position opportunities,
-with the exact query cluster documented before changing code. After the next
-change, validate and synchronize this file again.
+The current code-level GSC optimization pass is complete for the supplied dataset. Manually deploy the branch, request/allow recrawling for the changed URLs where appropriate, and collect the next GSC Performance export. The next optimization decision should be based on the post-change query/page deltas rather than additional speculative on-page edits.
