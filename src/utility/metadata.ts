@@ -42,7 +42,7 @@ const FD_CALCULATOR_TITLE =
 const FD_CALCULATOR_DESCRIPTION =
   "Use an FD calculator online to estimate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency.";
 const TIMEZONE_CONVERTER_DESCRIPTION =
-  "Convert and compare time between time zones by date, city, or country. Check time zone differences, UTC offsets, day changes, and daylight saving transitions online for free.";
+  "Use a free online time zone converter to convert and compare time by date, city, or country. Check time zone differences, UTC offsets, day changes, and daylight saving transitions.";
 
 export async function generateMetadata(params: any): Promise<Metadata> {
   const resolvedParams = await params;
