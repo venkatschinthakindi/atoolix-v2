@@ -176,6 +176,24 @@ Exact implementation diff from the previous Phase 1 head:
 - `src/components/tools/financeSuite/savings/fixedDepositCalculatorSeoContent.tsx`: 23 additions.
 - No other implementation files changed.
 
+## 2026-09-27 — Phase 4 execution: QR + PDF
+
+The QR Code Generator has **184 impressions at average position 61.33** in the supplied GSC export. The existing QR page already has substantial generation, scanning, customization, export, privacy, and use-case content, so this phase focused on the metadata mismatch: the registry description was too generic compared with the actual supported search intent. The PDF pages already have substantial intent-specific SEO content, so their registry descriptions were strengthened to expose the existing merge, split, and compression workflows without creating new URLs or duplicating content.
+
+Commit: `559e77f5119031e49839238d6b0c41ad5d0e6cd6`
+
+Changes in `src/data/tools.ts`:
+- QR Code Generator metadata now explicitly describes generation + scanning, common QR types, camera/image scanning, customization, and PNG/SVG/PDF export.
+- Merge PDF metadata now exposes page selection/ranges and supported text/PDF overlay workflows already present on the page.
+- Split PDF metadata now exposes individual pages, ranges, first/last, odd/even, and supported exclusion patterns already present on the page.
+- Compress PDF metadata now states the core file-size reduction use cases and browser workflow without promising lossless results.
+
+Exact phase implementation diff from Phase 3 head `f14da47b82311f888018df8d9043c99863ad442f`:
+- `src/data/tools.ts`: 6 additions / 6 deletions.
+- No other implementation files changed.
+
+The existing PDF SEO components already cover the deeper feature details, including page-range selection, odd/even and first/last selection for split/merge, merge overlays, compression guidance, privacy notes, FAQs, and related-tool links. No duplicate PDF pages, artificial FAQ markup, or generic content expansion was added.
+
 ## Next action
 
-**Phase 4 — QR + PDF.** Phase 2 (Time Zone Converter) and Phase 3 (FD Calculator) are now addressed. Continue with the QR/PDF pages that already have search visibility, strengthening their existing intent rather than creating new duplicate pages. Manual deployment remains with the repo owner.
+**Phase 5 — Image compression target-size cluster.** Use the supplied GSC evidence for 50 KB and 100 KB pages (and the signature-upload page) to make a concrete, differentiated improvement while keeping the target-size pages tightly related and avoiding doorway-page expansion. Manual deployment remains with the repo owner.
