@@ -307,6 +307,24 @@ Exact implementation diff: **1 existing file only** — `src/app/tools/[...toolI
 
 This should be evaluated primarily as a **CTR/snippet experiment** after deployment. Position and CTR should be compared against the same calculator page/query cluster in GSC over a meaningful observation window; it should not be treated as evidence that a title change guarantees a ranking increase.
 
+## 2026-09-27 — Phase 11 execution: Time Zone Calculator intent clarification
+
+The supplied GSC export contains another direct query signal for the existing Time Zone Converter: **`time zone calculator` — 80 impressions, average position 62.06**. Phase 8 already addressed the broader converter and time-difference intent, and the current page already has a substantial **Time Zone Difference Calculator** section. The remaining narrow wording gap was that the page did not directly answer the closely related **time zone calculator** query.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase11-timezone-calculator-intent`, based directly on latest `main` commit `1b0e58143d45953867ff6ffd186116f439768843`.
+
+Commit: `7252f211067eab7592ed97f62073fd469bdd6bbd`
+
+Change:
+- Added one server-rendered FAQ answering **“Can I use this as a time zone calculator?”**
+- The answer describes the existing workflow: enter date/time, select source zone, add locations, and calculate local times/UTC offsets with DST and day differences.
+- Preserved the existing converter functionality, title, description, canonical URL, existing time-zone-difference section, popular conversions, and Meeting Time Finder link.
+- No new time-zone URL, city-pair doorway page, duplicate calculator page, or keyword-stuffed content was introduced.
+
+Exact implementation diff: **1 existing SEO file only** — `src/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent.tsx` (**4 additions / 0 deletions**).
+
+This is the final small intent-alignment change currently justified by the supplied GSC query evidence for the Time Zone Converter. Further changes to this page should be driven by post-deployment GSC measurements or new query evidence rather than additional FAQ expansion.
+
 ## Next action
 
-**Phase 11 — use the remaining supplied GSC evidence only if it identifies another concrete page/query mismatch; otherwise move this workstream to measurement and authority/internal-link analysis rather than making arbitrary content changes.**
+**Phase 12 — move from content changes to measurement/authority/internal-link analysis unless the supplied GSC data identifies a new concrete page/query mismatch.**
