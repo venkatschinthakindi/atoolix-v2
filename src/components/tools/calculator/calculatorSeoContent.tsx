@@ -36,17 +36,19 @@ export default function CalculatorSeoContent() {
     <div className="mx-auto max-w-6xl space-y-10 p-4 text-foreground sm:p-5 lg:p-6">
       <section aria-labelledby="calculator-intro" className="space-y-4">
         <h2 id="calculator-intro" className="text-2xl font-bold tracking-tight sm:text-3xl">
-          Free Online Calculator for Everyday Math
+          Online Calculator for Percentage, Scientific Math &amp; Equations
         </h2>
         <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
-          Use Atoolix as a fast online calculator for percentages, everyday arithmetic,
-          and equation solving. Everything is available from one responsive interface,
-          so you can switch between the calculation you need without opening another app.
+          Use Atoolix as a free online calculator for percentages, everyday arithmetic,
+          scientific math, and supported equation solving. The calculator keeps common
+          calculation types together so you can choose the method that matches the problem
+          you are trying to solve.
         </p>
         <p className="max-w-4xl text-sm leading-7 text-foreground-secondary sm:text-base">
-          The page is organized around common calculation intent: percentage questions,
-          quick calculations, and supported equation-solving tasks are kept together while
-          specialized financial tools remain on their own dedicated pages.
+          For percentage questions, use the dedicated percentage modes below. For general
+          expressions or supported equations, use the calculator and equation solver. More
+          specialized financial calculations have dedicated calculators so their assumptions
+          and formulas remain specific to the financial task.
         </p>
       </section>
 
@@ -142,10 +144,12 @@ export default function CalculatorSeoContent() {
         </p>
         <div className="flex flex-wrap gap-3">
           <Link href="/tools/calculator/emi-calculator" className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised">EMI Calculator</Link>
+          <Link href="/tools/calculator/fd-calculator" className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised">FD Calculator</Link>
           <Link href="/tools/calculator/sip-calculator" className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised">SIP Calculator</Link>
           <Link href="/tools/calculator/cagr-calculator" className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised">CAGR Calculator</Link>
           <Link href="/tools/calculator/xirr-calculator" className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised">XIRR Calculator</Link>
           <Link href="/tools/calculator/lumpsum-calculator" className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised">Lumpsum Calculator</Link>
+          <Link href="/tools/calculator/retirement-calculator" className="rounded-xl border border-border bg-card px-4 py-2 text-sm text-foreground hover:bg-surface-raised">Retirement Calculator</Link>
         </div>
       </section>
 
