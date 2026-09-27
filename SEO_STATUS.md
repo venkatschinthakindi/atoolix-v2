@@ -344,6 +344,25 @@ Exact implementation diff: **1 existing SEO content file only** — `src/compone
 
 This phase treats internal linking as an authority/discovery signal supported by the observed page-level GSC relationship, while avoiding further generic content expansion on the already-audited pages.
 
+## 2026-09-27 — Phase 13 execution: GSC-driven Meeting Time Finder internal link
+
+The supplied GSC data shows `/tools/datetime/meeting-time-finder` with **54 impressions, 1 click, and average position 53.65**, with related queries including **“meeting time”** and **“time for meeting.”** The current homepage already links to the Time Zone Converter in its Date & Time category, but it did not expose the adjacent Meeting Time Finder there.
+
+The Date & Time hub already links to both tools, so this phase does not add another link to that hub or expand the Meeting Time Finder content. Instead, the homepage's existing **Date & Time Tools** category now includes one direct, descriptive link to the existing Meeting Time Finder destination. This creates a natural homepage → category-tool path for a page with demonstrated Search Console demand.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase13-meeting-time-internal-link`, based directly on latest `main` commit `b25213585b1789da2a6e6e114ad08f00d3d07ec3`.
+
+Commit: `30f8b283010c559c3efb1eb904d56adb59ce01a8`
+
+Changes:
+- Added **Meeting Time Finder** to the existing homepage **Date & Time Tools** category.
+- Reused the canonical active route `/tools/datetime/meeting-time-finder`.
+- Did not change metadata, canonical URLs, schema, calculator behavior, or create a new URL.
+- Did not add another FAQ or duplicate Meeting Time Finder content.
+
+Exact implementation diff: **1 existing file only** — `src/app/siteSeoContent.tsx` (**1 addition / 0 deletions**).
+
+The Date & Time hub already provides the direct Time Zone Converter ↔ Meeting Time Finder relationship, so this is intentionally limited to the missing homepage navigation path rather than expanding the internal-link network artificially.
 ## Next action
 
 **Phase 12 — move from content changes to measurement/authority/internal-link analysis unless the supplied GSC data identifies a new concrete page/query mismatch.**
