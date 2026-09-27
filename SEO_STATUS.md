@@ -118,6 +118,23 @@ Each code change should be followed by:
 | 2026-09-24 | `9235304` | Latest `main` SEO phase baseline | Done |
 | 2026-09-27 | `da40a65` | GSC-driven Date/Time hub intent correction on `seo/gsc-driven-sep2026` | Done |
 
+## 2026-09-27 — Phase 5 execution: Image compression target-size cluster
+
+GSC evidence for the cluster shows **294 impressions / position 72.22** for the 100 KB page, **267 / 72.93** for the 50 KB page, and **271 / 66.69** for the signature-upload page. The existing target-size pages already had dedicated 20/50/100 KB workflows, so this phase did not create more target-size URLs or add generic compression copy.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase5`, based directly on latest `main` commit `b4b2e28e7a602d0a3407e56d5491bd784f99e920`.
+
+Commits: `df13a82` + `df380dd`
+
+Changes:
+- Added a server-rendered **Choose the Right Signature File-Size Target** section to the signature-upload page, linking the existing 20 KB, 50 KB, and 100 KB workflows.
+- Explicitly distinguished the general target-size compressor pages from the signature page's additional exact-dimension, cropping, and aspect-ratio requirements.
+- Expanded the signature registry's `relatedTools` links to include the existing 50 KB and 100 KB target pages, strengthening internal topical connections without creating new URLs.
+
+Exact diff verification against latest `main`: **2 files only** — `src/components/tools/image/signatureResizer/signatureResizerSeoContent.tsx` (44 additions) and `src/data/tools.ts` (1 addition / 1 deletion). No other files changed in the implementation phase.
+
+Validation/deployment gate remains unchanged: run TypeScript/lint/build on the branch, manually deploy, then measure the affected GSC query/page cluster before judging impact.
+
 ## Next action
 Continue from the latest GSC evidence on this branch. The next page-level
 change should be selected from the high-impression/low-position opportunities,
