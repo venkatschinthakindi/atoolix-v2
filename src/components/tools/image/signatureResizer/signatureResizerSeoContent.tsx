@@ -504,6 +504,50 @@ export default function SignatureResizerSeoContent() {
       {/* ------------------------------------------------------------------ */}
 
       <section
+        aria-labelledby="file-size-targets-heading"
+        className="space-y-4"
+      >
+        <SectionHeading
+          id="file-size-targets-heading"
+          title="Choose the Right Signature File-Size Target"
+          description="Use the file-size limit specified by the destination instead of making the signature smaller than necessary."
+        />
+
+        <div className="grid gap-3 md:grid-cols-3">
+          {[
+            {
+              href: "/tools/image/compress-image-to-20kb",
+              title: "20 KB signature workflow",
+              desc: "Use this target when the upload form specifies 20 KB or less and the signature must remain within a strict limit.",
+            },
+            {
+              href: "/tools/image/compress-image-to-50kb",
+              title: "50 KB signature workflow",
+              desc: "Use this target when the form allows up to 50 KB and you need a little more room for image detail.",
+            },
+            {
+              href: "/tools/image/compress-image-to-100kb",
+              title: "100 KB signature workflow",
+              desc: "Use this target when the stated limit is 100 KB and a larger file can preserve more useful image detail.",
+            },
+          ].map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-xl border border-white/10 bg-white/5 p-4 transition hover:border-white/20 hover:bg-white/[0.08]"
+            >
+              <h3 className="text-sm font-semibold">{item.title}</h3>
+              <p className="mt-1.5 text-sm leading-6 text-white/65">{item.desc}</p>
+            </Link>
+          ))}
+        </div>
+
+        <p className="text-xs leading-6 text-white/50">
+          These target-size pages are general image-compression workflows. This signature page remains the right place when the requirement also includes exact signature dimensions, cropping, or aspect-ratio control.
+        </p>
+      </section>
+
+      <section
         aria-labelledby="aspect-ratio-heading"
         className="space-y-4"
       >

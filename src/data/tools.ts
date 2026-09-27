@@ -1158,7 +1158,7 @@ export const tools: ToolRegistryEntry[] = [
   {
     id: "image/resize-signature-for-upload",
     archived: false,
-    relatedTools: ["image/compress-image-to-20kb", "image/passport-photo-resizer", "image/background-remover", "image/compress-image"],
+    relatedTools: ["image/compress-image-to-20kb", "image/compress-image-to-50kb", "image/compress-image-to-100kb", "image/passport-photo-resizer", "image/background-remover", "image/compress-image"],
     icon: "Signature",
     ...getDefaultCompressorRegistry(),
     category: "Image_Editor",
