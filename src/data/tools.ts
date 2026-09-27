@@ -796,7 +796,7 @@ export const tools: ToolRegistryEntry[] = [
     //loader: () => import("@/components/tools/pdf/mergePdf/mergePdf"),
     toolShortName: "Merge PDF",
     title: "Merge PDF Files Online for Free | PDF Merger",
-    description: "Merge multiple PDF files into one document online for free. Combine, arrange, and download PDFs instantly, no installation required.",
+    description: "Merge multiple PDF files into one document online for free. Arrange files, select individual pages or ranges, add supported text or PDF overlays, and download the merged PDF in your browser.",
     onPageTitle: "Merge PDF Files Online for Free",
     icon: "Combine",
     keywords: [
@@ -827,7 +827,7 @@ export const tools: ToolRegistryEntry[] = [
     //loader: () => import("@/components/tools/pdf/splitPdf/splitPdf"),
     title: "Split PDF Files Online Free | Extract PDF Pages",
     toolShortName: "Split PDF",
-    description: "Split PDF files online for free. Extract specific pages, separate documents, and create smaller PDFs securely in your browser, no installation needed.",
+    description: "Split PDF files online for free by individual pages, ranges, first or last pages, odd or even pages, or supported exclusion patterns. Create separate PDFs directly in your browser.",
     onPageTitle: "Split PDF Files Online for Free",
     icon: "Scissors",
     keywords: [
@@ -915,9 +915,9 @@ export const tools: ToolRegistryEntry[] = [
     relatedTools: ["privacysecurity/file-analyzer", "image/compress-image", "datetime/timezone-converter", "calculator"],
     //loader: () => import("@/components/tools/qrCode/qrCodeGenerator/QrCodeGenerator"),
     toolShortName: "QR Code Generator",
-    title: "Generate QR Code Online | Scan QR Code",
-    description: "Generate OR scan QR codes online for free. Create, download, and share QR codes with just a few clicks.",
-    onPageTitle: "Generate QR Code Online | Scan QR Code",
+    title: "QR Code Generator & Scanner | Create, Scan & Download",
+    description: "Create QR codes for URLs, text, WiFi, contacts, email, phone, SMS, WhatsApp, locations, and events. Scan with a camera or image, customize colors and logos, and export PNG, SVG, or PDF in your browser.",
+    onPageTitle: "QR Code Generator & Scanner | Create, Scan & Download",
     icon: "QrCode",
     keywords: [
       "qr code generator",
@@ -977,7 +977,7 @@ export const tools: ToolRegistryEntry[] = [
     toolShortName: "Compress PDF",
     title: "Compress PDF Online | Reduce PDF File Size",
     onPageTitle: "Compress PDF Online | Reduce File Size & Optimize Quality",
-    description: "Compress PDF files online while preserving visual quality. Reduce file size and optimize images for easier sharing, uploads, and storage in seconds.",
+    description: "Compress PDF files online to reduce file size for uploads, email, applications, and storage. Optimize supported PDFs in your browser and review the result before sharing.",
     icon: "Minimize2",
     keywords: [
       "compress pdf online",
