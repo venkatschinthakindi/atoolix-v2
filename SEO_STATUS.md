@@ -142,5 +142,23 @@ Each code change should be followed by:
 | 2026-09-27 | `a855344` | Time Zone Converter metadata alignment from GSC query evidence | Done |
 | 2026-09-27 | — | Full remaining priority-page audit: calculator, FD, personal EMI, QR, image-size cluster; no further code defect justified by supplied GSC evidence | Done |
 
+## 2026-09-27 — Phase 1 execution: Calculator hub
+
+The original execution plan requires addressing the GSC opportunity rather than stopping at an audit. The calculator hub has **1,584 impressions at average position 11.70 with 0 clicks**, making it the strongest near-page-1 opportunity in the supplied dataset. The existing page already covered percentage, scientific math, and equation intent, so the change focused on making those intents more explicit and easier for both users and search engines to understand without creating new keyword pages.
+
+Commit: `cff284d` + `9e9c12f`
+
+Changes:
+- Expanded the calculator meta description to explicitly cover percentage calculations, increase/decrease, discount, scientific math, and supported equation solving.
+- Added a dedicated server-rendered **Calculator Types: Percentage, Scientific Math & Equation Solving** section explaining the three primary calculation intents.
+- Preserved the existing percentage guide, calculator workflow, financial-tool links, FAQ content, canonical, and route structure.
+- No duplicate calculator URLs or keyword-stuffed content were introduced.
+
+Exact phase diff from `cacd43d`:
+- `src/app/tools/[...toolId]/page.tsx`: 1 addition / 1 deletion.
+- `src/components/tools/calculator/calculatorSeoContent.tsx`: 31 additions.
+- No other files changed in the phase implementation.
+
 ## Next action
-The current code-level GSC optimization pass is complete for the supplied dataset. Manually deploy the branch, request/allow recrawling for the changed URLs where appropriate, and collect the next GSC Performance export. The next optimization decision should be based on the post-change query/page deltas rather than additional speculative on-page edits.
+
+**Phase 3 — FD Calculator.** Phase 2 (Time Zone Converter) is already completed in `a855344c`. Continue the original execution order by making the FD page's GSC-supported intent/differentiation improvements, then exact-diff verification and MD synchronization. Manual deployment remains with the repo owner.
