@@ -167,6 +167,7 @@ export default function CalculatorSeoContent() {
             ["/tools/calculator/cagr-calculator", "CAGR Calculator", "Annualized growth from an initial value, final value, and time period."],
             ["/tools/calculator/xirr-calculator", "XIRR Calculator", "Annualized returns for investments with irregular cash flows."],
             ["/tools/calculator/retirement-calculator", "Retirement Calculator", "Retirement corpus, savings, inflation, and withdrawal planning."],
+            ["/tools/calculator/personal-loan-emi-calculator", "Personal Loan EMI Calculator", "Personal loan EMI, interest, amortization, and repayment planning."],
           ].map(([href, title, description]) => (
             <Link
               key={href}
