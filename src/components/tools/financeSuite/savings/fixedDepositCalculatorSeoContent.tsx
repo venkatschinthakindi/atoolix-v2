@@ -121,6 +121,41 @@ export default function FixedDepositCalculatorSeoContent() {
         </p>
       </section>
 
+      <section aria-labelledby="fd-search-intent">
+        <h2 id="fd-search-intent" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
+          FD Calculator India: Estimate Maturity Value and Interest
+        </h2>
+        <p className="text-sm leading-relaxed text-white/65 sm:text-base">
+          If you are comparing fixed deposits in India, use the calculator to model the
+          deposit amount, annual FD interest rate, tenure, and compounding frequency
+          before comparing maturity values. You can change one input at a time to see
+          how the projected interest and final maturity amount change.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold">Compare FD rates</h3>
+            <p className="mt-1 text-xs leading-relaxed text-white/60">
+              Enter different annual rates to compare their effect on the same deposit
+              and tenure.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold">Check maturity</h3>
+            <p className="mt-1 text-xs leading-relaxed text-white/60">
+              See estimated maturity value and total interest before choosing a fixed
+              deposit scenario.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="text-sm font-semibold">Compare tenure</h3>
+            <p className="mt-1 text-xs leading-relaxed text-white/60">
+              Model different investment periods and compare how long the deposit stays
+              invested.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section aria-labelledby="fd-features">
         <h2 id="fd-features" className="mb-4 text-xl font-bold tracking-tight sm:text-2xl">
           FD Calculator Features

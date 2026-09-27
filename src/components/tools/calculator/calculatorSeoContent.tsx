@@ -51,6 +51,37 @@ export default function CalculatorSeoContent() {
         </p>
       </section>
 
+      <section aria-labelledby="calculator-types" className="space-y-5">
+        <div>
+          <h2 id="calculator-types" className="text-xl font-bold sm:text-2xl">
+            Calculator Types: Percentage, Scientific Math & Equation Solving
+          </h2>
+          <p className="mt-2 max-w-4xl text-sm leading-7 text-white/65 sm:text-base">
+            Choose the calculation that matches the question you need to answer. Use percentage modes for discounts, increases, decreases, and part-versus-whole questions; use the scientific calculator for advanced arithmetic and functions; and use the equation solver when you need to solve a supported mathematical equation.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="font-semibold">Percentage Calculator</h3>
+            <p className="mt-2 text-sm leading-6 text-white/60">
+              Calculate a percentage of a number, find what percentage one value is of another, measure percentage change, or apply a percentage increase or decrease.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="font-semibold">Scientific Calculator</h3>
+            <p className="mt-2 text-sm leading-6 text-white/60">
+              Use the general calculator for scientific-style mathematical work and supported functions without installing a separate calculator app.
+            </p>
+          </article>
+          <article className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="font-semibold">Equation Solver</h3>
+            <p className="mt-2 text-sm leading-6 text-white/60">
+              Enter a supported equation to solve it directly, then review the result in the same browser-based calculator workspace.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section aria-labelledby="percentage-guide" className="space-y-5">
         <div>
           <h2 id="percentage-guide" className="text-xl font-bold sm:text-2xl">
