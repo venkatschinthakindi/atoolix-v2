@@ -624,7 +624,7 @@ export const tools: ToolRegistryEntry[] = [
     onPageTitle:
       "FD Calculator Online for Fixed Deposit Maturity Value and Interest",
     description:
-      "Use an FD calculator online to estimate fixed deposit maturity value and interest from your deposit amount, interest rate, tenure, and compounding frequency.",
+      "Use an FD calculator online in India to estimate fixed deposit maturity value, interest earned, and returns from your deposit amount, interest rate, tenure, and compounding frequency.",
     icon: "PiggyBank",
     keywords: [
       "fd calculator",
