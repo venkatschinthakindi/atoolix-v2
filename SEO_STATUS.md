@@ -249,6 +249,27 @@ Exact diff verification against latest `main`: **1 product file only** — `src/
 
 Validation/deployment gate: run TypeScript/lint/build on the branch, manually deploy, then monitor the Personal Loan EMI query/page cluster in GSC before making another change.
 
+
+## 2026-09-27 — Phase 8 execution: Time Zone Converter
+
+GSC evidence for `/tools/datetime/timezone-converter`: **1,353 impressions / average position 64.34**. The query `time zone converter` generated **126 impressions / position 63.71**. The existing page already had substantial people-first content covering multi-zone conversion, date-aware offsets, daylight saving time, time differences, IST conversion examples, popular conversions, FAQ content, sharing, and the Meeting Time Finder relationship.
+
+The remaining justified gap was not another large content section. The page's metadata description did not explicitly use the core **time zone converter** intent phrase, and the FAQ did not directly answer the closely related **time zone difference calculator** intent even though the page already provides that functionality.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase8-timezone-converter`, based on latest `main` commit `ba5c524c073a5bad08ac5ce217ead2a15c1ddd71`.
+
+Changes:
+- Updated the Time Zone Converter metadata description to explicitly describe it as a **free online time zone converter** while retaining the existing date/city/country, UTC-offset, day-change, and DST coverage.
+- Added one focused FAQ explaining that the tool can also be used as a **time zone difference calculator**, with date-aware DST handling.
+- Preserved the existing title, canonical URL, page structure, calculator behavior, schema, popular conversion content, and Meeting Time Finder linking.
+- No new URL, duplicate page, route migration, or keyword-stuffed section was introduced.
+
+Exact product changes: **2 existing SEO files only**:
+- `src/utility/metadata.ts`
+- `src/components/tools/dateTime/timezone-converter/timezoneConverterSeoContent.tsx`
+
+No application logic was changed.
+
 ## Next action
 
-**Phase 8 — Time Zone Converter.** The supplied GSC page report still shows `/tools/datetime/timezone-converter` as one of the largest remaining opportunities at **1,353 impressions / average position 64.34**, with `time zone converter` at **126 impressions / position 63.71**. The current main implementation already has strong conversion, DST, multi-zone, date-difference, and meeting-finder differentiation, so the next change must be based on a specific remaining intent/internal-authority gap rather than generic content expansion.
+**Phase 9 — select the next GSC target from the remaining supplied page/query data, using latest `main` as the baseline and continuing the same evidence-first, minimal-diff approach.**
