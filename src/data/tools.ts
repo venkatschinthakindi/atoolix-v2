@@ -1334,7 +1334,7 @@ export const tools: ToolRegistryEntry[] = [
     toolShortName: "Time Zone Converter",
 
     onPageTitle:
-      "Time Zone Converter – Convert Time Across Multiple Time Zones",
+      "Time Zone Converter – Convert & Compare Time Differences",
 
     description:
       "Free time zone converter for comparing up to 10 locations at once. Convert time by date, search cities or time zones, compare local times and UTC offsets, account for daylight saving time, and share your results.",
