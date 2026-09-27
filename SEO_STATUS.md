@@ -325,6 +325,25 @@ Exact implementation diff: **1 existing SEO file only** — `src/components/tool
 
 This is the final small intent-alignment change currently justified by the supplied GSC query evidence for the Time Zone Converter. Further changes to this page should be driven by post-deployment GSC measurements or new query evidence rather than additional FAQ expansion.
 
+## 2026-09-27 — Phase 12 execution: GSC-driven internal-link strengthening
+
+The supplied GSC data identifies the Personal Loan EMI page as a meaningful remaining opportunity: **359 impressions / average position 87.36**, with calculation-intent queries including **“how to calculate personal loan emi” (63 / 88.68)** and **“calculate personal loan emi” (55 / 86.65)**. The calculator hub is the strongest near-page-1 page in the same export at **1,584 impressions / position 11.70** and already contains a contextual section for specialized financial calculators.
+
+Rather than adding more keyword copy to the Personal Loan EMI page, this phase strengthens the internal path from the high-impression calculator hub to that existing destination. The hub now includes a descriptive **Personal Loan EMI Calculator** link alongside the existing dedicated finance calculators.
+
+Implementation branch: `seo/gsc-driven-sep2026-phase12-internal-linking`, based directly on latest `main` commit `abe14aa84cab3a9d84edd92d1193e69632aa5453`.
+
+Commit: `dcdc65cd9990ffd57909d7c7d493812361aea1aa`
+
+Changes:
+- Added one contextual internal link from the calculator hub's **Choose the Right Calculator for Your Task** section to `/tools/calculator/personal-loan-emi-calculator`.
+- Used the descriptive anchor **Personal Loan EMI Calculator** and a concise description matching the existing page's calculation, interest, amortization, and repayment intent.
+- Did not create a new URL, alter the Personal Loan EMI canonical, add duplicate keyword sections, or change calculator behavior.
+
+Exact implementation diff: **1 existing SEO content file only** — `src/components/tools/calculator/calculatorSeoContent.tsx` (**1 addition / 0 deletions**).
+
+This phase treats internal linking as an authority/discovery signal supported by the observed page-level GSC relationship, while avoiding further generic content expansion on the already-audited pages.
+
 ## Next action
 
 **Phase 12 — move from content changes to measurement/authority/internal-link analysis unless the supplied GSC data identifies a new concrete page/query mismatch.**
