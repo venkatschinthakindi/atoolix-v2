@@ -136,7 +136,4 @@ Exact diff verification against latest `main`: **2 files only** — `src/compone
 Validation/deployment gate remains unchanged: run TypeScript/lint/build on the branch, manually deploy, then measure the affected GSC query/page cluster before judging impact.
 
 ## Next action
-Continue from the latest GSC evidence on this branch. The next page-level
-change should be selected from the high-impression/low-position opportunities,
-with the exact query cluster documented before changing code. After the next
-change, validate and synchronize this file again.
+**Phase 6 — Personal Loan EMI.** Use the supplied GSC evidence (`how to calculate personal loan emi` and `calculate personal loan emi`) to make a concrete intent-satisfaction improvement on the existing Personal Loan EMI page, without creating duplicate finance URLs or generic content expansion. Manual deployment remains with the repo owner.
