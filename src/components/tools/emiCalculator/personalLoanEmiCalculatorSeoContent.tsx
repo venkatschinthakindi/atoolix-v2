@@ -276,6 +276,35 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
         </p>
       </section>
 
+      {/* DIRECT ANSWER FOR "HOW TO CALCULATE PERSONAL LOAN EMI" INTENT */}
+      <section aria-labelledby="calculate-emi-heading" className="space-y-4">
+        <SectionHeading
+          id="calculate-emi-heading"
+          title="How to Calculate Personal Loan EMI"
+          description="Calculate a personal loan EMI from the principal, annual interest rate, and number of monthly payments using the standard reducing-balance formula."
+        />
+
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3">
+          <p className="text-sm leading-7 text-white/65">
+            To calculate personal loan EMI, first convert the annual interest rate to a monthly rate and convert the tenure to the total number of monthly payments. Then apply the reducing-balance EMI formula below.
+          </p>
+
+          <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-white/80">
+            EMI = P × r × (1 + r)^n / ((1 + r)^n − 1)
+          </div>
+
+          <ul className="space-y-1.5 text-xs leading-6 text-white/60 list-disc pl-4">
+            <li><strong className="text-white/80">P</strong> = personal loan principal.</li>
+            <li><strong className="text-white/80">r</strong> = annual interest rate ÷ 12 ÷ 100.</li>
+            <li><strong className="text-white/80">n</strong> = tenure in years × 12.</li>
+          </ul>
+
+          <p className="text-xs leading-6 text-white/50">
+            For example, a ₹5,00,000 loan at 14% per year for 4 years gives an estimated EMI of about ₹13,665 before lender-specific rounding or other charges. Enter your own loan amount, rate, and tenure in the calculator above for the result based on your inputs.
+          </p>
+        </div>
+      </section>
+
       {/* FORMULA & METHODOLOGY */}
       <section aria-labelledby="formula-heading" className="space-y-4">
         <div className="flex gap-3">
