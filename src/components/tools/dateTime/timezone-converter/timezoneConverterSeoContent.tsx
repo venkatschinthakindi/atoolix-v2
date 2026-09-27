@@ -65,6 +65,10 @@ const faqItems: FaqItem[] = [
     a: "Yes. Select the locations and date you want to compare to see the applicable local times and UTC offsets. Because daylight saving rules can change by date, the exact time difference is calculated from the selected date rather than treated as a fixed value.",
   },
   {
+    q: "Can I use this as a time zone calculator?",
+    a: "Yes. Enter a date and time, choose the source time zone, and add the locations you want to compare. The converter calculates each local time and UTC offset for the selected date, including daylight saving changes and day differences.",
+  },
+  {
     q: "Is the time zone converter free?",
     a: "Yes. The Atoolix time zone converter is free to use directly in your browser.",
   },
