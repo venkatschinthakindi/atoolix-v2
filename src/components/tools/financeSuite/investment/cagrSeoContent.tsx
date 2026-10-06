@@ -5,7 +5,7 @@ const TOOL_PATH = "/tools/calculator/cagr-calculator";
 const SITE_URL = serverConfig.siteUrl.replace(/\/+$/, "");
 const TOOL_URL = `${SITE_URL}${TOOL_PATH}`;
 
-const LAST_REVIEWED = "August 2026";
+const LAST_REVIEWED = "October 2026";
 
 const faqItems = [
   {

@@ -95,7 +95,7 @@ export default function RecurringDepositCalculatorSeoContent() {
       />
 
       <ReviewedMeta
-        lastReviewed="2026-08-22"
+        lastReviewed="2026-10-06"
         methodologyNote="Uses an annuity-style monthly-compounding model for recurring deposits."
       />
 

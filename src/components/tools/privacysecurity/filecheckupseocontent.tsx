@@ -9,7 +9,7 @@ const canonicalPath = "/tools/privacysecurity/file-analyzer";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 
 // Update this whenever the tool's behavior or this copy changes.
-const lastReviewed = "2026-08-21";
+const lastReviewed = "2026-10-06";
 
 type FaqItem = {
   q: string;

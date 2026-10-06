@@ -4,7 +4,7 @@ import { serverConfig } from "@/config/server";
 const TOOL_PATH = "/tools/calculator/xirr-calculator";
 const TOOL_URL = `${serverConfig.siteUrl.replace(/\/+$/, "")}${TOOL_PATH}`;
 
-const LAST_REVIEWED = "August 2026";
+const LAST_REVIEWED = "October 2026";
 
 const faqItems = [
   {

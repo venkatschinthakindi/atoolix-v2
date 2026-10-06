@@ -95,7 +95,7 @@ export default function SimpleInterestCalculatorSeoContent() {
       />
 
       <ReviewedMeta
-        lastReviewed="2026-08-22"
+        lastReviewed="2026-10-06"
         methodologyNote="Uses the standard simple-interest formula I = P × r × t."
       />
 

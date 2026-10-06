@@ -7,7 +7,7 @@ import { FloatingDock } from "@/components/layout/floatingDock";
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl ?? "https://atoolix.com";
 const termsUrl = `${siteUrl}/terms`;
-const updatedAt = new Date("2026-08-19T00:00:00Z");
+const updatedAt = new Date("2026-10-06T00:00:00Z");
 
 export const metadata: Metadata = {
   title: `Terms and Conditions | ${siteName}`,

@@ -99,7 +99,7 @@ export default function FixedDepositCalculatorSeoContent() {
       />
 
       <ReviewedMeta
-        lastReviewed="2026-08-22"
+        lastReviewed="2026-10-06"
         methodologyNote="Uses the standard compound-interest formula A = P(1 + r/n)^(nt)."
       />
 

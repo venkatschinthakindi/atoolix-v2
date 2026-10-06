@@ -7,7 +7,7 @@ import { FloatingDock } from "@/components/layout/floatingDock";
 const siteName = serverConfig.siteName;
 const siteUrl = serverConfig.siteUrl ?? "https://atoolix.com";
 
-const updatedAt = new Date("2026-08-19T00:00:00Z");
+const updatedAt = new Date("2026-10-06T00:00:00Z");
 
 const description = `${siteName} documentation explains how its browser-based PDF, image, privacy, signature, passport photo, date and time, QR code, math, and finance tools work, including supported formats, privacy considerations, limitations, and troubleshooting.`;
 

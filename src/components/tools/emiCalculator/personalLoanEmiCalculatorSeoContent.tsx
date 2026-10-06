@@ -25,7 +25,7 @@ export default function PersonalLoanEmiCalculatorSeoContent() {
    * multiple prepayment calculator, recurring extra payment calculator
    */
 
-  const LAST_REVIEWED = "2026-08-20"; // update whenever the methodology/copy on this page is re-checked
+  const LAST_REVIEWED = "2026-10-06"; // update whenever the methodology/copy on this page is re-checked
 
   const faqItems: FaqItem[] = [
     {
