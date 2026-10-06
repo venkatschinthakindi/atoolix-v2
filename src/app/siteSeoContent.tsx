@@ -113,6 +113,7 @@ const categories = [
       "Convert time between UTC, GMT, IST, PST, EST, CET, JST, and hundreds of other time zones instantly. Compare multiple cities and plan meetings across different regions.",
     items: [
       { href: "/tools/datetime/timezone-converter", label: "Time Zone Converter" },
+      { href: "/tools/datetime/meeting-time-finder", label: "Meeting Time Finder" },
     ],
   },
 ];
